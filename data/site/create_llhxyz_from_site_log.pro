@@ -1,0 +1,61 @@
+;+
+; :Description:
+;    Create iGPS a priori coordiante file (*.llhxyz) from IGS site log files.
+;
+; :Params:
+;    PATH
+;    OFILE
+;
+;
+;
+; :Author: tianyf
+;-
+PRO CREATE_LLHXYZ_FROM_SITE_LOG,PATH,OFILE
+  IF N_PARAMS() LT 2 THEN BEGIN
+    PATH=DIALOG_PICKFILE(TITLE='Site Log Files Directory?',/DIRECTORY)
+    IF PATH EQ '' THEN RETURN
+    CD,PATH
+    OFILE=DP(/WRITE,FILTER=[['*.llhxyz'],['iGPS Priori Coordinates File (*.llhxyz)']],/AF)
+    IF OFILE EQ '' THEN RETURN
+    CD,GETPATHNAME(OFILE)
+  ENDIF
+  
+  FILES=FILE_SEARCH(PATH+PATH_SEP()+'*.log', COUNT=NF)
+  IF NF LE 0 THEN BEGIN
+    PRINT,'[CREATE_LLHXYZ_FROM_SITE_LOG]ERROR: no site log files found!'
+    RETURN
+  ENDIF
+  
+  SITES=STRARR(NF)
+  XYZS=DBLARR(3,NF)
+  LLHS=DBLARR(3,NF)
+  FOR FI=0, NF-1 DO BEGIN
+    FILE=FILES[FI]
+    SITE=STRMID(GETFILENAME(FILE),0,4)
+    SITES[FI]=SITE
+    READ_SITE_LOG, FILE, SITE=SITE,XYZ=XYZ,LLH=LLH
+    XYZS[*,FI]=XYZ
+    LLHS[*,FI]=LLH
+    ;PRINT,XYZ,LLH
+    ;RETURN
+  ENDFOR
+    
+  OPENW,FID,OFILE,/GET_LUN
+  WRITE_SYS_INFO,FID,SRC=FILE,$
+    USER=USER, $
+    PROG='CREATE_LLHXYZ_FROM_SITE_LOG'
+    
+  PRINTF,FID,'Longitude','Latitude','Height','X','Y','Z', $
+    FORMAT='("*","Site",1X,3A20,1X,3A20)'
+    
+  FOR I=0,NF-1 DO BEGIN
+    IF LLHS[0,I] EQ -9999 || (LLHS[0,I] EQ 0 && LLHS[1,I] EQ 0) THEN CONTINUE
+    ;IF SITES[I] EQ 'abgs' THEN STOP
+    PRINTF,FID,SITES[I],LLHS[*,I],XYZS[*,I], $
+      FORMAT='(1X,A4,1X,3F20.12,1X,3F20.5)'
+  ENDFOR
+  FREE_LUN,FID
+  
+  PRINT,'[CREATE_LLHXYZ_FROM_SITE_LOG]Normal end.'
+  
+END

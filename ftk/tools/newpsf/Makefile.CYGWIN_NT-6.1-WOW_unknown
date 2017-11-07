@@ -1,0 +1,59 @@
+# Makefile for newpsf on CYGWIN_NT-6.1-WOW 2.8.0(0.309/5/3) by unimake at Fri, Jun 09, 2017  4:51:53 PM
+
+all: newm newp news newf newhtml
+
+
+
+# ASSIGMENTS
+### G77 flags ###
+#FTN = g77 
+#FFLAGS = -O3 -Wuninitialized -Wunused -Wimplicit -fno-f2c -ffast-math -fno-automatic -fno-backslash -Wno-globals -fno-globals
+#CC = gcc
+#CFLAGS = -g -lz 
+### GCC V4 gfortran flags ###
+FTN = gfortran
+FFLAGS = -O3 -Wuninitialized -Wunused -Wimplicit -fno-f2c -ffast-math -fno-automatic -fno-backslash
+CC = gcc
+CFLAGS = -g -lz 
+#### For 64-bit machines:
+#CFLAGS = -g --DADD64BIT
+
+SLIB = ../../lib/cgps_lib.a.CYGWIN_NT-6.1-WOW_unknown ../../../../gglib/gglib.a.CYGWIN_NT-6.1-WOW_unknown 
+X11LIB = 
+II = 
+
+newm : newm.f  $(SLIB) 
+	$(FTN) newm.f  $(SLIB) -o newm.CYGWIN_NT-6.1-WOW_unknown $(FFLAGS)
+	rm -f newm.o
+
+newp : newp.f  $(SLIB) 
+	$(FTN) newp.f  $(SLIB) -o newp.CYGWIN_NT-6.1-WOW_unknown $(FFLAGS)
+	rm -f newp.o
+
+news : news.f  $(SLIB) 
+	$(FTN) news.f  $(SLIB) -o news.CYGWIN_NT-6.1-WOW_unknown $(FFLAGS)
+	rm -f news.o
+
+newf : newf.f  $(SLIB) 
+	$(FTN) newf.f  $(SLIB) -o newf.CYGWIN_NT-6.1-WOW_unknown $(FFLAGS)
+	rm -f newf.o
+
+newhtml : newhtml.f  $(SLIB) 
+	$(FTN) newhtml.f  $(SLIB) -o newhtml.CYGWIN_NT-6.1-WOW_unknown $(FFLAGS)
+	rm -f newhtml.o
+
+
+.c.a:
+	$(CC) -c $(CFLAGS) -I$(II) $<
+	ar rv $@ *.o
+	rm -f $*.o
+
+.f.a:
+	$(FTN) -c $(FFLAGS) $<
+	ar rv $@ *.o
+	rm -f $*.o
+
+
+cleanall:
+	rm -f *.a.CYGWIN_NT-6.1-WOW_unknown *.o *core newm newp news newf newhtml  newm.CYGWIN_NT-6.1-WOW_unknown newp.CYGWIN_NT-6.1-WOW_unknown news.CYGWIN_NT-6.1-WOW_unknown newf.CYGWIN_NT-6.1-WOW_unknown newhtml.CYGWIN_NT-6.1-WOW_unknown
+# End of Makefile

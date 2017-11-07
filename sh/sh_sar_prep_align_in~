@@ -1,0 +1,215 @@
+#!/bin/sh
+
+# Name:
+#   sh_esa_s1_prep_proc
+#   
+
+# Purpose:
+#   Prepare xml files for processing.
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+#if [ "$esa_unzip" = "" ]; then
+#    echo "ESA environment esa_unzip variable not set! Stopped!!"
+#    exit 1
+#fi
+#
+
+#if [ "$1" == "" ]; then
+#    echo "Usage: sh_sar_prep_align_in"
+#    echo "baseline_table.dat and data.in files are mondatory!"
+#    exit 1
+#fi
+
+blen_ok=200 #meters
+
+if [ ! -s baseline_table.dat ]; then
+    echo "[]ERROR: baseline_table.dat not exist!!"
+    echo "baseline_table.dat and data.in files are mondatory!"
+    exit 1
+fi
+
+if [ ! -s data.in ]; then
+    echo "[]ERROR: data.in not exist!!"
+    echo "baseline_table.dat and data.in files are mondatory!"
+    exit 1
+fi
+
+typs=`cat data.in | awk '{print $1}'`
+nday=`cat data.in | wc -l`
+ids=`cat baseline_table.dat | awk '{print $1}'`
+blens=`cat baseline_table.dat | awk '{print $5}'`
+blenavg=`cat baseline_table.dat | awk '{print $5}' | mean`
+blenmax=`cat baseline_table.dat | awk '{print $5}' | max`
+blenmin=`cat baseline_table.dat | awk '{print $5}' | min`
+
+
+#get the master1 (cloest to the mean baseline)
+i=1
+dist_min=9999
+ind_min=0
+dmax=-9999
+dmin=9999
+\rm -f .dists
+while [ $i -le $nday ]; do
+    tmp=`echo $blens | awk '{print $i-blenavg}' i=$i blenavg=$blenavg`
+    tmp_p=`echo $tmp | awk '{print sqrt($1*$1)}'`
+    is_smaller=`echo $tmp_p $dist_min | awk '{if($1<$2){print 1}else {print 0}}'`
+    if [ $is_smaller -eq 1 ]; then
+	dist_min=$tmp_p
+	ind_min=$i
+    fi
+    echo $tmp $tmp_p $i $blenavg
+    echo $tmp >> .dists
+
+    i=`expr $i + 1`
+done
+echo "minimum distance is $dist_min for scene $ind_min [`echo $ids | awk '{print $i}' i=$ind_min`]"
+m1=$ind_min
+sm=$m1  #super master
+
+#create level-0 align pairs
+i=1
+rm -f ./align.in
+m2a=$m1
+m2b=$m1
+blen_m2a=-9999
+blen_m2b=9999
+echo super master: $m1
+while [ $i -le $nday ]; do
+    if [ $i -eq $sm ]; then
+	i=`expr $i + 1`
+	continue
+    fi
+    #
+    blen_i=`echo $blens | awk '{print $i}' i=$i`
+    tmp=`echo $blens | awk '{print $i-blenavg}' i=$i blenavg=$blenavg`
+    tmp_p=`echo $tmp | awk '{print sqrt($1*$1)}'`
+    is_smaller=`echo $tmp_p $blen_ok | awk '{if($1<=$2){print 1}else {print 0}}'`
+    echo $tmp $tmp_p $blen_ok $is_smaller
+    if [ $is_smaller -eq 1 ]; then
+	echo $typs | awk '{print $m1":"$i":"$m1 }' m1=$m1 i=$i r=$sm >> align.in
+	#
+	is_valid=`echo $blen_m2a $blen_i | awk '{if($1<$2){print 1}else {print 0}}'`
+	echo is_valid blen_m2a blen_i: $is_valid $blen_m2a $blen_i
+	if [ $is_valid -eq 1 ]; then
+	    blen_m2a=$blen_i
+	    m2a=$i
+	fi
+	is_valid=`echo $blen_m2b $blen_i | awk '{if($1>$2){print 1}else {print 0}}'`
+	if [ $is_valid -eq 1 ]; then
+	    blen_m2b=$blen_i
+	    m2b=$i
+	fi
+    fi
+    i=`expr $i + 1`
+done
+echo "m2a: $m2a `echo $ids | awk '{print $i}' i=$m2a`  m2b:$m2b `echo $ids | awk '{print $i}' i=$m2b` "
+#exit
+
+
+#create upper tree
+nm=`echo $blenmax $blenavg $blen_ok | awk '{print 1+int(($1-$2)/$3)}'`
+echo nm: $nm , $blenmax , $blenavg , $blen_ok
+n=2
+m1=$m2a
+while [ $n -le $nm ]; do
+    blenavg2=`echo $blenavg $n $blen_ok | awk '{print $1+($2-1)*$3}'`
+    echo $n : $blenavg2
+    i=1
+    blen_m2a=-9999
+    while [ $i -le $nday ]; do
+	blen_i=`echo $blens | awk '{print $i}' i=$i`
+	tmp=`echo $blens | awk '{print $i-blenavg}' i=$i blenavg=$blenavg2`
+	tmp_p=`echo $tmp | awk '{print sqrt($1*$1)}'`
+	is_smaller=`echo $tmp $blen_ok | awk '{if(($1>0)&&($1<=$2)){print 1}else {print 0}}'`
+	echo tmp: $tmp $tmp_p $blen_ok $is_smaller $n $blenavg2
+	if [ $is_smaller -eq 1 ]; then
+	    echo $typs | awk '{print $m1":"$i":"$r }' m1=$m1 i=$i r=$sm >> align.in
+	    #exit
+	    is_valid=`echo $blen_m2a $blen_i | awk '{if($1<$2){print 1}else {print 0}}'`
+	    echo is_valid blen_m2a blen_i: $is_valid $blen_m2a $blen_i
+	    if [ $is_valid -eq 1 ]; then
+		blen_m2a=$blen_i
+		m2a=$i
+	    fi
+	fi
+	i=`expr $i + 1`
+    done
+    echo "m2a: $m2a `echo $ids | awk '{print $i}' i=$m2a`  m2b:$m2b `echo $ids | awk '{print $i}' i=$m2b` "
+    m1=$m2a
+    #exit
+    n=`expr $n + 1`
+done
+
+
+#create lower tree
+nm=`echo $blenavg $blenmin $blen_ok | awk '{print 1+int(($1-$2)/$3)}'`
+echo nm: $nm , $blenavg , $blenmin , $blen_ok
+n=2
+m1=$m2b
+while [ $n -le $nm ]; do
+    blenavg2=`echo $blenavg $n $blen_ok | awk '{print $1-($2-1)*$3}'`
+    echo $n : $blenavg2
+    i=1
+    blen_m2b=9999
+    while [ $i -le $nday ]; do
+	blen_i=`echo $blens | awk '{print $i}' i=$i`
+	tmp=`echo $blens | awk '{print $i-blenavg}' i=$i blenavg=$blenavg2`
+	tmp_p=`echo $tmp | awk '{print sqrt($1*$1)}'`
+	is_smaller=`echo $tmp $blen_ok | awk '{if(($1>0)&&($1<=$2)){print 1}else {print 0}}'`
+	echo tmp: $tmp $tmp_p $blen_ok $is_smaller $n $blenavg2
+	if [ $is_smaller -eq 1 ]; then
+	    echo $typs | awk '{print $m1":"$i":"$r }' m1=$m1 i=$i r=$sm >> align.in
+	    #exit
+	    is_valid=`echo $blen_m2b $blen_i | awk '{if($1>$2){print 1}else {print 0}}'`
+	    if [ $is_valid -eq 1 ]; then
+		blen_m2b=$blen_i
+		m2b=$i
+	    fi
+	fi
+	i=`expr $i + 1`
+    done
+    echo "m2a: $m2a `echo $ids | awk '{print $i}' i=$m2a`  m2b:$m2b `echo $ids | awk '{print $i}' i=$m2b` "
+    m1=$m2b
+    #exit
+    n=`expr $n + 1`
+done
+
+exit
+
+
+
+rm -f ./align.in
+r=1
+#while [ $i -le $nday ]; do
+#    j=`expr $i + 1`
+#    while [ $j -le $nday ]; do
+#	echo $typs | awk '{print $i":"$j":"$r }' i=$i j=$j r=i >> align.in
+#	j=`expr $j + 1`
+#    done
+#    i=`expr $i + 1`
+#done
+j=1
+while [ $j -le $nday ]; do
+    if [ $j -ne $r ]; then
+	echo $typs | awk '{print $m1":"$j":"$m1 }' m1=$m1 j=$j r=$r >> align.in
+    fi
+    j=`expr $j + 1`
+done
+
+
+#cat align.in
+
+#ref_img=`echo $ids | awk '{print "S1A"$1"_ALL_"IW_TYP}' IW_TYP=$IW_TYP`
+#sed -e "s/master_image.*/master_image = $ref_img/" batch_tops.config.2 > batch_tops.config

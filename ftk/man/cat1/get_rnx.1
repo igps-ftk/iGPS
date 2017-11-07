@@ -1,0 +1,132 @@
+
+
+
+FORTRAN Programs for GPS                               GET_RNX(1)
+
+
+
+NAME
+     get_rnx - Download RINEX observations files from remote  IGS
+     centers.
+
+SYNOPSIS
+     get_rnx  YEAR|YR _D_O_Y _N_D_A_Y_S  --_s_i_t_e=_s_i_t_1,...|--_s_i_t_e_f_i_l_e=_s_f_i_l_e
+     [--_d_i_r=_o_u_t_p_u_t__d_i_r_e_c_t_o_r_y  ]  [--_a_r_c_h_i_v_e=_s_o_p_a_c|_c_d_d_i_s|_k_a_s_i] [--
+     _f_t_p__p_r_o_g=_w_g_e_t|_f_t_p|_n_c_f_t_p]
+
+DESCRIPTION
+          Output path is the parent directory of rinex files.
+
+     _Y_E_A_R|_Y_R
+          Starting year. Four-digit or  two-digit  formated  year
+          string could be used. e.g. 2002, 02, 99.
+
+     _D_O_Y  staring day-of-year.
+
+     _N_D_A_Y_S
+          Number of days to download data.
+
+     --_s_i_t_e=_s_i_t_e_s|--_s_i_t_e_f_i_l_e=_f_i_l_e_n_a_m_e
+          Sites names, or file contains the  sites  names.  _s_i_t_e_s
+          are  in  the format of sit1,sit2,sit3,... The format of
+          _s_i_t_e_f_i_l_e is identical to that of IGS site files.
+               Sample of SITEFILE:
+                 bjfs lhas
+                 wuhn #urum
+                 ++++
+                 shao
+
+     --_a_r_c_h_i_v_e=_s_o_p_a_c|_c_d_d_i_s|_k_a_s_i [_O_p_t_i_o_n_a_l]
+          IGS data center should be used. The default is sopac.
+
+     --_f_t_p__p_r_o_g=_w_g_e_t|_f_t_p|_n_c_f_t_p
+          Optional.
+          Which ftp client should be used?
+          Default is _f_t_p.
+
+OPTIONS
+     NONE.
+
+MODIFICATIONS
+     MOD MAY-06-2008 Tian
+          +Add --_f_t_p__p_r_o_g= parameter.
+
+EXAMPLES
+      get_rnx 2000 1 2 --site=bjfs,shao
+
+LICENSES
+      (c) Copyright by Tian 2007.
+           License: free to use/edit for academic purpose.
+
+
+
+GPSF                Last change: 23 Nov 2007                    1
+
+
+
+
+
+
+FORTRAN Programs for GPS                               GET_RNX(1)
+
+
+
+SEE ALSO
+     _g_e_t__h_f_i_l_e(1), _g_e_t__n_a_v(1), _g_e_t__o_r_b(1), _g_e_t__m_e_t(1), _G_P_S_F(1)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+GPSF                Last change: 23 Nov 2007                    2
+
+
+

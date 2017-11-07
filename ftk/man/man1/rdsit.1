@@ -1,0 +1,43 @@
+.TH RDSIT 1 "02 Nov 2008" "iGPSftk" "FORTRAN ToolKit for GNSS"
+.SH NAME
+rdsit \- Read sites from a iGPS site-list file (*.sit).
+.SH SYNOPSIS
+\fBrdsit\fP \fIfile\fP
+.SH DESCRIPTION
+\fBrdsit\fP read 4-char sites names from a iGPS site list file.
+.PP
+\fIfile\fP is the a ascii text file, in which
+.br
+1). Lines with non-blank first character are comments;
+.br
+2). 4-char unique site names separated by at least one space;
+.br
+3). Site names started with # are commented out;
+.br
+4). Filename suffix default to be .sit but can vary.
+ 
+.SH OPTIONS
+.TP
+\fIfile\fP
+A ascii text file contains sites list in iGPS format.
+.SH EXAMPLES
+ For \fIcmnooc.sit\fP:
+ *   SRC: FILTER=*.neu
+ *  PROG: iGPS:SITEFILE+WTSIT
+ *RUN BY: tianyf
+ *RUN AT: Microsoft Windows x86
+ *RUN ON: Mon Mar 02 12:32:03 2009 [UTC]
+ ^ bjfs bjsh chun dlha dxin guan hlar hrbn
+ ^ jixn kc01 kmin lhas luzh qion shao suiy
+ ^ tain tash urum whjf wuhn wush xiaa xiag
+ ^ xiam xnin yanc yong zhnz
+ 
+ \fIrdsit cmnoc.sit\fP gives:
+ bjfs
+ bjsh
+ chun
+ dlha
+ ...
+ 
+.SH "SEE ALSO"
+.IR iGPSftk (1)

@@ -1,0 +1,39 @@
+.TH CME_CAL_STACKING 1 "23 Nov 2007" "iGPSftk" "FORTRAN ToolKit for GNSS"
+.SH NAME
+cme_cal_stacking \- Calcualte common-mode error (CME) using regional stacking method.
+.\ Man page for cme_cal_stacking
+.\ Feedbacks are welcomed. Send them to tianyf@gmail.com
+.SH SYNOPSIS
+cme_cal_stacking  path
+ [--opath=OUT_FILTERED_PATH]
+ [--ofile=OUT_FILE]
+ [--cmesites=SIT1,SIT2,SIT3,SIT4,SIT5,SIT6,...]
+ [--cmesitefile=CME_SITE_FILE]
+.SH DESCRIPTION
+The method in Wdowinksi et al.[1997] and Nikolaidis [2002] is used.
+The output CME is for the whole network. To handle effectively the spatial variations of CME (e.g. for such large networks as PBO or event global IGS), use \fBcmc_cal_optimal\fP program.
+.SH OPTIONS
+\fIpath\fP  The input path holding residual GNSS station position time series (in SIO NEU format).
+.PP
+\fIopath\fP  Optional. The output filtered time series path. If given, the filtered time series are created.
+.PP
+\fIofile\fP  Optional. The output CME file. If given, the CME time series is written to it; otherwise, CME is written to the standard ouput device (the terminal/screen).
+.SH EXAMPLES
+Use all sites under ./cmonoc.resid/ to derive CME and output to the terminal.
+ \fR\fBcme_cal_stacking \.\/cmonoc.resid/
+.PP
+Use all sites under ./cmonoc.resid/ to derive CME and write it to a file.
+ \fR\fBcme_cal_stacking ./cmonoc.resid/ --ofile=cmes.neu
+.PP
+Use several sites to derive CME and write it to a file, output filtered time series.
+ \fR\fBcme_cal_stacking ./cmonoc.resid/ --ofile=cmes.neu --cmesites=bjfs,bjyq,jixn,lhaz,wuhn,chan,shao,kunm --opath=cmonoc.resid.flt
+.PP
+Use CME sites in text file to derive CME and write it to a file, output filtered time series.
+ \fR\fBcme_cal_stacking ./cmonoc.resid/ --ofile=cmes.neu --cmesitefile=for.cme.sit --opath=cmonoc.resid.flt\fR
+ where for.cme.sit contains:
+ \fR^_non-blank-first-column lines are comments
+  bjfs wuhn
+  lhaz #tian
+  shao
+.SH "SEE ALSO"
+cmc_cal_optimal, iGPSftk

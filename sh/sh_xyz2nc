@@ -1,0 +1,45 @@
+#!/bin/sh
+
+# Name:
+#   sh_xyz2nc
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+spacing=.001
+
+X_MAX=92
+Y_MAX=29
+X_MIN=90
+Y_MIN=28
+half_spacing=`echo $spacing | awk '{print $1/2}'`
+xmin=`echo $X_MIN $half_spacing | awk '{print $1+$2}'`
+ymin=`echo $Y_MIN $half_spacing | awk '{print $1+$2}'`
+xmax=`echo $X_MAX $half_spacing | awk '{print $1-$2}'`
+ymax=`echo $Y_MAX $half_spacing | awk '{print $1-$2}'`
+
+
+files=`ls ./defo_??.txt`
+for file in $files; do
+  echo $file
+  ofile1=`basename $file`.grd
+  ofile=`basename $file`.nc
+  echo "gmt xyz2grd $file -I${spacing}/${spacing}  -R${xmin}/${xmax}/${ymin}/${ymax} -G${ofile1}"
+  echo "gmt xyz2grd $file -I${spacing}/${spacing}  -R${xmin}/${xmax}/${ymin}/${ymax} -G${ofile1}" | sh
+  echo "gmt grdconvert $ofile1  ${ofile}=cf"
+  echo "gmt grdconvert $ofile1  ${ofile}=cf" | sh
+  #exit
+done

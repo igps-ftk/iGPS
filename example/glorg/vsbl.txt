@@ -1,0 +1,11 @@
+*   SRC: D:\phd\expt\gpsf\external\iGPS\example\glorg.org\gsoln\*.org
+*  PROG: ORG_GET_STAB_SITES
+*RUN BY: tianyf @ TYF [x86 Family 6 Model 15 Stepping 2, GenuineIntel]
+*RUN AT: Microsoft Windows x86
+*RUN ON: Thu May 20 03:24:35 2010 [UTC]
+           DAEJ IRKT MADR MATE NRC1    #
+2008.98500    1    1    1    1    0    4
+2008.98770    1    1    1    1    0    4
+2008.99040    1    0    1    1    1    4
+         %  100   66  100  100   33
+           DAEJ IRKT MADR MATE NRC1    #

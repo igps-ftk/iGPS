@@ -1,0 +1,44 @@
+#!/bin/sh
+
+# Name:
+#   sh_sar_incidence_grd
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+file_grd=../SBAS/vel_ll.grd
+file_grd=./vel_ll.grd
+
+if [ ! -s $file_grd ]; then
+    echo "[]ERROR:$file_grd not exist!!"
+    exit 1
+fi
+
+ln -s ../SBAS/vel_ll.grd
+
+sh_sar_cal_sat_incidence
+
+paste tmp_cal_sat_indicence.lltnde tmp_incidences > tmp_lltnde_incidences
+cat  tmp_lltnde_incidences | awk '{print $1,$2,$7}' > tmp_lli
+I=`grdinfo -I vel_ll.grd`
+R=`grdinfo -Ir vel_ll.grd`
+#T=`grdinfo -T vel_ll.grd`
+cat tmp_lli | awk '{print $3}' > tmp_i
+T=`gmtinfo -T.001 tmp_i`
+xyz2grd tmp_lli $R $I -Glook.grd
+makecpt -Cjet ${T}/.01 > look.cpt
+grd2kml.csh look look.cpt
+grdconvert look.grd look.nc=cf

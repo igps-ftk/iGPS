@@ -1,0 +1,108 @@
+# process.defaults
+#
+#  Do not remove any of these entries. To by-pass a function, set the value to null: ""
+
+## LOCAL DIRECTORIES
+# Directory for translation of raw data 
+ set rawpth = "$procdir/raw"
+# Directory path for raw archives (search all levels); e.g. /data18/simon
+ set rawfnd = ""                                                         
+# Input files for RINEX translators
+ set mpth = "$procdir/mkrinex"
+# RINEX files directory
+ set rpth = "$procdir/rinex"
+# Directory path for RINEX archives (search all levels); e.g. /data18/simon
+ set rnxfnd = ""   
+# Broadcast orbit directory
+ set bpth = "$procdir/brdc"   
+# IGS files directory
+ set ipth = "$procdir/igs"
+# G-files directory
+ set gpth = "$procdir/gfiles"
+# GAMIT and GLOBK tables directory
+ set tpth = "$procdir/tables"
+# Output gifs directory
+ set gifpth = "$procdir/gifs" 
+# Globk solution directory 
+ set glbpth = "$procdir/gsoln"  
+# Globk binary h-file directory
+ set glfpth = "$procdir/glbf"
+# Template files
+ set templatepth = "$procdir/templates"
+# Place to store temporary control files
+ set cpth = "$procdir/control"
+# Archive root directory (cannot be null)
+ set archivepth = "$procdir/archive"
+
+## FTP INFO FOR REMOTE FILES
+# Raw data archive
+# set rawarchive = 'chandler.mit.edu'
+# set rawdir = 'pub/continuous/mitnet'
+# set rawlogin = "anonymous simon@chandler.mit.edu"
+# Addresses for CDDSI, SOPAC, IGSCB, and USNO are given in /com/ftp_addresses
+
+##GAMIT
+# Set sampling interval, number of epochs, and start time for processing
+ set sint = '30'
+ set nepc = '2880'
+# set nepc = '1440'
+ set stime = '0 0'
+# Variables for updating tables 
+ set stinf_unique = "-u"
+ set stinf_nosort = "-nosort"
+ set stinf_slthgt = "2.00" 
+# Set "Y" to use RINEX header coordinates not in lfile or apr file
+ set use_rxc      = "Y"    
+# Broadcast orbits
+ set brdc = 'brdc'
+# Minimum x-file size to be processed (Def. 300 blocks; most OS use 1 Kb blocks)
+ set minxf = '300'
+# Set search window for RINEX files which might contain data for day
+ set rx_doy_plus = 0
+ set rx_doy_minus = 0 
+# Default globk .apr file
+# set aprf = itrf00_nafd.apr
+# set aprf = itrf05.apr
+# set aprf = itrf2000_2001_rfwg
+# set aprf = itrf2005.apr.updated
+# set aprf = itrf2008.apr
+# set aprf = itrf2008.apr.updated_icd
+# set aprf = frame.global.igs.apr
+# set aprf = frame.igs.apr
+# set aprf = icd150625.apr
+ set aprf = xyz.stab.igs.apr
+
+# Set compress (copts), delete (dopts) and archive (aopts) options. (Don't forget to set the archivepth.)
+# Possible d-, c-, and a- opts: D, H, ao, ac, as, b, c, d, e, g, h, i, j, k, l, m, o, p, q, t, x, ps, all" 
+ set dopts = ( c )
+ set copts = ( x k ao )
+ set aopts = ''
+
+## RESOURCES  
+# Minimum raw disk space in Kbytes
+ set minraw = '30000'
+# Minimum rinex disk space in Kbytes
+ set minrinex = '30000'
+# Minimum archive disk space in Kbytes
+ set minarchive = '20000'
+# Minimum working disk space in Kbytes
+ set minwork = '50000'
+
+## SYSTEM-DEPENDENT SETTINGS
+# UNIX df command must be set to return the correct form
+ set udf = 'df -k'
+# UNIX mail command
+#  Most machines
+ set umail = 'mail -s'
+#  HP
+# set umail = 'mailx -s'
+# Mail address for the processing report
+ set mailto = 'tianyf'
+# Host name for email and anonymous ftp password use
+ set machine = 'localhost'
+# Ghostscript path
+set gspath = '/usr/bin'
+# ImageMagick path fir gif conversion
+set impath = '/usr/bin/X11'          
+## Web interface .html file.
+ set htmlinfo = 'mitnet.html'

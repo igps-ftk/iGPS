@@ -1,0 +1,139 @@
+# Generic Makefiles for uni_make
+# ------------------------------
+#     
+# Four keywords are used to assign the dependencies specific to 
+# making the modules in the directory:
+#
+#    LABELS specifies the program label in the Makefile, main object module 
+#    (usually the same, or NONE in the case of a library), archive (.a) file,
+#    and executable name used for each program to be made. 
+# 
+#      Format:     #LABELS: prog_label:main_object:archive:executable  
+#
+#      Examples:   #LABELS: gamit_lib:NONE:gamit_lib:NONE      ( GAMIT lib directory ) 
+#
+#                  #LABELS: cview:cview:cview_lib:cview        ( GAMIT clean directory )
+#                                         
+#                  #LABELS: htoglb_lib:NONE:htoglb_lib:NONE    | (kf htoglb directory)
+#                  #LABELS: htoglb:htoglb:NONE:htoglb          |
+#
+#    Any number of LABELS can be specified, but only one per line.   
+#    
+#
+#    SHARELIB specifies libraries to be searched.
+#
+#       Format:    #SHARELIB: lib_path:lib_name   
+#
+#       Examples:  #SHARELIB: ../lib:gamit_lib                 | ( GAMIT 
+#                  #SHARELIB: ../../libraries/comlib:com_lib   |   modules ) 
+# 
+#                  #SHARELIB: .:htoglb_lib                     |
+#                  #SHARELIB: ../Khandlers:KalObs_hndl_lib     | (kf htoglb
+#                  #SHARELIB: ../gen_util:gen_util_lib         |  directory
+#                  #SHARELIB: ../../libraries/matrix:kinv_lib  |
+#                  #SHARELIB: ../../libraries/comlib:com_lib   |
+#
+#    Any number of SHARELIB entries can be specified but only one per line.
+#
+#                          
+#     OBJ_archiv specifies the subroutines to be included in the program module.  
+#
+#        Format:      OBJ_archive  file1 file2 .. filen        
+#
+#        Example:     OBJ_cview_lib  addadj allan bound combo cversn  |   GAMIT
+#                     OBJ_cview_lib  clkdif editor ed_bias ed_data    |   clean
+#                       ...                                           |   directory
+#                     OBJ_scan_lib   addadj bound drdv_scn dr_srch    |
+#                     OBJ_scan_lib   dr_ptch clkdif finish ...        |
+#
+#     The archive name must match that given in the #LABELS statement.  Any number of 
+#     OBJ_archive entries can be specified.  There is an additional and slightly different 
+#     entry required if there are machine-dependent Fortran or C routines in the directory.  
+#     For these you must append _host to the OBJ_prog_label keyword and _HHHH to the name 
+#     of the source file, e.g.
+#
+#                     OBJ_cview_lib_host csubs_HHHH                            
+#     
+#     which will cause unilib to pick up the appropriate version of csubs.c from
+#     among several in the directory:  csubs_hp.c csubs_sun.c csubs_sol.c  csubs_dec.c
+#       
+#
+# The LABELS and SHARELIB keywords must be present but may be followed by
+# blanks if there are no dependencies of this type for the Makefile. Both
+# must have the # and : symbols as part of the command.  The #OBJ_ keywords
+# may be omitted if there are no objects other than the main program to be
+# linked for the executable.  
+#
+# A fifth (optional) keyword is allowed if the module being made has Fortrans
+# compiler flags different from those specified for the entire program suite in 
+# the Makefile.config file at the program (i.e., libraries, gamit, or kf) level:
+#           
+#    FFLAGS = [options] #[hardware]  
+# where options are specified just as in Makefile.config or a standard Unix Makefile,
+# and the operating system is 'hp', 'sun', 'sol', 'dec', or 'ibm' to match the operating
+# system description obtained by unimake from uname and Makefile.config.  Note that 
+# the '#' should preceed the hardware flag but not the FFLAGS keyword. 
+#
+#     Examples:  FFLAGS = -u +O3 -K +U77 +es  #hp     | accept source lines up to 132 characters
+#                FFLAGS = -u +O3 -K +U77 -e   #sun    | in kf convert_kalobs directory
+#
+# ------------------------------------------------------------------------------------------------
+FFLAGS = -O3 -L/usr/lib -Vaxlib -save -zero -u -72 -w95 -w90 -cm -assume byterecl -static -lnetcdf -L/usr/local/netcdfi/lib -I/usr/local/netcdfi/include  #intel
+#FFLAGS = -FI -zero -fpp -nbs -save -DOS_UNIX -assume byterecl -warn noalignments -static -mcmodel large -shared-intel -lnetcdf -L/usr/local/netcdfi/lib -I/usr/local/netcdfi/include  #intel
+FFLAGS = -f77 -ftrap=%none -O3  -u -m64  -L/usr/local/netcdfi/lib -I/usr/local/netcdfi/include -lnetcdf  #sol
+
+FFLAGS = -O3 -Wuninitialized -fno-f2c -ffast-math -fno-automatic -fno-backslash  -lnetcdf -I/usr/local/netcdf-3.6.3-gftn/inc -L/usr/local/netcdf-3.6.3-gftn/lib  #gftn
+
+# Generic Makefile for comlib
+# Last changed by R. King 061229
+#
+#LABELS: cgps_data_format:NONE:cgps_data_format:NONE
+# LABELS: grbtxt2nc:grbtxt2nc:NONE:grbtxt2nc
+# LABELS: grbtxt2nc_yearly:grbtxt2nc_yearly:NONE:grbtxt2nc_yearly
+#LABELS: asc2bin_sio:asc2bin_sio:NONE:asc2bin_sio
+#LABELS: asc2bin_sios:asc2bin_sios:NONE:asc2bin_sios
+#LABELS: jpl2sios:jpl2sios:NONE:jpl2sios
+#LABELS: trk2sios:trk2sios:NONE:trk2sios
+#LABELS: trk2hneus:trk2hneus:NONE:trk2hneus
+#LABELS: l_l_r2llr:l_l_r2llr:NONE:l_l_r2llr
+#LABELS: l_l_r2llrs:l_l_r2llrs:NONE:l_l_r2llrs
+#LABELS: l_l_r2llrs_panga:l_l_r2llrs_panga:NONE:l_l_r2llrs_panga
+#LABELS: pbo2sios:pbo2sios:NONE:pbo2sios
+#LABELS: pbo2cats:pbo2cats:NONE:pbo2cats
+#LABELS: pos2neu:pos2neu:NONE:pos2neu
+#LABELS: pos2qmap:pos2qmap:NONE:pos2qmap
+#LABELS: qocaload2cats:qocaload2cats:NONE:qocaload2cats
+#LABELS: qocaload2sios:qocaload2sios:NONE:qocaload2sios
+#LABELS: scec_csv2sio:scec_csv2sio:NONE:scec_csv2sio
+#LABELS: sio2cats:sio2cats:NONE:sio2cats
+#LABELS: sio2otr:sio2otr:NONE:sio2otr
+#LABELS: sio2otd:sio2otd:NONE:sio2otd
+#LABELS: sio2otx:sio2otx:NONE:sio2otx
+#LABELS: usgs_ts2sio:usgs_ts2sio:NONE:usgs_ts2sio
+#LABELS: cmonoc2sios:cmonoc2sios:NONE:cmonoc2sios
+#LABELS: neu_extract_by_neu:neu_extract_by_neu:NONE:neu_extract_by_neu
+#LABELS: qmap_extract_by_neu:qmap_extract_by_neu:NONE:qmap_extract_by_neu
+# LABELS: ds607_txt2nc:ds607_txt2nc:NONE:ds607_txt2nc
+#LABELS: tenv3_to_sios:tenv3_to_sios:NONE:tenv3_to_sios
+
+#SHARELIB: ../read:cgps_data_read
+#SHARELIB: ../write:cgps_data_write
+#SHARELIB: ../site:cgps_data_site
+#SHARELIB: ../../lib:cgps_lib
+#SHARELIB: ../../../../gglib:gglib
+ 
+
+# OBJ_cgps_data_site read_sio_bin read_sio_hdr
+# OBJ_cgps_data_site_lib site_coords_query site_read site_search_byrect
+
+#OBJ_cgps_data_format   l_l_r2llr_func
+#OBJ_asc2bin_sio	asc2bin_sio
+#OBJ_asc2bin_sios	asc2bin_sios
+#OBJ_jpl2sios		jpl2sios
+#OBJ_l_l_r2llr          l_l_r2llr
+#OBJ_l_l_r2llrs         l_l_r2llrs
+#OBJ_l_l_r2llrs_panga   l_l_r2llrs_panga
+#OBJ_pbo2sios		pbo2sios
+#OBJ_pbo2cats		pbo2cats
+#OBJ_usgs_ts2sio	usgs_ts2sio
+#OBJ_cmonoc2sios	cmonoc2sios

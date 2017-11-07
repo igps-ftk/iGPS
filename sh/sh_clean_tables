@@ -1,0 +1,27 @@
+#!/bin/sh
+
+# Name:
+#   sh_clean_tables
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+path=`pwd`
+rm -f antmod.dat  dcb.dat  gdetic.dat  guess_rcvant.dat  hi.dat  otlcmc.dat  rcvant.dat  svnav.dat  svs_exclude.dat  tform.dat
+rm -f atl.grid  atl.list  atlm.grid  atlm.list  atml.grid  atml.list  map.grid  map.list  met.grid  met.list  otlcmc.dat  otl.grid  otl.list
+rm -f ftp.inp pole.* ut1.* leap.sec luntab. nutabl. soltab. 
+
+

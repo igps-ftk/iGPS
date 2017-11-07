@@ -1,0 +1,7 @@
+How to read PANGA data (lat,lon,rad).
+
+There was a data mismatch bug in test_reads.f (mjdall,xall,yall, defined to nmax_row, should be nmax_pt).
+
++)PANGA 
+	panga time series are not start at 0:00 or 12:00. 
+	The time-of-measurement is random.

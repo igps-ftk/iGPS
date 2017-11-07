@@ -1,0 +1,10 @@
+ac          For works at analysis center.
+bin         Links in various system to executables.
+cme         Remove common-mode errors.
+data        Data interface: reading, writing, etc.
+dc          For works done at data center.
+inc         Global variables for GPSF.
+lib         Common libraries for GPSF.
+nr          Programs from Numerical Recipe in F77
+spectral    Spetral analysis.
+tools       Various tool.

@@ -1,0 +1,132 @@
+
+
+
+FORTRAN Programs for GPS                                  GPSF(1)
+
+
+
+NAME
+     gpsf - A  collection  of  programs  written  in  Fortran  77
+     language, developed by Yunfeng Tian.
+
+SYNOPSIS
+     NONE
+
+DESCRIPTION
+     GPSF programs collection is based  upon  some  libraries  of
+     GAMIT/GLOBK,  NRF.  The objective is to create a free source
+     tool for analyzing CGPS coordinate time series.
+
+     Preface
+     I found that it is diffecult to analyze the CGPS coordinates
+     time series as those did in those papers published in JGR-SE
+     and BSSA. I cannot  find  their  codes  somewhere.  Thus,  I
+     decided  to write my own codes to test their results, and to
+     do some improvements as well. I supposed I could obtain  the
+     same (maybe almost the same) results as the original authors
+     did. But Roman wasn't built in one day.  I  feared  that  my
+     programs  may produce results with much large untertainties,
+     or even errous products. But this is a good step  anyway.  I
+     hope I could do better than them.
+
+     Yunfeng Tian
+     Beijing
+
+          *GAMIT/GLOBK is developed by MIT/SIO/etc.
+
+          *NRF-Numerical Recipe in Fortran 77.
+          *There are also some shell scripts which are related to
+          general operations with CGPS data, such as downloading,
+          conversion. Those scripts  are  mostly  written  in  sh
+          shell,  some  in Csh, and serveral revised from that in
+          GAMIT/GLOBK collection.
+
+MODIFICATIONS
+     _M_O_D Tian APR-23-2008
+     +Add cross-platform support.
+
+INSTALL
+     1. Get the distribution.
+     It is recommened that the GPSF source codes are extracted to
+     the home directory of one user, say, ~/gpsf. Install GPSF to
+     other directory may cause some compilation problems.
+     To extract,
+       tar jxvf gpsf.tar.bz2
+     In Solaris, you could do,
+       gtar jxvf gpsf.tar.bz2
+     Or,
+       bzcat gpsf.tar.bz2 | tar xvf -
+
+
+
+
+GPSF                Last change: 23 Nov 2007                    1
+
+
+
+
+
+
+FORTRAN Programs for GPS                                  GPSF(1)
+
+
+
+     2.Set the environment varible.
+     Before install GPSF, add  the  GPSF_HOME/com  to  your  PATH
+     environment variable.
+     For _c_s_h, add a line like below to ~/._c_s_h_r_c:
+      set path = (~/gpsf/cgps/com $path)
+     Then, _s_o_u_r_c_e ~/._c_s_h_r_c.
+     For _s_h/_b_a_s_h, edit the ~/._s_h_r_c or ~/._b_a_s_h_r_c file:
+      export PATH=$PATH:~/gpsf/cgps/com
+     Then, reload it, say,  ". ~/._b_a_s_h_r_c".
+
+     3.Generate GAMIT/GLOBK library file.
+     GAMIT/GLOBK library file (gglib.a.ARCH) should be placed  in
+     the same directory as GPSF. However, the _a_r_l_i_b utility place
+     it in the home directory of  one  user,  say,  ~/gglib.  You
+     should  move  this directory to the same parent path of GPSF
+     mannually. In GPSF, the relative path (not  abosolute  path-
+     name) are used.
+     Simply run the _a_r_l_i_b command will create the library file.
+     Before do it, make sure that the ~/gg  link  points  to  the
+     GAMIT/GLOBK  path.  _a_r_l_i_b  will  search all *.a file, unpack
+     them, repack it into one file, and then create  the  gglib.a
+     library file.
+
+ACKNOWLEDGEMENT
+     I'd like to thank Google for its search  engine  which  pro-
+     vided  me  much  information  about GPS. Thanks also goes to
+     those institutes who  provide  the  most  prominent  journal
+     papers  at  no cost. Also, I thanks my family for continuous
+     supports.
+     This project is supported by the  "Director  Fund"  of  ICD,
+     CEA--Noise   Analysis   of   CGPS  coordinates  Time  Series
+     (J2207820).
+
+SEE ALSO
+     ~/_g_p_s_f/_c_g_p_s/_b_i_n/(1)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+GPSF                Last change: 23 Nov 2007                    2
+
+
+

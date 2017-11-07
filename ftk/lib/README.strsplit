@@ -1,0 +1,19 @@
+STRSPLIT
+
+Type:
+	subroutine
+
+Purpose:
+	split string into arrays
+
+Syntax:
+	call strsplit(string, sep, n, ret_string)
+Inputs:
+	string, sep, n
+Outputs:
+	n, ret_string
+
+Description:
+	The lenght of string and the length of returned string arrays should be pre-defined in the caller program. It may go wrong when the number of actual array exceed the given *n*.
+
+	In strsplit.f, there is a temporary character variable whose length is 1000. 

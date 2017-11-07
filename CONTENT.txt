@@ -1,0 +1,23 @@
+iGPS--IDL tool package for GPS
+
+
+iGPS contains several sub-directories:
+
+  +libtian	Common IDL routines written by Tian
+  +tables	Files used in iGPS (apriori coordinates, sites files, ...)
+  +example	Various time series samples
+  +doc		User Tutorial
+
+  The other directories contains rourines for various purposes.
+  +cme		regional stacking filtering
+  +data		read/write/outliers/modeling/offset/psdecay/...
+  +main		iGPS GUI
+  +tools	Userful utilities
+
+The future release of iGPS can be found at http://igps.sourceforge.net/.
+
+
+See iGPS Step-by-step Tutorial in doc directory for more information.
+
+2010
+Tian

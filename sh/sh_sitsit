@@ -1,0 +1,57 @@
+#!/bin/sh
+
+#sh_sitsit
+#Create sites.defaults from site list file.
+
+if [ $# -lt 1 ]; then
+    echo "Usage: sh_sitsit site_list_file [expt]"
+    #echo "Usage: sh_sitsit site_list_file [sites.defaults]"
+    echo "Note: make sure that your file is in Unix ascii style."
+    echo "      You can convert from DOS text file to Unix style using:"
+    echo "          dos2unxi file file"
+    echo "(c) Copyright by Tian 2007"
+    echo "License: free to use/modify this file at your own risk."
+    exit
+fi
+
+sfile0=$1
+sfile1=
+expt=dist
+if [ $# -ge 2 ]; then
+    sfile1=$2
+    expt=$2
+fi
+
+lines=`cat $sfile0`
+lines=`rdsit $sfile0|awk '{print $0}'|sort|uniq`
+
+
+isref=1
+
+for line in ${lines}; do
+    #echo ${line}
+    line4=`echo $line | awk '{print substr($0,1,4)}'`
+    if [ "${line4}" = "++++" ]; then
+	#echo "**skip ++++ line**"
+	isref=0
+	continue
+    fi
+
+    fst=`echo $line | awk '{print substr($0,1,1)}'`
+    site=${line}
+    if [ "${fst}" = "#" ]; then
+	site=`echo $line | awk '{print substr($0,2,4)}'`
+	#echo "**site ${site} has been commented out**"
+	continue
+    fi
+    
+    if [ ${isref} -eq 1 ]; then
+	echo " ${site}_gps ${expt} ftprnx xstinfo glreps"
+    else
+	echo " ${site}_gps ${expt} ftprnx xstinfo"
+#	echo "Not ref:$site"
+    fi
+#    echo "$site"
+done
+
+

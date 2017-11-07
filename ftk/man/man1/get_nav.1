@@ -1,0 +1,59 @@
+.TH GET_NAV 1 "23 Nov 2007" "iGPSftk" "FORTRAN ToolKit for GNSS"
+.SH NAME
+get_nav \- Download IGS auto/brdc navigation files from IGS centers.
+.SH SYNOPSIS
+.PP
+\fBget_nav\fR \fBYEAR|YR\fP \fBDOY\fP \fBNDAYS\fP [\fB--archive\fP=\fIsopac|cddis|kasi\fP] \fB[--dir=\fP\fIOUTPUT_DIR\fP]
+.SH DESCRIPTION
+.TP
+\fBYEAR|YR\fP
+Starting year. Four-digit or two-digit formated year string could be used. 
+.br
+For example: 2002, 02, 99.
+.TP
+\fBDOY\fP
+Staring day-of-year.
+.TP
+\fBNDAYS\fP
+Number of days to download data.
+.TP
+\fB--archive\fP=\fIsopac|cddis|kasi\fP
+IGS data center to download data from. 
+.br
+The default is \fIsopac\fP.
+.TP
+\fB--dir=\fP\fIOUTPUT_DIR\fP
+Optional. \fBOUTPUT_DIR\fR path is the parent directory of orbit files.
+The output directory name. e.g.: /igs/pub/nav. The structure of directories looks like:
+.br
+	/igs
+.br
+		/nav
+.br
+			/2001
+.br
+				/001
+.br
+					/brdc0010.01n.Z
+.br
+	/igs/nav/${YEAR}/${DOY}/${SITE}${DOY}0.${YR}n.Z
+.SH OPTIONS
+.TP
+NONE.
+.SH EXAMPLES
+get_nav 2000 1 2
+.br
+get_nav 2007 1 365 --dir=/igs_data/pub/nav
+.br
+get_nav 2007 1 365 --archive=kasi 
+.SH LICENSES
+.TP
+(c) Copyright by Tian 2007.
+.br
+Free to use/modify for academic purposes.
+.SH "SEE ALSO"
+.IR get_hfile (1),
+.IR get_orb (1),
+.IR get_rnx (1),
+.IR get_met (1),
+.IR iGPSftk (1)

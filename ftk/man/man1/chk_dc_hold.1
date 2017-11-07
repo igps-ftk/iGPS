@@ -1,0 +1,83 @@
+.TH CHK_DC_HOLD 1 "05/04/2008" "iGPSftk" "FORTRAN ToolKit for GNSS"
+.SH NAME
+chk_dc_hold \- Chek the holding status of RINEX OBS files for Data Center.
+.SH SYNOPSIS
+chk_dc_hold  \fIYEAR\fP \fIDOY\fP \fINDAYS\fP \fI[--dir=ROOT_DIR]\fP \fI[--ofile=OUT_FILE]\fP \fI--type=D|O|N|M]\fP
+.SH DESCRIPTION
+Check whether the RINEX file exists.
+.SH OPTIONS
+.TP
+None.
+.TP
+\fIYEAR\fP
+.br
+Starting year.
+.TP
+\fIDOY\fP
+.br
+Staring day-of-year.
+.TP
+\fINDAYS\fP
+.br
+Number of days to search for.
+.TP
+\fI--dir=ROOT_DIR\fP
+Optional.
+.br
+Root directory of data cache.
+.br
+Default is current directory (`pwd`).
+.TP
+\fI--ofile=OUT_FILE\fP
+Optional.
+.br
+Output file name.
+.br
+Default is standard output device(screen).
+.TP
+\fI--type=D|O|N|M\fP
+File type for searching.
+.br
+D - Hatanaka RINEX observations(SITEDOY0.YRd.Z)
+.br
+O - RINEX observations(SITEDOY0.YRo.Z)
+.br
+N - RINEX broadcast emphemis(SITEDOY0.YRn.Z)
+.br
+M - RINEX meteorological observation(SITEDOY0.YRm.Z)
+.SH MODIFICATIONS
+.TP
+MOD MAY-04-2008 Tian.
+.br
+Modified input parameters.
+.SH BUGS
+.TP
+NONE.
+.SH EXAMPLES
+.PP
+chk_dc_hold 2008 1 1
+.br
+chk_dc_hold 1992 1 5955 --dir=/data0/igs0/pub/rinex --ofile=dc.hold.rnx.080504
+.PP
+Sample output:
+.br
+quin 1998 122 d y /pub/rinex/1998/122/quin1220.98d.Z
+.br
+rcm6 1998 122 d y /pub/rinex/1998/122/rcm61220.98d.Z
+.br
+reyk 1998 122 d y /pub/rinex/1998/122/reyk1220.98d.Z
+.br
+sant 1998 122 d y /pub/rinex/1998/122/sant1220.98d.Z
+.br
+sch2 1998 122 d y /pub/rinex/1998/122/sch21220.98d.Z
+.br
+sele 1998 122 d y /pub/rinex/1998/122/sele1220.98d.Z
+.SH LICENSE
+.TP
+(c) Copyright by Tian.
+.PP
+License: free to use/edit for academic purpose.
+.SH "SEE ALSO"
+.IR chk_rnx_d (1),
+.IR chk_rnx_dz (1),
+.IR iGPSftk (1)

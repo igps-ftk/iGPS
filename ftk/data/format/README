@@ -1,0 +1,12 @@
++)JPL XML format
+	Still not found a tool to covnert .xml to human-readable format.
+	
++)JPL l,l,r
+	Converted to llr format.
+	
++)USGS
+	There are some blank data lines.
+	
++)PANGA
+	Still not think out a good idea to combine these.
+	The lengths of three components are different. 

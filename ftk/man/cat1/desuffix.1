@@ -1,0 +1,66 @@
+
+
+
+FORTRAN Programs for GPS                              DESUFFIX(1)
+
+
+
+NAME
+     desuffix - Return the filename without extension.
+
+SYNOPSIS
+     call desuffix (_f_i_l_e, _o_f_i_l_e)
+
+DESCRIPTION
+     desuffix delete the extension (suffix) of input filename and
+     return it.
+
+     _f_i_l_e this is the input file name.
+
+     _o_f_i_l_e
+          this is the output file name
+
+OPTIONS
+     NONE.
+
+EXAMPLES
+      character*512 file,ofile
+      file='/usr/local/test/bjfs.xyz'
+      call desuffix(file,ofile)
+
+SEE ALSO
+     _g_e_t_f_i_l_e_n_a_m_e(1), _g_e_t_p_a_t_h_n_a_m_e(1), _p_a_t_h_s_e_p(1), _G_P_S_F(1)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+GPSF                Last change: 23 Nov 2007                    1
+
+
+

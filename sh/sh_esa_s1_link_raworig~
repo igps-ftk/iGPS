@@ -1,0 +1,53 @@
+#!/bin/sh
+
+# Name:
+#   sh_esa_link_raworig
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+if [ "$esa_unzip" = "" ]; then
+    echo "[ERROR]ESA environment variable esa_unzip must be set first! Stopped."
+    exit 1
+fi
+
+
+if [ "$1" = "" ]; then
+    echo "Usage: sh_esa_link_raworig file [iw_type]"
+    exit
+fi
+file=$1
+
+if [ "$2" = "" ]; then
+    echo "[INFO]iw_type not specified! Default iw1 used."
+    iw_typ=iw1
+else
+    iw_typ=$2
+fi
+
+
+
+grep '^ ' $file | awk '{print $1}' > .tmp
+while read line; do
+    echo $line
+    dfile="`echo $line | awk -F. '{print $1}'`.SAFE"
+    if [ ! -d ${esa_unzip}/${dfile} ]; then
+	echo "ERROR:data not found [${path_esa}/${dfile}]!!"
+	exit 1
+    fi
+    find ${esa_unzip}/${dfile} -name "s1*-${iw_typ}-*-vv-*.tiff" -exec ln -s {} \;
+    echo " ${dfile} linked."
+done < .tmp

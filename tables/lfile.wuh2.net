@@ -1,0 +1,14 @@
+*   SRC: D:\phd\expt\gpsf\external\iGPS\tables\lfile.wuh2
+*  PROG: APR2NET
+*RUN BY: tianyf @ TYF [Intel64 Family 6 Model 37 Stepping 5, GenuineIntel]
+*RUN AT: Microsoft Windows x86_64
+*RUN ON: Thu Nov 24 10:57:36 2011 [UTC]
+*****************************************************************************************************************************
+* Datum:  WGS84
+* Format:  V30
+* Transfered from:   D:\phd\expt\gpsf\external\iGPS\tables\lfile.wuh2
+* Time:  
+* Operator:  
+*
+*  site    full-name      latitude        longitude         height       u       v       w    epoch       t1        t2
+ WUH2_GPS  site_log  N30 31 54.048999 E114 21 26.151956     28.20697  0.0000  0.0000  0.0000 2010.2370 1900.0000 2500.0000

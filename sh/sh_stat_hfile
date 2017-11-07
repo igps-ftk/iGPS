@@ -1,0 +1,123 @@
+#!/bin/sh
+
+# Name:
+#   sh_stat_hfile
+#   
+
+# Purpose:
+# Generate statistics about h-files.
+# +    +     +  +   +     + 
+# expt decyr yr doy #site site_names
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+if [ $# -lt 2 ]; then
+    echo "usage: sh_stat_hfile -dir DIR -yrs YRS -yre YRE -doys DOYS -doye DOYE -expt EXPT"
+    exit
+fi
+
+local_root=/data0/igs0/pub/hfiles
+yearStart=2005
+yearStart=1999
+#yearStart=2001
+yearEnd=2007
+
+doys=060
+doye=`ymd2ydoy ${yearStart} 12 31 | awk '{print $2}'`
+doye=316
+
+expt=cmon
+
+# process command-line parameters
+#####################################################
+#COMMAND LINE PARAMETERS
+#####################################################
+while [ "$1" != "" ]
+do
+  #echo $1
+  case $1 in
+      -dir)
+	  cd $2
+	  local_root=$2
+	  ;;
+      -expt)
+	  expt=$2
+	  ;;
+      -yrs)
+	  yearStart=$2
+	  yr=`echo $yearStart | awk '{print substr($0,3,2)}'`
+	  y=`echo $yearStart | awk '{print substr($0,4,1)}'`
+	  ndays=`ymd2ydoy ${yearStart} 12 31 | awk '{print $2}'`
+	  ;;
+      -yre)
+	  yearEnd=$2
+	  ;;
+      -doys)
+	  doys=$2
+	  ;;
+      -doye)
+	  doye=$2
+	  ;;
+      *)
+	  echo "invalid options: $1"
+	  exit 1
+	  ;;
+  esac
+  shift 2
+done
+
+
+
+year=${yearStart}
+while [ ${year} -le ${yearEnd} ]; do
+
+    if [ ${year} -eq ${yearStart} ]; then
+	doy=${doys}
+    else
+       doy=001
+    fi
+
+    if [ ${year} -eq ${yearEnd} ]; then
+	ndays=${doye}
+    else
+	ndays=`ymd2ydoy ${year} 12 31 | awk '{print $2}'`
+    fi
+
+    yr=`echo $year | awk '{print substr($0,3,2)}'`
+    while [ ${doy} -le ${ndays} ]; do
+        doy=`echo $doy | awk '{printf("%03d",$0)'}`
+        day_dir=${local_root}/${year}/${doy}
+        #mkdir -p ${day_dir}
+        cd ${day_dir}
+        #pwd
+	hfile=${local_root}/${year}/${doy}/h${expt}a.${yr}${doy}.Z
+	if [ -s $hfile ]; then
+	    ns=`gzgrep "Number of stations" $hfile | head -1 | awk '{printf("%03d", $4)}'`
+	    #echo $hfile $ns
+	    decyrs=`doy $year $doy | tail -1 | awk '{print $3}'`
+	    decyrs=`doy $year $doy | head -1 | awk '{print $8}'`
+	    lines=`gzgrep -n "Name of track stations" $hfile | head -1 | awk -F":" '{print $1}'`
+	    linee=`expr $lines + $ns - 1`
+	    linee=`expr $lines + $ns `
+	    #echo $linee
+	    snames=`gzcat $hfile | head -${linee} | tail -${ns} | awk '{print $2}'`
+	    echo $expt $decyrs $year $doy $ns $snames
+	else
+	    echo $expt $decyrs $year $doy 000
+	fi
+
+	doy=`expr $doy + 1`
+    done
+    year=`expr $year + 1`
+    #exit
+done

@@ -1,0 +1,36 @@
+#!/bin/sh
+
+# Name:
+#   sh_ps2jpg
+#   
+
+# Purpose:
+#  Convert Postscript files into JPEG format using ps2raster of GMT.
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+#work in current directory
+
+files=`find . -name "psbase*.????"`
+files=`find . -maxdepth 1 -name "psbase*.????*" | sort`
+files=`find . -maxdepth 1 -name "psbase*.????" | sort`
+
+for file in ${files}; do
+    echo " >>converting ${file} to JPEG format.."
+    \cp -f ${file} ${file}.ps
+    ps2raster -A -Tj ${file}.ps
+    \rm -f ${file}.ps
+done
+
+echo "Conversion complete!"

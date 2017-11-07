@@ -1,0 +1,27 @@
+FUNCTION RGB, R, G, B
+
+  R=FIX(R)
+  G=FIX(G)
+  B=FIX(B)
+  
+  ;PRINT,(R MOD 16)*1+(R/16*16)
+  ;PRINT,(R MOD 16)*1+(R/16*16) + $
+  ; (G MOD 16L)*256L + (G/16L*4096L)
+  RGB=(R MOD 16L)*1+(R/16L*16) + $
+    (G MOD 16L)*256L + (G/16*4096L) + $
+    (B MOD 16L)*65536L + (B/16L*1048576L)
+    
+  RETURN, RGB
+END
+
+PRO RGB
+  IF N_PARAMS() LT 3 THEN BEGIN
+    R=255L
+    G=255L
+    B=255L
+  ENDIF
+  
+  PRINT, RGB(R,G,B)
+  HELP, RGB(R,G,B)
+  
+END

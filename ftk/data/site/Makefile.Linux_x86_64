@@ -1,0 +1,105 @@
+# Makefile for site on Linux 2.6.32-642.6.1.el6.x86_64 by unimake at Fri Nov 25 12:11:35 CST 2016
+
+all: test_site_read extract_stinfo rdsit rdsite_old sitcomm sitminus
+
+
+
+# ASSIGMENTS
+   
+# ASSIGMENTS
+### LF95 flags ###  
+#FTN = lf95  
+#FFLAGS = -O 
+#CC = gcc
+#CFLAGS = -g
+### IFC 7.0 flags ###
+#FTN = ifc
+#FFLAGS = -O -Vaxlib -save -zero -u -72 -w95 -w90 -cm   
+#CC = icc   
+#CFLAGS = -O 
+### IFORT 8.0 flags ###
+FTN = ifort
+#FFLAGS = -O3 -L/usr/lib -Vaxlib -save -zero -u -72 -w95 -w90 -cm -assume byterecl -static -shared-intel #-xN
+#FFLAGS = -O3 -L/usr/lib -Vaxlib -save -zero -u -72 -w95 -w90 -cm -assume byterecl -static  -L/opt/intel/mkl/9.1.023/lib/em64t/ -lmkl_lapack -lmkl_em64t   -lguide -lpthread  #-xN
+CC = icc   
+#CFLAGS = -O  -lz 
+#IFORT 2013
+FFLAGS = -FI -zero -fpp -nbs -save -DOS_UNIX -assume byterecl -warn noalignments  -mcmodel large -shared-intel
+CFLAGS = -O0  -lz 
+### G77 flags ###
+#FTN = g77 
+#FFLAGS = -O3 -Wuninitialized -Wunused -Wimplicit -fno-f2c -ffast-math -fno-automatic -fno-backslash -Wno-globals -fno-globals
+#CC = gcc
+#CFLAGS = -g  
+
+# test for PGI Fortran compiler
+#FTN = pgf77 
+#FFLAGS = -O3 -Msave -Mpreprocess -DOS_UNIX
+# -Wuninitialized -Wunused -Wimplicit -fno-f2c -ffast-math -fno-automatic -fno-b
+# ackslash -Wno-globals -fno-globals
+#CC = pgcc
+#CFLAGS = -g  
+
+### GCC V4 gfortran flags ###
+#FTN = gfortran
+#FFLAGS = -O3 -Wuninitialized -Wunused -Wimplicit -fno-f2c -ffast-math -fno-automatic -fno-backslash
+#CC = gcc
+#CFLAGS = -g  
+#### For 64-bit machines:
+#CFLAGS = -g --DADD64BIT
+
+CGPS_DATA_SITE = cgps_data_site.a.Linux_x86_64
+SLIB = .//cgps_data_site.a.Linux_x86_64 ../../lib/cgps_lib.a.Linux_x86_64 ../../../../gglib/gglib.a.Linux_x86_64 
+X11LIB = 
+II = 
+
+test_site_read : test_site_read.f $(CGPS_DATA_SITE) $(SLIB) 
+	$(FTN) test_site_read.f $(CGPS_DATA_SITE) $(SLIB) -o test_site_read.Linux_x86_64 $(FFLAGS)
+	rm -f test_site_read.o
+
+extract_stinfo : extract_stinfo.f  $(SLIB) 
+	$(FTN) extract_stinfo.f  $(SLIB) -o extract_stinfo.Linux_x86_64 $(FFLAGS)
+	rm -f extract_stinfo.o
+
+rdsit : rdsit.f  $(SLIB) 
+	$(FTN) rdsit.f  $(SLIB) -o rdsit.Linux_x86_64 $(FFLAGS)
+	rm -f rdsit.o
+
+rdsite_old : rdsite_old.f  $(SLIB) 
+	$(FTN) rdsite_old.f  $(SLIB) -o rdsite_old.Linux_x86_64 $(FFLAGS)
+	rm -f rdsite_old.o
+
+sitcomm : sitcomm.f  $(SLIB) 
+	$(FTN) sitcomm.f  $(SLIB) -o sitcomm.Linux_x86_64 $(FFLAGS)
+	rm -f sitcomm.o
+
+sitminus : sitminus.f  $(SLIB) 
+	$(FTN) sitminus.f  $(SLIB) -o sitminus.Linux_x86_64 $(FFLAGS)
+	rm -f sitminus.o
+
+$(CGPS_DATA_SITE) : \
+	$(CGPS_DATA_SITE)(query_stainfo.o) \
+	$(CGPS_DATA_SITE)(rdldsite.o) \
+	$(CGPS_DATA_SITE)(read_net.o) \
+	$(CGPS_DATA_SITE)(read_neuxyz.o) \
+	$(CGPS_DATA_SITE)(site_coords_query.o) \
+	$(CGPS_DATA_SITE)(site_read.o) \
+	$(CGPS_DATA_SITE)(site_search_byrect.o) \
+	$(CGPS_DATA_SITE)(rdsit_.o)
+	ranlib cgps_data_site.a.Linux_x86_64
+
+
+.c.a:
+	$(CC) -c $(CFLAGS) -I$(II) $<
+	ar rv $@ *.o
+	rm -f $*.o
+
+.f.a:
+	$(FTN) -c $(FFLAGS) $<
+	ar rv $@ *.o
+	rm -f $*.o
+
+
+cleanall:
+	rm -f *.a.Linux_x86_64 *.o *core test_site_read extract_stinfo rdsit rdsite_old sitcomm sitminus  test_site_read.Linux_x86_64 extract_stinfo.Linux_x86_64 rdsit.Linux_x86_64 rdsite_old.Linux_x86_64 sitcomm.Linux_x86_64 sitminus.Linux_x86_64
+# End of Makefile

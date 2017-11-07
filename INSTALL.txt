@@ -1,0 +1,18 @@
+First, unpack the iGPS source files (iGPS.tar.bz2) to a directory, 
+  say ~/iGPS. 
+
+
+There are two methods to start iGPS:
+
+1.Include the iGPS root path (~/iGPS) and its sub-directories in 
+  IDL system variable !PATH. Type igps in IDL to start iGPS GUI.
+
+2.Run the ~/iGPS/main/start_igps.pro script directly in IDL.
+
+For more information, please refer to the iGPS Step-by-step Tutorial
+  in ${iGPS_ROOT}/doc directory:
+  iGPS_tutorial.pdf
+
+Enjoy yourself.
+
+Tian

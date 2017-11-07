@@ -1,0 +1,78 @@
+#!/bin/sh
+
+# Name:
+#   sh_acqfile
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+if [ $# -lt 2 ]; then
+    echo "Usage: sh_armnr src_dir target_dir"
+    exit 1
+fi
+
+src_dir=$1
+cd ${src_dir}
+src_dir=`pwd`
+src_dir=/export/home/tianyf/gpse/cmonoc
+
+tgt_dir=$2
+cd ${tgt_dir}
+tgt_dir=`pwd`
+tgt_dir=/data0/igs0/pub/qfiles
+tgt_dir=/export/home/tianyf/qfiles
+
+ptn="hcmona.?????"
+ptn="qcmon?.???"
+
+year=1999
+#total number of days in current year
+doy0=`ymd2ydoy $year 12 31 | awk '{print $2}'`
+doy1=`ymd2ydoy $year 1 1 | awk '{print $2}'`
+ndoys=`expr $doy0 - $doy1 + 1`
+yr=`echo $year | awk '{print substr($0,3,2)}'`
+y=`echo $year | awk '{print substr($0,4,1)}'`
+
+while [ $year -le 2007 ]; do
+    doy=001
+    while [ $doy -le $ndoys ]; do
+	doy=`echo $doy | awk '{printf("%03d",$0)}'`
+	echo $year $doy
+	file=hcmona.${yr}${doy}
+	file="qcmon?.???"
+	echo "${src_dir}/${year}_${doy}/$file"
+	echo "${tgt_dir}/${year}/${doy}/$file"
+
+	echo  "mkdir -p ${tgt_dir}/${year}/${doy}"
+	mkdir -p ${tgt_dir}/${year}/${doy}
+        echo  "mv ${src_dir}/${year}_${doy}/$file ${tgt_dir}/${year}/${doy}/"
+        mv ${src_dir}/${year}_${doy}/$file ${tgt_dir}/${year}/${doy}/
+
+	compress ${tgt_dir}/${year}/${doy}/${file}
+	doy=`expr $doy + 1`
+    done
+     year=`expr $year + 1`
+     #total number of days in current year
+     doy0=`ymd2ydoy $year 12 31 | awk '{print $2}'`
+     doy1=`ymd2ydoy $year 1 1 | awk '{print $2}'`
+     ndoys=`expr $doy0 - $doy1 + 1`
+     yr=`echo $year | awk '{print substr($0,3,2)}'`
+     y=`echo $year | awk '{print substr($0,4,1)}'`
+     #exit
+done
+
+
+

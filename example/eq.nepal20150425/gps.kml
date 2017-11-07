@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://earth.google.com/kml/2.0">
+<Document>
+    <Placemark>
+      <name>CHLM</name>
+      <description>CHLM</description>
+      <visibility>1</visibility>
+      <Point>
+        <extrude>0</extrude>
+        <altitudeMode>clampToGround</altitudeMode>
+        <coordinates>  85.314085662222226,  28.207224589722223,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>CHUM</name>
+      <description>CHUM</description>
+      <visibility>1</visibility>
+      <Point>
+        <extrude>0</extrude>
+        <altitudeMode>clampToGround</altitudeMode>
+        <coordinates>  74.751101271111111,  42.998503264722224,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>DAEJ</name>
+      <description>DAEJ</description>
+      <visibility>1</visibility>
+      <Point>
+        <extrude>0</extrude>
+        <altitudeMode>clampToGround</altitudeMode>
+        <coordinates> 127.374477771388880,  36.399429279166668,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>DNGD</name>
+      <description>DNGD</description>
+      <visibility>1</visibility>
+      <Point>
+        <extrude>0</extrude>
+        <altitudeMode>clampToGround</altitudeMode>
+        <coordinates>  80.581783009722216,  28.754447262777777,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>DNSG</name>
+      <description>DNSG</description>
+      <visibility>1</visibility>
+      <Point>
+        <extrude>0</extrude>
+        <altitudeMode>clampToGround</altitudeMode>
+        <coordinates>  83.763463788888885,  28.345090725833334,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>HYDE</name>
+      <description>HYDE</description>
+      <visibility>1</visibility>
+      <Point>
+        <extrude>0</extrude>
+        <altitudeMode>clampToGround</altitudeMode>
+        <coordinates>  78.550870194722222,  17.417259058888892,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>IISC</name>
+      <description>IISC</description>
+      <visibility>1</visibility>
+      <Point>
+        <extrude>0</extrude>
+        <altitudeMode>clampToGround</altitudeMode>
+        <coordinates>  77.570379342777770,  13.021170898055557,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>JMSM</name>
+      <description>JMSM</description>
+      <visibility>1</visibility>
+      <Point>
+        <extrude>0</extrude>
+        <altitudeMode>clampToGround</altitudeMode>
+        <coordinates>  83.743299102500004,  28.805280488055555,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>KIT3</name>
+      <description>KIT3</description>
+      <visibility>1</visibility>
+      <Point>
+        <extrude>0</extrude>
+        <altitudeMode>clampToGround</altitudeMode>
+        <coordinates>  66.885443737777791,  39.134766617499999,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>KKN4</name>
+      <description>KKN4</description>
+      <visibility>1</visibility>
+      <Point>
+        <extrude>0</extrude>
+        <altitudeMode>clampToGround</altitudeMode>
+        <coordinates>  85.278805626944447,  27.800716013333336,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>LCK3</name>
+      <description>LCK3</description>
+      <visibility>1</visibility>
+      <Point>
+        <extrude>0</extrude>
+        <altitudeMode>clampToGround</altitudeMode>
+        <coordinates>  80.955635512777775,  26.912181497222221,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>LCK4</name>
+      <description>LCK4</description>
+      <visibility>1</visibility>
+      <Point>
+        <extrude>0</extrude>
+        <altitudeMode>clampToGround</altitudeMode>
+        <coordinates>  80.955616393333329,  26.912144793888888,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>LHAZ</name>
+      <description>LHAZ</description>
+      <visibility>1</visibility>
+      <Point>
+        <extrude>0</extrude>
+        <altitudeMode>clampToGround</altitudeMode>
+        <coordinates>  91.104029914444439,  29.657335236666665,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>NCRS</name>
+      <description>NCRS</description>
+      <visibility>1</visibility>
+      <Point>
+        <extrude>0</extrude>
+        <altitudeMode>clampToGround</altitudeMode>
+        <coordinates>  90.962718684722219,  30.772635067222222,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>NPGJ</name>
+      <description>NPGJ</description>
+      <visibility>1</visibility>
+      <Point>
+        <extrude>0</extrude>
+        <altitudeMode>clampToGround</altitudeMode>
+        <coordinates>  81.595303543888889,  28.117177491944446,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>PIMO</name>
+      <description>PIMO</description>
+      <visibility>1</visibility>
+      <Point>
+        <extrude>0</extrude>
+        <altitudeMode>clampToGround</altitudeMode>
+        <coordinates> 121.077729440833320,  14.635721643611111,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>POL2</name>
+      <description>POL2</description>
+      <visibility>1</visibility>
+      <Point>
+        <extrude>0</extrude>
+        <altitudeMode>clampToGround</altitudeMode>
+        <coordinates>  74.694267681388894,  42.679772347222219,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>PYUT</name>
+      <description>PYUT</description>
+      <visibility>1</visibility>
+      <Point>
+        <extrude>0</extrude>
+        <altitudeMode>clampToGround</altitudeMode>
+        <coordinates>  82.986711469166664,  28.101262091666669,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>RMTE</name>
+      <description>RMTE</description>
+      <visibility>1</visibility>
+      <Point>
+        <extrude>0</extrude>
+        <altitudeMode>clampToGround</altitudeMode>
+        <coordinates>  86.597059783055556,  26.990950909444447,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>SMKT</name>
+      <description>SMKT</description>
+      <visibility>1</visibility>
+      <Point>
+        <extrude>0</extrude>
+        <altitudeMode>clampToGround</altitudeMode>
+        <coordinates>  81.806542289166657,  29.969387501388887,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>SNDL</name>
+      <description>SNDL</description>
+      <visibility>1</visibility>
+      <Point>
+        <extrude>0</extrude>
+        <altitudeMode>clampToGround</altitudeMode>
+        <coordinates>  85.798857763611110,  27.384828810833334,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>SUWN</name>
+      <description>SUWN</description>
+      <visibility>1</visibility>
+      <Point>
+        <extrude>0</extrude>
+        <altitudeMode>clampToGround</altitudeMode>
+        <coordinates> 127.054239318055550,  37.275515188888889,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>TPLJ</name>
+      <description>TPLJ</description>
+      <visibility>1</visibility>
+      <Point>
+        <extrude>0</extrude>
+        <altitudeMode>clampToGround</altitudeMode>
+        <coordinates>  87.709816191111116,  27.352245526111112,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>WUHN</name>
+      <description>WUHN</description>
+      <visibility>1</visibility>
+      <Point>
+        <extrude>0</extrude>
+        <altitudeMode>clampToGround</altitudeMode>
+        <coordinates> 114.357262121111110,  30.531652776944444,0</coordinates>
+      </Point>
+    </Placemark>
+   </Document>
+</kml>

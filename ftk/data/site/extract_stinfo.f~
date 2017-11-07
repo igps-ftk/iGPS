@@ -1,0 +1,35 @@
+CTITLE
+      PROGRAM extract_stinfo
+
+      IMPLICIT NONE
+C      INCLUDE '../../inc/cgps.h'
+
+c     --PURPOSE--
+
+c     --ALGORITHM--
+
+c     --EXAMPLE--
+c       extract_stinfo site_lit_file(*.sit) station.info_file [ofile]
+
+c     --MODIFICATIONS--
+
+c     >>VAR_DEC
+c     --INPUT--
+c     --Command-line Parameters--
+        character*1024 sitfile, stinfofile
+
+c     --OUTPUT--
+        character*1024 ofile
+
+c     --EXTERNAL--
+        integer*4 iargc,nblen
+
+c     --Local Parameters--
+        integer*4 fid,fido
+
+c     <<VAR_DEC
+
+        
+
+      STOP
+      END

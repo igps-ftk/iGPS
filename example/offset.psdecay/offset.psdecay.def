@@ -1,0 +1,12 @@
+*   SRC: D:\phd\expt\gpsf\external\iGPS\example\offps\
+*  PROG: iGPS:PSDECAY
+*RUN AT: Microsoft Windows x86
+*RUN ON: Wed Apr 22 02:10:04 2009 [UTC]
+26164 N 2009 096
+ OFFSET aqui 2009.26164 E 2009 096
+*   SRC: D:\phd\expt\gpsf\external\iGPS\example\offps\
+*  PROG: iGPS:PSDECAY
+*RUN AT: Microsoft Windows x86
+*RUN ON: Wed Apr 22 02:17:49 2009 [UTC]
+ PSDECAY aqui 2009.26164 N 2009 096
+ PSDECAY aqui 2009.26164 E 2009 096

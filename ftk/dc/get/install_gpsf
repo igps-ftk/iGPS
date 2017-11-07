@@ -1,0 +1,328 @@
+#!/bin/csh -ef
+if ($#argv == 0) then
+   echo ' '
+   echo ' Create executables from the source code for GLOBK programs '
+   echo ' '
+   echo '    - call script unimake_gpsf to update machine-dependent Makefiles '
+   echo "    - execute 'make' to compile and link the subroutines"
+   echo '    - recreate the links in the kf bin directory ' 
+   echo ' '
+   echo ' Useage:'
+   echo ' '
+   echo '   install_gpsf [target_dir] [compiler]  '
+   echo ' '
+   echo '      where [target_dir] is the absolute path to the directory above /kf'
+   echo '            [compiler] is an optional entry specifying a compiler other '
+   echo '                       than the default f77 compiler you want to use'
+   echo ' '
+   echo ' Example:'
+   echo ' '
+   echo '   install_gpsf /home/me/stdrel '
+   echo '   OR'
+   echo '   install_gpsf /home/me/stdrel g77 '
+   echo ' '
+   exit
+else
+
+#
+# Script to make the GLOBK programs under kf. 
+# T. Herring.   Last modified by R. King 960920
+     
+# Augment the path to point to target-directory com for new installations
+# remember the target working directory  
+
+if ($#argv < 1) then
+	echo "Syntax: install_gpsf target_path [compiler]"
+	exit 1
+endif
+
+set PKG = gpsf
+set PROG = "" 
+
+cd $1
+set TARGETDIR = `pwd`
+setenv TARGETDIR $TARGETDIR
+set MAKE = make
+
+ set path = ($path ${TARGETDIR}/bin)
+ #echo $PATH
+ #setenv PATH ${PATH}:${1}/bin
+ #echo $PATH
+ 
+set COMPILER = 'default'
+if ( $#argv > 1 ) then
+  set COMPILER = $2
+  echo "Using the specified compiler: " $COMPILER 
+endif
+
+echo ' '
+echo ++++++++++++++++++++++++++++++
+echo Making and Install the GPSF package 
+echo ++++++++++++++++++++++++++++++
+echo ' '     
+
+# first make (or check) the common libraries
+echo ++++++++++++++++++++++++++++++++++++++++++
+echo Make sure the common libraries are current
+echo ++++++++++++++++++++++++++++++++++++++++++
+echo " "
+cd $TARGETDIR
+unimake_gpsf -m lib -c $COMPILER  
+if( $status != 0 ) then
+  echo "Failure in unimake_gpsf for lib --  terminated"   
+  exit 1
+endif
+cd lib; make
+if( $status != 0 ) then
+   echo "Failure in make for lib -- install_gpsf terminated"   
+   exit 1
+endif
+
+touch tmp.o; \rm -f *.o
+echo Made lib
+
+
+# then make (or check) the NR libraries
+echo ++++++++++++++++++++++++++++++++++++++++++
+echo Make sure the common libraries are current
+echo ++++++++++++++++++++++++++++++++++++++++++
+echo " "
+cd $TARGETDIR
+unimake_gpsf -m nr -c $COMPILER  
+if( $status != 0 ) then
+  echo "Failure in unimake_gpsf for nr --  terminated"   
+  exit 1
+endif
+cd nr; make
+if( $status != 0 ) then
+   echo "Failure in make for nr -- install_gpsf terminated"   
+   exit 1
+endif
+
+touch tmp.o; \rm -f *.o
+echo Made nr
+
+
+# make the data libraries    
+
+echo ' '
+echo ++++++++++++++++++++++++++++++++++++
+echo "Making the DATA libraries & programs"
+echo ++++++++++++++++++++++++++++++++++++
+echo " "
+foreach PROG ( write read format interp lesq offset outlier site stat)
+    cd $TARGETDIR/data  
+    unimake_gpsf -m ${PROG} -c $COMPILER 
+    if( $status != 0 ) then
+	echo "Failure in unimake_gpsf for ${PKG}/${PROG} -- install_gpsf terminated"   
+	exit 1
+    endif   
+    cd ${PROG}; make
+    if( $status != 0 ) then
+	echo "Failure in make for ${PKG}/${PROG} -- install_gpsf terminated"   
+	exit 1
+    endif
+    touch tmp.o; \rm -f *.o  
+    echo Made ${PROG} 
+end
+
+echo ' '
+echo +++++++++++++++++++++++++++++++++++
+echo "Making the CME libraries & programs"
+echo +++++++++++++++++++++++++++++++++++
+echo " "
+foreach PROG ( corr stack )
+    cd $TARGETDIR/cme  
+    unimake_gpsf -m ${PROG} -c $COMPILER 
+    if( $status != 0 ) then
+	echo "Failure in unimake_gpsf for ${PKG}/${PROG} -- install_gpsf terminated"   
+	exit 1
+    endif   
+    cd ${PROG}; make
+    if( $status != 0 ) then
+	echo "Failure in make for ${PKG}/${PROG} -- install_gpsf terminated"   
+	exit 1
+    endif
+    touch tmp.o; \rm -f *.o  
+    echo Made ${PROG} 
+end
+
+
+echo " "
+echo +++++++++++++++++++++++++++++++++++++++++
+echo "Making the spectral libraries & programs" 
+echo +++++++++++++++++++++++++++++++++++++++++
+echo " "
+foreach PROG ( lib periodogram mle )
+    cd $TARGETDIR/spectral  
+    unimake_gpsf -m ${PROG} -c $COMPILER 
+    if( $status != 0 ) then
+	echo "Failure in unimake_gpsf for ${PKG}/${PROG} -- install_gpsf terminated"   
+	exit 1
+    endif   
+    cd ${PROG}; make
+    if( $status != 0 ) then
+	echo "Failure in make for ${PKG}/${PROG} -- install_gpsf terminated"   
+	exit 1
+    endif
+    touch tmp.o; \rm -f *.o  
+    echo Made ${PROG} 
+end
+     
+
+echo " "
+echo +++++++++++++++++++++++++++++++++++++++++
+echo "Making the Loading libraries & programs" 
+echo +++++++++++++++++++++++++++++++++++++++++
+echo " "
+foreach PROG ( poletide  )
+    cd $TARGETDIR/load  
+    unimake_gpsf -m ${PROG} -c $COMPILER 
+    if( $status != 0 ) then
+	echo "Failure in unimake_gpsf for ${PKG}/${PROG} -- install_gpsf terminated"   
+	exit 1
+    endif   
+    cd ${PROG}; make
+    if( $status != 0 ) then
+	echo "Failure in make for ${PKG}/${PROG} -- install_gpsf terminated"   
+	exit 1
+    endif
+    touch tmp.o; \rm -f *.o  
+    echo Made ${PROG} 
+end
+
+echo " "
+echo ++++++++++++++++++++++++++++++++++
+echo Making the Data Center programs 
+echo ++++++++++++++++++++++++++++++++++
+echo " "
+foreach PROG ( check get)
+    cd $TARGETDIR/dc
+    unimake_gpsf -m ${PROG} -c $COMPILER 
+    if( $status != 0 ) then
+	echo "Failure in unimake_gpsf for ${PKG}/${PROG} -- install_gpsf terminated"   
+	exit 1
+    endif   
+    cd ${PROG}; make
+    if( $status != 0 ) then
+	echo "Failure in make for ${PKG}/${PROG} -- install_gpsf terminated"   
+	exit 1
+    endif
+    touch tmp.o; \rm -f *.o  
+    echo Made ${PROG} 
+end
+
+
+echo " "
+echo ++++++++++++++++++++++++++++++++++
+echo Making the tools programs 
+echo ++++++++++++++++++++++++++++++++++
+echo " "
+foreach PROG ( u2l xyz2wgs84 td2rnx rnxdc newpsf met2wfile llhxyz hello fcomb fcf )
+    cd $TARGETDIR/tools
+    unimake_gpsf -m ${PROG} -c $COMPILER 
+    if( $status != 0 ) then
+	echo "Failure in unimake_gpsf for ${PKG}/${PROG} -- install_gpsf terminated"   
+	exit 1
+    endif   
+    cd ${PROG}; make
+    if( $status != 0 ) then
+	echo "Failure in make for ${PKG}/${PROG} -- install_gpsf terminated"   
+	exit 1
+    endif
+    touch tmp.o; \rm -f *.o  
+    echo Made ${PROG} 
+end
+
+
+# Now remake the links
+# MOD TAH 960812: Changed directory to $1 (which is the high
+#                 level directory. 
+#link_globk_bin $1 
+echo "Create links for executables..."
+cd $TARGETDIR/bin/
+\rm -f ts_corr_mat 
+\ln -f -s $TARGETDIR/cme/corr/ts_corr_mat .
+\rm -f cme_stack_sio 
+\ln -f -s $TARGETDIR/cme/stack/cme_stack_sio .
+
+\rm -f asc2bin_sio
+\ln -f -s $TARGETDIR/data/format/asc2bin_sio .
+\rm -f asc2bin_sios
+\ln -f -s $TARGETDIR/data/format/asc2bin_sios .
+\rm -f jpl2sios
+\ln -f -s $TARGETDIR/data/format/jpl2sios .
+\rm -f l_l_r2llr
+\ln -f -s $TARGETDIR/data/format/l_l_r2llr .
+\rm -f l_l_r2llrs
+\ln -f -s $TARGETDIR/data/format/l_l_r2llrs .
+\rm -f l_l_r2llrs_panga
+\ln -f -s $TARGETDIR/data/format/l_l_r2llrs_panga .
+\rm -f interp_sios
+\ln -f -s $TARGETDIR/data/interp/interp_sios .
+\rm -f niko
+\ln -f -s $TARGETDIR/data/niko/niko .
+\rm -f offset_ftest
+\ln -f -s $TARGETDIR/data/offset/offset_ftest .
+\rm -f outliers
+\ln -f -s $TARGETDIR/data/outlier/outliers .
+\rm -f pbo2sios
+\ln -f -s $TARGETDIR/data/format/pbo2sios .
+\rm -f stat_span_pbo
+\ln -f -s $TARGETDIR/data/stat/stat_span_pbo .
+
+\rm -f psd_sio
+\ln -f -s $TARGETDIR/spectral/periodogram/psd_sio .
+\rm -f psd_pbo
+\ln -f -s $TARGETDIR/spectral/periodogram/psd_pbo .
+
+
+\rm -f chk_rnx_local
+\ln -f -s $TARGETDIR/dc/check/chk_rnx_local .
+\rm -f chk_dc_hold
+\ln -f -s $TARGETDIR/dc/check/chk_dc_hold .
+\rm -f get_nav
+\rm -f getnav
+\ln -f -s $TARGETDIR/dc/get/get_nav .
+\ln -f -s $TARGETDIR/dc/get/get_nav ./getnav
+\rm -f get_orb
+\ln -f -s $TARGETDIR/dc/get/get_orb .
+\rm -f get_rnx
+\ln -f -s $TARGETDIR/dc/get/get_rnx .
+
+\rm -f u2l
+\ln -f -s $TARGETDIR/tools/u2l/u2l .
+\rm -f xyz2wgs84s
+\ln -f -s $TARGETDIR/tools/xyz2wgs84/xyz2wgs84s .
+\rm -f td2rnx
+\ln -f -s $TARGETDIR/tools/td2rnx/td2rnx .
+\rm -f rnxdc
+\ln -f -s $TARGETDIR/tools/rnxdc/rnxdc .
+\rm -f newp
+\ln -f -s $TARGETDIR/tools/newpsf/newp .
+\rm -f news
+\ln -f -s $TARGETDIR/tools/newpsf/news .
+\rm -f newf
+\ln -f -s $TARGETDIR/tools/newpsf/newf .
+\rm -f met2wfile
+\ln -f -s $TARGETDIR/tools/met2wfile/met2wfile . 
+\rm -f llhxyz
+\ln -f -s $TARGETDIR/tools/llhxyz/llhxyz .
+\rm -f hello
+\ln -f -s $TARGETDIR/tools/hello/hello .
+\rm -f fcomb
+\ln -f -s $TARGETDIR/tools/fcomb/fcomb .
+\rm -f fcf
+\ln -f -s $TARGETDIR/tools/fcf/fcf .
+\rm -f fcfself
+\ln -f -s $TARGETDIR/tools/fcf/fcfself .
+
+echo 'Links done.'
+
+echo ''
+echo ++++++++++++++++++
+echo GPSF installed 
+echo ++++++++++++++++++
+echo ''
+
+endif

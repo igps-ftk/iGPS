@@ -1,0 +1,173 @@
+# Makefile for format on Linux 2.6.32-642.6.1.el6.x86_64 by unimake at Fri Nov 25 12:11:36 CST 2016
+
+all: cgps_data_format asc2bin_sio asc2bin_sios jpl2sios trk2sios trk2hneus l_l_r2llr l_l_r2llrs l_l_r2llrs_panga pbo2sios pbo2cats pos2neu pos2qmap qocaload2cats qocaload2sios scec_csv2sio sio2cats sio2otr sio2otd sio2otx usgs_ts2sio cmonoc2sios neu_extract_by_neu qmap_extract_by_neu tenv3_to_sios
+
+
+
+# ASSIGMENTS
+   
+# ASSIGMENTS
+### LF95 flags ###  
+#FTN = lf95  
+#FFLAGS = -O 
+#CC = gcc
+#CFLAGS = -g
+### IFC 7.0 flags ###
+#FTN = ifc
+#FFLAGS = -O -Vaxlib -save -zero -u -72 -w95 -w90 -cm   
+#CC = icc   
+#CFLAGS = -O 
+### IFORT 8.0 flags ###
+FTN = ifort
+#FFLAGS = -O3 -L/usr/lib -Vaxlib -save -zero -u -72 -w95 -w90 -cm -assume byterecl -static -shared-intel #-xN
+#FFLAGS = -O3 -L/usr/lib -Vaxlib -save -zero -u -72 -w95 -w90 -cm -assume byterecl -static  -L/opt/intel/mkl/9.1.023/lib/em64t/ -lmkl_lapack -lmkl_em64t   -lguide -lpthread  #-xN
+CC = icc   
+#CFLAGS = -O  -lz 
+#IFORT 2013
+FFLAGS = -FI -zero -fpp -nbs -save -DOS_UNIX -assume byterecl -warn noalignments  -mcmodel large -shared-intel
+CFLAGS = -O0  -lz 
+### G77 flags ###
+#FTN = g77 
+#FFLAGS = -O3 -Wuninitialized -Wunused -Wimplicit -fno-f2c -ffast-math -fno-automatic -fno-backslash -Wno-globals -fno-globals
+#CC = gcc
+#CFLAGS = -g  
+
+# test for PGI Fortran compiler
+#FTN = pgf77 
+#FFLAGS = -O3 -Msave -Mpreprocess -DOS_UNIX
+# -Wuninitialized -Wunused -Wimplicit -fno-f2c -ffast-math -fno-automatic -fno-b
+# ackslash -Wno-globals -fno-globals
+#CC = pgcc
+#CFLAGS = -g  
+
+### GCC V4 gfortran flags ###
+#FTN = gfortran
+#FFLAGS = -O3 -Wuninitialized -Wunused -Wimplicit -fno-f2c -ffast-math -fno-automatic -fno-backslash
+#CC = gcc
+#CFLAGS = -g  
+#### For 64-bit machines:
+#CFLAGS = -g --DADD64BIT
+
+CGPS_DATA_FORMAT = cgps_data_format.a.Linux_x86_64
+SLIB = ../read/cgps_data_read.a.Linux_x86_64 ../write/cgps_data_write.a.Linux_x86_64 ../site/cgps_data_site.a.Linux_x86_64 ../../lib/cgps_lib.a.Linux_x86_64 ../../../../gglib/gglib.a.Linux_x86_64 
+X11LIB = 
+II = 
+
+cgps_data_format : $(CGPS_DATA_FORMAT)
+
+asc2bin_sio : asc2bin_sio.f  $(SLIB) 
+	$(FTN) asc2bin_sio.f  $(SLIB) -o asc2bin_sio.Linux_x86_64 $(FFLAGS)
+	rm -f asc2bin_sio.o
+
+asc2bin_sios : asc2bin_sios.f  $(SLIB) 
+	$(FTN) asc2bin_sios.f  $(SLIB) -o asc2bin_sios.Linux_x86_64 $(FFLAGS)
+	rm -f asc2bin_sios.o
+
+jpl2sios : jpl2sios.f  $(SLIB) ../../inc/cgps.h
+	$(FTN) jpl2sios.f  $(SLIB) -o jpl2sios.Linux_x86_64 $(FFLAGS)
+	rm -f jpl2sios.o
+
+trk2sios : trk2sios.f  $(SLIB) ../../inc/cgps.h
+	$(FTN) trk2sios.f  $(SLIB) -o trk2sios.Linux_x86_64 $(FFLAGS)
+	rm -f trk2sios.o
+
+trk2hneus : trk2hneus.f  $(SLIB) ../../inc/cgps.h
+	$(FTN) trk2hneus.f  $(SLIB) -o trk2hneus.Linux_x86_64 $(FFLAGS)
+	rm -f trk2hneus.o
+
+l_l_r2llr : l_l_r2llr.f  $(SLIB) ../../inc/cgps.h
+	$(FTN) l_l_r2llr.f  $(SLIB) -o l_l_r2llr.Linux_x86_64 $(FFLAGS)
+	rm -f l_l_r2llr.o
+
+l_l_r2llrs : l_l_r2llrs.f  $(SLIB) ../../inc/cgps.h
+	$(FTN) l_l_r2llrs.f  $(SLIB) -o l_l_r2llrs.Linux_x86_64 $(FFLAGS)
+	rm -f l_l_r2llrs.o
+
+l_l_r2llrs_panga : l_l_r2llrs_panga.f  $(SLIB) ../../inc/cgps.h
+	$(FTN) l_l_r2llrs_panga.f  $(SLIB) -o l_l_r2llrs_panga.Linux_x86_64 $(FFLAGS)
+	rm -f l_l_r2llrs_panga.o
+
+pbo2sios : pbo2sios.f  $(SLIB) ../../inc/cgps.h
+	$(FTN) pbo2sios.f  $(SLIB) -o pbo2sios.Linux_x86_64 $(FFLAGS)
+	rm -f pbo2sios.o
+
+pbo2cats : pbo2cats.f  $(SLIB) ../../inc/cgps.h
+	$(FTN) pbo2cats.f  $(SLIB) -o pbo2cats.Linux_x86_64 $(FFLAGS)
+	rm -f pbo2cats.o
+
+pos2neu : pos2neu.f  $(SLIB) ../../inc/cgps.h
+	$(FTN) pos2neu.f  $(SLIB) -o pos2neu.Linux_x86_64 $(FFLAGS)
+	rm -f pos2neu.o
+
+pos2qmap : pos2qmap.f  $(SLIB) ../../inc/cgps.h
+	$(FTN) pos2qmap.f  $(SLIB) -o pos2qmap.Linux_x86_64 $(FFLAGS)
+	rm -f pos2qmap.o
+
+qocaload2cats : qocaload2cats.f  $(SLIB) ../../inc/cgps.h
+	$(FTN) qocaload2cats.f  $(SLIB) -o qocaload2cats.Linux_x86_64 $(FFLAGS)
+	rm -f qocaload2cats.o
+
+qocaload2sios : qocaload2sios.f  $(SLIB) ../../inc/cgps.h
+	$(FTN) qocaload2sios.f  $(SLIB) -o qocaload2sios.Linux_x86_64 $(FFLAGS)
+	rm -f qocaload2sios.o
+
+scec_csv2sio : scec_csv2sio.f  $(SLIB) ../../inc/cgps.h
+	$(FTN) scec_csv2sio.f  $(SLIB) -o scec_csv2sio.Linux_x86_64 $(FFLAGS)
+	rm -f scec_csv2sio.o
+
+sio2cats : sio2cats.f  $(SLIB) ../../inc/cgps.h
+	$(FTN) sio2cats.f  $(SLIB) -o sio2cats.Linux_x86_64 $(FFLAGS)
+	rm -f sio2cats.o
+
+sio2otr : sio2otr.f  $(SLIB) ../../inc/cgps.h
+	$(FTN) sio2otr.f  $(SLIB) -o sio2otr.Linux_x86_64 $(FFLAGS)
+	rm -f sio2otr.o
+
+sio2otd : sio2otd.f  $(SLIB) ../../inc/cgps.h
+	$(FTN) sio2otd.f  $(SLIB) -o sio2otd.Linux_x86_64 $(FFLAGS)
+	rm -f sio2otd.o
+
+sio2otx : sio2otx.f  $(SLIB) ../../inc/cgps.h
+	$(FTN) sio2otx.f  $(SLIB) -o sio2otx.Linux_x86_64 $(FFLAGS)
+	rm -f sio2otx.o
+
+usgs_ts2sio : usgs_ts2sio.f  $(SLIB) ../../inc/cgps.h
+	$(FTN) usgs_ts2sio.f  $(SLIB) -o usgs_ts2sio.Linux_x86_64 $(FFLAGS)
+	rm -f usgs_ts2sio.o
+
+cmonoc2sios : cmonoc2sios.f  $(SLIB) ../../inc/cgps.h
+	$(FTN) cmonoc2sios.f  $(SLIB) -o cmonoc2sios.Linux_x86_64 $(FFLAGS)
+	rm -f cmonoc2sios.o
+
+neu_extract_by_neu : neu_extract_by_neu.f  $(SLIB) ../../inc/cgps.h
+	$(FTN) neu_extract_by_neu.f  $(SLIB) -o neu_extract_by_neu.Linux_x86_64 $(FFLAGS)
+	rm -f neu_extract_by_neu.o
+
+qmap_extract_by_neu : qmap_extract_by_neu.f  $(SLIB) ../../inc/cgps.h
+	$(FTN) qmap_extract_by_neu.f  $(SLIB) -o qmap_extract_by_neu.Linux_x86_64 $(FFLAGS)
+	rm -f qmap_extract_by_neu.o
+
+tenv3_to_sios : tenv3_to_sios.f  $(SLIB) ../../inc/cgps.h
+	$(FTN) tenv3_to_sios.f  $(SLIB) -o tenv3_to_sios.Linux_x86_64 $(FFLAGS)
+	rm -f tenv3_to_sios.o
+
+$(CGPS_DATA_FORMAT) : \
+	$(CGPS_DATA_FORMAT)(l_l_r2llr_func.o)
+	ranlib cgps_data_format.a.Linux_x86_64
+
+$(CGPS_DATA_FORMAT)(l_l_r2llr_func.o): ../../inc/cgps.h
+
+.c.a:
+	$(CC) -c $(CFLAGS) -I$(II) $<
+	ar rv $@ *.o
+	rm -f $*.o
+
+.f.a:
+	$(FTN) -c $(FFLAGS) $<
+	ar rv $@ *.o
+	rm -f $*.o
+
+
+cleanall:
+	rm -f *.a.Linux_x86_64 *.o *core NONE asc2bin_sio asc2bin_sios jpl2sios trk2sios trk2hneus l_l_r2llr l_l_r2llrs l_l_r2llrs_panga pbo2sios pbo2cats pos2neu pos2qmap qocaload2cats qocaload2sios scec_csv2sio sio2cats sio2otr sio2otd sio2otx usgs_ts2sio cmonoc2sios neu_extract_by_neu qmap_extract_by_neu tenv3_to_sios  NONE.Linux_x86_64 asc2bin_sio.Linux_x86_64 asc2bin_sios.Linux_x86_64 jpl2sios.Linux_x86_64 trk2sios.Linux_x86_64 trk2hneus.Linux_x86_64 l_l_r2llr.Linux_x86_64 l_l_r2llrs.Linux_x86_64 l_l_r2llrs_panga.Linux_x86_64 pbo2sios.Linux_x86_64 pbo2cats.Linux_x86_64 pos2neu.Linux_x86_64 pos2qmap.Linux_x86_64 qocaload2cats.Linux_x86_64 qocaload2sios.Linux_x86_64 scec_csv2sio.Linux_x86_64 sio2cats.Linux_x86_64 sio2otr.Linux_x86_64 sio2otd.Linux_x86_64 sio2otx.Linux_x86_64 usgs_ts2sio.Linux_x86_64 cmonoc2sios.Linux_x86_64 neu_extract_by_neu.Linux_x86_64 qmap_extract_by_neu.Linux_x86_64 tenv3_to_sios.Linux_x86_64
+# End of Makefile

@@ -1,0 +1,18 @@
+*   SRC: J:\phd\expt\gpsf\external\iGPS\example\eq.nepal20150425\pos.neu.cmc\cmc.diff.0-5.corr\GLB_CMCDIFF_corr_neu.snx
+*  PROG: CORR_CLUSTER
+*RUN BY: tianyf @ TYF [Intel64 Family 6 Model 37 Stepping 5, GenuineIntel]
+*RUN AT: Microsoft Windows x86
+*RUN ON: Fri Jun 05 04:23:07 2015 [UTC]
+*group #site   cor_d member_site_list_...
+     1     9    0.28 DNGD,DNSG,JMSM,LCK3,LCK4,NPGJ,PYUT,RMTE,SMKT
+     2     3    0.11 CHLM,KKN4,SNDL
+     3     2    0.23 HYDE,IISC
+     4     2    0.28 DAEJ,SUWN
+     0     1    0.00 POL2
+     0     1    0.00 KIT3
+     0     1    0.00 WUHN
+     0     1    0.00 PIMO
+     0     1    0.00 NCRS
+     0     1    0.00 LHAZ
+     0     1    0.00 TPLJ
+     0     1    0.00 CHUM

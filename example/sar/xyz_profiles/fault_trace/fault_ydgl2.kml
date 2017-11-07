@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+	<Document>
+		<Style id="st-107356-0">
+			<IconStyle>
+				<Icon>
+					<href>http://maps.google.com/mapfiles/kml/pal4/icon57.png</href>
+				</Icon>
+				<scale>1</scale>
+				<color>ff80c0ff</color>
+			</IconStyle>
+			<LineStyle>
+				<color>ff000000</color>
+				<width>1</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>ff80c0ff</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+			<LabelStyle>
+				<scale>1</scale>
+				<color>bfffffff</color>
+			</LabelStyle>
+		</Style>
+		<Folder>
+			<name>fault_ydgl2.psxy</name>
+			<Folder>
+				<name>Point Set 0</name>
+				<Placemark>
+					<name>Point 0</name>
+					<styleUrl>#st-107356-0</styleUrl>
+					<Point>
+						<coordinates>
+						91.628132,31.219651,0
+						</coordinates>
+					</Point>
+				</Placemark>
+				<Placemark>
+					<name>Point 1</name>
+					<styleUrl>#st-107356-0</styleUrl>
+					<Point>
+						<coordinates>
+						91.617858,30.960269,0
+						</coordinates>
+					</Point>
+				</Placemark>
+				<Placemark>
+					<name>Point 2</name>
+					<styleUrl>#st-107356-0</styleUrl>
+					<Point>
+						<coordinates>
+						91.580499,30.728116,0
+						</coordinates>
+					</Point>
+				</Placemark>
+				<Placemark>
+					<name>Point 3</name>
+					<styleUrl>#st-107356-0</styleUrl>
+					<Point>
+						<coordinates>
+						91.602397,30.581162,0
+						</coordinates>
+					</Point>
+				</Placemark>
+				<Placemark>
+					<name>Point 4</name>
+					<styleUrl>#st-107356-0</styleUrl>
+					<Point>
+						<coordinates>
+						91.276486,30.507717,0
+						</coordinates>
+					</Point>
+				</Placemark>
+				<Placemark>
+					<name>Point 5</name>
+					<styleUrl>#st-107356-0</styleUrl>
+					<Point>
+						<coordinates>
+						91.096729,30.476943,0
+						</coordinates>
+					</Point>
+				</Placemark>
+				<Placemark>
+					<name>Point 6</name>
+					<styleUrl>#st-107356-0</styleUrl>
+					<Point>
+						<coordinates>
+						90.541578,30.149055,0
+						</coordinates>
+					</Point>
+				</Placemark>
+				<Placemark>
+					<name>Point 7</name>
+					<styleUrl>#st-107356-0</styleUrl>
+					<Point>
+						<coordinates>
+						90.330221,29.600453,0
+						</coordinates>
+					</Point>
+				</Placemark>
+				<Placemark>
+					<name>Point 8</name>
+					<styleUrl>#st-107356-0</styleUrl>
+					<Point>
+						<coordinates>
+						90.247891,29.198726,0
+						</coordinates>
+					</Point>
+				</Placemark>
+				<Placemark>
+					<name>Point 9</name>
+					<styleUrl>#st-107356-0</styleUrl>
+					<Point>
+						<coordinates>
+						90.04632,28.659747,0
+						</coordinates>
+					</Point>
+				</Placemark>
+				<Placemark>
+					<name>Point 10</name>
+					<styleUrl>#st-107356-0</styleUrl>
+					<Point>
+						<coordinates>
+						89.514785,28.123819,0
+						</coordinates>
+					</Point>
+				</Placemark>
+				<Placemark>
+					<name>Point 11</name>
+					<styleUrl>#st-107356-0</styleUrl>
+					<Point>
+						<coordinates>
+						88.896762,27.459436,0
+						</coordinates>
+					</Point>
+				</Placemark>
+			</Folder>
+		</Folder>
+	</Document>
+</kml>

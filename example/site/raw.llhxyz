@@ -1,0 +1,8 @@
+*   SRC: D:\phd\expt\gpsf\external\iGPS\example\sio\rawNeu\\????Raw.neu
+*  PROG: CREATE_LLHXYZ_FROM_SIONEU
+*RUN AT: Microsoft Windows x86
+*RUN ON: Mon Mar 30 14:29:33 2009 [UTC]
+*Site            Longitude            Latitude              Height                    X                   Y                   Z
+ albh    -123.487470204626     48.389781359727     31.751320555806       -2341332.93646      -3539049.51521       4745791.33925
+ algo     -78.071367685037     45.955800309049    200.907104989514         918129.40551      -4346071.26132       4561977.84898
+ brmu     -64.696272759523     32.370398510085    -11.615283036605        2304703.51364      -4874817.17901       3395186.93210

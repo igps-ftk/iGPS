@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Folder>
+    <name>meanvel_01</name>
+    <open>1</open>
+    <description>meanvel_01</description>
+    <GroundOverlay id="GROUND">
+      <description>Produced by Yongsheng Li, Glasgow University CEA</description>
+      <Snippet maxLines="2"></Snippet>
+      <color>57ffffff</color>
+      <Icon>
+        <href>meanvel_01.png</href>
+        <viewBoundScale>0.45</viewBoundScale>
+      </Icon>
+      <LatLonBox>
+        <north>31.035791</north>
+        <south>30.557180</south>
+        <east>91.768743</east>
+        <west>91.397354</west>
+        <rotation>0</rotation>
+      </LatLonBox>
+    </GroundOverlay>
+  </Folder>
+</kml>

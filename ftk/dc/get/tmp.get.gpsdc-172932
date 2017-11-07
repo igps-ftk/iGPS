@@ -1,0 +1,58 @@
+binary
+cd /gps/products/1460
+lcd /data0/igs0/pub/products/1460
+get -z igs14602.sp3.Z igs14602.sp3.Z
+cd /gps/products/1460
+lcd /data0/igs0/pub/products/1460
+get -z igs14603.sp3.Z igs14603.sp3.Z
+cd /gps/products/1460
+lcd /data0/igs0/pub/products/1460
+get -z igs14604.sp3.Z igs14604.sp3.Z
+cd /gps/products/1460
+lcd /data0/igs0/pub/products/1460
+get -z igs14605.sp3.Z igs14605.sp3.Z
+cd /gps/products/1460
+lcd /data0/igs0/pub/products/1460
+get -z igs14606.sp3.Z igs14606.sp3.Z
+cd /gps/products/1461
+lcd /data0/igs0/pub/products/1461
+get -z igs14610.sp3.Z igs14610.sp3.Z
+cd /gps/products/1461
+lcd /data0/igs0/pub/products/1461
+get -z igs14611.sp3.Z igs14611.sp3.Z
+cd /gps/products/1461
+lcd /data0/igs0/pub/products/1461
+get -z igs14612.sp3.Z igs14612.sp3.Z
+cd /gps/products/1461
+lcd /data0/igs0/pub/products/1461
+get -z igs14613.sp3.Z igs14613.sp3.Z
+cd /gps/products/1461
+lcd /data0/igs0/pub/products/1461
+get -z igs14614.sp3.Z igs14614.sp3.Z
+cd /gps/products/1461
+lcd /data0/igs0/pub/products/1461
+get -z igs14615.sp3.Z igs14615.sp3.Z
+cd /gps/products/1461
+lcd /data0/igs0/pub/products/1461
+get -z igs14616.sp3.Z igs14616.sp3.Z
+cd /gps/products/1462
+lcd /data0/igs0/pub/products/1462
+get -z igs14620.sp3.Z igs14620.sp3.Z
+cd /gps/products/1462
+lcd /data0/igs0/pub/products/1462
+get -z igs14621.sp3.Z igs14621.sp3.Z
+cd /gps/products/1462
+lcd /data0/igs0/pub/products/1462
+get -z igs14622.sp3.Z igs14622.sp3.Z
+cd /gps/products/1462
+lcd /data0/igs0/pub/products/1462
+get -z igs14623.sp3.Z igs14623.sp3.Z
+cd /gps/products/1462
+lcd /data0/igs0/pub/products/1462
+get -z igs14624.sp3.Z igs14624.sp3.Z
+cd /gps/products/1462
+lcd /data0/igs0/pub/products/1462
+get -z igs14625.sp3.Z igs14625.sp3.Z
+cd /gps/products/1462
+lcd /data0/igs0/pub/products/1462
+get -z igs14626.sp3.Z igs14626.sp3.Z

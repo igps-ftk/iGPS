@@ -1,0 +1,31 @@
+#!/bin/sh
+
+# Name:
+#   sh_grd2xyz
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+files=`ls disp_???.grd`
+for file in $files; do
+    ofile="`basename $file | awk -F. '{print $1}'`_ll.grd"
+    echo "proj_ra2ll.csh trans.dat $file $ofile"
+    echo "proj_ra2ll.csh trans.dat $file $ofile" | sh
+    ofile2="`basename ${ofile} | awk -F. '{print $1}'`.nc"
+    echo "gmt grdconvert $ofile  ${ofile2}=cf"
+    echo "gmt grdconvert $ofile  ${ofile2}=cf" | sh
+done
+
+

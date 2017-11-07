@@ -1,0 +1,49 @@
+#!/bin/sh
+
+# Name:
+#   sh_alos_link_raw
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+#if [ "$esa_unzip" = "" ]; then
+#    echo "[ERROR]ESA environment variable esa_unzip must be set first! Stopped."
+#    exit 1
+#fi
+
+
+if [ "$1" = "" ]; then
+    echo "Usage: sh_envisat_link_raw file"
+    exit 1
+fi
+file=$1
+
+
+grep '^ ' $file | awk '{print $1}' > .tmp
+while read line; do
+    echo $line
+    dfile="${EOLISA}/${line}.N1"
+    if [ ! -s ${dfile} ]; then
+	echo "[]ERROR:data not found [${dfile}]!!"
+	exit 1
+    fi
+    echo ln -s $dfile | sh
+    if [ $? -eq 0 ]; then
+	echo " ${dfile} linked."
+    else
+	echo "sth maybe wrong! please check."
+    fi
+done < .tmp

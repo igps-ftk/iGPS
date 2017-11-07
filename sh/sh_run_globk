@@ -1,0 +1,304 @@
+#!/bin/sh
+
+# Name:
+#   sh_rerun_glred
+#   
+
+# Purpose:
+#   
+
+# Command-line Parameters
+# -expt EXPT
+# -yr YEAR
+# -doy DOY
+# -ndays NDAYS
+
+# Example:
+#   
+
+# Modifications:
+# MOD TIAN APR-24-2008
+#   Strange! I remember have modified this file and run it at least once.
+#     But the changes I made have gone.
+#     Weird, it!
+#
+#   
+
+# Algorigthm:
+# 1.Copy IGS hfiles (from SIO) to ${EXPT}/glbf directory.
+# 2.Run sh_glred for one day.
+#       sh_glred -expt cmon -s 2000 1 2000 1 -opt H G E
+# 3.Delete binary h-files from glbf/ to save space.
+# 4.Go to the next day.
+#   
+
+# Dependency:
+#   
+
+usage(){
+    echo "Usage: sh_rerun_glred -dir DIR -yr YEAR -doy DOY "
+    echo "                      -ndays NDAYS -net NETS -expt EXPT"
+}
+#four-digit year
+year=`date -u +%Y`
+#two-digits year
+yr=`date -u +%y`
+#single year number
+y=`echo $yr | awk '{print substr($0,2,1)}'`
+#mo=`date -u  +%m`  #month
+#dd=`date -u  +%d`
+#doy=`ymd2ydoy $year $mo $dd | awk '{print $2}'`
+doy=`date -u +%j`
+#total number of days in current year
+doy0=`ymd2ydoy $year 12 31 | awk '{print $2}'`
+doy1=`ymd2ydoy $year 1 1 | awk '{print $2}'`
+ndoys=`expr $doy0 - $doy1 + 1`
+
+#number of days to be processed
+ndays=1
+
+Hpath=
+
+#experiment name
+expt=cmon
+nets=
+
+#archive server
+host=ftp://gpsdc
+
+#which ftp client should be used
+ftp_prog=wget
+
+#rerun_root=/export/home/tianyf/gpse/cmonoc
+rerun_root=`pwd`
+
+archiveH=n
+Hid=${expt}
+
+adjsig=n
+
+script_file=null
+
+# process command-line parameters
+#####################################################
+#COMMAND LINE PARAMETERS
+#####################################################
+while [ "$1" != "" ]
+do
+  #echo $1
+  case $1 in
+      -expt)
+	  expt=$2
+          expt_old=$expt
+          expts=`echo $expt | sed -e 's/,/ /g'`
+	  Hid=`echo ${expts} | awk '{print $1}'`
+	  ;;
+      -doy)
+	  doy=$2
+	  ;;
+      -dir)
+	  cd $2
+	  if [ $? -ne 0 ] ; then
+	      echo "Error. Stop!"
+	      exit 1
+	  fi
+	  rerun_root=`pwd`
+	  ;;
+      -Hpath)
+	  cd $2
+	  Hpath=`pwd`
+	  ;;
+      -IGSHpath)
+	  cd $2
+	  IGSHpath=`pwd`
+	  ;;
+      -Hopath)
+	  cd $2
+	  Hopath=`pwd`
+	  ;;
+      -yr)
+	  year=$2
+	  yr=`echo $year | awk '{print substr($0,3,2)}'`
+	  y=`echo $year | awk '{print substr($0,4,1)}'`
+	  ;;
+      -ndays)
+	  ndays=$2
+	  ;;
+      -net)
+	  nets=$2
+	  ;;
+      -host)
+	  host=$2
+	  ;;
+      -ftp_prog)
+	  ftp_prog=$2
+	  ;;
+      -adjsig)
+	  adjsig=$2
+	  ;;
+      -archiveH)
+	  archiveH=$2
+	  ;;
+      -Hid)
+	  Hid=$2
+	  ;;
+      -script)
+	  script_file=$2
+	  ;;
+      *)
+	  echo "invalid options: $1"
+	  exit 1
+	  ;;
+  esac
+  shift 2
+done
+
+if [ "$nets" = "" ]; then
+    usage
+    #exit 1
+else
+    echo "Combine solutionf from $nets networks."
+fi
+
+if [ "$Hpath" = "" ]; then
+    echo "H-files must be specified!"
+    exit
+fi
+
+nets_old=$nets
+#save for calling sh_gdl_new
+
+nets=`echo $nets | sed 's/,/ /g'`
+
+echo param: $year $yr $y $doy $ndays $orbit $rerun_root
+ndoys=`ymd2ydoy $year 12 31 | awk '{print $2}'`
+
+#begin re-run
+echo " re-run glred ..."
+i=0
+while [ $i -lt $ndays ]; do
+    #echo $i $doy
+    #doy=`expr $i + $doy`
+    echo $doy $ndoys
+
+    if [ $doy -gt $ndoys ]; then
+	doy=1
+	year=`expr $year + 1`
+	yr=`echo $year | awk '{print substr($0,3,2)}'`
+	y=`echo $year | awk '{print substr($0,4,1)}'`
+	ndoys=`ymd2ydoy $year 12 31 | awk '{print $2}'`
+    fi
+    doy=`echo $doy | awk '{printf("%03d",$0)}'`
+
+    cd ${rerun_root}
+    pwd
+
+    #link hfiles(sio)
+    mkdir -p ${rerun_root}/glbf
+    cd ${rerun_root}/glbf 
+    \rm -rf ${rerun_root}/glbf/*
+    
+    echo  "\cp -f ~/gg/tables/svnav.dat  ${rerun_root}/glbf/"
+    \cp -f /export/home/tianyf/gg/tables/svnav.dat  ${rerun_root}/glbf/
+    pwd
+    
+    #copy expts list
+    for expt in $expts; do  
+        echo "\cp -f ${Hpath}/${year}/${doy}/h${expt}a.${yr}${doy}.Z ."
+        \cp -f ${Hpath}/${year}/${doy}/h${expt}a.${yr}${doy}.Z .
+        url_Hpath=`echo $Hpath | sed -e 's/\/home/ftp\:\/\/tian\/pub/g'`
+        echo $url
+        #exit
+        #wget -c ftp://tian/pub/hfilesi.gmf/${year}/${doy}/h${expt}a.${yr}${doy}.Z .
+        #wget -nc ${url_Hpath}/${year}/${doy}/h${expt}a.${yr}${doy}.Z .
+    done
+
+    for net in $nets; do
+	if [ "net" = "" ]; then
+	    continue
+	else
+	    echo "\cp -f ${Hpath}/${year}/${doy}/h${net}a.${yr}${doy}.Z ."
+	    \cp -f ${Hpath}/${year}/${doy}/h${net}a.${yr}${doy}.Z .
+	    \cp -f ${IGSHpath}/${year}/${doy}/h${net}a.${yr}${doy}.Z .
+	    #\cp -f /export/home/hfilesi.gmf.v3.cmonoc/${year}/${doy}/h${net}a.${yr}${doy}.Z .
+	    #wget -c ftp://tian/pub/hfilesi.gmf/${year}/${doy}/h${net}a.${yr}${doy}.Z .
+	    #wget -nc ${url_Hpath}/${year}/${doy}/h${net}a.${yr}${doy}.Z .
+	fi
+    done
+
+    #manuall copy nepl and mht2 from gmf solution
+    #net=nepl
+    #echo "\cp -f /acd3/igs/pub/hfilesi.gmf/${year}/${doy}/h${net}a.${yr}${doy}.Z ."
+    #\cp -f /acd3/igs/pub/hfilesi.gmf/${year}/${doy}/h${net}a.${yr}${doy}.Z .
+    #net=mht2
+    #echo "\cp -f /acd3/igs/pub/hfilesi.gmf/${year}/${doy}/h${net}a.${yr}${doy}.Z ."
+    #\cp -f /acd3/igs/pub/hfilesi.gmf/${year}/${doy}/h${net}a.${yr}${doy}.Z .
+    \cp -f /home/hfilesi.gmf.v3/${year}/${doy}/hltr?a.${yr}${doy}.Z .
+
+
+    #\uncompress -f *.Z  #uncompress will stop if one file is corrupted!
+    #Thus, it's better to uncompress one-by-one.
+    files=`ls h????a.?????.Z`
+    for file in $files; do
+	\uncompress -f $file
+    done
+
+    #exit
+    #run glred
+    cd ${rerun_root}
+    
+    #copy the loading rename files Thu Apr 15 17:50:47 CST 2010
+    mm=`ymd2ydoy $year $doy|awk '{print $2}'`
+    dd=`ymd2ydoy $year $doy|awk '{print $3}'`
+    echo "\cp -r /home/tianyf/load/predicted/for.ref.frame/eq_files/atml/EQ_REN-${year}-${mm}-${dd} ./tables/EQ_REN"
+    #\cp -r /home/tianyf/load/predicted/for.ref.frame/eq_files/atml/EQ_REN-${year}-${mm}-${dd} ./tables/EQ_REN
+    #cat ./tables/itrf05.eq_rename.modified.by.tianyf >> ./tables/EQ_REN
+    #\cp -f /home/tianyf/gpse/rerun.trnabc/comb/110414s/seasonal.fitted.EQ_REN_1PS/EQ_REN-${year}-${mm}-${dd} ./tables/EQ_REN
+
+
+    #sh_glred -expt ${Hid} -s ${year} ${doy} ${year} ${doy} -opt H G -yrext ${year} 
+    sh_glred_tian -expt ${Hid} -s ${year} ${doy} ${year} ${doy} -opt H G -yrext ${year}
+    #delete slurm batch file
+    if [ $? -eq 0 -a "$script_file" != "null" ];then
+	\rm -rf $script_file
+    fi
+
+    #exit
+    if [ "$archiveH" = "y" ]; then
+	mkdir -p ${Hopath}/H${yr}
+	#echo "\mv -f H${yr}${mm}${dd}_${Hid}.GLX ${Hopath}/${year}/${doy}"
+	pwd
+	#exit
+	cd gsoln
+	glsave comb.com H${yr}${doy}_${Hid}.GLX "CMONOC solutions by ICD"
+	cd ..
+	echo "\mv -f gsoln/H${yr}${doy}_${Hid}.GLX ${Hopath}/H${yr}"
+	\mv -f gsoln/H${yr}${doy}_${Hid}.GLX ${Hopath}/H${yr}
+	#echo "scp H${yr}${doy}_${Hid}.GLX tianyf@tian://mnt/hgfs/pub/ICD_GLL/H${yr}/"
+	#scp gsoln/H${yr}${doy}_${Hid}.GLX tianyf@tian://mnt/hgfs/pub/ICD_GLL/H${yr}/
+	\rm -rf gsoln/H${yr}${doy}_${Hid}.GLX
+    fi
+
+    echo "sh_gdl_new -expt ${expt} -yr ${year} -doy ${doy} -net $nets_old -dir ${rerun_root}"
+
+    if [ "$nets_old" != ""   -a "$adjsig" = "y" ]; then
+	sh_gdl_new -expt ${expt} -yr ${year} -doy ${doy} -net $nets_old -dir ${rerun_root}
+
+	cd ${rerun_root}/gsoln
+	pfile=globk_${expt}_${yr}${doy}.prt 
+	lfile=globk_${expt}_${yr}${doy}.log
+	ofile=globk_${expt}_${yr}${doy}.org
+	gfile=globk_${expt}_${yr}${doy}.gdl
+
+	\rm -f $pfile $lfile $ofile
+	echo " globk 6 $pfile $lfile $gfile globk_comb.cmd"
+	globk 6 $pfile $lfile $gfile globk_comb.cmd
+    fi
+
+    #exit
+
+    \rm -f  ${rerun_root}/glbf/*
+
+    i=`expr $i + 1`
+    doy=`expr $doy + 1`
+done

@@ -1,0 +1,18 @@
+FUNCTION WHOAMI
+  CASE !VERSION.OS_FAMILY OF
+    'Windows': BEGIN
+      USER=GETENV('USERNAME')
+    END
+    'unix': BEGIN
+      SPAWN, 'whoami', USER, ERR
+    END
+    ELSE: BEGIN
+      USER=''
+    END
+  ENDCASE
+  RETURN, USER
+END
+
+PRO WHOAMI
+  PRINT,WHOAMI()
+END

@@ -1,0 +1,6 @@
+#!/bin/sh
+
+#sh_chk_rinex
+# Check the validness of RINEX files (*.??d or *.??o files)
+
+

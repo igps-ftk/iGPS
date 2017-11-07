@@ -1,0 +1,3 @@
+#!/bin/sh
+
+find . -name sites.defaults -exec grep "^ " {} \; | awk '{print  " "substr($1,1,4)}' | sort | uniq > trns.sit

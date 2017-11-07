@@ -1,0 +1,44 @@
+.TH TS_CORR 1 "23 Nov 2007" "iGPSftk" "FORTRAN ToolKit for GNSS"
+.SH NAME
+ts_corr \- Time series correlation analysis.
+.SH SYNOPSIS
+ts_corr path opath
+ [--snxfile=snxfile]
+ [--nfmax=NFMAX]
+ [--netext=NETEXT]
+ [--orgext=ORGEXT]
+ [--filter=FILTER]
+ [--coordsfile=COORDS_FILE]
+ 
+.SH DESCRIPTION
+\fBts_corr\fP
+calculate correlation coefficients among position time series of sites.
+.SH OPTIONS
+.TP
+\fIpath\fP
+input path. Currently, only SIO NEU (*.neu) files are accepted.
+.TP
+\fIopath\fP
+output path. Contains output baselin/distance files, correlation coefficients for north, east and vertical components, and a SINEX-like file which includes all the above contents.
+.TP
+\fI--snxfile=snxfile\fP
+Optional. The output SINEX-like file name. Default to be "Organization prefix-Network prefix-...snx".
+.TP
+\fI--nfmax=NFMAX\fP
+Optional. The maximum number of files to be processed. Default to be all.
+.TP
+\fI--netext=NETEXT\fP
+Optional. The network identification string, e.g. PBO, SCIGN.
+.TP
+\fI--orgext=ORGEXT\fP
+Optional. The institute identity, e.g. SIO, ICD.
+.TP
+\fI--filter=FILTER\fP
+Optional. Input filename pattern. Default to be "*.neu" for SIO NEU files.
+.TP
+\fI--coordsfile=COORDS_FILE\fP
+Optional. The apriori coordinates files (*.net, QOCA Net a priori coordinate format). Default to be $iGPS/tables/gps.net.
+.SH EXAMPLES
+ ts_corr /clean.smoothed /clean.smoothed.corr
+.SH "SEE ALSO"
+.IR iGPSftk (1)

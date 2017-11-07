@@ -1,0 +1,21 @@
+Calculate CME by reginal stacking.
+
+Main Program:
+	cme_stack.f
+	Input Parameters:
+		path - 
+		opath - 
+		sites - 'all'|'auto'|...
+		yr -
+		doy -
+		ndays -
+	Purpose:
+		1).Find files for each day;
+		2).Loop for each day
+			3).Calcualte CME for each day;
+			4).Perform CME correction for all sites for each day;
+			5).Output the results.
+
+Subroutines/Functions:
+	cme_stack_calc.f - calculate daily CME
+	cme_satck_apply.f - perform daily CME correction (filtering)

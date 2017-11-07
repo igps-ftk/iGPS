@@ -1,0 +1,40 @@
+.TH FILE_INFO 1 "23 Nov 2007" "iGPSftk" "FORTRAN ToolKit for GNSS"
+.SH NAME
+file_info \- Read a PBO NEU time series.
+.SH SYNOPSIS
+\fBfile_info\fP (\fIfile\fP, \fInrow\fP, \fIncol\fP, \fInhead\fP, \fIheaders\fP)
+.SH DESCRIPTION
+\fBfile_info\fP will return the information of an coordinates time series file.
+.TP
+\fIfile\fP
+this is the \fI.neu/.xyz\fP format (ASCII) file [input].
+.TP
+\fInrow,ncol\fP
+those are the dimensions of data array (N_ROW, N_COLUMN) [output].
+.TP
+\fInhead\fP
+this is the number of header lines in SIO coordinates time series file [output].
+.SH OPTIONS
+.TP
+NONE.
+.SH EXAMPLES
+      implicit none
+      include '../../inc/cgps.h'
+      character*512 file,headers(NMAX_HEADER)
+      integer*4 nrow,ncol,nhead
+      integer*4 i
+
+      file='/export/home/tianyf/data/pbo/bjfs.xyz'
+      call \fBread_sio\fP (file, \fBdata\fP, nrow, \fBncol\fP, nhead, headers)
+      do i=1,nhead
+        write(*,*) headers(i)
+      enddo
+.SH "SEE ALSO"
+.IR l_l_r_read (1),
+.IR read_cmonoc (1),
+.IR read_l_l_r_panga (1),
+.IR read_pbo (1),
+.IR read_poletide_bull_a (1),
+.IR read_sio (1),
+.IR read_usgs (1),
+.IR iGPSftk (1)

@@ -1,0 +1,140 @@
+# Makefile for corr on Linux 2.6.18-371.12.1.el5 by unimake at Wed Sep 10 16:05:48 CST 2014
+
+all: ts_corr ts_corr_simu simul_corr_length test_corr
+
+
+
+# ASSIGMENTS
+   
+# ASSIGMENTS
+### LF95 flags ###  
+#FTN = lf95  
+#FFLAGS = -O 
+#CC = gcc
+#CFLAGS = -g
+### IFC 7.0 flags ###
+#FTN = ifc
+#FFLAGS = -O -Vaxlib -save -zero -u -72 -w95 -w90 -cm   
+#CC = icc   
+#CFLAGS = -O 
+### IFORT 8.0 flags ###
+FTN = ifort
+#FFLAGS = -O3 -L/usr/lib -Vaxlib -save -zero -u -72 -w95 -w90 -cm -assume byterecl -static -shared-intel #-xN
+#FFLAGS = -O3 -L/usr/lib -Vaxlib -save -zero -u -72 -w95 -w90 -cm -assume byterecl -static  -L/opt/intel/mkl/9.1.023/lib/em64t/ -lmkl_lapack -lmkl_em64t   -lguide -lpthread  #-xN
+CC = icc   
+#CFLAGS = -O  -lz 
+
+### IFORT 9.0 flags ###
+FFLAGS = -O3 -Vaxlib -save -zero -u -72 -w95 -w90 -cm -assume byterecl -static
+CFLAGS = -O -lz
+
+
+#IFORT 2013
+#FFLAGS = -FI -zero -fpp -nbs -save -DOS_UNIX -assume byterecl -warn noalignments -static -mcmodel large -shared-intel
+#CFLAGS = -O0  -lz 
+
+### G77 flags ###
+#FTN = g77 
+#FFLAGS = -O3 -Wuninitialized -Wunused -Wimplicit -fno-f2c -ffast-math -fno-automatic -fno-backslash -Wno-globals -fno-globals
+#CC = gcc
+#CFLAGS = -g  
+
+# test for PGI Fortran compiler
+#FTN = pgf77 
+#FFLAGS = -O3 -Msave -Mpreprocess -DOS_UNIX
+# -Wuninitialized -Wunused -Wimplicit -fno-f2c -ffast-math -fno-automatic -fno-b
+# ackslash -Wno-globals -fno-globals
+#CC = pgcc
+#CFLAGS = -g  
+
+### GCC V4 gfortran flags ###
+#FTN = gfortran
+#FFLAGS = -O3 -Wuninitialized -Wunused -Wimplicit -fno-f2c -ffast-math -fno-automatic -fno-backslash
+#CC = gcc
+#CFLAGS = -g  
+#### For 64-bit machines:
+#CFLAGS = -g --DADD64BIT
+
+CGPS_CME_CORR = cgps_cme_corr.a.Linux_i386
+CGPS_CME_CORR = cgps_cme_corr.a.Linux_i386
+CGPS_CME_CORR = cgps_cme_corr.a.Linux_i386
+CGPS_CME_CORR = cgps_cme_corr.a.Linux_i386
+SLIB = ../../data/site/cgps_data_site.a.Linux_i386 ../../data/read/cgps_data_read.a.Linux_i386 ../../data/write/cgps_data_write.a.Linux_i386 ../../lib/cgps_lib.a.Linux_i386 ../../../../gglib/gglib.a.Linux_i386 ./cgps_cme_corr.a.Linux_i386 
+X11LIB = 
+II = 
+
+ts_corr : ts_corr.f $(CGPS_CME_CORR) $(SLIB) ../../inc/cgps.h
+	$(FTN) ts_corr.f $(CGPS_CME_CORR) $(SLIB) -o ts_corr.Linux_i386 $(FFLAGS)
+	rm -f ts_corr.o
+
+ts_corr_simu : ts_corr_simu.f $(CGPS_CME_CORR) $(SLIB) ../../inc/cgps.h
+	$(FTN) ts_corr_simu.f $(CGPS_CME_CORR) $(SLIB) -o ts_corr_simu.Linux_i386 $(FFLAGS)
+	rm -f ts_corr_simu.o
+
+simul_corr_length : simul_corr_length.f $(CGPS_CME_CORR) $(SLIB) ../../inc/cgps.h
+	$(FTN) simul_corr_length.f $(CGPS_CME_CORR) $(SLIB) -o simul_corr_length.Linux_i386 $(FFLAGS)
+	rm -f simul_corr_length.o
+
+test_corr : test_corr.f $(CGPS_CME_CORR) $(SLIB) ../../inc/cgps.h
+	$(FTN) test_corr.f $(CGPS_CME_CORR) $(SLIB) -o test_corr.Linux_i386 $(FFLAGS)
+	rm -f test_corr.o
+
+$(CGPS_CME_CORR) : \
+	$(CGPS_CME_CORR)(corr_xy.o) \
+	$(CGPS_CME_CORR)(corr_xy2.o) \
+	$(CGPS_CME_CORR)(corr_xy3.o) \
+	$(CGPS_CME_CORR)(lin_corr_xy.o) \
+	$(CGPS_CME_CORR)(lin_corr_xy2.o) \
+	$(CGPS_CME_CORR)(lin_corr_xy3.o) \
+	$(CGPS_CME_CORR)(read_corr_snx.o)
+	ranlib cgps_cme_corr.a.Linux_i386
+
+$(CGPS_CME_CORR) : \
+	$(CGPS_CME_CORR)(corr_xy.o) \
+	$(CGPS_CME_CORR)(corr_xy2.o) \
+	$(CGPS_CME_CORR)(corr_xy3.o) \
+	$(CGPS_CME_CORR)(lin_corr_xy.o) \
+	$(CGPS_CME_CORR)(lin_corr_xy2.o) \
+	$(CGPS_CME_CORR)(lin_corr_xy3.o) \
+	$(CGPS_CME_CORR)(read_corr_snx.o)
+	ranlib cgps_cme_corr.a.Linux_i386
+
+$(CGPS_CME_CORR) : \
+	$(CGPS_CME_CORR)(corr_xy.o) \
+	$(CGPS_CME_CORR)(corr_xy2.o) \
+	$(CGPS_CME_CORR)(corr_xy3.o) \
+	$(CGPS_CME_CORR)(lin_corr_xy.o) \
+	$(CGPS_CME_CORR)(lin_corr_xy2.o) \
+	$(CGPS_CME_CORR)(lin_corr_xy3.o) \
+	$(CGPS_CME_CORR)(read_corr_snx.o)
+	ranlib cgps_cme_corr.a.Linux_i386
+
+$(CGPS_CME_CORR) : \
+	$(CGPS_CME_CORR)(corr_xy.o) \
+	$(CGPS_CME_CORR)(corr_xy2.o) \
+	$(CGPS_CME_CORR)(corr_xy3.o) \
+	$(CGPS_CME_CORR)(lin_corr_xy.o) \
+	$(CGPS_CME_CORR)(lin_corr_xy2.o) \
+	$(CGPS_CME_CORR)(lin_corr_xy3.o) \
+	$(CGPS_CME_CORR)(read_corr_snx.o)
+	ranlib cgps_cme_corr.a.Linux_i386
+
+$(CGPS_CME_CORR)(read_corr_snx.o): ../../inc/cgps.h
+$(CGPS_CME_CORR)(read_corr_snx.o): ../../inc/cgps.h
+$(CGPS_CME_CORR)(read_corr_snx.o): ../../inc/cgps.h
+$(CGPS_CME_CORR)(read_corr_snx.o): ../../inc/cgps.h
+
+.c.a:
+	$(CC) -c $(CFLAGS) -I$(II) $<
+	ar rv $@ *.o
+	rm -f $*.o
+
+.f.a:
+	$(FTN) -c $(FFLAGS) $<
+	ar rv $@ *.o
+	rm -f $*.o
+
+
+cleanall:
+	rm -f *.a.Linux_i386 *.o *core ts_corr ts_corr_simu simul_corr_length test_corr  ts_corr.Linux_i386 ts_corr_simu.Linux_i386 simul_corr_length.Linux_i386 test_corr.Linux_i386
+# End of Makefile

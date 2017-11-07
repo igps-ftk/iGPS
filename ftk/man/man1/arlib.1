@@ -1,0 +1,31 @@
+.TH ARLIB 1 "23 Nov 2007" "iGPSftk" "FORTRAN ToolKit for GNSS"
+.SH NAME
+arlib \- Unzip and merge the compiled GAMIT/GLOBK functions (*.a) into a whole one for use in iGPS-FTK.
+.SH SYNOPSIS
+arlib [ GAMIT_DIR [ ARCH ] ]\fB\fP \fI\fP
+.SH DESCRIPTION
+\fB \fP
+arlib will create a ~/gglib/gglib.a file from GAMIT/GLOBK compiled libraries under ~/gg/ directories. Some functions/routines are eliminated before archiving to avoid problems.
+.SH OPTIONS
+GAMIT_DIR - gamit/globk installtion directory.
+.br
+ARCH - System Type.  
+.SH MODIFICATIONS
+\fBMOD\fP Tian NOV-25-2016
+.br
+\fBMOD\fP Tian APR-23-2008
+.br
+  +Add libarry suffix for cross-platform functionality.
+.SH EXAMPLES
+arlib
+.SH BUGS
+.TP
+\fB+find command problem for link path.\fP
+.br
+The ~/gg is a symbolic link to /usr/local/gamit directory.
+.br
+The command "find ~/gg" returns none sometimes.
+.br
+And surprisingly, when "cd ~/gg", it did not enter the linked directory /usr/lcoal/gamit, like in the other systems (say, Solaris).
+.SH "SEE ALSO"
+.IR iGPSftk (1)

@@ -1,0 +1,10 @@
+setenv CC icc
+setenv CXX icpc
+setenv CFLAGS '-O3 -xHost -ip -prec-div -fp-model precise'
+setenv CXXFLAGS '-O3 -xHost -ip -prec-div -fp-model precise'
+setenv F77 ifort
+setenv FC ifort
+setenv F90 ifort
+setenv FFLAGS '-O3 -xHost -ip -prec-div -fp-model precise'
+setenv CPP 'icc -E'
+setenv CXXCPP 'icpc -E'

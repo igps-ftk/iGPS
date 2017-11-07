@@ -1,0 +1,38 @@
+.TH FFIND 1 "23 Nov 2007" "iGPSftk" "FORTRAN ToolKit for GNSS"
+.SH NAME
+ffind \- find files for a certain pattern in a given directory.
+.SH SYNOPSIS
+call \fBffind\fP (\fIpath\fP, \fIfiles\fP, \fIfilter\fP, \fIn\fP, \fIinsub\fP)
+.SH DESCRIPTION
+\fBffind\fP is an interface to call unix/linux command `find`.
+.TP
+\fIpath\fP
+this is the input path [input].
+.TP
+\fIfiles\fP
+this is found files names [output].
+.TP
+\fIfilter\fP
+file filter for "-name" matching pattern [input].
+.TP
+\fIn\fP
+number of files found [output].
+.TP
+\fIinsub\fP
+a logical variable to specify whether search in sub-directories. This option is OS-dependant. [input].
+.SH OPTIONS
+.TP
+NONE.
+.SH EXAMPLES
+ character*512 fullname,path
+ file='/usr/local/test/bjfs.xyz'
+ call getpathname(fullname,path)
+
+ file should be "/usr/local/test"
+.SH "SEE ALSO"
+.IR desuffix (1),
+.IR getfileext (1),
+.IR getfilename (1),
+.IR getlun (1),
+.IR pathsep (1),
+.IR iGPSftk (1)

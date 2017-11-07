@@ -1,0 +1,25 @@
+.TH DESUFFIX 1 "23 Nov 2007" "iGPSftk" "FORTRAN ToolKit for GNSS"
+.SH NAME
+desuffix \- Return the filename without extension.
+.SH SYNOPSIS
+call \fBdesuffix\fP (\fIfile\fP, \fIofile\fP)
+.SH DESCRIPTION
+\fBdesuffix\fP delete the extension (suffix) of input filename and return it.
+.TP
+\fIfile\fP
+this is the input file name.
+.TP
+\fIofile\fP
+this is the output file name
+.SH OPTIONS
+.TP
+NONE.
+.SH EXAMPLES
+ character*512 file,ofile
+ file='/usr/local/test/bjfs.xyz'
+ call desuffix(file,ofile)
+.SH "SEE ALSO"
+.IR getfilename (1),
+.IR getpathname (1),
+.IR pathsep (1),
+.IR iGPSftk (1)

@@ -1,0 +1,44 @@
+#!/bin/sh
+
+# Name:
+#   cron_esa_s1_get_orb
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+echo esa_data=${esa_data}
+if [ "$esa_data" = "" ]; then
+    . ${HOME}/.bashrc
+    echo esa_data=${esa_data}
+    if [ "$esa_data" = "" ]; then
+        echo "ESA environment esa_data variable not set! Stopped!!"
+        exit 1
+    fi
+fi
+
+path=${esa_data}/aux_poeorb/
+cd $path
+if [ $? -ne 0 ]; then
+  ehco "Error!"
+  exit 1
+fi
+pwd
+
+rm -f index.html
+wget --no-check-certificate https://qc.sentinel1.eo.esa.int/aux_poeorb/
+grep EOF index.html | awk -F\" '{print " https://qc.sentinel1.eo.esa.int/aux_poeorb/"$2}' > eof.list
+sh_esa_s1_get_orb eof.list
+

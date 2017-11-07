@@ -1,0 +1,48 @@
+#!/bin/sh
+
+# Name:
+#   sh_alos_link_raw
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+if [ "$esa_unzip" = "" ]; then
+    echo "[ERROR]ESA environment variable esa_unzip must be set first! Stopped."
+    exit 1
+fi
+
+
+if [ "$1" = "" ]; then
+    echo "Usage: sh_link_link_raw file"
+    exit
+fi
+file=$1
+
+
+grep '^ ' $file | awk '{print $1}' > .tmp
+while read line; do
+    echo $line
+    dfile="$line"
+    if [ ! -d ${esa_unzip}/${dfile} ]; then
+	echo "ERROR:data not found [${path_esa}/${dfile}]!!"
+	exit 1
+    fi
+    echo find ${esa_unzip}/${dfile} -name "IMG-HH-*__[AD]"
+    find ${esa_unzip}/${dfile}/ -name "IMG-HH-*__[AD]" -exec ln -s {} \;
+    echo find ${esa_unzip}/${dfile} -name "LED-*__[AD]"
+    find ${esa_unzip}/${dfile}/ -name "LED-*__[AD]" -exec ln -s {} \;
+    echo " ${dfile} linked."
+done < .tmp

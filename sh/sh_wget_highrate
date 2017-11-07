@@ -1,0 +1,542 @@
+#!/bin/sh
+
+#Name:
+#  gpsmet_dc_sh_get_rinex
+
+#Purpose:
+#  Download hourly RINEX observations files from remote servers.
+
+#Modifications:
+#  MOD Tian JUN-02-2008
+#    Change default ftp client to wget.
+
+#Data Centers:
+#http://www.epncb.oma.be/ftp/data/holding/hourly/CHECK_HOURLY.IGNI
+#ftp://igs.ensg.ign.fr/
+#ftp://igs.ensg.ign.fr/pub/igs/nrt/data/2007/
+
+#http://www.epncb.oma.be/ftp/data/holding/hourly/CHECK_HOURLY.CDDIS
+#ftp://cddisa.gsfc.nasa.gov/
+#ftp://cddisa.gsfc.nasa.gov/gps/data/hourly/2007/
+
+
+#
+#
+
+
+#get hourly remote CGPS data
+
+#session names
+#for hourly data
+snames="a b c d e f g h i j k l m n o p q r s t u v w x"
+
+year=`date -u +%Y`
+yy=`date -u +%y`
+mo=`date -u +%m`
+dd=`date -u +%d`
+doy=`ymd2ydoy ${year} ${mo} ${dd} | awk '{print $2}'`
+doy=`date -u +%j`
+
+hh=`date -u +%H`
+hh=`expr ${hh} - 1 | awk '{printf("%02d",$0)}'`
+if [ $hh -lt 0 ]; then
+    hh=23
+    doy=`expr $doy - 1 | awk '{printf("%03d",$1)}'`
+    if [ $doy -lt 1 ]; then
+	year=`expr $year - 1`
+	doy=`ymd2ydoy 12 31 | awk '{print $2}'`
+    fi
+fi
+#echo ${hh}
+ho=`date -u +%k`
+mm=`date -u +%M`
+
+sess=`echo ${snames} ${hh} | awk '{print substr($0,$25 * 2+1,1)}'`
+sess_hr=$sess
+echo ">CURRENT[default]: $sess| $hh"
+
+#session length: 60 , 30, 45 minutes??
+sessint=60
+back=0
+
+#sess=$snames[${hh}]}
+if [ ${sessint} -eq 60 ]
+then
+    mm=00
+elif [ ${sessint} -eq 30 ]
+then
+    if [ ${mm} -lt "30" ] 
+    then
+	mm=30
+    else
+	mm=00
+    fi
+fi
+#for 1hr data, mm always is 00
+mm=00
+#how to deal with 30-min data?
+
+ftp_prog="ftp"
+ftp_prog="wget"
+overwrite=0
+
+nsess=1
+archive=sopac
+archive=cddis
+
+user=anonymous
+passwd=tianyunfeng@yahoo.com.cn
+
+
+#sites="daej lhas lhaz guam ulab"
+ftptyp=ftprnx
+
+sites=`sh_get_defaults -token ${ftptyp} -expt gpsm -sd ${GPSMET_DC_HOME}/conf/sites.defaults`
+#sfile=/cygdrive/e/gpse/sichuan_080512/sites.sc08_b
+#sites=`sh_site_read $sfile`
+
+data_root=`pwd`
+
+#set parameters from command line
+#echo $0
+#echo $*
+while [ "$1" != "" ]; do
+    #echo $1
+    case $1 in
+	-archive)
+	    echo '>using archiver: $2'
+  	    archive=$2
+	    ;;		    
+	-dir)
+	    data_root=$2
+	    ;;    
+	-back)
+	    back=$2
+	    ;;
+	-yr)
+	    year=${2}
+            yy=`echo $year | awk '{print substr($1,3,2)}'`
+	    ;;
+	-doy)
+	    doy=${2}
+	    ;; 
+	-ftp_prog)
+	    ftp_prog=${2}
+	    ;;
+	-nsess)
+	    nsess=${2}
+	    ;;
+	-sessint)
+	    sessint=${2}
+	    ;;
+	-sess)
+	    sess=${2}
+            #convert sess back to hh
+	    hh=`echo "${sess}:${snames}" | awk -F: '{printf("%02d",index($2,$1)/2)}'`
+	    ;;
+	-overwrite)
+	    overwrite=${2}
+	    ;;
+	-u)
+	    user=$2
+	    ;;
+	-p)
+	    passwd=$2
+	    ;;
+	-sitefile)
+	    sfile=$2
+	    sites=`rdsit $sfile`
+	    ;;
+	-sites)
+	    sites=$2
+            sites=`echo $sites | awk -F, '{for (i=1;i<=NF;i++) print $i}'`
+	    ;;
+	
+        * )                     
+	    echo usage
+	    ;;
+    esac
+    shift 2
+done
+
+
+doy=`echo $doy | awk '{printf("%03d", $1)}'`
+
+#exit
+#set hr according to sess
+strlensess=`echo $sess | awk '{print length($0)}'`
+case $strlensess in
+    1)
+     	hh=`echo "${sess}:${snames}" | awk -F: '{printf("%02d", index($2,$1)/2)}'`
+	mm="00"
+	;;
+    3)
+	mm=`echo $sess | awk '{print substr($0,2,2)}'`
+	sess_hr=`echo $sess_hr | awk '{print substr($0,1,1)}'`
+	hh=`echo "${sess_hr}:${snames}" | awk -F: '{printf("%02d", index($2,$1)/2)}'`
+	#echo $mm $sess_hr $hh	
+	;;
+    *)
+	echo "<Invalid -sess (${sess_hr}) option! Stop."
+	exit 1
+	;;
+esac
+
+if [ ${sessint} -eq 60 ];then
+    #sess=${sess_hr}
+    mm="00"
+else
+    #current minutes
+    mi=`date -u +%M`
+    sess_cur=`expr $mi / $sessint | awk '{printf("%02d",$0)}'`
+    mm=`expr $sess_cur \* $sessint | awk '{printf("%02d",$0)}'`
+    sess="${sess_hr}${mm}" 
+    #echo $sess
+fi
+
+echo "<get RINEX data starting at  session [${sess}] of ${doy}/${year}"
+
+
+if [ "$archive" = "sopac" ]; then
+    host=garner.ucsd.edu
+elif [ "$archive" = "cddis" ]; then
+    host=cddis.gsfc.nasa.gov
+elif [ "$archive" = "ign" ]; then
+    host=igs.ensg.ign.fr
+elif [ "$archive" = "kasi" ]; then
+    host=nfs.kasi.re.kr
+elif [ "$archive" = "pbo" ]; then
+    host=data-out.unavco.org
+elif [ "$archive" = "bkg" ]; then
+    host=igs.bkg.bund.de
+fi
+
+
+echo "<using archive: ${archive}"
+
+#if use wget
+if [ "$ftp_prog" = "wget" ]; then
+    
+    si=1
+    while [ $si -le $nsess ]; do
+    
+	#ldir=/data0/igs0/pub/nrtdata/${year}/${doy}/${hh}
+	ldir=${GPSMET_DC_DATA}/nrtdata/${year}/${doy}/${hh}
+        ldir=${data_root}/${year}/${doy}/${yy}d/${hh}
+	mkdir -p $ldir
+	cd $ldir
+	pwd
+
+	for site in $sites; do
+	 
+	#echo $site
+	#download files
+	#ofile=ftp://${host}/${year}${mo}/${dd}/${site}${year}${mo}${dd}${hh}${mm}b.T00
+	#echo ${snames}[1]
+	    fileud=${site}${doy}${sess}.${yy}d
+	    fileuo=${site}${doy}${sess}.${yy}o
+	    filez=${site}${doy}${sess}.${yy}d.Z
+	    #if [ -f ${fileud} -a ${overwrite} -eq 0 ]; then
+		#echo "RINEX exists! skipping..."
+            #elif [ -f ${fileuo} -a ${overwrite} -eq 0 ]; then
+		#echo "RINEX exists! skipping..."
+            
+	    #elif [ -f ${filez} -a ${overwrite} -eq 0 ]; then
+		#echo "Compact RINEX exists! skipping..."
+	   # else
+		echo "Downloading remote data file for site ${site} : ${file}"
+		if [ "$archive" = "sopac" ]; then
+		    rfile=http://${host}/pub/nrtdata/${year}/${doy}/${hh}/${filez}
+		elif [ "$archive" = "cddis" ]; then
+		    filez=${site}${doy}${sess}00.${yy}d.Z
+		    rfile=ftp://${host}/highrate/${year}/${doy}/${yy}d/${hh}/${filez}
+		    wget -nc -t 3 -T 120 --user=${user} --password=${passwd} ${rfile}
+		    filez=${site}${doy}${sess}15.${yy}d.Z
+		    rfile=ftp://${host}/highrate/${year}/${doy}/${yy}d/${hh}/${filez}
+		    wget -nc -t 3 -T 120 --user=${user} --password=${passwd} ${rfile}
+		    filez=${site}${doy}${sess}30.${yy}d.Z
+		    rfile=ftp://${host}/highrate/${year}/${doy}/${yy}d/${hh}/${filez}
+		    wget -nc -t 3 -T 120 --user=${user} --password=${passwd} ${rfile}
+		    filez=${site}${doy}${sess}45.${yy}d.Z
+		    rfile=ftp://${host}/highrate/${year}/${doy}/${yy}d/${hh}/${filez}
+		    wget -nc -t 3 -T 120 --user=${user} --password=${passwd} ${rfile}
+		elif [ "$archive" = "ign" ]; then
+		    rfile=ftp://${host}/pub/nrtdata/${year}/${doy}/${hh}/${filez}
+		elif [ "$archive" = "kasi" ]; then
+		    rfile=ftp://${host}/gps/data/hourly/${year}/${doy}/${hh}/${filez}
+	  elif [ "$archive" = "pbo" ]; then
+		    rfile=ftp://${host}/pub/highrate/rinex/${year}/${doy}/${site}/${filez}
+	  elif [ "$archive" = "bkg" ]; then
+		#ftp://igs.bkg.bund.de/EUREF/highrate/2016/304/f/unpg304f30.16d.Z
+		    rfile=ftp://${host}/EUREF/highrate/${year}/${doy}/${sess}/${filez}
+		fi
+		echo "wget --user=${user} --password=${passwd} -N ${rfile}"
+		#wget -c -t 3 -T 120 --user=${user} --password=${passwd} ${rfile}
+	    #fi
+	done
+	si=`expr $si + 1`
+	hh=`expr $hh + 1`
+	echo $hh
+	if [ $hh -gt 23 ]; then
+	    break
+	fi
+      #echo $hh
+      sess=`echo ${snames} ${hh} | awk '{print substr($0,$25 * 2+1,1)}'`
+      echo "|${sess}| ${hh}"
+      hh=`echo $hh | awk '{printf("%02d",$0)}'`
+    done
+
+elif [ "$ftp_prog" = "ftp"  ]; then
+    #host=cddisa.gsfc.nasa.gov
+    user=anonymous
+    passwd=tianyunfeng@yahoo.com.cn
+
+    
+    si=1
+    while [ $si -le $nsess ]; do
+	echo "GETTING:$sess| $hh"
+	ns=0 #number of sites needs to download
+
+	ts=`date -u +%Y%m%d%H%M%S`
+	cmd_file="`pwd`/hrate-${ts}-$$.cmd"
+	cat > $cmd_file <<EOF
+user anonymous tianyunfeng@yahoo.com.cn
+binary
+EOF
+
+        #create local directory
+	#ldir=/data0/igs0/pub/nrtdata/${year}/${doy}/${hh}
+	ldir=${data_root}/${year}/${doy}/${yy}d/${hh}
+
+	mkdir -p $ldir
+	cd $ldir
+	pwd
+	echo "lcd $ldir" >> $cmd_file
+
+	if [ "$archive" = "sopac" ]; then
+	    rdir=/pub/nrtdata/${year}/${doy}/${hh}
+	elif [ "$archive" = "cddis" ]; then
+	    rdir=/gps/data/highrate/${year}/${doy}/${yy}d/${hh}
+	elif [ "$archive" = "ign" ]; then
+	    rdir=/pub/nrtdata/${year}/${doy}/${hh}
+	elif [ "$archive" = "kasi" ]; then
+	    rdir=/gps/data/hrate/${year}/${doy}/${yy}d/${hh}
+	  elif [ "$archive" = "pbo" ]; then
+		  rdir=/pub/highrate/rinex/${year}/${doy}/${site}
+	  elif [ "$archive" = "bkg" ]; then
+		  rdir=/EUREF/highrate/${year}/${doy}/${sess}/
+	else
+	    echo "Error: wrong archive!"
+	    exit 1
+	fi
+        #first, go into the directory
+	echo "cd $rdir" >> $cmd_file
+
+	for site in $sites; do
+	 
+	    fileu=${site}${doy}${sess}.${yy}o
+	    filez=${site}${doy}${sess}.${yy}d.Z
+	    if [ -f ${ldir}/${filer} -a ${overwrite} -eq 0 ]; then
+		echo "RINEX exists: ${fileu}, compressing & skipping..."
+		\compress -f ${ldir}/${file}
+		#continue
+	    elif [ -f ${ldir}/${filez} -a ${overwrite} -eq 0 ]; then
+		echo "Compact RINEX exists: ${filez}, skipping..."
+		#continue
+	    else
+		echo "QUEUING RINEX : ${filez} ..."
+		echo "mget ${filez}" >> $cmd_file
+		pwd
+		echo $cmd_file
+		ns=`expr $ns + 1`
+	    #echo $cmd_file
+	    fi
+	done
+
+	echo "quit" >> $cmd_file
+        #exit
+	if [ $ns -gt 0 ]; then
+	    echo "download" > /dev/null
+	    cat $cmd_file
+            case $ftp_prog in
+        	ftp)
+
+		    echo "cat $cmd_file | ftp -i -n -p $host"
+		    cat $cmd_file | ftp -i -n $host
+		    ;;
+		ncftp)
+			echo "cat $cmd_file | ftp -i -n -p $host"
+		    cat $cmd_file | ftp -i -n $host
+		    ;;
+		esac
+
+	#cat $cmd_file
+	fi
+
+         #rm -rf $cmd_file > /dev/null 2>&1
+
+
+
+	si=`expr $si + 1`
+        #echo $si
+	if [ $back -ne 1 ];then
+	    hh=`expr $hh + 1`
+	    if [ $hh -gt 23 ]; then
+		hh=00
+		doy=`expr $doy + 1 | awk '{printf("%03d", $1)}'`
+		doyyear=`ymd2ydoy ${year} 12 31 | awk '{printf("%03d", $2)}'`
+		if [ $doy -gt $doyyear ];then
+		    doy=001
+		    year=`expr $year + 1`
+		fi
+	    fi
+	else
+	    hh=`expr $hh - 1`
+	    if [ $hh -lt 0 ]; then
+		hh=23
+		doy=`expr $doy - 1 | awk '{printf("%03d", $1)}'`
+		if [ $doy -lt 1 ];then
+		    year=`expr $year - 1`
+		    doy=`ymd2ydoy ${year} 12 31 | awk '{printf("%03d", $2)}'`
+		fi   
+	    fi
+	fi
+	
+        #echo $hh
+	sess=`echo ${snames} ${hh} | awk '{print substr($0,$25 * 2+1,1)}'`
+	
+	hh=`echo $hh | awk '{printf("%02d",$0)}'`
+
+    done
+
+   
+
+elif [  "${ftp_prog}" = "ncftp" ]; then
+    #host=cddisa.gsfc.nasa.gov
+    user=anonymous
+    passwd=tianyunfeng@yahoo.com.cn
+
+    
+    si=1
+    while [ $si -le $nsess ]; do
+	echo "GETTING:$sess| $hh"
+	ns=0 #number of sites needs to download
+
+	ts=`date -u +%Y%m%d%H%M%S`
+	cmd_file="`pwd`/hrate-${ts}-$$.cmd"
+	cat > $cmd_file <<EOF
+binary
+EOF
+
+        #create local directory
+	#ldir=/data0/igs0/pub/nrtdata/${year}/${doy}/${hh}
+	ldir=${data_root}/${year}/${doy}/${yy}d/${hh}
+
+	mkdir -p $ldir
+	cd $ldir
+	pwd
+	echo "lcd $ldir" >> $cmd_file
+
+	if [ "$archive" = "sopac" ]; then
+	    rdir=/pub/nrtdata/${year}/${doy}/${hh}
+	elif [ "$archive" = "cddis" ]; then
+	    rdir=/gps/data/highrate/${year}/${doy}/${yy}d/${hh}
+	elif [ "$archive" = "ign" ]; then
+	    rdir=/pub/nrtdata/${year}/${doy}/${hh}
+	elif [ "$archive" = "kasi" ]; then
+	    rdir=/gps/data/highrate/${year}/${doy}/${yy}d/${hh}
+  elif [ "$archive" = "pbo" ]; then
+		  rdir=/pub/highrate/rinex/${year}/${doy}/${site}
+  elif [ "$archive" = "bkg" ]; then
+		  rdir=/EUREF/highrate/${year}/${doy}/${sess}/
+	else
+	    echo "Error: wrong archive!"
+	    exit 1
+	fi
+        #first, go into the directory
+	echo "cd $rdir" >> $cmd_file
+
+	echo $sites
+	#exit
+	for site in $sites; do
+	 
+	    fileu=${site}${doy}${sess}.${yy}o
+	    secs="00 15 30 45"
+	    for sec in $secs; do
+		filez=${site}${doy}${sess}${sec}.${yy}d.Z
+		if [ -f ${ldir}/${filer} -a ${overwrite} -eq 0 ]; then
+		    echo "RINEX exists: ${fileu}, compressing & skipping..."
+		    \compress -f ${ldir}/${file}
+		#continue
+		elif [ -f ${ldir}/${filez} -a ${overwrite} -eq 0 ]; then
+		    echo "Compact RINEX exists: ${filez}, skipping..."
+		#continue
+		else
+		    echo "QUEUING RINEX : ${filez} ..."
+		    echo "get -z ${filez} ${filez}" >> $cmd_file
+		#pwd
+		#echo $cmd_file
+		ns=`expr $ns + 1`
+	    #echo $cmd_file
+		fi
+	    done
+	done
+
+	echo "quit" >> $cmd_file
+        #exit
+	if [ $ns -gt 0 ]; then
+	    echo "download" > /dev/null
+	    cat $cmd_file
+            case $ftp_prog in
+        	ftp)
+
+		    echo "cat $cmd_file | ftp -i -n -p $host"
+		    cat $cmd_file | ftp -i -n $host
+		    ;;
+		ncftp)
+			echo "ncftp $host < $cmd_file"
+                        pwd
+			#cat $cmd_file | ftp -i -n $host
+			ncftp $host < $cmd_file
+		    ;;
+		esac
+
+	#cat $cmd_file
+	fi
+
+         #rm -rf $cmd_file > /dev/null 2>&1
+
+
+
+	si=`expr $si + 1`
+        #echo $si
+	if [ $back -ne 1 ];then
+	    hh=`expr $hh + 1`
+	    if [ $hh -gt 23 ]; then
+		hh=00
+		doy=`expr $doy + 1 | awk '{printf("%03d", $1)}'`
+		doyyear=`ymd2ydoy ${year} 12 31 | awk '{printf("%03d", $2)}'`
+		if [ $doy -gt $doyyear ];then
+		    doy=001
+		    year=`expr $year + 1`
+		fi
+	    fi
+	else
+	    hh=`expr $hh - 1`
+	    if [ $hh -lt 0 ]; then
+		hh=23
+		doy=`expr $doy - 1 | awk '{printf("%03d", $1)}'`
+		if [ $doy -lt 1 ];then
+		    year=`expr $year - 1`
+		    doy=`ymd2ydoy ${year} 12 31 | awk '{printf("%03d", $2)}'`
+		fi   
+	    fi
+	fi
+	
+        #echo $hh
+	sess=`echo ${snames} ${hh} | awk '{print substr($0,$25 * 2+1,1)}'`
+	
+	hh=`echo $hh | awk '{printf("%02d",$0)}'`
+
+    done
+fi

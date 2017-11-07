@@ -1,0 +1,77 @@
+CC NAME:
+CC   STRSPLIT
+CC PURPOSE:
+CC   like IDL's strsplit function
+cc   split string into string array by specific separator (default blank)
+
+      subroutine strsplit(str,sep,n,strs)
+c      program strsplit
+
+c      integer*4 NMAX
+c      parameter(NMAX=100)
+
+C     Inputs:
+c     str
+c     sep
+
+C     Outputs:
+c     n
+c     strs(n)
+     
+      integer*4 n
+      character*(*) str, strs(*)
+      character*1 sep
+      
+C     inner variables
+      integer*4 pos, lenofstr,isnew
+
+      character*1000 tmpstr
+      integer*4 j,i
+      
+C     for debug purpose:
+c      str=' a bc defg hi j k'
+c      sep=' '
+      
+      n=0
+      isnew=0
+      lenofstr=len(str)
+
+c      write(*,*) 'Input separator:', sep
+c      write(*,*) 'Input str:', str
+
+      do i=1, lenofstr
+         if (str(i:i).eq.sep.and.isnew.eq.0) then
+c            write(*,*), 'skip-', str(i:i),'-', sep, isnew,i
+            goto 20
+         endif
+         
+         if (str(i:i).ne.sep.and.isnew.eq.0) then
+            isnew=1
+            j=1
+         endif
+         
+         if (str(i:i).eq.sep.and.isnew.eq.1) then
+            isnew=0
+            n=n+1
+            strs(n)=tmpstr(1:j-1)
+c            write(*,*) 'here', strs(n),j
+            goto 20
+         endif
+
+         if (isnew.eq.1) then
+            tmpstr(j:j) = str(i:i)
+            j=j+1
+         endif
+
+ 20      continue
+c         write(*,*) j,n,isnew, '|',str(i:i),'-',isnew
+      enddo
+      
+
+c$$$      do i=1, n
+c$$$         tmpstr=strs(i)
+c$$$c         write(*,*) tmpstr(1:index(tmpstr,' '))
+c$$$      enddo
+      
+      return
+      end

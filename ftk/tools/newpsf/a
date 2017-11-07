@@ -1,0 +1,26 @@
+CTITLE
+      PROGRAM
+c     --PURPOSE--
+
+c     --INPUT--
+
+c     --OUTPUT--
+
+c     --EXAMPLE--
+
+c     --MODIFICATIONS--
+
+c     >>VAR_DEC
+c     --Global Variables--
+      IMPLICIT NONE
+C      INCLUDE '../../inc/cgps.h'
+
+c     --Command-line Parameters--
+
+c     --Local Parameters--
+
+c     <<VAR_DEC
+
+
+
+      END

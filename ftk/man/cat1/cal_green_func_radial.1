@@ -1,0 +1,66 @@
+
+
+
+FORTRAN Programs for GPS                 CAL_GREEN_FUNC_RADIAL(1)
+
+
+
+NAME
+     cal_green_func_radial - Caculate load Green's Function.
+
+SYNOPSIS
+     cal_green_func_radial  mass_grid_file love_number_file
+
+DESCRIPTION
+     _c_a_l__g_r_e_e_n__f_u_n_c__r_a_d_i_a_l calculates radial displacement Green's
+     function for a given mass grid.
+
+     _m_a_s_s__g_r_i_d__f_i_l_e
+          Input mass grid file name. The format of this file fol-
+          lows:  1).  non-blank  first column lines are comments;
+          2)data lines is in the sequence  of  "angular  distance
+          [in radians], area [in m**2], ...]".
+
+     _l_o_v_e__n_u_m_b_e_r__f_i_l_e
+          Input love number file.
+
+     Outputs
+          _c_a_l__g_r_e_e_n__f_u_n_c__r_a_d_i_a_l    output    results    to    the
+          console/terminal (or standard output device).
+
+OPTIONS
+     NONE.
+
+EXAMPLES
+     cal_green_func_radial mass_grid.wuhn love_number_10000
+
+SEE ALSO
+     _c_a_l__r_i_v_e_r__l_o_a_d(1),                     _g_r_e_e_n__f_u_n_c__r_a_d_i_a_l(1),
+     _l_e_g_e_n_d_r_e__p_o_l_y_n_o_m_i_a_l(1),     _r_e_a_d__l_o_v_e(1),     _r_e_a_d__g_r_e_e_n(1),
+     _r_l_o_a_d(1), _G_P_S_F(1)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+GPSF                Last change: 02 Nov 2008                    1
+
+
+

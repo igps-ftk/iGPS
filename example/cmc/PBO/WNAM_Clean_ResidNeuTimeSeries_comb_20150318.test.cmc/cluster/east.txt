@@ -1,0 +1,49 @@
+*   SRC: J:\phd\expt\gpsf\external\iGPS\example\cmc\PBO\WNAM_Clean_ResidNeuTimeSeries_comb_20150318.test.cmc\\cmc.diff.0-5.corr\GLB_CMCDIFF_corr_neu.snx
+*  PROG: CORR_CLUSTER
+*RUN BY: tianyf @ TYF [Intel64 Family 6 Model 37 Stepping 5, GenuineIntel]
+*RUN AT: Microsoft Windows x86
+*RUN ON: Wed Jun 10 04:31:10 2015 [UTC]
+*group #site   cor_d member_site_list_...
+     1     7    0.29 p156,p198,p315,p322,p330,p332,p339
+     2     6    0.30 chil,cru1,ecco,elsc,mat2,pvrs
+     3     3    0.28 cat2,p490,p491
+     4     3    0.24 arli,seat,sedr
+     5     2    0.29 albh,brew
+     6     2    0.22 p247,p546
+     0     1    0.00 bsnc
+     0     1    0.00 ac35
+     0     1    0.00 p377
+     0     1    0.00 moni
+     0     1    0.00 p080
+     0     1    0.00 hurr
+     0     1    0.00 stea
+     0     1    0.00 p415
+     0     1    0.00 ac17
+     0     1    0.00 ac79
+     0     1    0.00 p673
+     0     1    0.00 p099
+     0     1    0.00 p433
+     0     1    0.00 cho1
+     0     1    0.00 cvo1
+     0     1    0.00 p063
+     0     1    0.00 eliz
+     0     1    0.00 p309
+     0     1    0.00 p181
+     0     1    0.00 p184
+     0     1    0.00 p512
+     0     1    0.00 p723
+     0     1    0.00 p658
+     0     1    0.00 p429
+     0     1    0.00 p447
+     0     1    0.00 pltx
+     0     1    0.00 oxmt
+     0     1    0.00 p199
+     0     1    0.00 p527
+     0     1    0.00 fhog
+     0     1    0.00 p809
+     0     1    0.00 p464
+     0     0    0.00 ab49
+     0     0    0.00 ac50
+     0     0    0.00 amc2
+     0     0    0.00 p360
+     0     0    0.00 rg26

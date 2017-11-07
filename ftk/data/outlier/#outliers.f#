@@ -1,0 +1,140 @@
+CTITLE
+      PROGRAM outliers
+
+      IMPLICIT NONE
+      INCLUDE '../../inc/cgps.h'
+
+c     --PURPOSE--
+
+c     --ALGORITHM--
+
+c     --EXAMPLE--
+
+c     --MODIFICATIONS--
+
+c     >>VAR_DEC
+c     --INPUT--
+c     --Command-line Parameters--
+      character*1000 path,opath
+
+c     --OUTPUT--
+
+c     --Local Parameters--
+      character*20 filter
+c     time series processing level
+c     'Raw'
+c     'Clean'
+      character*10 proc_level
+c     [Un]filtered time series?
+c     'Unf'
+c     'Filter'
+      character*5 proc_flt
+
+      character*1000 files(nmax_site),file,ofile,oofile
+      integer*4 fido,ioerr
+c     number of sites found
+      integer*4 n
+c     array index
+      integer*4 i,j,fi
+c     data matrix
+      real*8 data(nmax_row,nmax_col)
+      integer*4 nrow,ncol
+c     header infor
+      integer*4 nhead
+      character*100 headers(nmax_head)
+      character*1024 strtmp
+      
+c     for date conversion
+      integer*4 idate(5),ymd(3),doy
+      real*8 jd,secr8,yr
+      character*4 site
+
+c     for IQR
+      real*8 iqrv,ts(nmax_row)
+      integer*4 win,ii
+
+c     for each component
+      integer*4 neu(3),neui
+
+c     external functions
+      integer iargc,nblen
+      real*8 IQR
+c     <<VAR_DEC
+
+      do i=1,iargc()
+         call getarg(i,strtmp)
+         if (strtmp(1:7).eq.'--path=') then
+            path=strtmp
+         elseif (strtmp(1:8).eq.'--opath=') then
+            opath=strtmp
+         else
+            write(*,*) 'Warning: invalid parameter [',
+     &           strtmp(1:nblen(strtmp)),'].'
+c            write(*,*) 'Syntax: outliers --path=PATH --opath=OPATH'
+c            stop            
+         endif
+      enddo
+      
+c      write(*,*) path,opath
+      
+      if (nblen(path).eq.0.or.nblen(opath).eq.0) then
+         write(*,*) 'Syntax: outliers --path=PATH --opath=OPATH'
+         write(*,*) '                [--type=sioneu|sioxyz]'
+         write(*,*) '                [--ofile=OUT_NAME]'
+         write(*,*)
+         stop
+      endif
+
+
+c      write(*,*) path(1:nblen(path))
+c      write(*,*) opath(1:nblen(opath))
+
+      
+      filter='*.neu'
+      call ffind(path,files,filter,n,1) 
+      write(*,*) '#total files:',n
+      call getlun(fido)
+
+c     set intial parameters
+      win=365
+
+
+      do fi=1,n
+         file=files(fi)
+         if (debug) write(*,*) '<<',file(1:nblen(file))
+
+c     read the data
+         call read_sio(file,data,nrow,ncol,nhead,headers)
+         if (debug) write(*,*) nrow,ncol
+
+c     loop calculating IQR
+         neui=4
+         do i=1,nmax_row
+            ts(i)=0d0
+         enddo
+         do i=1,nrow
+            ts(i)=data(i,neui)
+         enddo
+         do i=1,nrow
+            ii=i
+            iqrv=IQR(ts,nmax_row,nrow,ii,win)
+            write(*,*) i,ii,iqrv,data(i,neui)
+         enddo
+
+         call getfilename(file,ofile)
+         site=ofile(1:4)
+         ofile=opath(1:nblen(opatH))//pathsep//
+     .        ofile(1:nblen(ofile))
+         write(*,*) '>>'//ofile(1:nblen(ofile))
+
+         call getfilename(file,oofile)
+         oofile=opath(1:nblen(opatH))//pathsep//
+     .        ofile(1:nblen(ofile))
+         oofile=opath(1:nblen(opatH))//pathsep//
+     .        site//'OutliersUnf.neu'
+         write(*,*) '>>'//oofile(1:nblen(oofile))
+         stop
+      enddo
+
+      STOP
+      END

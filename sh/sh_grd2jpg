@@ -1,0 +1,74 @@
+#!/bin/tcsh -f
+
+# Name:
+#   sh_grd2jpg
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+  set scale = "-JX7i"
+  gmt gmtset COLOR_MODEL = hsv
+  gmt gmtset MEASURE_UNIT = inch
+  set limitU = "20"
+  set limitL = "-50"
+
+  gmt  makecpt -Cseis -Z -T"$limitL"/"$limitU"/1 -D > los.cpt
+  gmt makecpt -Cseis -Z -T-1/1/0.1 -D > los2.cpt
+  gmt makecpt -Cseis -Z -T-10/10/1 -D > dem.cpt
+#  makecpt -Cseis -Z -T-180/180/10 -D > shift.cpt
+  gmt makecpt -Cseis -Z -T-40/20/1 -D > mean.cpt
+
+set X_MAX = 92.9
+set Y_MAX = 30.3
+set X_MIN = 91.8
+set Y_MIN = 29.4
+set yeardoyrs = `cat scene.tab | awk '{print $1}'`
+set R = -R${X_MIN}/${X_MAX}/${Y_MIN}/${Y_MAX}
+	set B = -B.4f.2/.4f.2
+
+
+ls disp_???.grd | awk -F. '{print $1}' > disp.list
+ls disp_???_ll.grd | awk -F. '{print $1}' | tail -100> disp.list
+set file_ref = "`head -1 disp.list`.grd"
+set R = `grdinfo -I.001 $file_ref`
+
+foreach a (`cat disp.list`)
+  if (-f $a".grd") then
+   echo $a
+   set n = `echo $a | awk -F_ '{print $2}'`
+   set year = `echo $yeardoyrs | awk '{print $j}' j=$n | awk '{print substr($1,1,4)}'`
+   set doyr = `echo $yeardoyrs | awk '{print $j}' j=$n | awk '{print substr($1,5)}'`
+   echo year_doyr: $year $doyr $n
+   set ymd = `doy $year $doyr | head -1 | awk '{print $2}'`
+   set boundR = `gmt grdinfo $file_ref -C | awk '{printf("%6.2f",($3-$2)/4)}'`
+   set boundA = `gmt grdinfo $file_ref -C | awk '{printf("%6.2f",($5-$4)/4)}'`
+   echo boundR: $boundR
+   echo boundA: $boundA
+   gmt grdimage $R $a".grd"  $scale -Clos.cpt -B"$boundR":lon:/"$boundA":lat::."$ymd":WSen -X1.3 -Y3 -P -K > $a".ps" 
+#   psvelo -R -J -W0.15p,black -Gwhite   -Se.3/0.95/0  -L -A9p+e  -V -O -K  <<eof >> $a".ps"
+#     92.27  29.81 1 0 0 0 0
+#eof
+  psxy -R -J -O -K -W.5p,black <<eof >> $a".ps"
+  > -L"米拉山隧道_Mila_tunnel"
+92.3371824212   29.7913162455
+92.3311097605   29.8420254371
+
+eof
+   gmt psscale -D3.3/-1.2/3/0.2h -Clos.cpt -B20:"LOS displacement, mm":/:"range decrease": -O -E >> $a".ps"
+   gmt psconvert $a".ps" -Tj -E100
+   rm $a".ps"
+  endif
+  #exit
+end 

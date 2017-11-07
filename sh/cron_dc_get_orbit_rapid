@@ -1,0 +1,54 @@
+#!/bin/sh
+
+# Purpose:
+# [default]:
+#   Get the sp3 orbit files for the latest week.
+#   2 days latency in SOPAC database.
+#   Run each week.
+
+#. ${HOME}/.profile
+. ${HOME}/.bashrc
+
+#local_root=/export/home/tianyf/tmp/products
+#local_root=/cygdrive/e/igs/pub/products
+#local_root=/data0/igs0/pub/products
+local_root=/data0/igs0/pub/products
+local_root=/d2/ftp/pub/products
+local_root=/h1/ftp/pub/products
+
+#yearStart=1994
+#yearStart=2008
+#yearEnd=2008
+
+#doys=001
+#doye=`ymd2ydoy ${yearStart} 12 31 | awk '{print $2}'`
+#doye=89
+
+#starting date: > 3 weeks
+#  the first day of the 4th previous week.
+#1.find the first day of current week.
+year=`date -u +%Y`
+#yy=`date -u +%y`
+#mo=`date -u +%m`
+#dd=`date -u +%d`
+#doy=`ymd2ydoy ${year} ${mo} ${dd} | awk '{print $2}'`
+doy=`date -u +%j`
+#gpsw=`doy ${year} ${doy} |grep "GPS Week" | awk '{print $3}'`
+#gpsd=`doy ${year} ${doy} | grep "GPS Week" | awk '{print $7}' | awk -F, '{print $1}'`
+#doy=`doy ${gpsw}W 0 | head -1 | awk '{print $6}'`
+#echo $year $doy
+
+#2.find the first day of 4 week ago.
+doy=`expr $doy - 2`
+if [ $doy -le 0 ]; then
+    year=`expr $year - 1`
+    ndays=`ymd2ydoy $year 12 31 | awk '{print $2}'`
+    doy=`expr $ndays + $doy`
+fi
+echo $year $doy
+yearStart=$year
+yearEnd=$year
+doys=$doy
+doye=$doys
+echo "sh_wget_orb -yrs $yearStart -yre $yearEnd -doys $doys -doye $doye -orbit IGSR"
+sh_wget_orb -yrs $yearStart -yre $yearEnd -doys $doys -doye $doye -orbit IGSR -dir $local_root

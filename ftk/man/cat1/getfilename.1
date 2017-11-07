@@ -1,0 +1,66 @@
+
+
+
+FORTRAN Programs for GPS                           GETFILENAME(1)
+
+
+
+NAME
+     getfilename - Return the filename from the full pathname .
+
+SYNOPSIS
+     call getfilename (_f_u_l_l_n_a_m_e, _f_i_l_e)
+
+DESCRIPTION
+     getfilename return the filename from given full pathname.
+
+     _f_u_l_l_n_a_m_e
+          this is the input full path/file name.
+
+     _f_i_l_e this is the file name
+
+OPTIONS
+     NONE.
+
+EXAMPLES
+      character*512 fullname,file
+      file='/usr/local/test/bjfs.xyz'
+      call getfilename(fullname,file)
+
+      file should be "bjfs.xyz"
+
+SEE ALSO
+     _d_e_s_u_f_f_i_x(1), _g_e_t_f_i_l_e_e_x_t(1), _g_e_t_l_u_n(1), _g_e_t_p_a_t_h_n_a_m_e(1), _p_a_t_h_-
+     _s_e_p(1), _G_P_S_F(1)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+GPSF                Last change: 23 Nov 2007                    1
+
+
+

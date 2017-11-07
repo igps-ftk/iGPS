@@ -1,0 +1,46 @@
+#!/bin/sh
+
+# Name:
+#   ../sh_S1_unzip_manifest
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+if [ "$esa_data" = "" ]; then
+    echo "[ERROR]ESA environment variable esa_data must be set first! Stopped."
+    exit 1
+fi
+
+files=`ls ${esa_data}/S1/*.zip`
+for file in $files; do
+    #echo $file
+    ofile=`echo ${file} | sed -e 's/.zip//g'`.manifest.safe
+    #echo $ofile
+    if [ -s $ofile ]; then
+	#echo "Skip    ${ofile} !"
+        continue
+    fi
+    #echo "Extract $ofile"
+    unzip -p $file "*manifest.safe" > $ofile
+    if [ ! -s $ofile ]; then
+	echo "Zero output file! Deleted."
+	rm -f $ofile
+	#mv $file ${esa_data}/S1/tmp/
+    fi
+    
+    #exit
+done
+

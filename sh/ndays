@@ -1,0 +1,36 @@
+#!/bin/sh
+
+# Name:
+#   days
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+if [ $# -lt 4 ]; then
+    echo 'Usage: ndays start_year start_doy end_year end_doy'
+    exit 1
+fi
+
+yrs=$1
+doys=$2
+yre=$3
+doye=$4
+
+mjd1=`doy $1 $2|head -1| awk '{print int($10)}'`
+mjd2=`doy $3 $4|head -1| awk '{print int($10)}'`
+
+ndays=`expr $mjd2 - $mjd1 + 1`
+echo "#days between ${yrs}/${doys} and ${yre}/${doye} is ${ndays}."

@@ -1,0 +1,75 @@
+#!/bin/sh
+#Merge gamit/globk functions into a *.a file, for using in ftk.
+#Output file is written to ~/gglib/.
+#Move this directory to ${iGPS}/ftk/ or create a symbolic link.
+ 
+arch=`sh_arch`
+#echo $arch
+
+#input gg directory
+path_gg=${HOME}/gg
+#exit
+if [ $# -ge 1 ]; then
+    oldpath=`pwd`
+    cd $1
+    path_gg=`pwd`
+    cd $oldpath
+fi
+
+#output location
+path_lib=${HOME}/gglib
+if [ ! -d ${path_lib} ]; then
+    mkdir -p ${path_lib}
+fi
+file_lib=${path_lib}/gglib.a.${arch}
+if [ $# -ge 2 ]; then
+    oldpath=`pwd`
+    cd $2
+    path_lib=`pwd`
+    cd $oldpath
+    file_lib=${path_lib}/gglib.a.${arch}
+fi
+#exit
+
+#find gg library files
+#echo find -L $path_gg -name "*.a"
+files=`find $path_gg -name "*.a"`
+#files=
+if [ "$files" = "" ]; then
+    echo "[arlib]Error: no library files could be found in $path_gg."
+    echo "[arlib]Please check your ~/gg link, and try again. "
+    echo "[arlib]In some OS, arlib cannot work right with symbolic links. In this case, try:"
+    echo "[arlib]    arlib GAMIT_PATH"
+fi
+
+path_gg=`pwd`
+
+#create a temporary directory
+path_tmp=`pwd`/.tmp
+mkdir -p $path_tmp
+cd $path_tmp
+
+#unpack each library file *.a
+for file in $files; do
+    echo $file
+    ar x $file
+done
+
+#delete preread_cf.o (which proved to cause errors when compile gpsf source code)
+\rm -f preread_cf.o
+#delete existing lib file
+\rm -f  ${file_lib}
+
+ar rv ${file_lib} *.o
+ranlib ${file_lib}
+#echo $file_lib
+cd ..
+#pwd
+\rm -rf ${path_tmp}
+echo "[arlib]gg path: ${path_gg}"
+echo "[arlib]output: $file_lib"
+echo "[arlib]Done."
+
+#Deleted:
+#	preread_cf.o
+

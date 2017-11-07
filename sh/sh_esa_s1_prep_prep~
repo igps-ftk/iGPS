@@ -1,0 +1,55 @@
+#!/bin/sh
+
+# Name:
+#   sh_esa_s1_prep_prep
+#   
+
+# Purpose:
+#   Prepare xml files for processing.
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+path_esa=/g5b/tianyf/esa/bengco
+path_esa=
+
+if [ "$esa_unzip" = "" ]; then
+    echo "ESA environment esa_unzip variable not set! Stopped!!"
+    exit 1
+fi
+
+path_esa=${esa_unzip}
+
+if [ "$1" == "" ]; then
+    echo "Usage: sh_esa_s1_prep_prep file"
+    exit
+fi
+
+file=$1
+
+grep '^ ' $file | awk '{print $1}' > .tmp
+while read line; do
+    echo $line
+    dfile="`echo $line | awk -F. '{print $1}'`.SAFE"
+    if [ ! -d ${path_esa}/${dfile} ]; then
+	echo "ERROR:data not found [${path_esa}/${dfile}]!!"
+	exit 1
+    fi
+    
+    awk 'NR>1 {print $0}' < ${esa_unzip}/${dfile}/manifest.safe > tmp_file
+    files=`ls ${esa_unzip}/${dfile}/annotation/*.xml`
+    for file in $files; do
+	cat ${file} tmp_file ${GMT5SAR}/preproc/S1A_preproc/src_tops/s1a-aux-cal.xml > `basename ${file}`
+    done
+    #exit
+done < .tmp
+

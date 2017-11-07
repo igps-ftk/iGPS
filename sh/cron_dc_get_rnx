@@ -1,0 +1,52 @@
+#!/bin/sh
+
+# Name:
+#   cron_dc_get_rnx
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+#. ~/.bashrc
+. ${HOME}/.bashrc
+# Dependency:
+#   
+year=`date -u +%Y`
+#yy=`date -u +%y`
+#mo=`date -u +%m`
+#dd=`date -u +%d`
+#doy=`ymd2ydoy ${year} ${mo} ${dd} | awk '{print $2}'`
+doy=`date -u +%j`
+doy=`expr $doy - 1`
+if [ $doy -le 0 ]; then
+    year=`expr $year - 1`
+    doy=`ymd2ydoy $year 12 31 | awk '{print $2}'`
+fi
+ndays=1
+tmp=`date -u +%Y%m%d%H%M%S`
+sfile=/export/home/tianyf/gpsf/cgps/conf/dc-110925.sit
+root_dc=/d3/data/rinex
+root_dc=/h1/ftp/pub/rinex
+
+log_dc=/d2/ftp/pub/log
+log_dc=/h1/ftp/pub/log
+
+archives="kasi pbo" #ign sopac cddis
+
+ofile=${log_dc}/cron_dc_getrnx_${tmp}.log
+echo "LOG file: $ofile"
+
+for archive in $archives; do
+    echo "get_rnx ${year} ${doy} ${ndays} --sitefile=${sfile} --dir=${root_dc} --archive=${archive} --dirlog=${log_dc} >>  ${ofile} 2>&1"
+    /export/home/tianyf/gpsf/cgps/bin/Linux_x86_64/get_rnx ${year} ${doy} ${ndays} --sitefile=${sfile} --dir=${root_dc} --archive=${archive} --dirlog=${log_dc} >>  ${ofile} 2>&1
+done
+
+/export/home/tianyf/gpsf/cgps/com/upd_rnx_hold -year $year -doy $doy -ndays $ndays

@@ -1,0 +1,33 @@
+#!/bin/sh
+
+# Name:
+#   sh_arch
+#   
+
+# Purpose:
+#   Return current system type
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+
+#arch="`uname -s`_`uname -i`"
+arch="`uname -s`"
+if [ "$sys" = "SunOS" ]; then
+    arch="${arch}_`isainfo -b`"
+elif [ "$sys" = "Linux" ]; then
+    arch="${arch}_`uname -p`"    
+else
+    arch="${arch}_`uname -i`"
+fi
+
+echo $arch

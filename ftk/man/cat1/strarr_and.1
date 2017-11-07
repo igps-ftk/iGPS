@@ -1,0 +1,66 @@
+
+
+
+FORTRAN Programs for GPS                            STRARR_AND(1)
+
+
+
+NAME
+     strarr_and - An alternative to IDL's STRSPLIT function.
+
+SYNOPSIS
+     call strarr_and (_a_r_r_1, _n_1, _a_r_r_2, _n_2, _a_r_r, _n)
+
+DESCRIPTION
+     strsplit split the given string into several segments.
+
+     _a_r_r_1 this is the input string.
+
+     _n_1   the field separator. Default to be blank (' ').
+
+     _a_r_r_2 number of segments.
+
+     _n_2   result of splited strings.
+
+     _a_r_r  result of and set.
+
+     _n    number of resulting array.
+
+OPTIONS
+     NONE.
+
+EXAMPLES
+      character*4 arr1(10),arr2(5),arr(10)
+      integer*4 n1,n2,n
+      data arr1 /'bjfs','shao','wuhn','kunm','lhas','lhaz'/
+      data arr2 /'bjfs','lhas','urum','guao'/
+      n1=6
+      n2=4
+      call strarr_and(arr1,n1,arr2,n2,arr,n)
+
+SEE ALSO
+     _G_P_S_F(1)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+GPSF                Last change: 23 Nov 2007                    1
+
+
+

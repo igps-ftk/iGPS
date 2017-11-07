@@ -1,0 +1,13 @@
+PRO READ_QOCA_MAP_raw, FILE, DATA=DATA
+  IF N_PARAMS() LT 1 THEN BEGIN
+    FILE='J:\gpse\rerun.lutai\comb\trnsLTCM\gsoln\qmap\LS20_GPS.list'
+  ENDIF
+  
+  READ_COLS_ASCII,FILE,DATA=DATA
+  ;HELP,DATA_
+  ;PRINT,DATA_[*,0]
+  ;DATA=DOUBLE(DATA_[[0,2,1,6,4,3,7],*])
+  ;PRINT,DATA
+  ;STOP
+
+END

@@ -1,0 +1,23 @@
+;+
+; Name:
+;		del_ind
+;
+; Purpose:
+;		To delete specified elements of an array.
+;
+;+++
+;-
+
+FUNCTION DEL_IND, ARRAY, TODEL, MASK=MASKV
+  IF N_ELEMENTS(MASKV) EQ 0 THEN MASKV=-9999
+	TMP=LONARR(N_ELEMENTS(ARRAY))
+	TMP(TODEL)=MASKV
+	RETURN,ARRAY(WHERE(TMP NE MASKV))
+END
+;///
+
+PRO DEL_IND
+  ARRAY=[1,2,3,4,5]
+  TODEL=[0,1,3]
+  PRINT,DEL_IND(ARRAY,TODEL)
+END

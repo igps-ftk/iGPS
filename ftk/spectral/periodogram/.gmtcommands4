@@ -1,0 +1,7 @@
+# GMT common arguments shelf
+-Ba1:Log@-10@-@+freq(Hz)@+:/a1f1WSne:Log@-10@-@+Power@+:
+-JX10
+-Jx1.8i/.51i
+-jx1.8i/.51i
+-R-8.66/-5.23/-7/4
+EOF

@@ -1,0 +1,62 @@
+PRO JD_TO_DECYRS, JDI, DECYRS
+
+  IF N_PARAMS() LT 1 THEN BEGIN
+    JDI=2454243.9226D0
+    JDI=2448826.5D0
+    JDI=53450.5D0
+    JDI= 53045.5D0
+  ENDIF
+  
+  IF JDI LT 2000000D0 THEN BEGIN
+    JDI = JDI + 2400000.5D0
+  ENDIF
+  
+  ;*     ROUTINE TO CONVERT JD TO DECIMAL YEARS (I.E. TO 1986.45)
+  
+  ;*   DATE(5) - DATE ARRAY NEEDED BY YMDHMS_TO_JD
+  
+  ;      INTEGER*4 DATE(5)
+  DATE = INTARR(5)
+  
+  ;*   DECYRS  - DECIMINAL YEARS VALUES
+  ;*   JD      - JULIAN DATA
+  ;*   JDI     - INPUT JULIAN DATE
+  ;*   SECS    - SECONDS TAG NEEDED FOR YMDHMS_TO_JD
+  
+  
+  ;      REAL*8 DECYRS, JD, JDI, SECS, JDE, NUM_DAYS
+  
+  ;***** GET YEARS PART OF DECYRS AND JD AT START OF YEAR
+  
+  JD_TO_YMDHMS , JDI, DATE, SECS
+  
+  ;*                             ! JAN
+  DATE(1) = 1
+  ;*                             ! FIRST
+  DATE(2) = 1
+  ;*                             ! 0 HRS
+  DATE(3) = 0
+  ;*                             ! 0 MINUTES
+  DATE(4) = 0
+  
+  SECS    = 0
+  ;*                                             ! JD AT START OF YEAR
+  YMDHMS_TO_JD, DATE, SECS, JD
+  IF N_PARAMS() LT 1 THEN PRINT, DATE, SECS,JD
+  
+  ;*     GET NUMBER OF DAYS IN YEAR
+  DATE(0) = DATE(0) + 1
+  YMDHMS_TO_JD, DATE, SECS, JDE
+  NUM_DAYS = JDE - JD
+  IF( NUM_DAYS NE 365.D0  AND  NUM_DAYS NE 366.D0 ) THEN BEGIN
+    NUM_DAYS = 365.D0
+  ENDIF
+  DATE(0) = DATE(0) - 1
+  
+  DECYRS = DATE(0) + (JDI-JD)/NUM_DAYS
+  
+  IF N_PARAMS() LT 1 THEN PRINT, DECYRS, FORMAT='(F20.6)'
+  ;***** THATS ALL
+  RETURN
+END
+

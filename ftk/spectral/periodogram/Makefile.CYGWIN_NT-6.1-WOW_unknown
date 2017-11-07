@@ -1,0 +1,47 @@
+# Makefile for periodogram on CYGWIN_NT-6.1-WOW 2.8.0(0.309/5/3) by unimake at Fri, Jun 09, 2017  4:51:18 PM
+
+all: psdsios psd_stack_ray
+
+
+
+# ASSIGMENTS
+### G77 flags ###
+#FTN = g77 
+#FFLAGS = -O3 -Wuninitialized -Wunused -Wimplicit -fno-f2c -ffast-math -fno-automatic -fno-backslash -Wno-globals -fno-globals
+#CC = gcc
+#CFLAGS = -g -lz 
+### GCC V4 gfortran flags ###
+FTN = gfortran
+FFLAGS = -O3 -Wuninitialized -Wunused -Wimplicit -fno-f2c -ffast-math -fno-automatic -fno-backslash
+CC = gcc
+CFLAGS = -g -lz 
+#### For 64-bit machines:
+#CFLAGS = -g --DADD64BIT
+
+SLIB = ../../data/read/cgps_data_read.a.CYGWIN_NT-6.1-WOW_unknown ../../data/write/cgps_data_write.a.CYGWIN_NT-6.1-WOW_unknown ../../lib/cgps_lib.a.CYGWIN_NT-6.1-WOW_unknown ../../../../gglib/gglib.a.CYGWIN_NT-6.1-WOW_unknown ../../nr/nr_lib.a.CYGWIN_NT-6.1-WOW_unknown 
+X11LIB = 
+II = 
+
+psdsios : psdsios.f  $(SLIB) ../../inc/cgps.h
+	$(FTN) psdsios.f  $(SLIB) -o psdsios.CYGWIN_NT-6.1-WOW_unknown $(FFLAGS)
+	rm -f psdsios.o
+
+psd_stack_ray : psd_stack_ray.f  $(SLIB) ../../inc/cgps.h
+	$(FTN) psd_stack_ray.f  $(SLIB) -o psd_stack_ray.CYGWIN_NT-6.1-WOW_unknown $(FFLAGS)
+	rm -f psd_stack_ray.o
+
+
+.c.a:
+	$(CC) -c $(CFLAGS) -I$(II) $<
+	ar rv $@ *.o
+	rm -f $*.o
+
+.f.a:
+	$(FTN) -c $(FFLAGS) $<
+	ar rv $@ *.o
+	rm -f $*.o
+
+
+cleanall:
+	rm -f *.a.CYGWIN_NT-6.1-WOW_unknown *.o *core psdsios psd_stack_ray  psdsios.CYGWIN_NT-6.1-WOW_unknown psd_stack_ray.CYGWIN_NT-6.1-WOW_unknown
+# End of Makefile

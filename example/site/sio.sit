@@ -1,0 +1,7 @@
+*   SRC: D:\phd\expt\gpsf\external\iGPS\example\sio\cleanedNeuUnf &
+*   SRC: FILTER=*.neu [SELECTED]
+*  PROG: iGPS:SITEFILE+WTSIT
+*RUN BY: tianyf @ TYF [x86 Family 6 Model 37 Stepping 5, GenuineIntel]
+*RUN AT: Microsoft Windows x86
+*RUN ON: Wed Apr 20 11:29:48 2011 [UTC]
+ algo bjfs

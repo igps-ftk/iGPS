@@ -1,0 +1,49 @@
+#!/bin/sh
+
+# Name:
+#   sh_intf_in_rem
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+if [ ! -s intf.in ]; then
+    echo "[]ERROR:intf.in not exist!"
+    exit 1
+else
+    echo "#lines: `wc -l intf.in`"
+fi
+
+days=`ls -lS intf_all_los_ll_png/*-phasefilt_mask_ll.png | awk '{print $9}'|awk -F/ '{print $2}' | awk -F- '{print $1}'`
+
+rm -f intf.in.rem
+while read day; do
+    #echo $day
+    day1=`echo $day | awk -F: '{print $1}'`
+    n1=`grep -n $day1 data.in | awk -F: '{print $1}'`
+    ymd1=`sed -n "${n1}p" scene.tab | awk '{print $1}'`
+    #
+    day2=`echo $day | awk -F: '{print $2}'`
+    n2=`grep -n $day2 data.in | awk -F: '{print $1}'`
+    ymd2=`sed -n "${n2}p" scene.tab | awk '{print $1}'`
+    #echo $ymd1 $ymd2 $n1 $n2
+    if [ -s ./intf_all_los_ll_png/${ymd1}_${ymd2}-los_ll.png ]; then
+	echo "[]WARNING:./intf_all_los_ll_png/${ymd1}_${ymd2}-los_ll.png exist! skip"
+	continue
+    else
+	echo $day >> intf.in.rem
+    fi
+    
+done < intf.in

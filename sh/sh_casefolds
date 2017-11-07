@@ -1,0 +1,39 @@
+#!/bin/sh
+
+# Name:
+#   sh_casfolds
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+path=`pwd`
+
+echo "searching file in $path ..."
+files=`find $path -name "*[A-Z]*.??[oO]*"|sort`
+for file in $files; do
+    #echo $file
+    dname=`dirname $file`
+    fname=`basename $file`
+    #echo $dname
+    #echo $fname
+    #exit
+    filen=`echo $fname | awk '{print length($0)}'`
+    ofile=`echo $fname | awk -F. '{if ($NF == "Z") {print tolower(substr($0,1,(len-2)))".Z"} else {print tolower($0)}}' len=$filen`
+    #echo $ofile
+    echo "\mv -f $file ${dname}/$ofile"
+    \mv -f $file ${dname}/$ofile
+    #exit
+done

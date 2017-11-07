@@ -1,0 +1,109 @@
+#!/bin/sh
+
+# Name:
+#   sh_mv_hfiles
+#   
+
+# Purpose:
+#   Move h-files from hfile.final directory to hfile directory.
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#  
+
+# Dependency:
+#   
+
+if [ $# -lt 2 ]; then
+    echo "Usage:"
+    echo "sh_mv_hfile -dir path -odir opath"
+    echo "             -expt refm -yr 2008 -doy 1 -ndays 10"
+fi
+
+
+# process command-line parameters
+#####################################################
+#COMMAND LINE PARAMETERS
+#####################################################
+while [ "$1" != "" ]
+do
+  #echo $1
+  case $1 in
+      -dir)
+	  cd $2
+	  path=$2
+	  ;;
+      -odir)
+	  opath=$2
+	  ;;
+      -yr)
+	  year=$2
+	  yr=`echo $year | awk '{print substr($0,3,2)}'`
+	  y=`echo $year | awk '{print substr($0,4,1)}'`
+	  ndoys=`ymd2ydoy ${year} 12 31 | awk '{print $2}'`
+	  ;;
+      -doy)
+	  doy=$2
+	  ;;
+      -ndays)
+	  ndays=$2
+	  ;;
+      -expt)
+	  expt=$2
+	  ;;
+      *)
+	  echo "invalid options: $1"
+	  exit 1
+	  ;;
+  esac
+  shift 2
+done
+#echo $sites
+
+i=0
+while [ $i -lt $ndays ]; do
+    #echo $i $doy
+    #doy=`expr $i + $doy`
+    #echo $doy
+
+    if [ $doy -gt $ndoys ]; then
+	doy=1
+	year=`expr $year + 1`
+	yr=`echo $year | awk '{print substr($0,3,2)}'`
+	y=`echo $year | awk '{print substr($0,4,1)}'`
+	ndoys=`ymd2ydoy ${year} 12 31 | awk '{print $2}'`
+    fi
+    doy=`echo $doy | awk '{printf("%03d",$0)}'`
+
+    cd ${path}/${year}/${doy} > /dev/null 2>&1
+    if [ $? -ne 0 ]; then
+	echo "error for entering $doy / $year .."
+	i=`expr $i + 1`
+	doy=`expr $doy + 1`
+	continue
+    fi
+    #pwd
+
+    #create output directory
+    tdir=${opath}/${year}/${doy}
+    #echo "mkdir -p ${tdir}"
+    mkdir -p ${tdir}
+    
+    #copy files
+    echo "moving files for $doy / $year .."
+
+    file="h${expt}a.${yr}${doy}.Z"
+    ofile=${path}/${year}/${doy}/${file}
+    tfile=${opath}/${year}/${doy}/
+    echo "mv $ofile $tfile"
+    mv $ofile $tfile
+
+
+    i=`expr $i + 1`
+    doy=`expr $doy + 1`
+done

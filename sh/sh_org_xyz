@@ -1,0 +1,90 @@
+#!/bin/sh
+
+# Name:
+#   sh_org_xyz
+#   
+
+# Purpose:
+#   Get XYZ position time series from glorg *.org files.
+#   XYZ values in the "Unc." lines used.
+
+# Example:
+#   sh_org_xyz -dir input_path -odir output_path -expt EXPT
+#
+#   If paths are not set, then current directory will be used.
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+path=`pwd`
+opath=`pwd`
+expt='????'
+
+while [ "$1" != "" ]; do
+    case $1 in 
+	-dir)
+	    cd "$2"
+	    path=`pwd`
+	    ;;
+	-odir)
+	    cd "$2"
+	    opath=`pwd`
+	    ;;
+	-expt)
+	    expt="$2"
+	    ;;
+	*)
+	    echo "invalid options: $1"
+	    exit 1
+	    ;;
+    esac
+    shift 2
+done
+
+files=`find $path -name "globk_${expt}_?????.org" | sort`
+nf=`find $path -name "globk_${expt}_?????.org" | wc -l`
+echo "[sh_org_xyz]Number of total *.org files: $nf"
+#rm -rf *.xyz
+
+echo "[sh_org_xyz]Preparing position lines..."
+\rm -rf uncs
+#another method
+for file in $files; do
+    grep -a -h 'Unc.' $file | cut -c5- >> uncs
+done
+sort uncs > uncs.sort
+sites=`awk '{print substr($1,1,4)}' uncs.sort | sort | uniq`
+echo "[sh_org_xyz]Sites found:"
+echo $sites
+for site in $sites; do
+    echo "[sh_org_xyz]Creating XYZ time series file for site $site ..."
+    grep $site uncs.sort > ${site}.apr
+    cat ${site}.apr | awk '{print $8,$2,$3,$4,$9,$10,$11}' | sort -n > ${site}.txyz
+    txyz2xyz ${site}.txyz ${site}.xyz.neu
+done
+
+
+#exit 0
+##the below code is too slow
+
+#for file in $files; do
+#    echo $file
+#    grep 'Unc.' $file | cut -c5- > .tmp
+#    time=`grep "Solution refers to" $file | awk -F'(' '{print $2}' | awk -F')' '{print $1}'`
+#    #echo $time
+#    #exit 0
+#    sites=`cat .tmp | awk '{print substr($1,1,4)}'|sort|uniq`
+#    #echo $sites
+#    for site in $sites; do
+#	grep $site .tmp | awk '{print $1,$2,$3,$4,$5,$6,$7,t,$9,$10,$11}'  t=$time >> ${site}.xyz
+#    done
+#    #exit 0
+#done
+
+

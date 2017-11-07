@@ -1,0 +1,38 @@
+.TH STRARR_AND 1 "23 Nov 2007" "iGPSftk" "FORTRAN ToolKit for GNSS"
+.SH NAME
+strarr_and \- An alternative to IDL's STRSPLIT function.
+.SH SYNOPSIS
+call strarr_and (\fIarr1\fP, \fIn1\fP, \fIarr2\fP, \fIn2\fP, \fIarr\fP, \fIn\fP)
+.SH DESCRIPTION
+\fBstrsplit\fP split the given string into several segments.
+.TP
+\fIarr1\fP
+this is the input string.
+.TP
+\fIn1\fP
+the field separator. Default to be blank (' ').
+.TP
+\fIarr2\fP
+number of segments.
+.TP
+\fIn2\fP
+result of splited strings.
+.TP
+\fIarr\fP
+result of and set.
+.TP
+\fIn\fP
+number of resulting array.
+.SH OPTIONS
+.TP
+NONE.
+.SH EXAMPLES
+ character*4 arr1(10),arr2(5),arr(10)
+ integer*4 n1,n2,n
+ data arr1 /'bjfs','shao','wuhn','kunm','lhas','lhaz'/
+ data arr2 /'bjfs','lhas','urum','guao'/
+ n1=6
+ n2=4
+ call strarr_and(arr1,n1,arr2,n2,arr,n)
+.SH "SEE ALSO"
+.IR iGPSftk (1)

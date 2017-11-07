@@ -1,0 +1,288 @@
+#!/bin/sh
+
+# Name:
+#   run_gamit_qsub
+#   
+
+# Purpose:
+#   Queue gamit tasks to slurmd.
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+. ${HOME}/.bashrc
+
+#Please edit the below PROC_DIR for IGS data (rinex, nav, products) in the naming convenction of SIO.
+IGS_DIR=/h1/ftp/pub
+#--
+# |-rinex/
+# |      -2016/
+# |           -001/
+# |               -bjfs0010.16d.Z
+# |
+# |-nav/
+# |    -2016/
+# |         -001/
+# |             -brdc0010.16n.Z
+# |
+# |-products/
+# |         -1877/
+# |              -igs18775.sp3.Z #for IGSF orbit
+# |              -igr18775.sp3.Z #for IGSR orbit
+
+
+orbit=IGSR
+#orbit=IGSF
+#gamit processing directory, e.g. 
+PROC_DIR=/home/tianyf/gpse/trns/solut/gmf/${orbit}
+#--
+# |-igs1/
+# |     -s1/
+# |        -run_s1 #*
+# |        -tables.tar.gz  #*
+# |        -tables/
+# |                -autcln.cmd
+# |                -process.defaults
+# |                -sestbl.
+# |                -sites.defaults
+# |                -sittbl.
+# |                -station.info
+# |        
+echo "*Note: the daily processing will be in ${PROC_DIR}/TEMP/"
+
+#Archive H-file directory
+HFILE_DIR=/c1/hfilesi.v16
+
+#Temporary files directory
+TMP_DIR=/d2/tianyf/trns/IGSF
+TMP_DIR=/tmp
+
+
+expts=
+
+
+year=`date +"%Y" -u`
+doyr=`date +"%j" -u | awk '{printf("%03d",$0-2)}'`
+#doyr=328
+#doyr=001
+if [ $doyr -eq -1 ]; then
+    year=`expr $year - 1`
+   doyr=`ymd2ydoy $year 12 30 | awk '{print $2}'`
+elif [ $doyr -eq 0 ]; then
+    year=`expr $year - 1`
+   doyr=`ymd2ydoy $year 12 31 | awk '{print $2}'`
+
+fi
+
+
+
+
+ndays=1
+
+#whether overwrite existing H-file
+overwrite=0
+
+
+
+while [ "$1" != "" ]; do
+    case $1 in
+	-dir)
+	    path_old=`pwd`
+	    cd $2
+	    PROC_DIR=`pwd`
+	    cd $path_old
+	    ;;
+	-hdir)
+	    path_old=`pwd`
+	    cd $2
+	    HFILE_DIR=`pwd`
+	    cd $path_old
+	    ;;
+	-doy)
+	    doyr=`echo $2 | awk '{printf("%03d",$0-0)}'`
+	    ;;
+	-year)
+	    year=$2
+	    ;;
+	-ndays)
+	    ndays=$2
+	    ;;
+	-orbit)
+	    orbit=$2
+      PROC_DIR=/home/tianyf/gpse/trns/solut/gmf/${orbit}
+	    ;;
+	-overwrite)
+	    overwrite=$2
+	    ;;
+        -expt)
+            expts=$2
+            expts=`echo $expts | sed -e 's/,/ /g'`
+            ;;
+	*)
+	    echo "[run_rapid]ERROR: invalid options ($1) !!!"
+	    exit 1
+	    ;;
+    esac
+    shift 2
+done
+
+echo Year/Doy/Ndays/Orbit $year $doyr $ndays $orbit
+#exit
+
+
+
+yr=`echo $year | awk '{print substr($1,3,2)}'`
+ndoyr=`ymd2ydoy $year 12 31 | awk '{print $2}'`
+
+
+jd_icd1=`doy 2014 292 | head -1 | awk '{printf("%5.0f", $10)}'`
+echo $jd_icd1
+#exit
+
+#loop for days
+
+di=1
+while [ $di -le $ndays ]; do 
+
+    #expt icd1 only exist since 2014/292 and for July 2013 and July 2014.
+    jd_doyr=`doy $year $doyr | head -1 | awk '{printf("%5.0f", $10)}' `
+    if [ "$expts" = "" ]; then
+      if [ $jd_doyr -ge $jd_icd1 ]; then
+	expts="lasa trna trnb trnc trnd trne trnf trng trnh"
+      else
+	#expts="lasa trna trnb trnc trnd trne trnf trng trnh"
+	expts=" trna trnb trnc trnd trne trnf trng trnh"	
+      fi
+    fi
+    echo $expts
+    #exit 
+
+gpsw=`doy $year $doyr | grep 'GPS Week' | awk '{printf("%04d",$3)}'`
+gpsd=`doy $year $doyr | grep 'GPS Week' | awk '{printf("%d",$7)}'`
+
+#check whether orbit file exist
+case $orbit in
+    IGSR)
+	file_orb=${IGS_DIR}/products/${gpsw}/igr${gpsw}${gpsd}.sp3.Z
+	;;
+    IGSF)
+	file_orb=${IGS_DIR}/products/${gpsw}/igs${gpsw}${gpsd}.sp3.Z
+	;;
+    *)
+	echo "[run_rapid]ERROR: orbit $orbit not yet supported!"
+	exit 1
+	;;
+esac	
+echo $file_orb
+if [ -s $file_orb ]; then
+    echo "[run_rapid]Orbit file exits."
+else
+    echo "[run_rapid]ERROR: orbit file (${file_orb}) does not exist!"
+    exit 1
+fi
+
+
+
+for expt in $expts; do
+    #expt=trnd
+
+    #check whether already done
+    file_h=${HFILE_DIR}/${year}/${doyr}/h${expt}a.${yr}${doyr}.Z
+    if [ -s $file_h ]; then
+	#solut_type=`zgrep tig $file_h | head -1 | awk '{print substr($2,2,4)}'`
+        solut_type=igsf
+	echo "orbit solution type: ${solut_type}"
+	case $orbit in
+	    IGSR)
+		if [ "$solut_type" = "igsf" -o "$solut_type" = "igsr" ]; then
+		    echo "[run_rapid]Already done (${file_h})!"
+		    if [ $overwrite -eq 0 ]; then
+			continue
+		    else
+			echo "[run_rapid]WARNING:overwriting!"
+		    fi
+		else
+		    echo "[run_rapid]H-file exists but not correct orbit type!"
+		fi
+		;;
+	    IGSF)
+		if [ "$solut_type" = "igsf" ]; then
+		    echo "[run_rapid]Already done (${file_h})!"
+		    if [ $overwrite -eq 0 ]; then
+			continue
+		    else
+			echo "[run_rapid]WARNING:overwriting!"
+		    fi
+			
+		else
+		    echo "[run_rapid]H-file exists but not correct orbit type!"
+		fi
+		;;
+	esac
+    fi
+
+    tmp=`date | sed -e 's/ /_/g' | sed -e 's/:/-/g'`
+ 
+
+    #/home/tianyf/gpse/trns/solut/gmf/rapid/trnd/run_s1 
+    #file_t=/d2/tianyf/trns/IGSF/${expt}-${doyr}-${year}-${orbit}-${tmp}.sh
+    file_t=${TMP_DIR}/${expt}-${doyr}-${year}-${orbit}.sh
+    if [ -s $file_t ]; then
+	echo "Task [${file_t}] already queued!"
+	continue
+    fi
+
+
+    echo "#!/bin/sh" > $file_t
+
+    path_t=${PROC_DIR}/temp/${tmp}-${expt}-${doyr}-${year}-${orbit}
+    echo "mkdir -p $path_t " >> $file_t
+    echo "mkdir -p ${path_t}/${expt}/s1 " >> $file_t
+    echo $path_t
+
+    #copy tables
+    echo "cd ${path_t}/${expt}/s1 " >> $file_t
+    echo "\cp -f ${PROC_DIR}/${expt}/s1/tables.tar.gz . " >> $file_t
+    echo "\tar zxvf tables.tar.gz >& /dev/null " >> $file_t
+    echo "cd .. " >> $file_t
+    echo "\cp -f  ${PROC_DIR}/${expt}/run_s1 . " >> $file_t
+    #exit
+    echo "pwd " >> $file_t
+
+    echo 'date' >> $file_t
+    echo 'sleep 10' >> $file_t
+    echo 'date' >> $file_t
+    echo "echo ${path_t}/${expt}/run_s1 -year $year -doy $doyr -ndays 1 -orbit $orbit" >> $file_t
+    echo "${path_t}/${expt}/run_s1 -year $year -doy $doyr -ndays 1 -orbit $orbit -script $file_t" >> $file_t
+
+    #echo ${PROC_DIR}/${expt}/run_s1 -year $year -doy $doyr -ndays 1 -orbit $orbit
+    #${PROC_DIR}/${expt}/run_s1 -year $year -doy $doyr -ndays 1 -orbit $orbit
+    echo $file_t
+    cat $file_t
+    pwd
+    #sleep 1
+    sbatch $file_t
+    #exit
+done
+
+#end-of-loop-for-days
+di=`expr $di + 1`
+doyr=`expr $doyr + 1 | awk '{printf("%03d",$1)}'`
+if [ $doyr -gt $ndoyr ]; then
+    year=`expr $year + 1`
+    yr=`echo $year | awk '{print substr($1,3,2)}'`
+    ndoyr=`ymd2ydoy $year 12 31 | awk '{print $2}'`
+    doyr=001
+fi
+done
+
+sinfo
+squeue

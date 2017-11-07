@@ -1,0 +1,129 @@
+#!/bin/sh
+
+. ${HOME}/.bashrc
+
+#local_root=~/igs/pub/rinex
+#local_root=/i/data.server/pub/rinex
+#local_root=/cygdrive/i/data.server/pub/rinex
+#local_root=/cygdrive/l/igs3/pub/rinex
+#local_root=/cygdrive/k/igs_data/pub/hfiles
+#local_root=/cygdrive/i/igs_data/pub/hfiles
+#local_root=/cygdrive/j/igs2/pub/rinex
+#local_root=/cygdrive/e/igs/pub/nav
+local_root=/data0/igs0/pub/nav
+local_root=/d2/ftp/pub/nav
+local_root=/h1/ftp/pub/nav
+#yearStart=2005
+#yearStart=1999
+#yearStart=2001
+#yearStart=2008
+#yearEnd=2008
+
+#use system default time
+yearStart=`date -u +%Y`
+#yearEnd=`date -u +%Y`
+
+#doys=001
+#doye=`ymd2ydoy ${yearStart} 12 31 | awk '{print $2}'`
+
+#doys=`date +"%j" -u`
+doys=`date -u +%j | awk '{printf("%03d",$0)}'`
+doys=`expr $doys - 1`
+if [ $doys -le 0 ]; then
+    yearStart=`expr $yearStart - 1`
+    doys=`ymd2ydoy ${yearStart} 12 31 | awk '{print $2}'`
+    doys=`echo $doys | awk '{printf("%03d",$0)}'`
+fi
+doye=$doys
+yearEnd=$yearStart
+
+# process command-line parameters
+#####################################################
+#COMMAND LINE PARAMETERS
+#####################################################
+while [ "$1" != "" ]
+do
+  #echo $1
+  case $1 in
+      -dir)
+	  cd $2
+	  local_root=$2
+	  ;;
+      -yrs)
+	  yearStart=$2
+	  yr=`echo $yearStart | awk '{print substr($0,3,2)}'`
+	  y=`echo $yearStart | awk '{print substr($0,4,1)}'`
+	  ndays=`ymd2ydoy ${yearStart} 12 31 | awk '{print $2}'`
+	  ;;
+      -yre)
+	  yearEnd=$2
+	  ;;
+      -doys)
+	  doys=$2
+	  ;;
+      -doye)
+	  doye=$2
+	  ;;
+      -sites)
+	  sites=$2
+	  sites=`echo $sites | awk -F, '{for (i=1;i<=NF;i++) print $i}'`
+	  ;;
+      -sitefile)
+	  sfile=$2
+	  
+	  sites=`sh_site_read $sfile`
+	  #echo $sites
+	  ;;
+      *)
+	  echo "invalid options: $1"
+	  exit 1
+	  ;;
+  esac
+  shift 2
+done
+#echo $sites
+
+echo $yearStart $doys $yearEnd $doye
+#exit
+#echo $sites
+
+#exit
+
+year=${yearStart}
+while [ ${year} -le ${yearEnd} ]; do
+
+    if [ ${year} -eq ${yearStart} ]; then
+	doy=${doys}
+    else
+       doy=001
+    fi
+
+    if [ ${year} -eq ${yearEnd} ]; then
+	ndays=${doye}
+    else
+	ndays=`ymd2ydoy ${year} 12 31 | awk '{print $2}'`
+    fi
+
+    yy=`echo $year | awk '{print substr($0,3,2)}'`
+    while [ ${doy} -le ${ndays} ]; do
+        doy=`echo $doy | awk '{printf("%03d",$0)'}`
+        day_dir=${local_root}/${year}/${doy}
+        mkdir -p ${day_dir}
+        cd ${day_dir}
+        pwd
+
+	
+	echo "wget -nc --user=anonymous --password=tianyf@gmail.com http://garner.ucsd.edu/pub/rinex/${year}/${doy}/auto${doy}0.${yy}n.Z -O brdc${doy}0.${yy}n.Z"
+	wget -nc --user=anonymous --password=tianyf@gmail.com http://garner.ucsd.edu/pub/rinex/${year}/${doy}/auto${doy}0.${yy}n.Z #-O brdc${doy}0.${yy}n.Z
+       \cp -f auto${doy}0.${yy}n.Z brdc${doy}0.${yy}n.Z
+	
+	#wget -c ftp://garner.ucsd.edu/pub/rinex/${year}/${doy}/auto${doy}0.${yy}n.Z -O brdc${doy}0.${yy}n.Z
+
+	if [ ! -s brdc${doy}0.${yy}n.Z ]; then
+	    echo "\rm -f brdc${doy}0.${yy}n.Z"
+	    \rm -f brdc${doy}0.${yy}n.Z
+	fi
+	doy=`expr $doy + 1`
+    done
+    year=`expr $year + 1`
+done

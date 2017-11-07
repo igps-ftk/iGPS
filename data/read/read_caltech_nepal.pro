@@ -1,0 +1,54 @@
+;+
+; :DESCRIPTION:
+;    Read CalTech time series files (XXXX_.east.plt, XXXX_north.plt, XXXX_up.plt).
+;    http://web.gps.caltech.edu/~jeff/nepal/
+;
+; :PARAMS:
+;    FILE_UP - the Up component file
+;
+; :KEYWORDS:
+;    DATA
+;
+; :MODIFICATIONS:
+;    + Wed, Apr 05, 2017 10:16:51 AM by tianyf
+;      Add support for handling missing head line (e.g. 
+;        FIT:   2010.42 9003835050.7 2011.42 9003835102.1 51.44
+;      ).
+;      
+; :AUTHOR: tianyf
+;-
+PRO READ_CALTECH_NEPAL, FILE_UP, DATA=DATA
+  IF N_PARAMS() LT 1 THEN BEGIN
+    FILE_UP=FILEPATH(ROOT_DIR=!IGPS_ROOT,SUBDIRECTORY=['example','jpl', $
+      '7param'],'ALGO.lat')
+    FILE_UP='C:\Downloads\web.gps.caltech.edu\~jeff\nepal\plotfiles_www\BMCL_east.plt\CHLM_up.plt'
+  ENDIF
+  
+  LINES=READ_TXT(FILE_UP)
+  IF STRMID(LINES[0],0,3) EQ 'FIT' THEN NSKIP=1 ELSE NSKIP=0
+  READ_COLS_ASCII, FILE_UP, DATA=DATA_UP, SKIP=NSKIP
+  SITE=STRMID(GETFILENAME(FILE_UP),0,4)
+  PATH=GETPATHNAME(FILE_UP)
+  FILE_NORTH = PATH+PATH_SEP()+SITE+'_north.plt'
+  FILE_EAST  = PATH+PATH_SEP()+SITE+'_east.plt'
+  LINES=READ_TXT(FILE_NORTH)
+  IF STRMID(LINES[0],0,3) EQ 'FIT' THEN NSKIP=1 ELSE NSKIP=0
+  READ_COLS_ASCII, FILE_NORTH, DATA=DATA_NORTH, SKIP=NSKIP
+  LINES=READ_TXT(FILE_EAST)
+  IF STRMID(LINES[0],0,3) EQ 'FIT' THEN NSKIP=1 ELSE NSKIP=0
+  READ_COLS_ASCII, FILE_EAST, DATA=DATA_EAST, SKIP=NSKIP
+  
+  ;HELP, DATA_NORTH, DATA_EAST, DATA_UP
+  ;STOP
+  
+  DATA=DBLARR(7, N_ELEMENTS(DATA_NORTH[0,*]))
+  DATA[0,*]=DOUBLE(DATA_NORTH[0,*])
+  DATA[[1,4],*] = DOUBLE(DATA_NORTH[1:2,*])
+  DATA[[2,5],*] = DOUBLE(DATA_EAST[1:2,*])
+  DATA[[3,6],*] = DOUBLE(DATA_UP[1:2,*])
+  
+  IF N_PARAMS() LT 1 THEN BEGIN
+    HELP,FILE_NORTH,FILE_EAST,FILE_UP,DATA
+  ENDIF
+  ;STOP
+END

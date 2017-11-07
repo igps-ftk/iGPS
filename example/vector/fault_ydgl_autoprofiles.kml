@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://earth.google.com/kml/2.0">
+<Document><Folder>
+<name>fault_ydgl_autoprofiles</name>
+
+<Placemark>
+<name>fault_ydgl_autoprofiles      0</name>
+<LineString>
+<coordinates>
+90.8416562759363,31.0715485621252 92.4004296040637,31.0098062778758
+</coordinates>
+</LineString>
+<Style><LineStyle><color>ff0000ff</color></LineStyle>  <PolyStyle><fill>0</fill></PolyStyle></Style>
+</Placemark>
+<Placemark>
+<name>fault_ydgl_autoprofiles      1</name>
+<LineString>
+<coordinates>
+90.8317173608688,30.9790927290809 92.3738936791312,30.7439787109188
+</coordinates>
+</LineString>
+<Style><LineStyle><color>ff0000ff</color></LineStyle>  <PolyStyle><fill>0</fill></PolyStyle></Style>
+</Placemark>
+<Placemark>
+<name>fault_ydgl_autoprofiles      2</name>
+<LineString>
+<coordinates>
+90.7553857059745,30.7308522674339 92.3137454140255,30.6594280525664
+</coordinates>
+</LineString>
+<Style><LineStyle><color>ff0000ff</color></LineStyle>  <PolyStyle><fill>0</fill></PolyStyle></Style>
+</Placemark>
+<Placemark>
+<name>fault_ydgl_autoprofiles      3</name>
+<LineString>
+<coordinates>
+91.4262988680332,29.8162303847403 91.4507676319668,31.3760341152583
+</coordinates>
+</LineString>
+<Style><LineStyle><color>ff0000ff</color></LineStyle>  <PolyStyle><fill>0</fill></PolyStyle></Style>
+</Placemark>
+<Placemark>
+<name>fault_ydgl_autoprofiles      4</name>
+<LineString>
+<coordinates>
+91.2178413180332,29.8195004747404 91.2423100819668,31.3793042052585
+</coordinates>
+</LineString>
+<Style><LineStyle><color>ff0000ff</color></LineStyle>  <PolyStyle><fill>0</fill></PolyStyle></Style>
+</Placemark>
+<Placemark>
+<name>fault_ydgl_autoprofiles      5</name>
+<LineString>
+<coordinates>
+90.7190165212375,31.2560224823305 91.3534964787625,29.8308833376695
+</coordinates>
+</LineString>
+<Style><LineStyle><color>ff0000ff</color></LineStyle>  <PolyStyle><fill>0</fill></PolyStyle></Style>
+</Placemark>
+<Placemark>
+<name>fault_ydgl_autoprofiles      6</name>
+<LineString>
+<coordinates>
+90.5345162762375,31.1738819362305 91.1689962337625,29.7487427915695
+</coordinates>
+</LineString>
+<Style><LineStyle><color>ff0000ff</color></LineStyle>  <PolyStyle><fill>0</fill></PolyStyle></Style>
+</Placemark>
+<Placemark>
+<name>fault_ydgl_autoprofiles      7</name>
+<LineString>
+<coordinates>
+90.1840226572494,30.9479769303936 91.1940950227506,29.7591370696063
+</coordinates>
+</LineString>
+<Style><LineStyle><color>ff0000ff</color></LineStyle>  <PolyStyle><fill>0</fill></PolyStyle></Style>
+</Placemark>
+<Placemark>
+<name>fault_ydgl_autoprofiles      8</name>
+<LineString>
+<coordinates>
+90.0368093364494,30.8229002803937 91.0468817019506,29.6340604196063
+</coordinates>
+</LineString>
+<Style><LineStyle><color>ff0000ff</color></LineStyle>  <PolyStyle><fill>0</fill></PolyStyle></Style>
+</Placemark>
+<Placemark>
+<name>fault_ydgl_autoprofiles      9</name>
+<LineString>
+<coordinates>
+89.8889196301214,30.6972489538937 90.8989919956226,29.5084090931063
+</coordinates>
+</LineString>
+<Style><LineStyle><color>ff0000ff</color></LineStyle>  <PolyStyle><fill>0</fill></PolyStyle></Style>
+</Placemark>
+<Placemark>
+<name>fault_ydgl_autoprofiles     10</name>
+<LineString>
+<coordinates>
+89.5100402281191,29.9746519234429 91.0696228718809,29.9387579765573
+</coordinates>
+</LineString>
+<Style><LineStyle><color>ff0000ff</color></LineStyle>  <PolyStyle><fill>0</fill></PolyStyle></Style>
+</Placemark>
+<Placemark>
+<name>fault_ydgl_autoprofiles     11</name>
+<LineString>
+<coordinates>
+89.5058986711191,29.7947023504432 91.0654813148809,29.7588084035576
+</coordinates>
+</LineString>
+<Style><LineStyle><color>ff0000ff</color></LineStyle>  <PolyStyle><fill>0</fill></PolyStyle></Style>
+</Placemark>
+<Placemark>
+<name>fault_ydgl_autoprofiles     12</name>
+<LineString>
+<coordinates>
+89.5026346471737,29.6607126243882 91.0575768328263,29.5352486956119
+</coordinates>
+</LineString>
+<Style><LineStyle><color>ff0000ff</color></LineStyle>  <PolyStyle><fill>0</fill></PolyStyle></Style>
+</Placemark>
+<Placemark>
+<name>fault_ydgl_autoprofiles     13</name>
+<LineString>
+<coordinates>
+89.4881380141737,29.4810480273884 91.0430801998263,29.3555840986121
+</coordinates>
+</LineString>
+<Style><LineStyle><color>ff0000ff</color></LineStyle>  <PolyStyle><fill>0</fill></PolyStyle></Style>
+</Placemark>
+<Placemark>
+<name>fault_ydgl_autoprofiles     14</name>
+<LineString>
+<coordinates>
+89.4736091664337,29.3009841757282 91.0285513520863,29.1755202469519
+</coordinates>
+</LineString>
+<Style><LineStyle><color>ff0000ff</color></LineStyle>  <PolyStyle><fill>0</fill></PolyStyle></Style>
+</Placemark>
+<Placemark>
+<name>fault_ydgl_autoprofiles     15</name>
+<LineString>
+<coordinates>
+89.4653253915915,29.3253629535348 90.9360136084085,28.8051105464652
+</coordinates>
+</LineString>
+<Style><LineStyle><color>ff0000ff</color></LineStyle>  <PolyStyle><fill>0</fill></PolyStyle></Style>
+</Placemark>
+<Placemark>
+<name>fault_ydgl_autoprofiles     16</name>
+<LineString>
+<coordinates>
+89.4044096565915,29.1531618210348 90.8750978734085,28.6329094139652
+</coordinates>
+</LineString>
+<Style><LineStyle><color>ff0000ff</color></LineStyle>  <PolyStyle><fill>0</fill></PolyStyle></Style>
+</Placemark>
+<Placemark>
+<name>fault_ydgl_autoprofiles     17</name>
+<LineString>
+<coordinates>
+89.3438480828415,28.9819618579098 90.8145362996585,28.4617094508402
+</coordinates>
+</LineString>
+<Style><LineStyle><color>ff0000ff</color></LineStyle>  <PolyStyle><fill>0</fill></PolyStyle></Style>
+</Placemark>
+</Folder></Document>
+</kml>

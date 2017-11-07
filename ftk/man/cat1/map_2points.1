@@ -1,0 +1,66 @@
+
+
+
+FORTRAN Programs for GPS                           MAP_2POINTS(1)
+
+
+
+NAME
+     map_2points - Return the angular distance between two points
+     on the Earth's surface.
+
+SYNOPSIS
+     call  map_2points  (_l_o_n_0,  _l_a_t_0,,  _l_o_n_1,  _l_a_t_1,  _r_e_t__r_a_d_i_a_n,
+     _r_e_t__m_e_t_e_r, _r_e_t__m_i_l_e, _r_e_t__r_a_d_i_u_s, _d_i_s_t)
+
+DESCRIPTION
+     map_2points return the distance between two locations of the
+     Earth's surface, either in angular distance (in radians), or
+     in great circle distance (in meters).
+
+     _l_o_n_0, _l_a_t_0
+          are the longitude and latitude of  the  starting  point
+          [input].
+
+     _l_o_n_1, _l_a_t_1
+          are the longitude and  latitude  of  the  ending  point
+          [input].
+
+     _r_e_t__r_a_d_i_a_n, _r_e_t__m_e_t_e_r, _r_e_t__m_i_l_e, _r_e_t__r_a_d_i_u_s
+          specify the return unit [input].  At  present  not  all
+          avalaible.
+
+     _d_i_s_t is the distance between the starting and ending  points
+          [output].
+
+OPTIONS
+     NONE.
+
+EXAMPLES
+      real*8 lon,lat,lon0,lat0,dist
+      call map_2points(lon0,lat0,lon1,lat1,0,1,0,0d0,dist)
+
+SEE ALSO
+     _G_P_S_F(1)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+GPSF                Last change: 02 Nov 2008                    1
+
+
+

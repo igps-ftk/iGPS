@@ -1,0 +1,86 @@
+#!/bin/sh
+
+# Name:
+#   sh_sar_cal_sat_incidence
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+SAT=SAT
+file=vel_ll
+
+while [ "$1" != "" ]; do
+    case $1 in
+	-sat)
+	    SAT=$2
+	    ;;
+	-file)
+	    file=$2
+	    ;;
+	*)
+	    echo "[]ERROR: invalid options $1 !!"
+	    exit
+	    ;;
+    esac
+    shift 2
+done
+echo Satellite sensor: ${SAT}
+
+if [ ! -s ${file}.xyz ]; then
+    echo "0. first convert ${file}.grd to XYZ format"
+    if [ ! -s ${file}.grd ]; then
+	echo "[]ERROR: ${file}.grd is missing!!"
+	exit 1
+    fi
+    grd2xyz ${file}.grd | grep -v NaN | awk '{print "",$0}' > ${file}.xyz
+fi
+
+cat ${file}.xyz | awk '{print $1,$2}' > tmp_cal_sat_indicence.llde
+
+files_prm=`ls ../topo/*.PRM | sort`
+if [ $? -ne 0 ]; then
+    echo "[]ERROR: error when searching PRM file!!"
+    exit 1
+fi
+file_prm=`echo $files_prm | head -1 | awk '{print $1}'`
+sid=`basename $file_prm | awk -F- '{print $3}'`
+
+#files_led=`ls ../SLC/LED*${sid}*`
+#files_led=`find ../SLC -maxdepth 1 -name "LED*${sid}*"`
+file_led="../raw/`grep led_file $file_prm | awk '{print $3}'`"
+if [ ! -s ${file_led} ]; then
+    echo "[]ERROR:no LED file found!!"
+    exit 1
+fi
+#file_led=`echo $files_led | head -1 | awk '{print $1}'`
+echo ln -s $file_led
+echo ln -s $file_led | sh
+
+echo ln -s $file_prm 
+echo ln -s $file_prm | sh 
+file_prm=`basename $file_prm`
+
+echo ln -s ../topo/dem.grd
+echo ln -s ../topo/dem.grd | sh 
+
+echo add_look.csh tmp_cal_sat_indicence.llde $file_prm $SAT dem.grd
+echo add_look.csh tmp_cal_sat_indicence.llde $file_prm $SAT dem.grd | sh
+#exit
+
+cat tmp_cal_sat_indicence.lltnde | awk '{print $4,$5,$6}' | sar_cal_sat_incidence | awk '{print 90-$1}' > tmp_incidences
+cat tmp_incidences | mean | awk '{print $1}'
+
+\rm -f ./dem.grd

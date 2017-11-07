@@ -1,0 +1,107 @@
+#!/bin/sh
+
+#default location of GPSF
+path=${HOME}/iGPS/ftk
+
+##guess current arch
+#arch="`uname -s`_`uname -i`"
+##echo $arch
+#sys=`uname`
+##echo $sys
+#if [ "${sys}" = "SunOS" ]; then
+#    arch="${arch}_`isainfo -b`"
+##else if (${sys} == "Linux") then
+##    set arch = "${arch}_`uname -p`"    
+#fi
+#
+arch=`sh_arch`
+
+while [ "$1" != "" ]; do
+    #echo $1
+    case $1 in
+	-path)
+	    cd $2
+	    path=`pwd`
+	    ;;
+	-arch)
+	    arch=$2
+	    ;;
+	-h)
+	    echo " Purpose:"
+	    echo '   Clean iGPSftk build.'
+	    echo ' Useage:'
+	    echo '   sh_igpsftk_clean_make -path PATH -arch ARCH -h '
+	    echo '      where PATH is the path to the directory of ftk.'
+	    echo ' Example:'
+	    echo '   sh_igpsftk_clean_make '
+	    echo '   sh_igpsftk_clean_make -path /home/tianyf/iGPS/ftk'
+	    exit
+	    ;;
+	*)
+	    echo "Invalid option: $1 ."
+	    exit
+    esac
+    shift 2
+done
+
+echo "Running iGPS in $arch"
+#exit
+
+
+
+mk="make -f Makefile.${arch} cleanall"
+
+cd $path
+TARGETDIR=`pwd`
+#export TARGETDIR=$TARGETDIR
+
+
+echo ++++++++++++++++++++++++++++++
+echo Cleaning the iGPSftk package 
+
+
+# first cleaning (or check) the common libraries
+echo ++++++++++++++++++++++++++++++++++++++++++
+pkg=
+cd ${TARGETDIR}/${pkg}
+progs="lib nr"
+#echo $progs
+#exit
+for prog in $progs; do
+cd ${TARGETDIR}/${pkg}/${prog}
+pwd
+echo Cleaning the $pkg $prog
+${mk}
+if [ $? -ne 0 ]; then
+   echo "Failure in cleaning for $pkg $prog -- sh_igpsftk_clean_make terminated"   
+   exit 1
+fi
+done
+
+
+# then cleaning (or check) other libraries
+pkgs="ac cme data dc spectral tools"
+for pkg in $pkgs; do
+echo ++++++++++++++++++++++++++++++++++++++++++
+echo Cleaning the $pkg 
+cd ${TARGETDIR}/${pkg}
+pwd
+progs=`ls -l | grep '^d' | awk '{print $9}' |grep -v 'lib' | grep -v 'nr'`
+#echo $progs
+#exit
+for prog in $progs; do
+cd ${TARGETDIR}/${pkg}/${prog}
+pwd
+${mk}
+if [ $? -ne 0 ]; then
+   echo "WARNING: Failure in cleaning for $pkg $prog !"   
+   #exit 1
+fi
+done
+echo Cleaned $pkg
+done
+
+echo +++++++++++++++++++++
+echo iGPSftk build cleaned 
+echo +++++++++++++++++++++
+echo ''

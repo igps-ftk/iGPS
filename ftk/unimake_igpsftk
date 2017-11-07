@@ -1,0 +1,528 @@
+#!/bin/csh -f
+
+# !!! NOTE: Revised from GAMIT/GLOBK installation script files.
+#     ++++
+#Commented by tianyf
+
+# Purpose      Generate OS dependent makefiles from generic makefile(s)
+#              and configuration file, then make one or more modules. 
+#
+# Input        Configuration file, and generic makefile(s)   
+#
+# Output       OS-dependent Makefile(s) 
+#
+# Limitations  DEC/IBM not yet tested; debug option not yet implemented
+#
+# unimake  -m module [-l subdir] [-xlib path] [-xinc path]
+#                    [-e extension] [-b y/n] [-r y/n]
+#
+#   -m    module(s), no default. e.g. mod1:mod2:mod3  for multiples
+#   -l    subdir under module level, e.g. active , default = (none)
+#   -xlib path to X11 library, default = pick up from configuration
+#   -xinc path to X11 include, default = pick up from configuration
+#   -e    extension, default = (none)
+#   -b    debug switch, default = n
+#   -r    remove *.a files to force compilation later, default = n
+#   -c    give the version of system/compiler dependant routines you
+#         want invoked. (Ie -c g77 if you are compiling with the g77 compiler.) 
+#         (Default is the OS type you are compiling with.)
+                                        
+# Should be executed from the directory where Makefile.config resides, 
+# normally one level above the module to be made. 
+#
+# For further documentation, see libraries/comlib/Makefile.generic and 
+# gamit(or kf)/Makefile.config
+
+# By Peng Fang (pfang@ucsd.edu), Gang Chen (gachen@chandler.mit.edu)  & Bob King (rwk@prey.mit.edu), July 96.  
+# Last modified by Bob King 0050309
+
+
+# set defaults
+set conf = ~/iGPS/ftk/Makefile.config
+
+set gnrc = Makefile.generic	# generic makefile name
+set lev = ""			# subdirectory name under module dir
+set xlib = ""			# X11 library path if different from config. file
+set xinc = ""			# X11 include path if diffenrent from config. file
+set ext = ""			# extension of executables
+set bug = n			# debug switch (n = optimized)
+set cln = n			# remove switch (forced compilation)
+set sys_ver = ""	    # select the version of system dependant files required
+#                          in the Makefile. Ie sun, hp, ibm, dec, g77. 
+#                          (Default is the OS type you are compiling with)
+
+if ($#argv < 1) then
+	sed -e "1d" -e "/Last modified/q" -e "s/#//" $0
+	exit
+endif
+
+set arch = "`uname -s`"
+#echo $arch
+set sys =  `uname`
+#echo $sys
+if (${sys} == "SunOS") then
+    set arch = "${arch}_`uname -i`_`isainfo -b`"
+else if (${sys} == "Darwin") then
+    set arch = "${arch}_`uname -p`"    
+else
+    set arch = "${arch}_`uname -i`"
+endif
+
+
+# sort out user options
+foreach a ($argv)
+switch($a)
+	case -m:
+		set mods = (`echo "$argv[2]" | tr ':' ' '`) 
+		endif
+		breaksw
+	case -l:
+		set lev = "/$argv[2]"
+		breaksw
+	case -xlib:
+		set xlib = $argv[2]
+		breaksw
+	case -xinc:
+		set xinc = $argv[2]
+		breaksw
+	case -e:
+		set ext = ".$argv[2]"
+		breaksw
+	case -b:
+		set bug = y
+		breaksw
+	case -r:
+		set cln = y
+		breaksw
+	case -c:
+		set sys_ver = $argv[2] 
+       if ( $sys_ver == 'default' ) then
+         set sys_ver = ""
+       endif
+		breaksw
+endsw
+shift
+end
+echo "sys_ver: $sys_ver"
+#exit
+
+echo " "                                                       
+echo Running unimake to create Makefile for $mods
+
+set basepth = `pwd`
+#echo $basepth
+# carry out some simple checking
+if (! -e $conf) then
+	echo "Missing configuration file $conf, QUIT" 
+   echo "Run from directory above $mods"
+	exit 1
+endif
+
+if ($xlib == "") set xlib = `grep -v "#" $conf | grep "X11LIBPATH"`; shift xlib
+if (! -d $xlib || $xlib == "") then
+	echo "Path $xlib not found, QUIT"
+	exit 1
+endif
+if ($xinc == "") set xinc = `grep -v "#" $conf | grep "X11INCPATH"`; shift xinc
+if (! -d $xinc || $xinc == "") then
+	echo "Path $xinc not found, QUIT"
+	exit 1
+endif
+
+# detect user system
+set os = `uname -a`  
+echo "System name: " $os 
+
+# get 4-digit operation systerm version  
+# first remove any hyphens to cover case of  SUN-OS 4.1.3-JL  (Japanese version)
+# must use sed since awk will not handle this case consistenly on all machines
+set osver = ` echo $os[3] | sed -e "s/-//"`     
+# now remove any letters and periods
+set osver = ` echo $osver | tr -d '[a-z][A-Z].'` 
+# add zeros to fill to 4 digits (or more) and then take only the first 4
+set osver = ` echo $osver | awk '{print $1 0 0 0}'`  
+set osver = ` echo $osver | awk '{print substr($1,1,4)}' ` 
+echo "System release number translated to " $osver
+
+# switch to gcc/g77 if the OS is PC Solaris
+foreach o ($os)
+	switch($o)
+		case i86pc:
+			set bit64 = `/usr/bin/isainfo -b`
+			echo "bit64: $bit64"
+			switch ($bit64)
+			    case 64:
+				set os[1] = 'PCSol64'
+				breaksw
+			    case 32:
+				set os[1] = 'PCSol'  
+				breaksw
+			    default:
+				set os[1] = 'PCSol'  
+				breaksw
+			  endsw
+			  echo os: $os[1]
+### This is not necessary now since PC Solaris has its own Block in Makefile.config ###
+#           MOD TAH 981202: Check if OSVER > 3000 -- Seems to be
+#           case PC Solaris 2.6
+#            if ( $osver > 3000 ) then
+#    			@ osver -= 3000
+            endif
+			break
+	endsw
+end
+
+# if still has problem, print out the warning message
+  if ( $osver == 0000 ) then
+     echo "FATAL:  Cannot obtain the correct version of operation system."
+     echo "        Compiler block may be missed. Check the makefiles and  "
+     echo "        report OVSER to unimake owner with machine name/version"
+     echo " OVSER = " $osver         
+     exit 1
+  endif
+    
+# pick up the right block
+(echo $os[1]; echo $osver  | sed -e "s/ //g"; cat $conf) | \
+awk 'NR == 1 {osid = $1} \
+NR == 2 {ver = $1} \
+yn == 1 && /BLOCKEND/ {exit} \
+yn == 1 {print} \
+NR > 2 && $2 == osid && ver >= $3 && ver <= $4 {yn = 1}' >! block.tmp
+if ( -z block.tmp ) then
+  echo OSID $os[1] $osver not found in Makefile.config - remove Makefile and STOP
+  \rm -f Makefile
+  exit 1
+endif
+
+# set the hardware switch for machine-dependent source files 
+switch($os[1])
+	case HP-UX:
+		set hard = "hp"
+		breaksw
+	case SunOS: 
+		if( $osver >= 5000 ) then
+			set hard = "sol"
+		else
+			set hard = "sun"
+		endif
+		breaksw
+	case OSF1:
+		set hard = "dec"
+		breaksw
+	case ULTRIX:
+		set hard = "dec"
+		breaksw 
+	case AIX:
+		set hard = "ibm"
+		breaksw    
+   case FreeBSD:
+#      this not currently used only for checks; sys_ver set = g77
+       set hard = "i86"
+       breaksw   
+   case CYGWIN_NT-5.1:
+       set hard = "i86"
+       breaksw 
+   case CYGWIN_NT-6.1:
+       set hard = "i86"
+       breaksw 
+   case CYGWIN_NT-6.1-WOW64:
+       set hard = "i86"
+       breaksw
+   case CYGWIN_NT-6.1-WOW:
+       set hard = "i86"
+       breaksw
+   case Linux:
+       set hard = "i86"
+       breaksw
+   case Darwin:        
+#      For Mac OSX
+ 		set hard = "i86"
+ 		breaksw
+   case PCSol:
+#      this not currently used only for checks; sys_ver set = g77
+       set hard = "i86" #NOT work. solaris x86 10. Sun Studio.
+                        #BUT work for gcc.
+       #PC Solaris x86
+       set hard = "sol"
+       breaksw
+   case PCSol64:
+#      this not currently used only for checks; sys_ver set = g77
+       set hard = "i86" #NOT work. solaris x86 10. Sun Studio.
+                        #BUT work for gcc.
+       #PC Solaris x86
+       set hard = "sol"
+       breaksw
+   case IRIX64:
+       set hard = "sgi"
+       breaksw   
+   case IRIX:
+       set hard = "sgi"
+       breaksw     
+ 	case Darwin:
+ 		set hard = "i86"
+ 		breaksw
+
+
+
+
+
+endsw
+
+# Set the flag indicating the version of system dependent files to be included in 
+# the Makefile:  matches the first word of the 'uname -a' return (operating system;
+# e.g., 'SunOS' => 'sun') unless overriden by the unimake argument compiler (-c switch) 
+# specification (e.g. 'g77').
+#   
+if ( $sys_ver == "" ) then
+  set sys_ver = $hard
+  if ( $hard == "i86" ) then
+     echo "No i86 compiler specification--assuming G77"
+     set sys_ver = "gftn"
+     #set sys_ver = "ifort"
+  endif
+  if ( $sys_ver == "" ) then
+     echo "No system or compiler specification -- stop in unimake"
+     exit 1
+  endif
+endif
+
+echo "sys_ver: $sys_ver"
+# loop through all module(s)
+foreach mod ($mods)
+
+#echo "mod:$mod"
+cd $basepth/$mod[1]$lev[1]
+
+# test if remove mode (forced compilation) is set
+if ($cln == "y") then
+	touch $gnrc
+	\rm *.a
+endif
+# test if Makefile.generic is younger than Makefile if the latter exists
+if ( -e 'Makefile' ) then
+   set mkfil = Makefile
+else
+   set mkfil = ""
+endif
+
+# detecting if generic file is a link
+set islink = (`ls -l $gnrc`)
+#echo $gnrc
+switch($islink[1])
+	case l*:
+		set gnrc = $islink[$#islink]
+		breaksw
+endsw
+         
+# detecting if Makefile already exists and is complete 
+set yn = `ls -t $gnrc $mkfil $conf | head -n 1`
+#echo $gnrc $mkfil $conf 
+set endok = " "
+if ($yn == "Makefile") then                         
+   set endok = `tail -n -1 $yn | awk '{print $2 }'`  
+endif
+set endok = "always" #edited by Tian Jun-17-2007 to force re-generate Makefile
+
+if ( $endok == 'End' ) then 
+   echo "No need to rebuild Makefile for $mod, SKIP"
+else
+	if (-e $gnrc) then
+		echo -n "" >! depend.tmp
+		# pick up specs from generic makefile
+		set labls = (`grep -v "# " $gnrc | grep "#LABELS:" | cut -d: -f2`)
+		set mains = (`grep -v "# " $gnrc | grep "#LABELS:" | cut -d: -f3`) 
+		#echo $mains
+		set archs = (`grep -v "# " $gnrc | grep "#LABELS:" | cut -d: -f4`)
+		set execs = (`grep -v "# " $gnrc | grep "#LABELS:" | cut -d: -f5`)
+		#echo "execs: $execs"
+		set shrps = (`grep -v "# " $gnrc | grep "#SHARELIB:" | cut -d: -f2`)
+		set shras = (`grep -v "# " $gnrc | grep "#SHARELIB:" | cut -d: -f3`)
+		set x11yn = (`grep -v "# " $gnrc | grep "#X11LIB:" | cut -d: -f2`)
+
+		# build compiler switch and library block
+		echo "# Makefile for $mod on $os[1] $os[3] by unimake at `date`" >! Makefile
+		echo "" >> Makefile
+		echo "all: $labls" >> Makefile
+       echo "" >> Makefile
+		# override FFLAGS or CFLAGS switch if the entry exists in generic file   
+		set overrf = (`grep "FFLAGS" $gnrc | grep $sys_ver | cut -d"#" -f1`) 
+		set overrc = (`grep "CFLAGS" $gnrc | grep $sys_ver | cut -d"#" -f1`) 
+       echo "" >! $basepth/blocknew.tmp
+		if ($#overrf > 1) then 
+           echo " " >> $basepth/blocknew.tmp
+			echo "$overrf" >> Makefile
+			grep -v "FFLAGS" $basepth/block.tmp | sed -e "/EXPLICIT_RULES/q" | grep -v "EXPLICIT" >> $basepth/blocknew.tmp
+		else
+			sed -e "/EXPLICIT_RULES/q" $basepth/block.tmp | grep -v "EXPLICIT" >> $basepth/blocknew.tmp
+		endif                 
+		if ($#overrc > 1) then
+			echo "" >> Makefile
+			echo "$overrc" >> Makefile
+			grep -v "CFLAGS" $basepth/blocknew.tmp | sed -e "/EXPLICIT_RULES/q" | grep -v "EXPLICIT" >> Makefile
+		else
+			sed -e "/EXPLICIT_RULES/q" $basepth/blocknew.tmp | grep -v "EXPLICIT" >> Makefile
+		endif
+
+		foreach a ($archs)
+			if ($a != "NONE") then
+			echo -n "$a = " | tr '[a-z]' '[A-Z]' >> Makefile
+			echo $a[1].a$ext >> Makefile
+			endif
+		end
+
+		# fill in shared lib entries if any
+		echo -n "SLIB = " >> Makefile
+		set i = 1
+		while ($i <= $#shrps)
+			echo -n "$shrps[$i]$lev/$shras[$i].a$ext " >> Makefile
+			@ i++
+		end
+		echo "" >> Makefile	
+		echo "X11LIB = $xlib" >> Makefile
+		echo "II = $xinc" >> Makefile
+		echo "" >> Makefile
+
+		# build compiler blocks
+		set i = 1 
+		while ($i <= $#labls) 
+           # see whether the program is Fortran of C
+           #echo $mains
+           set maintmp = `ls $mains[$i].[cf]`   
+           #echo $maintmp
+           if( $#maintmp > 1 ) then
+              echo "Duplicate main program names" $maintmp; exit
+           endif
+           set mainext = $maintmp:e   
+           if ($mainext == 'c' ) then
+              set mainfull = $mains[$i].c
+           else
+              set mainfull = $mains[$i].f
+           endif
+			if ($mains[$i] != "NONE") then
+				if ($archs[$i] != "NONE") then
+					set libnam = `echo "#($archs[$i])" | tr '[a-z]' '[A-Z]'`
+				else
+					set libnam = ""
+				endif
+				set deps = `awk '$1 == "include" || $1 == "INCLUDE" {print $2}' $mainfull | sort | awk 'old != $1 {print; old = $1}'`
+				set deps = `echo "$deps" | sed -e "s/'//g"`
+				echo "$labls[$i] : $mainfull $libnam #(SLIB) $deps" | tr '#' '$' >> Makefile
+				# check if X11 lib is needed
+				set yn = `echo $x11yn | grep "$mains[$i]"`
+				if ($#yn > 0) then
+                   if ( $mainext == 'f' ) then
+   					echo "	#(FTN) $mainfull $libnam #(SLIB) -L#(X11LIB) -lX11 -o $execs[$i]$ext #(FFLAGS)" | tr '#' '$' >> Makefile
+                   else if ( $mainext == 'c' ) then 
+   					echo "	#(CC) #(CFLAGS)  $mainfull  -L#(X11LIB) -lX11 -o $execs[$i]$ext" | tr '#' '$' >> Makefile
+                   endif
+				else  
+                   if ( $mainext == 'f' ) then
+   					echo "	#(FTN) $mainfull $libnam #(SLIB) -o $execs[$i]$ext #(FFLAGS)" | tr '#' '$' >> Makefile
+                   else if ( $mainext == 'c' ) then
+   					echo "	#(CC)  $mainfull #(CFLAGS) -o $execs[$i]$ext" | tr '#' '$' >> Makefile 
+                   endif
+				endif
+				echo "	rm -f $mains[$i].o" >> Makefile
+				echo "" >> Makefile
+			else
+				echo -n "$labls[$i] : " >> Makefile
+				echo "#($archs[$i])" | tr '[a-z]' '[A-Z]' | tr '#' '$' >> Makefile
+				echo "" >> Makefile
+			endif
+			@ i++
+		end
+
+		# build object blocks
+		set i = 1
+		while ($i <= $#labls)
+			if ($archs[$i] != "NONE") then
+			set libnam = `echo "#($archs[$i])" | tr '[a-z]' '[A-Z]'`   
+			set objs = (`grep "#OBJ_$archs[$i]" $gnrc | grep -v "_host" | sed -e "s/#OBJ_$archs[$i]//"`)  
+			# add in host dependent objects
+			set objh = (`grep "#OBJ_$archs[$i]_host" $gnrc`)    
+			if ($#objh > 1) then
+#				set objh = (`echo $objh | sed -e "s/#OBJ_$archs[$i]_host//" -e "s/HHHH/$hard/g"`) 
+#              the above doesn't work for some reason I can't understand; change to the below:
+#              set objh = (`grep "#OBJ_$archs[$i]_host" $gnrc | sed -e "s/#OBJ_$archs[1]_host//" -e "s/HHHH/$hard/g" `)
+#              modified so that the user can choose the system dependent files to be included in the Makefile.
+	       echo here
+               set objh = (`grep "#OBJ_$archs[$i]_host" $gnrc | sed -e "s/#OBJ_$archs[$i]_host//" -e "s/HHHH/$sys_ver/g" `)
+               echo "Machine-dependent source-files selected for" $archs[$i] ": "  $objh
+				set objs = ($objs $objh)                                      
+			endif
+			echo "#($archs[$i]) : \" | tr '[a-z]' '[A-Z]' | tr '#' '$' >> Makefile
+			set j = 1  
+			while ($j <= $#objs)
+				# check if required source code exist
+				if (! -e $objs[$j].[cf]) then
+					echo "Missing source code $objs[$j] under $mod[1], stop in unimake"
+					exit 1
+				endif        
+               if ( $j < $#objs ) then
+				  echo "	$libnam[1]($objs[$j].o) \" | tr '#' '$' >> Makefile
+               endif 
+#              This expression fails on DEC OSF1 4000
+#				set deps = `awk '$1 == "include" || $1 == "INCLUDE" {print $2}' $objs[$j].[cf] | sort | awk 'old != $1 {print; old = $1}'`
+#              Replace by the following:
+				set deps = `cat $objs[$j].[cf] | awk '$1 == "include" || $1 == "INCLUDE" {print $2}' | sort | awk 'old != $1 {print; old = $1}'`
+				if ($#deps > 0) then
+					set deps = `echo $deps | sed -e "s/'//g"`
+					echo "$libnam[1]($objs[$j].o): $deps" | tr '#' '$' >> depend.tmp
+				endif
+				@ j++  
+			end  
+           @ j--
+			echo "	$libnam[1]($objs[$j].o)" | tr '#' '$' >> Makefile
+			#echo "add in explict rule block"
+			sed -e "1,/# EXPLICIT_RULES/d" -e "/ar/ s/THELIB/$archs[$i].a$ext/g"  -e "/ranlib/ s/THELIB/$archs[$i].a$ext/" -e "/# SUFFIX_RULES/q" $basepth/block.tmp  | grep -v "SUFFIX" >> Makefile
+			#modified by Tian (Jun-12-2007)
+			#echo `sed -e "1,/# EXPLICIT_RULES/d" -e "/ar/ s/THELIB/$archs[$i].a$ext/g" -e "/# SUFFIX_RULES/q" $basepth/block.tmp  | grep -v "SUFFIX" `
+			#sed -e "1,/# EXPLICIT_RULES/d" -e "/ranlib/ s/THELIB/$archs[$i].a$ext/" -e "/# SUFFIX_RULES/q" $basepth/block.tmp  | grep -v "SUFFIX" >> Makefile
+			endif
+			@ i++			
+		end
+		# insert include file dependence block
+		cat depend.tmp >> Makefile
+		sed -e "1,/SUFFIX_RULES/d" -e "/BLOCKEND/q" $basepth/block.tmp >> Makefile  
+		#set tmp = `sed -e "1,/SUFFIX_RULES/d" -e "/BLOCKEND/q"  -e "/rm/ s/EXECS/${execs}/g" $basepth/block.tmp `
+		#echo "$tmp" >> Makefile
+		#cat $basepth/block.tmp
+		echo "" >> Makefile
+		echo "cleanall:" >> Makefile
+		#echo $execs
+		set execss = ""
+		foreach exec (${execs})
+		    set execss = "$execss ${exec}${ext}"
+		end
+		#set execss = `echo $execs | awk '{pirnt $0"."ex}' ex=${ext}`
+		echo "	rm -f *.a${ext} *.o *core ${execs} ${execss}" >> Makefile
+       # insert end message for checking to avoid using partially-written Makefiles
+       echo "# End of Makefile" >> Makefile
+	else
+		echo "Missing $gnrc file under $mod, stop in unimake"
+		exit 1
+	endif  
+# report completion  
+   echo "Makefile for $mod remade by unimake"
+   \mv -f Makefile Makefile.${arch}
+endif                        
+
+# end_of_module loop
+end
+
+# remove temporary files 
+if (-e $basepth/block.tmp) then  
+  \rm -f $basepth/block.tmp 
+endif  
+if (-e $basepth/blocknew.tmp) then  
+  \rm -f $basepth/blocknew.tmp 
+endif
+if (-e depend.tmp) then  
+  \rm -f depend.tmp 
+endif    
+
+
+
+
+
+

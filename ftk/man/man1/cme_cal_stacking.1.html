@@ -1,0 +1,70 @@
+<html><head></head><body><pre><font face="Courier"><b>CME_CAL_STACKING(1)        FORTRAN ToolKit for GNSS        CME_CAL_STACKING(1)</b>
+
+
+
+<b>NAME</b>
+
+       cme_cal_stacking  -  Calcualte  common-mode  error (CME) using regional
+       stacking method.
+
+<b>SYNOPSIS</b>
+
+       cme_cal_stacking  path
+        [--opath=OUT_FILTERED_PATH]
+        [--ofile=OUT_FILE]
+        [--cmesites=SIT1,SIT2,SIT3,SIT4,SIT5,SIT6,...]
+        [--cmesitefile=CME_SITE_FILE]
+
+<b>DESCRIPTION</b>
+
+       The method in Wdowinksi et al.[1997] and  Nikolaidis  [2002]  is  used.
+       The output CME is for the whole network. To handle effectively the spa-
+       tial variations of CME (e.g. for such large networks as  PBO  or  event
+       global IGS), use <b>cmc_cal_optimal</b> program.
+
+<b>OPTIONS</b>
+
+       <u>path</u>  The input path holding residual GNSS station position time series
+       (in SIO NEU format).
+
+       <u>opath</u>  Optional. The output filtered time series path.  If  given,  the
+       filtered time series are created.
+
+       <u>ofile</u>   Optional. The output CME file. If given, the CME time series is
+       written to it; otherwise, CME is written to the standard  ouput  device
+       (the terminal/screen).
+
+<b>EXAMPLES</b>
+
+       Use  all  sites  under  ./cmonoc.resid/ to derive CME and output to the
+       terminal.
+        <b>cme_cal_stacking</b> <b>.cmonoc.resid/</b>
+
+       Use all sites under ./cmonoc.resid/ to derive CME and  write  it  to  a
+       file.
+        <b>cme_cal_stacking</b> <b>./cmonoc.resid/</b> <b>--ofile=cmes.neu</b>
+
+       Use several sites to derive CME and write it to a file, output filtered
+       time series.
+        <b>cme_cal_stacking</b>     <b>./cmonoc.resid/</b>      <b>--ofile=cmes.neu</b>      <b>--cme-</b>
+       <b>sites=bjfs,bjyq,jixn,lhaz,wuhn,chan,shao,kunm</b> <b>--opath=cmonoc.resid.flt</b>
+
+       Use CME sites in text file to derive CME and write it to a file, output
+       filtered time series.
+        <b>cme_cal_stacking</b>    <b>./cmonoc.resid/</b>    <b>--ofile=cmes.neu</b>     <b>--cmesite-</b>
+       <b>file=for.cme.sit</b> <b>--opath=cmonoc.resid.flt</b>
+        where for.cme.sit contains:
+        ^_non-blank-first-column lines are comments
+         bjfs wuhn
+         lhaz #tian
+         shao
+
+<b>SEE ALSO</b>
+
+       cmc_cal_optimal, iGPSftk
+
+
+
+iGPSftk                           23 Nov 2007              CME_CAL_STACKING(1)
+</font></pre>
+</body></html>

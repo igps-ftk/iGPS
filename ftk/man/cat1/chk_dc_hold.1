@@ -1,0 +1,132 @@
+
+
+
+FORTRAN Programs for GPS                           CHK_DC_HOLD(1)
+
+
+
+NAME
+     chk_dc_hold - Chek the holding status of RINEX OBS files for
+     Data Center.
+
+SYNOPSIS
+     chk_dc_hold    _Y_E_A_R   _D_O_Y    fIYS    [--_d_i_r=_R_O_O_T__D_I_R]    [--
+     _o_f_i_l_e=_O_U_T__F_I_L_E] --_t_y_p_e=_D|_O|_N|_M]
+
+DESCRIPTION
+      chk_dc_hold  check whether the RINEX file exists.
+
+
+     _Y_E_A_R
+          Starting year.
+
+     _D_O_Y
+          Staring day-of-year.
+
+     _N_D_A_Y_S
+          Number of days to search for.
+
+     --_d_i_r=_R_O_O_T__D_I_R
+          Optional.
+          Root directory of data cache.
+          Default is current directory (`pwd`).
+
+     --_o_f_i_l_e=_O_U_T__F_I_L_E
+          Optional.
+          Output file name.
+          Default is standard output device(screen).
+
+     --_t_y_p_e=_D|_O|_N|_M
+          File type for searching.
+          D - Hatanaka RINEX observations(SITEDOY0.YRd.Z)
+          O - RINEX observations(SITEDOY0.YRo.Z)
+          N - RINEX broadcast emphemis(SITEDOY0.YRn.Z)
+          M - RINEX meteorological observation(SITEDOY0.YRm.Z)
+
+OPTIONS
+     None.
+
+MODIFICATIONS
+     MOD MAY-04-2008 Tian.
+          Modified input parameters.
+
+BUGS
+     NONE.
+
+EXAMPLES
+     chk_dc_hold 2008 1 1
+     chk_dc_hold  1992  1  5955  --dir=/data0/igs0/pub/rinex   --
+     ofile=dc.hold.rnx.080504
+
+
+
+GPSF                 Last change: 05/04/2008                    1
+
+
+
+
+
+
+FORTRAN Programs for GPS                           CHK_DC_HOLD(1)
+
+
+
+     Sample output:
+     quin 1998 122 d y /pub/rinex/1998/122/quin1220.98d.Z
+     rcm6 1998 122 d y /pub/rinex/1998/122/rcm61220.98d.Z
+     reyk 1998 122 d y /pub/rinex/1998/122/reyk1220.98d.Z
+     sant 1998 122 d y /pub/rinex/1998/122/sant1220.98d.Z
+     sch2 1998 122 d y /pub/rinex/1998/122/sch21220.98d.Z
+     sele 1998 122 d y /pub/rinex/1998/122/sele1220.98d.Z
+
+LICENSE
+     (c) Copyright by Tian.
+
+     License: free to use/edit for academic purpose.
+
+SEE ALSO
+     _c_h_k__r_n_x__d(1), _c_h_k__r_n_x__d_z(1), _G_P_S_F(1)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+GPSF                 Last change: 05/04/2008                    2
+
+
+

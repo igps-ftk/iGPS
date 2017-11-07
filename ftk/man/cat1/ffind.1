@@ -1,0 +1,66 @@
+
+
+
+FORTRAN Programs for GPS                                 FFIND(1)
+
+
+
+NAME
+     ffind - find files for a certain pattern in a  given  direc-
+     tory.
+
+SYNOPSIS
+     call ffind (_p_a_t_h, _f_i_l_e_s, _f_i_l_t_e_r, _n, _i_n_s_u_b)
+
+DESCRIPTION
+     ffind is an interface to call unix/linux command `find`.
+
+     _p_a_t_h this is the input path [input].
+
+     _f_i_l_e_s
+          this is found files names [output].
+
+     _f_i_l_t_e_r
+          file filter for "-name" matching pattern [input].
+
+     _n    number of files found [output].
+
+     _i_n_s_u_b
+          a logical variable to specify whether  search  in  sub-
+          directories. This option is OS-dependant. [input].
+
+OPTIONS
+     NONE.
+
+EXAMPLES
+      character*512 fullname,path
+      file='/usr/local/test/bjfs.xyz'
+      call getpathname(fullname,path)
+
+      file should be "/usr/local/test"
+
+SEE ALSO
+     _d_e_s_u_f_f_i_x(1), _g_e_t_f_i_l_e_e_x_t(1), _g_e_t_f_i_l_e_n_a_m_e(1), _g_e_t_l_u_n(1), _p_a_t_h_-
+     _s_e_p(1), _G_P_S_F(1)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+GPSF                Last change: 23 Nov 2007                    1
+
+
+

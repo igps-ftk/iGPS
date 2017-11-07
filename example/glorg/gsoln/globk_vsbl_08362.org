@@ -1,0 +1,1742 @@
+ rerun of cmonoc gmf + sio igs[1-6] with 139 stablization sites
+
+ +++++++++++++++++++++++++++++++++++++
+ + GLORG                 Version 5.16X +
+ +++++++++++++++++++++++++++++++++++++
+
+
+ Stabilization with  20.0% constant,  80.0% site dependent weighting.
+ Delete sites with   4.0-sigma condition.
+ Height variance factor      10.00 Position,     10.00 Velocity
+ For Position: Min dH sigma 0.0050 m;    Min RMS 0.0030 m,    Min dNE sigma 0.00050 m
+ For Velocity: Min dH sigma 0.0050 m/yr; Min RMS 0.0030 m/yr, Min dNE sigma 0.00010 m/yr
+ Sigma Ratio to allow use: Position   2.00 Velocity   2.00
+
+====================================================================================================
+ Starting Position stabilization iteration   1 L0812271200_vsbl.glx
+ For    8 sites in origin, min/max height sigma      50.59     75.30 mm; Median       54.71 mm, Tol      10.00 mm L0812271200_vsbl.glx
+ Removing DAV1_GPS from orgin condition, height sigma      75.30 mm, Ratio Tol  2.000 L0812271200_vsbl.glx
+ Removing TROM_GPS from orgin condition, height sigma      70.25 mm, Ratio Tol  2.000 L0812271200_vsbl.glx
+
+ Position system stabilization results 
+ --------------------------------------- 
+ X Rotation  (mas)    -1.53274 +-    0.11229 Iter  1 L0812271200_vsbl.glx
+ Y Rotation  (mas)    -1.97627 +-    0.10473 Iter  1 L0812271200_vsbl.glx
+ Z Rotation  (mas)    20.98562 +-    0.05589 Iter  1 L0812271200_vsbl.glx
+ X Translation (m)    -0.01805 +-    0.00325 Iter  1 L0812271200_vsbl.glx
+ Y Translation (m)    -0.04433 +-    0.00326 Iter  1 L0812271200_vsbl.glx
+ Z Translation (m)    -0.06975 +-    0.00173 Iter  1 L0812271200_vsbl.glx
+ Scale       (ppb)    -3.36068 +-    0.55393 Iter  1 L0812271200_vsbl.glx
+ Condition Sigmas used     0.0000    0.0000    0.0000    0.0000    0.0000    0.0000    0.0000
+Sites and relative sigmas used in stabilization
+MADR_8PS   1.00  NRC1_GPS   1.00  GOLD_1HT   1.00  DAEJ_GPS   1.00  IRKT_GPS   1.00  MATE_1PS   1.00 
+ For   18 Position Iter  1 Pre RMS    0.2321 m; Post RMS   0.00258 m L0812271200_vsbl.glx
+ For    6 sites in origin, min/max NE sigma       3.99      6.03 mm; Median        4.37 mm, Tol       1.00 mm L0812271200_vsbl.glx
+ Removing NRC1_GPS from orgin condition, NE sigma       6.03 mm, Ratio Tol  2.000 L0812271200_vsbl.glx
+ Removing GOLD_1HT from orgin condition, NE sigma       5.57 mm, Ratio Tol  2.000 L0812271200_vsbl.glx
+
+====================================================================================================
+ Starting Position stabilization iteration   2 L0812271200_vsbl.glx
+ For    4 sites in origin, min/max height sigma      50.59     62.00 mm; Median       52.99 mm, Tol      10.00 mm L0812271200_vsbl.glx
+
+ Position system stabilization results 
+ --------------------------------------- 
+ X Rotation  (mas)    -1.28970 +-    0.09520 Iter  2 L0812271200_vsbl.glx
+ Y Rotation  (mas)    -2.74194 +-    0.16183 Iter  2 L0812271200_vsbl.glx
+ Z Rotation  (mas)    20.83662 +-    0.04073 Iter  2 L0812271200_vsbl.glx
+ X Translation (m)    -0.01695 +-    0.00265 Iter  2 L0812271200_vsbl.glx
+ Y Translation (m)    -0.02445 +-    0.00356 Iter  2 L0812271200_vsbl.glx
+ Z Translation (m)    -0.07869 +-    0.00239 Iter  2 L0812271200_vsbl.glx
+ Scale       (ppb)    -3.84313 +-    0.26547 Iter  2 L0812271200_vsbl.glx
+ Condition Sigmas used     0.0000    0.0000    0.0000    0.0000    0.0000    0.0000    0.0000
+Sites and relative sigmas used in stabilization
+MADR_8PS   0.97  DAEJ_GPS   1.01  IRKT_GPS   0.98  MATE_1PS   1.04 
+ For   12 Position Iter  2 Pre RMS    0.2195 m; Post RMS   0.00096 m L0812271200_vsbl.glx
+ For    4 sites in origin, min/max NE sigma       1.64      2.68 mm; Median        2.05 mm, Tol       1.00 mm L0812271200_vsbl.glx
+
+====================================================================================================
+ Starting Position stabilization iteration   3 L0812271200_vsbl.glx
+ For    4 sites in origin, min/max height sigma      50.59     62.00 mm; Median       52.99 mm, Tol      10.00 mm L0812271200_vsbl.glx
+
+ Position system stabilization results 
+ --------------------------------------- 
+ X Rotation  (mas)    -1.26919 +-    0.09147 Iter  3 L0812271200_vsbl.glx
+ Y Rotation  (mas)    -2.75239 +-    0.15662 Iter  3 L0812271200_vsbl.glx
+ Z Rotation  (mas)    20.83529 +-    0.03776 Iter  3 L0812271200_vsbl.glx
+ X Translation (m)    -0.01656 +-    0.00253 Iter  3 L0812271200_vsbl.glx
+ Y Translation (m)    -0.02436 +-    0.00339 Iter  3 L0812271200_vsbl.glx
+ Z Translation (m)    -0.07899 +-    0.00225 Iter  3 L0812271200_vsbl.glx
+ Scale       (ppb)    -3.89734 +-    0.25390 Iter  3 L0812271200_vsbl.glx
+ Condition Sigmas used     0.0000    0.0000    0.0000    0.0000    0.0000    0.0000    0.0000
+Sites and relative sigmas used in stabilization
+MADR_8PS   0.95  DAEJ_GPS   0.86  IRKT_GPS   1.00  MATE_1PS   1.17 
+ For   12 Position Iter  3 Pre RMS    0.2304 m; Post RMS   0.00095 m L0812271200_vsbl.glx
+ For    4 sites in origin, min/max NE sigma       1.27      3.02 mm; Median        2.03 mm, Tol       1.53 mm L0812271200_vsbl.glx
+
+====================================================================================================
+ Starting Position stabilization iteration   4 L0812271200_vsbl.glx
+ For    4 sites in origin, min/max height sigma      50.59     62.00 mm; Median       52.99 mm, Tol      10.00 mm L0812271200_vsbl.glx
+
+ Position system stabilization results 
+ --------------------------------------- 
+ X Rotation  (mas)    -1.26353 +-    0.08962 Iter  4 L0812271200_vsbl.glx
+ Y Rotation  (mas)    -2.75031 +-    0.15393 Iter  4 L0812271200_vsbl.glx
+ Z Rotation  (mas)    20.83005 +-    0.03469 Iter  4 L0812271200_vsbl.glx
+ X Translation (m)    -0.01663 +-    0.00243 Iter  4 L0812271200_vsbl.glx
+ Y Translation (m)    -0.02443 +-    0.00327 Iter  4 L0812271200_vsbl.glx
+ Z Translation (m)    -0.07902 +-    0.00214 Iter  4 L0812271200_vsbl.glx
+ Scale       (ppb)    -3.96362 +-    0.23934 Iter  4 L0812271200_vsbl.glx
+ Condition Sigmas used     0.0000    0.0000    0.0000    0.0000    0.0000    0.0000    0.0000
+Sites and relative sigmas used in stabilization
+MADR_8PS   0.86  DAEJ_GPS   0.76  IRKT_GPS   1.04  MATE_1PS   1.26 
+ For   12 Position Iter  4 Pre RMS    0.2458 m; Post RMS   0.00094 m L0812271200_vsbl.glx
+ For    4 sites in origin, min/max NE sigma       1.01      3.35 mm; Median        2.04 mm, Tol       2.05 mm L0812271200_vsbl.glx
+
+====================================================================================================
+ Starting Position stabilization iteration   5 L0812271200_vsbl.glx
+ For    4 sites in origin, min/max height sigma      50.59     62.00 mm; Median       52.99 mm, Tol      10.00 mm L0812271200_vsbl.glx
+
+ Position system stabilization results 
+ --------------------------------------- 
+ X Rotation  (mas)    -1.26399 +-    0.08880 Iter  5 L0812271200_vsbl.glx
+ Y Rotation  (mas)    -2.74675 +-    0.15248 Iter  5 L0812271200_vsbl.glx
+ Z Rotation  (mas)    20.82411 +-    0.03191 Iter  5 L0812271200_vsbl.glx
+ X Translation (m)    -0.01686 +-    0.00234 Iter  5 L0812271200_vsbl.glx
+ Y Translation (m)    -0.02448 +-    0.00320 Iter  5 L0812271200_vsbl.glx
+ Z Translation (m)    -0.07897 +-    0.00206 Iter  5 L0812271200_vsbl.glx
+ Scale       (ppb)    -4.02322 +-    0.22428 Iter  5 L0812271200_vsbl.glx
+ Condition Sigmas used     0.0000    0.0000    0.0000    0.0000    0.0000    0.0000    0.0000
+Sites and relative sigmas used in stabilization
+MADR_8PS   0.77  DAEJ_GPS   0.70  IRKT_GPS   1.08  MATE_1PS   1.33 
+ For   12 Position Iter  5 Pre RMS    0.2617 m; Post RMS   0.00094 m L0812271200_vsbl.glx
+ For    4 sites in origin, min/max NE sigma       0.87      3.63 mm; Median        2.06 mm, Tol       2.39 mm L0812271200_vsbl.glx
+
+====================================================================================================
+ Starting Position stabilization iteration   6 L0812271200_vsbl.glx
+ For    4 sites in origin, min/max height sigma      50.59     62.00 mm; Median       52.99 mm, Tol      10.00 mm L0812271200_vsbl.glx
+
+ Position system stabilization results 
+ --------------------------------------- 
+ X Rotation  (mas)    -1.26522 +-    0.08848 Iter  6 L0812271200_vsbl.glx
+ Y Rotation  (mas)    -2.74555 +-    0.15164 Iter  6 L0812271200_vsbl.glx
+ Z Rotation  (mas)    20.81995 +-    0.03005 Iter  6 L0812271200_vsbl.glx
+ X Translation (m)    -0.01705 +-    0.00229 Iter  6 L0812271200_vsbl.glx
+ Y Translation (m)    -0.02447 +-    0.00315 Iter  6 L0812271200_vsbl.glx
+ Z Translation (m)    -0.07893 +-    0.00201 Iter  6 L0812271200_vsbl.glx
+ Scale       (ppb)    -4.06123 +-    0.21347 Iter  6 L0812271200_vsbl.glx
+ Condition Sigmas used     0.0000    0.0000    0.0000    0.0000    0.0000    0.0000    0.0000
+Sites and relative sigmas used in stabilization
+MADR_8PS   0.70  DAEJ_GPS   0.67  IRKT_GPS   1.09  MATE_1PS   1.37 
+ For   12 Position Iter  6 Pre RMS    0.2738 m; Post RMS   0.00094 m L0812271200_vsbl.glx
+ For    4 sites in origin, min/max NE sigma       0.80      3.82 mm; Median        2.08 mm, Tol       2.56 mm L0812271200_vsbl.glx
+Rotating into local coordinates for equates
+ Checking covariance matrix after equate and force
+ rerun of cmonoc gmf + sio igs[1-6] with 139 stablization sites
+
+
+---------------------------------------------------------
+ GLOBK Ver 5.16X, Global solution
+---------------------------------------------------------
+
+ Solution commenced with: 2008/12/27  0: 0    (2008.9863)
+ Solution ended with    : 2008/12/27 23:59    (2008.9891)
+ Solution refers to     : 2008/12/27 11:59    (2008.9877) [Seconds tag  45.000]
+ Satellite IC epoch     : 2008/12/27 12: 0  0.00
+ GPS System Information : Time GPST Frame J2000 Precession IAU76 Radiation model BERNE Nutation IAU80 Gravity EGM96
+ MODELS Used in Analysis: SD-WOB  SD-UT1  RAY-MOD E-Tide  K1-Tide PoleTideOC-Load MeanPTD  
+ Run time               :    9/ 8/25  0:37 42.00
+
+ There were         1 exps from          1 global files in the solution
+ There were       144929 data used,       0 data not used and       144929 data total
+ There were          526 global parameters estimated
+ There were   53 stations,    0 radio sources, and   32 satellites
+
+ The  prefit chi**2 for     521 input parameters is     0.039
+
+ LIST file      : L0812271200_vsbl.glx
+ COMMON file    : comb.com
+ GLOBK CMD file : globk_comb.cmd
+ GLORG CMD file : glorg_comb.cmd
+ APRIORI file   : ../tables/lfile.
+ APRIORI file   : ../tables/itrf2005.apr.updated
+ APRIORI file   : ../tables/lfile. (glorg)
+ APRIORI file   : ../tables/itrf2005.apr.updated (glorg)
+ NUTATION file  :  
+ PLANETARY file :  
+ SD ORIENT file :  
+ PMU file       : ../tables/pmu.usno
+ BACK SOLN file :  
+ OUTGLOBAL file :  
+ SVS EPHEM file : comb.svs_Z
+ SVS MARKOV file:  
+ EARTHQUAKE file: ../tables/eq_file.all
+
+ There were  702 site renames listed.  Renames used are: 
+   #   Orig     New          Specific  Period from   ----->      To              Position change (m)       Type
+  38 GOLD_GPS->GOLD_1PS                 1996/ 1/ 1  0: 0  2100/ 1/ 1  0: 0      0.0000     0.0000     0.0000 XYZ
+  40 GOL2_GPS->GOL2_1PS                 1995/10/31  0: 0  2100/ 1/ 1  0: 0      0.0000     0.0000     0.0000 XYZ
+  73 MAD2_GPS->MAD2_2PS                 2000/11/ 6  0: 0  2100/ 1/ 1  1: 0      0.0000     0.0000     0.0000 XYZ
+  77 MATE_GPS->MATE_1PS                 1999/ 6/18  0: 0  2100/ 1/ 1  1: 0      0.0000     0.0000     0.0000 XYZ
+ 364 CAGL_GPS->CAGL_2PS                 2001/ 7/11  0: 0  2100/ 1/ 1  0: 0      0.0000     0.0000     0.0000 XYZ
+ 418 FAIR_GPS->FAIR_6PS                 2004/12/22 21:10  2100/ 1/ 1  0: 0      0.0000     0.0000     0.0000 XYZ
+ 480 KUNM_GPS->KUNM_1PS                 2004/12/26  0:58  2100/ 1/ 1  0: 0      0.0000     0.0000     0.0000 XYZ
+ 507 MADR_GPS->MADR_8PS                 2000/ 6/30  0: 0  2100/ 1/ 1  0: 0      0.0000     0.0000     0.0000 XYZ
+ 586 REYK_GPS->REYK_2PS                 2000/ 6/21  0:52  2100/ 1/ 1  0: 0      0.0000     0.0000     0.0000 XYZ
+ 637 TRO1_GPS->TRO1_3PS                 2004/ 7/13  7:34  2100/ 1/ 1  0: 0      0.0000     0.0000     0.0000 XYZ
+ 678 WTZR_GPS->WTZR_2PS                 1996/ 9/ 1  0: 0  2100/ 1/ 1  0: 0      0.0000     0.0000     0.0000 XYZ
+ 690 ZIMM_GPS->ZIMM_1PS                 1998/11/ 6  0: 0  2100/ 1/ 1  0: 0      0.0000     0.0000     0.0000 XYZ
+ 701 BJFS_GPS->BJFS_6EQ                 2006/ 7/ 4  0: 0  2100/ 1/ 1  1: 0      0.0000     0.0000     0.0000 XYZ
+
+ There were   15 earthquakes listed.  Earthquakes used are:
+  #  CODE     Lat (deg)  Long (deg) Radius (km) Depth (km)    Date       Rename?
+  4   NR      34.2800   241.4400     150.0000     9.7200 1994/ 1/17 12:30  YES
+  8   HT      34.5900   243.7300     200.0000     5.0000 1999/10/16 11:46  YES
+ 13   DN      63.7400   212.3100     600.0000    10.0000 2002/11/ 5  0: 3  YES
+ 14   MI     -50.1500   160.3700    2500.0000    20.0000 2004/12/24  1:59  YES
+ 15   SU       4.5000    95.0000    2500.0000    20.0000 2004/12/26  0:57  YES
+
+ COSEISMIC characteristics
+ #  CODE              Static sigma               Spatial Sigma (Depth/Dist)^2
+               North      East       Height (m)    North     East       Height (m)
+  4   NR      1.0000     1.0000     1.0000       1.8000     1.8000     0.7000
+  8   HT      0.0010     0.0010     0.0010       1.8000     1.8000     0.7000
+ 13   DN      1.0000     1.0000     1.0000       1.8000     1.8000     0.7000
+ 14   MI      1.0000     1.0000     1.0000       2.0000     2.0000     2.0000
+ 15   SU      1.0000     1.0000     1.0000       2.0000     2.0000     2.0000
+
+ PRE-SEISMIC characteristics
+ #  CODE    Dur              Static Process           Spatial Process (Depth/Dist)^2
+          (days)    North      East       Height        North     East       Height
+                             (mm^2/day)                       (mm^2/day)
+  4   NR    0.0     0.0000     0.0000     0.0000       0.0000     0.0000     0.0000
+  8   HT    0.0     0.0000     0.0000     0.0000       0.0000     0.0000     0.0000
+ 13   DN    0.0     0.0000     0.0000     0.0000       0.0000     0.0000     0.0000
+ 14   MI    0.0     0.0000     0.0000     0.0000       0.0000     0.0000     0.0000
+ 15   SU    0.0     0.0000     0.0000     0.0000       0.0000     0.0000     0.0000
+
+ POST-SEISMIC characteristics
+ #  CODE    Dur              Static Process           Spatial Process (Depth/Dist)^2
+          (days)    North      East       Height        North     East       Height
+                             (mm^2/day)                       (mm^2/day)
+  4   NR   60.0     0.1000     0.1000     0.1000       1.8000     1.8000     0.7000
+  8   HT   90.0     0.1000     0.1000     0.1000       1.8000     1.8000     0.7000
+ 13   DN  100.0     0.1000     0.1000     0.1000       1.8000     1.8000     0.7000
+ 14   MI    0.0     0.0000     0.0000     0.0000       0.0000     0.0000     0.0000
+ 15   SU    0.0     0.0000     0.0000     0.0000       0.0000     0.0000     0.0000
+
+ POST-SEISMIC LOG Estimates
+ #  CODE    Tau              Static Log           Spatial Process (Depth/Dist)^2
+          (days)    North      East       Height        North     East       Height
+                               (mm)                       (mm)
+  4   NR    0.0     0.0000     0.0000     0.0000       0.0000     0.0000     0.0000
+  8   HT    0.0     0.0000     0.0000     0.0000       0.0000     0.0000     0.0000
+ 13   DN    0.0     0.0000     0.0000     0.0000       0.0000     0.0000     0.0000
+ 14   MI    0.0     0.0000     0.0000     0.0000       0.0000     0.0000     0.0000
+ 15   SU    0.0     0.0000     0.0000     0.0000       0.0000     0.0000     0.0000
+
+ Summary of GLOBK command file globk_comb.cmd
+-------------------------------------------------------------------------------
+* Globk command file to combine solutions
+  make_svs comb.svs Z
+  com_file comb.com
+  srt_file comb.srt
+* earthquake file
+x eq_file ../tables/IGS_steps_070112.eq_file
+x eq_file ../tables/eq_file.global
+x eq_file ../tables/eq_file.china
+ eq_file ../tables/eq_file.all
+#  earth-rotation values
+x   (not needed if pmu free in final combination; pmu.bull_b begins only at 1 Jan 1992)
+ in_pmu  ../tables/pmu.usno
+# apr site file(s)
+  apr_file ../tables/lfile.
+  apr_file ../tables/itrf2005.apr.updated
+#     (1) Max chi**2, (2) Max prefit diff, (3) Max rotation; defaults are 100 10000 10000
+  max_chi 30 50 2000.0
+x  max_chii 13 3
+* Apply the pole tide whenever not applied in GAMIT
+  app_ptid ALL
+# Allow the network to be loose since using glorg for stabilization
+  apr_neu  all  10 10 10  0 0 0
+# Satellites are loose if combining with global SOPAC H-files
+#                X       Y      Z    XDOT  YDOT  ZDOT  DRAD YRAD ZRAD BRAD XRAD DCOS DSIN YCOS YSIN BCOS BSIN
+  apr_svs all   100     100    100   10     10    10    1     1  .02  .02  .02 . 02  .02 . 02 . 02  .02 . 02
+#  tight if not combining with global data
+x  apr_svs all .05 .05 .05 .005 .005 .005 .01 .01 F F F F F F F F F F F F F F F
+# Keep EOP loose
+  apr_wob  100.  100.  10. 10.0  0.0  0.0  0.0  0.0
+  apr_ut1  100.  10.  0.0  0.0  0.0  0.0
+x  mar_wob  36500 36500 365 365 0 0 0 0
+x  mar_ut1  36500 365 0 0 0 0
+#  unless not using global data
+x  apr_wob  .25 .25  .001 .001 0 0 0 0
+x  apr_ut1  .25 .25 .001 .001 0 0
+x  mar_wob    1 1  .001 .001
+x  mar_ut1    1 .001
+* Estimate translation   -   .0005 m**2/yr = 15 mm/half-yr
+ apr_tran .005 .005 .005 0 0 0
+ apr_scale 1. 1.
+x mar_tran .0025 .0025 .0025 0 0 0
+x mar_scale 365 0
+# Set minimal globk print options since using glorg output
+   prt_opt cdms gdlf
+# Invoke glorg for stabilization
+  org_cmd glorg_comb.cmd
+  org_opt cmds psum gdlf
+x  out_glb  H------_cmon.GLX
+  descr rerun of cmonoc gmf + sio igs[1-6] with 139 stablization sites
+  use_site clear
+*vsbl
+ use_site ARM1
+ use_site ARM2
+ use_site BAY1
+ use_site BAY2
+ use_site CAGL
+ use_site CAGZ
+ use_site DARR
+ use_site DARW
+ use_site DAV1
+ use_site DAVR
+ use_site GOL2
+ use_site GOLD
+ use_site IRKJ
+ use_site IRKT
+ use_site LHAS
+ use_site LHAZ
+ use_site MAD2
+ use_site MADR
+ use_site MAT1
+ use_site MATE
+ use_site NRC1
+ use_site NRC2
+ use_site OHI2
+ use_site OHI3
+ use_site REYK
+ use_site REYZ
+ use_site TCMS
+ use_site THU2
+ use_site THU3
+ use_site TID1
+ use_site TID2
+ use_site TNML
+ use_site TRO1
+ use_site TROM
+ use_site WTZA
+ use_site WTZJ
+ use_site WTZR
+ use_site WTZT
+ use_site WTZZ
+ use_site YAR1
+ use_site YAR2
+ use_site YARR
+ use_site ZIMJ
+ use_site ZIMM
+ use_site BJFS
+ use_site BUCU
+ use_site CHAT
+ use_site DAEJ
+ use_site FAIR
+ use_site JPLM
+ use_site KUNM
+ use_site LPGS
+*global stablization sites
+ use_site ALAC
+ use_site ALBH
+ use_site ALGO
+ use_site ALIC
+ use_site AMC2
+ use_site ARP3
+ use_site ARTU
+ use_site AUCK
+ use_site AZRY
+ use_site BAHR
+ use_site BARH
+ use_site BBRY
+ use_site BILI
+ use_site BOGO
+ use_site BOR1
+ use_site BRMU
+ use_site BRUS
+ use_site BUCU
+ use_site CAGS
+ use_site CAS1
+ use_site CASC
+ use_site CCJM
+ use_site CEDU
+ use_site CHAT
+ use_site CHUM
+ use_site CHUR
+ use_site CIC1
+ use_site COCO
+ use_site CRAO
+ use_site CRO1
+ use_site DAEJ
+ use_site DARW
+ use_site DAV1
+ use_site DRAO
+ use_site DUBO
+ use_site ELRO
+ use_site EPRT
+ use_site FLIN
+ use_site FTS1
+ use_site GENO
+ use_site GLPT
+ use_site GLSV
+ use_site GODE
+ use_site GOLD
+ use_site GRAS
+ use_site GRAZ
+ use_site HELG
+ use_site HERS
+ use_site HNPT
+ use_site HOB2
+ use_site HOFN
+ use_site HOLB
+ use_site HRAO
+ use_site IISC
+ use_site IRKT
+ use_site ISTA
+ use_site JOZE
+ use_site JPLM
+ use_site KABR
+ use_site KARR
+ use_site KELS
+ use_site KELY
+ use_site KERG
+ use_site KOSG
+ use_site KOUR
+ use_site KYW1
+ use_site LAMP
+ use_site MAC1
+ use_site MADR
+ use_site MAG0
+ use_site MALI
+ use_site MAR6
+ use_site MAS1
+ use_site MATE
+ use_site MAUI
+ use_site MCM4
+ use_site MDO1
+ use_site MKEA
+ use_site MOB1
+ use_site MONP
+ use_site NANO
+ use_site NEWP
+ use_site NKLG
+ use_site NLIB
+ use_site NOT1
+ use_site NOUM
+ use_site NPRI
+ use_site NRC1
+ use_site NRIL
+ use_site NYAL
+ use_site ONSA
+ use_site OUSD
+ use_site PDEL
+ use_site PENC
+ use_site PERT
+ use_site PIE1
+ use_site POL2
+ use_site POTS
+ use_site PTBB
+ use_site PUR3
+ use_site RABT
+ use_site RAMO
+ use_site REYZ
+ use_site RIGA
+ use_site RIOG
+ use_site SANT
+ use_site SCH2
+ use_site SEAT
+ use_site SELE
+ use_site SFER
+ use_site SJDV
+ use_site SNI1
+ use_site SOFI
+ use_site SOL1
+ use_site STJO
+ use_site SUWN
+ use_site SYOG
+ use_site THTI
+ use_site TIDB
+ use_site TIXI
+ use_site TOW2
+ use_site TRAB
+ use_site TROM
+ use_site TSKB
+ use_site ULAB
+ use_site UPO1
+ use_site USNA
+ use_site USNO
+ use_site UZHL
+ use_site VAAS
+ use_site VILL
+ use_site VIS0
+ use_site VNDP
+ use_site VTIS
+ use_site WGTN
+ use_site WHIT
+ use_site WILL
+ use_site WROC
+ use_site YELL
+-------------------------------------------------------------------------------
+
+ Summary of GLORG command file glorg_comb.cmd
+-------------------------------------------------------------------------------
+* Standard glorg coordinate solution processing
+x  apr_file ../tables/itrf05.apr
+  apr_file ../tables/lfile.
+  apr_file ../tables/itrf2005.apr.updated
+  stab_site clear
+ stab_site ALAC
+ stab_site ALBH
+ stab_site ALGO
+ stab_site ALIC
+ stab_site AMC2
+ stab_site ARP3
+ stab_site ARTU
+ stab_site AUCK
+ stab_site AZRY
+ stab_site BAHR
+ stab_site BARH
+ stab_site BBRY
+ stab_site BILI
+ stab_site BOGO
+ stab_site BOR1
+ stab_site BRMU
+ stab_site BRUS
+ stab_site BUCU
+ stab_site CAGS
+ stab_site CAS1
+ stab_site CASC
+ stab_site CCJM
+ stab_site CEDU
+ stab_site CHAT
+ stab_site CHUM
+ stab_site CHUR
+ stab_site CIC1
+ stab_site COCO
+ stab_site CRAO
+ stab_site CRO1
+ stab_site DAEJ
+ stab_site DARW
+ stab_site DAV1
+ stab_site DRAO
+ stab_site DUBO
+ stab_site ELRO
+ stab_site EPRT
+ stab_site FLIN
+ stab_site FTS1
+ stab_site GENO
+ stab_site GLPT
+ stab_site GLSV
+ stab_site GODE
+ stab_site GOLD
+ stab_site GRAS
+ stab_site GRAZ
+ stab_site HELG
+ stab_site HERS
+ stab_site HNPT
+ stab_site HOB2
+ stab_site HOFN
+ stab_site HOLB
+ stab_site HRAO
+ stab_site IISC
+ stab_site IRKT
+ stab_site ISTA
+ stab_site JOZE
+ stab_site JPLM
+ stab_site KABR
+ stab_site KARR
+ stab_site KELS
+ stab_site KELY
+ stab_site KERG
+ stab_site KOSG
+ stab_site KOUR
+ stab_site KYW1
+ stab_site LAMP
+ stab_site MAC1
+ stab_site MADR
+ stab_site MAG0
+ stab_site MALI
+ stab_site MAR6
+ stab_site MAS1
+ stab_site MATE
+ stab_site MAUI
+ stab_site MCM4
+ stab_site MDO1
+ stab_site MKEA
+ stab_site MOB1
+ stab_site MONP
+ stab_site NANO
+ stab_site NEWP
+ stab_site NKLG
+ stab_site NLIB
+ stab_site NOT1
+ stab_site NOUM
+ stab_site NPRI
+ stab_site NRC1
+ stab_site NRIL
+ stab_site NYAL
+ stab_site ONSA
+ stab_site OUSD
+ stab_site PDEL
+ stab_site PENC
+ stab_site PERT
+ stab_site PIE1
+ stab_site POL2
+ stab_site POTS
+ stab_site PTBB
+ stab_site PUR3
+ stab_site RABT
+ stab_site RAMO
+ stab_site REYZ
+ stab_site RIGA
+ stab_site RIOG
+ stab_site SANT
+ stab_site SCH2
+ stab_site SEAT
+ stab_site SELE
+ stab_site SFER
+ stab_site SJDV
+ stab_site SNI1
+ stab_site SOFI
+ stab_site SOL1
+ stab_site STJO
+ stab_site SUWN
+ stab_site SYOG
+ stab_site THTI
+ stab_site TIDB
+ stab_site TIXI
+ stab_site TOW2
+ stab_site TRAB
+ stab_site TROM
+ stab_site TSKB
+ stab_site ULAB
+ stab_site UPO1
+ stab_site USNA
+ stab_site USNO
+ stab_site UZHL
+ stab_site VAAS
+ stab_site VILL
+ stab_site VIS0
+ stab_site VNDP
+ stab_site VTIS
+ stab_site WGTN
+ stab_site WHIT
+ stab_site WILL
+ stab_site WROC
+ stab_site YELL
+x stab_site bjfs bjsh jixn dlha dxin xnin guan kmin kunm luzh tash wush wuhn xiaa xiag xiam yanc zhnz
+# Set parameters to estimate in stabilization
+  pos_org  xrot yrot zrot xtran ytran ztran scale
+x no rotation if regional stabilzation
+x  pos_org  xtran ytran ztran
+# Set height ratios
+ cnd_hgtv 10 10 2.0 2.0
+x  downweight heights in stablization
+x  cnd_hgtv 1000 1000 2.0 2.0
+# Iterations and editing
+  stab_ite 6 0.8 4.
+-------------------------------------------------------------------------------
+
+ EXPERIMENT LIST from comb.srt
+     #  Name                                                                  SCALE Diag PPM  Forw Chi2 Back Chi2 Status
+     1 /home/tianyf/gpse/rerun.vsbl/comb/090729/glbf/h0812271200_vsbl.glx     1.000   0.000     0.039    -1.000   USED        
+
+ SUMMARY POSITION ESTIMATES FROM GLOBK Ver 5.16X       
+   Long.     Lat.       dE adj.   dN adj.   dE +-     dN +-   RHO        dH adj.   dH +-  SITE
+   (deg)    (deg)        (mm)      (mm)      (mm)      (mm)               (mm)      (mm)
+  355.750   40.429      -4.86     -1.92      2.14      2.28  0.114       12.30      7.78 MAD2_2PS 
+  355.750   40.429      -0.06      0.42      0.77      0.48  0.353       -1.16      2.45 MADR_8PS*
+  338.045   64.139       6.12     -1.21      5.26      4.76 -0.090        3.11     10.50 REYK_2PS 
+  302.099  -63.321      -3.15     25.47     49.53     43.85 -0.115       43.75     32.15 OHI2_GPS 
+  302.099  -63.321      -3.71     25.24     49.52     43.85 -0.115       42.33     32.10 OHI3_GPS 
+  291.175   76.537      17.71     -0.40      7.10      6.41  0.003       37.62     10.64 THU2_GPS 
+  291.175   76.537      10.30      0.62      7.11      6.43  0.001       25.44     10.83 THU3_GPS 
+  284.376   45.454       6.02     12.28     12.33      8.92  0.072       25.89     16.45 NRC1_GPS 
+  243.111   35.425      19.48     26.23     17.80     12.25  0.136       25.00     21.01 GOL2_1HT 
+  243.111   35.425      17.44     30.97     17.80     12.25  0.137       14.98     20.98 GOLD_1HT 
+  241.090   35.201      26.45     27.84     17.93     12.32  0.144       19.84     21.22 ARM1_GNR 
+  241.089   35.201      19.27     24.97     17.93     12.32  0.145       21.63     21.16 ARM2_GNR 
+  212.501   64.978      14.40     23.85     10.14      8.87  0.108       37.19     13.41 FAIR_6DN 
+  148.980  -35.399     212.65    488.15     44.57     24.28  0.158      -64.92     38.34 TID1_GMI 
+  127.374   36.399       0.04     -0.32      0.53      0.60 -0.829       -1.05      2.54 DAEJ_GPS*
+  120.987   24.798       0.97     -3.44      3.54      2.91  0.148       -6.49      8.51 TCMS_GPS 
+  120.987   24.798       0.73     -5.30      3.48      2.84  0.157       -2.14      7.92 TNML_GPS 
+  115.892   39.609       1.04      3.23      2.32      1.78 -0.161       -0.05      6.31 BJFS_6EQ 
+  104.316   52.219      -7.24      6.07      2.51      2.30 -0.302        6.43      6.95 IRKJ_GPS 
+  104.316   52.219      -0.23      1.17      2.23      1.69 -0.718        4.47      7.71 IRKT_GPS*
+  102.797   25.030      -6.37    -14.74      5.88      3.95  0.012       -9.13     13.13 KUNM_1SU 
+   91.104   29.657       2.82     -7.93      6.43      4.02 -0.081        5.38     10.92 LHAZ_GPS 
+   77.973  -68.577     -36.63    -56.41     43.47     43.03 -0.182        0.60     31.59 DAV1_GPS 
+   18.940   69.663       0.14     -7.42      3.77      4.16 -0.009      -13.06      9.16 TRO1_3PS 
+   18.938   69.663     -12.42    -11.34      3.74      4.12 -0.008       -1.21      8.88 TROM_GPS 
+   16.704   40.649       0.32     -1.87      3.25      2.00  0.095        1.79      7.01 MATE_1PS*
+   12.879   49.144     158.14    142.07      2.62      2.37  0.223       30.64      6.61 WTZA_GPS 
+   12.879   49.144     954.06   1264.61      2.83      2.61  0.222       -4.79      7.46 WTZJ_GPS 
+   12.879   49.144      -2.40     -8.47      2.61      2.37  0.224       -9.09      6.70 WTZZ_GPS 
+   12.879   49.144      -0.03     -8.61      2.76      2.52  0.224      -11.48      7.31 WTZR_2PS 
+    8.973   39.136      -3.12     -0.50      2.56      1.99  0.130       16.47      6.79 CAGZ_GPS 
+    8.973   39.136      -0.14     -3.24      2.56      2.00  0.099        9.00      6.98 CAGL_2PS 
+    7.465   46.877       2.00     -3.34      2.20      2.11  0.213       -7.22      6.25 ZIMM_1PS 
+POS STATISTICS: For    4 RefSites WRMS ENU   0.08   0.56   1.49  mm    NRMS ENU   0.09   0.77   0.45 L0812271200_vsbl.glx
+
+ PARAMETER ESTIMATES FROM GLOBK Vers 5.16X       
+  #      PARAMETER                            Estimate       Adjustment     Sigma
+Int. MAD2_2PS  4849202.33860  -360328.88600  4114913.25460    0.00000    0.00000    0.00000 2009.269
+   1. MAD2_2PS X coordinate  (m)           4849202.34885      0.01025      0.00639
+   2. MAD2_2PS Y coordinate  (m)           -360328.89163     -0.00563      0.00219
+   3. MAD2_2PS Z coordinate  (m)           4114913.26108      0.00648      0.00496
+Unc. MAD2_2PS  4849202.34885  -360328.89163  4114913.26108    0.00000    0.00000    0.00000 2008.988  0.0064  0.0022  0.0050
+Apr. MAD2_2PS  4849202.34885  -360328.89163  4114913.26108    0.00000    0.00000    0.00000 2008.988  0.0064  0.0022  0.0050  -1.0000 -1.0000 -1.0000
+Loc.  MAD2_2PS N coordinate  (m)           4500553.78976     -0.00192      0.00228
+Loc.  MAD2_2PS E coordinate  (m)          30144706.99080     -0.00486      0.00214
+Loc.  MAD2_2PS U coordinate  (m)               829.46429      0.01230      0.00778
+     NE,NU,EU position correlations          0.1140      -0.2094       0.0098
+
+Int. MADR_8PS  4849202.41200  -360329.06100  4114913.13200   -0.00670    0.01880    0.01450 2000.000
+   4. MADR_8PS X coordinate  (m)           4849202.35061     -0.00116      0.00202
+   5. MADR_8PS Y coordinate  (m)           -360328.89197      0.00003      0.00084
+   6. MADR_8PS Z coordinate  (m)           4114913.26192     -0.00043      0.00143
+Unc. MADR_8PS  4849202.35061  -360328.89197  4114913.26192   -0.00670    0.01880    0.01450 2008.988  0.0020  0.0008  0.0014
+Apr. MADR_8PS  4849202.35061  -360328.89197  4114913.26192   -0.00670    0.01880    0.01450 2008.988  0.0020  0.0008  0.0014  -1.0000 -1.0000 -1.0000
+Loc.  MADR_8PS N coordinate  (m)           4500553.78924      0.00042      0.00048
+Loc.  MADR_8PS E coordinate  (m)          30144706.99060     -0.00006      0.00077
+Loc.  MADR_8PS U coordinate  (m)               829.46619     -0.00116      0.00245
+     NE,NU,EU position correlations          0.3530      -0.5023      -0.3416
+
+Int. REYK_2PS  2587384.41500 -1043033.50900  5716564.00300   -0.02160   -0.00280    0.00590 2000.000
+   7. REYK_2PS X coordinate  (m)           2587384.22538      0.00456      0.00679
+   8. REYK_2PS Y coordinate  (m)          -1043033.52941      0.00476      0.00523
+   9. REYK_2PS Z coordinate  (m)           5716564.05831      0.00227      0.00934
+Unc. REYK_2PS  2587384.22538 -1043033.52941  5716564.05831   -0.02160   -0.00280    0.00590 2008.988  0.0068  0.0052  0.0093
+Apr. REYK_2PS  2587384.22538 -1043033.52941  5716564.05831   -0.02160   -0.00280    0.00590 2008.988  0.0068  0.0052  0.0093  -1.0000 -1.0000 -1.0000
+Loc.  REYK_2PS N coordinate  (m)           7139896.87029     -0.00121      0.00476
+Loc.  REYK_2PS E coordinate  (m)          16413892.64600      0.00612      0.00526
+Loc.  REYK_2PS U coordinate  (m)                93.02070      0.00311      0.01050
+     NE,NU,EU position correlations         -0.0902      -0.1589       0.0875
+
+Int. OHI2_GPS  1525811.77500 -2432478.20900 -5676165.58600    0.01930   -0.00260   -0.00040 2000.000
+  10. OHI2_GPS X coordinate  (m)           1525811.96840      0.01990      0.04678
+  11. OHI2_GPS Y coordinate  (m)          -2432478.27003     -0.03766      0.04729
+  12. OHI2_GPS Z coordinate  (m)          -5676165.61714     -0.02755      0.03138
+Unc. OHI2_GPS  1525811.96840 -2432478.27003 -5676165.61714    0.01930   -0.00260   -0.00040 2008.988  0.0468  0.0473  0.0314
+Apr. OHI2_GPS  1525811.96840 -2432478.27003 -5676165.61714    0.01930   -0.00260   -0.00040 2008.988  0.0468  0.0473  0.0314  -1.0000 -1.0000 -1.0000
+Loc.  OHI2_GPS N coordinate  (m)          -7048870.44205      0.02547      0.04385
+Loc.  OHI2_GPS E coordinate  (m)          15099535.36796     -0.00315      0.04953
+Loc.  OHI2_GPS U coordinate  (m)                32.53159      0.04375      0.03215
+     NE,NU,EU position correlations         -0.1151       0.2026       0.1112
+
+Int. OHI3_GPS  1525808.94500 -2432478.72600 -5676166.27200    0.01930   -0.00260   -0.00040 2000.000
+  13. OHI3_GPS X coordinate  (m)           1525809.13748      0.01898      0.04677
+  14. OHI3_GPS Y coordinate  (m)          -2432478.78661     -0.03724      0.04729
+  15. OHI3_GPS Z coordinate  (m)          -5676166.30198     -0.02638      0.03134
+Unc. OHI3_GPS  1525809.13748 -2432478.78661 -5676166.30198    0.01930   -0.00260   -0.00040 2008.988  0.0468  0.0473  0.0313
+Apr. OHI3_GPS  1525809.13748 -2432478.78661 -5676166.30198    0.01930   -0.00260   -0.00040 2008.988  0.0468  0.0473  0.0313  -1.0000 -1.0000 -1.0000
+Loc.  OHI3_GPS N coordinate  (m)          -7048871.70098      0.02524      0.04385
+Loc.  OHI3_GPS E coordinate  (m)          15099532.70241     -0.00371      0.04952
+Loc.  OHI3_GPS U coordinate  (m)                32.66459      0.04233      0.03210
+     NE,NU,EU position correlations         -0.1154       0.2032       0.1115
+
+Int. THU2_GPS   538093.45090 -1389088.06350  6180979.25050    0.00000    0.00000    0.00000 2009.269
+  16. THU2_GPS X coordinate  (m)            538093.47074      0.01984      0.00720
+  17. THU2_GPS Y coordinate  (m)          -1389088.06569     -0.00219      0.00682
+  18. THU2_GPS Z coordinate  (m)           6180979.28698      0.03648      0.01031
+Unc. THU2_GPS   538093.47074 -1389088.06569  6180979.28698    0.00000    0.00000    0.00000 2008.988  0.0072  0.0068  0.0103
+Apr. THU2_GPS   538093.47074 -1389088.06569  6180979.28698    0.00000    0.00000    0.00000 2008.988  0.0072  0.0068  0.0103  -1.0000 -1.0000 -1.0000
+Loc.  THU2_GPS N coordinate  (m)           8520065.18146     -0.00040      0.00641
+Loc.  THU2_GPS E coordinate  (m)           7545667.93707      0.01771      0.00710
+Loc.  THU2_GPS U coordinate  (m)                36.15963      0.03762      0.01064
+     NE,NU,EU position correlations          0.0030      -0.0942       0.1529
+
+Int. THU3_GPS   538093.65500 -1389088.02200  6180979.20900   -0.02180   -0.00470    0.00610 2000.000
+  19. THU3_GPS X coordinate  (m)            538093.47056      0.01154      0.00721
+  20. THU3_GPS Y coordinate  (m)          -1389088.06553     -0.00127      0.00683
+  21. THU3_GPS Z coordinate  (m)           6180979.28871      0.02488      0.01051
+Unc. THU3_GPS   538093.47056 -1389088.06553  6180979.28871   -0.02180   -0.00470    0.00610 2008.988  0.0072  0.0068  0.0105
+Apr. THU3_GPS   538093.47056 -1389088.06553  6180979.28871   -0.02180   -0.00470    0.00610 2008.988  0.0072  0.0068  0.0105  -1.0000 -1.0000 -1.0000
+Loc.  THU3_GPS N coordinate  (m)           8520065.18207      0.00062      0.00643
+Loc.  THU3_GPS E coordinate  (m)           7545667.93696      0.01030      0.00711
+Loc.  THU3_GPS U coordinate  (m)                36.16127      0.02544      0.01083
+     NE,NU,EU position correlations          0.0012      -0.0847       0.1474
+
+Int. NRC1_GPS  1112777.27400 -4341475.83700  4522955.79000   -0.01560   -0.00310    0.00460 2000.000
+  22. NRC1_GPS X coordinate  (m)           1112777.14195      0.00819      0.01287
+  23. NRC1_GPS Y coordinate  (m)          -4341475.87257     -0.00771      0.01285
+  24. NRC1_GPS Z coordinate  (m)           4522955.85838      0.02703      0.01310
+Unc. NRC1_GPS  1112777.14195 -4341475.87257  4522955.85838   -0.01560   -0.00310    0.00460 2008.988  0.0129  0.0128  0.0131
+Apr. NRC1_GPS  1112777.14195 -4341475.87257  4522955.85838   -0.01560   -0.00310    0.00460 2008.988  0.0129  0.0128  0.0131  -1.0000 -1.0000 -1.0000
+Loc.  NRC1_GPS N coordinate  (m)           5059934.25295      0.01228      0.00892
+Loc.  NRC1_GPS E coordinate  (m)          22205982.34111      0.00602      0.01233
+Loc.  NRC1_GPS U coordinate  (m)                82.53070      0.02589      0.01645
+     NE,NU,EU position correlations          0.0722      -0.0299       0.2144
+
+Int. GOL2_1HT -2353614.39360 -4641385.30460  3676976.41770   -0.01660    0.00610   -0.00230 2009.269
+  25. GOL2_1HT X coordinate  (m)          -2353614.37398      0.01498      0.01709
+  26. GOL2_1HT Y coordinate  (m)          -4641385.31983     -0.01352      0.01843
+  27. GOL2_1HT Z coordinate  (m)           3676976.45419      0.03585      0.01663
+Unc. GOL2_1HT -2353614.37398 -4641385.31983  3676976.45419   -0.01660    0.00610   -0.00230 2008.988  0.0171  0.0184  0.0166
+Apr. GOL2_1HT -2353614.37398 -4641385.31983  3676976.45419   -0.01660    0.00610   -0.00230 2008.988  0.0171  0.0184  0.0166  -1.0000 -1.0000 -1.0000
+Loc.  GOL2_1HT N coordinate  (m)           3943510.34198      0.02623      0.01225
+Loc.  GOL2_1HT E coordinate  (m)          22052721.52990      0.01948      0.01780
+Loc.  GOL2_1HT U coordinate  (m)               986.68740      0.02500      0.02101
+     NE,NU,EU position correlations          0.1364       0.1212       0.1549
+
+Int. GOLD_1HT -2353614.23800 -4641385.36300  3676976.44300   -0.01710    0.00500   -0.00250 2000.000
+  28. GOLD_1HT X coordinate  (m)          -2353614.37363      0.01810      0.01710
+  29. GOLD_1HT Y coordinate  (m)          -4641385.32091     -0.00286      0.01840
+  30. GOLD_1HT Z coordinate  (m)           3676976.45447      0.03394      0.01662
+Unc. GOLD_1HT -2353614.37363 -4641385.32091  3676976.45447   -0.01710    0.00500   -0.00250 2008.988  0.0171  0.0184  0.0166
+Apr. GOLD_1HT -2353614.37363 -4641385.32091  3676976.45447   -0.01710    0.00500   -0.00250 2008.988  0.0171  0.0184  0.0166  -1.0000 -1.0000 -1.0000
+Loc.  GOLD_1HT N coordinate  (m)           3943510.34174      0.03097      0.01225
+Loc.  GOLD_1HT E coordinate  (m)          22052721.53071      0.01744      0.01780
+Loc.  GOLD_1HT U coordinate  (m)               986.68822      0.01498      0.02098
+     NE,NU,EU position correlations          0.1369       0.1222       0.1538
+
+Int. ARM1_GNR -2522429.80560 -4567409.55210  3656178.12040   -0.01990    0.02250   -0.00860 2009.269
+  31. ARM1_GNR X coordinate  (m)          -2522429.77702      0.02302      0.01726
+  32. ARM1_GNR Y coordinate  (m)          -4567409.57141     -0.01303      0.01858
+  33. ARM1_GNR Z coordinate  (m)           3656178.15698      0.03418      0.01675
+Unc. ARM1_GNR -2522429.77702 -4567409.57141  3656178.15698   -0.01990    0.02250   -0.00860 2008.988  0.0173  0.0186  0.0168
+Apr. ARM1_GNR -2522429.77702 -4567409.57141  3656178.15698   -0.01990    0.02250   -0.00860 2008.988  0.0173  0.0186  0.0168  -1.0000 -1.0000 -1.0000
+Loc.  ARM1_GNR N coordinate  (m)           3918585.44559      0.02784      0.01232
+Loc.  ARM1_GNR E coordinate  (m)          21929883.88825      0.02645      0.01793
+Loc.  ARM1_GNR U coordinate  (m)                76.77468      0.01984      0.02122
+     NE,NU,EU position correlations          0.1443       0.1241       0.1488
+
+Int. ARM2_GNR -2522440.29710 -4567403.18860  3656178.82110   -0.01710    0.02220   -0.00760 2009.269
+  34. ARM2_GNR X coordinate  (m)          -2522440.27709      0.01524      0.01724
+  35. ARM2_GNR Y coordinate  (m)          -4567403.20708     -0.01228      0.01855
+  36. ARM2_GNR Z coordinate  (m)           3656178.85608      0.03286      0.01672
+Unc. ARM2_GNR -2522440.27709 -4567403.20708  3656178.85608   -0.01710    0.02220   -0.00760 2008.988  0.0172  0.0185  0.0167
+Apr. ARM2_GNR -2522440.27709 -4567403.20708  3656178.85608   -0.01710    0.02220   -0.00760 2008.988  0.0172  0.0185  0.0167  -1.0000 -1.0000 -1.0000
+Loc.  ARM2_GNR N coordinate  (m)           3918586.30508      0.02497      0.01232
+Loc.  ARM2_GNR E coordinate  (m)          21929871.63391      0.01927      0.01793
+Loc.  ARM2_GNR U coordinate  (m)                76.77319      0.02163      0.02116
+     NE,NU,EU position correlations          0.1446       0.1238       0.1498
+
+Int. FAIR_6DN -2281621.73250 -1453595.90620  5756961.73940   -0.01980    0.00180   -0.04740 2009.269
+  37. FAIR_6DN X coordinate  (m)          -2281621.71438      0.01260      0.00996
+  38. FAIR_6DN Y coordinate  (m)          -1453595.91575     -0.00904      0.00998
+  39. FAIR_6DN Z coordinate  (m)           5756961.79644      0.04380      0.01275
+Unc. FAIR_6DN -2281621.71438 -1453595.91575  5756961.79644   -0.01980    0.00180   -0.04740 2008.988  0.0100  0.0100  0.0127
+Apr. FAIR_6DN -2281621.71438 -1453595.91575  5756961.79644   -0.01980    0.00180   -0.04740 2008.988  0.0100  0.0100  0.0127  -1.0000 -1.0000 -1.0000
+Loc.  FAIR_6DN N coordinate  (m)           7233317.68432      0.02385      0.00887
+Loc.  FAIR_6DN E coordinate  (m)          10005118.55607      0.01440      0.01014
+Loc.  FAIR_6DN U coordinate  (m)               319.01502      0.03719      0.01341
+     NE,NU,EU position correlations          0.1083       0.0110       0.1281
+
+Int. TID1_GMI -4460996.23180  2682557.08640 -3674443.59800    0.00000    0.00000    0.00000 1999.742
+  40. TID1_GMI X coordinate  (m)          -4460996.53719     -0.30539      0.04313
+  41. TID1_GMI Y coordinate  (m)           2682557.02190     -0.06450      0.04195
+  42. TID1_GMI Z coordinate  (m)          -3674443.16176      0.43624      0.02065
+Unc. TID1_GMI -4460996.53719  2682557.02190 -3674443.16176    0.00000    0.00000    0.00000 2008.988  0.0431  0.0420  0.0206
+Apr. TID1_GMI -4460996.53719  2682557.02190 -3674443.16176    0.00000    0.00000    0.00000 2008.988  0.0431  0.0420  0.0206  -1.0000 -1.0000 -1.0000
+Loc.  TID1_GMI N coordinate  (m)          -3940621.26101      0.48815      0.02428
+Loc.  TID1_GMI E coordinate  (m)          13518318.83484      0.21265      0.04457
+Loc.  TID1_GMI U coordinate  (m)               665.30259     -0.06492      0.03834
+     NE,NU,EU position correlations          0.1583       0.5199       0.0370
+
+Int. DAEJ_GPS -3120041.84500  4084614.92200  3764026.95400   -0.02600   -0.00940   -0.00920 2000.000
+  43. DAEJ_GPS X coordinate  (m)          -3120042.07836      0.00037      0.00152
+  44. DAEJ_GPS Y coordinate  (m)           4084614.83694     -0.00055      0.00164
+  45. DAEJ_GPS Z coordinate  (m)           3764026.87042     -0.00088      0.00143
+Unc. DAEJ_GPS -3120042.07836  4084614.83694  3764026.87042   -0.02600   -0.00940   -0.00920 2008.988  0.0015  0.0016  0.0014
+Apr. DAEJ_GPS -3120042.07836  4084614.83694  3764026.87042   -0.02600   -0.00940   -0.00920 2008.988  0.0015  0.0016  0.0014  -1.0000 -1.0000 -1.0000
+Loc.  DAEJ_GPS N coordinate  (m)           4051965.82104     -0.00032      0.00060
+Loc.  DAEJ_GPS E coordinate  (m)          11412829.90206      0.00004      0.00053
+Loc.  DAEJ_GPS U coordinate  (m)               116.83339     -0.00105      0.00254
+     NE,NU,EU position correlations         -0.8294      -0.2939       0.2376
+
+Int. TCMS_GPS -2982782.80900  4966660.15800  2658809.49200   -0.02730   -0.01120   -0.00920 2000.000
+  46. TCMS_GPS X coordinate  (m)          -2982783.05295      0.00147      0.00511
+  47. TCMS_GPS Y coordinate  (m)           4966660.05299     -0.00432      0.00665
+  48. TCMS_GPS Z coordinate  (m)           2658809.40346     -0.00583      0.00482
+Unc. TCMS_GPS -2982783.05295  4966660.05299  2658809.40346   -0.02730   -0.01120   -0.00920 2008.988  0.0051  0.0066  0.0048
+Apr. TCMS_GPS -2982783.05295  4966660.05299  2658809.40346   -0.02730   -0.01120   -0.00920 2008.988  0.0051  0.0066  0.0048  -1.0000 -1.0000 -1.0000
+Loc.  TCMS_GPS N coordinate  (m)           2760499.12588     -0.00344      0.00291
+Loc.  TCMS_GPS E coordinate  (m)          12226434.43566      0.00097      0.00354
+Loc.  TCMS_GPS U coordinate  (m)                77.24784     -0.00649      0.00851
+     NE,NU,EU position correlations          0.1482       0.1921       0.0871
+
+Int. TNML_GPS -2982778.98900  4966662.68600  2658805.75900   -0.02730   -0.01120   -0.00920 2000.000
+  49. TNML_GPS X coordinate  (m)          -2982779.23518     -0.00076      0.00484
+  50. TNML_GPS Y coordinate  (m)           4966662.58517     -0.00015      0.00617
+  51. TNML_GPS Z coordinate  (m)           2658805.67058     -0.00572      0.00463
+Unc. TNML_GPS -2982779.23518  4966662.58517  2658805.67058   -0.02730   -0.01120   -0.00920 2008.988  0.0048  0.0062  0.0046
+Apr. TNML_GPS -2982779.23518  4966662.58517  2658805.67058   -0.02730   -0.01120   -0.00920 2008.988  0.0048  0.0062  0.0046  -1.0000 -1.0000 -1.0000
+Loc.  TNML_GPS N coordinate  (m)           2760495.63394     -0.00530      0.00284
+Loc.  TNML_GPS E coordinate  (m)          12226429.86180      0.00073      0.00348
+Loc.  TNML_GPS U coordinate  (m)                75.86848     -0.00214      0.00792
+     NE,NU,EU position correlations          0.1573       0.2224       0.0923
+
+Int. BJFS_6EQ -2148743.91900  4426641.28300  4044655.93600   -0.03180   -0.00330   -0.00530 2000.000
+  52. BJFS_6EQ X coordinate  (m)          -2148744.20489     -0.00002      0.00316
+  53. BJFS_6EQ Y coordinate  (m)           4426641.25100     -0.00233      0.00464
+  54. BJFS_6EQ Z coordinate  (m)           4044655.89082      0.00247      0.00411
+Unc. BJFS_6EQ -2148744.20489  4426641.25100  4044655.89082   -0.03180   -0.00330   -0.00530 2008.988  0.0032  0.0046  0.0041
+Apr. BJFS_6EQ -2148744.20489  4426641.25100  4044655.89082   -0.03180   -0.00330   -0.00530 2008.988  0.0032  0.0046  0.0041  -1.0000 -1.0000 -1.0000
+Loc.  BJFS_6EQ N coordinate  (m)           4409209.28270      0.00323      0.00178
+Loc.  BJFS_6EQ E coordinate  (m)           9939262.43236      0.00104      0.00232
+Loc.  BJFS_6EQ U coordinate  (m)                87.45757     -0.00005      0.00631
+     NE,NU,EU position correlations         -0.1606      -0.0970       0.0339
+
+Int. IRKJ_GPS  -968328.45500  3794426.52400  5018167.26700   -0.02530   -0.00020   -0.00370 2000.000
+  55. IRKJ_GPS X coordinate  (m)           -968328.67522      0.00722      0.00279
+  56. IRKJ_GPS Y coordinate  (m)           3794426.52319      0.00099      0.00455
+  57. IRKJ_GPS Z coordinate  (m)           5018167.24254      0.00880      0.00560
+Unc. IRKJ_GPS  -968328.67522  3794426.52319  5018167.24254   -0.02530   -0.00020   -0.00370 2008.988  0.0028  0.0045  0.0056
+Apr. IRKJ_GPS  -968328.67522  3794426.52319  5018167.24254   -0.02530   -0.00020   -0.00370 2008.988  0.0028  0.0045  0.0056  -1.0000 -1.0000 -1.0000
+Loc.  IRKJ_GPS N coordinate  (m)           5812994.76009      0.00607      0.00230
+Loc.  IRKJ_GPS E coordinate  (m)           7114267.60243     -0.00724      0.00251
+Loc.  IRKJ_GPS U coordinate  (m)               502.04983      0.00643      0.00695
+     NE,NU,EU position correlations         -0.3024      -0.0429      -0.0259
+
+Int. IRKT_GPS  -968332.26600  3794425.41100  5018167.74500   -0.02530   -0.00020   -0.00370 2000.000
+  58. IRKT_GPS X coordinate  (m)           -968332.49367     -0.00023      0.00257
+  59. IRKT_GPS Y coordinate  (m)           3794425.41103      0.00183      0.00469
+  60. IRKT_GPS Z coordinate  (m)           5018167.71598      0.00424      0.00622
+Unc. IRKT_GPS  -968332.49367  3794425.41103  5018167.71598   -0.02530   -0.00020   -0.00370 2008.988  0.0026  0.0047  0.0062
+Apr. IRKT_GPS  -968332.49367  3794425.41103  5018167.71598   -0.02530   -0.00020   -0.00370 2008.988  0.0026  0.0047  0.0062  -1.0000 -1.0000 -1.0000
+Loc.  IRKT_GPS N coordinate  (m)           5812995.15573      0.00117      0.00169
+Loc.  IRKT_GPS E coordinate  (m)           7114271.56867     -0.00023      0.00223
+Loc.  IRKT_GPS U coordinate  (m)               502.34227      0.00447      0.00771
+     NE,NU,EU position correlations         -0.7183       0.0476      -0.0979
+
+Int. KUNM_1SU -1281255.56100  5640746.05900  2682880.04800   -0.03170    0.00350   -0.01470 2000.000
+  61. KUNM_1SU X coordinate  (m)          -1281255.83930      0.00667      0.00630
+  62. KUNM_1SU Y coordinate  (m)           5640746.08984     -0.00062      0.01178
+  63. KUNM_1SU Z coordinate  (m)           2682879.89863     -0.01722      0.00665
+Unc. KUNM_1SU -1281255.83930  5640746.08984  2682879.89863   -0.03170    0.00350   -0.01470 2008.988  0.0063  0.0118  0.0066
+Apr. KUNM_1SU -1281255.83930  5640746.08984  2682879.89863   -0.03170    0.00350   -0.01470 2008.988  0.0063  0.0118  0.0066  -1.0000 -1.0000 -1.0000
+Loc.  KUNM_1SU N coordinate  (m)           2786275.42731     -0.01474      0.00395
+Loc.  KUNM_1SU E coordinate  (m)          10368693.30421     -0.00637      0.00588
+Loc.  KUNM_1SU U coordinate  (m)              1986.21022     -0.00913      0.01313
+     NE,NU,EU position correlations          0.0120       0.0200      -0.0063
+
+Int. LHAZ_GPS  -106941.21000  5549269.92300  3139214.93600   -0.04550   -0.00820    0.01320 2000.000
+  64. LHAZ_GPS X coordinate  (m)           -106941.62202     -0.00298      0.00643
+  65. LHAZ_GPS Y coordinate  (m)           5549269.85782      0.00853      0.00990
+  66. LHAZ_GPS Z coordinate  (m)           3139215.05041     -0.00426      0.00613
+Unc. LHAZ_GPS  -106941.62202  5549269.85782  3139215.05041   -0.04550   -0.00820    0.01320 2008.988  0.0064  0.0099  0.0061
+Apr. LHAZ_GPS  -106941.62202  5549269.85782  3139215.05041   -0.04550   -0.00820    0.01320 2008.988  0.0064  0.0099  0.0061  -1.0000 -1.0000 -1.0000
+Loc.  LHAZ_GPS N coordinate  (m)           3301439.14538     -0.00793      0.00402
+Loc.  LHAZ_GPS E coordinate  (m)           8813208.91028      0.00282      0.00643
+Loc.  LHAZ_GPS U coordinate  (m)              3624.60338      0.00538      0.01092
+     NE,NU,EU position correlations         -0.0805      -0.0959      -0.0179
+
+Int. DAV1_GPS   486854.55000  2285099.29200 -5914955.68900    0.00110   -0.00610   -0.00110 2000.000
+  67. DAV1_GPS X coordinate  (m)            486854.58482      0.02494      0.04550
+  68. DAV1_GPS Y coordinate  (m)           2285099.17843     -0.05873      0.04457
+  69. DAV1_GPS Z coordinate  (m)          -5914955.72017     -0.02129      0.02611
+Unc. DAV1_GPS   486854.58482  2285099.17843 -5914955.72017    0.00110   -0.00610   -0.00110 2008.988  0.0455  0.0446  0.0261
+Apr. DAV1_GPS   486854.58482  2285099.17843 -5914955.72017    0.00110   -0.00610   -0.00110 2008.988  0.0455  0.0446  0.0261  -1.0000 -1.0000 -1.0000
+Loc.  DAV1_GPS N coordinate  (m)          -7633992.75640     -0.05641      0.04303
+Loc.  DAV1_GPS E coordinate  (m)           3170252.84397     -0.03663      0.04347
+Loc.  DAV1_GPS U coordinate  (m)                44.39625      0.00060      0.03159
+     NE,NU,EU position correlations         -0.1824       0.4643      -0.1912
+
+Int. TRO1_3PS  2102928.57200   721619.40900  5958196.22700   -0.01760    0.00920    0.00760 2000.000
+  70. TRO1_3PS X coordinate  (m)           2102928.41599      0.00221      0.00503
+  71. TRO1_3PS Y coordinate  (m)            721619.49261      0.00091      0.00400
+  72. TRO1_3PS Z coordinate  (m)           5958196.28050     -0.01483      0.00861
+Unc. TRO1_3PS  2102928.41599   721619.49261  5958196.28050   -0.01760    0.00920    0.00760 2008.988  0.0050  0.0040  0.0086
+Apr. TRO1_3PS  2102928.41599   721619.49261  5958196.28050   -0.01760    0.00920    0.00760 2008.988  0.0050  0.0040  0.0086  -1.0000 -1.0000 -1.0000
+Loc.  TRO1_3PS N coordinate  (m)           7754818.36558     -0.00742      0.00416
+Loc.  TRO1_3PS E coordinate  (m)            732743.98583      0.00014      0.00377
+Loc.  TRO1_3PS U coordinate  (m)               138.09236     -0.01306      0.00916
+     NE,NU,EU position correlations         -0.0087      -0.0645       0.0466
+
+Int. TROM_GPS  2102940.28400   721569.41300  5958192.13300   -0.01760    0.00900    0.00760 2000.000
+  73. TROM_GPS X coordinate  (m)           2102940.13946      0.01368      0.00496
+  74. TROM_GPS Y coordinate  (m)            721569.48547     -0.00844      0.00396
+  75. TROM_GPS Z coordinate  (m)           5958192.19623     -0.00510      0.00834
+Unc. TROM_GPS  2102940.13946   721569.48547  5958192.19623   -0.01760    0.00900    0.00760 2008.988  0.0050  0.0040  0.0083
+Apr. TROM_GPS  2102940.13946   721569.48547  5958192.19623   -0.01760    0.00900    0.00760 2008.988  0.0050  0.0040  0.0083  -1.0000 -1.0000 -1.0000
+Loc.  TROM_GPS N coordinate  (m)           7754821.75982     -0.01134      0.00412
+Loc.  TROM_GPS E coordinate  (m)            732693.03286     -0.01242      0.00374
+Loc.  TROM_GPS U coordinate  (m)               132.47577     -0.00121      0.00888
+     NE,NU,EU position correlations         -0.0079      -0.0722       0.0456
+
+Int. MATE_1PS  4641949.64700  1393045.33400  4133287.38500   -0.01790    0.01880    0.01550 2000.000
+  76. MATE_1PS X coordinate  (m)           4641949.48846      0.00238      0.00577
+  77. MATE_1PS Y coordinate  (m)           1393045.50406      0.00105      0.00333
+  78. MATE_1PS Z coordinate  (m)           4133287.52408     -0.00026      0.00439
+Unc. MATE_1PS  4641949.48846  1393045.50406  4133287.52408   -0.01790    0.01880    0.01550 2008.988  0.0058  0.0033  0.0044
+Apr. MATE_1PS  4641949.48846  1393045.50406  4133287.52408   -0.01790    0.01880    0.01550 2008.988  0.0058  0.0033  0.0044  -1.0000 -1.0000 -1.0000
+Loc.  MATE_1PS N coordinate  (m)           4525040.71288     -0.00187      0.00200
+Loc.  MATE_1PS E coordinate  (m)           1410869.10056      0.00032      0.00325
+Loc.  MATE_1PS U coordinate  (m)               535.65702      0.00179      0.00701
+     NE,NU,EU position correlations          0.0946      -0.2667      -0.1247
+
+Int. WTZA_GPS  4075578.43030   931852.73570  4801569.95180    0.00000    0.00000    0.00000 2001.005
+  79. WTZA_GPS X coordinate  (m)           4075578.31022     -0.12008      0.00502
+  80. WTZA_GPS Y coordinate  (m)            931852.87047      0.13477      0.00265
+  81. WTZA_GPS Z coordinate  (m)           4801570.06820      0.11640      0.00490
+Unc. WTZA_GPS  4075578.31022   931852.87047  4801570.06820    0.00000    0.00000    0.00000 2008.988  0.0050  0.0026  0.0049
+Apr. WTZA_GPS  4075578.31022   931852.87047  4801570.06820    0.00000    0.00000    0.00000 2008.988  0.0050  0.0026  0.0049  -1.0000 -1.0000 -1.0000
+Loc.  WTZA_GPS N coordinate  (m)           5470710.22465      0.14207      0.00237
+Loc.  WTZA_GPS E coordinate  (m)            937828.25703      0.15814      0.00262
+Loc.  WTZA_GPS U coordinate  (m)               665.92410      0.03064      0.00661
+     NE,NU,EU position correlations          0.2227      -0.2121      -0.0650
+
+Int. WTZJ_GPS  4075580.98410   931854.72330  4801567.47440    0.00000    0.00000    0.00000 2002.987
+  82. WTZJ_GPS X coordinate  (m)           4075579.83863     -1.14547      0.00560
+  83. WTZJ_GPS Y coordinate  (m)            931855.44007      0.71677      0.00289
+  84. WTZJ_GPS Z coordinate  (m)           4801568.30122      0.82682      0.00555
+Unc. WTZJ_GPS  4075579.83863   931855.44007  4801568.30122    0.00000    0.00000    0.00000 2008.988  0.0056  0.0029  0.0055
+Apr. WTZJ_GPS  4075579.83863   931855.44007  4801568.30122    0.00000    0.00000    0.00000 2008.988  0.0056  0.0029  0.0055  -1.0000 -1.0000 -1.0000
+Loc.  WTZJ_GPS N coordinate  (m)           5470707.50629      1.26461      0.00261
+Loc.  WTZJ_GPS E coordinate  (m)            937830.41691      0.95406      0.00283
+Loc.  WTZJ_GPS U coordinate  (m)               665.93696     -0.00479      0.00746
+     NE,NU,EU position correlations          0.2222      -0.1995      -0.0437
+
+Int. WTZZ_GPS  4075579.50600   931853.02600  4801568.98100   -0.01510    0.01730    0.01140 2000.000
+  85. WTZZ_GPS X coordinate  (m)           4075579.37120      0.00095      0.00508
+  86. WTZZ_GPS Y coordinate  (m)            931853.17928     -0.00224      0.00265
+  87. WTZZ_GPS Z coordinate  (m)           4801569.07107     -0.01242      0.00495
+Unc. WTZZ_GPS  4075579.37120   931853.17928  4801569.07107   -0.01510    0.01730    0.01140 2008.988  0.0051  0.0027  0.0050
+Apr. WTZZ_GPS  4075579.37120   931853.17928  4801569.07107   -0.01510    0.01730    0.01140 2008.988  0.0051  0.0027  0.0050  -1.0000 -1.0000 -1.0000
+Loc.  WTZZ_GPS N coordinate  (m)           5470708.73673     -0.00847      0.00237
+Loc.  WTZZ_GPS E coordinate  (m)            937828.32146     -0.00240      0.00261
+Loc.  WTZZ_GPS U coordinate  (m)               665.89152     -0.00909      0.00670
+     NE,NU,EU position correlations          0.2243      -0.2184      -0.0568
+
+Int. WTZR_2PS  4075580.63300   931853.71200  4801568.08100   -0.01510    0.01730    0.01140 2000.000
+  88. WTZR_2PS X coordinate  (m)           4075580.49624     -0.00102      0.00548
+  89. WTZR_2PS Y coordinate  (m)            931853.86726     -0.00026      0.00282
+  90. WTZR_2PS Z coordinate  (m)           4801568.16917     -0.01431      0.00543
+Unc. WTZR_2PS  4075580.49624   931853.86726  4801568.16917   -0.01510    0.01730    0.01140 2008.988  0.0055  0.0028  0.0054
+Apr. WTZR_2PS  4075580.49624   931853.86726  4801568.16917   -0.01510    0.01730    0.01140 2008.988  0.0055  0.0028  0.0054  -1.0000 -1.0000 -1.0000
+Loc.  WTZR_2PS N coordinate  (m)           5470707.19992     -0.00861      0.00252
+Loc.  WTZR_2PS E coordinate  (m)            937828.74052     -0.00003      0.00276
+Loc.  WTZR_2PS U coordinate  (m)               666.02711     -0.01148      0.00731
+     NE,NU,EU position correlations          0.2240      -0.2029      -0.0435
+
+Int. CAGZ_GPS  4893380.03700   772650.38000  4004179.95800   -0.01320    0.01970    0.01270 2000.000
+  91. CAGZ_GPS X coordinate  (m)           4893379.93178      0.01345      0.00569
+  92. CAGZ_GPS Y coordinate  (m)            772650.55607     -0.00103      0.00255
+  93. CAGZ_GPS Z coordinate  (m)           4004180.08214      0.00997      0.00422
+Unc. CAGZ_GPS  4893379.93178   772650.55607  4004180.08214   -0.01320    0.01970    0.01270 2008.988  0.0057  0.0025  0.0042
+Apr. CAGZ_GPS  4893379.93178   772650.55607  4004180.08214   -0.01320    0.01970    0.01270 2008.988  0.0057  0.0025  0.0042  -1.0000 -1.0000 -1.0000
+Loc.  CAGZ_GPS N coordinate  (m)           4356587.39646     -0.00050      0.00199
+Loc.  CAGZ_GPS E coordinate  (m)            774756.17543     -0.00312      0.00256
+Loc.  CAGZ_GPS U coordinate  (m)               237.99304      0.01647      0.00679
+     NE,NU,EU position correlations          0.1301      -0.2143      -0.1355
+
+Int. CAGL_2PS  4893378.89000   772649.68800  4004182.09900   -0.01320    0.01970    0.01270 2000.000
+  94. CAGL_2PS X coordinate  (m)           4893378.78028      0.00895      0.00579
+  95. CAGL_2PS Y coordinate  (m)            772649.86637      0.00127      0.00257
+  96. CAGL_2PS Z coordinate  (m)           4004182.21631      0.00314      0.00437
+Unc. CAGL_2PS  4893378.78028   772649.86637  4004182.21631   -0.01320    0.01970    0.01270 2008.988  0.0058  0.0026  0.0044
+Apr. CAGL_2PS  4893378.78028   772649.86637  4004182.21631   -0.01320    0.01970    0.01270 2008.988  0.0058  0.0026  0.0044  -1.0000 -1.0000 -1.0000
+Loc.  CAGL_2PS N coordinate  (m)           4356589.84415     -0.00324      0.00200
+Loc.  CAGL_2PS E coordinate  (m)            774755.67445     -0.00014      0.00256
+Loc.  CAGL_2PS U coordinate  (m)               238.37438      0.00900      0.00698
+     NE,NU,EU position correlations          0.0993      -0.1895      -0.1177
+
+Int. ZIMM_1PS  4331297.13100   567555.78900  4633133.87200   -0.01260    0.01810    0.01270 2000.000
+  97. ZIMM_1PS X coordinate  (m)           4331297.01496     -0.00276      0.00490
+  98. ZIMM_1PS Y coordinate  (m)            567555.95337      0.00165      0.00220
+  99. ZIMM_1PS Z coordinate  (m)           4633133.97863     -0.00754      0.00443
+Unc. ZIMM_1PS  4331297.01496   567555.95337  4633133.97863   -0.01260    0.01810    0.01270 2008.988  0.0049  0.0022  0.0044
+Apr. ZIMM_1PS  4331297.01496   567555.95337  4633133.97863   -0.01260    0.01810    0.01270 2008.988  0.0049  0.0022  0.0044  -1.0000 -1.0000 -1.0000
+Loc.  ZIMM_1PS N coordinate  (m)           5218334.68447     -0.00334      0.00211
+Loc.  ZIMM_1PS E coordinate  (m)            568072.24973      0.00200      0.00220
+Loc.  ZIMM_1PS U coordinate  (m)               956.33761     -0.00722      0.00625
+     NE,NU,EU position correlations          0.2135      -0.2429      -0.0660
+
+ 100. TRANSLTN X coordinate  (m)                             -0.00075      0.00491
+ 101. TRANSLTN Y coordinate  (m)                             -0.00106      0.00491
+ 102. TRANSLTN Z coordinate  (m)                             -0.00038      0.00499
+ 103. SCALE    (ppb)                                         -0.74976      0.91347
+ 104. SCALRATE (ppb/yr)                                       0.00000      1.00000
+
+Eph. #IC  8 362 12  0  0                    GPST J2000 IAU76 BERNE
+ 105. PRN_01   Inert.  X     (m)          25483510.97640     -0.39460      1.19213
+ 106. PRN_01   Inert.  Y     (m)          -7153116.99259     -1.07059      4.50329
+ 107. PRN_01   Inert.  Z     (m)          -2138357.34428      0.68272      3.10237
+ 108. PRN_01   Inert.  dX/dT (mm/s)         345921.88596      0.18296      0.63587
+ 109. PRN_01   Inert.  dY/dT (mm/s)        2299439.15891      0.00291      0.08169
+ 110. PRN_01   Inert.  dZ/dT (mm/s)       -3099701.14460      0.01040      0.08263
+ 111. PRN_01   Direct Rad    (none)              1.05626      0.05626      0.41671
+ 112. PRN_01   Y Axis Bias   (none)             -0.00114     -0.00114      0.24635
+ 113. PRN_01   B Axis Bias   (none)              0.00031      0.00031      0.01997
+ 114. PRN_01   Sin Direct    (none)              0.01530      0.01530      0.16044
+ 115. PRN_01   Cos Y Bias    (none)             -0.00027     -0.00027      0.01997
+ 116. PRN_01   Cos B Bias    (none)              0.04665      0.04665      0.21393
+ 117. PRN_01   AntOffest X   (m)                 0.43098      0.15198      1.40590
+Eph.  2008 12 27 11 PRN_01    25483510.9764  -7153116.9926  -2138357.3443   345921.88596  2299439.15891 -3099701.14460   1.05626  -0.00114   0.00000   0.00031   0.00000   0.00000   0.01530  -0.00027   0.00000   0.04665   0.00000   0.00000   0.00000   0.00000   0.43098   0.00000   0.95190
+ Loc. PRN_01   Semimajor axis      (m)     26562878.0862      -0.1570       0.4920
+ Loc. PRN_01   Eccentricity (none & m)      0.0097678488       0.0249       0.5942
+ Loc. PRN_01   Inclination  (degs & m)     53.5906134906      -0.3294       1.4768
+ Loc. PRN_01   RA Node      (degs & m)    160.9048943985      -0.6818       4.5958
+ Loc. PRN_01   Arg. Perigee (degs & m)    274.4828601228       0.4925      18.9037
+ Loc. PRN_01   M + w        (degs & m)    186.8613802008      -0.7632       3.8482
+
+ 118. PRN_02   Inert.  X     (m)           6159980.47968      0.43068      3.30858
+ 119. PRN_02   Inert.  Y     (m)          21056845.97714     -0.10486      1.01154
+ 120. PRN_02   Inert.  Z     (m)         -14819723.59369      0.00231      0.28738
+ 121. PRN_02   Inert.  dX/dT (mm/s)       -3072203.04051     -0.05551      0.11121
+ 122. PRN_02   Inert.  dY/dT (mm/s)        -668482.56813      0.10587      0.48016
+ 123. PRN_02   Inert.  dZ/dT (mm/s)       -2284231.00636      0.04664      0.04349
+ 124. PRN_02   Direct Rad    (none)              1.06169      0.06169      0.06840
+ 125. PRN_02   Y Axis Bias   (none)             -0.00075     -0.00075      0.00210
+ 126. PRN_02   B Axis Bias   (none)              0.00177      0.00177      0.01932
+ 127. PRN_02   Sin Direct    (none)              0.00146      0.00146      0.00641
+ 128. PRN_02   Cos Y Bias    (none)              0.00027      0.00027      0.01521
+ 129. PRN_02   Cos B Bias    (none)             -0.03844     -0.03844      0.04685
+ 130. PRN_02   AntOffest X   (m)                 0.31025      0.31025      0.40806
+Eph.  2008 12 27 11 PRN_02     6159980.4797  21056845.9771 -14819723.5937 -3072203.04051  -668482.56813 -2284231.00636   1.06169  -0.00075   0.00000   0.00177   0.00000   0.00000   0.00146   0.00027   0.00000  -0.03844   0.00000   0.00000   0.00000   0.00000   0.31025   0.00000   0.61400
+ Loc. PRN_02   Semimajor axis      (m)     26559725.1177       0.0072       0.1615
+ Loc. PRN_02   Eccentricity (none & m)      0.0088542595      -0.0180       0.0916
+ Loc. PRN_02   Inclination  (degs & m)     53.9330878030      -0.3840       0.3450
+ Loc. PRN_02   RA Node      (degs & m)    224.2231845076      -0.9758       4.1647
+ Loc. PRN_02   Arg. Perigee (degs & m)    154.2979954943       0.0397      17.6495
+ Loc. PRN_02   M + w        (degs & m)    222.8780896483       0.2817       0.4825
+
+ 131. PRN_03   Inert.  X     (m)          -1028414.66124     -1.23524      2.66226
+ 132. PRN_03   Inert.  Y     (m)         -16308751.53585     -0.32385      0.44944
+ 133. PRN_03   Inert.  Z     (m)          20685741.41824     -0.28976      0.25770
+ 134. PRN_03   Inert.  dX/dT (mm/s)        3727543.72802     -0.04898      0.15784
+ 135. PRN_03   Inert.  dY/dT (mm/s)       -1008916.30314     -0.18514      0.58384
+ 136. PRN_03   Inert.  dZ/dT (mm/s)        -566287.41823      0.03877      0.10333
+ 137. PRN_03   Direct Rad    (none)              0.93990     -0.06010      0.09801
+ 138. PRN_03   Y Axis Bias   (none)             -0.00299     -0.00299      0.00231
+ 139. PRN_03   B Axis Bias   (none)             -0.00046     -0.00046      0.01915
+ 140. PRN_03   Sin Direct    (none)             -0.00467     -0.00467      0.00838
+ 141. PRN_03   Cos Y Bias    (none)              0.00178      0.00178      0.01778
+ 142. PRN_03   Cos B Bias    (none)              0.12815      0.12815      0.07917
+ 143. PRN_03   AntOffest X   (m)                -0.07926     -0.35826      0.48350
+Eph.  2008 12 27 11 PRN_03    -1028414.6612 -16308751.5359  20685741.4182  3727543.72802 -1008916.30314  -566287.41823   0.93990  -0.00299   0.00000  -0.00046   0.00000   0.00000  -0.00467   0.00178   0.00000   0.12815   0.00000   0.00000   0.00000   0.00000  -0.07926   0.00000   2.61900
+ Loc. PRN_03   Semimajor axis      (m)     26559486.3977      -0.0198       0.1773
+ Loc. PRN_03   Eccentricity (none & m)      0.0115397933      -0.0740       0.1143
+ Loc. PRN_03   Inclination  (degs & m)     53.0615111904      -0.6027       0.5438
+ Loc. PRN_03   RA Node      (degs & m)    158.5247829706      -1.2538       4.1507
+ Loc. PRN_03   Arg. Perigee (degs & m)     50.6762490892       0.5403       9.6866
+ Loc. PRN_03   M + w        (degs & m)     99.9519931418      -0.1835       0.8649
+
+ 144. PRN_04   Inert.  X     (m)          -6737641.54565     -0.18765      2.39052
+ 145. PRN_04   Inert.  Y     (m)          15005202.02975      0.07075      1.19634
+ 146. PRN_04   Inert.  Z     (m)         -21035127.90447      0.18553      0.29021
+ 147. PRN_04   Inert.  dX/dT (mm/s)       -2994690.88795     -0.09895      0.36387
+ 148. PRN_04   Inert.  dY/dT (mm/s)       -2330122.10922      0.08078      0.46940
+ 149. PRN_04   Inert.  dZ/dT (mm/s)        -669971.53523      0.10577      0.07769
+ 150. PRN_04   Direct Rad    (none)              1.03556      0.03556      0.11858
+ 151. PRN_04   Y Axis Bias   (none)             -0.01010     -0.01010      0.00264
+ 152. PRN_04   B Axis Bias   (none)             -0.00588     -0.00588      0.01815
+ 153. PRN_04   Sin Direct    (none)              0.00278      0.00278      0.00711
+ 154. PRN_04   Cos Y Bias    (none)             -0.00929     -0.00929      0.01698
+ 155. PRN_04   Cos B Bias    (none)             -0.11225     -0.11225      0.06961
+ 156. PRN_04   AntOffest X   (m)                 0.24253     -0.03647      0.63035
+Eph.  2008 12 27 11 PRN_04    -6737641.5456  15005202.0297 -21035127.9045 -2994690.88795 -2330122.10922  -669971.53523   1.03556  -0.01010   0.00000  -0.00588   0.00000   0.00000   0.00278  -0.00929   0.00000  -0.11225   0.00000   0.00000   0.00000   0.00000   0.24253   0.00000   2.27900
+ Loc. PRN_04   Semimajor axis      (m)     26558655.5364       0.0149       0.1434
+ Loc. PRN_04   Eccentricity (none & m)      0.0086516210      -0.0317       0.1386
+ Loc. PRN_04   Inclination  (degs & m)     53.8893179924      -0.5023       0.4379
+ Loc. PRN_04   RA Node      (degs & m)    225.2865063719      -1.3051       4.1541
+ Loc. PRN_04   Arg. Perigee (degs & m)     26.3572784432      -7.1809      11.2125
+ Loc. PRN_04   M + w        (degs & m)    257.9564778692       0.8771       0.6581
+
+ 157. PRN_05   Inert.  X     (m)          14231090.07649      0.54149      1.24212
+ 158. PRN_05   Inert.  Y     (m)           7900515.32208     -0.90192      2.22880
+ 159. PRN_05   Inert.  Z     (m)         -21265575.43161      0.08439      0.08476
+ 160. PRN_05   Inert.  dX/dT (mm/s)       -1079434.40616      0.18284      0.56677
+ 161. PRN_05   Inert.  dY/dT (mm/s)        3629886.09073      0.06273      0.16918
+ 162. PRN_05   Inert.  dZ/dT (mm/s)         647205.74159     -0.03241      0.01893
+ 163. PRN_05   Direct Rad    (none)              1.01764      0.01764      0.00932
+ 164. PRN_05   Y Axis Bias   (none)             -0.00275     -0.00275      0.00458
+ 165. PRN_05   B Axis Bias   (none)             -0.00934     -0.00934      0.01398
+ 166. PRN_05   Sin Direct    (none)              0.00440      0.00440      0.00927
+ 167. PRN_05   Cos Y Bias    (none)             -0.00217     -0.00217      0.01592
+ 168. PRN_05   Cos B Bias    (none)              0.05493      0.05493      0.04730
+ 169. PRN_05   AntOffest X   (m)                 0.20932     -0.06968      0.07824
+Eph.  2008 12 27 11 PRN_05    14231090.0765   7900515.3221 -21265575.4316 -1079434.40616  3629886.09073   647205.74159   1.01764  -0.00275   0.00000  -0.00934   0.00000   0.00000   0.00440  -0.00217   0.00000   0.05493   0.00000   0.00000   0.00000   0.00000   0.20932   0.00000   2.46300
+ Loc. PRN_05   Semimajor axis      (m)     26558447.7062      -0.0561       0.1370
+ Loc. PRN_05   Eccentricity (none & m)      0.0094034614       0.0120       0.1206
+ Loc. PRN_05   Inclination  (degs & m)     54.1985603823      -0.1604       0.1454
+ Loc. PRN_05   RA Node      (degs & m)     99.4805219164      -1.2243       4.1441
+ Loc. PRN_05   Arg. Perigee (degs & m)     74.4862030708      -0.1365       8.2830
+ Loc. PRN_05   M + w        (degs & m)    282.2357318724      -0.2570       0.1673
+
+ 170. PRN_06   Inert.  X     (m)           3898546.96379     -1.16621      2.79766
+ 171. PRN_06   Inert.  Y     (m)         -16972160.57391     -0.45991      0.74996
+ 172. PRN_06   Inert.  Z     (m)          20244874.60498     -0.14102      0.29655
+ 173. PRN_06   Inert.  dX/dT (mm/s)        3693125.93154     -0.01346      0.06500
+ 174. PRN_06   Inert.  dY/dT (mm/s)        -374436.38261     -0.18261      0.57891
+ 175. PRN_06   Inert.  dZ/dT (mm/s)       -1032479.39768      0.04232      0.12093
+ 176. PRN_06   Direct Rad    (none)              0.96823     -0.03177      0.10677
+ 177. PRN_06   Y Axis Bias   (none)             -0.00412     -0.00412      0.00194
+ 178. PRN_06   B Axis Bias   (none)             -0.00049     -0.00049      0.01968
+ 179. PRN_06   Sin Direct    (none)             -0.00266     -0.00266      0.00873
+ 180. PRN_06   Cos Y Bias    (none)              0.00039      0.00039      0.01794
+ 181. PRN_06   Cos B Bias    (none)              0.07478      0.07478      0.09893
+ 182. PRN_06   AntOffest X   (m)                 0.02474     -0.25426      0.51635
+Eph.  2008 12 27 11 PRN_06     3898546.9638 -16972160.5739  20244874.6050  3693125.93154  -374436.38261 -1032479.39768   0.96823  -0.00412   0.00000  -0.00049   0.00000   0.00000  -0.00266   0.00039   0.00000   0.07478   0.00000   0.00000   0.00000   0.00000   0.02474   0.00000   2.67600
+ Loc. PRN_06   Semimajor axis      (m)     26559632.3376      -0.0586       0.2382
+ Loc. PRN_06   Eccentricity (none & m)      0.0056295789       0.0773       0.2038
+ Loc. PRN_06   Inclination  (degs & m)     53.4866493372      -0.4058       0.5307
+ Loc. PRN_06   RA Node      (degs & m)    162.3276724549      -1.2515       4.1587
+ Loc. PRN_06   Arg. Perigee (degs & m)    274.5086419755      -0.6597      10.8775
+ Loc. PRN_06   M + w        (degs & m)    109.5591000234      -0.2410       1.0395
+
+ 183. PRN_07   Inert.  X     (m)         -20459159.33139     -0.13139      0.71677
+ 184. PRN_07   Inert.  Y     (m)          -4575156.42474      0.87826      3.19756
+ 185. PRN_07   Inert.  Z     (m)          16224982.56737      0.10737      0.08652
+ 186. PRN_07   Inert.  dX/dT (mm/s)        -998524.93527     -0.14527      0.48138
+ 187. PRN_07   Inert.  dY/dT (mm/s)       -3082690.56250      0.04750      0.15570
+ 188. PRN_07   Inert.  dZ/dT (mm/s)       -2136489.30454      0.00546      0.01270
+ 189. PRN_07   Direct Rad    (none)              0.97057     -0.02943      0.00703
+ 190. PRN_07   Y Axis Bias   (none)              0.00808      0.00808      0.00373
+ 191. PRN_07   B Axis Bias   (none)              0.01069      0.01069      0.01071
+ 192. PRN_07   Sin Direct    (none)              0.00779      0.00779      0.01333
+ 193. PRN_07   Cos Y Bias    (none)              0.00738      0.00738      0.01578
+ 194. PRN_07   Cos B Bias    (none)              0.00352      0.00352      0.03192
+ 195. PRN_07   AntOffest X   (m)                 0.00510      0.00510      0.07767
+Eph.  2008 12 27 11 PRN_07   -20459159.3314  -4575156.4247  16224982.5674  -998524.93527 -3082690.56250 -2136489.30454   0.97057   0.00808   0.00000   0.01069   0.00000   0.00000   0.00779   0.00738   0.00000   0.00352   0.00000   0.00000   0.00000   0.00000   0.00510   0.00000   0.70000
+ Loc. PRN_07   Semimajor axis      (m)     26560030.7569      -0.0149       0.1087
+ Loc. PRN_07   Eccentricity (none & m)      0.0022897971      -0.0307       0.0893
+ Loc. PRN_07   Inclination  (degs & m)     55.3497792314       0.1061       0.0731
+ Loc. PRN_07   RA Node      (degs & m)     44.9423461361      -1.1036       4.1450
+ Loc. PRN_07   Arg. Perigee (degs & m)    165.9950363798       3.7838      17.1414
+ Loc. PRN_07   M + w        (degs & m)    132.0736374221      -0.1163       0.1303
+
+ 196. PRN_08   Inert.  X     (m)         -12606790.86460      0.35540      1.20113
+ 197. PRN_08   Inert.  Y     (m)           7676025.95494      0.52794      1.97452
+ 198. PRN_08   Inert.  Z     (m)          21985548.87105      0.00805      0.06104
+ 199. PRN_08   Inert.  dX/dT (mm/s)       -2395426.46775     -0.12875      0.47436
+ 200. PRN_08   Inert.  dY/dT (mm/s)       -3037953.43030      0.10470      0.37400
+ 201. PRN_08   Inert.  dZ/dT (mm/s)        -360166.78575      0.00425      0.01593
+ 202. PRN_08   Direct Rad    (none)              1.02527      0.02527      0.00777
+ 203. PRN_08   Y Axis Bias   (none)             -0.00593     -0.00593      0.00443
+ 204. PRN_08   B Axis Bias   (none)             -0.00138     -0.00138      0.01470
+ 205. PRN_08   Sin Direct    (none)              0.00929      0.00929      0.02049
+ 206. PRN_08   Cos Y Bias    (none)              0.00147      0.00147      0.01520
+ 207. PRN_08   Cos B Bias    (none)             -0.01782     -0.01782      0.03782
+ 208. PRN_08   AntOffest X   (m)                 0.31731      0.03831      0.07704
+Eph.  2008 12 27 11 PRN_08   -12606790.8646   7676025.9549  21985548.8711 -2395426.46775 -3037953.43030  -360166.78575   1.02527  -0.00593   0.00000  -0.00138   0.00000   0.00000   0.00929   0.00147   0.00000  -0.01782   0.00000   0.00000   0.00000   0.00000   0.31731   0.00000   2.40500
+ Loc. PRN_08   Semimajor axis      (m)     26558746.0055      -0.0587       0.1374
+ Loc. PRN_08   Eccentricity (none & m)      0.0105213405      -0.0288       0.0656
+ Loc. PRN_08   Inclination  (degs & m)     56.5663496979       0.0262       0.0819
+ Loc. PRN_08   RA Node      (degs & m)     48.2203550670      -1.1174       4.1449
+ Loc. PRN_08   Arg. Perigee (degs & m)    170.1171272925       4.0198       9.8690
+ Loc. PRN_08   M + w        (degs & m)     96.9569080152      -0.0507       0.1446
+
+ 209. PRN_09   Inert.  X     (m)          20622189.58450      0.71550      2.57315
+ 210. PRN_09   Inert.  Y     (m)          16478554.18093     -0.95907      3.22072
+ 211. PRN_09   Inert.  Z     (m)          -2922235.82877     -0.12977      0.12967
+ 212. PRN_09   Inert.  dX/dT (mm/s)       -1150990.08238      0.09662      0.29401
+ 213. PRN_09   Inert.  dY/dT (mm/s)        1879766.50717      0.05717      0.18063
+ 214. PRN_09   Inert.  dZ/dT (mm/s)        3186189.99140     -0.00060      0.01473
+ 215. PRN_09   Direct Rad    (none)              1.02411      0.02411      0.00881
+ 216. PRN_09   Y Axis Bias   (none)             -0.00748     -0.00748      0.00485
+ 217. PRN_09   B Axis Bias   (none)             -0.00607     -0.00607      0.01712
+ 218. PRN_09   Sin Direct    (none)              0.00446      0.00446      0.02165
+ 219. PRN_09   Cos Y Bias    (none)              0.01102      0.01102      0.01780
+ 220. PRN_09   Cos B Bias    (none)              0.00773      0.00773      0.03943
+ 221. PRN_09   AntOffest X   (m)                 0.25421     -0.02479      0.07986
+Eph.  2008 12 27 11 PRN_09    20622189.5845  16478554.1809  -2922235.8288 -1150990.08238  1879766.50717  3186189.99140   1.02411  -0.00748   0.00000  -0.00607   0.00000   0.00000   0.00446   0.01102   0.00000   0.00773   0.00000   0.00000   0.00000   0.00000   0.25421   0.00000   2.34000
+ Loc. PRN_09   Semimajor axis      (m)     26561643.5469      -0.0705       0.1525
+ Loc. PRN_09   Eccentricity (none & m)      0.0201265812       0.0271       0.0717
+ Loc. PRN_09   Inclination  (degs & m)     55.8623182704       0.0294       0.1446
+ Loc. PRN_09   RA Node      (degs & m)     42.9317774945      -1.1163       4.1462
+ Loc. PRN_09   Arg. Perigee (degs & m)     83.1831335995       2.1239       6.9074
+ Loc. PRN_09   M + w        (degs & m)    354.6671619316      -0.1045       0.1550
+
+ 222. PRN_10   Inert.  X     (m)           -403221.03592      1.06908      3.89434
+ 223. PRN_10   Inert.  Y     (m)          24942009.29494      0.01194      0.07815
+ 224. PRN_10   Inert.  Z     (m)           9454445.09131      0.04431      0.09283
+ 225. PRN_10   Inert.  dX/dT (mm/s)       -2382809.38206      0.04194      0.16697
+ 226. PRN_10   Inert.  dY/dT (mm/s)        1067267.83767      0.09967      0.37170
+ 227. PRN_10   Inert.  dZ/dT (mm/s)       -2839130.54271      0.00929      0.01101
+ 228. PRN_10   Direct Rad    (none)              1.01477      0.01477      0.00477
+ 229. PRN_10   Y Axis Bias   (none)             -0.00112     -0.00112      0.00514
+ 230. PRN_10   B Axis Bias   (none)             -0.00221     -0.00221      0.01523
+ 231. PRN_10   Sin Direct    (none)              0.00226      0.00226      0.01187
+ 232. PRN_10   Cos Y Bias    (none)              0.00181      0.00181      0.01586
+ 233. PRN_10   Cos B Bias    (none)              0.00582      0.00582      0.02720
+ 234. PRN_10   AntOffest X   (m)                 0.26606     -0.01294      0.02047
+Eph.  2008 12 27 11 PRN_10     -403221.0359  24942009.2949   9454445.0913 -2382809.38206  1067267.83767 -2839130.54271   1.01477  -0.00112   0.00000  -0.00221   0.00000   0.00000   0.00226   0.00181   0.00000   0.00582   0.00000   0.00000   0.00000   0.00000   0.26606   0.00000   2.38900
+ Loc. PRN_10   Semimajor axis      (m)     26562477.7405      -0.0494       0.1660
+ Loc. PRN_10   Eccentricity (none & m)      0.0083665897       0.0082       0.0863
+ Loc. PRN_10   Inclination  (degs & m)     55.0105926191      -0.0435       0.0669
+ Loc. PRN_10   RA Node      (degs & m)    286.3097458743      -1.0771       4.1502
+ Loc. PRN_10   Arg. Perigee (degs & m)     32.9918581596      -7.8594      14.8301
+ Loc. PRN_10   M + w        (degs & m)    153.5464412596      -0.0159       0.0879
+
+ 235. PRN_11   Inert.  X     (m)         -22849728.01355     -0.68755      2.04812
+ 236. PRN_11   Inert.  Y     (m)         -13047482.82807      1.35793      3.60621
+ 237. PRN_11   Inert.  Z     (m)          -1956406.55350     -0.00750      0.58107
+ 238. PRN_11   Inert.  dX/dT (mm/s)        1047973.73394     -0.12206      0.36071
+ 239. PRN_11   Inert.  dY/dT (mm/s)       -2238273.43890     -0.05590      0.16528
+ 240. PRN_11   Inert.  dZ/dT (mm/s)        3016539.17670      0.00970      0.03114
+ 241. PRN_11   Direct Rad    (none)              1.06456      0.06456      0.08691
+ 242. PRN_11   Y Axis Bias   (none)              0.00018      0.00018      0.00174
+ 243. PRN_11   B Axis Bias   (none)              0.00125      0.00125      0.01959
+ 244. PRN_11   Sin Direct    (none)             -0.00045     -0.00045      0.00792
+ 245. PRN_11   Cos Y Bias    (none)              0.00255      0.00255      0.01896
+ 246. PRN_11   Cos B Bias    (none)             -0.04090     -0.04090      0.06069
+ 247. PRN_11   AntOffest X   (m)                 0.34694      0.34694      0.50435
+Eph.  2008 12 27 11 PRN_11   -22849728.0135 -13047482.8281  -1956406.5535  1047973.73394 -2238273.43890  3016539.17670   1.06456   0.00018   0.00000   0.00125   0.00000   0.00000  -0.00045   0.00255   0.00000  -0.04090   0.00000   0.00000   0.00000   0.00000   0.34694   0.00000   0.97100
+ Loc. PRN_11   Semimajor axis      (m)     26562010.7820      -0.0594       0.2838
+ Loc. PRN_11   Eccentricity (none & m)      0.0091367953       0.0622       0.2519
+ Loc. PRN_11   Inclination  (degs & m)     50.9531366378       0.0417       0.2971
+ Loc. PRN_11   RA Node      (degs & m)    213.1845447901      -1.5289       4.2013
+ Loc. PRN_11   Arg. Perigee (degs & m)     38.0882260367       4.6723      16.2633
+ Loc. PRN_11   M + w        (degs & m)    355.2394151779       0.1331       0.7743
+
+ 248. PRN_12   Inert.  X     (m)          11308805.67262      0.56662      1.94091
+ 249. PRN_12   Inert.  Y     (m)          12379128.93950     -0.49050      1.77378
+ 250. PRN_12   Inert.  Z     (m)         -20502645.28517      0.05783      0.07355
+ 251. PRN_12   Inert.  dX/dT (mm/s)       -1678052.00744      0.16256      0.51987
+ 252. PRN_12   Inert.  dY/dT (mm/s)        3329626.67433      0.07633      0.26253
+ 253. PRN_12   Inert.  dZ/dT (mm/s)        1090557.21704     -0.00096      0.02343
+ 254. PRN_12   Direct Rad    (none)              0.98409     -0.01591      0.00986
+ 255. PRN_12   Y Axis Bias   (none)              0.00582      0.00582      0.00382
+ 256. PRN_12   B Axis Bias   (none)             -0.00394     -0.00394      0.01249
+ 257. PRN_12   Sin Direct    (none)              0.00557      0.00557      0.00736
+ 258. PRN_12   Cos Y Bias    (none)             -0.01242     -0.01242      0.01435
+ 259. PRN_12   Cos B Bias    (none)              0.01263      0.01263      0.04159
+ 260. PRN_12   AntOffest X   (m)                 0.05508      0.05508      0.09724
+Eph.  2008 12 27 11 PRN_12    11308805.6726  12379128.9395 -20502645.2852 -1678052.00744  3329626.67433  1090557.21704   0.98409   0.00582   0.00000  -0.00394   0.00000   0.00000   0.00557  -0.01242   0.00000   0.01263   0.00000   0.00000   0.00000   0.00000   0.05508   0.00000   0.70000
+ Loc. PRN_12   Semimajor axis      (m)     26559643.2658      -0.1342       0.1281
+ Loc. PRN_12   Eccentricity (none & m)      0.0030129857      -0.1218       0.1163
+ Loc. PRN_12   Inclination  (degs & m)     55.3994416414      -0.0192       0.1529
+ Loc. PRN_12   RA Node      (degs & m)    105.1061159225      -1.2897       4.1445
+ Loc. PRN_12   Arg. Perigee (degs & m)    312.3522459411      -9.4208      15.4390
+ Loc. PRN_12   M + w        (degs & m)    290.0064834513      -0.0640       0.1851
+
+ 261. PRN_13   Inert.  X     (m)         -25828630.42966     -0.03166      0.23030
+ 262. PRN_13   Inert.  Y     (m)           1409265.00941      1.11841      4.03268
+ 263. PRN_13   Inert.  Z     (m)          -6174096.12940      0.11160      0.17966
+ 264. PRN_13   Inert.  dX/dT (mm/s)         612314.13727     -0.10873      0.34452
+ 265. PRN_13   Inert.  dY/dT (mm/s)       -2202813.85158     -0.01058      0.09711
+ 266. PRN_13   Inert.  dZ/dT (mm/s)       -3121479.97641     -0.00541      0.00874
+ 267. PRN_13   Direct Rad    (none)              0.99702     -0.00298      0.00855
+ 268. PRN_13   Y Axis Bias   (none)              0.00919      0.00919      0.00361
+ 269. PRN_13   B Axis Bias   (none)              0.01106      0.01106      0.01107
+ 270. PRN_13   Sin Direct    (none)              0.01416      0.01416      0.01323
+ 271. PRN_13   Cos Y Bias    (none)             -0.00719     -0.00719      0.01882
+ 272. PRN_13   Cos B Bias    (none)             -0.03273     -0.03273      0.02722
+ 273. PRN_13   AntOffest X   (m)                -0.01800     -0.01800      0.08644
+Eph.  2008 12 27 11 PRN_13   -25828630.4297   1409265.0094  -6174096.1294   612314.13727 -2202813.85158 -3121479.97641   0.99702   0.00919   0.00000   0.01106   0.00000   0.00000   0.01416  -0.00719   0.00000  -0.03273   0.00000   0.00000   0.00000   0.00000  -0.01800   0.00000   1.20300
+ Loc. PRN_13   Semimajor axis      (m)     26562508.6260       0.0345       0.0899
+ Loc. PRN_13   Eccentricity (none & m)      0.0036232783       0.0084       0.0678
+ Loc. PRN_13   Inclination  (degs & m)     57.0057732797       0.0692       0.1144
+ Loc. PRN_13   RA Node      (degs & m)    347.9618517172      -1.0310       4.1492
+ Loc. PRN_13   Arg. Perigee (degs & m)     86.9776526019      -7.9964      17.2789
+ Loc. PRN_13   M + w        (degs & m)    195.6769496903      -0.1673       0.1729
+
+ 274. PRN_14   Inert.  X     (m)          18748912.83354     -0.76146      2.08217
+ 275. PRN_14   Inert.  Y     (m)         -13324065.32875     -0.92275      2.92968
+ 276. PRN_14   Inert.  Z     (m)         -13253353.69810     -0.02810      0.10316
+ 277. PRN_14   Inert.  dX/dT (mm/s)        2656133.71636      0.06936      0.17687
+ 278. PRN_14   Inert.  dY/dT (mm/s)        1130261.66205     -0.11895      0.41443
+ 279. PRN_14   Inert.  dZ/dT (mm/s)        2586562.27261     -0.01339      0.01142
+ 280. PRN_14   Direct Rad    (none)              0.99243     -0.00757      0.00740
+ 281. PRN_14   Y Axis Bias   (none)              0.00759      0.00759      0.00363
+ 282. PRN_14   B Axis Bias   (none)              0.00670      0.00670      0.01474
+ 283. PRN_14   Sin Direct    (none)              0.00230      0.00230      0.01919
+ 284. PRN_14   Cos Y Bias    (none)              0.00577      0.00577      0.01761
+ 285. PRN_14   Cos B Bias    (none)             -0.01269     -0.01269      0.02021
+ 286. PRN_14   AntOffest X   (m)                -0.01846     -0.01846      0.06887
+Eph.  2008 12 27 11 PRN_14    18748912.8335 -13324065.3287 -13253353.6981  2656133.71636  1130261.66205  2586562.27261   0.99243   0.00759   0.00000   0.00670   0.00000   0.00000   0.00230   0.00577   0.00000  -0.01269   0.00000   0.00000   0.00000   0.00000  -0.01846   0.00000   1.17800
+ Loc. PRN_14   Semimajor axis      (m)     26559571.9244      -0.0678       0.1093
+ Loc. PRN_14   Eccentricity (none & m)      0.0044921244      -0.0200       0.0649
+ Loc. PRN_14   Inclination  (degs & m)     56.6383661430      -0.1101       0.1092
+ Loc. PRN_14   RA Node      (degs & m)    346.8956795038      -1.2157       4.1475
+ Loc. PRN_14   Arg. Perigee (degs & m)    239.4417715242      -1.2120      17.1189
+ Loc. PRN_14   M + w        (degs & m)    322.7790809741      -0.1026       0.1232
+
+ 287. PRN_15   Inert.  X     (m)          12447709.59665      0.47365      1.79418
+ 288. PRN_15   Inert.  Y     (m)          11481780.87426     -0.50174      1.94256
+ 289. PRN_15   Inert.  Z     (m)          20484356.86475      0.02475      0.05696
+ 290. PRN_15   Inert.  dX/dT (mm/s)       -3307677.55105      0.07495      0.26733
+ 291. PRN_15   Inert.  dY/dT (mm/s)        1712130.05653      0.14553      0.51653
+ 292. PRN_15   Inert.  dZ/dT (mm/s)        1055988.87381     -0.00819      0.01553
+ 293. PRN_15   Direct Rad    (none)              0.98116     -0.01884      0.00758
+ 294. PRN_15   Y Axis Bias   (none)              0.00959      0.00959      0.00397
+ 295. PRN_15   B Axis Bias   (none)              0.00514      0.00514      0.01023
+ 296. PRN_15   Sin Direct    (none)             -0.00187     -0.00187      0.01381
+ 297. PRN_15   Cos Y Bias    (none)              0.00423      0.00423      0.01726
+ 298. PRN_15   Cos B Bias    (none)              0.00245      0.00245      0.02963
+ 299. PRN_15   AntOffest X   (m)                 0.02292      0.02292      0.08579
+Eph.  2008 12 27 11 PRN_15    12447709.5966  11481780.8743  20484356.8648 -3307677.55105  1712130.05653  1055988.87381   0.98116   0.00959   0.00000   0.00514   0.00000   0.00000  -0.00187   0.00423   0.00000   0.00245   0.00000   0.00000   0.00000   0.00000   0.02292   0.00000   0.70000
+ Loc. PRN_15   Semimajor axis      (m)     26559857.2459       0.0221       0.0649
+ Loc. PRN_15   Eccentricity (none & m)      0.0013211075       0.0091       0.0562
+ Loc. PRN_15   Inclination  (degs & m)     54.8137068897      -0.0245       0.0835
+ Loc. PRN_15   RA Node      (degs & m)    344.1640888301      -1.1992       4.1479
+ Loc. PRN_15   Arg. Perigee (degs & m)    309.5273944566       2.4319      18.4905
+ Loc. PRN_15   M + w        (degs & m)     70.4383458459       0.0527       0.1454
+
+ 300. PRN_16   Inert.  X     (m)           4789827.39270     -1.25930      4.05718
+ 301. PRN_16   Inert.  Y     (m)         -25983610.10615     -0.20415      0.75093
+ 302. PRN_16   Inert.  Z     (m)           3762091.56832      0.01432      0.12671
+ 303. PRN_16   Inert.  dX/dT (mm/s)        2249910.78241      0.00841      0.01463
+ 304. PRN_16   Inert.  dY/dT (mm/s)         -34390.44159     -0.10559      0.35192
+ 305. PRN_16   Inert.  dZ/dT (mm/s)       -3130800.79050      0.02150      0.01519
+ 306. PRN_16   Direct Rad    (none)              1.00393      0.00393      0.00869
+ 307. PRN_16   Y Axis Bias   (none)             -0.00258     -0.00258      0.00373
+ 308. PRN_16   B Axis Bias   (none)              0.00366      0.00366      0.01627
+ 309. PRN_16   Sin Direct    (none)              0.00341      0.00341      0.00837
+ 310. PRN_16   Cos Y Bias    (none)              0.00461      0.00461      0.01718
+ 311. PRN_16   Cos B Bias    (none)              0.06054      0.06054      0.03541
+ 312. PRN_16   AntOffest X   (m)                -0.02744     -0.02744      0.09393
+Eph.  2008 12 27 11 PRN_16     4789827.3927 -25983610.1061   3762091.5683  2249910.78241   -34390.44159 -3130800.79050   1.00393  -0.00258   0.00000   0.00366   0.00000   0.00000   0.00341   0.00461   0.00000   0.06054   0.00000   0.00000   0.00000   0.00000  -0.02744   0.00000   1.30700
+ Loc. PRN_16   Semimajor axis      (m)     26562634.6428      -0.2085       0.2036
+ Loc. PRN_16   Eccentricity (none & m)      0.0048312620       0.1802       0.1770
+ Loc. PRN_16   Inclination  (degs & m)     55.4898488227      -0.1398       0.0935
+ Loc. PRN_16   RA Node      (degs & m)    106.0627942359      -1.2401       4.1462
+ Loc. PRN_16   Arg. Perigee (degs & m)    337.6521791285       7.9026      14.4748
+ Loc. PRN_16   M + w        (degs & m)    170.2701848224      -0.0352       0.1371
+
+ 313. PRN_17   Inert.  X     (m)         -20726227.29228      0.11072      2.08835
+ 314. PRN_17   Inert.  Y     (m)          12937630.58039      0.84439      3.28642
+ 315. PRN_17   Inert.  Z     (m)         -10591890.15940      0.65060      0.58535
+ 316. PRN_17   Inert.  dX/dT (mm/s)       -2306315.64567      0.03133      0.24432
+ 317. PRN_17   Inert.  dY/dT (mm/s)       -1409659.55312      0.08488      0.36115
+ 318. PRN_17   Inert.  dZ/dT (mm/s)        2760987.62254      0.06154      0.07720
+ 319. PRN_17   Direct Rad    (none)              1.01472      0.01472      0.09648
+ 320. PRN_17   Y Axis Bias   (none)              0.00460      0.00460      0.00153
+ 321. PRN_17   B Axis Bias   (none)             -0.00519     -0.00519      0.01941
+ 322. PRN_17   Sin Direct    (none)             -0.00056     -0.00056      0.00699
+ 323. PRN_17   Cos Y Bias    (none)             -0.00736     -0.00736      0.01824
+ 324. PRN_17   Cos B Bias    (none)              0.03947      0.03947      0.04966
+ 325. PRN_17   AntOffest X   (m)                 0.22048      0.22048      0.51856
+Eph.  2008 12 27 11 PRN_17   -20726227.2923  12937630.5804 -10591890.1594 -2306315.64567 -1409659.55312  2760987.62254   1.01472   0.00460   0.00000  -0.00519   0.00000   0.00000  -0.00056  -0.00736   0.00000   0.03947   0.00000   0.00000   0.00000   0.00000   0.22048   0.00000   0.64500
+ Loc. PRN_17   Semimajor axis      (m)     26560752.6467       0.0520       0.1601
+ Loc. PRN_17   Eccentricity (none & m)      0.0040499035       0.0376       0.0807
+ Loc. PRN_17   Inclination  (degs & m)     54.9740098969       0.1358       0.4341
+ Loc. PRN_17   RA Node      (degs & m)    165.7154422364      -1.5773       4.1766
+ Loc. PRN_17   Arg. Perigee (degs & m)    200.8213789241       4.4925      18.2950
+ Loc. PRN_17   M + w        (degs & m)    330.5852858346       0.9197       0.9584
+
+ 326. PRN_18   Inert.  X     (m)          16894936.01564     -0.38736      1.41977
+ 327. PRN_18   Inert.  Y     (m)          -9087716.91244     -0.71644      2.63528
+ 328. PRN_18   Inert.  Z     (m)          18726422.76506      0.05106      0.06112
+ 329. PRN_18   Inert.  dX/dT (mm/s)         128924.44200      0.15300      0.54670
+ 330. PRN_18   Inert.  dY/dT (mm/s)        3501925.17501      0.00501      0.02146
+ 331. PRN_18   Inert.  dZ/dT (mm/s)        1564963.04985     -0.00615      0.01151
+ 332. PRN_18   Direct Rad    (none)              1.00870      0.00870      0.00603
+ 333. PRN_18   Y Axis Bias   (none)              0.00550      0.00550      0.00537
+ 334. PRN_18   B Axis Bias   (none)             -0.00036     -0.00036      0.01534
+ 335. PRN_18   Sin Direct    (none)             -0.00720     -0.00720      0.01104
+ 336. PRN_18   Cos Y Bias    (none)              0.00753      0.00753      0.01611
+ 337. PRN_18   Cos B Bias    (none)             -0.02517     -0.02517      0.03511
+ 338. PRN_18   AntOffest X   (m)                 0.03945      0.03945      0.03909
+Eph.  2008 12 27 11 PRN_18    16894936.0156  -9087716.9124  18726422.7651   128924.44200  3501925.17501  1564963.04985   1.00870   0.00550   0.00000  -0.00036   0.00000   0.00000  -0.00720   0.00753   0.00000  -0.02517   0.00000   0.00000   0.00000   0.00000   0.03945   0.00000   1.13300
+ Loc. PRN_18   Semimajor axis      (m)     26560119.1980       0.1654       0.1570
+ Loc. PRN_18   Eccentricity (none & m)      0.0099246136      -0.1203       0.1259
+ Loc. PRN_18   Inclination  (degs & m)     54.0958341437      -0.0065       0.0587
+ Loc. PRN_18   RA Node      (degs & m)    286.7555568859      -1.2160       4.1492
+ Loc. PRN_18   Arg. Perigee (degs & m)    220.3141983841      -5.6756       6.7720
+ Loc. PRN_18   M + w        (degs & m)     59.9620618797       0.1011       0.1308
+
+ 339. PRN_19   Inert.  X     (m)         -13192241.07086     -0.51786      2.21279
+ 340. PRN_19   Inert.  Y     (m)         -11684705.27615      0.71685      2.12583
+ 341. PRN_19   Inert.  Z     (m)          19868545.57151      0.11151      0.80143
+ 342. PRN_19   Inert.  dX/dT (mm/s)        3297647.93770     -0.06330      0.26493
+ 343. PRN_19   Inert.  dY/dT (mm/s)       -1570700.92069     -0.14369      0.52105
+ 344. PRN_19   Inert.  dZ/dT (mm/s)        1291648.53390     -0.01310      0.15481
+ 345. PRN_19   Direct Rad    (none)              1.02668      0.02668      0.10833
+ 346. PRN_19   Y Axis Bias   (none)              0.00364      0.00364      0.00133
+ 347. PRN_19   B Axis Bias   (none)             -0.00417     -0.00417      0.01854
+ 348. PRN_19   Sin Direct    (none)             -0.00029     -0.00029      0.00760
+ 349. PRN_19   Cos Y Bias    (none)              0.00033      0.00033      0.01913
+ 350. PRN_19   Cos B Bias    (none)              0.09858      0.09858      0.08629
+ 351. PRN_19   AntOffest X   (m)                 0.17434      0.17434      0.57582
+Eph.  2008 12 27 11 PRN_19   -13192241.0709 -11684705.2762  19868545.5715  3297647.93770 -1570700.92069  1291648.53390   1.02668   0.00364   0.00000  -0.00417   0.00000   0.00000  -0.00029   0.00033   0.00000   0.09858   0.00000   0.00000   0.00000   0.00000   0.17434   0.00000   0.66800
+ Loc. PRN_19   Semimajor axis      (m)     26560207.5374       0.0506       0.1350
+ Loc. PRN_19   Eccentricity (none & m)      0.0049863654      -0.1122       0.1356
+ Loc. PRN_19   Inclination  (degs & m)     54.8387241301       0.1428       0.7103
+ Loc. PRN_19   RA Node      (degs & m)    168.9551176149      -1.2972       4.1685
+ Loc. PRN_19   Arg. Perigee (degs & m)    336.8939441300       5.6290      17.6436
+ Loc. PRN_19   M + w        (degs & m)     65.6475223765       0.2779       1.6254
+
+ 352. PRN_20   Inert.  X     (m)         -13500566.98210     -0.42510      1.42813
+ 353. PRN_20   Inert.  Y     (m)          -9135234.48456      0.57044      2.11398
+ 354. PRN_20   Inert.  Z     (m)         -21082578.65162      0.15538      0.10327
+ 355. PRN_20   Inert.  dX/dT (mm/s)        1364663.79390     -0.13910      0.55418
+ 356. PRN_20   Inert.  dY/dT (mm/s)       -3548554.54861     -0.06861      0.21317
+ 357. PRN_20   Inert.  dZ/dT (mm/s)         672180.54766     -0.00134      0.01714
+ 358. PRN_20   Direct Rad    (none)              0.99602     -0.00398      0.00551
+ 359. PRN_20   Y Axis Bias   (none)              0.01580      0.01580      0.00472
+ 360. PRN_20   B Axis Bias   (none)             -0.00649     -0.00649      0.01481
+ 361. PRN_20   Sin Direct    (none)              0.01041      0.01041      0.01157
+ 362. PRN_20   Cos Y Bias    (none)             -0.00015     -0.00015      0.01570
+ 363. PRN_20   Cos B Bias    (none)             -0.04770     -0.04770      0.03480
+ 364. PRN_20   AntOffest X   (m)                -0.01677     -0.01677      0.03861
+Eph.  2008 12 27 11 PRN_20   -13500566.9821  -9135234.4846 -21082578.6516  1364663.79390 -3548554.54861   672180.54766   0.99602   0.01580   0.00000  -0.00649   0.00000   0.00000   0.01041  -0.00015   0.00000  -0.04770   0.00000   0.00000   0.00000   0.00000  -0.01677   0.00000   1.15400
+ Loc. PRN_20   Semimajor axis      (m)     26559236.1120      -0.0182       0.1590
+ Loc. PRN_20   Eccentricity (none & m)      0.0038124206      -0.0795       0.1676
+ Loc. PRN_20   Inclination  (degs & m)     54.0710385030      -0.1293       0.1135
+ Loc. PRN_20   RA Node      (degs & m)    283.6743091493      -1.0946       4.1497
+ Loc. PRN_20   Arg. Perigee (degs & m)     75.4038372823      -8.1390      12.2224
+ Loc. PRN_20   M + w        (degs & m)    282.5149483637      -0.0201       0.1327
+
+ 365. PRN_21   Inert.  X     (m)          18603103.77192     -0.19408      0.35002
+ 366. PRN_21   Inert.  Y     (m)           -858477.57588     -0.76188      2.93381
+ 367. PRN_21   Inert.  Z     (m)          18931420.69610      0.16910      0.34248
+ 368. PRN_21   Inert.  dX/dT (mm/s)        1575113.30568      0.16668      0.50347
+ 369. PRN_21   Inert.  dY/dT (mm/s)        3215367.85247     -0.07953      0.24637
+ 370. PRN_21   Inert.  dZ/dT (mm/s)       -1480642.04492      0.01108      0.02769
+ 371. PRN_21   Direct Rad    (none)              1.00882      0.00882      0.08531
+ 372. PRN_21   Y Axis Bias   (none)              0.00031      0.00031      0.00251
+ 373. PRN_21   B Axis Bias   (none)              0.00086      0.00086      0.01896
+ 374. PRN_21   Sin Direct    (none)             -0.00428     -0.00428      0.00776
+ 375. PRN_21   Cos Y Bias    (none)              0.00498      0.00498      0.01602
+ 376. PRN_21   Cos B Bias    (none)             -0.07094     -0.07094      0.05142
+ 377. PRN_21   AntOffest X   (m)                 0.11280      0.11280      0.51554
+Eph.  2008 12 27 11 PRN_21    18603103.7719   -858477.5759  18931420.6961  1575113.30568  3215367.85247 -1480642.04492   1.00882   0.00031   0.00000   0.00086   0.00000   0.00000  -0.00428   0.00498   0.00000  -0.07094   0.00000   0.00000   0.00000   0.00000   0.11280   0.00000   1.30000
+ Loc. PRN_21   Semimajor axis      (m)     26559279.2799      -0.0154       0.2155
+ Loc. PRN_21   Eccentricity (none & m)      0.0144720548      -0.0964       0.0970
+ Loc. PRN_21   Inclination  (degs & m)     53.5190015754       0.2394       0.4829
+ Loc. PRN_21   RA Node      (degs & m)    226.0955383982      -1.1406       4.1620
+ Loc. PRN_21   Arg. Perigee (degs & m)    207.8606027293       1.4489      12.9756
+ Loc. PRN_21   M + w        (degs & m)    119.2066359350      -0.2902       0.4107
+
+ 378. PRN_22   Inert.  X     (m)          14240694.73659     -0.94641      3.09585
+ 379. PRN_22   Inert.  Y     (m)         -19827340.31545     -0.67645      2.22231
+ 380. PRN_22   Inert.  Z     (m)          10694888.23046      0.00246      0.09090
+ 381. PRN_22   Inert.  dX/dT (mm/s)        1328849.73477      0.11977      0.37483
+ 382. PRN_22   Inert.  dY/dT (mm/s)        2400551.25356     -0.05644      0.20726
+ 383. PRN_22   Inert.  dZ/dT (mm/s)        2715995.43841     -0.00259      0.01181
+ 384. PRN_22   Direct Rad    (none)              0.99739     -0.00261      0.00693
+ 385. PRN_22   Y Axis Bias   (none)              0.00664      0.00664      0.00531
+ 386. PRN_22   B Axis Bias   (none)              0.00325      0.00325      0.01402
+ 387. PRN_22   Sin Direct    (none)             -0.00046     -0.00046      0.01095
+ 388. PRN_22   Cos Y Bias    (none)              0.00426      0.00426      0.01647
+ 389. PRN_22   Cos B Bias    (none)             -0.01492     -0.01492      0.03939
+ 390. PRN_22   AntOffest X   (m)                -0.02442     -0.02442      0.04145
+Eph.  2008 12 27 11 PRN_22    14240694.7366 -19827340.3154  10694888.2305  1328849.73477  2400551.25356  2715995.43841   0.99739   0.00664   0.00000   0.00325   0.00000   0.00000  -0.00046   0.00426   0.00000  -0.01492   0.00000   0.00000   0.00000   0.00000  -0.02442   0.00000   0.79200
+ Loc. PRN_22   Semimajor axis      (m)     26561060.3002       0.0560       0.1356
+ Loc. PRN_22   Eccentricity (none & m)      0.0049833292      -0.0541       0.1001
+ Loc. PRN_22   Inclination  (degs & m)     53.9627994391      -0.0426       0.0705
+ Loc. PRN_22   RA Node      (degs & m)    287.1005286614      -1.2989       4.1500
+ Loc. PRN_22   Arg. Perigee (degs & m)    256.4554591231       5.7271      12.0570
+ Loc. PRN_22   M + w        (degs & m)     29.3356612078       0.0623       0.1403
+
+ 391. PRN_23   Inert.  X     (m)         -21855039.77254     -0.27854      0.68847
+ 392. PRN_23   Inert.  Y     (m)          -4341502.84040      1.03160      3.41230
+ 393. PRN_23   Inert.  Z     (m)         -14295367.34618      0.05782      0.17066
+ 394. PRN_23   Inert.  dX/dT (mm/s)        2019145.17113     -0.10587      0.35307
+ 395. PRN_23   Inert.  dY/dT (mm/s)       -2258027.90192     -0.07692      0.31581
+ 396. PRN_23   Inert.  dZ/dT (mm/s)       -2435170.36575     -0.00475      0.01545
+ 397. PRN_23   Direct Rad    (none)              1.01191      0.01191      0.00812
+ 398. PRN_23   Y Axis Bias   (none)              0.00520      0.00520      0.00352
+ 399. PRN_23   B Axis Bias   (none)              0.00500      0.00500      0.01476
+ 400. PRN_23   Sin Direct    (none)              0.01415      0.01415      0.01976
+ 401. PRN_23   Cos Y Bias    (none)             -0.00156     -0.00156      0.01868
+ 402. PRN_23   Cos B Bias    (none)             -0.01352     -0.01352      0.02666
+ 403. PRN_23   AntOffest X   (m)                 0.01804      0.01804      0.07917
+Eph.  2008 12 27 11 PRN_23   -21855039.7725  -4341502.8404 -14295367.3462  2019145.17113 -2258027.90192 -2435170.36575   1.01191   0.00520   0.00000   0.00500   0.00000   0.00000   0.01415  -0.00156   0.00000  -0.01352   0.00000   0.00000   0.00000   0.00000   0.01804   0.00000   0.60200
+ Loc. PRN_23   Semimajor axis      (m)     26560233.7678      -0.0414       0.1320
+ Loc. PRN_23   Eccentricity (none & m)      0.0057443223      -0.1075       0.1077
+ Loc. PRN_23   Inclination  (degs & m)     55.6098820927       0.0590       0.1150
+ Loc. PRN_23   RA Node      (degs & m)    345.1874718361      -1.1144       4.1488
+ Loc. PRN_23   Arg. Perigee (degs & m)    165.2209376949      -2.1384      13.8730
+ Loc. PRN_23   M + w        (degs & m)    220.3291608082       0.0102       0.1689
+
+ 404. PRN_24   Inert.  X     (m)          21120991.22710      0.56610      2.15116
+ 405. PRN_24   Inert.  Y     (m)          13712798.79882     -0.86418      3.30820
+ 406. PRN_24   Inert.  Z     (m)           9008436.10157      0.03857      0.37152
+ 407. PRN_24   Inert.  dX/dT (mm/s)        -442355.44050      0.10750      0.39969
+ 408. PRN_24   Inert.  dY/dT (mm/s)        2543464.34654      0.01954      0.07058
+ 409. PRN_24   Inert.  dZ/dT (mm/s)       -2852358.48857     -0.00157      0.02143
+ 410. PRN_24   Direct Rad    (none)              1.06859      0.06859      0.07507
+ 411. PRN_24   Y Axis Bias   (none)             -0.01057     -0.01057      0.00226
+ 412. PRN_24   B Axis Bias   (none)             -0.00240     -0.00240      0.01970
+ 413. PRN_24   Sin Direct    (none)             -0.00026     -0.00026      0.00699
+ 414. PRN_24   Cos Y Bias    (none)              0.00433      0.00433      0.01545
+ 415. PRN_24   Cos B Bias    (none)             -0.05177     -0.05177      0.04686
+ 416. PRN_24   AntOffest X   (m)                 0.32455      0.04555      0.39701
+Eph.  2008 12 27 11 PRN_24    21120991.2271  13712798.7988   9008436.1016  -442355.44050  2543464.34654 -2852358.48857   1.06859  -0.01057   0.00000  -0.00240   0.00000   0.00000  -0.00026   0.00433   0.00000  -0.05177   0.00000   0.00000   0.00000   0.00000   0.32455   0.00000   2.45500
+ Loc. PRN_24   Semimajor axis      (m)     26561392.1502       0.0569       0.2909
+ Loc. PRN_24   Eccentricity (none & m)      0.0070817685      -0.0374       0.2973
+ Loc. PRN_24   Inclination  (degs & m)     54.4750423072       0.0217       0.2542
+ Loc. PRN_24   RA Node      (degs & m)    227.7911026316      -1.0729       4.1739
+ Loc. PRN_24   Arg. Perigee (degs & m)    322.9361018672      -2.4867      15.3739
+ Loc. PRN_24   M + w        (degs & m)    155.7303776458      -0.0195       0.4591
+
+ 417. PRN_25   Inert.  X     (m)         -22763049.62364     -0.43164      1.44976
+ 418. PRN_25   Inert.  Y     (m)          -9275951.28221      0.97479      3.55625
+ 419. PRN_25   Inert.  Z     (m)          10651758.47717      0.07517      0.11196
+ 420. PRN_25   Inert.  dX/dT (mm/s)        -190949.21686     -0.13086      0.41230
+ 421. PRN_25   Inert.  dY/dT (mm/s)       -2639324.36287      0.01313      0.03052
+ 422. PRN_25   Inert.  dZ/dT (mm/s)       -2783682.49724      0.00676      0.01131
+ 423. PRN_25   Direct Rad    (none)              1.03683      0.03683      0.00814
+ 424. PRN_25   Y Axis Bias   (none)             -0.00607     -0.00607      0.00407
+ 425. PRN_25   B Axis Bias   (none)              0.00183      0.00183      0.01615
+ 426. PRN_25   Sin Direct    (none)              0.00752      0.00752      0.02181
+ 427. PRN_25   Cos Y Bias    (none)             -0.00437     -0.00437      0.01748
+ 428. PRN_25   Cos B Bias    (none)             -0.01932     -0.01932      0.03461
+ 429. PRN_25   AntOffest X   (m)                 0.30851      0.02951      0.08155
+Eph.  2008 12 27 11 PRN_25   -22763049.6236  -9275951.2822  10651758.4772  -190949.21686 -2639324.36287 -2783682.49724   1.03683  -0.00607   0.00000   0.00183   0.00000   0.00000   0.00752  -0.00437   0.00000  -0.01932   0.00000   0.00000   0.00000   0.00000   0.30851   0.00000   2.29500
+ Loc. PRN_25   Semimajor axis      (m)     26561067.5932       0.0154       0.1658
+ Loc. PRN_25   Eccentricity (none & m)      0.0117309825      -0.0085       0.1109
+ Loc. PRN_25   Inclination  (degs & m)     55.4784904310       0.0641       0.0727
+ Loc. PRN_25   RA Node      (degs & m)     39.5124825860      -1.1466       4.1457
+ Loc. PRN_25   Arg. Perigee (degs & m)    288.6610714168       6.1210       7.8328
+ Loc. PRN_25   M + w        (degs & m)    152.0589673710      -0.1651       0.1225
+
+ 430. PRN_26   Inert.  X     (m)           4572140.31919      0.53319      2.12268
+ 431. PRN_26   Inert.  Y     (m)          13584102.44651     -0.19449      0.71726
+ 432. PRN_26   Inert.  Z     (m)          21832655.69275      0.00175      0.05653
+ 433. PRN_26   Inert.  dX/dT (mm/s)       -3808468.38827      0.04273      0.15306
+ 434. PRN_26   Inert.  dY/dT (mm/s)         977516.39036      0.17136      0.59463
+ 435. PRN_26   Inert.  dZ/dT (mm/s)         235938.94154     -0.01646      0.01792
+ 436. PRN_26   Direct Rad    (none)              1.02596      0.02596      0.00849
+ 437. PRN_26   Y Axis Bias   (none)             -0.00461     -0.00461      0.00422
+ 438. PRN_26   B Axis Bias   (none)             -0.00521     -0.00521      0.01833
+ 439. PRN_26   Sin Direct    (none)              0.00688      0.00688      0.02396
+ 440. PRN_26   Cos Y Bias    (none)              0.00344      0.00344      0.01840
+ 441. PRN_26   Cos B Bias    (none)              0.01694      0.01694      0.03546
+ 442. PRN_26   AntOffest X   (m)                 0.31994      0.04094      0.08777
+Eph.  2008 12 27 11 PRN_26     4572140.3192  13584102.4465  21832655.6928 -3808468.38827   977516.39036   235938.94154   1.02596  -0.00461   0.00000  -0.00521   0.00000   0.00000   0.00688   0.00344   0.00000   0.01694   0.00000   0.00000   0.00000   0.00000   0.31994   0.00000   2.30700
+ Loc. PRN_26   Semimajor axis      (m)     26558156.7224      -0.0101       0.1759
+ Loc. PRN_26   Eccentricity (none & m)      0.0193297812      -0.0105       0.1275
+ Loc. PRN_26   Inclination  (degs & m)     56.8822317273       0.0020       0.0899
+ Loc. PRN_26   RA Node      (degs & m)    347.8480462292      -1.2659       4.1483
+ Loc. PRN_26   Arg. Perigee (degs & m)     55.1396489919       0.6864       4.6187
+ Loc. PRN_26   M + w        (degs & m)     85.3278770884       0.1477       0.1537
+
+ 443. PRN_27   Inert.  X     (m)         -13419739.67334      0.38666      1.28375
+ 444. PRN_27   Inert.  Y     (m)           8202640.13430      0.56630      2.10148
+ 445. PRN_27   Inert.  Z     (m)          22085390.25856      0.00656      0.06623
+ 446. PRN_27   Inert.  dX/dT (mm/s)       -2547402.96774     -0.11674      0.43080
+ 447. PRN_27   Inert.  dY/dT (mm/s)       -2758849.98540      0.11160      0.39771
+ 448. PRN_27   Inert.  dZ/dT (mm/s)        -550177.21448      0.00452      0.01631
+ 449. PRN_27   Direct Rad    (none)              1.02413      0.02413      0.00861
+ 450. PRN_27   Y Axis Bias   (none)             -0.00959     -0.00959      0.00424
+ 451. PRN_27   B Axis Bias   (none)             -0.00196     -0.00196      0.01661
+ 452. PRN_27   Sin Direct    (none)              0.01021      0.01021      0.02339
+ 453. PRN_27   Cos Y Bias    (none)              0.00288      0.00288      0.01624
+ 454. PRN_27   Cos B Bias    (none)             -0.01032     -0.01032      0.03617
+ 455. PRN_27   AntOffest X   (m)                 0.30177      0.02277      0.08402
+Eph.  2008 12 27 11 PRN_27   -13419739.6733   8202640.1343  22085390.2586 -2547402.96774 -2758849.98540  -550177.21448   1.02413  -0.00959   0.00000  -0.00196   0.00000   0.00000   0.01021   0.00288   0.00000  -0.01032   0.00000   0.00000   0.00000   0.00000   0.30177   0.00000   2.47200
+ Loc. PRN_27   Semimajor axis      (m)     26574702.5601      -0.0743       0.1621
+ Loc. PRN_27   Eccentricity (none & m)      0.0210804575       0.0566       0.1282
+ Loc. PRN_27   Inclination  (degs & m)     55.7452677494       0.0252       0.0836
+ Loc. PRN_27   RA Node      (degs & m)     41.5556275052      -1.1175       4.1478
+ Loc. PRN_27   Arg. Perigee (degs & m)    264.1744166174       1.1132       3.1472
+ Loc. PRN_27   M + w        (degs & m)    100.4294272311      -0.0456       0.1477
+
+ 456. PRN_28   Inert.  X     (m)         -14746425.29510      0.84890      2.88449
+ 457. PRN_28   Inert.  Y     (m)          18465292.36298      0.61098      2.30588
+ 458. PRN_28   Inert.  Z     (m)          12861416.40720      0.11820      0.15213
+ 459. PRN_28   Inert.  dX/dT (mm/s)       -1075724.94312     -0.10812      0.40878
+ 460. PRN_28   Inert.  dY/dT (mm/s)       -2616262.85916      0.03784      0.16876
+ 461. PRN_28   Inert.  dZ/dT (mm/s)        2573287.33958     -0.00242      0.01413
+ 462. PRN_28   Direct Rad    (none)              1.00289      0.00289      0.01128
+ 463. PRN_28   Y Axis Bias   (none)              0.00062      0.00062      0.00388
+ 464. PRN_28   B Axis Bias   (none)              0.00226      0.00226      0.01670
+ 465. PRN_28   Sin Direct    (none)             -0.00169     -0.00169      0.00845
+ 466. PRN_28   Cos Y Bias    (none)              0.00899      0.00899      0.01509
+ 467. PRN_28   Cos B Bias    (none)              0.04716      0.04716      0.04111
+ 468. PRN_28   AntOffest X   (m)                -0.06976     -0.06976      0.11725
+Eph.  2008 12 27 11 PRN_28   -14746425.2951  18465292.3630  12861416.4072 -1075724.94312 -2616262.85916  2573287.33958   1.00289   0.00062   0.00000   0.00226   0.00000   0.00000  -0.00169   0.00899   0.00000   0.04716   0.00000   0.00000   0.00000   0.00000  -0.06976   0.00000   0.91100
+ Loc. PRN_28   Semimajor axis      (m)     26560637.9623       0.0598       0.2153
+ Loc. PRN_28   Eccentricity (none & m)      0.0143942066      -0.0388       0.1639
+ Loc. PRN_28   Inclination  (degs & m)     55.3846430025       0.0603       0.1099
+ Loc. PRN_28   RA Node      (degs & m)    106.5448798382      -1.2446       4.1465
+ Loc. PRN_28   Arg. Perigee (degs & m)    241.1480078058       2.5102       8.4093
+ Loc. PRN_28   M + w        (degs & m)     34.7908245791       0.1093       0.1642
+
+ 469. PRN_29   Inert.  X     (m)          25596169.34275      0.05175      0.29033
+ 470. PRN_29   Inert.  Y     (m)          -1281012.16832     -1.51632      4.02680
+ 471. PRN_29   Inert.  Z     (m)          -6947196.50354      0.46346      0.84386
+ 472. PRN_29   Inert.  dX/dT (mm/s)        -711038.00064      0.18936      0.38630
+ 473. PRN_29   Inert.  dY/dT (mm/s)        2342299.35826      0.03726      0.11323
+ 474. PRN_29   Inert.  dZ/dT (mm/s)       -3004143.87399     -0.01599      0.01413
+ 475. PRN_29   Direct Rad    (none)              0.94057     -0.05943      0.08138
+ 476. PRN_29   Y Axis Bias   (none)              0.00172      0.00172      0.00175
+ 477. PRN_29   B Axis Bias   (none)             -0.00042     -0.00042      0.01953
+ 478. PRN_29   Sin Direct    (none)              0.00595      0.00595      0.00711
+ 479. PRN_29   Cos Y Bias    (none)              0.00205      0.00205      0.01905
+ 480. PRN_29   Cos B Bias    (none)             -0.00035     -0.00035      0.05148
+ 481. PRN_29   AntOffest X   (m)                 0.00014      0.00014      0.43481
+Eph.  2008 12 27 11 PRN_29    25596169.3428  -1281012.1683  -6947196.5035  -711038.00064  2342299.35826 -3004143.87399   0.94057   0.00172   0.00000  -0.00042   0.00000   0.00000   0.00595   0.00205   0.00000  -0.00035   0.00000   0.00000   0.00000   0.00000   0.00014   0.00000   0.70000
+ Loc. PRN_29   Semimajor axis      (m)     26562660.1905       0.0059       0.1071
+ Loc. PRN_29   Eccentricity (none & m)      0.0032269633       0.0186       0.0823
+ Loc. PRN_29   Inclination  (degs & m)     54.9838273785      -0.0734       0.3717
+ Loc. PRN_29   RA Node      (degs & m)    166.1865782040      -1.2288       4.1831
+ Loc. PRN_29   Arg. Perigee (degs & m)    282.4267623958      -1.2104      18.6478
+ Loc. PRN_29   M + w        (degs & m)    198.9977388139      -0.5442       1.0337
+
+ 482. PRN_30   Inert.  X     (m)          16061177.25886     -0.03114      0.31736
+ 483. PRN_30   Inert.  Y     (m)          -1878698.83139     -0.93439      2.51528
+ 484. PRN_30   Inert.  Z     (m)         -21441691.60351      0.08649      0.11209
+ 485. PRN_30   Inert.  dX/dT (mm/s)        -383187.72662      0.19338      0.58750
+ 486. PRN_30   Inert.  dY/dT (mm/s)        3761137.08399      0.01399      0.06054
+ 487. PRN_30   Inert.  dZ/dT (mm/s)        -618974.36434     -0.02234      0.01411
+ 488. PRN_30   Direct Rad    (none)              1.01627      0.01627      0.00988
+ 489. PRN_30   Y Axis Bias   (none)             -0.00445     -0.00445      0.00433
+ 490. PRN_30   B Axis Bias   (none)             -0.01216     -0.01216      0.01552
+ 491. PRN_30   Sin Direct    (none)              0.00728      0.00728      0.00969
+ 492. PRN_30   Cos Y Bias    (none)              0.00942      0.00942      0.01664
+ 493. PRN_30   Cos B Bias    (none)              0.03264      0.03264      0.04736
+ 494. PRN_30   AntOffest X   (m)                 0.22192     -0.05708      0.08558
+Eph.  2008 12 27 11 PRN_30    16061177.2589  -1878698.8314 -21441691.6035  -383187.72662  3761137.08399  -618974.36434   1.01627  -0.00445   0.00000  -0.01216   0.00000   0.00000   0.00728   0.00942   0.00000   0.03264   0.00000   0.00000   0.00000   0.00000   0.22192   0.00000   2.46600
+ Loc. PRN_30   Semimajor axis      (m)     26558634.3936      -0.0707       0.1462
+ Loc. PRN_30   Eccentricity (none & m)      0.0112023215       0.0491       0.1363
+ Loc. PRN_30   Inclination  (degs & m)     54.5384273400      -0.0613       0.1457
+ Loc. PRN_30   RA Node      (degs & m)    102.5141857526      -1.2290       4.1447
+ Loc. PRN_30   Arg. Perigee (degs & m)     81.1128934958      -0.3358       5.3401
+ Loc. PRN_30   M + w        (degs & m)    258.5299653284      -0.2064       0.1189
+
+ 495. PRN_31   Inert.  X     (m)           3631268.46820     -0.72980      2.52927
+ 496. PRN_31   Inert.  Y     (m)         -16183540.04808     -0.23808      0.58068
+ 497. PRN_31   Inert.  Z     (m)         -20557632.39431      0.13669      0.09170
+ 498. PRN_31   Inert.  dX/dT (mm/s)        3120537.15363      0.09463      0.32444
+ 499. PRN_31   Inert.  dY/dT (mm/s)        2075954.51018     -0.13982      0.48742
+ 500. PRN_31   Inert.  dZ/dT (mm/s)       -1060665.65185     -0.01185      0.01606
+ 501. PRN_31   Direct Rad    (none)              0.97167     -0.02833      0.00715
+ 502. PRN_31   Y Axis Bias   (none)              0.00615      0.00615      0.00369
+ 503. PRN_31   B Axis Bias   (none)              0.00365      0.00365      0.01568
+ 504. PRN_31   Sin Direct    (none)              0.01446      0.01446      0.02031
+ 505. PRN_31   Cos Y Bias    (none)              0.00315      0.00315      0.01630
+ 506. PRN_31   Cos B Bias    (none)              0.02537      0.02537      0.03027
+ 507. PRN_31   AntOffest X   (m)                -0.03440     -0.03440      0.06909
+Eph.  2008 12 27 11 PRN_31     3631268.4682 -16183540.0481 -20557632.3943  3120537.15363  2075954.51018 -1060665.65185   0.97167   0.00615   0.00000   0.00365   0.00000   0.00000   0.01446   0.00315   0.00000   0.02537   0.00000   0.00000   0.00000   0.00000  -0.03440   0.00000   0.75000
+ Loc. PRN_31   Semimajor axis      (m)     26558432.7389      -0.0607       0.1673
+ Loc. PRN_31   Eccentricity (none & m)      0.0070347232       0.0114       0.1114
+ Loc. PRN_31   Inclination  (degs & m)     55.6593183883      -0.0995       0.1222
+ Loc. PRN_31   RA Node      (degs & m)     44.7819326955      -1.0977       4.1465
+ Loc. PRN_31   Arg. Perigee (degs & m)    290.2058291725       1.7368      12.5193
+ Loc. PRN_31   M + w        (degs & m)    251.0011365792      -0.0993       0.1255
+
+ 508. PRN_32   Inert.  X     (m)          -7592600.66346     -0.77846      2.63326
+ 509. PRN_32   Inert.  Y     (m)         -16850823.04683      0.39517      1.19815
+ 510. PRN_32   Inert.  Z     (m)         -18571035.27700      0.01200      0.10962
+ 511. PRN_32   Inert.  dX/dT (mm/s)        2207831.63964     -0.12136      0.43836
+ 512. PRN_32   Inert.  dY/dT (mm/s)       -2807753.80800     -0.10700      0.34474
+ 513. PRN_32   Inert.  dZ/dT (mm/s)        1631197.05423     -0.01377      0.01410
+ 514. PRN_32   Direct Rad    (none)              1.03132      0.03132      0.00433
+ 515. PRN_32   Y Axis Bias   (none)             -0.00481     -0.00481      0.00566
+ 516. PRN_32   B Axis Bias   (none)             -0.00106     -0.00106      0.01709
+ 517. PRN_32   Sin Direct    (none)              0.00201      0.00201      0.01392
+ 518. PRN_32   Cos Y Bias    (none)             -0.01610     -0.01610      0.01594
+ 519. PRN_32   Cos B Bias    (none)             -0.00540     -0.00540      0.02691
+ 520. PRN_32   AntOffest X   (m)                 0.28277      0.00377      0.01251
+Eph.  2008 12 27 11 PRN_32    -7592600.6635 -16850823.0468 -18571035.2770  2207831.63964 -2807753.80800  1631197.05423   1.03132  -0.00481   0.00000  -0.00106   0.00000   0.00000   0.00201  -0.01610   0.00000  -0.00540   0.00000   0.00000   0.00000   0.00000   0.28277   0.00000   2.57500
+ Loc. PRN_32   Semimajor axis      (m)     26559558.3345      -0.0407       0.1386
+ Loc. PRN_32   Eccentricity (none & m)      0.0137367945       0.0051       0.1063
+ Loc. PRN_32   Inclination  (degs & m)     55.3315185688      -0.0394       0.0853
+ Loc. PRN_32   RA Node      (degs & m)    289.7669732171      -1.1321       4.1491
+ Loc. PRN_32   Arg. Perigee (degs & m)    289.8697174637      -3.3407       8.7531
+ Loc. PRN_32   M + w        (degs & m)    300.1933086370      -0.1700       0.1137
+
+ 521. X-pole position        (mas)               1.19886      0.33325      0.25403
+ 522. Y-pole position        (mas)             140.14966     -0.96494      0.33731
+ 523. X-pole rate            (ms/d)             -3.13660      0.73658      1.18644
+ 524. Y-pole rate            (ms/d)              2.34686      1.12763      1.03108
+
+ 525. UT1-AT                 (ms)           -33584.78106      5.39544      2.14655
+ 526. UT1-AT rate            (ms/d)             -0.23674      0.01698      0.06282
+      Pole/UT1 correlations: XY, XU, YU         -0.2699     0.0009     0.0026
+
+IERS  MJD      Xpole   Ypole  UT1-UTC    LOD  Xsig  Ysig   UTsig  LODsig  Nr Nf Nt    Xrt    Yrt  Xrtsig  Yrtsig XYcorr XUTcor YUTcor
+IERS             (10**-6")       (0.1 usec)    (10**-6")     (0.1 usec)              (10**-6"/d)    (10**-6"/d)
+IERS54827.50    1199  140150 -5847811   2367   254   337   21466     628  53  0 32  -3137   2347   1186   1031   -0.270  0.001  0.003
+
+

@@ -1,0 +1,47 @@
+.TH READ_SIO 1 "23 Nov 2007" "iGPSftk" "FORTRAN ToolKit for GNSS"
+.SH NAME
+read_sio \- Read a PBO NEU time series.
+.SH SYNOPSIS
+\fBread_sio\fP (\fIfile\fP, \fIdata\fP,\fInrow\fP, \fIncol\fP, \fInhead\fP, \fIheaders\fP)
+.SH DESCRIPTION
+\fBread_sio\fP will read a \fISIO\fP NEU/XYZ format coordinates time series file.
+.TP
+\fIfile\fP
+this is the \fI.neu/.xyz\fP format (ASCII) file [input].
+.TP
+\fIdata\fP
+this is the array that will contain the data matrix [output].
+.TP
+\fInrow,ncol\fP
+those are the dimensions of data array (N_ROW, N_COLUMN) [output].
+.TP
+\fInhead\fP
+this is the number of header lines in SIO coordinates time series file [output].
+.TP
+\fIheaders\fP
+this is the array which contains the header lines [output].
+.SH OPTIONS
+.TP
+NONE.
+.SH EXAMPLES
+      implicit none
+      include '../../inc/cgps.h'
+      character*512 file,headers(NMAX_HEADER)
+      real*8 data(NAMX_ROW,NMAX_COL)
+      integer*4 nrow,ncol,nhead
+      integer*4 i,j
+
+      file='/export/home/tianyf/data/pbo/bjfs.xyz'
+      call \fBread_sio\fP (file, \fBdata\fP, nrow, \fBncol\fP, nhead, headers)
+      do i=1,nrow
+        write(*,*) (data(i,j),j=1,ncol)
+      enddo
+.SH "SEE ALSO"
+.IR file_info (1),
+.IR l_l_r_read (1),
+.IR read_cmonoc (1),
+.IR read_l_l_r_panga (1),
+.IR read_pbo (1),
+.IR read_poletide_bull_a (1),
+.IR read_usgs (1),
+.IR iGPSftk (1)

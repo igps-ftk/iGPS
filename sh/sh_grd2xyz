@@ -1,0 +1,26 @@
+#!/bin/sh
+
+# Name:
+#   sh_grd2xyz
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+files=`ls disp_???.grd`
+for file in $files; do
+    gmt grd2xyz $file > ${file}.xyz
+done
+
+

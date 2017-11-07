@@ -1,0 +1,27 @@
+.TH MAP_2POINTS 1 "02 Nov 2008" "iGPSftk" "FORTRAN ToolKit for GNSS"
+.SH NAME
+map_2points \- Return the angular distance between two points on the Earth's surface.
+.SH SYNOPSIS
+call \fBmap_2points\fP (\fIlon0\fP, \fIlat0\fP,, \fIlon1\fP, \fIlat1\fP, \fIret_radian\fP, \fIret_meter\fP, \fIret_mile\fP, \fIret_radius\fP, \fIdist\fP)
+.SH DESCRIPTION
+\fBmap_2points\fP return the distance between two locations of the Earth's surface, either in angular distance (in radians), or in great circle distance (in meters).
+.TP
+\fIlon0\fP, \fIlat0\fP
+are the longitude and latitude of the starting point [input].
+.TP
+\fIlon1\fP, \fIlat1\fP
+are the longitude and latitude of the ending point [input].
+.TP
+\fIret_radian\fP, \fIret_meter\fP, \fIret_mile\fP, \fIret_radius\fP
+specify the return unit [input]. At present not all avalaible.
+.TP
+\fIdist\fP
+is the distance between the starting and ending points [output].
+.SH OPTIONS
+.TP
+NONE.
+.SH EXAMPLES
+ real*8 lon,lat,lon0,lat0,dist
+ call map_2points(lon0,lat0,lon1,lat1,0,1,0,0d0,dist)
+.SH "SEE ALSO"
+.IR iGPSftk (1)

@@ -1,0 +1,190 @@
+CTITLE get_nav
+      PROGRAM get_nav
+
+      IMPLICIT NONE
+C      INCLUDE '../../inc/cgps.h'
+
+c     --PURPOSE--
+c     To check the file whether was downloaded completely from IGS data center
+
+c     --ALGORITHM--
+c     #   1.The uncompress cannot detect incomplete downloads; it reports no error.
+c     #   2.The sh_crx2rnx/crx2rnx give error information like:
+c     #
+c     #       ERROR : The file seems to be trancated in the middle.
+c     #               The conversion is interrupted after reading the line 27605 :
+c     #             start>                3<end
+c     #
+c     #    Thus, by checking if the crx2rnx process return ERROR, 
+c     #    we can determine that the file is complete or not.
+c     #    Steps:
+c     #      + Download one file from FTP server
+c     #      + Check the validation of the file
+c     #      + Output results to a local file.
+c     # Output:
+c     #   Format of LOG file:
+c     #     chk-yymmdd-HHMMSS.log
+c     #     STATUS:SITE:YEAR:DOY:TYPE
+
+c     --EXAMPLE--
+
+c     --MODIFICATIONS--
+
+c     >>VAR_DEC
+c     --INPUT--
+c     --Command-line Parameters--
+      integer year,doy,ndays
+
+c     --OUTPUT--
+
+c     --Local Parameters--
+      character*512 dir,dir_cur,dir_remote,tmpstr,cmdstr
+      integer*4 ndaysofyr, yr
+      integer*4 i,j
+
+      character*512 files(1000),file,ptn,file_cmd,file_log
+      character*512 file_remote,file_local
+      integer*4 nf,fid,ioerr
+
+      logical exi
+      
+      integer iargc
+      integer*4 ndoyr,nblen
+      integer*4 status,system
+      integer*4 today(3),now(3)
+
+
+
+c     <<VAR_DEC
+
+      if (iargc().lt.3) then
+         write(*,*) 'Usage: get_nav YEAR DOY NDAYS [ROOT_DIR]'
+         write(*,*) '  ROOT_DIR is the parent '//
+     .        'directory of rinex/nav/met/...'
+         stop
+      endif
+      
+      call getarg(1,tmpstr)
+      read(tmpstr,*) year
+      call getarg(2,tmpstr)
+      read(tmpstr,*) doy
+      call getarg(3,tmpstr)
+      read(tmpstr,*) ndays
+
+      ndaysofyr=ndoyr(year)
+      if (year.ge.2000) then
+         yr=year-2000
+      else if (year.gt.1950) then
+         yr=year-1900
+      endif
+
+c     for debug in solaris
+      dir='/export/home/tianyf/tmp/nav'
+
+      if (iargc().ge.4) then
+c         call getarg(4,tmpstr)
+c         read(tmpstr,*) dir
+         call getarg(4,dir)
+c         write(*,*) 'here:',dir,tmpstr
+         
+      endif
+c      write(*,*) dir,iargc(),tmpstr
+c      stop
+
+c     open command file
+      call getlun(fid)
+      call idate(today)
+      call itime(now)
+      write(file_cmd,703) today,now,'.cmd'
+ 703  format("get-nav-",I2.2,I2.2,I4,"-",3I2.2,a)
+c      write(*,*) file_cmd,today,now
+      write(file_log,703) today,now,'.log'
+c      stop
+      open(file=file_cmd,unit=fid,iostat=ioerr)
+      if (ioerr.ne.0) then
+         write(*,*) 'Error: cannot open temporary command file'
+         stop
+      endif
+      write(fid,*) 'binary'
+
+c     Loop for each day
+      nf=0
+      do i=1,ndays
+c         write(*,700) dir(1:nblen(dir)),yr,doy
+         write(dir_cur,700) dir(1:nblen(dir)),year,doy
+ 700     format(A,"/",I4,"/",I3.3)
+c         write(*,*) yr,doy,i
+c         write(*,*) dir_cur(1:nblen(dir_cur)
+         write(file,701) dir_cur(1:nblen(dir_cur)),doy,yr
+ 701     format(A,"/","brdc",I3.3,"0.",I2.2,"n.Z")
+c         write(*,*) file
+         inquire (file=file, exist=exi)
+c         write(*,*) 'EX:',exi
+         if (exi) then
+            write(*,*) 'already exist: '//
+     &           file(1:nblen(file))
+            goto 800
+c     Here, checking the validation of existing files is not performed.
+c
+         endif
+         
+         write(*,*) 'queuing ',file(1:nblen(file))
+c     first, create the target directory.
+         cmdstr='mkdir -p '//dir_cur(1:nblen(dir_cur))
+         status=system(cmdstr)
+         if (status.ne.0) then
+            write(*,*) 'Error: cannot create output directory [',
+     &           dir_cur(1:nblen(dir_cur)),'], skipping'
+            goto 800
+         endif
+
+c     append the file to cmd_file
+         write(fid,*) 'lcd '//dir_cur(1:nblen(dir_cur))
+
+         write(dir_remote,704) year,doy
+ 704     format("/pub/nav/",I4.4,"/",I3.3)
+         write(fid,*) 'cd '//dir_remote(1:nblen(dir_remote))
+
+         write(file_remote,702) 'auto',doy,yr
+ 702     format(A4,I3.3,"0.",I2.2,"n.Z")
+         write(file_local,702) 'brdc',doy,yr
+         write(fid,*) 'get -z '//file_remote(1:nblen(file_remote))//
+     &        ' '//file_local(1:nblen(file_local))
+         nf=nf+1
+
+
+ 800     doy=doy+1         
+         if (doy.gt.ndaysofyr) then
+            doy=1
+            year=year+1
+            if (year.ge.2000) then
+               yr=year-2000
+            else if (year.gt.1950) then
+               yr=year-1900
+            endif
+            ndaysofyr=ndoyr(year)
+c            if (year.ge.2002) then
+c               dir='/cygdrive/i/data.server/pub/rinex'
+c            endif
+         endif
+c         write(*,*) year
+      enddo
+
+      write(fid,*) 'quit'
+
+      close(fid)
+
+c     download the file
+      if (nf.ge.1) then
+         cmdstr='ncftp garner.ucsd.edu < '//file_cmd(1:nblen(file_cmd))
+     &        //'| grep -v "^230" >> '//file_log(1:nblen(file_log))
+         write(*,*) 'executing ... '//cmdstr(1:nblen(cmdstr))
+         status=system(cmdstr)
+      endif
+      
+c     delete temporary files
+      cmdstr='rm -f '//file_cmd(1:nblen(file_cmd))
+c      status=system(cmdstr)
+
+      STOP
+      END

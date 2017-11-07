@@ -1,0 +1,41 @@
+.TH READ_PBO 1 "23 Nov 2007" "iGPSftk" "FORTRAN ToolKit for GNSS"
+.SH NAME
+read_pbo \- Read a PBO NEU time series.
+.SH SYNOPSIS
+call \fBread_pbo\fP (\fIfile\fP, \fIdata\fP \fI, nrow\fP \fI, ncol\fP)
+.SH DESCRIPTION
+\fBread_pbo\fP will read a \fIPBO\fP format coordinates time series file.
+.TP
+\fIfile\fP
+this is the input \fI.xyz\fP format (ASCII) file.
+.TP
+\fIdata\fP
+this is the output array that will contain the data matrix.
+.TP
+\fInrow,ncol\fP
+those are the output variables which contain the dimensions of data array (N_RWO, N_COLUMN).
+.SH OPTIONS
+.TP
+NONE.
+.SH EXAMPLES
+ implicit none
+ include '../../inc/cgps.h'
+ character*512 file
+ real*8 data(nmax_row,nmax_col)
+ integer*4 nrow,ncol
+ integer*4 i,j
+
+ file='/export/home/tianyf/data/pbo/bjfs.xyz'
+ call \fBread_pbo\fP (file, \fBdata\fP, nrow, \fBncol\fP)
+ do i=1,nrow
+   write(*,*) (data(i,j),j=1,ncol)
+ enddo
+.SH "SEE ALSO"
+.IR file_info (1),
+.IR l_l_r_read (1),
+.IR read_cmonoc (1),
+.IR read_l_l_r_panga (1),
+.IR read_poletide_bull_a (1),
+.IR read_sio (1),
+.IR read_usgs (1),
+.IR iGPSftk (1)

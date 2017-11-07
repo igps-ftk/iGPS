@@ -1,0 +1,80 @@
+# Makefile for demean on Linux 2.6.18-371.12.1.el5 by unimake at Wed Sep 10 16:05:48 CST 2014
+
+all: ts_demean
+
+
+
+# ASSIGMENTS
+   
+# ASSIGMENTS
+### LF95 flags ###  
+#FTN = lf95  
+#FFLAGS = -O 
+#CC = gcc
+#CFLAGS = -g
+### IFC 7.0 flags ###
+#FTN = ifc
+#FFLAGS = -O -Vaxlib -save -zero -u -72 -w95 -w90 -cm   
+#CC = icc   
+#CFLAGS = -O 
+### IFORT 8.0 flags ###
+FTN = ifort
+#FFLAGS = -O3 -L/usr/lib -Vaxlib -save -zero -u -72 -w95 -w90 -cm -assume byterecl -static -shared-intel #-xN
+#FFLAGS = -O3 -L/usr/lib -Vaxlib -save -zero -u -72 -w95 -w90 -cm -assume byterecl -static  -L/opt/intel/mkl/9.1.023/lib/em64t/ -lmkl_lapack -lmkl_em64t   -lguide -lpthread  #-xN
+CC = icc   
+#CFLAGS = -O  -lz 
+
+### IFORT 9.0 flags ###
+FFLAGS = -O3 -Vaxlib -save -zero -u -72 -w95 -w90 -cm -assume byterecl -static
+CFLAGS = -O -lz
+
+
+#IFORT 2013
+#FFLAGS = -FI -zero -fpp -nbs -save -DOS_UNIX -assume byterecl -warn noalignments -static -mcmodel large -shared-intel
+#CFLAGS = -O0  -lz 
+
+### G77 flags ###
+#FTN = g77 
+#FFLAGS = -O3 -Wuninitialized -Wunused -Wimplicit -fno-f2c -ffast-math -fno-automatic -fno-backslash -Wno-globals -fno-globals
+#CC = gcc
+#CFLAGS = -g  
+
+# test for PGI Fortran compiler
+#FTN = pgf77 
+#FFLAGS = -O3 -Msave -Mpreprocess -DOS_UNIX
+# -Wuninitialized -Wunused -Wimplicit -fno-f2c -ffast-math -fno-automatic -fno-b
+# ackslash -Wno-globals -fno-globals
+#CC = pgcc
+#CFLAGS = -g  
+
+### GCC V4 gfortran flags ###
+#FTN = gfortran
+#FFLAGS = -O3 -Wuninitialized -Wunused -Wimplicit -fno-f2c -ffast-math -fno-automatic -fno-backslash
+#CC = gcc
+#CFLAGS = -g  
+#### For 64-bit machines:
+#CFLAGS = -g --DADD64BIT
+
+SLIB = ../read/cgps_data_read.a.Linux_i386 ../write/cgps_data_write.a.Linux_i386 ../../lib/cgps_lib.a.Linux_i386 ../../../../gglib/gglib.a.Linux_i386 
+X11LIB = 
+II = 
+
+ts_demean : ts_demean.f  $(SLIB) ../../inc/cgps.h
+	$(FTN) ts_demean.f  $(SLIB) -o ts_demean.Linux_i386 $(FFLAGS)
+	rm -f ts_demean.o
+
+
+.c.a:
+	$(CC) -c $(CFLAGS) -I$(II) $<
+	ar rv $@ *.o
+	rm -f $*.o
+
+.f.a:
+	$(FTN) -c $(FFLAGS) $<
+	ar rv $@ *.o
+	rm -f $*.o
+
+
+cleanall:
+	rm -f *.a.Linux_i386 *.o *core ts_demean  ts_demean.Linux_i386
+# End of Makefile

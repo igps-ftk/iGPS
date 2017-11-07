@@ -1,0 +1,13 @@
+PRO READ_QOCA_MAP, FILE, DATA=DATA
+  IF N_PARAMS() LT 1 THEN BEGIN
+    FILE='E:\gpse\rerun.trnabc\comb\st_filter\map\lhaz.list'
+  ENDIF
+  
+  READ_COLS_ASCII,FILE,DATA=DATA_
+  ;HELP,DATA_
+  ;PRINT,DATA_[*,0]
+  DATA=DOUBLE(DATA_[[0,2,1,6,4,3,7],*])
+  ;PRINT,DATA
+  ;STOP
+
+END
