@@ -17,13 +17,9 @@ PRO APR2NET, $
   IF N_PARAMS() LT 2 THEN BEGIN
     ;FILE=DIALOG_PICKFILE(TITLE='Input ITRF/L-file *.apr file?', $
     ;  FILTER=[['*.apr','*'],['GAMIT L-file (*.apr)','GAMIT L-file (*)']])
-    file='D:\tmp\dalo.apr'
-    file='J:\gpse\trns\comb\lasa\gsoln\lfile'
-    file='\\gpsac4\tianyf\gpse\rerun.lutai\comb\trnsLTCM\gsoln\pos3_b.apr'
-    file='D:\ICD\projects\DirectorFund\Application.2012\Field\2014oct\result\lfile.nqxm'
-    file='D:\gpse\trns\solut\gmf\IGSF\ynxj\s1\tables\lfile.ynxj'
-    file='D:\gpse\eq.20161113.NewZealand.Mw7.8\1hz\rinex\lfile.ngz'
-    file='D:\gpse\eq.20161113.NewZealand.Mw7.8\1hz\rinex\lfile.ngz2'
+    file='D:\ICD\projects\CEA.2017.Tibet.GNSS_InSAR\2017sep\result\ls31_ls32.txt'
+    file='C:\Downloads\izmi\org\izmi.xyz'
+    file='D:\gpse\trns\comb\ls22\gsoln\20221225\icd.apr'
     
     
     IF FILE EQ '' THEN RETURN
@@ -43,6 +39,7 @@ PRO APR2NET, $
     
   NS=N_ELEMENTS(SITES)
   LLHS=DBLARR(3,NS)
+  ;stop
   
   FOR I=0,NS-1 DO BEGIN
     XYZ=XYZS[*,I]

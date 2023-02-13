@@ -1,123 +1,55 @@
-PRO SAR_SBAS_BLOCK_RATE3, path,  $
-    rect=rect ;[xmin,ymin,xmax,ymax]
+PRO Sar_sbas_block_rate3, path,  $
+    rect=rect,  $ ;[xmin,ymin,xmax,ymax]
+    aoi=aoi,  $ ;area of interest
+    sx=sx,  $
+    sy=sy,  $
+    out_plot=out_plot
     
-  PROG=(STRSPLIT(LAST(SCOPE_TRACEBACK()),/EXTRACT))[0]
+  PROG=(Strsplit(LAST(SCOPE_TRACEBACK()),/EXTRACT))[0]
   
   IF N_PARAMS() LT 1 THEN BEGIN
-;    ;dang-xiong 2008 earthquake (yangyi village)
-;    path='D:\gsar\des\envisat.d.t405f3015.yzs\SBAS'
-;    ;path='D:\gsar\des\envisat.d.t176f3015.ydgl\SBAS'
-;    ;path='\\gpsac5\root\d1\gsar\nujiang4\des_F2\SBAS'
-;    path='\\gpsac4\root\g4b\tianyf\jiali.b\asc_F1\SBAS.defo2'
-;    path='\\gpsac4\root\g4b\tianyf\jiali.b\asc_F1.defo2\SBAS'
-;    path='\\gpsac4\root\g4b\tianyf\dangxiong.b\asc_F3\SBAS'
-;    path='D:\gsar\des\dangxiong2.b\des_F1\SBAS'
-;    path='\\gpsac5\root\g5c\tianyf\m_jiali2\des_F3\SBAS'
-;    path='D:\gsar\asc\dangxiong.b\asc_F3\SBAS'
-;    path='D:\gsar\asc\jiali.b\asc_F1\SBAS'
-;    PATH='D:\gsar\des\dangxiong2.b\des_F1\SBAS'
-;    ;    path='D:\gsar\des\jiali2\des_F3\SBAS'
-;    ;
-;    ;    ;    ;rect=[90.3,29.6,90.45,29.8]
-;    ;    ;    rect=[92.34d0,29.80,   92.36,29.83]
-;    ;rect=[92.3d0,29.78,   92.36,29.88]  ;mila
-;    ;rect=[92.2d0,29.5,   92.7,30.]
-;    ;    ;path='D:\gsar\asc\bengco\asc_F3\SBAS'
-;    ;    path='D:\gsar\asc\mila1\asc_F1\SBAS\'
-;    ;    path='D:\gsar\asc\mila1\asc_F1\SBAS\nc.detrend'
-;    
-;    ;    path='D:\gsar\asc\dongqiao\asc_F2\SBAS\'
-;    ;    path='D:\gsar\des\bengco.des\des_F2\SBAS'
-;    ;    rect=[91.16d0,31.30,   91.32,31.36] ;to the north of Bengco Lake
-;    ;
-;    ;    path='D:\gsar\des\envisat.d.bengco.t405f2979\SBAS'
-;    ;rect=[91.36d0,31.51,   91.39,31.55] ;to the north of Bengco Lake
-;;    rect=[91.30d0,31.4,   91.43,31.58] ;larger than the above area
-;    ;
-;    ;    path='D:\gsar\des\envisat.d.bengco.t405f2979\SBAS'
-;    
-;    ;
-;    ;    path='\\gpsac5\root\d1\gsar\alos.f620p498.bengco\SBAS'
-;    ;    path='\\gpsac5\root\d1\gsar\multi_shuanghu2\des_F2\SBAS'
-;    ;    path='\\gpsac5\root\g5c\tianyf\m_jiali2\des_F3\SBAS'
-;    ;rect=[91.9d0,28.36,   92.0,28.42] ;
-;    
-;    ;subsidence of Yang-ba-jing electricitiy plant
-;    ;path='D:\gsar\asc\dangxiong.b\asc_F1\SBAS'
-;    ;rect=[90.46d0,30.07,   90.48,30.10]
-;    
-;    ;    path='\\gpsac5\root\g5d\gsar\m_dangxiong2\des_F2\SBAS.long'
-;    ;path='\\gpsac5\root\d1\gsar\mila2\des_F3\SBAS'
-;    ;path='\\gpsac4\root\g4c\gsar\envisat.d.bengco.t405f2979\SBAS6'
-;    ;    path='D:\gsar\des\envisat.d.t405f2979.test\SBAS'
-;    ;    path='\\gpsac5\root\d1\gsar\m_jiali2\des_F2\SBAS11.bad'
-;    ;    path='D:\gsar\des\mila2\des_F3\SBAS'
-;    ;    path='D:\gsar\asc\mila1\asc_F1\SBAS4\nc.detrend'
-;    ;    path='\\gpsac4\root\g4c\gsar\envisat.d.t405f2979.test\SBAS'
-;    path='D:\gsar\des\envisat.d.t405f2979.test\SBAS'
-;    path='D:\gsar\des\envisat.d.t405f2979.test\tmp'
-;    path='\\gpsac4\root\g4c\gsar\envisat.d.t405f2979.test\SBAS'
-;    path='\\gpsac4\root\g4c\gsar\envisat.d.t405f2979.test\SBAS'
-;    path='\\gpsac4\root\g4c\gsar\envisat.d.t405f2979.test\SBAS'
-;    ;path='\\gpsac4\root\g4b\tianyf\m_jiali1\asc_F1\SBAS'
-;    
-;    path='D:\gsar\asc\mila1\asc_F1\SBAS4\nc.detrend'
-;    path='D:\gsar\des\mila2\des_F3\SBAS'
-;    rect=[92.27d0, 29.75,   92.43, 29.9] ;for Mila Tunnel
-    rect=[92.32d0, 29.79d0,   92.37d0, 29.85d0] ;for Mila Tunnel most deformed zone
-;    path='D:\gsar\des\mila2\des_F3\SBAS7'
-;    path='D:\gsar\des\mila2\des_F3\SBAS8'
-;    ;path='D:\gsar\asc\mila1\asc_F1\SBAS4\nc.detrend'
-;    path='D:\gsar\asc\dangxiong.b\asc_F3\SBAS'
-;    ;path='D:\gsar\des\dangxiong2.b\des_F1\SBAS'
-;    path='\\gpsac4\root\g4b\tianyf\dangxiong.b\asc_F3\SBAS'
-;    path='\\gpsac4\root\g4c\gsar\envisat.d.t405f2979.test\SBAS'
-;    path='\\vmshare\root\data\FTP\user\tianyf\envisat.d.t405f2979.test\SBAS'
-;    path='\\gpsac5\root\b1\gsar\envisat.a.t398f621.bengco\SBAS'
-;    
-;    path='\\gpsac5\root\b1\gsar\mila4\des_F1\SBAS'
-;    path='\\gpsac4\root\g4b\tianyf\mila3\asc_F3\SBAS'
-;    path='\\gpsac4\root\dcd0\gsar\mila4\des_F1\SBAS'
-;    ;path='\\gpsac4\root\g4b\tianyf\mila3\asc_F3\SBAS'
-;    path='D:\gsar\des\mila4\des_F1\SBAS7'
-;    path='\\gpsac5\root\b1\gsar\mila4\des_F1\SBAS'
-;    path='\\gpsac4\root\g4b\tianyf\mila3\asc_F3\SBAS'
-;    ;path='\\gpsac5\root\b1\gsar\envisat.d.t448f2907.shuanghu\SBAS\'
-;    ;path='\\vmshare\root\data\FTP\user\tianyf\envisat.a.t398f585.sangri\SBAS'
-;    path='\\gpsac5\root\b1\gsar\envisat.d.t448f2907.shuanghu\SBAS'
-;    path='D:\gsar\asc\mila3\asc_F3\SBAS6'
-;    path='\\gpsac4\root\g4b\tianyf\mila3\asc_F3\SBAS7c'
-;    path='\\gpsac4\root\g4\gsar\mila1\asc_F1\SBAS'
-;    path='D:\gsar\des\mila2\des_F3\SBAS8'
-    ;path='D:\gsar\asc\mila1\asc_F1\SBAS4\nc.detrend'
-    path='D:\gsar\des\mila2_oct\des_F3\SBAS'
-    path='D:\gsar\des\mila2s\des_F3\SBAS5'
-    ;path='D:\gsar\asc\mila3s\asc_F3\SBAS'
-    path='D:\gsar\des\mila2s\des_F3\full\SBAS'
-    path='\\gpsac4\root\g4b\tianyf\mila3s\asc_F3\SBAS'
+  
+    path='D:\gsar\des\jinsha.landslide2\des_F3\SBAS4'
+    path='D:\gsar\des\jinsha.landslide2\des_F3\SBAS8'
+    path='D:\gsar\asc\jinsha.landslide5\asc_F1\SBAS2'
+    path='\\10.4.134.31\root\g7c\gsar\jinsha.landslide2\des_F3\SBAS10'
+    rect=[98.45,31.60, 98.49,31.64]
+    
+    path='D:\gsar\interseismic\t41-f100-f110-a-m_wulan3_sewa2_dongqiao\f123.1\SBAS10.long.gt200\r4'
+    rect=[89.95, 34.75,  90.4, 35.06] ;west of wulanwula lake
+    
+    path='D:\gsar\coseismic\136-d-m1-0455-wush\F2.cut\sbas.2.0.0001.9999.20141015.20210129.146.3117.01.___\r4'
+    ;path='D:\gsar\coseismic\056-a-m2-0128_0133-wush\F2.cut\sbas.2.0.0001.9999.20141114.20210129.147.3237.01.___\r4'
+    rect=[78.76,41.15, 78.87, 41.21] ;aseismic near WUSH
+    time_offset=2019.819804034d0
+    IS_ANNUAL=0
+    IS_SEMIANNUAL=0
     
     
     out_plot=1
-    
-    ;test coaser grid
+    ;
+    sx=1
+    ;    sx=2
+    ;    ;test coaser grid
     sx=3
     sx=5
+    ;        sx=7
     sx=10
-    ;sx=20
-    ;sx=30
-    ;sx=90
-    ;out_plot=1
-    opath=path+PATH_SEP()+'outp_eq_gbjd2'
-    opath=path+PATH_SEP()+'x5/raw'
-    opath=path+PATH_SEP()+'x'+strtrim(sx,2)+'/raw'
-    ;opath=path+PATH_SEP()+'x'+strtrim(sx,2)+'_mila/raw'
-  ;opath=path+PATH_SEP()+'outp_bengco_north3'
-  ;opath=path+PATH_SEP()+'outp'
-  ;opath=path+PATH_SEP()+'outp_mila2'
+  ;    ;    sx=20
+  ;    ;    sx=11
+  ;            sx=15
+  ;            sx=30
+  ;                            sx=50
+  ;                sx=90
+    
+  ;out_plot=1
     
   ENDIF
-  ;stop
+  ;top
   ;
+  ;area of interest (aoi)
+  aoi=-9999d0
+  
   ;steps of x and y
   IF N_ELEMENTS(sx) EQ 0 THEN sx=10
   ;for even grid
@@ -135,8 +67,32 @@ PRO SAR_SBAS_BLOCK_RATE3, path,  $
     sz=0
   ENDIF
   
+  IF N_ELEMENTS(aoifile) GT 0 && aoifile NE '' THEN BEGIN
+    lines_fvec=read_txt(aoifile)
+    lines_fvec2=STRTRIM(lines_fvec,2)
+    pos=WHERE(strmids(lines_fvec2,0,1) NE '>')
+    IF N_ELEMENTS(pos) LT 2 THEN BEGIN
+      PRINT,'['+prog+']ERROR: invalid fault line vector file <'+ffile+'>!!'
+      RETURN
+    ENDIF
+    aoi=DOUBLE(str_lines2arr(lines_fvec2[pos]))
+    aoi=aoi[*,1:*]
+  ;STOP
+  ENDIF
+  
+  
   ;
-  IF N_ELEMENTS(opath) EQ 0 THEN opath=path+PATH_SEP()+'out'
+  IF N_ELEMENTS(opath) EQ 0 THEN BEGIN
+    opath=path+PATH_SEP()+'out'
+    opath=path+PATH_SEP()+'outp_eq_gbjd2'
+    ;    ;opath=path+PATH_SEP()+'x5/raw'
+    opath=path+PATH_SEP()+'x'+STRTRIM(sx,2)+'/raw'
+  ;
+  ;opath=path+PATH_SEP()+'x'+strtrim(sx,2)+'_mila/raw'
+  ;opath=path+PATH_SEP()+'outp_bengco_north3'
+  ;opath=path+PATH_SEP()+'outp'
+  ;opath=path+PATH_SEP()+'outp_mila2'
+  ENDIF
   IF FILE_TEST(opath,/directory) NE 1 THEN BEGIN
     FILE_MKDIR, opath
   ENDIF
@@ -144,20 +100,18 @@ PRO SAR_SBAS_BLOCK_RATE3, path,  $
   IF N_ELEMENTS(out_plot) EQ 0 THEN out_plot=0
   
   files=FILE_SEARCH(path+PATH_SEP()+'disp*.nc', count=nf)
-  ;files=FILE_SEARCH(path+PATH_SEP()+'defo*.nc', count=nf)
+  ;stop
+  IF nf LE 0 THEN BEGIN
+    files=FILE_SEARCH(path+PATH_SEP()+'defo*.nc', count=nf)
+  ENDIF
   IF nf LE 0 THEN RETURN
   ;
-  ;skip the first reference file (all zeros) if it is present.
-  IF GETFILENAME(files[0]) EQ 'disp_001_ll.nc' || GETFILENAME(files[0]) EQ 'disp_001.nc'  THEN BEGIN
-    files=files[1:*]
-    nf=nf-1
-  ENDIF
-  ;stop
   
-  ;r;ad time information from scene.tab file
+  ;read time information from scene.tab file
   file_scene_tab=path+PATH_SEP()+'scene.tab'
   IF FILE_TEST(file_scene_tab,/regular) NE 1 THEN BEGIN
-  
+    PRINT,'[]ERROR: no scene.tab file found!!"
+    RETURN
   ENDIF
   lines=read_txt(file_scene_tab)
   lines_p=str_lines2arr(lines)
@@ -166,37 +120,55 @@ PRO SAR_SBAS_BLOCK_RATE3, path,  $
   
   dyrs=DBLARR(N_ELEMENTS(years))
   FOR i=0,N_ELEMENTS(years)-1 DO BEGIN
-    DOY,years[i],1,doyrs[i],dyear=dyr
+    Doy,years[i],1,doyrs[i],dyear=dyr
     dyrs[i]=dyr
   ENDFOR
   
   ;stop
   ;skip the first image (the reference one)
+  tmp=grepi(getfilename(files),lines_p[0])
+  ;help,tmp
+  ;stop
+  ;skip the first reference file (all zeros) if it is present.
+  ;IF GETFILENAME(files[0]) EQ 'disp_001_ll.nc' || GETFILENAME(files[0]) EQ 'disp_001.nc'  THEN BEGIN
+  IF tmp NE '' THEN BEGIN
+    ;!!NOTE: always skip the first file
+    files=files[1:*]
+    nf=nf-1
+  ENDIF
+  ;stop
   ;
   ;read the first image
   file=files[0]
-  READ_NC_SBAS,FILE,DATA=DATA, $
+  Read_nc_sbas,FILE,DATA=DATA, $
     LAT=LAT, $
     LON=LON
   ny=N_ELEMENTS(data[0,*])
   nx=N_ELEMENTS(data[*,0])
   
+  ;adjust longitude range to [-180,180]
+  ind_lon=where(lon gt 180)
+  if ind_lon[0] ne -1 then begin
+    lon[ind_lon]=lon[ind_lon]-360d0
+  endif
   ;
+  ;stop
   IF N_ELEMENTS(rect) EQ 4 THEN BEGIN
     xmin=rect[0]
     xmax=rect[2]
     ymin=rect[1]
     ymax=rect[3]
   ENDIF ELSE BEGIN
+    HELP, rect
     xmin=MIN(lon,max=xmax)
     ymin=MIN(lat,max=ymax)
   ENDELSE
   
-  stepx=sx*abs(lon[1]-lon[0])
-  stepy=sy*abs(lat[1]-lat[0])
+  stepx=sx*ABS(lon[1]-lon[0])
+  stepy=sy*ABS(lat[1]-lat[0])
   
-  oNx=ceil((xmax-xmin)/stepx)
-  oNy=ceil((ymax-ymin)/stepy)
+  oNx=CEIL((xmax-xmin)/stepx)
+  oNy=CEIL((ymax-ymin)/stepy)
   
   olon=INDGEN(oNx)*stepx+xmin
   olat=INDGEN(oNy)*stepy+ymin
@@ -207,13 +179,15 @@ PRO SAR_SBAS_BLOCK_RATE3, path,  $
   data_all[*,*,0]=data
   FOR fi=1,nf-1 DO BEGIN
     file=files[fi]
-    PRINT,file
-    READ_NC_SBAS,FILE,DATA=DATA, $
-      LAT=LAT, $
-      LON=LON
+    ;PRINT,file
+    Read_nc_sbas,FILE,DATA=DATA, $
+      ;LAT=LAT, $
+      ;LON=LON, $
+      _extra=dummy
     data_all[*,*,fi]=data
-    HELP,data
+    ;HELP,data
   ENDFOR
+    HELP,data
   
   ;lat=REVERSE(lat)
   
@@ -228,7 +202,7 @@ PRO SAR_SBAS_BLOCK_RATE3, path,  $
   
   IF out_plot EQ 1 THEN BEGIN
     sf=.65
-    odata=ECONGRID(data,sf)
+    odata=Econgrid(data,sf)
     WINDOW,0,xsize=N_ELEMENTS(odata[*,0]),ysize=N_ELEMENTS(odata[0,*])
     !p.MULTI=-1
     TVSCL,odata,/nan;,/order
@@ -236,22 +210,45 @@ PRO SAR_SBAS_BLOCK_RATE3, path,  $
   ENDIF
   
   oRatesXyz=DBLARR(4,(nx/sx+1)*(ny/sy+1))
+  oRatesXyz=DBLARR(4,onx*ony)
   oRates=DBLARR(onx,ony)
   oRates[*]=!VALUES.D_NAN
   oRMSs=DBLARR(onx,ony)
   
+  if n_elements(time_offset) eq 0 then time_offset=2010
+  if n_elements(is_annual) eq 0 then is_annual=0
+  if n_elements(is_semiannual) eq 0 then is_semiannual=0
+  
+  nOff=N_ELEMENTS(time_offset)
+  oOffs=DBLARR(2,onx*ony,nOff)
+  oOffsets=DBLARR(onx,ony,nOff)
+  oOffsetErrs=DBLARR(onx,ony,nOff)
+  oAnns=DBLARR(3,onx*ony)
+  oAnnAmps=DBLARR(onx,ony)
+  oAnnAmps[*]=!values.D_NAN
+  oAnnPhas=DBLARR(onx,ony)
+  oSumLines=STRARR(onx*ony)
+  
+  ;stop
   count=0ull
   site_names=STRARR(onx*ony)
   llhs=DBLARR(3,onx*ony)
+  oLLHs=DBLARR(3,onx,ony)
+  print,onx,ony
+  ;return
   ;
   FOR i=0, oNx-1 DO BEGIN
     ;indx=i*sx+sx/2
     xo=olon[i]
-    tmp=min(abs(lon-xo),indx)
+    tmp=MIN(ABS(lon-xo),indx)
     FOR j=0, oNy-1 DO BEGIN
       indy=j*sy+sy/2
       yo=olat[j]
-      tmp=min(abs(lat-yo),indy)
+      tmp=MIN(ABS(lat-yo),indy)
+      
+      offset=DBLARR(3,noff)
+      offset[*]=-9999d0
+      offset[2,*]=time_offset
       
       ;stop
       ;tmp=MIN(ABS(lat-yo),indy)
@@ -269,17 +266,68 @@ PRO SAR_SBAS_BLOCK_RATE3, path,  $
       pos=WHERE(FINITE(data_ijs[*,*,0]) EQ 1)
       IF pos[0] EQ -1 THEN CONTINUE
       
+      ;for derive uncertainity
+      sz_unc=(sx/2-1) > 0
+      ;sz_unc=2
+      ;help,sz_unc
+      x1unc=(indx-sz_unc)>0
+      x2unc=(indx+sz_unc)<(nx-1)
+      y1unc=(indy-sz_unc)>0
+      y2unc=(indy+sz_unc)<(ny-1)
+      ; print,x1unc,x2unc,y1unc,y2unc
+      ; PRINT,x1,x2,y1,y2
+      data_ijs_unc=data_all[x1unc:x2unc,y1unc:y2unc,*]
+      ;remove the low-frequency part from the time series
+      FOR ti=x1unc, x2unc DO BEGIN
+        FOR tj=y1unc, y2unc DO BEGIN
+          tmp_ij=REFORM(data_all[ti,tj,*])
+          pos=WHERE(FINITE(tmp_ij) EQ 1)
+          IF N_ELEMENTS(pos) NE N_ELEMENTS(tmp_ij) THEN CONTINUE
+          ;tmp_ij2=SMOOTH(tmp_ij,9,/edge)
+          y=[0,tmp_ij]
+          x=dyrs[0:*]
+          ;tmp=ladfit(x,y,/double)
+          tmp=Linfit(x,y,yfit=tmp_ij2)
+          
+          tmp_ij3=tmp_ij-tmp_ij2
+          tmp_ij3=tmp_ij  ;not removing linear trend
+          data_ijs_unc[ti-x1unc,tj-y1unc,*]=tmp_ij3
+        ;stop
+        ENDFOR
+      ENDFOR
+      pos_unc=WHERE(FINITE(data_ijs_unc[*,*,0]) EQ 1)
+      odata_uncs=DBLARR(N_ELEMENTS(data_ijs_unc[0,0,*]))
+      FOR ti=0, N_ELEMENTS(odata_uncs)-1 DO BEGIN
+        tmp=data_ijs_unc[*,*,ti]
+        odata_uncs[ti]=Stddev(tmp[pos_unc])
+      ;odata_uncs[ti]=VARIANCE(tmp[pos_unc])
+      ENDFOR
+      ;stop
+      ;
+      ;
+      ;check if a aoi polygon is required!
+      IF aoi[0] NE -9999d0 THEN BEGIN
+        ;stop
+        isin=Is_point_inside_polygon(aoi, [xo,yo])
+        ;stop
+        IF isin EQ 0 THEN CONTINUE
+      ENDIF
+      
       count=count+1
       ij=i*ony+j
-      IF ij GE 9999 THEN STOP
+      ;ij2=i*1+j
+      ;IF ij GE 9999 THEN STOP
       
-      site_name=STRING(ij+1,format='(i04)')+  $
-        STRING(xo,format='("_X",f08.3)')+ $
-        STRING(yo,format='("_Y",f07.3)')
-      site_name=STRING(ij+1,format='(i04)');+  $
-      ;STRING(xo,format='("_X",f08.3)')+ $
-      ;STRING(yo,format='("_Y",f07.3)')
+;      ;;site_name=STRING(ij+1,format='(i04)')+  $
+;      ;        STRING(xo,format='("_X",f08.3)')+ $
+;      ;        STRING(yo,format='("_Y",f07.3)')
+;      site_name=STRING(ij+1,format='(i04)');+  $
+;      ;      ;STRING(xo,format='("_X",f08.3)')+ $
+;      ;      ;STRING(yo,format='("_Y",f07.3)')
       ;
+      ;      site_names[ij]=site_name
+      
+      Init_gnss_site_name, ij, site_name=site_name
       site_names[ij]=site_name
       
       IF out_plot EQ 1 THEN BEGIN
@@ -288,7 +336,9 @@ PRO SAR_SBAS_BLOCK_RATE3, path,  $
         XYOUTS,[indx]*sf,[indy]*sf,'  '+site_name,color='ffffff'x,/device,charsize=.8
       ENDIF
       
-      
+          
+      ;      z0=data_dem[indx,indy]
+      z0=0
       ;PRINT,data_all[indx,indy,*]
       IF out_plot EQ 1 THEN BEGIN
         WINDOW,1,title=site_name,/pixmap
@@ -297,12 +347,13 @@ PRO SAR_SBAS_BLOCK_RATE3, path,  $
         PLOT,dyrs,[0,REFORM(data_all[indx,indy,*])],background='ffffff'x,color='0'x, $
           psym=-2,/nodata,  $
           ;yrange=[MIN(data_ijs,/nan),MAX(data_ijs,/nan)],$
-          yrange=[-60,60]*.5,  $
+          yrange=[-80,60]*1,  $
           ;xrange=[2014,2018], $
           title=site_name,$
           xtitle='Time (a)', ytitle='LOS Displacements (mm)'
       ENDIF
       data_ijs_sum=DBLARR(N_ELEMENTS(data_ijs[0,0,*]))
+      ;stop
       nij=0
       FOR k=0,x2-x1 DO BEGIN
         FOR l=0,y2-y1 DO BEGIN
@@ -326,7 +377,7 @@ PRO SAR_SBAS_BLOCK_RATE3, path,  $
       ;      yfit=x*tmp[1]+tmp[0]
       ;      yres=y-yfit
       ;      stdv=rms(yres)
-      tmp=LINFIT(x,y,/double,sigma=stdv)
+      tmp=Linfit(x,y,/double,sigma=stdv)
       oRatesXyz[*,ij]=[xo,yo,tmp[1],stdv[1]]
       oRates[i,j]=tmp[1]
       oRMSs[i,j]=stdv[1]
@@ -336,34 +387,57 @@ PRO SAR_SBAS_BLOCK_RATE3, path,  $
       ;fit an linear trend and an annual term
       
       ;TS_MODEL,x,y,/annual,yfit=yfit,coef=coef,sigma=sig
-      TS_MODEL,x,y,yfit=yfit,coef=coef,sigma=sig
+      ;Ts_model,x,y,yfit=yfit,coef=coef,sigma=sig
+      cmdstr='CALL_TS_MODEL,X,Y,YFIT=YFIT,COEF=COEF,SIGMA=SIG,OFFSET=OFFSET,ANN_AMP=ANN_AMP,ANN_EAMP=ANN_EAMP,ANN_PHASE=ANN_PHASE,SUM_LINE=SUM_LINE,site=site_name'
+      IF is_annual EQ 1 THEN cmdstr=cmdstr+',/IS_ANNUAL'
+      IF is_semiannual EQ 1 THEN cmdstr=cmdstr+',/IS_SEMIANNUAL'
+      
+      tmp=EXECUTE(cmdstr)
+      
+      
       oRatesXyz[*,ij]=[xo,yo,coef[1],sig[1]]
       oRates[i,j]=coef[1]
       oRMSs[i,j]=sig[1]
+      FOR oi=0, nOff-1 DO BEGIN
+        oOffs[*,ij, oi]=offset[0:1,oi]
+        oOffsets[i,j, oi]=offset[0,oi]
+        oOffsetErrs[i,j, oi]=offset[1,oi]
+      ENDFOR
       llhs[*,ij]=[xo,yo,0]
+      ollhs[*,i,j]=[xo,yo,z0]
       ;stop
       
+      oSumLines[ij]=sum_line
+      IF is_annual EQ 1 THEN BEGIN
+        oAnns[*,ij]=[ANN_AMP,ANN_PHASE,ANN_EAMP]
+        oAnnAmps[i,j]=ANN_AMP
+        oAnnPhas[i,j]=ANN_PHASE
+      ENDIF
       ;
+      jfile=opath+PATH_SEP()+site_name+'.jpg'
       IF out_plot EQ 1 THEN BEGIN
-        jfile=opath+PATH_SEP()+site_name+'.jpg'
         OPLOT,xs,ys,color='0000ff'x
         OPLOT,x,yfit,color='0'x,psym=-6
-        XYOUTS,MEAN(xs),30,site_name+STRING(oRatesXyz[2:3,ij],format='(1x,"rate=",f7.2,1x,"+/-",f7.2,1x,"mm/yr")'),/data,color='0'x,alignment=.5
+        XYOUTS,Mean(xs),30,site_name+STRING(oRatesXyz[2:3,ij],format='(1x,"rate=",f7.2,1x,"+/-",f7.2,1x,"mm/yr")'),/data,color='0'x,alignment=.5
         ;PRINT,jfile
         WRITE_JPEG,jfile,TVRD(true=1),true=1,quality=100
         ;stop
         WDELETE,1
-        odata=DBLARR(6,N_ELEMENTS(dyrs))
-        odata[0,*]=dyrs
-        odata[1,*]=years
-        odata[2,*]=doyrs
-        odata[3,*]=[0,data_ijs_avg]*1d-3
-        odata[4,*]=[0,data_ijs_avg]*1d-3
-        odata[5,*]=[0,data_ijs_avg]*1d-3
-        ofile=desuffix(jfile)+'.neu'
-        cmt=STRING(xo,yo,format='("lon=",1x,f12.6,1x,"lat=",1x,f12.6)')
-        WRITE_SIO,ofile,data=odata,src=[files,cmt],prog=prog
       ENDIF
+      
+      odata=DBLARR(9,N_ELEMENTS(dyrs))
+      odata[0,*]=dyrs
+      odata[1,*]=years
+      odata[2,*]=doyrs
+      odata[3,*]=[0,data_ijs_avg]*1d-3
+      odata[4,*]=[0,data_ijs_avg]*1d-3
+      odata[5,*]=[0,data_ijs_avg]*1d-3
+      odata[6,*]=[0,odata_uncs]*1d-3
+      odata[7,*]=[0,odata_uncs]*1d-3
+      odata[8,*]=[0,odata_uncs]*1d-3
+      ofile=desuffix(jfile)+'.neu'
+      cmt=STRING(xo,yo,format='("lon=",1x,f12.6,1x,"lat=",1x,f12.6)')
+      Write_sio,ofile,data=odata,src=[files,cmt],prog=prog
     ;STOP
     ENDFOR
   ENDFOR
@@ -374,8 +448,8 @@ PRO SAR_SBAS_BLOCK_RATE3, path,  $
   ENDIF
   epochs=REPLICATE(2017, count)
   ofile=opath+PATH_SEP()+'sites.net'
-  pos=where(site_names ne '')
-  WRITE_NET, $
+  pos=WHERE(site_names NE '')
+  Write_net, $
     OFILE, $
     SITES=SITE_NAMES[pos], $
     LLHS=LLHS[*,pos], $
@@ -383,26 +457,90 @@ PRO SAR_SBAS_BLOCK_RATE3, path,  $
     PROG=PROG, $
     SRC=path, $
     EPOCHS=EPOCHS
-  ;stop  
-  NET2KML,ofile
   ;stop
-  ;Output XYZ file
-  ofile=opath+PATH_SEP()+'rates.xyz'
+  Net2kml,ofile
+  ;stop
+  ofile=opath+PATH_SEP()+'rate_ann.xyz'
   OPENW,fid,ofile,/get_lun
-  WRITE_SYS_INFO,fid,prog=prog,src=files
+  Write_sys_info,fid,prog=prog,src=files
+  PRINTF,fid,'longitude','latitude','height','rate','rate_sig','annamp','annpha','annsig', 'site',$
+    format='("*",8(",",1x,A),",",1x,a4)'
   IF count GT 0 THEN BEGIN
     FOR i=0ull, count-1 DO BEGIN
-      IF oRatesXyz[2,i] EQ 0d0 THEN CONTINUE
-      PRINTF,fid,oRatesXyz[*,i],format='(1x,4(1x,f))'
+      ;if site_names[pos[i]] eq '00UW' then stop
+      IF oRatesXyz[2,pos[i]] EQ 0d0 THEN CONTINUE
+      PRINTF,fid,llhs[*,pos[i]],oRatesXyz[2:3,pos[i]],oAnns[*,pos[i]],site_names[pos[i]],format='(1x,8(1x,f),1x,a4)'
+    ;printf,fid,oSumLines[pos[i]],format='(1x,a)'
     ENDFOR
   ENDIF
   FREE_LUN,fid
+  
+  ;Output XYZ file
+  ofile=opath+PATH_SEP()+'rates.xyz'
+  OPENW,fid,ofile,/get_lun
+  Write_sys_info,fid,prog=prog,src=files
+  fmtstr='("*",4(1x,a15),1x,'+STRTRIM(nOff*2,2)+'(1x,a12),1x,a4)' ;'("*",6(",",1x,A),",",1x,a4)'
+  FOR oi=0,nOff-1 DO BEGIN
+    IF oi EQ 0 THEN BEGIN
+      offset_names=['offset','offse_sig']
+      PRINTF,fid,offset[2,oi],format='("*Time_of_offset : ",1x,f)'
+    ENDIF ELSE BEGIN
+      offset_names=[offset_names, ['offset','offse_sig']+STRTRIM(oi+1,2)]
+      PRINTF,fid,STRTRIM(oi+1,2),offset[2,oi],format='("*Time_of_offset",a," : ",1x,f)'
+    ENDELSE
+    
+  ENDFOR
+  PRINTF,fid,'*Displacement_Unit : m',format='(a)'
+  PRINTF,fid,'*Is_annual_term_esimated : ',is_annual, format='(a,1x,i1)'
+  PRINTF,fid,'*Is_semiannual_term_esimated : ',is_semiannual, format='(a,1x,i1)'
+  PRINTF,fid,'longitude','latitude','rate','rate_sig',offset_names, 'site',$
+    format=fmtstr
+  fmtstr='(1x,4(1x,f15.8),1x,'+STRTRIM(nOff*2,2)+'(1x,f12.5),1x,a4)'
+  IF count GT 0 THEN BEGIN
+    FOR i=0ull, count-1 DO BEGIN
+      ;if site_names[pos[i]] eq '00UW' then stop
+      IF oRatesXyz[2,pos[i]] EQ 0d0 THEN CONTINUE
+      PRINTF,fid,oRatesXyz[*,pos[i]],oOffs[*,pos[i],*],site_names[pos[i]],format=fmtstr ;'(1x,6(1x,f),1x,a4)'
+    ;printf,fid,oSumLines[pos[i]],format='(1x,a)'
+    ENDFOR
+  ENDIF
+  FREE_LUN,fid
+  
+  ofile=opath+PATH_SEP()+'STAT.MODEL'
+  OPENW,FID_STAT,ofile,/get_lun
+  Write_sys_info,FID_STAT,prog=prog,src=files
+  COL_NAMES=['SITE','NEU','RATE','SIGMA.RATE']
+  IF IS_ANNUAL THEN COL_NAMES=[COL_NAMES,'AMP.ANN','PHA.ANN']
+  IF IS_SEMIANNUAL THEN COL_NAMES=[COL_NAMES,'AMP.SEMI','PHA.SEMI']
+  COL_NAMES=[COL_NAMES,'RMSE']
+  IF IS_ANNUAL THEN COL_NAMES=[COL_NAMES,'SIG.ANN.AMP']
+  PRINTF,FID_STAT,COL_NAMES,FORMAT='("*",A4,1X,A3,8(1X,A12))'
+  IF count GT 0 THEN BEGIN
+    FOR i=0ull, count-1 DO BEGIN
+      ;if site_names[pos[i]] eq '00UW' then stop
+      IF oRatesXyz[2,pos[i]] EQ 0d0 THEN CONTINUE
+      PRINTF,FID_STAT,oSumLines[pos[i]],FORMAT='(A)'
+    ENDFOR
+  ENDIF
+  FREE_LUN,FID_STAT
+  
+  ;  ;Output XYZ file
+  ;  ofile=opath+PATH_SEP()+'rates.xyz'
+  ;  OPENW,fid,ofile,/get_lun
+  ;  Write_sys_info,fid,prog=prog,src=files
+  ;  IF count GT 0 THEN BEGIN
+  ;    FOR i=0ull, count-1 DO BEGIN
+  ;      IF oRatesXyz[2,i] EQ 0d0 THEN CONTINUE
+  ;      PRINTF,fid,oRatesXyz[*,i],format='(1x,4(1x,f))'
+  ;    ENDFOR
+  ;  ENDIF
+  ;  FREE_LUN,fid
   ;
   ;Output Rate NetCDF file
   ofile=opath+PATH_SEP()+'rates.nc'
   id = NCDF_CREATE(ofile, /CLOBBER)
   ; Fill the file with default values:
-  NCDF_CONTROL, id, /FILL
+  Ncdf_control, id, /FILL
   xid = NCDF_DIMDEF(id, 'lon', onx)    ; Make dimensions.
   yid = NCDF_DIMDEF(id, 'lat', ony)    ; Make dimensions.
   zid = NCDF_DIMDEF(id, 'z', onx*ony)
@@ -418,7 +556,7 @@ PRO SAR_SBAS_BLOCK_RATE3, path,  $
   NCDF_ATTPUT, id, vid, 'long_name', 'InSAR LOS Velocity'
   NCDF_ATTPUT, id, /GLOBAL, 'Title', 'LOS_RATE'
   ; Put file in data mode:
-  NCDF_CONTROL, id, /ENDEF
+  Ncdf_control, id, /ENDEF
   ; Input data:
   NCDF_VARPUT, id, aid, olon
   NCDF_VARPUT, id, bid, olat
@@ -431,7 +569,7 @@ PRO SAR_SBAS_BLOCK_RATE3, path,  $
   ofile=opath+PATH_SEP()+'rms.nc'
   id = NCDF_CREATE(ofile, /CLOBBER)
   ; Fill the file with default values:
-  NCDF_CONTROL, id, /FILL
+  Ncdf_control, id, /FILL
   xid = NCDF_DIMDEF(id, 'lon', onx)    ; Make dimensions.
   yid = NCDF_DIMDEF(id, 'lat', ony)    ; Make dimensions.
   zid = NCDF_DIMDEF(id, 'z', onx*ony)
@@ -447,7 +585,7 @@ PRO SAR_SBAS_BLOCK_RATE3, path,  $
   NCDF_ATTPUT, id, vid, 'long_name', 'InSAR LOS Velocity RMS'
   NCDF_ATTPUT, id, /GLOBAL, 'Title', 'LOS_RATE_RMS'
   ; Put file in data mode:
-  NCDF_CONTROL, id, /ENDEF
+  Ncdf_control, id, /ENDEF
   ; Input data:
   NCDF_VARPUT, id, aid, olon
   NCDF_VARPUT, id, bid, olat
@@ -455,6 +593,40 @@ PRO SAR_SBAS_BLOCK_RATE3, path,  $
   NCDF_CLOSE, id ; Close the NetCDF file.
   ;GRD_PLOT_HISTOGRAM, ofile, VAR_TYPE='LOS_Rate_RMS'
   
+  
+  
+  ;Output Rate NetCDF file
+  ofile=opath+PATH_SEP()+'offset.grd'
+  id = NCDF_CREATE(ofile, /CLOBBER)
+  ; Fill the file with default values:
+  Ncdf_control, id, /FILL
+  xid = NCDF_DIMDEF(id, 'lon', onx)    ; Make dimensions.
+  yid = NCDF_DIMDEF(id, 'lat', ony)    ; Make dimensions.
+  zid = NCDF_DIMDEF(id, 'z', onx*ony)
+  ;  zeid = NCDF_DIMDEF(id, 'ze', onx*ony)
+  ; Define variables:
+  aid = NCDF_VARDEF(id, 'lon', [xid], /double)
+  bid = NCDF_VARDEF(id, 'lat', [yid], /double)
+  vid = NCDF_VARDEF(id, 'LOS_Offset', [xid,yid], /double)
+  ;  veid = NCDF_VARDEF(id, 'LOS_Offset_Err', [xid,yid], /double)
+  NCDF_ATTPUT, id, aid, 'units', 'degree_east'
+  NCDF_ATTPUT, id, aid, 'long_name', 'Longitude'
+  NCDF_ATTPUT, id, bid, 'units', 'degree_north'
+  NCDF_ATTPUT, id, bid, 'long_name', 'Latitude'
+  NCDF_ATTPUT, id, vid, 'units', 'mm'
+  NCDF_ATTPUT, id, vid, 'long_name', 'InSAR LOS Displacement'
+  ;  NCDF_ATTPUT, id, veid, 'units', 'mm'
+  ;  NCDF_ATTPUT, id, veid, 'long_name', 'InSAR LOS Displacement Error Estimate'
+  NCDF_ATTPUT, id, /GLOBAL, 'Title', 'LOS_OFFSET'
+  ; Put file in data mode:
+  Ncdf_control, id, /ENDEF
+  ; Input data:
+  NCDF_VARPUT, id, aid, olon
+  NCDF_VARPUT, id, bid, olat
+  ;NCDF_VARPUT, id, vid, oOffsets
+  ;NCDF_VARPUT, id, vid, oAnnAmps
+  ;NCDF_VARPUT, id, veid, oOffsetErrs
+  NCDF_CLOSE, id ; Close the NetCDF file.
   
   IF out_plot EQ 1 THEN BEGIN
     jfile=opath+PATH_SEP()+'site_map.jpg'

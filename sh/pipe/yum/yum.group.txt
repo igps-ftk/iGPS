@@ -1,0 +1,1 @@
+yum groupinstall "Console Internet Tools" "GNOME Desktop" "Server with GUI" "Development Tools" "Compatibility Libraries" "Legacy UNIX Compatibility" "System Administration Tools" "Console Internet Tools" "GNOME Desktop" "Server with GUI" "Development Tools" "Console Internet Tools" "GNOME Desktop"

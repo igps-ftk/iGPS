@@ -1,0 +1,57 @@
+#!/bin/sh
+
+echo "Please run this script in the root directory of the processing experiment."
+
+if [ "$esa_data" = "" ]; then
+    echo "[ERROR]ESA environment variable esa_data must be set first! Stopped."
+    exit 1
+fi
+
+if [ ! -s ./topo/dem.grd ]; then
+    echo "DEM file ./topo/dem.grd is mondatory! Stopped."
+    exit 1
+fi
+
+
+if [ "$1" == "" ]; then
+    echo "Usage: ./run_batch file [iw_type]"
+    exit
+fi
+file=`pwd`/$1
+
+iw_typ=iw2
+if [ "$2" != "" ]; then
+    iw_typ=$2
+fi
+
+mkdir -p raw_orig
+rm ./raw_orig/*.tiff
+cd raw_orig
+pwd
+sh_esa_s1_link_raworig $file $iw_typ
+rm ../raw_orig/*.EOF
+sh_esa_s1_link_orb3 >& tiff_EOF.list
+cd ..
+
+mkdir -p raw
+cd raw
+rm ../raw/*.xml
+sh_esa_s1_prep_prep $file $iw_typ
+cd ..
+pwd
+./0README_prep-1.txt >& log.prep1
+gmt psconvert -A -Tejf baseline.ps
+cd raw/
+rm *.PRM* *.SLC *.LED
+cd ..
+pwd
+./1README_prep-2.txt >& log.prep2
+pwd
+#sh_esa_s1_prep_proc $file $iw_typ
+#sh_esa_s1_prep_proc_baseline -file baseline_table.dat -max_dist 250 -min_interval 300
+#sh_esa_s1_prep_proc_baseline_sort -file baseline_table.dat
+sh_esa_s1_prep_proc_time_sort -file baseline_table.dat
+./2README_proc.txt >& log.proc
+
+sh_esa_s1_prep_sbas
+./3README_sbas.txt >& log.sbas

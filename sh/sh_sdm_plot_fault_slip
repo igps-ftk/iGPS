@@ -1,0 +1,406 @@
+#!/bin/sh
+
+# Name:
+#   plot_grid_stacked_corr
+#   
+
+# Purpose:
+#   Overlay fine grid (10*10) on top of coaser grid (50*50)
+#		Only half Y space
+#   Not remove column means
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+gmtset FONT_ANNOT_PRIMARY              = 8p,Helvetica,black
+gmtset MAP_LABEL_OFFSET                = 0.2c
+gmtset MAP_ANNOT_OFFSET_PRIMARY        = 0.2c
+gmtset MAP_TITLE_OFFSET                = 0.2c
+gmtset FONT_LABEL                      = 8p,Helvetica,black
+gmtset MAP_TICK_LENGTH_PRIMARY         = -0.12c
+gmtset MAP_FRAME_WIDTH                 = 1p
+gmtset PS_MEDIA                        = a3
+
+gmtset FONT_TITLE = 12p
+
+
+ofile=f-06.ps
+
+
+colortable=no_green
+colortable=cyclic
+makecpt -C${colortable} -T-10/10/.1 -Z -I > my_disp.cpt
+
+spacing=.006
+spacing=.003
+#spacing=.02
+half_spacing=`echo $spacing | awk '{print $1/2}'`
+X_MAX=92.9
+Y_MAX=30.3
+X_MIN=91.8
+Y_MIN=29.4
+
+X_MAX=92.43
+Y_MAX=29.89
+X_MIN=92.27
+Y_MIN=29.75
+
+#R=-R85.9/86.8/33.95/34.7
+#-R86.2/86.34/34.24/34.4
+X_MAX=86.34
+Y_MAX=34.4
+X_MIN=86.2
+Y_MIN=34.24
+
+
+#R=-R85.9/86.8/33.95/34.7
+#-R86.2/86.34/34.24/34.4
+X_MAX=86.34
+Y_MAX=34.4
+X_MIN=86.2
+Y_MIN=34.24
+
+X_MAX=92.43
+Y_MAX=29.89
+X_MIN=92.27
+Y_MIN=29.75
+
+##maoniupo
+#X_MAX=86.34
+#Y_MAX=34.4
+#X_MIN=86.2
+#Y_MIN=34.24
+
+#rect=[121,22.7,  121.2, 22.85];sse taitung
+X_MAX=121.2
+Y_MAX=22.85
+X_MIN=121.
+Y_MIN=22.7
+
+
+xmin=`echo $X_MIN $half_spacing | awk '{print $1+$2}'`
+ymin=`echo $Y_MIN $half_spacing | awk '{print $1+$2}'`
+xmax=`echo $X_MAX $half_spacing | awk '{print $1-$2}'`
+ymax=`echo $Y_MAX $half_spacing | awk '{print $1-$2}'`
+
+###(a) co-seismic field
+####ascending
+#####steady rate
+##file=/cygdrive/d/gsar/asc/xiangyang_boruo1/asc_F2/SBAS5/x1/raw.flt.resi/VEL.MODEL
+##echo "" > .tmp_rate
+##grep "^ " $file | grep -iv nan | awk '{print $2,$3,$6}' >> .tmp_rate
+##echo "xyz2grd .tmp_rate -I${spacing}/${spacing}  -R${xmin}/${xmax}/${ymin}/${ymax} -Gtmp-rate-steady.grd"
+##xyz2grd .tmp_rate -I${spacing}/${spacing}  -R${xmin}/${xmax}/${ymin}/${ymax} -Gtmp-rate-steady-asc.grd
+##
+##
+###transient rate
+##file=/cygdrive/d/gsar/asc/xiangyang_boruo1/asc_F2/SBAS6/x10/coseismic.txt
+##echo "" > .tmp_rate
+##grep "^ " $file | grep -iv nan | awk '{print $1,$2,$3*1000}' >> .tmp_rate
+##echo "xyz2grd .tmp_rate -I${spacing}/${spacing}  -R${xmin}/${xmax}/${ymin}/${ymax} -Gtmp-rate-transient.grd"
+##xyz2grd .tmp_rate -I${spacing}/${spacing}  -R${xmin}/${xmax}/${ymin}/${ymax} -Gtmp-rate-transient-asc.grd
+##
+###descending transient rate
+##file=/cygdrive/d/gsar/des/buruo2/des_F2/SBAS4/x10/coseismic.txt
+##echo "" > .tmp_rate
+##grep "^ " $file | grep -iv nan | awk '{print $1,$2,$3*1000}' >> .tmp_rate
+##echo "xyz2grd .tmp_rate -I${spacing}/${spacing}  -R${xmin}/${xmax}/${ymin}/${ymax} -Gtmp-rate-transient.grd"
+##xyz2grd .tmp_rate -I${spacing}/${spacing}  -R${xmin}/${xmax}/${ymin}/${ymax} -Gtmp-rate-transient-des.grd
+##
+###makecpt -Cno_green -T-10/10/.1 -Z -I > my_disp.cpt
+##grd2kml.csh tmp-rate-steady-asc my_disp.cpt
+##grd2kml.csh tmp-rate-transient-asc my_disp.cpt
+##grd2kml.csh tmp-rate-transient-des my_disp.cpt
+##
+##
+##datatype=steady-asc
+##datatype=transient-asc
+###datatype=transient-des
+
+
+colortable=rainbow
+colortable=
+#colortable=seafloor
+colortable=globe
+#colortable=gebco
+#colortable=etopo1
+#colortable=dem3
+colortable=gray
+#colortable=relief
+#colortable=cyclic
+#colortable=panoply
+#colortable=sealand
+#colortable=topo
+makecpt -C${colortable} -T-2500/6800/5 -Z > mytopo.cpt
+
+
+
+
+
+
+
+R=-R${X_MIN}/${X_MAX}/${Y_MIN}/${Y_MAX}
+
+#X_MAX=92.43
+#Y_MAX=29.89
+#X_MIN=92.27
+#Y_MIN=29.75
+#R=-R92/92.6/29.6/30
+	B=-B.04f.02/.04f.02
+	
+	
+path=/cygdrive/c/Downloads/esa.data/topo/srtm1/mila
+	path='/cygdrive/c/Downloads/esa.data/topo/srtm1/maoniupo'
+path="${GMT_pub}/dem.gmt/ETOPO1_Ice_g_gmt4"
+#path=/h1/ftp/dem.gmt/ETOPO1_Ice_g_gmt4
+	#path='/g4d/esa.data/topo/srtm1/maoniupo'
+	#path="/cygdrive/c/dem.gmt/envi.dem.min"
+	#path=/acd0/backup/G/dem.gmt/srtm30.3m/
+	gfiles=`find $path -maxdepth 1 -name "*.grd"`
+	echo $gfiles
+	#exit
+	fir=1
+	for gfile in $gfiles; do
+	  tfile=`basename $gfile`-${fir}
+	  grdclip $gfile  -G${tfile} $R -Sb-9999/NaN
+		grdgradient $tfile -A50  -Ne.316 -Gshaded.grd # -Ishaded.grd
+	    if [ $fir -eq 1 ]; then
+	    echo "grdimage $tfile -Cmytopo.cpt $R -JQ3.3i ${B}:."":WSEN -K -P > ${ofile}"
+		grdimage $tfile -Y6i -Cmytopo.cpt $R -JQ3i    ${B}:"":/10f5:""::."":WSEN -K -P   > ${ofile}
+		fir=0
+	    else
+		echo "grdimage $gfile -Cmytopo.cpt -R -JQ -B  -K -O >> ${ofile}"
+		grdimage $tfile -Cmytopo.cpt -R -JQ -Ishaded.grd  -K -O >> ${ofile}
+	    fi
+	done
+	
+#pscoast  $R -JQ3.3i  -B30f10g10/20f10g10:."":WSEN -Glightgray -Wlightgray -P  -JQ  -V  -K  > ${ofile}
+#pscoast  -R -Dh -N1 -J -Slightgray -Wlightgray   -K -O  >> ${ofile}
+
+
+file=tmp-rate-${datatype}.grd
+file=disp_obs.grd
+grdimage  -R -Cmy_disp.cpt -J -O -K $file -Q >> $ofile
+#grdcontour  -R -C1 -J -O -K $file   >> $ofile
+grdcontour  -R -C1 -A5+f7p -J -O -K $file   >> $ofile
+
+pscoast  -R -Dh  -J -Slightgray -Wlightgray   -K -O  >> ${ofile}
+
+
+cat ./slip.dat | grep -v lat | awk '{print $2,$1}' > .tmp_fa_grid
+psxy -R -J -O -K .tmp_fa_grid -Sc.04c -W.25p -Gblack >> $ofile
+
+cat ./slip.dat | grep -v lat | awk '{if($5==.5){print $2,$1}}' > .tmp_fa_trace
+psxy -R -J -O -K .tmp_fa_trace -W.5p,blue,- >> $ofile
+
+file=../../vector/fa_guess_maoniupo.psxy
+#psxy -R -J -O -K $file -W2p,black,- >> $ofile
+pstext <<EOF -R -JQ  -F+f+a+j -O -K  >> $ofile
+86.21 34.39 9 0 LB (a)
+EOF
+
+#pscoast  -R -Df -JQ  -V  -K -O -T92.8/30.1/.5i -L92/29.25/20/20+lkm -Wblack >> ${ofile}
+psscale -D2.2i/.4i/2c/.23ch  -O -Cmy_disp.cpt -K -B10f5::/:"mm":  >> $ofile
+##
+
+echo add this
+#psxy -R -J -Sa.44c -W.5p,white -Gblue -O -K <<eof >> $ofile
+#86.23611    34.31750
+#eof
+
+file=/cygdrive/d/gsar/asc/xiangyang_boruo1/asc_F2/SBAS6/x10/raw.flt/00lj.neu
+#file=/cygdrive/d/gsar/des/buruo2/des_F2/SBAS4/x10/raw.flt/00rh.neu
+#grep '^ ' $file | awk '{print $1,$4*1000}' > .tmp
+#psxy -R2014.8/2017.5/-20/2 -JX1.2i/.5i -B1f.08333:"":/5f1:"LOS(mm)"::."":EN -Sc.08c -W.5p -Gwhite -O -K .tmp >> $ofile
+
+echo add this 2
+#psxy -R -J -O -K -W.5p,blue <<eof >> $ofile
+#2016.606557377 -1000
+#2016.606557377 1000
+#eof
+#exit
+
+
+
+
+
+
+
+echo slip
+
+file=./slip.dat
+
+sed -n '2,$p' $file | awk '{print $2,$1,$5*1}' > _modeled.xyz
+sed -n '2,$p' $file | awk '{print $2,$1,$4*1}' > _resi.xyz
+sed -n '2,$p' $file | awk '{print $4,$5,$9*1000}' > _dip.xyz
+sed -n '2,$p' $file | awk '{print $4,$5,$8*1000,$9*1000,0,0,0,0}' > _strkdip
+sed -n '2,$p' $file | awk '{print $4,$5,sqrt($8*$8+$9*$9)*1000}' > _strkdip_mag
+
+
+
+#(b)
+
+echo 'b'
+I=-I20s/20s
+R=`minmax ${I} _modeled.xyz`
+#xyz2grd _modeled.xyz $R ${I}  -Gdisp_modeled.grd 
+#xyz2grd _resi.xyz $R ${I}  -Gdisp_resi.grd 
+
+
+I=-I1.0143/2
+I=-I1./2
+#I=-I0.2970/0.2985
+R=`minmax ${I} _dip.xyz`
+#R=-R0/40/0/40
+echo $R
+
+#xyz2grd _dip.xyz $R ${I}  -Gdisp_dip.grd 
+echo "xyz2grd _strkdip_mag $R ${I}  -Gdisp_dip.grd "
+xyz2grd _strkdip_mag $R ${I}  -Gdisp_dip.grd 
+#xyz2grd _modeled.xyz $R ${I} -r -fg -Gdisp_modeled.grd -bi3f
+#xyz2grd _resi.xyz $R ${I} -r -fg -Gdisp_resi.grd -bi3f
+
+gmt makecpt -Cjet -T-0/225/.1 -Z -I> my_disp2.cpt
+
+
+
+
+file=disp_dip.grd
+R=`gmtinfo -C $I disp_dip.grd`
+echo $R
+#exit
+#R=-R-0/40/0/40
+#grdimage  -R -Cmy_disp.cpt -J -O -K $file -Q >> $ofile  
+grdimage    $R -X4.5i -JX3.i/-3.5i -B4f2:"Fault Strike (km)":/4f2:"Dip (km)"::."":WSEN -Cmy_disp2.cpt -O -K $file -Q >> $ofile
+#grdcontour  -R -C5 -A10+f7p -J -O -K $file   >> $ofile
+
+#psvelo -R -J -O -K _strkdip >> $ofile
+
+psvelo -R -J -W0.25p,purple -Gyellow -Se.01/0.95/0   -L -A6p+e -V _strkdip -O -K>> $ofile
+
+#pscoast  -R -Dh  -J -Slightgray -Wlightgray   -K -O  >> ${ofile}
+
+
+pstext <<EOF -R -J  -F+f9p,black+a0+j0 -Gwhite -O -K  >> $ofile
+1 1.5  (b)
+EOF
+
+#pscoast  -R -Df -JQ  -V  -K -O -T92.8/30.1/.5i -L92/29.25/20/20+lkm -Wblack >> ${ofile}
+psscale -D2i/.4i/2c/.23ch  -O -Cmy_disp2.cpt -K -B20f10::/:"mm":  >> $ofile
+##
+
+
+
+
+
+
+#(c)
+echo 'c'
+
+#gmt makecpt -Cjet -T-10/10/.1 -Z -I> my_disp.cpt
+R=-R${X_MIN}/${X_MAX}/${Y_MIN}/${Y_MAX}
+	B=-B.04f.02/.04f.02
+
+	fir=1
+	for gfile in $gfiles; do
+	  tfile=`basename $gfile`-${fir}
+	  #grdclip $gfile  -G${tfile} $R -Sb-9999/NaN
+		grdgradient $tfile -A50  -Ne.316 -Gshaded.grd # -Ishaded.grd
+	    if [ $fir -eq 1 ]; then
+	    echo "grdimage $tfile -Cmytopo.cpt $R -JQ3.3i ${B}:."":WSEN -K -P > ${ofile}"
+		grdimage $tfile -Y-4.5i -X-4.5i -Cmytopo.cpt $R -JQ3i    ${B}:"":/10f5:""::."":WSEN -K -O   >> ${ofile}
+		fir=0
+	    else
+		echo "grdimage $gfile -Cmytopo.cpt -R -JQ -B  -K -O >> ${ofile}"
+		grdimage $tfile -Cmytopo.cpt -R -JQ -Ishaded.grd  -K -O >> ${ofile}
+	    fi
+	done
+	
+###pscoast  $R -JQ3.3i  -B30f10g10/20f10g10:."":WSEN -Glightgray -Wlightgray -P  -JQ  -V  -K  > ${ofile}
+###pscoast  -R -Dh -N1 -J -Slightgray -Wlightgray   -K -O  >> ${ofile}
+##
+##	
+file=disp_modeled.grd
+grdimage  -R -Cmy_disp.cpt -J -O -K $file -Q >> $ofile
+###grdimage  -R -Cmy_disp.cpt -J -O -K $file -Q >> $ofile  
+###grdimage    $R -Y-4.5i -X-4i -JQ3i ${B}:"":/10f5:""::."":WSEN -Cmy_disp.cpt -O -K $file -Q >> $ofile
+#grdcontour  -R -C1 -A5+f7p -J -O -K $file   >> $ofile
+##
+###pscoast  -R -Dh  -J -Slightgray -Wlightgray   -K -O  >> ${ofile}
+##
+
+file=../../vector/fa_guess_maoniupo.psxy
+#psxy -R -J -O -K $file -W2p,black,- >> $ofile
+
+pstext <<EOF -R -JQ  -F+f+a+j -O -K  >> $ofile
+86.21 34.39 9 0 0 (c)
+EOF
+
+psscale -D2.2i/.4i/2c/.23ch  -O -Cmy_disp.cpt -K -B10f5::/:"mm":  >> $ofile
+
+
+
+
+
+
+
+
+#(d)
+echo 'd'
+R=-R${X_MIN}/${X_MAX}/${Y_MIN}/${Y_MAX}
+	B=-B.04f.02/.04f.02
+
+	fir=1
+	for gfile in $gfiles; do
+	  tfile=`basename $gfile`-${fir}
+	  #grdclip $gfile  -G${tfile} $R -Sb-9999/NaN
+		grdgradient $tfile -A50  -Ne.316 -Gshaded.grd # -Ishaded.grd
+	    if [ $fir -eq 1 ]; then
+	    echo "grdimage $tfile -Cmytopo.cpt $R -JQ3.3i ${B}:."":WSEN -K -P > ${ofile}"
+		grdimage $tfile  -X4.5i -Cmytopo.cpt $R -JQ3i    ${B}:"":/10f5:""::."":WSEN -K -O   >> ${ofile}
+		fir=0
+	    else
+		echo "grdimage $gfile -Cmytopo.cpt -R -JQ -B  -K -O >> ${ofile}"
+		grdimage $tfile -Cmytopo.cpt -R -JQ -Ishaded.grd  -K -O >> ${ofile}
+	    fi
+	done
+	
+###pscoast  $R -JQ3.3i  -B30f10g10/20f10g10:."":WSEN -Glightgray -Wlightgray -P  -JQ  -V  -K  > ${ofile}
+###pscoast  -R -Dh -N1 -J -Slightgray -Wlightgray   -K -O  >> ${ofile}
+##
+##	
+file=disp_resi.grd
+grdimage  -R -Cmy_disp.cpt -J -O -K $file -Q >> $ofile
+###grdimage  -R -Cmy_disp.cpt -J -O -K $file -Q >> $ofile  
+###grdimage    $R -Y-4.5i -X-4i -JQ3i ${B}:"":/10f5:""::."":WSEN -Cmy_disp.cpt -O -K $file -Q >> $ofile
+grdcontour  -R -C1 -A5+f7p -J -O -K $file   >> $ofile
+##
+###pscoast  -R -Dh  -J -Slightgray -Wlightgray   -K -O  >> ${ofile}
+##
+file=../../vector/fa_guess_maoniupo.psxy
+#psxy -R -J -O -K $file -W2p,black,- >> $ofile
+
+pstext <<EOF -R -JQ  -F+f+a+j -O -K  >> $ofile
+86.21 34.39 9 0 0 (d)
+EOF
+
+psscale -D2.2i/.4i/2c/.23ch  -O -Cmy_disp.cpt -K -B10f5::/:"mm":  >> $ofile
+
+fig_cap="Figure 6"
+#fig_cap="LOS Rate Map by Sentinel-1 [${orb}] Using GMT5SAR Time Series Analysis (SBAS) (Positive: move towards satellite (des-right; asc-left) )"
+pstext -R0/100/0/100 -JX7.5i -F+f+a+j  -Y-.9i -X-4.5i -O  <<end >> $ofile
+50 2 8 0 2 ${fig_cap}
+end
+
+
+ps2raster -A -Tj $ofile
+ps2raster -A -Tf $ofile

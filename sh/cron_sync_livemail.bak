@@ -1,0 +1,53 @@
+#!/bin/sh
+
+# Name:
+#   cron_sync_livemail
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+# 
+  
+PROG=cron_sync_livemail
+
+. ${HOME}/.bashrc
+
+
+if [ "$igps_arp" = "" ]; then
+    echo "iGPS environment variable igps_arp not set! Stopped!!"
+    exit 1
+fi
+
+
+
+echo "[$PROG]INFO: running at `date`"
+
+rsync -avP win7vmcn:/cygdrive/d/livemail ${HOME}/
+python /home/tianyf/iGPS/sh/eml2txt.py 
+
+#convert files form DOS-style to Unix line-ending
+echo "[$PROG]INFO: convert DOS to UNIX if needed"
+find "/home/tianyf/livemail/163 (igps_s dbf/Inbox/" -name "*.txt" > .tmp.files
+while read file ; do
+    line_ending=`cat -v "$file" | head -1 | awk '{print substr($0,length($0)-1)}'`
+    echo "[$PROG]INFO: line_ending is $line_ending"
+    if [ "$line_ending" = '^M' ]; then
+        echo "[$PROG]INFO: converting DOS text file to Linux/Unix line-ending format ($file) ..."
+        dos2unix "$file"
+    fi
+done < .tmp.files
+rm -rf .tmp.files
+
+rsync -avP ${igps_arp}/events/*.txt jiang@210.31.68.9:/cygdrive/d/esa.data/arp/events/
+

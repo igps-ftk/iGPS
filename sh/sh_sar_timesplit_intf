@@ -1,0 +1,146 @@
+#!/bin/sh
+
+# Name:
+#   sh_sar_timesplit_intf
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+
+PROG=sh_sar_timesplit_intf
+
+path_old=`pwd`
+
+usage(){
+  echo "[$PROG]Usage: ${PROG} -f|-file FILE"
+  echo "[$PROG]Usage:         -dt|-data_type LIST_TYPE"
+  echo "[$PROG]Usage:         -d|-date YYYYMMDD"
+  echo "[$PROG]Usage:         -m|-mode 1|2|3"
+  echo "[$PROG]Usage:    mode:"
+  echo "[$PROG]Usage:      1-left only;"
+  echo "[$PROG]Usage:      2-one left and one right;"
+  echo "[$PROG]Usage:      3; right only"
+
+  echo "[$PROG]Usage: e.g.,"
+  echo "[$PROG]Usage:  "
+}
+
+file=intf.in
+data_type=in #in-intf.in   list-list of intf_all
+date_split=
+mode_split=2 # 1-left only; 2-one left and one right; 3; right only
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -f|-file)
+      file=$2
+      ;;
+    -dt|-data_type)
+      data_type=$2
+      ;;
+    -d|-date)
+      date_split=$2
+      ;;
+    -m|-mode)
+      mode_split=$2
+      ;;
+    *)
+      echo "[$PROG]ERROR: invalid option ($1)!!"
+      usage
+      exit 1
+      ;;
+  esac
+  shift 2  
+done
+
+if [ ! -s $file ]; then
+  echo "[$PROG]ERROR: file $file not exist!!"
+  exit 1
+fi
+
+if [ "$data_type" != "in"  -a "$data_type" != "list" ]; then
+  echo "[$PROG]ERROR: wrong data type ($data_type vs. in/list)!!"
+  exit 1
+fi
+
+len_d=`echo $date_split | awk '{print length($1)}'`
+#echo len_d $len_d
+if [ $len_d -eq 7 ]; then
+  year_split=`echo $date_split | awk '{print substr($1,1,4)}'`
+  doyr_split=`echo $date_split | awk '{print substr($1,5,3)}'`
+  dyr_split=`doy $year_split $doyr_split | tail -1 | awk '{print $3}'`
+elif [ $len_d -eq 8 ]; then
+  year_split=`echo $date_split | awk '{print substr($1,1,4)}'`
+  mon_split=`echo $date_split | awk '{print substr($1,5,2)}'`
+  day_split=`echo $date_split | awk '{print substr($1,7,2)}'`
+  dyr_split=`doy $year_split $mon_split $day_split | tail -1 | awk '{print $3}'`
+else
+  echo "[$PROG]ERROR: wrong splitting date !!"
+  exit 1
+fi
+
+#echo dyr_split $dyr_split
+
+while read line; do
+  #echo checking $line
+  if [ "$data_type" == "in" ]; then
+    # S1_20150808_ALL_F1:S1_20150925_ALL_F1
+    year1=`echo $line | awk -F: '{print substr($1,4,4)}'`
+    mon1=`echo $line | awk -F: '{print substr($1,8,2)}'`
+    day1=`echo $line | awk -F: '{print substr($1,10,2)}'`
+    dyr1=`doy $year1 $mon1 $day1 | tail -1 | awk '{print $3}'`
+    year2=`echo $line | awk -F: '{print substr($2,4,4)}'`
+    mon2=`echo $line | awk -F: '{print substr($2,8,2)}'`
+    day2=`echo $line | awk -F: '{print substr($2,10,2)}'`
+    dyr2=`doy $year2 $mon2 $day2 | tail -1 | awk '{print $3}'`
+  fi
+
+  if [ "$data_type" == "list" ]; then
+    #2015219_2015267
+    year1=`echo $line | awk -F_ '{print substr($1,1,4)}'`
+    doyr1=`echo $line | awk -F_ '{print substr($1,5,3)+1}'`
+    dyr1=`doy $year1 $doyr1 | tail -1 | awk '{print $3}'`
+    year2=`echo $line | awk -F_ '{print substr($2,1,4)}'`
+    doyr2=`echo $line | awk -F_ '{print substr($2,5,3)+1}'`
+    dyr2=`doy $year2 $doyr2 | tail -1 | awk '{print $3}'`
+  fi
+
+  #echo dyr1 $dyr1 dyr2 $dyr2
+
+  case $mode_split in
+    1)
+      is_split=`echo $dyr1 $dyr_split $dyr2 | awk '{if($1<$2&&$2>$3){print 1}else{print 0}}'`
+      ;;
+    2)
+      is_split=`echo $dyr1 $dyr_split $dyr2 | awk '{if(($1<$2&&$2<$3)||($1>$2&&$2>$3)){print 1}else{print 0}}'`
+      ;;
+    3)
+      is_split=`echo $dyr1 $dyr_split $dyr2 | awk '{if($1>$2&&$2<$3){print 1}else{print 0}}'`
+      ;;
+    *)
+      echo "[]ERROR: wrong splitting mode ($mode_split)!!"
+      exit 1
+  esac
+
+  #echo is_split $is_split
+  if [ $is_split -eq 1 ]; then
+    echo $line
+    #echo $year1 $mon1 $day1 $year2 $mon2 $day2
+    #echo $dyr1 $dyr_split $dyr2 
+  fi
+  #exit
+done < $file
+

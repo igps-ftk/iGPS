@@ -56,8 +56,12 @@ while read line; do
 	echo "INFO:already done [${esa_unzip}/${ofile}]. Skipped."
 	continue
     fi
-    echo "unzip ${ALOS_DATA}/${dfile}"
-    unzip ${ALOS_DATA}/${dfile} -x *IMG-HV-* -d ${esa_unzip}
+    #echo "unzip ${ALOS_DATA}/${dfile}"
+    #echo "unzip ${ALOS_DATA}/${dfile} -x *IMG-HV-* -d ${esa_unzip}/${ofile}/"
+    echo "unzip ${ALOS_DATA}/${dfile}  -d ${esa_unzip}/${ofile}/"
+    echo "unzip ${ALOS_DATA}/${dfile}  -d ${esa_unzip}/${ofile}/" | sh
+
+
     #exit
 done < .tmp
 

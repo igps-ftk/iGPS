@@ -33,11 +33,24 @@ if [ "$1" == "" ]; then
 fi
 file=$1
 
-mkdir -p ${esa_data}/aux_resorb/
-grep -v '^#' $file > ${esa_data}/aux_resorb/.tmp
-cd ${esa_data}/aux_resorb/
+orb_type=`head -1 $file | awk -F\/ '{print tolower(substr($4,1,3))}'`
+echo "orb_type $orb_type"
+mkdir -p ${esa_data}/aux_${orb_type}orb/
+grep -v '^#' $file > ${esa_data}/aux_${orb_type}orb/.tmp
+cd ${esa_data}/aux_${orb_type}orb/
 while read line ; do
-  wget -c --no-check-certificate $line
-  #exit
-done < ${esa_data}/aux_resorb/.tmp
+    year=`basename $line | awk -F_ '{print substr($7,2,4)}'`
+    echo $year
+    opath_t=${esa_data}/aux_${orb_type}orb/${year}
+    if [ ! -d $opath_t ] ; then
+	echo mkdir $opath_t
+	echo mkdir $opath_t | sh
+    fi
+    cd $opath_t
+    pwd
+
+    echo wget -c --no-check-certificate $line
+    echo wget -c --no-check-certificate $line | sh
+    #exit
+done < ${esa_data}/aux_${orb_type}orb/.tmp
 

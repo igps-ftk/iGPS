@@ -30,6 +30,23 @@
 #   *Lines of data.in and scene.tab1 should correspond.
 
 prog=sh_esa_s1_intf_in_get_remain
+image_type=los_ll.png
+image_type=phasefilt_mask_ll.png
+image_type=_ll.png
+
+while [ "$1" != "" ]; do
+    case $1 in
+        -image_type)
+            image_type=$2
+            ;;
+        *)
+            echo "[]ERROR: invalid option $1"
+            exit 1
+            ;;
+       esac
+    shift 2
+done 
+
 
 if [ ! -s intf.in ]; then
     echo "[${prog}]ERROR:intf.in not exist!!"
@@ -57,9 +74,11 @@ if [ $ns -ne $nd ]; then
     exit 1
 fi
 
-days=`ls -lS intf_all_los_ll_png/*-los_ll.png | awk '{print $9}'|awk -F/ '{print $2}' | awk -F- '{print $1}'`
+#days=`ls -lS intf_all_los_ll_png/*-${image_type}.png | awk '{print $9}'|awk -F/ '{print $2}' | awk -F- '{print $1}'`
 #days=`ls -lS intf_all_los_ll_png/*-phasefilt_mask_ll.png | awk '{print $9}'|awk -F/ '{print $2}' | awk -F- '{print $1}'`
-
+days=`ls -lS intf_all_los_ll_png/*${image_type}* | awk '{print $9}'|awk -F/ '{print $2}' | awk -F- '{print $1}'`
+echo $days
+#exit
 
 rm -f intf.in.rem
 while read day; do
@@ -75,7 +94,7 @@ while read day; do
     ##n2=`grep -n $day2 data.in | awk -F: '{print $1}'`
     ##ymd2=`sed -n "${n2}p" scene.tab1 | awk '{print $1}'`
     
-    day1=`echo $day | awk -F: '{print $1}' | awk -F_ '{print substr($1,4)}'`
+    day1=`echo $day | awk -F: '{print $1}' | awk '{print substr($1,4,8)}'`
     year1=`echo $day1 | awk '{print substr($1,1,4)}'`
     mm1=`echo $day1 | awk '{print substr($1,5,2)}'`
     dd1=`echo $day1 | awk '{print substr($1,7,2)-1}'`
@@ -84,7 +103,7 @@ while read day; do
     #n1=`grep -n $day1 data.in | awk -F: '{print $1}'`
     #ymd1=`sed -n "${n1}p" scene.tab1 | awk '{print $1}'`
     #
-    day2=`echo $day | awk -F: '{print $2}' | awk -F_ '{print substr($1,4)}'`
+    day2=`echo $day | awk -F: '{print $2}' | awk '{print substr($1,4,8)}'`
     year2=`echo $day2 | awk '{print substr($1,1,4)}'`
     mm2=`echo $day2 | awk '{print substr($1,5,2)}'`
     dd2=`echo $day2 | awk '{print substr($1,7,2)-1}'`
@@ -93,8 +112,14 @@ while read day; do
     #n2=`grep -n $day2 data.in | awk -F: '{print $1}'`
     #ymd2=`sed -n "${n2}p" scene.tab1 | awk '{print $1}'`
     echo $ymd1 $ymd2 $n1 $n2 $day1 $day2
-    if [ -s ./intf_all_los_ll_png/${ymd1}_${ymd2}-los_ll.png ]; then
-	echo "[]WARNING:./intf_all_los_ll_png/${ymd1}_${ymd2}-los_ll.png exist! skip"
+    pwd
+    tmp=`find ./intf_all_los_ll_png/ -maxdepth 1 -name "${ymd1}_${ymd2}-*${image_type}*"`
+    #echo tmp is $tmp
+    #echo string is "${ymd1}_${ymd2}-*${image_type}*"
+    if [ "$tmp" != "" ]; then
+    ##if [ -s ./intf_all_los_ll_png/${ymd1}_${ymd2}-${image_type} ]; then
+	echo "[]WARNING:./intf_all_los_ll_png/${ymd1}_${ymd2}-${image_type} exist! skip"
+        #exit
 	continue
     else
 	echo $day >> intf.in.rem

@@ -1,11 +1,11 @@
 *   SRC: D:\iGPS\example\sar\xyz_profiles\xyz\meanvel_01.txt &
 *   SRC: D:\iGPS\example\sar\xyz_profiles\p\profiles_auto.psxy
-*  PROG: SAR_LOS_PROFILES_AUTO_XYZ
+*  PROG: SAR_LOS_PROFILES_AUTO_LLV
 *RUN BY: tianyf @ T [Intel64 Family 6 Model 61 Stepping 4, GenuineIntel]
 *RUN AT: Microsoft Windows x86_64
-*RUN ON: Wed Jul 26 02:20:45 2017 [UTC]
-# PSXY_PROFILE    90.333    31.933
-# PSXY_PROFILE    92.702    29.191
+*RUN ON: Wed Oct 24 06:12:16 2018 [UTC]
+# PSXY_PROFILE    90.841    31.345
+# PSXY_PROFILE    92.195    29.779
 # PSXY_FAULT_PROFILE_INTERSECT    91.518    30.562
 # PSXY_FAULT_TRACE    91.628    31.220
 # PSXY_FAULT_TRACE    91.618    30.960
@@ -19,6 +19,19 @@
 # PSXY_FAULT_TRACE    90.046    28.660
 # PSXY_FAULT_TRACE    89.515    28.124
 # PSXY_FAULT_TRACE    88.897    27.459
+*       site  -  location label
+*     p_long  -  longitude (degrees) of the shadow point
+*     p_lati  -  latitude of the shadow point
+*     p_dist  -  distance from current data point to the its shadow on the profile (i.e., the shadow point)
+*    v_along  -  velocity along the profile
+*   ve_along  -  uncertainity along the profile
+*     v_tang  -  velocity tangent to the profile
+*    ve_tang  -  uncertainity tangent to the profile
+*       long  -  longitude of data point
+*       lati  -  latitude of data point
+* dist_to_fa  -  distance from data point to the fault trace
+*      v_los  -  velocity along the los direction
+*     ve_los  -  velocity uncertainity along the los orientation
 *            site     p_long    p_lati     p_dist    v_along  ve_along     v_tang   ve_tang       long      lati dist_to_fault       v_los     ve_los
             87105     91.397    30.702       4.43       0.00      0.00       0.00      0.00     91.429    30.730    -19.419090       -3.21       0.00
             88270     91.399    30.699       3.47       0.00      0.00       0.00      0.00     91.425    30.721    -18.996308       -3.05       0.00
@@ -3330,7 +3343,7 @@
            106947     91.504    30.578       4.69       0.00      0.00       0.00      0.00     91.538    30.608     -2.199290       -0.22       0.00
            109368     91.504    30.578       4.12       0.00      0.00       0.00      0.00     91.534    30.604     -2.198462       -0.11       0.00
            108142     91.504    30.578       4.38       0.00      0.00       0.00      0.00     91.536    30.606     -2.197417       -0.26       0.00
-           107130     91.504    30.578       4.64       0.00      0.00       0.00      0.00     91.538    30.607     -2.196294       -0.17       0.00
+           107130     91.504    30.578       4.64       0.00      0.00       0.00      0.00     91.538    30.607     -2.196293       -0.17       0.00
            108338     91.504    30.578       4.34       0.00      0.00       0.00      0.00     91.536    30.606     -2.194420       -0.54       0.00
            107306     91.504    30.578       4.60       0.00      0.00       0.00      0.00     91.538    30.607     -2.193228       -0.27       0.00
            108567     91.504    30.578       4.30       0.00      0.00       0.00      0.00     91.536    30.605     -2.191424       -0.33       0.00
@@ -3889,7 +3902,7 @@
            111789     91.512    30.568       4.40       0.00      0.00       0.00      0.00     91.545    30.596     -0.875170       -0.51       0.00
            111235     91.512    30.568       4.66       0.00      0.00       0.00      0.00     91.547    30.598     -0.874057        0.08       0.00
            111334     91.512    30.568       4.62       0.00      0.00       0.00      0.00     91.546    30.598     -0.871060        0.03       0.00
-           111790     91.512    30.568       4.42       0.00      0.00       0.00      0.00     91.545    30.596     -0.856085       -0.04       0.00
+           111790     91.512    30.568       4.42       0.00      0.00       0.00      0.00     91.545    30.596     -0.856086       -0.04       0.00
            111423     91.512    30.568       4.60       0.00      0.00       0.00      0.00     91.546    30.597     -0.848978       -0.25       0.00
            111517     91.512    30.568       4.56       0.00      0.00       0.00      0.00     91.546    30.597     -0.845981       -0.01       0.00
            111791     91.512    30.568       4.44       0.00      0.00       0.00      0.00     91.545    30.596     -0.837001       -0.05       0.00

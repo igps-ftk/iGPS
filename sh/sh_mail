@@ -1,0 +1,79 @@
+#!/bin/sh
+
+# Name:
+#   sh_mail
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+PROG=sh_mail
+
+subject=
+attatchment=
+mail_to='y.f.tian@163.com'
+prog=
+text="none"
+file=
+
+host=`hostname`
+
+while [ "$1" != "" ]; do
+    case $1 in
+        -subject)
+            subject="$2"
+            ;;
+        -attatchment)
+            attatchment="$2"
+            ;;
+        -mail_to)
+            mail_to="$2"
+            ;;
+        -prog)
+            prog=$2
+            ;;
+        -text)
+            text="$2"
+            ;;
+        -file)
+            file="$2"
+            ;;
+        *)
+            echo "[$PROG]ERROR: invalid option ($1)!!"
+            exit 1
+            ;;
+    esac
+    
+    shift 2
+done
+
+if [ "$prog" != "" -a "$subject" = "" ]; then
+    subject="Job $prog finished at $host on `date`"
+else
+    subject=none
+fi
+
+echo $subject
+
+if [ "$file" != "" ]; then
+    mail -s "$subject" $mail_to < "$file"
+else
+    mail -s "$subject" $mail_to <<EOF
+"$text"
+EOF
+fi
+
+
+
+

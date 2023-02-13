@@ -88,7 +88,14 @@ PRO Llhxyz, Semi=Semi, $
       x=-1370032.80149d0
       y=  5427740.07438d0
       z=  3047623.22502d0
+      
+      x=-1486514.492053d0
+      y=  6504960.246835d0
+      z=  2348304.578123d0
+      ;19.4973461, 102.8722094, 698037.45 (degrees, degrees, meters HAE )
+      
       PRINT,'from xyz to llh ...'
+      print,'X,Y,Z (m):',x,y,z
     ENDIF ELSE BEGIN
       PRINT,'error In Llhxyz: Incorrect Parameters!'
       RETURN
@@ -182,12 +189,14 @@ PRO Llhxyz, Semi=Semi, $
   Sinlat=SIN(Alat)
   Curvn=Semi/(SQRT(1.D0-E2*Sinlat*Sinlat))
   Alat=ATAN((Z+E2*Curvn*Sinlat),Sqr)
+  print,'along:',along,' alat:',alat
   ;Iterate To The Millimeter Level
   IF (ABS(Alat-Alat0) LT 1.D-10) THEN GOTO, Label30
   Alat0=Alat
   GOTO, Label40
   Label30:
   Cutoff=80.D0*Twopi/360.D0
+  print,'cutoff:',cutoff,' alat:',alat
   IF (Alat GT Cutoff) THEN GOTO, Label50
   Hght=(Sqr/COS(Alat))-Curvn
   

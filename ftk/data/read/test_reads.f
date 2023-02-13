@@ -21,6 +21,10 @@ c     for read_poletide_bull_a
 
       character*512 headers(nmax_head),tmpstr
       integer*4 nhead
+      
+c     for read_psxy
+      real*8 xys(2,nmax_row)
+      integer*4 npts(nmax_row),nline,j1,j2  
 c$$$
 c$$$      real*8 datads607(224,464),lats(224),lons(464)
 c$$$
@@ -34,6 +38,21 @@ c$$$      real latsdsnc(nrowdsnc),timesdsnc(ntimmdsnc)
       real*8 timeso(12)
       integer nmaxlat,nmaxlon,nmaxtim,nlat,nlon,ntim
 c     ---
+      file='fa_ygr.psxy'
+      call read_psxy(file,xys,npts,nline)
+      j1=1
+      do i=1,nline
+        write(*,*) 'line:',i
+        j2=j1+npts(i)-1
+        write(*,*) 'j1,j2:',j1,j2
+        do j=j1,j2
+          write(*,*) '    ',xys(1,j),xys(2,j)
+        enddo
+        j1=j1+npts(i)
+      enddo
+
+      stop
+     
       file='/home/tianyf/tmp/tenv3/00NA.IGS08.tenv3'
       call read_tenv3(file,data,nrow,ncol)
       write(*,*) nrow,ncol,file

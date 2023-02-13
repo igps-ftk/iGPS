@@ -1,0 +1,66 @@
+#!/bin/sh
+
+# Name:
+#   sh_esa_s1_all_link_here
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+esa_root=/sar/esa.sentinel-1
+opath=${esa_root}/alll
+opath=${esa_root}/links
+
+paths=`ls ${esa_root} | grep '^[AD][0-9]'`
+#paths='D033'
+#paths=A113
+#paths=A055
+#paths=A142
+#paths=D135
+#paths="$paths ok"
+#paths='D121'
+
+for path in $paths; do
+   echo $path
+   files=`find ${esa_root}/${path}/ -maxdepth 1 -name "S1*.zip"`
+   for file in $files; do
+
+    fname=`basename $file`
+
+    #remove broken symbolic link 
+    if [[ -L "$opath/${fname}" ]] && [[ ! -a "$opath/${fname}" ]];then
+      echo "[]INFO: broken link"
+      file $opath/${fname}
+      echo "remove $opath/${fname}"
+      #\rm -rf $opath/${fname}
+    fi
+
+     #exit
+     if [ -s ${file}.aria2 ]; then
+       echo "#[]INFO: not finished files ($file)! Skipped."
+       continue
+     fi
+
+     if [ -L ${opath}/${fname} ]; then
+       continue
+     fi
+
+     echo "ln -s $file ${opath}/"
+     echo "ln -s $file ${opath}/" | sh
+   done
+done
+
+cd $opath
+ls > ../zips
+wc -l ../zips

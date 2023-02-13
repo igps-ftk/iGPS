@@ -1,0 +1,64 @@
+#!/bin/sh
+
+# Name:
+#   sh_get_in_triangle
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+
+PROG=sh_get_in_triangle
+
+path=`pwd`
+
+roi_file=roi_triangle_chuan_dian_zang.kml
+ofile=proc_triangle.list
+
+roi_file=roi_triangle_lasa_xian_nanning.kml
+ofile=proc_triangle_lasa_xian_nanning.list
+
+
+
+
+
+\rm -f $ofile
+
+kml2gmt $roi_file > _tmp_roi_triangle_chuan_dian_zang
+
+dirs=`find $path -maxdepth 1 -type d -name "[AD]*"|sort`
+#dirs='/sar/proc_gmtsar/auto_grid/A099_1275'
+for dir in $dirs; do
+  echo $dir
+
+  file=`find $dir -maxdepth 1 -type f -name "over*.kml"` 
+  if [ "$file" == "" ];then
+    continue
+  fi
+  
+  kml2gmt $file > _tmp_sh_get_in_triangle_frame
+  lon=`gmtinfo -C _tmp_sh_get_in_triangle_frame | awk '{print ($1+$2)/2}'`
+  lat=`gmtinfo -C _tmp_sh_get_in_triangle_frame | awk '{print ($3+$4)/2}'`
+  #is_point_in_polygon $lon $lat _tmp_roi_triangle_chuan_dian_zang
+  is_in=`is_point_in_polygon $lon $lat _tmp_roi_triangle_chuan_dian_zang | grep is_in | awk '{print $2}'`
+  echo $lon $lat $is_in
+  if [ $is_in -eq 1 ]; then
+    echo " `basename $dir`" >> $ofile
+    wc -l $ofile
+    #exit
+  fi
+  #exit
+done
+  

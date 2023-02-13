@@ -1,0 +1,213 @@
+#!/bin/sh
+
+# Name:
+#   sh_sar_auto_grid_rescale_vel
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+. ${HOME}/.bashrc
+
+
+PROG=sh_sar_auto_grid_rescale_vel
+
+iws='1,2,3'
+
+file_config=config.txt
+
+opath=kmls
+
+while [ "$1" != "" ]; do
+	case $1 in
+		-iw)
+			iws=$2
+			;;
+		*)
+			echo "[]ERROR: invalid option ($1)!!"
+			exit 1
+			;;
+	esac
+	shift 2
+done
+
+
+iws=`echo $iws | sed -e 's/,/ /g'`
+echo "iws: $iws"
+
+oldpath=`pwd`
+
+#mkdir -p $opath
+
+file_lock="/sar/proc_gmtsar/auto_grid/script/_tmp_${PROG}.lock"
+if [ -s $file_lock ]; then
+  echo "[$PROG]WARNING: session locked ($file_lock)!"
+  exit 1
+fi
+hostname > $file_lock
+date >> $file_lock
+
+#expts=`grep '^ ' $file | awk '{print $1}'`
+expts=`find /sar/proc_gmtsar/auto_grid -maxdepth 1 -type d -name "[AD]???_????"|sort`
+#echo $expts
+#exit
+for expt in $expts; do
+  #echo expt $expt
+  cd $oldpath
+
+
+  if [ ! -s $expt/$file_config ]; then
+    echo "[]WARNING: config file not exist ($expt/$file_config)! Skip $expt."
+    continue
+  fi
+  
+  for i in $iws; do
+    cd $oldpath
+    if [ ! -d $expt/F${i} ]; then
+      echo "[]WARNING: no data in $expt/F${i}! Skipped."
+      #pwd
+      continue
+    fi
+    cd $expt/F${i}/
+    echo "[]INFO: working in `pwd` ..."
+    path_cur=`pwd`
+    
+    #check if sbas has been done
+    is_sbas_done=0
+    sbas_dirs=`find $path_cur -maxdepth 1 -type d -name "sbas.2.0.0001.0*"`
+    for sbas_dir in $sbas_dirs; do
+    
+      file_vel=$sbas_dir/vel_mask_ll.grd
+      if [ -s $file_vel ]; then
+      
+        is_sbas_done=0
+        t2=`basename $sbas_dir | awk -F. '{print $5+0}'`
+        echo t2 $t2 $sbas_dir
+        #exit
+        cd $sbas_dir
+        pwd
+        cmin=-9999
+        file_cpt=$sbas_dir/vel.cpt
+        if [ -s $file_cpt ]; then
+          cmin=`head -1 $file_cpt | awk '{print $1}'`
+        fi
+        echo cmin $cmin
+        #exit
+        if [ $t2 -le 50 ]; then
+          if [ $cmin -eq -50 ]; then
+            is_sbas_done=1
+          else
+            T='-T-50/50/.1'
+          fi
+        elif [ $t2 -le 80 ]; then
+          if [ $cmin -eq -30 ]; then
+            is_sbas_done=1
+          else
+            T='-T-30/30/.1' 
+          fi
+        else
+          if [ $cmin -eq -20 ]; then
+            is_sbas_done=1
+          else
+            T='-T-20/20/.1' 
+          fi
+        fi
+        echo T is $T
+        #echo file_cpt $file_cpt
+        #pwd
+        #continue
+     
+        #is_sbas_done=1   
+        if [ $is_sbas_done -ne 1 ]; then
+          echo $sbas_dir
+          echo "gmt makecpt -Cjet $T -Z -I > $file_cpt"
+          echo "gmt makecpt -Cjet $T -Z -I > $file_cpt" | sh
+        
+          #which rs
+          #echo "rs"
+          #echo "rs" | sh
+          #rs
+          sh_grd2kml && sh_grd2kml vel_mask_ll && sh_esa_s1_sbas_tar
+          echo "[]INFO:sbas in $sbas_dir is valid."
+          #exit
+          #break    
+        fi
+      else        
+        echo "[]INFO: sbas in $sbas_dir is NOT valid."
+      fi
+      
+      #exit
+      
+      file_vel=$sbas_dir/r4/vel_mask_ll_r4.grd
+      if [ -s $file_vel ]; then
+      
+        is_sbas_done=0
+        t2=`basename $sbas_dir | awk -F. '{print $5+0}'`
+        echo t2 $t2 $sbas_dir
+        #exit
+        cd $sbas_dir/r4
+        pwd
+        cmin=-9999
+        file_cpt=$sbas_dir/r4/vel.cpt
+        if [ -s $file_cpt ]; then
+          cmin=`head -1 $file_cpt | awk '{print $1}'`
+        fi
+        echo cmin $cmin
+        #exit
+        if [ $t2 -le 50 ]; then
+          if [ $cmin -eq -50 ]; then
+            is_sbas_done=1
+          else
+            T='-T-50/50/.1'
+          fi
+        elif [ $t2 -le 80 ]; then
+          if [ $cmin -eq -30 ]; then
+            is_sbas_done=1
+          else
+            T='-T-30/30/.1' 
+          fi
+        else
+          if [ $cmin -eq -20 ]; then
+            is_sbas_done=1
+          else
+            T='-T-20/20/.1' 
+          fi
+        fi
+        
+        if [ $is_sbas_done -ne 1 ]; then
+          echo $sbas_dir
+          echo "gmt makecpt -Cjet $T -Z -I > $file_cpt"
+          echo "gmt makecpt -Cjet $T -Z -I > $file_cpt" | sh
+        
+          #which rs
+          echo "sh_grd2kml vel_mask_ll_r4"
+          echo "sh_grd2kml vel_mask_ll_r4" | sh
+          #rs
+          echo "[]INFO:sbas in $sbas_dir/r4 is valid."
+          #exit
+          #break    
+        fi
+      else        
+        echo "[]INFO: sbas in $sbas_dir/r4 is NOT valid."
+      fi
+      
+      
+    done #end-ol-loop-sbases
+    #exit
+  done #end-ol-loop-iws
+  #exit
+done #end-ol-loop-expts
+
+\rm -f $file_lock

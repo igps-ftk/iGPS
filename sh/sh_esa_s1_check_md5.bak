@@ -1,0 +1,133 @@
+#!/bin/sh
+
+# Name:
+#   sh_esa_s1_check_md5
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+if [ "$esa_data" == "" ]; then
+    echo "[]ERROR: environtment variable esa_data NOT set!!"
+    exit 1
+fi
+
+if [ ! -d $esa_data ]; then
+    echo "[]ERROR: directory $esa_data NOT exist!!"
+    exit 1
+fi
+
+path_in=
+while [ "$1" != "" ]; do
+    case $1 in 
+	-path)
+	    path_in=$2
+	    ;;
+	*)
+	    echo "[]ERROR: invalid option $1!!"
+	    exit 1
+	    ;;
+    esac
+    shift 2
+done
+
+
+md5file=${esa_data}/meta4/md5.txt
+okfile=${esa_data}/meta4/md5.OK.txt
+badfile=${esa_data}/meta4/md5.BAD.txt
+oldpath=`pwd`
+hostid=`hostname | sed -e 's/[a-z]//g' | sed -e 's/[A-Z]//g'`
+echo "hostis=${hostid} for `hostname`"
+#exit
+
+#find files
+if [ "$path_in" == "" ];then
+    files=`find ${esa_data}/S1 -maxdepth 1 -name "S1*.zip"`
+else
+    files=`find ${path_in} -maxdepth 1 -name "S1*.zip"`
+    okfile=${path_in}/md5.OK.txt
+    badfile=${path_in}/md5.BAD.txt
+fi
+echo $files
+
+lckfile=${okfile}.lock
+if [ -e $lckfile ]; then
+    echo "[]ERROR: output file has already been locked by other program!! Check it."
+    exit
+fi
+echo "lock by `hostname` on `date`" >  $lckfile
+
+#clear missing files
+\rm -rf md5.mimssing.txt
+
+for file in $files; do
+    echo $file
+
+    zipname=`basename $file | awk '{print $1}'`
+    tmp=
+    if [ -e $okfile ]; then
+	tmp=`grep $zipname $okfile`
+    fi
+    if [ "$tmp" != "" ]; then
+	echo "[]INFO:already done."
+	continue
+    fi
+
+    hashval=`grep $zipname $md5file | tail -1 | awk '{print $1}'`
+    if [ "$hashval" == "" ]; then
+	echo "[]WARNING: no checksum information available ($zipname)."
+        echo " $zipname" >> md5.missing.txt
+	continue
+    fi
+
+    file1=${file}
+
+    #where is the file
+    if [ -L $file1 ]; then
+	file2=`ls -l $file1 | awk '{print $11}'`
+    else
+	file2=$file1
+    fi
+
+    hostid_file=`echo $file2 | awk -F\/ '{print $2}' | sed -e 's/[a-z]//g' | sed -e 's/[A-Z]//g'`
+    if [ "$hostid_file" == "" ]; then
+      hostid_file=$hostid
+    fi
+    echo "hostid_file=${hostid_file} for $file2"
+    if [ ${hostid}  -ne ${hostid_file} ]; then
+	echo "[]WARNING: file not on this host ($hostid vs. ${hostid_file})!"
+	continue
+    fi
+    
+    #loc=`echo $file2 | awk -F\/ '{print $2}'`
+    path=`dirname $file2`
+    cd $path
+    pwd
+    echo "echo $hashval $file2 | md5sum -c"
+    tmp=`echo $hashval $zipname | md5sum -c`
+    if [ "`echo $tmp | awk '{print $2}'`" == "OK" ]; then
+	echo $tmp >> $okfile
+    else
+	echo '[]WARNING: md5 checksum failed!'
+	echo $hashval $zipname $file >> $badfile
+    fi
+
+    cd $oldpath
+    #break
+done
+
+#cd $oldpath
+#pwd
+\rm -rf $lckfile

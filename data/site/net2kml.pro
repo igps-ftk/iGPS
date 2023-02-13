@@ -4,9 +4,12 @@ PRO NET2KML, FILE, $ ;input, QOCA a priori sites coordiantes (Network file forma
   PROG=(STRSPLIT(LAST(SCOPE_TRACEBACK()),/EXTRACT))[0]
   
   IF N_ELEMENTS(file) EQ 0 THEN BEGIN
-    file='D:\gsar\asc\mila1\asc_F1\SBAS4\nc.detrend\outp\sites.net'
-    file='D:\gsar\des\mila4\des_F1\SBAS4\sites.net'
-    file='D:\ICD\projects\DirectorFund\Application.2012\Field\2017sep\pre-field\sites\tibet.icd.net'
+    file='C:\Downloads\pbo\pbo.net'
+    file='D:\ICD\projects\DirectorFund\Application.2018\Field\2018nov\prefield\sites\suxiaoning\site_yucesuo.sllh.net'
+    file='D:\gpse\trns\comb\lasa\gsoln\2020\2020.xyz.net'
+    file='C:\Downloads\izmi\org\izmi.xyz.net'
+    file='D:\gpse\trns\comb\ls21b\gsoln\ninh.net'
+    file='D:\gpse\trns\comb\ls22\gsoln\20221225\icd.apr.net'
   ENDIF
   
   IF N_ELEMENTS(OFILE) EQ 0 THEN BEGIN

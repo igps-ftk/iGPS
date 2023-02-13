@@ -1,0 +1,28 @@
+#!/bin/sh
+
+# Name:
+#   cron_asf_t164_suining
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+opath=/sar/esa.sentinel-1/t99
+
+sh_esa_s1_query_asf -roi_file /g4d/esa.data/vector/roi_point_t99_a_baiyu.kml -roi_type point
+
+sh_esa_s1_get_data_py_asf result.py $opath tyf.gps
+
+

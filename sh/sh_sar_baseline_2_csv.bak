@@ -1,0 +1,60 @@
+#!/bin/sh
+
+# Name:
+#   sh_sar_baseline_2_csv
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+
+PROG=sh_sar_baseline_2_csv
+
+file=baseline_table.dat
+ncol=3
+
+ofile=${file}.csv
+
+#sample lines of baseline_table.dat:
+#S1_20160109_ALL_F1 2016008.4189767453 738 0.000000000000 0.000000000000
+#S1_20160226_ALL_F1 2016056.4189666524 786 -35.053194481431 -89.458917058287
+
+nl=`cat $file | wc -l`
+echo nl $nl
+#nl=178
+
+step=`echo $nl $ncol | awk '{if( ($1/$2-int($1/$2)) < 0.00001 ){print int($1/$2)}else{print int($1/$2)+1}}'`
+
+echo $nl $ncol $step `expr $ncol \* $step`
+
+\rm $ofile
+echo 'No., Date, Baseline (m), No., Date, Baseline (m), No., Date, Baseline (m)' > $ofile
+li=1
+while [ $li -le $step ]; do
+  lj=1
+  oline=
+  while [ $lj -le $ncol ]; do
+    l1=`echo $li $lj $step | awk '{print $1+($2-1)*$3}'`
+    if [ "$oline" == "" ]; then
+      oline="$l1,`sed -n "${l1}p" $file | awk '{print substr($1,4,4)"-"substr($1,8,2)"-"substr($1,10,2)","$5}'`"
+    else
+      oline="$oline,$l1,`sed -n "${l1}p" $file | awk '{print substr($1,4,4)"-"substr($1,8,2)"-"substr($1,10,2)","$5}'`"
+    fi
+    lj=`expr $lj + 1`
+  done
+  echo  $oline >> $ofile
+  #exit
+  li=`expr $li + 1`
+done

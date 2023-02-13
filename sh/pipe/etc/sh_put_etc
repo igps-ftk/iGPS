@@ -1,0 +1,12 @@
+#!/bin/sh
+
+ids=`cat ../ids`
+
+
+for id in $ids; do
+  echo scp ./hosts node${id}:/etc/
+  echo scp ./hosts node${id}:/etc/ | sh
+
+  #exit
+done
+

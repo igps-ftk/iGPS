@@ -1,0 +1,86 @@
+#!/bin/sh
+
+
+host_name=`hostname`
+echo host name $host_name
+id_cur=`echo $host_name | sed -e 's/[a-z]//g' | sed -e 's/[A-Z]//g'`
+echo current host id $id_cur
+host_type=`echo $host_name | sed -e 's/[0-9]//g'`
+echo host type $host_type
+
+file_ids=../ids.${host_name}
+if [ ! -s $file_ids ]; then
+  echo "[$PROG]ERROR:file $file_ids not exist!!"
+  exit
+fi
+
+ids=`grep '^ ' $file_ids`
+#ids=`cat ../ids_12`
+echo ids $ids
+#exit
+
+
+
+if [ 1 -eq 2 ]; then
+file='./slurm.conf'
+for id in $ids; do
+  echo rsync -avP /etc/slurm  ${host_type}${id}:/etc/
+  echo rsync -avP /etc/slurm  ${host_type}${id}:/etc/ | sh
+
+  echo rsync -avP /usr/local/slurm  ${host_type}${id}:/usr/local/
+  echo rsync -avP /usr/local/slurm  ${host_type}${id}:/usr/local/ | sh
+
+
+
+done
+fi
+
+#exit
+
+if [ 1 -eq 1 ]; then
+  file="./${host_name}/slurm.conf"
+  case $host_name in
+    gpsac4)
+      opath=/usr/local/slurm/etc/
+      ;;
+    gpsac8|node1)
+      opath=/etc/slurm/
+      ;;
+    *)
+      echo "[$PROG]ERROR:invalid option ($1)!!"
+      exit 1
+      ;;
+  esac
+  
+  for id in $ids; do
+    echo rsync -avP $file ${host_type}${id}:${opath}
+    echo rsync -avP $file ${host_type}${id}:${opath} | sh
+  done
+fi
+
+
+if [ 1 -eq 2 ]; then
+file='etc/slurm.tar.gz'
+for id in $ids; do
+  echo scp ./$file ${host_type}${id}:/etc/
+  echo scp ./$file ${host_type}${id}:/etc/ | sh
+  #exit
+done
+fi
+
+if [ 1 -eq 2 ]; then
+  file='slurmd.service'
+  for id in $ids; do
+    echo scp ./$file ${host_type}${id}:/usr/lib/systemd/system/
+    echo scp ./$file ${host_type}${id}:/usr/lib/systemd/system/ | sh
+  done
+fi
+
+if [ 1 -eq 2 ]; then
+  file='slurmctld.service'
+  for id in $ids; do
+    echo scp ./$file ${host_type}${id}:/usr/lib/systemd/system/
+    echo scp ./$file ${host_type}${id}:/usr/lib/systemd/system/ | sh
+  done
+fi
+

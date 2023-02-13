@@ -1,0 +1,66 @@
+#!/bin/sh
+
+# Name:
+#   sh_intf_remove_trend
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+path=`pwd`/intf_all
+opath=`pwd`/intf_all_detrend
+mkdir -p $opath
+
+dirs=`ls $path`
+for dir in $dirs; do
+    echo $dir
+    file_corr=`ls ${path}/${dir}/corr_cut.grd`
+    if [ ! -s $file_corr ]; then
+	echo $file_corr not exist!! skipped
+	continue
+    fi
+    file_unwrap=`ls ${path}/${dir}/unwrap.grd`
+    if [ ! -s $file_unwrap ]; then
+	echo $file_unwrap not exist!! skipped
+	continue
+    fi
+
+    ofile_unwrap="${opath}/${dir}/`basename $file_unwrap`"
+    if [ -s $ofile_unwrap ]; then
+        echo "already exist [$ofile_unwrap} ! skipped."
+        continue
+    fi
+    
+    mkdir -p ${opath}/${dir}/
+    #echo cp -fp $file_corr ${opath}/${dir}/
+    #echo cp -fp $file_corr ${opath}/${dir}/ | sh
+    echo ln -s $file_corr ${opath}/${dir}/
+    echo ln -s $file_corr ${opath}/${dir}/ | sh
+    #continue
+
+    ofile_unwrap="${opath}/${dir}/`basename $file_unwrap`"
+    echo grdtrend $file_unwrap -N3r -D${ofile_unwrap}
+    echo grdtrend $file_unwrap -N3r -D${ofile_unwrap} | sh
+
+
+
+    file_unwrap=`ls ${path}/${dir}/unwrap_mask.grd`
+    ofile_unwrap="${opath}/${dir}/`basename $file_unwrap`"
+    echo grdtrend $file_unwrap -N3r -D${ofile_unwrap}
+    echo grdtrend $file_unwrap -N3r -D${ofile_unwrap} | sh
+        
+    #exit
+done
+
+

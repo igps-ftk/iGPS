@@ -1,0 +1,77 @@
+#!/bin/sh
+
+# Name:
+#   sh_cal_point_to_polygon_distance
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+
+PROG=sh_cal_point_to_polygon_distance
+
+file=
+lon=
+lat=
+
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -f|-file)
+      file=$2
+      ;;
+    -lon)
+      lon=$2
+      ;;
+    -lat)
+      lat=$2
+      ;;
+    *)
+      echo "[$PROG]ERROR: invalid option ($1)!!"
+      echo "[$PROG]Usage: ${PROG} "
+      echo "[$PROG]Usage: e.g.,"
+      echo "[$PROG]Usage: ${PROG} "
+      exit 1
+      ;;
+  esac
+  shift 2  
+done
+
+if [ "$file" == "" -o "$lon" == "" -o "$lat" == "" ]; then
+  exit 1
+fi
+
+#cat $file
+#echo "is_point_in_polygon $lon $lat $file"
+is_in=`is_point_in_polygon $lon $lat $file | grep is_in | awk '{print $2}'`
+#echo is_in $is_in
+if [ $is_in -eq 1 ]; then
+  echo 0
+  exit
+fi
+
+#dists=`cat $file | grep -v '\-L' | awk '{print 100000*sqrt(($1-lon)*($1-lon)+($2-lat)*($2-lat)),$1,$2,lon,lat}' lon=$lon lat=$lat  | awk '{print $1}'`
+dists=
+while read line; do
+  #echo ""
+  dist_i=`map_distance $line $lon $lat`
+  #echo $dist_i map_distance $line $lon $lat
+  dists="$dists $dist_i"
+  #echo $dists
+done < $file
+#echo $dists | min
+#echo dists $dists
+dmin=`echo $dists| awk 'BEGIN {dmin = 999999} {for(i=0;i<NF;i++){if ($i < dmin) dmin=$i }} END {print  dmin}' `
+echo $dmin

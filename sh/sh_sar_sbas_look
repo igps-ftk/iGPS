@@ -1,0 +1,55 @@
+#!/bin/sh
+
+# Name:
+#   sh_sar_sbas_look
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+
+PROG=sh_sar_sbas_look
+
+files_prm=`ls ../../topo/*.PRM | sort`
+if [ $? -ne 0 ]; then
+    echo "[]ERROR: error when searching PRM file!!"
+    exit 1
+fi
+file_prm=`echo $files_prm | head -1 | awk '{print $1}'`
+
+
+fname=vel_ll
+fname=los_ll
+
+echo "convert grd to xyz ..."
+grd2xyz ${fname}.grd -s > ${fname}.xyz
+cat ${fname}.xyz | awk '{print $1,$2}' > _tmp_cal_sat_indicence.llde
+
+
+
+echo add_look.csh _tmp_cal_sat_indicence.llde $file_prm SAT ./dem.grd
+echo add_look.csh _tmp_cal_sat_indicence.llde $file_prm SAT ./dem.grd | sh
+#exit
+
+cat _tmp_cal_sat_indicence.lltnde | awk '{print $4,$5,$6}' | sar_cal_sat_incidence | awk '{print 90-$1}' > _tmp_incidences
+cat _tmp_cal_sat_indicence.lltnde | awk '{print $4,$5,$6}' | sar_cal_sat_incidence | awk '{print $2}' > _tmp_azimuth
+
+echo "paste _tmp_cal_sat_indicence.lltnde _tmp_incidences _tmp_azimuth > look_ll.xyz"
+echo "paste _tmp_cal_sat_indicence.lltnde _tmp_incidences _tmp_azimuth > look_ll.xyz" | sh
+
+echo "convert incidence xyz to grid ..."
+cat look_ll.xyz | awk '{print $1,$2,$7}' > incidence_ll.xyz
+echo "gmt xyz2grd incidence_ll.xyz `gmt grdinfo -I- ${fname}.grd` `gmt grdinfo -I ${fname}.grd` -Gincidence_ll.grd -r"
+gmt xyz2grd incidence_ll.xyz `gmt grdinfo -I- ${fname}.grd` `gmt grdinfo -I ${fname}.grd` -Gincidence_ll.grd -V -r

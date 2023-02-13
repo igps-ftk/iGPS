@@ -1,0 +1,264 @@
+#!/bin/sh
+
+# Name:
+#   sh_esa_s1_corr_mask
+#
+
+# Purpose:
+#  Create a mask to remove water/decorrelation area.
+#
+
+# Example:
+#
+
+# Modifications:
+#
+
+# Algorigthm:
+#
+
+# Dependency:
+#   corr_cut.grd files in ../intf_all/
+#
+
+PROG=sh_esa_s1_corr_mask
+
+
+
+corr_min=.06
+#corr_min=.1
+
+direction=tail
+corr_name=corr_cut #or corr
+overwrite=y # y for yes, n for no
+is_landmask=n
+resample_grid='.009'
+is_out_full=n
+
+while [ "$1" != "" ]; do
+    case $1 in
+        -corr_min)
+            corr_min=$2
+            ;;
+        -corr_name)
+            corr_name=$2
+            ;;
+        -direction)
+            direction=$2
+            ;;
+        -landmask)
+            is_landmask=$2
+            ;;
+       -overwrite)
+            overwrite=$2
+            ;;
+       -resample)
+            resample_grid=$2
+            ;;
+       -full)
+            is_out_full=$2
+            ;;
+        *)
+            echo "[$PROG]ERROR: invalid input $1 !!"
+            echo "Usage: sh_esa_s1_corr_mask [-corr_min VAL]"
+            exit 1
+            ;;
+    esac
+    shift 2
+done
+
+
+file_ra=`head -1 intf.tab | awk '{print $1}'`
+pair=`echo $file_ra | awk -F \/ '{print $3}'`
+ 
+if [ ! -s master.PRM ]; then
+
+	if [ ! -s ../topo/master.PRM ]; then
+	  echo "\cp -fp ../intf_all/$pair/supermaster.PRM ../topo/master.PRM"
+	  echo "\cp -fp ../intf_all/$pair/supermaster.PRM ../topo/master.PRM" | sh
+	fi
+	if [ ! -s ../topo/master.PRM ]; then
+	  echo "[$PROG]ERROR: topo/master.PRM is missing ($1)!!"
+	  exit 1
+	fi
+	\cp -fp ../topo/master.PRM .
+	
+	if [ ! -s vel.cpt ]; then
+		gmt makecpt -Cjet -T-10/10/.1 -Z -I > vel.cpt
+	fi
+
+fi
+#exit
+files_prm=`ls ../topo/*.PRM | sort`
+if [ $? -ne 0 ]; then
+    echo "[]ERROR: error when searching PRM file!!"
+    exit 1
+fi
+file_prm=`echo $files_prm | head -1 | awk '{print $1}'`
+sid=`basename $file_prm | awk -F- '{print $3}'`
+led_name=`grep led_file $file_prm | awk '{print $3}'`
+if [ ! -s ../topo/$led_name ]; then
+  #for single subswath processing (F1/F2/F3)
+  if [ -s ../raw/$led_name ]; then
+    \cp -f ../raw/$led_name ../topo/
+  elif [ -s ../topo/$led_name ]; then
+    \cp -f ../topo/$led_name ../topo/
+  elif [ -s ../../F1/raw/$led_name ]; then
+    \cp -f ../../F1/raw/$led_name ../topo/
+  else
+    echo "[]ERROR:no LED file found($lef_name)!!"
+    #exit 1
+  fi
+
+fi
+\cp -fp ../topo/$led_name ./
+
+tmp=`ls gauss_*` >& /dev/null
+if [ "$tmp" = "" ]; then
+  file_filter=`find ../intf_all/$pari/ -maxdepth 1 -name "gauss_*"`
+  if [ "$file_filter" = "" ]; then
+    file_filter=`find ../../F1/intf_all/$pair/ -maxdepth 1 -name "gauss_*"`
+  fi
+  echo file_filter $file_filter
+  if [ "$file_filter" = "" ]; then
+    echo "[]WARNING: using default filter width : 400"
+    touch gauss_400
+  else
+    \cp -fp $file_filter .
+  fi
+fi
+ls -l gauss_*
+#exit
+
+#make sure dem.grd file exist
+if [ ! -s ../topo/dem.grd ]; then
+	if [ -s ../dem.grd ]; then
+	  ln -s ../dem.grd ../topo/
+	elif [ -s ../../dem.grd ]; then
+	  ln -s ../../dem.grd ../topo/
+	elif [ -s ../../F1/topo/dem.grd ]; then
+	  ln -s ../../F1/topo/dem.grd ../topo/
+	else
+	  echo "[$PROG]ERROR: no dem file (topo/dem.grd) !!"
+	  exit 1
+	fi
+fi
+
+
+file_prm=master.PRM
+if [ ! -s ../topo/master.PRM ]; then
+  echo "[$PROG]ERROR: topo/master.PRM is missing ($1)!!"
+  exit 1
+fi
+\cp -fp ../topo/master.PRM .
+\cp -fp ../topo/S1*.LED .
+
+echo "[$PROG]INFO: corr_min= $corr_min"
+echo "[$PROG]INFO: direction= $direction"
+
+path_cur=`pwd`
+echo "[$PROG]INFO: working in $path_cur"
+
+is_sbas_path=`basename $path_cur | awk '{IGNORECASE=1; print index($1,"sbas")}'`
+#echo "[$PROG]INFO: is_sbas_path $is_sbas_path"
+if [ $is_sbas_path -eq 0 ] ;then
+    echo "[$PROG]WARNING: please run this scrpt in *SBAS* directory!"
+fi
+
+
+#use the first five corr files
+#ls ./ia/20??*/${corr_name}.grd|${direction} -5 > corr.list
+##ls ../intf_all/20??*/${corr_name}.grd|${direction} -5 > corr.list
+
+id=`ls ./ia/20??*/${corr_name}.grd|sort|head -1 |awk -F\/ '{print $3}' |  awk -F_ '{print $1}'`
+if [ "$id" = "" ]; then
+  if [ "$corr_name" = "corr_cut" ]; then
+    id=`ls ./ia/20??*/corr.grd|sort|head -1 |awk -F\/ '{print $3}' |  awk -F_ '{print $1}'`
+    corr_name=corr
+  fi
+fi
+echo "[$PROG]INFO: using scene $id"
+ls ./ia/20??*/${corr_name}.grd |sort|grep $id |${direction} -5 > corr.list
+
+#use first 5 lines in intf.tab
+cat intf.tab | awk '{print $2}' | head -5 > corr.list
+
+echo "[$PROG]INFO: use the following corr files to create the mask"
+cat corr.list
+#exit
+
+echo overwrite $overwrite
+if [ -s mask_def.grd -a "$overwrite" == "n" ]; then
+  echo "[$PROG]WARNING: mask already exist (mask_def.grd) and not overwritten!"
+else
+  stack.csh corr.list 1 corr_avg.grd corr_std.grd
+  gmt grdmath corr_avg.grd $corr_min GE 0 NAN = mask_def.grd
+fi
+
+gmt grdmath vel.grd mask_def.grd MUL = vel_mask.grd
+
+proj_ra2ll.csh trans.dat vel_mask.grd vel_mask_ll.grd
+
+#grd2kml.csh vel_mask_ll vel.cpt
+sh_grd2kml vel_mask_ll vel.cpt
+
+#resample_grid= 0.009 (default)
+echo "[]INFO: resample original grid to $resample_grid  ..."
+gmt grdsample vel_mask_ll.grd -I${resample_grid} -Gvel_mask_ll3.grd
+
+#is_landmask=y
+if [ "$is_landmask" == "y" ]; then
+	if [ ! -s landmask.grd ]; then
+  	  gmt grdlandmask `gmt grdinfo -I vel_mask_ll3.grd` -Rvel_mask_ll3.grd -Glandmask.grd -NNaN/1/NaN/1/NaN
+	fi
+	\cp vel_mask_ll3.grd vel_mask_ll3a.grd
+	gmt grdmath vel_mask_ll3a.grd landmask.grd OR = vel_mask_ll3.grd
+	\rm vel_mask_ll3a.grd
+fi
+
+gmt grd2xyz vel_mask_ll3.grd | grep -v NaN > vel_mask_ll3.xyz
+
+
+fname=vel_mask_ll3
+cat ${fname}.xyz | awk '{print $1,$2}' > _tmp_cal_sat_indicence.llde
+
+
+
+echo add_look.csh _tmp_cal_sat_indicence.llde $file_prm SAT ../topo/dem.grd
+echo add_look.csh _tmp_cal_sat_indicence.llde $file_prm SAT ../topo/dem.grd | sh
+#exit
+
+cat _tmp_cal_sat_indicence.lltnde | awk '{print $4,$5,$6}' | sar_cal_sat_incidence | awk '{print 90-$1}' > _tmp_incidences
+cat _tmp_cal_sat_indicence.lltnde | awk '{print $4,$5,$6}' | sar_cal_sat_incidence | awk '{print $2}' > _tmp_azimuth
+
+echo "paste _tmp_cal_sat_indicence.lltnde _tmp_incidences _tmp_azimuth > look_mask_ll3.xyz"
+echo "paste _tmp_cal_sat_indicence.lltnde _tmp_incidences _tmp_azimuth > look_mask_ll3.xyz" | sh
+
+
+#resample into 0.02*0.02 grid
+
+
+gmt grdmath rms.grd mask_def.grd MUL = rms_mask.grd
+proj_ra2ll.csh trans.dat rms_mask.grd rms_mask_ll.grd
+#grd2kml.csh rms_mask_ll vel.cpt
+sh_grd2kml rms_mask_ll vel.cpt
+gmt grdsample rms_mask_ll.grd -I${resample_grid} -Grms_mask_ll3.grd
+if [ "$is_landmask" == "y" ]; then
+        \cp rms_mask_ll3.grd rms_mask_ll3a.grd
+        gmt grdmath rms_mask_ll3a.grd landmask.grd OR = rms_mask_ll3.grd
+        \rm rms_mask_ll3a.grd
+fi
+
+gmt grd2xyz rms_mask_ll3.grd | grep -v NaN > rms_mask_ll3.xyz
+
+paste vel_mask_ll3.xyz rms_mask_ll3.xyz | awk '{print $1,$2,$3,$6}' > vel_mask_ll3.xyze
+paste vel_mask_ll3.xyz rms_mask_ll3.xyz look_mask_ll3.xyz  | awk '{print $1,$2,$9,$3,$6,$10,$11,$12}' > vel_mask_ll3.xyuzevvv
+shuf vel_mask_ll3.xyuzevvv | head -2000 | sort | uniq > vel_mask_ll3.xyuzevvv.2000
+
+#\rm -f _tmp*
+
+if [ "$is_out_full" == "y" ]; then
+  gmt grd2xyz vel_mask_ll.grd -s > vel_mask_ll.xyz
+  gmt grd2xyz rms_mask_ll.grd -s > rms_mask_ll.xyz
+  paste vel_mask_ll.xyz rms_mask_ll.xyz | awk '{print $1,$2,$3,$6}' > vel_mask_ll.xyze
+fi

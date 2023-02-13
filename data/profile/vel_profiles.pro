@@ -15,193 +15,79 @@ FUNCTION GET_INTERSECT_POINT_BETWEEN_FAULT_AND_PROFILE, xys_fvec, a1,b1
 END
 
 PRO VEL_PROFILES, vfile, $  ;velocity file (in varied formats)
-    pfile,  $   ;profiles file (two-end-points lines)
     opath, $   ;output path
     ffile=ffile,  $ ;(if exist) fault trace (only one polyline in GMT format)
+    pfile=pfile,  $   ;profiles file (two-end-points lines)
     flon=flon, $  ;fault longitude (if ffile is not present && it it not given, use the middle point of the profile)
     flat=flat, $     ;fault latitude (if ffile is not present && it is not given, use the middle point of the profile)
     out_plot=out_plot,  $ ;whether output temporary plots
-    inputfmt=inputfmt ;input velocity format (0-  ; 1-psvelo)
-  ;0 (default):1x site lon lat vn sign ve sige cne
-  ;1 (psvelo): 1x lon lat ve vn sige sign cne site
-    
+    inputfmt=inputfmt,  $ ;input velocity format (0-  ; 1-psvelo)
+    ;0 (default):1x site lon lat vn sign ve sige cne
+    ;1 (psvelo): 1x lon lat ve vn sige sign cne site
+    ;2 (qoca map velocity field):
+    ;*Station   Longitude   Latitude Ve_init Ve_incr    Ve     dVe   Vn_init Vn_incr    Vn     dVn   Cen
+    ; ARTU_GPS   58.5583   56.4278     0.0     0.0    24.9     0.0     0.0     0.0     6.1     0.0   0.0000
+    ;3 (free format 1): Long.    Lat.      Ve       Vn     Se     Sn    Cne  Sta.      Source
+    ;  e.g.,
+    ; 74.336  39.842   0.170   13.790  0.560  0.503  0.000  I089  This_study
+    ;
+    auto_strike=auto_strike,  $
+    ;  1: calculate strikes for individual segments
+    ;  2: use the average strike for all segments
+    spacing_profile=spacing_profile,  $
+    length_profile=length_profile,  $
+    search_radius=search_radius,  $
+    dummy=dummy
     
   PROG=(STRSPLIT(LAST(SCOPE_TRACEBACK()),/EXTRACT))[0]
   
-  IF N_PARAMS() LT 3 THEN BEGIN
-    ;for test review paper
-    vfile='D:\ICD\八室\2015nov02.lys.gps.profile\new  1.txt'
-    pfile='D:\ICD\八室\2015nov02.lys.gps.profile\profile.txt' ;this is the fault line, not the profile line.
-    opath='D:\ICD\八室\2015nov02.lys.gps.profile\profiles'
-    ;opath_t='D:\ICD\八室\2015nov02.lys.gps.profile\profiles'
-    
-    vfile='D:\Papers\yarlung.tsangpo\figure\gps.profiles\vel.lhasa.2015oct.for.profile'
-    pfile='D:\Papers\yarlung.tsangpo\figure\gps.profiles\lll_p.txt'
-    opath='D:\Papers\yarlung.tsangpo\figure\gps.profiles\profiles'
-    ffile='D:\Papers\yarlung.tsangpo\figure\faultline\mtab.mif.shp\yarlung-fixed.psxy'
-    
-    ffile='D:\ICD\meeting\dragon3.2016\figure\vector\bengco.jiali\bcjl.psxy'
-    opath='D:\ICD\meeting\dragon3.2016\figure\gps.profiles\profiles'
-    pfile='D:\ICD\meeting\dragon3.2016\figure\gps.profiles\lll_p.txt'
+  IF N_PARAMS() LT 2 THEN BEGIN
     ;
-    ;  vfile='D:\gpse\rerun.lutai\comb\trnsLTCM\gsoln\qmap.tibet.cgps.tseri\rotinv\vel.tibet.2015nov.refall.forProfile'
-    ;  pfile='D:\ICD\meeting\AOGS2016\figure\vel.profile\lll_p.txt'
-    ;  opath='D:\ICD\meeting\AOGS2016\figure\vel.profile\profiles'
-    
-    ;    ;psvelo input format, gan2013jgr
-    ;    vfile='D:\gpse\eq.sc08\block\defnode\tables\Supp_Table_S1.psvelo'
-    ;    opath='D:\Papers\yarlung.tsangpo\figure\gps.profiles.gan\profiles'
-    ;    inputfmt=1
-    
-    vfile='D:\ICD\meeting\dragon3.2016\figure\tibet.velrot\vel.tibet_cgps_sgps.for.profiling'
-    ffile='D:\ICD\meeting\dragon3.2016\figure\vector\bengco.jiali\bcjl.psxy'
-    opath='D:\ICD\meeting\dragon3.2016\figure\gps.profiles.2016jun30\profiles.bcjlf'
-    pfile='D:\ICD\meeting\dragon3.2016\figure\gps.profiles.2016jun30\lll_p_bcjlf.txt'
-    ;yadong-gulu
-    ffile='D:\ICD\meeting\dragon3.2016\figure\vector\yadong-gulu\ft_yadong_gulu.psxy'
-    opath='D:\ICD\meeting\dragon3.2016\figure\gps.profiles.2016jun30\profiles.ydgl'
-    pfile='D:\ICD\meeting\dragon3.2016\figure\gps.profiles.2016jun30\lll_p_ydgl.txt'
-    
-    ;for AOGS2016
-    vfile='D:\gpse\rerun.lutai\comb\trnsLTCM2\gsoln\velrot\vel.lhasa.2016jul'
-    inputfmt=2
-    ffile='D:\ICD\meeting\dragon3.2016\figure\vector\bengco.jiali\bcjl.psxy'
-    pfile='D:\ICD\meeting\AOGS2016\figure\vel.jiali.profile\p_jiali.txt'
-    opath='D:\ICD\meeting\AOGS2016\figure\vel.jiali.profile\profiles'
-    ;yadong-gulu
-    ffile='D:\ICD\meeting\dragon3.2016\figure\vector\yadong-gulu\ft_yadong_gulu.psxy'
-    pfile='D:\ICD\meeting\AOGS2016\figure\vel.profile\p_ydgl.txt'
-    opath='D:\ICD\meeting\AOGS2016\figure\vel.profile\profiles.ydgl'
-    ;beng co
-    ffile='D:\ICD\meeting\dragon3.2016\figure\vector\bengco.jiali\bcjl.psxy'
-    pfile='D:\ICD\meeting\AOGS2016\figure\vel.profile\p_bc.txt'
-    opath='D:\ICD\meeting\AOGS2016\figure\vel.profile\profiles.bc'
-    
-    fa='bengco'
-    opath='D:\ICD\projects\DirectorFund\Application.2012\Final\ppt\figure\gps.profile.bengco\p'
-    
-;    ;for ynxj
-;    vfile='D:\gpse\rerun.lutai\comb\trnsLTCM2\gsoln\velrot.yn\vel.ynxj.2016oct'
-;    ffile='D:\ICD\projects\2015nov.lys.yunnan\gps.profile\ynxj\faultline\xiaojiangwest.psxy'
-;    pfile='D:\ICD\projects\2015nov.lys.yunnan\gps.profile\ynxj\ynxj.profile.psxy'
-;    opath='D:\ICD\projects\2015nov.lys.yunnan\gps.profile\ynxj\profiles'
-;    
-;    ;for bj
-;    vfile='D:\gpse\rerun.lutai\comb\trnsLTCM2\gsoln\pos.neu.bj\velpot\VEL.MODEL'
-;    ffile='D:\gpse\rerun.lutai\comb\trnsLTCM2\gsoln\pos.neu.bj\profile\fa_bj.txt'
-;    ffile='D:\gpse\rerun.lutai\comb\trnsLTCM2\gsoln\pos.neu.bj\profile\fault_vector\shanxi_fault_zone.txt'
-;    pfile='D:\gpse\rerun.lutai\comb\trnsLTCM2\gsoln\pos.neu.bj\profile\p_bj_ew.txt'
-;    opath='D:\gpse\rerun.lutai\comb\trnsLTCM2\gsoln\pos.neu.bj\profile\pv'
-;    
-;    vfile='D:\gpse\quake\20161125.westkashi\velo.psvelo'
-;    inputfmt=1
-;    ffile='D:\gpse\quake\20161125.westkashi\fa.txt'
-;    pfile='D:\gpse\quake\20161125.westkashi\p.txt'
-;    opath='D:\gpse\quake\20161125.westkashi\profile'
-;    
-;    vfile='D:\gpse\rerun.lutai\comb\trnsLTCM2\gsoln\velrot\vel.lhasa.2016jul'
-;    inputfmt=2
-;    ;psvelo input format, gan2013jgr
-;    vfile='D:\gpse\eq.sc08\block\defnode\tables\Supp_Table_S1.psvelo'
-;    inputfmt=1
-;    ffile='D:\ICD\projects\DirectorFund\Application.2012\InSAR\2016\from.ZhangQingyun\bengco\vector\kjfz_fa.psxy'
-;    pfile='D:\ICD\projects\DirectorFund\Application.2012\InSAR\2016\from.ZhangQingyun\bengco\vector\kjfz_p.psxy'
-;    opath='D:\ICD\projects\DirectorFund\Application.2012\GPS\profiles\kjfz\p'
-;    
-;    ffile='D:\ICD\projects\DirectorFund\Application.2012\InSAR\2016\from.ZhangQingyun\bengco\vector\fault_tibet_ew.psxy'
-;    pfile='D:\ICD\projects\DirectorFund\Application.2012\InSAR\2016\from.ZhangQingyun\bengco\vector\profile_tibetean_plateau.psxy'
-;    opath='D:\ICD\projects\DirectorFund\Application.2012\GPS\profiles\tibet\p'
-;    
-;    vfile='D:\ICD\八室\2017jan06.Feng.Muji.paper\velrot_mj\vel.muji'
-;    inputfmt=2
-;    ffile='D:\ICD\八室\2017jan06.Feng.Muji.paper\vector\fault_karakorum.psxy'
-;    pfile='D:\ICD\八室\2017jan06.Feng.Muji.paper\vector\profile_karakorum.psxy'
-;    opath='D:\ICD\八室\2017jan06.Feng.Muji.paper\velrot_mj\p'
-;    
-;    
-;    vfile='D:\gpse\rerun.lutai\comb\trnsLTCM2\gsoln\velrot\vel.lhasa.2016jul'
-;    inputfmt=2
-;    ;
-;    fa='ydgl2'
-;    opath='D:\ICD\projects\DirectorFund\Application.2012\Final\figure\profile.ydgl2\p.g'
-;    ;
-;    ;        fa='bengco'
-;    ;        opath='D:\ICD\projects\DirectorFund\Application.2012\Final\figure\profile.bengco\p.g'
-;    ;;    ;
-;    ;        fa='gyaringco'
-;    ;        opath='D:\ICD\projects\DirectorFund\Application.2012\Final\figure\profile.gyaringco\p.g'
-;    ;    ;
-;    fa='jiali'
-;    opath='D:\ICD\projects\DirectorFund\Application.2012\Final\figure\profile.jiali\p.g'
-;    opath='D:\ICD\projects\DirectorFund\Application.2012\Final\ppt\figure\gps.profile.jiali\p'
+    inputfmt=1
     
     
-    ;    fa='mft'
-    ;    opath='D:\ICD\相关课题\IAA\figure\1.nepal.interseismic\p'
+    vfile='D:\iGPS\example\profile\Supp_Table_S1.psvelo'
+    opath='D:\iGPS\example\profile\p_auto'
+    
     ;
-    ;    vfile='D:\ICD\相关课题\IAA\figure\3.wenchuan.interseismic\vel_ne.txt'
-    ;    fa='longmenshan'
-    ;    opath='D:\ICD\相关课题\IAA\figure\3.wenchuan.interseismic\p'
+    ;
+    ffile='D:\iGPS\example\profile\fa_honghe1.psxy'
+  ;pfile='D:\iGPS\example\profile\pf_honghe1.psxy'
+    
+  ;
+  ;    fa='pf_longmenshan1'
+  ;    IF N_ELEMENTS(ffile) EQ 0 THEN BEGIN
+  ;      PROFILE_NAME2VECTORFILE,   $
+  ;        fa,   $ ;input, fault name
+  ;        ffile=ffile,  $ ;output, fault file
+  ;        pfile=pfile ;output, profile file
+  ;    ENDIF
+  ;
+  ;    ;for Prof. Zhang S. M.
+  ;    ;ffile='D:\tmp\gps.profile\in.fault.line\fa_lijiang_xiaojinhe.psxy'
+  ;    vfile='D:\tmp\gps.profile\in.gps.velocity\jgrb52327-sup-00012-017JB014465-Data%20Set%20SI-S01.txt'
+  ;    ;opath='D:\tmp\gps.profile\out.fault.velocity.profiles'
+  ;    inputfmt=3
+  ;  ;stop
+  ;  ;pfile='D:\ICD\projects\DirectorFund\Application.2012\Final\figure\vector\profiles.psxy'
     
     
-    PROFILE_NAME2VECTORFILE,   $
-      fa,   $ ;input, fault name
-      ffile=ffile,  $ ;output, fault file
-      pfile=pfile ;output, profile file
-      
-  ;pfile='D:\ICD\projects\DirectorFund\Application.2012\Final\figure\vector\profiles.psxy'
-      
   ENDIF
   
   IF FILE_TEST(opath,/directory) NE 1 THEN FILE_MKDIR,opath
   
   IF N_ELEMENTS(out_plot) EQ 0 THEN out_plot=0
   IF N_ELEMENTS(inputfmt) EQ 0 THEN inputfmt=0
+  IF N_ELEMENTS(auto_strike) EQ 0 THEN auto_strike=2
+  IF N_ELEMENTS(spacing_profile) EQ 0 THEN spacing_profile=30  ;in km (distance between two neighboring profiles)
+  IF N_ELEMENTS(length_profile) EQ 0 THEN length_profile=900  ;in km (the total length of the profile generated automatically by iGPS)
   
   
-  ;read profiles
-  lines=read_txt(pfile)
   np=0
   pxys=-9999d0
-  MaxDist=55d0 ;maximum searching distance beside the profile line, in kilometers
-  MaxDist=100d0
+  IF N_ELEMENTS(search_radius) EQ 0 THEN search_radius=95d0 ;maximum searching distance beside the profile line, in kilometers
+  ;search_radius=100d0
   
-  FOR li=0, N_ELEMENTS(lines)-1 DO BEGIN
-    line=lines[li]
-    IF STRMID(line,0,1) NE ' ' && STRMID(STRTRIM(line,2),0,1) NE '>' THEN BEGIN  ;skip comment lines
-      CONTINUE
-    ENDIF
-    line=STRTRIM(line,2)
-    
-    
-    ;separator
-    IF STRMID(line,0,1) EQ '>' THEN BEGIN
-      CONTINUE
-    ENDIF
-    
-    ;starting point
-    line_p1=STRSPLIT(line,/extract)
-    IF N_ELEMENTS(line_p1) LT 2 THEN BEGIN
-      CONTINUE
-    ENDIF
-    xy1=DOUBLE(line_p1)
-    
-    ;ending point
-    line=lines[li+1]
-    line_p2=STRSPLIT(line,/extract)
-    xy2=DOUBLE(line_p2)
-    
-    IF pxys[0] EQ -9999 THEN BEGIN
-      pxys=[[xy1],[xy2]]
-    ENDIF ELSE BEGIN
-      pxys=[[[pxys]], [[[[xy1],[xy2]]]] ]
-    ENDELSE
-    
-    li=li+1
-    np=np+1
-    
-  ENDFOR
-  ;stop
   
   ;read velocity field
   CASE inputfmt OF
@@ -224,7 +110,8 @@ PRO VEL_PROFILES, vfile, $  ;velocity file (in varied formats)
       ;stop
       lines=read_txt(vfile)
       pos=WHERE(strmids(lines,0,1) EQ ' ')
-      lines1=lines[pos]
+      lines1=REFORM(lines[pos])
+      ;stop
       lines1=str_lines2arr(lines1)
       sites=strmids(lines1[7,*],0,4)
       lls=DOUBLE(lines1[0:1,*])
@@ -244,6 +131,22 @@ PRO VEL_PROFILES, vfile, $  ;velocity file (in varied formats)
       sites=strmids(lines1[0,*],0,4)
       lls=DOUBLE(lines1[1:2,*])
       vels=DOUBLE(lines1[[1,2,9,10,5,6,11],*])
+      ;stop
+      nsit=N_ELEMENTS(sites)
+    END
+    3: BEGIN  ;
+      ;  Long.    Lat.      Ve       Vn     Se     Sn    Cne  Sta.      Source
+      ; 74.336  39.842   0.170   13.790  0.560  0.503  0.000  I089  This_study
+      ; 78.680  29.848  10.840   32.656  1.550  1.450 -0.002  LAN2  Kreemer et al. [2014] from Banerjee et al. [2008]
+      lines=read_txt(vfile)
+      lines1=STRARR(8,N_ELEMENTS(lines))
+      FOR li=0ull, N_ELEMENTS(lines)-1 DO BEGIN
+        line_p=STRSPLIT(lines[li],/extract)
+        lines1[*,li]=line_p[0:7]
+      ENDFOR
+      sites=strmids(lines1[7,*],0,4)
+      lls=DOUBLE(lines1[0:1,*])
+      vels=DOUBLE(lines1[[0,1,3,5,2,4,6],*])
       ;stop
       nsit=N_ELEMENTS(sites)
     END
@@ -269,11 +172,67 @@ PRO VEL_PROFILES, vfile, $  ;velocity file (in varied formats)
       RETURN
     ENDIF
     xys_fvec=DOUBLE(str_lines2arr(lines_fvec2[pos]))
-    OPLOT,xys_fvec[0,*],xys_fvec[1,*],psym='-4',color='0000ff'x
+  ;OPLOT,xys_fvec[0,*],xys_fvec[1,*],psym='-4',color='0000ff'x
   ;stop
   ENDIF
   
+  ;stop
   
+  ;read profiles
+  ;
+  IF N_ELEMENTS(pfile) GT 0 && pfile NE '' THEN BEGIN
+    lines=read_txt(pfile)
+    np=0
+    FOR li=0, N_ELEMENTS(lines)-1 DO BEGIN
+      line=STRTRIM(lines[li],2)
+      IF STRMID(line,0,1) EQ '>' THEN BEGIN
+        np=np+1
+        xyi=REPLICATE(-9999d0,2,2)
+        CONTINUE
+      ENDIF
+      IF line EQ '' THEN BEGIN  ;skip blank lines
+        CONTINUE
+      ENDIF
+      
+      
+      line_p=STRSPLIT(line,/extract)
+      IF xyi[0,0] EQ -9999d0 THEN BEGIN
+      
+        ;starting point
+        xyi[*,0]=DOUBLE(line_p)
+      ENDIF ELSE BEGIN
+      
+        ;ending point
+        xyi[*,1]=DOUBLE(line_p)
+        
+        IF np EQ 1 THEN BEGIN
+          pxys=xyi
+        ENDIF ELSE BEGIN
+          pxys=[[[pxys]],[[xyi]]]
+        ENDELSE
+        
+      ENDELSE
+      
+    ENDFOR
+  ;STOP
+  ENDIF ELSE BEGIN
+  
+    ofile=opath+PATH_SEP()+'profiles__map.jpg'
+    pfile=opath+PATH_SEP()+'profiles_auto.psxy'
+    ;STOP
+    ;generate profiles lines by calling PROFILE_LINES_AUTO program
+    PROFILE_LINES_AUTO, xys_fvec,  oxys=oxys, spacing=spacing_profile, auto_strike=auto_strike, length_profile=length_profile, ofile=pfile
+    ;PROFILE_LINES_AUTO, xys_fvec,  oxys=oxys, spacing=2, auto_strike=auto_strike, length_profile=400
+    ;PROFILE_LINES_AUTO, xys_fvec,  oxys=oxys, spacing=2, auto_strike=auto_strike, length_profile=40
+    
+    pxys=oxys
+  ;STOP
+  ENDELSE
+  
+  
+  np=N_ELEMENTS(pxys[0,0,*])
+  
+  ;stop
   ;loop for each profile
   
   FOR pi=0,np-1 DO BEGIN  ;loop for each profile
@@ -387,7 +346,7 @@ PRO VEL_PROFILES, vfile, $  ;velocity file (in varied formats)
       
     ENDFOR
     
-    pos=WHERE(dists GT 0 AND dists LE MaxDist)
+    pos=WHERE(dists GT 0 AND dists LE search_radius)
     ;help,pos
     ;stop
     IF pos[0] EQ -1 THEN BEGIN  ;no velocity
@@ -410,13 +369,15 @@ PRO VEL_PROFILES, vfile, $  ;velocity file (in varied formats)
     IF N_ELEMENTS(ffile) GT 0 && ffile NE '' THEN BEGIN
       OPLOT,xys_fvec[0,*],xys_fvec[1,*],psym='-4',color='0000ff'x
     ENDIF
-    ofile=opath+PATH_SEP()+'profile_'+STRING(pi+1,format='(i02)')+'_map.jpg'
+    ofile=opath+PATH_SEP()+'profile_'+STRING(pi+1,format='(i03)')+'_map.jpg'
     ;WRITE_JPEG, ofile, TVRD(true=1),true=1,quality=100
     
     vel_along_all=DBLARR(N_ELEMENTS(pos))
     vel_tang_all=DBLARR(N_ELEMENTS(pos))
     vele_along_all=DBLARR(N_ELEMENTS(pos))
     vele_tang_all=DBLARR(N_ELEMENTS(pos))
+    vel_up_all=DBLARR(N_ELEMENTS(pos))
+    vele_up_all=DBLARR(N_ELEMENTS(pos))
     FOR vi=0, N_ELEMENTS(pos)-1 DO BEGIN
       vel=REFORM(vels[*,pos[vi]])
       ;      vel_ss_e=vel[4]*sin(alpha)
@@ -482,25 +443,40 @@ PRO VEL_PROFILES, vfile, $  ;velocity file (in varied formats)
     lls_used=p_lls[*,pos]
     ind=SORT(lls_used[0,*])
     
-    ofile=opath+PATH_SEP()+'profile_'+STRING(pi+1,format='(i02)')+'_vel.psxy'
+    ofile=opath+PATH_SEP()+'profile_'+STRING(pi+1,format='(i03)')+'_vel.psxy'
     OPENW,fid,ofile,/get_lun
     WRITE_SYS_INFO,fid,prog=prog,src=[vfile,pfile],user=user
     ;output profile vertex
     PRINTF,fid,a1,format='("# PSXY_PROFILE",2f10.3)'
     PRINTF,fid,b1,format='("# PSXY_PROFILE",2f10.3)'
     PRINTF,fid,XY3,format='("# PSXY_FAULT_PROFILE_INTERSECT",2f10.3)'
+    FOR j=0,N_ELEMENTS(xys_fvec[0,*])-1 DO BEGIN
+      PRINTF,fid,xys_fvec[*,j],format='("# PSXY_FAULT_TRACE",2f10.3)'
+    ENDFOR
     ;output stations
     PRINTF,fid,'site','p_long','p_lati','p_dist','v_along','ve_along','v_tang','ve_tang',$
-      'long','lati','dist_to_fault', $
+      'v_up','ve_up','long','lati','dist_to_fault', $
       've','vn','ve_sig','vn_sig',  $
-      format='("*",a4,1x,2a10,1x,a10,1x,2a10,1x,2a10,1x,2a10,1x,a13, 1x,4(1x,a10))'
+      'vlos_d','vlos_d_sig','vlos_a','vlos_a_sig',  $
+      format='("*",a4,1x,2a10,1x,a10,1x,2a10,1x,2a10,1x,2a10,1x,2a10,1x,a13, 1x,4(1x,a10),1x,4(1x,a10))'
     FOR j=0, N_ELEMENTS(ind)-1 DO BEGIN
+      ;convert gps velocity to insar los direction
+      ;descending
+      enu_j=[vels[[4,2],pos[ind[j]]], 0d0]
+      enu_sig_j=[vels[[5,3],pos[ind[j]]], 0d0]
+      vlos_des=sar_enu2los(enu_j)
+      vlos_asc=sar_enu2los(enu_j, alpha=(-13+360d0)*!dpi/180d0 )
+      vlos_sig_des=sar_enu2los(enu_sig_j)
+      vlos_sig_asc=sar_enu2los(enu_sig_j, alpha=(-13+360d0)*!dpi/180d0 )
+      
+      
       PRINTF,fid,sites[pos[ind[j]]],p_lls[*,pos[ind[j]]],dists[pos[ind[j]]],vel_along_all[ind[j]],$
         vele_along_all[ind[j]],vel_tang_all[ind[j]],vele_tang_all[ind[j]], $
-        lls[*,pos[ind[j]]], $
+        vel_up_all[ind[j]],vele_up_all[ind[j]], lls[*,pos[ind[j]]], $
         dists_fault[pos[ind[j]]], $
         vels[[4,2,5,3],pos[ind[j]]], $
-        format='(1x,a4,1x,2f10.3,1x,f10.2,1x,2f10.2,1x,2f10.2,1x,2f10.3,1x,f13.6,1x,4(1x,f10.3))'
+        vlos_des,vlos_sig_des,vlos_asc,vlos_sig_asc,$
+        format='(1x,a4,1x,2f10.3,1x,f10.2,1x,2f10.2,1x,2f10.2,1x,2f10.2,1x,2f10.3,1x,f13.6,1x,4(1x,f10.3),1x,4(1x,f10.3))'
     ENDFOR
     FREE_LUN,fid
     
@@ -510,7 +486,11 @@ PRO VEL_PROFILES, vfile, $  ;velocity file (in varied formats)
     ;!p.MULTI=[1,2,2]
     yrange=[-20,20]
     yrange=[-12,12]
-    PLOT,lls_used[0,ind],vel_along_all[ind],background='ffffff'x,color='0'x, $
+    ind_nan=FINITE(vel_along_all[ind])
+    IF TOTAL(ind_nan) EQ 0 THEN BEGIN
+      CONTINUE
+    ENDIF
+    PLOT,REFORM(lls_used[0,ind]),vel_along_all[ind],background='ffffff'x,color='0'x, $
       title='Velocities Along Profile '+STRING(pi+1,format='(i2)'), $
       /ynozero,psym=2;,yrange=yrange
     OPLOT,[xy3[0],xy3[0]],[-1d3,1d3],linestyle=2,color='ff0000'x,thick=2
@@ -534,7 +514,7 @@ PRO VEL_PROFILES, vfile, $  ;velocity file (in varied formats)
     
     !p.MULTI=-1
     
-    ofile=opath+PATH_SEP()+'profile_'+STRING(pi+1,format='(i02)')+'_vel.jpg'
+    ofile=opath+PATH_SEP()+'profile_'+STRING(pi+1,format='(i03)')+'_vel.jpg'
     WRITE_JPEG, ofile, TVRD(true=1),true=1,quality=100
     
   ;PRINT,'a1:',a1

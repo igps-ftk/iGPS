@@ -1,0 +1,128 @@
+#!/bin/sh
+
+# Name:
+#   sh_sar_intf_all_corr_mean
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+
+PROG=sh_sar_intf_all_corr_mean
+
+
+path=`pwd`
+ofile=${path}/corr.intfs.mean.txt
+
+if [ "`basename $path`" != "intf_all" ]; then
+  if [ -s $path/intf_all ]; then
+    path=$path/intf_all
+  fi
+fi
+
+roifile=
+R=
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -path)
+      path=$2
+      ;;
+    -roi)
+      roifile=$2
+      ;;
+    -R)
+      R=$2
+      ;;
+    -ofile)
+      ofile=$2
+      ;;
+    *)
+      echo "[$PROG]ERROR: invalid option ($1)!!"
+      echo "[$PROG]Usage: ${PROG} "
+      echo "[$PROG]Usage: e.g.,"
+      echo "[$PROG]Usage: ${PROG} "
+      exit 1
+      ;;
+  esac
+  shift 2  
+done
+
+if [ "$roifile" != "" ]; then
+  gmt kml2gmt $roifile | grep -v '>' | awk '{print $0,0}' > _tmp.llz
+  ln -s $path/../topo/trans.dat .
+  proj_ll2ra_ascii.csh trans.dat _tmp.llz _tmp.xyz
+  R=`gmt gmtinfo -I1/1 _tmp.xyz`
+fi
+
+echo R $R
+echo path $path
+echo ofile $ofile
+cd $path
+
+path_cur=`pwd`
+echo $path_cur
+bname=`basename $path_cur`
+if [ "$bname" != "intf_all" ]; then
+  echo "[$PROG]ERROR: input path should be xxx/intf_all !!"
+  exit
+fi
+
+#exit
+
+bfile="$path_cur/../baseline_table.dat"
+
+intfs=`find . -maxdepth 1 -type d -name "20?????_20?????" |sort`
+\rm -f $ofile
+for intf in $intfs; do
+  echo intf $intf
+  yd1=`basename $intf | awk -F_ '{print $1}'`
+  yd2=`basename $intf | awk -F_ '{print $2}'`
+  
+  #day1=`grep -h " $yd1" $bfile | awk '{print $3}'`
+  #day2=`grep -h " $yd2" $bfile | awk '{print $3}'`
+  #nday=`echo $day1 $day2 | awk '{print sqrt(($1-$2)*($1-$2))}'`
+  #
+  #dyr1=`grep -h " $yd1" $bfile | awk '{print $2}'`
+  #dyr2=`grep -h " $yd2" $bfile | awk '{print $2}'`
+  
+  
+  year1=`basename $intf | awk '{print substr($0,1,4)}'`
+  doyr1=`basename $intf | awk '{print substr($0,5,3)}'`
+  year2=`basename $intf | awk '{print substr($0,9,4)}'`
+  doyr2=`basename $intf | awk '{print substr($0,13,3)}'`
+  mjd1=`doy $year1 $doyr1 | head -1 | awk '{print $10}'`
+  mjd2=`doy $year2 $doyr2 | head -1 | awk '{print $10}'`
+  nday=`echo $mjd1 $mjd2 | awk '{print $2-$1}'`
+  dyr1=`doy $year1 $doyr1 | tail -1 | awk '{print $3}'`
+  dyr2=`doy $year2 $doyr2 | tail -1 | awk '{print $3}'`
+  echo $year1 $doyr1 $year2 $doyr2 $mjd1 $mjd2 $nday
+  
+  bperp1=`grep -h " $yd1" $bfile | awk '{print $5}'`
+  bperp2=`grep -h " $yd2" $bfile | awk '{print $5}'`
+  bperp=`echo $bperp1 $bperp2 | awk '{print sqrt(($1-$2)*($1-$2))}'`
+  
+  echo $yd1 $yd2 $day1 $day2 $nday
+  
+  file_corr=${intf}/corr_cut.grd
+  echo file_corr $file_corr
+  #exit
+  echo "grdinfo $R -L2 $file_corr"
+  val=`grdinfo $R -L2 $file_corr | grep mean | awk '{print $3}'`
+  echo `basename $intf` $dyr1 $dyr2 $nday $bperp $val >> $ofile
+  #exit
+  break
+done
+

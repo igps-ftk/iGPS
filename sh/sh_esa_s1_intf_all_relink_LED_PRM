@@ -1,0 +1,39 @@
+#!/bin/sh
+
+# Name:
+#   sh_esa_s1_intf_all_relink_LED_PRM
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+oldpath=`pwd`
+
+files=`find . -name "S*.PRM"`
+for file in $files;do
+    echo $file
+    path=`dirname $file`
+    bname=`basename $file | sed -e 's/PRM/LED/g'`
+    #echo $path
+    #echo $bname
+    tfile=../../raw/${bname}
+     cd $path 
+    #pwd
+    echo "ln -s $tfile" | sh
+    cd $oldpath
+    #pwd
+    #exit
+done
+
+

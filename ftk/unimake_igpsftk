@@ -130,7 +130,7 @@ if (! -d $xinc || $xinc == "") then
 endif
 
 # detect user system
-set os = `uname -a`  
+set os = `uname -a  | sed -e 's/(/ /g'`  
 echo "System name: " $os 
 
 # get 4-digit operation systerm version  
@@ -229,6 +229,9 @@ switch($os[1])
        set hard = "i86"
        breaksw
    case CYGWIN_NT-6.1-WOW:
+       set hard = "i86"
+       breaksw
+   case CYGWIN_NT-10.0:
        set hard = "i86"
        breaksw
    case Linux:

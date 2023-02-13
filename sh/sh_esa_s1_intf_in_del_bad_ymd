@@ -1,0 +1,64 @@
+#!/bin/sh
+
+# Name:
+#   sh_esa_s1_intf_in_del_bad
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+file_intf_in=intf.in
+file_bad=bad.txt
+file_out=${file_intf_in}.out
+
+while [ "$1" != "" ]; do
+    case $1 in 
+	-intf_in)
+	    file_intf_in=$2
+	    file_out=${file_intf_in}.out
+	    ;;
+	-bad)
+	    file_bad=$2
+	    ;;
+	-out)
+	    file_out=$2
+	    ;;
+	*)
+	    echo "[]ERROR: invalid option ($1)!!"
+	    exit 1
+	    ;;
+    esac
+    shift 2
+done
+
+echo "[]input file: $file_intf_in"
+echo "[]bad day list file: $file_bad"
+echo "[]output file: $file_out"
+
+grep '^ ' $file_bad > .tmp
+
+cmdstr="cat $file_intf_in"
+while read line ; do
+    if [ "$line" == "" ]; then
+	continue
+    fi
+    #year=`echo $line | awk '{print substr($1,1,4)}'`
+    #doyr=`echo $line | awk '{print substr($1,5,3)+1}'`
+    #ymd=`doy $year $doyr | head -1 | awk '{print $2}' | sed -e 's/\///g'`
+    cmdstr="$cmdstr | grep -v $line"
+    echo $cmdstr
+done < .tmp
+
+echo $cmdstr|sh > $file_out

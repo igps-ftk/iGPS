@@ -1,0 +1,61 @@
+# Makefile for newpsf on CYGWIN_NT-10.0 3.1.7 by unimake at Sat Jul  2 23:56:38 CST 2022
+
+all: newm newp news newf newhtml
+
+
+
+# ASSIGMENTS
+### G77 flags ###
+#FTN = g77 
+#FFLAGS = -O3 -Wuninitialized -Wunused -Wimplicit -fno-f2c -ffast-math -fno-automatic -fno-backslash -Wno-globals -fno-globals
+#CC = gcc
+#CFLAGS = -g -lz 
+### GCC V4 gfortran flags ###
+FTN = gfortran
+#FFLAGS = -O2 -Wuninitialized -Wunused -Wimplicit -fno-f2c -ffast-math -fno-automatic -fno-backslash
+FFLAGS = -O2 -Wuninitialized -fno-f2c -ffast-math -fno-automatic -fno-backslash -m64 -mcmodel=large
+#FFLAGS = -O2 -Wuninitialized -fno-f2c -ffast-math -fno-automatic -fno-backslash -fallow-argument-mismatch  -mcmodel=medium #-m64 # -mcmodel=large
+CC = gcc
+CFLAGS = -g -lz 
+#### For 64-bit machines:
+#CFLAGS = -g --DADD64BIT
+
+SLIB = ../../lib/cgps_lib.a.CYGWIN_NT-10.0_unknown ../../../../gglib/gglib.a.CYGWIN_NT-10.0_unknown 
+X11LIB = 
+II = 
+
+newm : newm.f  $(SLIB) 
+	$(FTN) newm.f  $(SLIB) -o newm.CYGWIN_NT-10.0_unknown $(FFLAGS)
+	rm -f newm.o
+
+newp : newp.f  $(SLIB) 
+	$(FTN) newp.f  $(SLIB) -o newp.CYGWIN_NT-10.0_unknown $(FFLAGS)
+	rm -f newp.o
+
+news : news.f  $(SLIB) 
+	$(FTN) news.f  $(SLIB) -o news.CYGWIN_NT-10.0_unknown $(FFLAGS)
+	rm -f news.o
+
+newf : newf.f  $(SLIB) 
+	$(FTN) newf.f  $(SLIB) -o newf.CYGWIN_NT-10.0_unknown $(FFLAGS)
+	rm -f newf.o
+
+newhtml : newhtml.f  $(SLIB) 
+	$(FTN) newhtml.f  $(SLIB) -o newhtml.CYGWIN_NT-10.0_unknown $(FFLAGS)
+	rm -f newhtml.o
+
+
+.c.a:
+	$(CC) -c $(CFLAGS) -I$(II) $<
+	ar rv $@ *.o
+	rm -f $*.o
+
+.f.a:
+	$(FTN) -c $(FFLAGS) $<
+	ar rv $@ *.o
+	rm -f $*.o
+
+
+cleanall:
+	rm -f *.a.CYGWIN_NT-10.0_unknown *.o *core newm newp news newf newhtml  newm.CYGWIN_NT-10.0_unknown newp.CYGWIN_NT-10.0_unknown news.CYGWIN_NT-10.0_unknown newf.CYGWIN_NT-10.0_unknown newhtml.CYGWIN_NT-10.0_unknown
+# End of Makefile

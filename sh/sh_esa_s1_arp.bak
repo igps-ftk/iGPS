@@ -1,0 +1,282 @@
+#!/bin/sh
+
+# Name:
+#   sh_esa_s1_arp
+#   
+
+# Purpose:
+#   Auto-Response Program (ARP) for events (e.g., earthquake, landslide, ...) using Sentinel-1 InSAR
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+. ${HOME}/.bashrc
+
+PROG=sh_esa_s1_arp
+
+
+host_type=`hostname | awk '{print substr($1,1,4)}'`
+echo "[$PROG]INFO: host_type is $host_type"
+
+
+if [ "$igps_arp" = "" ]; then
+    echo "iGPS environment variable igps_arp not set! Stopped!!"
+    #igps_arp='/g8c/arp'
+    exit 1
+fi
+
+path_event="${igps_arp}/events"
+path_expt="${igps_arp}/expt"
+
+
+
+if [ "$host_type" = "node" ]; then
+    root_safe=/sar/s1/metainfo/manifest.safe/
+else
+    root_safe=${esa_data}/safe/all/
+    root_safe=${esa_data}/metainfo/manifest.safe/
+fi
+echo "[$PROG]INFO: root_safe is $root_safe"
+#exit
+
+mag_min=5.0
+
+cd $path_expt
+
+find "$path_event/" -maxdepth 1 -type f -name "*.txt" > .tmp.events
+#find "$path_event/" -maxdepth 1 -type f -name "19202*.txt" > .tmp.events
+while read file_event; do
+    
+    #From: ens@ens.usgs.gov (USGS ENS)
+    #From: USGS ENS 
+    tmp=`grep 'USGS ENS' $file_event`
+    if [ "$tmp" = "" ]; then    #not USGS ENS email
+        echo "[$PROG]INFO: $file_event is not a USGS ENS email."
+        continue
+    fi
+    
+    #
+    #Geographic coordinates:           26.688N, 126.649E
+    #lat=`grep -ha 'Geographic coordinates' "$file_event" | awk '{print $3}' | sed -e 's/N,//g'`
+    #lon=`grep -ha 'Geographic coordinates' "$file_event" | awk '{print $4}' | sed -e 's/E//g'`
+    lat=`grep -ha 'Geographic coordinates' "$file_event" | awk '{print $3}' | sed -e 's/N,//g'`
+    lon=`grep -ha 'Geographic coordinates' "$file_event" | awk '{print $4}' | sed -e 's/E//g'`
+    if [ "$lat" = "" ]; then
+        #Location 32.772N 85.411E 
+        #lat=`grep -ha 'Location' "$file_event" | head -1 | awk '{print $2}' | awk '{if(substr($1,length($1),1)=="S"){print -1*substr($1,1,length($1)-1) }else{ print 1*substr($1,1,length($1)-1)}}'`
+        #lon=`grep -ha 'Location' "$file_event" | head -1 | awk '{print $3}' | awk '{if(substr($1,length($1),1)=="W"){print -1*substr($1,1,length($1)-1) }else{ print 1*substr($1,1,length($1)-1)}}'`        
+        lat=`grep -ha 'Location' "$file_event" | head -1 | awk '{print $2}' | awk '{if(substr($1,length($1),1)=="S"){print -1*substr($1,1,length($1)-1) }else{ print 1*substr($1,1,length($1)-1)}}'`
+        lon=`grep -ha 'Location' "$file_event" | head -1 | awk '{print $3}' | awk '{if(substr($1,length($1),1)=="W"){print -1*substr($1,1,length($1)-1) }else{ print 1*substr($1,1,length($1)-1)}}'`
+        #grep -ha 'Location' "$file_event" | head -1 | awk '{print $3}' #| awk '{if(substr($1,length($1),1)=="W"){print -1*substr($1,1,length($1)-1) }else{ print substr($1,length($1)-1,1),"not W",1*substr($1,1,length($1)-1)}}'
+    fi
+    
+    #Preliminary Report Magnitude 5.0 
+    #Magnitude:                        5.0
+    mag=`grep -ha 'Magnitude' "$file_event" | awk '{print $NF+0.}'`
+    
+    #Subject: 2020-03-12 15:44:02 (M5.0) western Xizang 32.8 85.4 (766d8)
+    #Subject: 2020-04-08 05:55:50 (M5.0) Ryukyu Islands, Japan 26.7 126.6 (9ffab)
+    date=`grep -ha 'Subject' "$file_event" | tail -1| awk '{print $2}'| sed -e 's/-//g'`
+    time=`grep -ha 'Subject' "$file_event" | tail -1| awk '{print $3}'| sed -e 's/://g'`
+    
+    echo "[$PROG]INFO: lat $lat lon $lon mag $mag date $date time $time"
+    event_id="${date}T${time}-m${mag}"
+    echo "[$PROG]INFO: event_id $event_id"
+    
+    is_small=`echo $mag | awk '{if($1<mag_min){print 1}else{print 0}}' mag_min=$mag_min`
+    #echo "is_small $is_small"
+    if [ $is_small -eq 1 ]; then
+        echo "[$PROG]WARNING: the event ($event_id) is too small (<M${mag_min})! Skipped."
+        continue
+    fi
+    #exit
+    
+    tmp=`grep -ha 'Subject' "$file_event" | tail -1| awk '{print $2}'| sed -e 's/-/ /g'`
+    dyr1=`doy $tmp | tail -1 | awk '{print $3-.16"Y"}'`
+    dyr2=`doy $tmp | tail -1 | awk '{print $3+.16"Y"}'`
+    #echo $dyr1 $dyr2
+    date1=`doy $dyr1 | head -1 | awk '{print $2 }' | sed -e 's/\//-/g'`    
+    date2=`doy $dyr2 | head -1 | awk '{print $2 }' | sed -e 's/\//-/g'`
+    #echo $date1
+    #echo $date2
+    s1_date_start='15+week+ago'
+    s1_date_end=now
+    s1_date_start="${date1}T00:00:00"
+    s1_date_end="${date2}T00:00:00"
+    #exit
+
+
+    roi_str=`echo $lon $lat | awk '{print "intersectsWith=point%28"$1"+"$2"%29"}'`
+    
+    pwd
+    out_file=$event_id-result.csv
+    out_type=CSV
+    if [ ! -s $out_file ]; then
+        qstr="curl https://api.daac.asf.alaska.edu/services/search/param?platform=S1\&${roi_str}\&output=${out_type}\&beamMode=IW\&processingLevel=SLC\&start=${s1_date_start}\&end=${s1_date_end} > ${out_file}"
+        echo $qstr
+        echo $qstr | sh
+        
+        out_file2=$event_id-result.kml
+        out_type2=KML
+        qstr="curl https://api.daac.asf.alaska.edu/services/search/param?platform=S1\&${roi_str}\&output=${out_type2}\&beamMode=IW\&processingLevel=SLC\&start=${s1_date_start}\&end=${s1_date_end} > ${out_file2}"
+        echo $qstr
+        echo $qstr | sh
+
+        out_file3=$event_id-result.py
+        out_type3=DOWNLOAD
+        qstr="curl https://api.daac.asf.alaska.edu/services/search/param?platform=S1\&${roi_str}\&output=${out_type3}\&beamMode=IW\&processingLevel=SLC\&start=${s1_date_start}\&end=${s1_date_end} > ${out_file3}"
+        echo $qstr
+        echo $qstr | sh
+
+
+    fi
+    #exit
+    
+    tracks=`cat $out_file | awk -F\" 'NR>1 {print $14}' |sort |uniq `
+    echo "out_file is $out_file"
+    echo "*tracks: $tracks" 
+    file_tmp_scenes=.tmp.scenes.${event_id}
+    \rm -rf $file_tmp_scenes
+    for track in $tracks; do
+        track0=`echo $track | awk '{printf("%03d",$1)}'`
+        echo track0 $track0
+        #exit 1
+        echo "*current track: $track" >> $file_tmp_scenes
+        scenes=`cat $out_file | awk -F\" '{if($14==track){print $2}}' track=$track | sort`
+        AD=`cat $out_file | awk -F\" '{if($14==track){print $0}}' track=$track | head -1 | awk -F\",\" '{print substr($25,1,1)}'`
+        echo AD $AD
+        #exit
+        echo "scenes: $scenes"
+        #
+        for scene in $scenes; do
+            file_slc_safe=${root_safe}/${AD}${track0}/${scene}.manifest.safe
+            #echo $file_slc_safe
+            #exit
+            if [ -s $file_slc_safe ]; then
+                echo " 1 $track $scene $file_slc_safe" >> $file_tmp_scenes
+            else
+                echo " 0 $track $scene $file_slc_safe" >> $file_tmp_scenes
+            fi
+        done
+        
+    done
+    cat $file_tmp_scenes
+    echo "file_tmp_scenes is $file_tmp_scenes"
+    
+    expts=
+    for track in $tracks; do
+        cd $path_expt
+        pwd
+        expt="${event_id}-t${track}"
+        expts="$expts $expt"
+        echo "expt is $expt"
+        path_expt_track="${path_expt}/${expt}"
+        if [ -d $path_expt_track ] ; then
+            echo "already exist! skipped."
+            continue
+        fi
+        mkdir -p $path_expt_track
+        #grep -h '^ ' $file_tmp_scenes 
+        grep -h '^ ' $file_tmp_scenes | awk '{if($1==1&&$2==t){print "",$3,$1,$2,$4}}' t=$track > $path_expt_track/scenes.lst
+        nscn=`wc -l $path_expt_track/scenes.lst | awk '{print $1}'`
+        if [ $nscn -le 1 ]; then
+            echo "[$PROG]ERROR: no enough scenes (${nscn})!! Skipped."
+            continue
+        fi
+        pwd
+        #exit
+        
+        mkdir -p $path_expt_track/safe
+        scenes=`grep -h '^ ' $file_tmp_scenes | awk '{if($1==1&&$2==t){print $4}}' t=$track`
+        for scene in $scenes; do
+            echo ln -s $scene $path_expt_track/safe/
+            ln -s $scene $path_expt_track/safe/ #>& /dev/null
+        done
+    
+        #continue
+        
+        path_safe=${path_expt}/${expt}/safe
+        target="`grep -h '^ ' ${path_expt}/${expt}/scenes.lst | head -1 | awk '{print $1}'`.manifest.safe"
+        echo esa_s1_manifest_overlap $path_safe $target
+        esa_s1_manifest_overlap $path_safe $target ${path_expt}/${expt}/ >& ${path_expt}/${expt}/log.overlap
+        #exit
+        kml2gmt ${path_expt}/${expt}/overlapping_${target}.kml > ${path_expt}/${expt}/overlapping_${target}.psxy
+        xmin=`gmt gmtinfo -C ${path_expt}/${expt}/overlapping_${target}.psxy | awk '{print $1-.5}'`
+        xmax=`gmt gmtinfo -C ${path_expt}/${expt}/overlapping_${target}.psxy | awk '{print $2+.5}'`
+        ymin=`gmt gmtinfo -C ${path_expt}/${expt}/overlapping_${target}.psxy | awk '{print $3-.5}'`
+        ymax=`gmt gmtinfo -C ${path_expt}/${expt}/overlapping_${target}.psxy | awk '{print $4+.5}'`
+        echo "range: $xmin $xmax $ymin $ymax"
+        #continue
+        if [ ! -s ${path_expt}/${expt}/topo/dem.grd ]; then
+            mkdir -p ${path_expt}/${expt}/topo/
+            gmt grdcut ${esa_data}/topo/srtm3/grid/china.grd -G${path_expt}/${expt}/topo/dem.grd -R${xmin}/${xmax}/${ymin}/${ymax}
+            cd ${path_expt}/${expt}/topo/
+            pwd
+            zmin=`gmt grdinfo -C dem.grd | awk '{print $6}'`
+            zmax=`gmt grdinfo -C dem.grd | awk '{print $7}'`
+            echo "zmin zmax: $zmin $zmax"
+            gmt makecpt -Cjet -T${zmin}/${zmax}/1 -Z -I > dem.cpt
+            grd2kml.csh dem dem.cpt
+            cd ..
+            ln -s topo/dem.grd .
+        fi
+        
+        #continue
+        
+        cd ${path_expt}/${expt}
+        pwd
+        
+        \cp -f ${esa_data}/batch_tops.config ./
+        for i in 1 2 3 ; do
+            if [ -d F${i} ] ; then
+                continue
+            fi
+            if [ "$host_type" = "node" ]; then
+                sh_esa_s1_unzip_node overlapping_${target}.txt iw${i}
+            else
+                sh_esa_s1_unzip overlapping_${target}.txt iw${i}
+            fi
+            mkdir -p F${i}
+            cd F${i}
+            pwd
+            echo sh_esa_s1_run_tsa -file ../overlapping_${target}.txt -iw iw${i}
+            echo sh_esa_s1_run_tsa -file ../overlapping_${target}.txt -iw iw${i} | sh
+            cd ..
+            #exit
+        done
+        #exit
+    done
+    
+    ##exit
+    ##out_file=$event_idresult.meta4
+    ##out_type=METALINK
+    ##qstr="curl https://api.daac.asf.alaska.edu/services/search/param?platform=S1\&${roi_str}\&output=${out_type}\&beamMode=IW\&processingLevel=SLC\&start=7+week+ago\&end=now > ${out_file}"
+    ##echo $qstr
+    ##echo $qstr | sh
+    ##
+    ##exit
+    ##
+    ##out_file=$event_idresult.py
+    ##out_type=DOWNLOAD
+    ##qstr="curl https://api.daac.asf.alaska.edu/services/search/param?platform=S1\&${roi_str}\&output=${out_type}\&beamMode=IW\&processingLevel=SLC\&start=7+week+ago\&end=now > ${out_file}"
+    ##echo $qstr
+    ##echo $qstr | sh
+    ##
+    ##out_file=$event_idresult.kml
+    ##out_type=KML
+    ##qstr="curl https://api.daac.asf.alaska.edu/services/search/param?platform=S1\&${roi_str}\&output=${out_type}\&beamMode=IW\&processingLevel=SLC\&start=7+week+ago\&end=now > ${out_file}"
+    ##echoecho $qstr
+    ##echo $qstr | sh
+
+
+
+done < .tmp.events

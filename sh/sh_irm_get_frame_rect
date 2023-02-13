@@ -1,0 +1,90 @@
+#!/bin/sh
+
+# Name:
+#   sh_irm_get_frame_rect
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+. ${HOME}/.bashrc
+
+PROG=sh_irm_get_frame_rect
+
+path_old=`pwd`
+
+usage(){
+  echo "[$PROG]Usage: ${PROG} "
+  echo "[$PROG]Usage: e.g.,"
+  echo "[$PROG]Usage:  "
+}
+
+path=/sar/proc_gmtsar/irm/by.frame
+path=../by.frame
+
+timestamp=`date | sed -e 's/ /_/g' | sed -e 's/:/-/g'`
+
+
+while [ "$1" != "" ]; do
+  case $1 in
+    *)
+      echo "[$PROG]ERROR: invalid option ($1)!!"
+      usage
+      exit 1
+      ;;
+  esac
+  shift 2  
+done
+
+cd /sar/proc_gmtsar/irm/www
+pwd
+
+file_lock="`pwd`/_tmp_${PROG}.lock"
+
+if [ -s $file_lock ];then
+  echo "[$PROG]WARNING: session locked ($file_lock)!"
+  exit 1
+fi
+
+hostname > $file_lock
+date >> $file_lock
+
+ofile=frame.ranges.txt
+file_tmp=_frame_ranges_${PROG}_${timestamp}
+
+
+
+
+\rm -f $file_tmp
+
+expts=`find $path -maxdepth 1 -type d -name "[AD]*" |sort `
+for expt in $expts; do
+  echo expt $expt
+  Fs=`find $expt -maxdepth 1 -type d -name "F[123]" | sort`
+  for F in $Fs; do
+    file_vel=$F/sbas/r4/vel_mask_ll_r4.grd
+    if [ ! -s $file_vel ]; then
+      continue
+    fi
+    #file_png=`echo $file_vel | sed -e 's/.grd/.png/g'`
+    ranges=`gmt grdinfo -C $file_vel | awk '{print $1,$2,$3,$4,$5}' | sed -e 's/.grd/.png/g'`
+    echo $ranges >> $file_tmp
+  done
+
+
+done
+
+\mv -f $file_tmp $ofile
+
+\rm -f $file_lock

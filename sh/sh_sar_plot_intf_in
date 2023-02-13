@@ -1,0 +1,130 @@
+#!/bin/sh
+
+# Name:
+#   sh_esa_plot_intf_in
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+gmtset PS_MEDIA = a4
+gmtset FONT_TITLE = 12p
+gmtset FONT_LABEL         = 8p
+gmtset FONT_ANNOT_PRIMARY = 9p
+gmtset MAP_FRAME_PEN               = .5p
+gmtset MAP_FRAME_WIDTH             = 0.1c
+gmtset MAP_TICK_LENGTH = .1c
+gmtset MAP_TITLE_OFFSET = .1051c
+
+if [ ! -s baseline_table.dat ]; then
+  echo "[]ERROR:baseline_table.dat file is missing!!"
+  exit 1
+fi
+#file baseline_table.dat
+
+if [ ! -s intf.in ]; then
+  echo "[]ERROR:intf.in file is missing!!"
+  exit 1
+fi
+#file intf.tab
+
+
+if [ "$1" = "-h" ]; then
+    echo "Usage: sh_envisat_link_raw [intf.in/align.in]"
+    exit 1
+fi
+
+file=intf.in
+if [ "$1" != "" ]; then
+    file=$1
+fi
+
+
+ofile=f-baseline-time.ps
+
+#read baseline_table.dat file
+ids=`cat baseline_table.dat | awk '{print $1}'`
+yeardoyrs=`cat baseline_table.dat | awk '{print int($2)}'`
+years=`cat baseline_table.dat | awk '{print substr($2,1,4)}'`
+doyrs=`cat baseline_table.dat | awk '{print substr($2,5,3)}'`
+blens=`cat baseline_table.dat | awk '{print $5}'`
+#exit
+
+nf=`cat intf.in | wc -l`
+ntot=$nf
+np=`echo $ntot | awk '{print int($1/10)}'`
+if [ $np -eq 0 ]; then
+  np=1
+fi
+
+
+rm -rf .tmp_
+#loop for lines of intf.in
+n=0
+while read line; do
+  #echo $line
+  n=`expr $n + 1`
+  #echo $n $np $ntot
+  echo $n $np | awk '{if( ($1-int($1/$2)*$2)==0){printf(".")}}'
+
+  id1=`echo $line | awk -F: '{print $1}'`
+  id2=`echo $line | awk -F: '{print $2}'`
+  #echo $id1 $id2
+  n1=`grep -n $id1 baseline_table.dat | awk -F: '{print $1}'`
+  n2=`grep -n $id2 baseline_table.dat | awk -F: '{print $1}'`
+  year1=`echo $years | awk '{print $i}' i=$n1`
+  year2=`echo $years | awk '{print $i}' i=$n2`
+  doyr1=`echo $doyrs | awk '{print $i}' i=$n1`
+  doyr2=`echo $doyrs | awk '{print $i}' i=$n2`
+  dyr1=`doy $year1 $doyr1 | tail -1 | awk '{print $3}'`
+  dyr2=`doy $year2 $doyr2 | tail -1 | awk '{print $3}'`
+  blen1=`echo $blens | awk '{print $i}' i=$n1`
+  blen2=`echo $blens | awk '{print $i}' i=$n2`
+  #echo $yeardoyr1 $yeardoyr2 $n1 $n2 $year1 $doyr1 $year2 $doyr2
+  echo "> ${id1}_${id2}" >> .tmp_
+  echo "$dyr1 $blen1" >> .tmp_
+  echo "$dyr2 $blen2" >> .tmp_
+  #exit
+done < $file
+
+R=`gmtinfo -I2/200 .tmp_`
+psxy $R -JX5i/4i -Sc.1c -Gyellow -W.35p,red -B1f.5:"Time":/200f100:"Distance (m)"::."baseline vs. time":/WSen -P -K .tmp_ > $ofile
+psxy -R -J -W0.2p,purple,- -O -K .tmp_  >> $ofile
+
+
+rm -rf .tmp_2
+while read line; do
+  id=`echo $line | awk '{print $1}'`
+  year=`echo $line | awk '{print substr($2,1,4)}'`
+  doyr=`echo $line | awk '{print substr($2,5,3)}'`
+  blen=`echo $line | awk '{print $5}'`
+  dyr=`doy $year $doyr | tail -1 | awk '{print $3}'`
+  echo "$dyr $blen $id" >> .tmp_2
+done < baseline_table.dat
+#
+pstext -R -J -F+f5p+a0+j1 -O -K .tmp_2 >> $ofile
+
+psxy -R -J -O <<eof -W1p,red,- >> $ofile
+>
+0 -10000
+0 10000
+>
+-10000 0
+10000 0
+eof
+
+echo "converting JPEG ..."
+psconvert -A -Tj $ofile
+echo "converting PDF ..."
+psconvert -A -Tf $ofile

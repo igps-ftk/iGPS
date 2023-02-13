@@ -1,0 +1,115 @@
+#!/bin/sh
+
+# Name:
+#   
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+. ${HOME}/.bashrc
+
+
+if [ "$esa_data" = "" ]; then
+    echo "ESA environment esa_data variable not set! Stopped!!"
+    exit 1
+fi
+
+
+this_host=`hostname`
+user=tianyunfeng
+
+roi_file=${esa_data}/vector/L_.roi_china_east.kml
+roi_file=${esa_data}/vector/roi_china_20210216.kml
+
+
+orb_types='ASCENIGN DESCENDING'
+case $this_host in
+  gpsac15)
+    orb_types='ASCENDIGN'
+    path=/g15a/gsar/china_east/S1.3
+    ;;
+  gpsac14)
+    orb_types='DESCENDING'
+    path=/g14f/esa.data/china_east/S1.3
+    ;;
+  *)
+    echo "[$PROG]ERROR: wrong host ($this_host)!!"
+    exit 1
+    ;;
+esac
+echo host $this_host orb_types $orb_types
+#exit
+
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -config)
+      config_file=$2
+      ;;
+    -user)
+      user=$2
+      ;;
+    -path)
+      path=$2
+      ;;
+    -roi)
+      roi_file=$2
+      ;;
+    *)
+      echo "[]ERROR: invalid option ($1)!!"
+      exit 1
+      ;;
+  esac
+  shift 2
+
+done
+
+user=`echo $tmp | awk '{print $5}'`
+echo user is $user
+
+opath=${path}
+echo $opath
+echo $user
+if [ "$user" == "" ];then
+  user=tianyunfeng
+fi
+echo user is $user
+
+#exit
+#mkdir -p ${opath}
+#exit
+cd $opath
+pwd
+
+lckfile="${opath}/_cron_asf_china_east.lock"
+if [ -s $lckfile ]; then
+  echo "[]WARNING: a previous session is already running !! Quit."
+  exit 1
+fi
+
+echo "[]INFO: downloading data for $track at $this_host ..." > $lckfile
+#exit
+
+for orb_type in $orb_types; do
+  echo orb_type is $orb_type
+  sh_esa_s1_query_asf -roi_file $roi_file -roi_type polygon -orb_type $orb_type -out_type KML -out_file ${orb_type}.kml -weeks 3
+
+  sh_esa_s1_query_asf -roi_file $roi_file -roi_type polygon -orb_type $orb_type -out_file ${orb_type}.py
+
+  #continue
+  sh_esa_s1_get_data_py_asf ${orb_type}.py $opath $user
+done
+
+\rm -f $lckfile

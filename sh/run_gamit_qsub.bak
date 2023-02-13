@@ -38,6 +38,9 @@ IGS_DIR=/h1/ftp/pub
 # |              -igs18775.sp3.Z #for IGSF orbit
 # |              -igr18775.sp3.Z #for IGSR orbit
 
+
+orbit=IGSR
+#orbit=IGSF
 #gamit processing directory, e.g. 
 PROC_DIR=/home/tianyf/gpse/trns/solut/gmf/${orbit}
 #--
@@ -81,8 +84,6 @@ fi
 
 
 
-orbit=IGSR
-#orbit=IGSF
 
 ndays=1
 
@@ -116,7 +117,6 @@ while [ "$1" != "" ]; do
 	    ;;
 	-orbit)
 	    orbit=$2
-      PROC_DIR=/home/tianyf/gpse/trns/solut/gmf/${orbit}
 	    ;;
 	-overwrite)
 	    overwrite=$2
@@ -169,11 +169,13 @@ gpsd=`doy $year $doyr | grep 'GPS Week' | awk '{printf("%d",$7)}'`
 
 #check whether orbit file exist
 case $orbit in
-    IGSR)
+    IGSR|IGRR)
 	file_orb=${IGS_DIR}/products/${gpsw}/igr${gpsw}${gpsd}.sp3.Z
+        PROC_DIR=/home/tianyf/gpse/trns/solut/gmf/IGSR
 	;;
-    IGSF)
+    IGSF|IGFF)
 	file_orb=${IGS_DIR}/products/${gpsw}/igs${gpsw}${gpsd}.sp3.Z
+        PROC_DIR=/home/tianyf/gpse/trns/solut/gmf/IGSF
 	;;
     *)
 	echo "[run_rapid]ERROR: orbit $orbit not yet supported!"
@@ -195,37 +197,74 @@ for expt in $expts; do
 
     #check whether already done
     file_h=${HFILE_DIR}/${year}/${doyr}/h${expt}a.${yr}${doyr}.Z
-    if [ -s $file_h ]; then
-	#solut_type=`zgrep tig $file_h | head -1 | awk '{print substr($2,2,4)}'`
-        solut_type=igsf
-	echo "orbit solution type: ${solut_type}"
-	case $orbit in
-	    IGSR)
-		if [ "$solut_type" = "igsf" -o "$solut_type" = "igsr" ]; then
-		    echo "[run_rapid]Already done (${file_h})!"
-		    if [ $overwrite -eq 0 ]; then
-			continue
-		    else
-			echo "[run_rapid]WARNING:overwriting!"
-		    fi
-		else
-		    echo "[run_rapid]H-file exists but not correct orbit type!"
-		fi
-		;;
-	    IGSF)
-		if [ "$solut_type" = "igsf" ]; then
-		    echo "[run_rapid]Already done (${file_h})!"
-		    if [ $overwrite -eq 0 ]; then
-			continue
-		    else
-			echo "[run_rapid]WARNING:overwriting!"
-		    fi
-			
-		else
-		    echo "[run_rapid]H-file exists but not correct orbit type!"
-		fi
-		;;
-	esac
+    file_s=${HFILE_DIR}/${year}/${doyr}/sh_gamit_${year}_${doyr}.summary.${expt}.Z
+    #
+    echo "first, check the summary file for orbit type ..."
+    if [ -s $file_s ]; then
+  	solut_type=`zgrep -h orbit $file_s | head -1 | awk '{print tolower($9)}'`
+          #solut_type=igsf
+  	echo "orbit solution type: ${solut_type}"
+  	case $orbit in
+  	    IGSR|IGRR)
+  		if [ "$solut_type" = "igsf" -o "$solut_type" = "igsg" -o "$solut_type" = "igff" -o "$solut_type" = "igsr"  -o "$solut_type" = "igrr"]; then
+  		    echo "[run_rapid]Already done (${file_h})!"
+  		    if [ $overwrite -eq 0 ]; then
+  			continue
+  		    else
+  			echo "[run_rapid]WARNING:overwriting!"
+  		    fi
+  		else
+  		    echo "[run_rapid]H-file exists but not correct orbit type!"
+  		fi
+  		;;
+  	    IGSF|IGFF)
+  		if [ "$solut_type" = "igsf" -o "$solut_type" = "igsg"  -o "$solut_type" = "igff" ]; then
+  		    echo "[run_rapid]Already done (${file_h})!"
+  		    if [ $overwrite -eq 0 ]; then
+  			continue
+  		    else
+  			echo "[run_rapid]WARNING:overwriting!"
+  		    fi
+  			
+  		else
+  		    echo "[run_rapid]H-file exists but not correct orbit type!"
+  		fi
+  		;;
+  	esac    
+    else #
+      echo "no summary file, then check the h-file for orbit type ..."
+      if [ -s $file_h ]; then
+  	solut_type=`zgrep tig $file_h | head -1 | awk '{print substr($2,2,4)}'`
+          #solut_type=igsf
+  	echo "orbit solution type: ${solut_type}"
+  	case $orbit in
+  	    IGSR|IGRR)
+  		if [ "$solut_type" = "igsf" -o "$solut_type" = "igsg" -o "$solut_type" = "igff" -o "$solut_type" = "igsr"  -o "$solut_type" = "igrr"]; then
+  		    echo "[run_rapid]Already done (${file_h})!"
+  		    if [ $overwrite -eq 0 ]; then
+  			continue
+  		    else
+  			echo "[run_rapid]WARNING:overwriting!"
+  		    fi
+  		else
+  		    echo "[run_rapid]H-file exists but not correct orbit type!"
+  		fi
+  		;;
+  	    IGSF|IGFF)
+  		if [ "$solut_type" = "igsf" -o "$solut_type" = "igsg"  -o "$solut_type" = "igff" ]; then
+  		    echo "[run_rapid]Already done (${file_h})!"
+  		    if [ $overwrite -eq 0 ]; then
+  			continue
+  		    else
+  			echo "[run_rapid]WARNING:overwriting!"
+  		    fi
+  			
+  		else
+  		    echo "[run_rapid]H-file exists but not correct orbit type!"
+  		fi
+  		;;
+  	esac
+      fi
     fi
 
     tmp=`date | sed -e 's/ /_/g' | sed -e 's/:/-/g'`
@@ -284,4 +323,4 @@ fi
 done
 
 sinfo
-squeue
+#squeue

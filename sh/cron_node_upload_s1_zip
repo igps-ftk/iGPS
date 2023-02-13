@@ -1,0 +1,78 @@
+#!/bin/sh
+
+# Name:
+#   cron_node_upload_s1_zip
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+
+PROG=cron_node_upload_s1_zip
+
+
+host=`hostname`
+
+path=`pwd`
+oldpath=$path
+
+opath=/sar/esa.sentinel-1/ok/
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -path)
+      path=$2
+      ;;
+    -opath)
+      opath=$2
+      ;;
+    *)
+      echo "[$PROG]ERROR: invalid option ($1)!!"
+      exit 1
+      ;;
+  esac
+  shift 2
+done
+
+tfile=_tmp_${PROG}_${host}
+cd $path
+pwd
+
+nf=`wc -l md5.OK.txt | awk '{print $1}'`
+
+cat md5.OK.txt > ${tfile}
+while read line; do
+  file=`echo $line | awk -F: '{print $1}'`
+
+  if [ ! -s $file ]; then
+    echo "{$PROG}WARNING: file not exist ($file)!"
+    continue
+  fi
+
+  echo "rsync -avP $file /sar/esa.sentinel-1/ok/"
+  rsync -avP $file /sar/esa.sentinel-1/ok/
+  if [ $? -eq 0 ]; then
+    echo $line >> ${esa_data}/md5.OK.txt
+    ls -l /sar/esa.sentinel-1/ok/${file} >> ${esa_data}/s1.2.list
+    sed -i "/$line/d" md5.OK.txt
+    \rm -rf $file
+    mfile=`echo $file | sed -e 's/zip/metalink/g'`
+    \rm -rf $mfile
+  else
+    echo "[$PROG]ERROR: cannot transfer $file !"
+    continue
+  fi
+
+done < ${tfile}

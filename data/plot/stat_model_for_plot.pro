@@ -7,9 +7,20 @@ PRO STAT_MODEL_FOR_PLOT, $
   IF N_ELEMENTS(FILE) EQ 0 THEN BEGIN
     FILE=FILEPATH(ROOT_DIR=!IGPS_ROOT,SUBDIRECTORY=['example','sio', $
       'cleanedNeuUnf.resid'],'STAT.MODEL')
-    FILE=DIALOG_PICKFILE(TITLE='Where is the STAT.MODEL file?',FILE='STAT.MODEL')
-    ;FILE='E:\Papers.data\Paper.Seasonal.Positioning.Error\autcln.post.sum.stat\rms_gmf.v3.by.site\trna\tie.resid\STAT.MODEL'
-    ;file='E:\gpse\rerun.cmonoc\comb\gmf3\gsoln\neu.cln.demean.cont.trns_299.cln.tie.resid.feplot\resid\STAT.MODEL'
+    ;FILE=DIALOG_PICKFILE(TITLE='Where is the STAT.MODEL file?',FILE='STAT.MODEL')
+
+    file='D:\gsar\des\buruo2\des_F2.c\SBAS5\x15\raw.flt.resid\STAT.MODEL'
+    cfile='D:\gsar\des\buruo2\des_F2.c\SBAS5\x15\raw\sites.net'
+    
+    file='D:\gsar\des\dangxiong2\des_F3\SBAS2\x3\raw.resid\STAT.MODEL'
+    cfile='D:\gsar\des\dangxiong2\des_F3\SBAS2\x3\raw\sites.net'
+    
+    file='D:\gsar\des\dangxiong2\des_F3\SBAS3\x1\raw\STAT.MODEL'
+    cfile='D:\gsar\des\dangxiong2\des_F3\SBAS3\x1\raw\sites.net'
+    ;
+    ;
+    neustr='N'
+    
     IF FILE EQ '' THEN RETURN
     CD, GETPATHNAME(FILE)
     OFILE=FILE+'_GMT'
@@ -37,7 +48,8 @@ PRO STAT_MODEL_FOR_PLOT, $
   
   LINES=READ_TXT(FILE)
   NL=N_ELEMENTS(LINES)
-  NEUSTR=['N','E','U']  ;OUTPUT ALL THREE COMPONENTS; APPENEDED TO OUTPUT FILES
+  if n_elements(neustr) eq 0 then NEUSTR=['N','E','U']  ;OUTPUT ALL THREE COMPONENTS; APPENEDED TO OUTPUT FILES
+ 
   OFILES=STRARR(3)
   
   ;GET SITE NAMES
@@ -67,9 +79,9 @@ PRO STAT_MODEL_FOR_PLOT, $
       LINE_S=STRSPLIT(LINE,/EXTRACT)
       IF LINE_S[1] NE NEUSTR[NEUI] THEN CONTINUE
       SITE=LINE_S[0]
-      ANN=DOUBLE(LINE_S[2])
-      EANN=DOUBLE(LINE_S[9])
-      PHA=DOUBLE(LINE_S[3])
+      ANN=DOUBLE(LINE_S[4])
+      EANN=DOUBLE(LINE_S[7])
+      PHA=DOUBLE(LINE_S[5])
       IF PHA LT 0 THEN BEGIN
         PHA=PHA+2*!DPI
       ENDIF
@@ -94,11 +106,14 @@ PRO STAT_MODEL_FOR_PLOT, $
   ;RETURN
   
   ;STOP
+  pos=where(ofiles ne '')
+  if pos[0] ne -1 then begin
   ;CONVERT TO PSVELO INPUT FORMAT
   ;  WILL APPEND .PSVELO SUFFIX TO OUTPUT FILES.
-  ANNSEMI2PSVELO, FILES=OFILES
+  ANNSEMI2PSVELO, FILES=OFILES[pos]
   ;STAT_MODEL_VEL_2_PSVELO, FILE, OFILE+'.VEL', CFILE=CFILE
   
+  endif
   PRINT,'[STAT_MODEL_FOR_PLOT]Normal end.',$
     FORMAT='(A)'
     

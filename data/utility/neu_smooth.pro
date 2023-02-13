@@ -12,7 +12,9 @@ PRO NEU_SMOOTH, $
     yrange=yranges, $ ;plot range of y-axes in mm (position)
     sf=sf, $          ;scale factor for position unit (default sio/neu is in meter; yranges is in millimeter; therefore the sf should be 1d3)
     verbose=verbose, $  ;whether or not output detailed running information
-    out_neu=out_neu   ;whether write out smoothed time series files (only jpeg files by default).
+    out_neu=out_neu,  $   ;whether write out smoothed time series files (only jpeg files by default).
+    is_overwrite=is_overwrite,  $   ;whether overwrite existing output files, 0-not (default); 1-yes
+    dummy=dummy
     
   prog='NEU_SMOOTH'
   
@@ -25,10 +27,17 @@ PRO NEU_SMOOTH, $
     path='D:\data\cmonoc\timeseries\fromIS\ftp.cgps.ac.cn\products\position.2016feb07\gamit\raw.neu.resid.cmc\flt0'
     path='C:\tmp\jpl\resid.neu.glb.cn.flt'
     path='D:\data\cmonoc\timeseries\fromIS\ftp.cgps.ac.cn\products\position.2016feb07\gamit\raw.neu.cln.resid.flt'
-    path='D:\gpse\rerun.lutai\comb\trnsLTCM2\gsoln\pos.neu.Huabei2017.resid'
-;    path='C:\tmp\jpl\resid.neu.glb'
+    path='D:\gsar\des\mila2s\des_F3\SBAS.556.atm0\x10\raw'
+    path='D:\gsar\des\taiwan2\des_F1\SBAS9\x10\raw'
+    path='\\gpsac11\root\g11i\gsar\cwsf\resid.cmc0\Flt'
+    ;path='\\gpsac11\root\g11i\gsar\cwsf\resid'
+    
+    sf=10
+    szwin=10
+    ;    path='C:\tmp\jpl\resid.neu.glb'
     ;sf=1d0
     ;sf=1d3
+    
     
     out_neu=1
     
@@ -44,7 +53,7 @@ PRO NEU_SMOOTH, $
         IF FILE_TEST(opath_resid,/directory) NE 1 THEN FILE_MKDIR,opath_resid
       ENDIF
       NEU_SMOOTH,path[i],opath=opath,residpath=opath_resid,szwin=szwin, out_neu=out_neu, sf=sf, XSIZE=1500,YSIZE=700
-      ;NEU_SMOOTH,path[i],opath=opath,residpath=opath_resid,szwin=szwin, out_neu=out_neu, sf=sf, XSIZE=1100,YSIZE=500
+    ;NEU_SMOOTH,path[i],opath=opath,residpath=opath_resid,szwin=szwin, out_neu=out_neu, sf=sf, XSIZE=1100,YSIZE=500
     ENDFOR
     RETURN
   ENDIF
@@ -63,6 +72,7 @@ PRO NEU_SMOOTH, $
   IF N_ELEMENTS(psym) EQ 0 THEN psym=1
   IF N_ELEMENTS(symsize) EQ 0 THEN symsize=1
   IF N_ELEMENTS(verbose) EQ 0 THEN verbose=1
+  IF N_ELEMENTS(is_overwrite) EQ 0 THEN is_overwrite=0
   ;help, sf
   
   IF N_ELEMENTS(opath) EQ 0 || STRTRIM(opath,2) EQ '' THEN BEGIN
@@ -86,7 +96,7 @@ PRO NEU_SMOOTH, $
     yranges[*,1]=[-.005,.005]*1d3
     yranges[*,2]=[-.01,.01]*1d3
   ENDIF
-  yranges=yranges*2d0
+  ;yranges=yranges*2d0
   
   IF N_ELEMENTS(xrange) EQ 0 THEN BEGIN
     xrange=[1999.,2012]
@@ -98,17 +108,19 @@ PRO NEU_SMOOTH, $
     ;xrange=[2011.,2012]
     xrange=[1992.,2016]
     xrange=[1997.,2017]
-    ;xrange=[2010.,2017]
-;    xrange=[2010.,2016.5]
-    ;  xrange=[2008.,2012]
-    ;xrange=[2006.,2010.6]
-    ;  xrange=[2005.,2012]
-    ;xrange=[2008,2011]
-    ;xrange=[2014.85,2015.5]
+    xrange=[2014.,2018]
+    xrange=[1999.,2021]
+  ;xrange=[2010.,2017]
+  ;    xrange=[2010.,2016.5]
+  ;  xrange=[2008.,2012]
+  ;xrange=[2006.,2010.6]
+  ;  xrange=[2005.,2012]
+  ;xrange=[2008,2011]
+  ;xrange=[2014.85,2015.5]
   ;
   ;  xrange=[2006.,2010.6]
   ;xrange=[2013.7,2014.8]
-;    xrange=[2010.62,2016.08]
+  ;    xrange=[2010.62,2016.08]
   ;
   ENDIF
   
@@ -116,6 +128,12 @@ PRO NEU_SMOOTH, $
     file=files[fi]
     site=STRMID(GETFILENAME(file),0,4)
     ;print,file
+    ofile=opath+PATH_SEP()+GETFILENAME(file)
+    IF is_overwrite EQ 0 && FILE_TEST(ofile,/regular) THEN BEGIN
+      PRINT,'['+PROG+']INFO:output file already exist. Skipped.'
+      CONTINUE
+    ENDIF
+    
     IF verbose THEN PRINT,'['+prog+']Processing ',STRTRIM(fi+1,2), STRTRIM(nf,2), $
       STRTRIM(FIX((fi+1)*100./nf),2),GETFILENAME(file), $
       getpathname(file),' ...', $
@@ -217,7 +235,7 @@ PRO NEU_SMOOTH, $
       WRITE_JPEG,jfile,imgresid,true=1
     ENDIF
     
-;  break
+  ;  break
   ENDFOR
   
   IF verbose THEN PRINT,'['+prog+']Normal end.'

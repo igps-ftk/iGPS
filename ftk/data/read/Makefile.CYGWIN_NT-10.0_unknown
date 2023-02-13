@@ -1,0 +1,161 @@
+# Makefile for read on CYGWIN_NT-10.0 3.1.7 by unimake at Sat Jul  2 23:53:07 CST 2022
+
+all: test_reads fdiff
+
+
+
+# ASSIGMENTS
+### G77 flags ###
+#FTN = g77 
+#FFLAGS = -O3 -Wuninitialized -Wunused -Wimplicit -fno-f2c -ffast-math -fno-automatic -fno-backslash -Wno-globals -fno-globals
+#CC = gcc
+#CFLAGS = -g -lz 
+### GCC V4 gfortran flags ###
+FTN = gfortran
+#FFLAGS = -O2 -Wuninitialized -Wunused -Wimplicit -fno-f2c -ffast-math -fno-automatic -fno-backslash
+FFLAGS = -O2 -Wuninitialized -fno-f2c -ffast-math -fno-automatic -fno-backslash -m64 -mcmodel=large
+#FFLAGS = -O2 -Wuninitialized -fno-f2c -ffast-math -fno-automatic -fno-backslash -fallow-argument-mismatch  -mcmodel=medium #-m64 # -mcmodel=large
+CC = gcc
+CFLAGS = -g -lz 
+#### For 64-bit machines:
+#CFLAGS = -g --DADD64BIT
+
+CGPS_DATA_READ = cgps_data_read.a.CYGWIN_NT-10.0_unknown
+CGPS_DATA_READ = cgps_data_read.a.CYGWIN_NT-10.0_unknown
+SLIB = ./cgps_data_read.a.CYGWIN_NT-10.0_unknown ../../lib/cgps_lib.a.CYGWIN_NT-10.0_unknown ../../../../gglib/gglib.a.CYGWIN_NT-10.0_unknown 
+X11LIB = 
+II = 
+
+test_reads : test_reads.f $(CGPS_DATA_READ) $(SLIB) ../../inc/cgps.h
+	$(FTN) test_reads.f $(CGPS_DATA_READ) $(SLIB) -o test_reads.CYGWIN_NT-10.0_unknown $(FFLAGS)
+	rm -f test_reads.o
+
+fdiff : fdiff.f $(CGPS_DATA_READ) $(SLIB) 
+	$(FTN) fdiff.f $(CGPS_DATA_READ) $(SLIB) -o fdiff.CYGWIN_NT-10.0_unknown $(FFLAGS)
+	rm -f fdiff.o
+
+$(CGPS_DATA_READ) : \
+	$(CGPS_DATA_READ)(data_read_sio.o) \
+	$(CGPS_DATA_READ)(file_info.o) \
+	$(CGPS_DATA_READ)(finfo.o) \
+	$(CGPS_DATA_READ)(file_info_usgs.o) \
+	$(CGPS_DATA_READ)(query_pbo.o) \
+	$(CGPS_DATA_READ)(query_pos.o) \
+	$(CGPS_DATA_READ)(read_scec_csv.o) \
+	$(CGPS_DATA_READ)(read_cmonoc.o) \
+	$(CGPS_DATA_READ)(read_cols.o) \
+	$(CGPS_DATA_READ)(read_ctl.o) \
+	$(CGPS_DATA_READ)(read_ds607_txt.o) \
+	$(CGPS_DATA_READ)(read_grbtxt.o) \
+	$(CGPS_DATA_READ)(read_l_l_r.o) \
+	$(CGPS_DATA_READ)(read_l_l_r_panga.o) \
+	$(CGPS_DATA_READ)(read_load_avg.o) \
+	$(CGPS_DATA_READ)(read_load_ref.o) \
+	$(CGPS_DATA_READ)(read_met.o) \
+	$(CGPS_DATA_READ)(read_sio_bin.o) \
+	$(CGPS_DATA_READ)(read_sio_hdr.o) \
+	$(CGPS_DATA_READ)(read_pbo.o) \
+	$(CGPS_DATA_READ)(read_pos.o) \
+	$(CGPS_DATA_READ)(read_sio.o) \
+	$(CGPS_DATA_READ)(read_trk.o) \
+	$(CGPS_DATA_READ)(l_l_r_read.o) \
+	$(CGPS_DATA_READ)(read_poletide_bull_a.o) \
+	$(CGPS_DATA_READ)(read_usgs.o) \
+	$(CGPS_DATA_READ)(read_qmap.o) \
+	$(CGPS_DATA_READ)(read_tenv3.o) \
+	$(CGPS_DATA_READ)(read_txt.o) \
+	$(CGPS_DATA_READ)(read_psxy.o) \
+	$(CGPS_DATA_READ)(read_esa_s1_manifest_safe.o)
+	ranlib cgps_data_read.a.CYGWIN_NT-10.0_unknown
+
+$(CGPS_DATA_READ) : \
+	$(CGPS_DATA_READ)(data_read_sio.o) \
+	$(CGPS_DATA_READ)(file_info.o) \
+	$(CGPS_DATA_READ)(finfo.o) \
+	$(CGPS_DATA_READ)(file_info_usgs.o) \
+	$(CGPS_DATA_READ)(query_pbo.o) \
+	$(CGPS_DATA_READ)(query_pos.o) \
+	$(CGPS_DATA_READ)(read_scec_csv.o) \
+	$(CGPS_DATA_READ)(read_cmonoc.o) \
+	$(CGPS_DATA_READ)(read_cols.o) \
+	$(CGPS_DATA_READ)(read_ctl.o) \
+	$(CGPS_DATA_READ)(read_ds607_txt.o) \
+	$(CGPS_DATA_READ)(read_grbtxt.o) \
+	$(CGPS_DATA_READ)(read_l_l_r.o) \
+	$(CGPS_DATA_READ)(read_l_l_r_panga.o) \
+	$(CGPS_DATA_READ)(read_load_avg.o) \
+	$(CGPS_DATA_READ)(read_load_ref.o) \
+	$(CGPS_DATA_READ)(read_met.o) \
+	$(CGPS_DATA_READ)(read_sio_bin.o) \
+	$(CGPS_DATA_READ)(read_sio_hdr.o) \
+	$(CGPS_DATA_READ)(read_pbo.o) \
+	$(CGPS_DATA_READ)(read_pos.o) \
+	$(CGPS_DATA_READ)(read_sio.o) \
+	$(CGPS_DATA_READ)(read_trk.o) \
+	$(CGPS_DATA_READ)(l_l_r_read.o) \
+	$(CGPS_DATA_READ)(read_poletide_bull_a.o) \
+	$(CGPS_DATA_READ)(read_usgs.o) \
+	$(CGPS_DATA_READ)(read_qmap.o) \
+	$(CGPS_DATA_READ)(read_tenv3.o) \
+	$(CGPS_DATA_READ)(read_txt.o) \
+	$(CGPS_DATA_READ)(read_psxy.o) \
+	$(CGPS_DATA_READ)(read_esa_s1_manifest_safe.o)
+	ranlib cgps_data_read.a.CYGWIN_NT-10.0_unknown
+
+$(CGPS_DATA_READ)(file_info_usgs.o): ../../inc/cgps.h
+$(CGPS_DATA_READ)(read_scec_csv.o): ../../inc/cgps.h
+$(CGPS_DATA_READ)(read_cmonoc.o): ../../inc/cgps.h
+$(CGPS_DATA_READ)(read_cols.o): ../../inc/cgps.h
+$(CGPS_DATA_READ)(read_ds607_txt.o): ../../inc/cgps.h
+$(CGPS_DATA_READ)(read_grbtxt.o): ../../inc/cgps.h
+$(CGPS_DATA_READ)(read_l_l_r.o): ../../inc/cgps.h
+$(CGPS_DATA_READ)(read_l_l_r_panga.o): ../../inc/cgps.h
+$(CGPS_DATA_READ)(read_met.o): ../../inc/cgps.h
+$(CGPS_DATA_READ)(read_sio_bin.o): ../../inc/cgps.h
+$(CGPS_DATA_READ)(read_pbo.o): ../../inc/cgps.h
+$(CGPS_DATA_READ)(read_pos.o): ../../inc/cgps.h
+$(CGPS_DATA_READ)(read_sio.o): ../../inc/cgps.h
+$(CGPS_DATA_READ)(read_trk.o): ../../inc/cgps.h
+$(CGPS_DATA_READ)(l_l_r_read.o): ../../inc/cgps.h
+$(CGPS_DATA_READ)(read_poletide_bull_a.o): ../../inc/cgps.h
+$(CGPS_DATA_READ)(read_usgs.o): ../../inc/cgps.h
+$(CGPS_DATA_READ)(read_qmap.o): ../../inc/cgps.h
+$(CGPS_DATA_READ)(read_tenv3.o): ../../inc/cgps.h
+$(CGPS_DATA_READ)(read_psxy.o): ../../inc/cgps.h
+$(CGPS_DATA_READ)(read_esa_s1_manifest_safe.o): ../../inc/cgps.h
+$(CGPS_DATA_READ)(file_info_usgs.o): ../../inc/cgps.h
+$(CGPS_DATA_READ)(read_scec_csv.o): ../../inc/cgps.h
+$(CGPS_DATA_READ)(read_cmonoc.o): ../../inc/cgps.h
+$(CGPS_DATA_READ)(read_cols.o): ../../inc/cgps.h
+$(CGPS_DATA_READ)(read_ds607_txt.o): ../../inc/cgps.h
+$(CGPS_DATA_READ)(read_grbtxt.o): ../../inc/cgps.h
+$(CGPS_DATA_READ)(read_l_l_r.o): ../../inc/cgps.h
+$(CGPS_DATA_READ)(read_l_l_r_panga.o): ../../inc/cgps.h
+$(CGPS_DATA_READ)(read_met.o): ../../inc/cgps.h
+$(CGPS_DATA_READ)(read_sio_bin.o): ../../inc/cgps.h
+$(CGPS_DATA_READ)(read_pbo.o): ../../inc/cgps.h
+$(CGPS_DATA_READ)(read_pos.o): ../../inc/cgps.h
+$(CGPS_DATA_READ)(read_sio.o): ../../inc/cgps.h
+$(CGPS_DATA_READ)(read_trk.o): ../../inc/cgps.h
+$(CGPS_DATA_READ)(l_l_r_read.o): ../../inc/cgps.h
+$(CGPS_DATA_READ)(read_poletide_bull_a.o): ../../inc/cgps.h
+$(CGPS_DATA_READ)(read_usgs.o): ../../inc/cgps.h
+$(CGPS_DATA_READ)(read_qmap.o): ../../inc/cgps.h
+$(CGPS_DATA_READ)(read_tenv3.o): ../../inc/cgps.h
+$(CGPS_DATA_READ)(read_psxy.o): ../../inc/cgps.h
+$(CGPS_DATA_READ)(read_esa_s1_manifest_safe.o): ../../inc/cgps.h
+
+.c.a:
+	$(CC) -c $(CFLAGS) -I$(II) $<
+	ar rv $@ *.o
+	rm -f $*.o
+
+.f.a:
+	$(FTN) -c $(FFLAGS) $<
+	ar rv $@ *.o
+	rm -f $*.o
+
+
+cleanall:
+	rm -f *.a.CYGWIN_NT-10.0_unknown *.o *core test_reads fdiff  test_reads.CYGWIN_NT-10.0_unknown fdiff.CYGWIN_NT-10.0_unknown
+# End of Makefile

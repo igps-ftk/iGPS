@@ -2,6 +2,8 @@
 
 . ${HOME}/.bashrc
 
+if [ "$IGS_ROOT" == "" ]; then
+
 #local_root=~/igs/pub/rinex
 #local_root=/i/data.server/pub/rinex
 #local_root=/cygdrive/i/data.server/pub/rinex
@@ -13,6 +15,15 @@
 local_root=/data0/igs0/pub/nav
 local_root=/d2/ftp/pub/nav
 local_root=/h1/ftp/pub/nav
+local_root=/g3c/pub/nav
+local_root=/g10a/ftp/pub/nav
+
+else
+  local_root=${IGS_ROOT}/nav
+fi
+
+
+
 #yearStart=2005
 #yearStart=1999
 #yearStart=2001
@@ -113,8 +124,8 @@ while [ ${year} -le ${yearEnd} ]; do
         pwd
 
 	
-	echo "wget -nc --user=anonymous --password=tianyf@gmail.com http://garner.ucsd.edu/pub/rinex/${year}/${doy}/auto${doy}0.${yy}n.Z -O brdc${doy}0.${yy}n.Z"
-	wget -nc --user=anonymous --password=tianyf@gmail.com http://garner.ucsd.edu/pub/rinex/${year}/${doy}/auto${doy}0.${yy}n.Z #-O brdc${doy}0.${yy}n.Z
+	echo "wget -nc --http-user=anonymous --http-password=tianyf@gmail.com http://garner.ucsd.edu/pub/rinex/${year}/${doy}/auto${doy}0.${yy}n.Z -O brdc${doy}0.${yy}n.Z"
+	wget -nc --http-user=anonymous --http-password=tianyf@gmail.com http://garner.ucsd.edu/pub/rinex/${year}/${doy}/auto${doy}0.${yy}n.Z #-O brdc${doy}0.${yy}n.Z
        \cp -f auto${doy}0.${yy}n.Z brdc${doy}0.${yy}n.Z
 	
 	#wget -c ftp://garner.ucsd.edu/pub/rinex/${year}/${doy}/auto${doy}0.${yy}n.Z -O brdc${doy}0.${yy}n.Z

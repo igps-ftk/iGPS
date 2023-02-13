@@ -39,7 +39,7 @@ c     --Local Parameters--
 
 c     minimum distance
       real*8 dmin
-c     minumum number of CMC sites
+c     minimum number of CMC sites
       integer*4 nmin
 c     grid-searching parameters
       integer*4 nTau,nW
@@ -52,7 +52,7 @@ c     files searching
       integer*4 nf,fi,perc,nsit,neui
       integer*4 nrows(nmax_sites),ncols(nmax_sites)
       integer*4 nrow, ncol, nhead
-      character*10240 headers(nmax_head),tmpstr
+      character*102400 headers(nmax_head),tmpstr
       real*8 data_all(nmax_row,nmax_col,nmax_proc)
       real*8 data(nmax_row,nmax_col)
       character*4 sites(nmax_sites),site
@@ -209,8 +209,8 @@ c      snxfile='FOR_CMC.snx'
      +     orgext(1:nblen(orgext)),netext(1:nblen(netext))
  701  format(a,2(1x,a),1x,"--coordsfile=",a,1x,"--orgext=",a,
      +     1x,"--netext=",a)
-c      write(*,*) cmdstr(1:nblen(cmdstr))
-      status=system(cmdstr)
+      write(*,*) cmdstr(1:nblen(cmdstr))
+c      status=system(cmdstr)
 
       write(*,'(3a)') '[',prog(1:nblen(prog)),']reading corr matrix ...'
       snxfile=tpath(1:nblen(tpath))//pathsep//
@@ -370,8 +370,8 @@ c      do fi=2,2
       sitid=1
       sitid=107
 c      do fi=sitid,sitid
-c      do fi=1,nf
-      do fi=1,10
+      do fi=1,nf
+c      do fi=1,10
          site=sites(fi)
          nhead=0
 
@@ -520,7 +520,7 @@ c     END-of-Tau-loop
                   endif
                enddo
             enddo
-c            write(*,*) 'minumum rms:',flt_rms_min,tau,w
+c            write(*,*) 'minimum rms:',flt_rms_min,tau,w
 c            stop
 
             do i=1,nsit_cmc
@@ -559,31 +559,32 @@ c     +              pos(inds(i))
                enddo
             enddo
                   
-c$$$            write(*,*) '#cmc sites:',nsit_cmc-n+1
+            write(*,*) '#cmc sites:',nsit_cmc-n+1
 c$$$            write(*,*) (ts(1,i),i=1,nsit_cmc-n+1)
 c$$$            write(*,*) (sigmas(1,i),i=1,nsit_cmc-n+1)
 c$$$            write(*,*) (c_w_ij(i),i=1,nsit_cmc-n+1)
             nhead=nhead+1
             write(tmpstr,804) neustr(neui),nsit_cmc-n+1,
      +           (csites(i),i=1,nsit_cmc-n+1)
- 804        format('#',a1,'[site-',i5,']:',2000(1x,a4))
+ 804        format('#',a1,'[site-',i5,']:',5000(1x,a4))
             headers(nhead)=tmpstr(1:nblen(tmpstr))
             nhead=nhead+1
             write(tmpstr,805) neustr(neui),nsit_cmc-n+1,
      +           (ccorr(i),i=1,nsit_cmc-n+1)
- 805        format('#',a1,'[corr-',i5,']:',2000(1x,f4.1))
+ 805        format('#',a1,'[corr-',i5,']:',5000(1x,f4.1))
             headers(nhead)=tmpstr(1:nblen(tmpstr))
             nhead=nhead+1
             write(tmpstr,806) neustr(neui),nsit_cmc-n+1,
      +           (cblen(i),i=1,nsit_cmc-n+1)
- 806        format('#',a1,'[dist-',i5,']:',2000(1x,f4.1))
+ 806        format('#',a1,'[dist-',i5,']:',5000(1x,f4.1))
             headers(nhead)=tmpstr(1:nblen(tmpstr))
             nhead=nhead+1
             write(tmpstr,807) neustr(neui),nsit_cmc-n+1,
      +           (c_w_ij(i),i=1,nsit_cmc-n+1)
- 807        format('#',a1,'[wegt-',i5,']:',2000(1x,f4.1))
+ 807        format('#',a1,'[wegt-',i5,']:',5000(1x,f4.1))
             headers(nhead)=tmpstr(1:nblen(tmpstr))
-            
+                 
+c            write(*,*) 'call cmc_form'
             call cmc_form(nsit_cmc-n+1,ndays,
      +           ts,sigmas,c_w_ij,cmc,
      +           dayNsits)                  

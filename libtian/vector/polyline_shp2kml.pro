@@ -4,6 +4,10 @@
 ;-
 PRO POLYLINE_SHP2KML, FILE, OFILE
   ;!!Note: make sure that the input file is using the correct projection (usually geographic: wgs84).
+;  file='C:\Downloads\esa.data\vector\outline_ascending.shp'
+;file='C:\Downloads\ZY02C_PMS_E98.7_N31.2_20181014_L1C0004133420\qqq.shp'
+;  ofile=desuffix(file)+'.kml'
+  
   IF N_ELEMENTS(FILE) EQ 0 THEN BEGIN
     FILE=DIALOG_PICKFILE(TITLE='Input Fault Lines File (Shapefile) in Suitable Map Projection?',FILTER='*.shp')
     IF FILE EQ '' THEN RETURN
@@ -55,13 +59,15 @@ PRO POLYLINE_SHP2KML, FILE, OFILE
   FOR i=0, N_ELEMENTS(*pEnts)-1 DO BEGIN
     kml_line=[      '<Placemark>',$
     ;'<styleUrl>#linestyleExample</styleUrl>',$
-    '<name>'+desuffix(GETFILENAME(file))+STRING(i,format='(i)')+'</name>',$
+    ;'<name>'+desuffix(GETFILENAME(file))+STRING(i,format='(i)')+'</name>',$
+    '<name>'+strtrim((*((*pents)[i].attributes)).ATTRIBUTE_0,2)+'</name>',$
+        
     '<LineString>',$
     ;'<extrude>0</extrude>',$
     ;'<gx:altitudeMode>clampToGround</gx:altitudeMode>',$
     ;'<Style><LineStyle><color>ff0000ff</color></LineStyle>  <PolyStyle><fill>0</fill></PolyStyle></Style>',$
     '<coordinates>']
-    
+    ;stop
     FOR j=0, (*pents)[i].N_partS-1 DO BEGIN
       PRINTF,lun,kml_line,format='(a)'
       IF j EQ (*pents)[i].N_partS-1 THEN BEGIN

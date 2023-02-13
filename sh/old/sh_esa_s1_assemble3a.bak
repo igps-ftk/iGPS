@@ -1,0 +1,134 @@
+#!/bin/sh
+
+# Name:
+#   sh_esa_s1_prep_assemble3
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+if [ "$esa_data" = "" ]; then
+    echo "[ERROR]ESA environment variable esa_data must be set first! Stopped."
+    exit 1
+fi
+
+
+if [ "$esa_unzip" = "" ]; then
+    echo "ESA environment esa_unzip variable not set! Stopped!!"
+    exit 1
+fi
+
+if [ "$1" = "" ]; then
+  echo "Usage: sh_esa_s1_assemble3 input_file  [iw_type]"
+  exit 1
+fi
+
+file=$1
+
+iw_typ=iw2
+if [ "$2" != "" ]; then
+    iw_typ=$2
+fi
+
+
+nsnl_max=`echo 1024 | awk '{print $1*$1*$1}'`
+nsnl_max=`expr $nsnl_max - 200000000`
+echo "nsnl_max is $nsnl_max"
+  
+file_tmp=`pwd`/.tmp.unzip
+echo $file_tmp
+\rm -f $file_tmp
+days=`grep -h '^ ' $file | awk -F_ '{print $6}' | awk -FT '{print $1}' | sort |uniq`
+echo $days
+for day in $days; do
+  echo $day
+  nf=`grep '^ ' -h $file | grep $day | wc -l` 
+  if [ $nf -lt 2 ]; then
+    echo "[]ERROR: not enough files ($nf) for combining data of $day!!"
+    #grep '^ ' -h $file | grep $day
+    #continue
+    exit 1
+  fi
+  echo "combining $nf frames for $day ..."
+  grep '^ ' -h $file | grep $day |sort | awk '{print $0}' >> $file_tmp
+  #tfiles=`grep '^ ' -h $file | grep $day |sort`
+  #echo $tfiles
+done
+
+#sh_esa_s1_unzip $file_tmp
+
+\rm -rf raw0 raw
+mkdir raw0 raw
+cd raw0
+pwd
+sh_esa_s1_link_raworig $file_tmp $iw_typ
+sh_esa_s1_link_orb3 >& tiff_EOF.list
+sh_esa_s1_prep_prep $file_tmp $iw_typ
+
+ls *.tiff | sed -e 's/.tiff//g'> .tmp.tiff
+days=`grep -h '^ ' $file_tmp | awk -F_ '{print $6}' | awk -FT '{print $1}' | sort |uniq`
+for day in $days; do
+  echo $day
+  echo "combining $nf frames for $day ..."
+  cmdstr="assemble_tops 0s 0s "
+  files=`cat .tmp.tiff | grep $day |sort | awk '{print $1}'`
+  
+  azi1='0s'
+  azi2='0s'
+  mkdir -p tmp
+  files_to=
+  nsnl_files=0
+  azi2_tmp=0
+  for file in $files; do
+    files_to="$files_to $file"
+    echo $file
+    
+    samplesPerBurst=`grep samplesPerBurst ${file}.xml | awk -F\< '{print $2}' | awk -F\> '{print $2}'`
+    echo samplesPerBurst is $samplesPerBurst
+    linesPerBurst=`grep linesPerBurst ${file}.xml | awk -F\< '{print $2}' | awk -F\> '{print $2}'`
+    echo linesPerBurst is $linesPerBurst
+    burstListCount=`grep 'burstList count' ${file}.xml | awk -F\" '{print $2}'`
+    echo burstListCount is $burstListCount
+    
+    azi2_tmp_i=`echo $linesPerBurst  $burstListCount | awk '{print $1*$2}'`
+    nsnl=`echo $linesPerBurst $samplesPerBurst $burstListCount | awk '{print $1*$2*$3}'`
+    nsnl_files=`expr $nsnl_files + $nsnl`
+    echo $nsnl_max $nsnl_files $nsnl
+    if [ $nsnl_files -gt $nsnl_max ]; then
+      echo "[]WARNING: mosaiced image exceeds the size limit of TIFF file!"
+      tmp=`echo $nsnl_max $nsnl_files $nsnl $samplesPerBurst | awk '{print int(($1-($2-$3))/$4)}'`
+      echo tmp is $tmp
+      azi2_tmp_i=$tmp
+      azi2=`expr $azi2_tmp + $azi2_tmp_i`
+      break
+      #exit 1
+    fi
+    azi2_tmp=`expr $azi2_tmp + $azi2_tmp_i`
+  done
+  
+  file1=`cat .tmp.tiff | grep $day |sort | awk '{print $1}' | head -1`
+  cmdstr="assemble_tops $azi1 $azi2 $files_tobe ../raw/$file1"
+  
+  echo $cmdstr
+  echo $cmdstr | sh
+  
+  #exit
+  
+  #file1=`cat .tmp.tiff | grep $day |sort | awk '{print $1}' | head -1`
+  #file2=`cat .tmp.tiff | grep $day |sort | awk '{print $1}' | head -2 | tail -1`
+  #file3=`cat .tmp.tiff | grep $day |sort | awk '{print $1}' | head -3 | tail -1`
+  #echo assemble_tops 0s 0s $file1 $file2 $file3 ../raw/$file1
+  #echo assemble_tops 0s 0s $file1 $file2 $file 3../raw/$file1 | sh
+done

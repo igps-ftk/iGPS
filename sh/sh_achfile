@@ -135,8 +135,8 @@ while [ $year -le $yearEnd ]; do
 	mkdir -p ${tgt_dir}/${year}/${doy}
         #echo  "mv ${src_dir}/${year}/${doy}/$file ${tgt_dir}/${year}/${doy}/$file"
         #mv ${src_dir}/${year}/${doy}/$file ${tgt_dir}/${year}/${doy}/$file
-	echo "mv ${src_dir}/$file ${tgt_dir}/${year}/${doy}/$file"
-	mv ${src_dir}/$file ${tgt_dir}/${year}/${doy}/$file
+	echo "mv ${src_dir}/$file ${tgt_dir}/${year}/${doy}/"
+	mv ${src_dir}/$file ${tgt_dir}/${year}/${doy}/
 	#if [ $? -eq 0 ]; then
 	#    \rm -f 
 	#fi

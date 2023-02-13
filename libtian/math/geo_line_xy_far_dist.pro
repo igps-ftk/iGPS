@@ -63,6 +63,7 @@ PRO GEO_LINE_XY_FAR_DIST, xy1,  $ ;e.g. xy1=[100,32]
     XYOUTS,(xy1[0]+oxy[0])/2,(xy1[1]+oxy[1])/2, $
       STRING(distance,format='(F9.2,"km")'),color='0'x
     WSET,oldwin
+    print,oxy
   ENDIF
   
 ;STOP

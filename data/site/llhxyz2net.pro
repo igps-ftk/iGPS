@@ -38,7 +38,10 @@ PRO LLHXYZ2NET, $
     file='D:\tmp\lasa\pos2.llhxyz'
     file='C:\mirror_ftp\everest.mit.edu\pub\TimeSeries\mit.llhxyz'
     file='\\gpsac4\tianyf\gpse\rerun.lutai\comb\trnsLTCM2\gsoln\pos.llhxyz'
-    file='D:\tmp\tst1\icds\icd.llhxyz'
+    file='D:\tmp\tst1\icds\icd.llhxyz'  
+    file='C:\Downloads\pbo\pbo.llhxyz'  
+    file='D:\jiang\2018.10.21.gps.tibet.site\ICD.Continuous.GNSS.Tibet.2018..llhxyz'
+    
     IF FILE EQ '' THEN RETURN
     CD,GETPATHNAME(FILE)
     ;OFILE=DP(/WRITE,FILTER=[['*.net'],['QOCA Network File (*.net)']],/AF)

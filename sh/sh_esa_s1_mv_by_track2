@@ -1,0 +1,85 @@
+#!/bin/sh
+
+# Name:
+#   sh_link_slc_iw_tracks2
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+path=`pwd`
+opath=`pwd`
+
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -path)
+      oldpath=`pwd`
+      cd $2
+      path=`pwd`
+      cd $oldpath
+      ;;
+    *)
+      echo "[]ERROR: invalide option ($1)!!"
+      exit 1
+      ;;
+  esac
+  shift 2
+done
+
+
+files=`ls ${path}/*.safe`
+for file in $files; do
+    #echo $file
+    ad=`grep pass $file | awk -F\> '{print substr($2,1,1)}'`
+    #ad=t
+    relativeorbit=`grep relativeOrbitNumber $file |grep start| awk -F\> '{print $2}' | awk -F\< '{print $1}'`
+    #echo $ad $relativeorbit $file
+    odir=${opath}/${relativeorbit}
+    if [ ! -d $odir ]; then
+	mkdir -p $odir
+    fi
+    dfile=${path}/`basename $file | awk -F. '{print $1".zip"}'`
+    #echo dfile is $dfile
+    if [ ! -s $dfile ]; then
+       continue
+    fi
+    #exit
+    ofile=${odir}/`basename $dfile`
+    bkdir=${odir}/old/
+    mkdir -p $bkdir
+    if [ -s $ofile ]; then
+        echo "#[]INFO: already exist (${ofile}!"
+        files_out=`ls ${ofile}*`
+        if [ ! -s ${bkdir}/`basename $ofile` ]; then
+        for tmp in $files_out; do
+           echo "mv $tmp $bkdir"
+           #echo "mv $tmp $bkdir" | sh
+        done
+        echo "#[]INFO:  existing fiels (${ofile}* moved to $bkdir !"
+        else
+          echo "#[]INFO:  already existing fiels in $bkdir ! NOT moving!"
+ 	  continue
+        fi
+    fi
+    #echo ln -s $dfile $odir
+    echo "mv $dfile $odir/"
+    #echo "mv $dfile $odir/" | sh
+
+    #echo ln -s $dfile $odir |sh
+    #exit
+done
+
+

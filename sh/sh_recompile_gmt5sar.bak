@@ -1,0 +1,75 @@
+#!/bin/sh
+
+# Name:
+#   sh_recompile_gmt5sar
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+
+PROG=sh_recompile_gmt5sar
+
+hostname
+
+path=/usr/local/gmt5sar20200529
+path=/usr/local/gmt5sar20210607i
+
+if [ "$GMT5SAR" == "" ]; then
+  echo "[$PROG]ERROR:environment variable GMT5SAR not set!!"
+  exit 1
+fi
+path=$GMT5SAR
+
+cd $path
+if [ $? -ne 0 ]; then
+  echo "[$PROG]ERROR:cann not enter GMTSAR directory($path)!!"
+  exit 1
+fi
+pwd
+
+path_gmt=`gmt-config --prefix`
+echo "[$PROG]INFO:GMT $path_gmt"
+
+if [ 1 -eq 1 ]; then
+
+  #remove old library and temporary files
+  find . -name "*.[ao]" -exec rm {} \;
+  
+  #building  
+  autoconf
+  ./configure --with-orbits-dir=/usr/local/orbits
+  make clean
+  make >& log.make.txt
+  
+  tmp=`grep -i errro log.make.txt`
+  if [ "$tmp" != ""  ]; then
+    echo "[]ERROR:error when compiling source code!!"
+    echo "[]ERROR:check the log file (log.make.txt)."
+    exit 1
+  fi
+  
+  #install
+  make install
+  
+  #compile the sbas_parallel program
+  cd gmtsar
+  echo "gcc -fopenmp -w sbas_parallel.c -I${path_gmt}/include/gmt -I${GMT5SAR}/gmtsar -I/usr/local/include -L${GMT5SAR}/gmtsar -lgmtsar -L/usr/local/lib -L${path_gmt}/lib64/ -lgmt -llapack -lblas -ltiff -lm -o sbas_parallel"
+  gcc -fopenmp -w sbas_parallel.c -I${path_gmt}/include/gmt -I${GMT5SAR}/gmtsar -I/usr/local/include -L${GMT5SAR}/gmtsar -lgmtsar -L/usr/local/lib -L${path_gmt}/lib64/ -lgmt -llapack -lblas -ltiff -lm -o sbas_parallel
+
+
+fi  #end-of-if-re-make
+
+echo "[$PROG]INFO:normal end."

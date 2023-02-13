@@ -3,34 +3,67 @@ PRO SAR_LOS2FAULT, los, beta, theta=theta, alpha=alpha,   $
     fx=fx, fy=fy, $
     ds=ds, dd=dd
     
+  PROG=(STRSPLIT(LAST(SCOPE_TRACEBACK()),/EXTRACT))[0]
+  
   IF N_PARAMS() LT 2 THEN BEGIN
     los=1d0 ; mm/yr
+    ;los=1.2d0
+    ;los=0.4d0
+    ;los=6d0 ; mm/yr
+    ;los=2.4d0 ; mm/yr, xianshuihe ascending
+    ;los=9d0 ;mm/yr, altyntagh descending
     
     ;beta - strike of fault (clockwise from north)
     ;beta=?
-    beta=50d0*!dpi/180d0
-    ;beta=83d0*!dpi/180d0
-    ;beta=120d0*!dpi/180d0
-    beta=125d0*!dpi/180d0 ;beng-co fault
-    beta=75d0*!dpi/180d0 ;dongqiao fault
-    ;beta=105d0*!dpi/180d0 ;
+;    beta=50d0*!dpi/180d0
+;    ;beta=83d0*!dpi/180d0
+;    ;beta=120d0*!dpi/180d0
+;    beta=125d0*!dpi/180d0 ;beng-co fault
+;    beta=75d0*!dpi/180d0 ;dongqiao fault
+;    ;beta=105d0*!dpi/180d0 ;
     ;beta=105d0*!dpi/180d0+!dpi ;
-    beta=67*!dpi/180  ;altyn tagh fault at 85E
-    beta=3*!dpi/180 ;for yadong-gulu fault
-    beta=88*!dpi/180 ;for test
-    beta=93*!dpi/180 ;for fake yadong-gulu fault
-    beta=106*!dpi/180 ;for fake jiali fault
-    beta=80*!dpi/180 ;for naqu north fault
+    ;beta=67*!dpi/180  ;altyn tagh fault at 85E
+    ;beta=75.791157*!dpi/180  ;altyn tagh fault 
+;    beta=3*!dpi/180 ;for yadong-gulu fault
+;    beta=88*!dpi/180 ;for test
+;    beta=93*!dpi/180 ;for fake yadong-gulu fault
+;    beta=106*!dpi/180 ;for fake jiali fault
+;    beta=80*!dpi/180 ;for naqu north fault
+;    
+;    beta=76.326937*!dpi/180 ; for woniuhu fault
+;    
+;    beta=125*!dpi/180 ; for daxiong-laxiong lakes fault
+;    
+;    
+;    beta=85*!dpi/180 ; for margai-caka fault
+;    
+;    
+;    beta=140*!dpi/180 ; for xianshuihe fault (Kangding section)
+;    los=7.2d0
+;    
+;    ;theta=23d0*!dpi/180 ;for envisat-1
     
-    ;theta=23d0*!dpi/180 ;for envisat-1
-    
+    beta=103*!dpi/180 ;east kunlun fault
+    ;beta=!dpi/2-(-0.276357d0);+2*!dpi
+    ;stop
+;    los=4.8d0
+;    los=1d0
+;    
+;    ;central section of Honghe Fault Zone
+;    beta=50*!dpi/180 
+;    los=2.4d0
+;    ;
+;    los=4.8d0
     orbtyp=0
+    
+    ;orbtyp=1
     
   ENDIF
   
   IF N_ELEMENTS(theta) EQ 0 THEN BEGIN
     ;theta - satellite looking angle
     theta=33d0*!dpi/180d0
+    theta=38d0*!dpi/180d0
   ENDIF
   
   ;alpha - azimuth angle of satellite orbit

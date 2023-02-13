@@ -28,7 +28,8 @@ c     --Local Parameters--
 
 c     <<VAR_DEC
 
-      call getlun(fid)
+c      call getlun(fid)
+      fid=98
       open(unit=fid,file=file,status='old')
       nline=0
  801  read(fid,'(a10230)',end=999) line

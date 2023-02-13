@@ -115,8 +115,8 @@ c     n/e/u components; time
 
       integer iargc
 
-c     call period(ts,xs,n,ofac,hifac,px,py,np,nout,jmax,prob,nmax)
-      INTEGER*4 jmax,n,nout,np,nmax
+c     call period(ts,xs,n,ofac,hifac,px,py,np,nout,jmax,prob,nmaxp)
+      INTEGER*4 jmax,n,nout,np,nmaxp
       REAL*8 hifac,ofac,prob,px(nmax_row),py(nmax_row),x(nmax_row),
      &     y(nmax_row)
 
@@ -201,12 +201,12 @@ c     convert lenght unit to meter (from km)
 c     calculate periodogram
 c       Often, the raw time series contains data gaps.
 c       Thus, we will always use refined periodogram algorithm [Scargle, 1982].
-c     subroutine periodogram_refined(ti,xi,nmax,n0,pw,freqs,n)
+c     subroutine periodogram_refined(ti,xi,nmaxp,n0,pw,freqs,n)
 c            write(*,*) 'calling period ...'
             ofac=1
             hifac=1
             call scargle(ts,xs,nrow,ofac,hifac,px,py,nmax_row, 
-     &           nfreq,jmax,prob,nmax)
+     &           nfreq,jmax,prob,nmaxp)
 c            write(*,*) '  period ok.'
 c            call periodogram_refined(
 c     &           ts,xs,nmax_row,nrow,psd,freqs,nfreq)

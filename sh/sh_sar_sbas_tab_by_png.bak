@@ -1,0 +1,191 @@
+#!/bin/sh
+
+# Name:
+#   sh_sar_sbas_tab_by_png
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+prog=sh_sar_sbas_tab_by_png
+
+y1=
+y2=
+y=
+ys=
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -y)
+      y=`echo $2 | sed -e 's/,/ /g'`
+      ;;
+    -y1)
+      y1=$2
+      if [ $y1 -lt 30 ]; then
+        y1=`expr $y1 + 2000`
+      fi
+      ;;
+    -y2)
+      y2=$2
+      if [ $y2 -lt 30 ]; then
+        y2=`expr $y2 + 2000`
+      fi
+      ;;
+    *)
+      echo "[]ERROR: invalid option ($1)!!"
+      exit 1
+      ;;
+  esac
+  shift 2
+done
+
+
+
+
+if [ ! -d intf_all_los_ll_png ]; then
+  echo "[]ERROR: intf_all_los_ll_png directory not exsit!!"
+  exit 1  
+fi
+
+#files=`ls intf_all_los_ll_png/*.png`
+files=`ls intf_all_los_ll_png/20?????_20?????-*.*`
+nf=`ls intf_all_los_ll_png/20?????_20?????-*.* | wc -l`
+nf=`echo $files | wc -w`
+echo "total files #: $nf"
+if [ $nf -le 0 ]; then
+  echo "[]ERROR: no files in intf_all_los_ll_png directory!!"
+  exit 1  
+fi
+#echo $files > a
+yrs_png=`echo $files  | awk '{for (i=1;i<=NF;i++){printf("%s\n", $i)}}' | awk -F\/ '{print $2}'| awk -F_ '{printf("%s\n%s\n", substr($1,1,4),substr($2,1,4))}'|sort|uniq`
+echo yrs_png $yrs_png
+
+#echo y $y
+if [ "$y" != "" ]; then
+  yrs_png_rem=
+  for yi in $yrs_png; do
+    #echo $yi
+    for yj in $y; do
+      #echo $yi $yj
+      if [ $yj -lt 30 ]; then
+        yj=`expr $yj + 2000`
+      fi
+      if [ $yi -eq $yj ]; then
+        yrs_png_rem="$yrs_png_rem $yi"
+        break
+      fi
+    done
+  done
+  if [ "$yrs_png_rem" == "" ]; then
+    echo "[]WARNING: no data after exclude input years ($y)!"
+    exit 1
+  else
+    yrs_png=$yrs_png_rem
+    echo after y yrs_png $yrs_png
+  fi
+  #exit
+fi
+
+yrs_png_rem=
+if [ "$y1" != "" ]; then
+  for year in $yrs_png; do
+    if [ $year -lt $y1 ]; then
+      continue
+    fi
+    yrs_png_rem="$yrs_png_rem $year"
+  done
+  yrs_png=$yrs_png_rem
+fi
+echo after y1 yrs_png $yrs_png
+
+
+yrs_png_rem=
+if [ "$y2" != "" ]; then
+  for year in $yrs_png; do
+    if [ $year -gt $y2 ]; then
+      continue
+    fi
+    yrs_png_rem="$yrs_png_rem $year"
+  done
+  yrs_png=$yrs_png_rem
+fi
+echo after y2 yrs_png $yrs_png
+
+if [ "$y1" == "" ]; then
+  y1=`echo $yrs_png | awk '{for(i=1;i<=NF;i++){print $i}}' | min | awk '{print int($1)}'`
+fi
+if [ "$y2" == "" ]; then
+  y2=`echo $yrs_png | awk '{for(i=1;i<=NF;i++){print $i}}' | max | awk '{print int($1)}'`
+fi
+
+echo y1 $y1 y2 $y2
+ys=
+exit
+
+
+#clean existing files
+\rm -f intf.tab scene.tab
+
+ntot=$nf
+np=`echo $ntot | awk '{print int($1/10)}'`
+if [ $np -eq 0 ]; then
+  np=1
+fi
+n=0
+
+nerr=0
+for file in $files; do
+    #echo $file
+
+    n=`expr $n + 1`
+    #echo $n $np $ntot
+    echo $n $np | awk '{if( ($1-int($1/$2)*$2)==0){printf(".")}}'
+    #echo $n $np | awk '{if( ($1-int($1/$2)*$2)==0){printf("\b:>")}}'
+    #sleep .5
+
+    id=`basename $file | awk -F- '{print $1}'`
+    #echo $id
+    year1=`echo $id | awk -F_ '{print substr($1,1,4)}'`
+    year2=`echo $id | awk -F_ '{print substr($2,1,4)}'`
+    #echo year1 $year1 year2 $year2
+    if [ $year1 -lt $y1 -o $year1 -gt $y2 -o $year2 -lt $y1 -o $year2 -gt $y2 ]; then
+      #echo "[]INFO: $id out of year range ($y1~$y2)!"
+      nerr=`expr $nerr + 1`
+      continue
+    fi
+    #exit
+    tmp=`cat intf.tab1 |grep $id|head -1`
+    if [ "$tmp" = "" ]; then
+      #echo "[${prog}]WARNING: not found for $id !!"
+      nerr=`expr $nerr + 1`
+      continue
+    #else
+      #echo "result is: $tmp"
+    fi
+    echo $tmp >> intf.tab
+done
+
+cat intf.tab | awk -F\/ '{print $3}' | awk -F_ '{print $1}' > a
+cat intf.tab | awk -F\/ '{print $3}' | awk -F_ '{print $2}' >> a
+sort a |uniq > a1
+
+##\rm -f scene.tab
+while read line; do
+    cat scene.tab1 | grep $line >> scene.tab
+done < a1
+
+if [ $nerr -gt 0 ]; then
+  echo "[${prog}]WARNING: $nerr interferograms not used!"
+fi
+wc -l *.tab

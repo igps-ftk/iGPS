@@ -1,0 +1,50 @@
+#!/bin/sh
+
+
+if [ "$1" == "" ]; then
+  echo "Usage: sh_qsub_run script_file_name"
+  exit 1
+fi
+
+
+file_t=_run_qsub_
+
+echo '#!/bin/sh' > $file_t
+echo '#PBS -N GMTSA$' >> $file_t
+echo '#PBS -q glass1' >> $file_t
+
+
+file_in=$1
+
+path_cur=`pwd`
+path_in=`dirname $file_in`
+prog_in=`basename $file_in`
+echo "path_in is |$path_in|"
+
+cd $path_in
+path_in2=`pwd`
+cd $path_cur
+echo $path_in2
+
+echo "export PBS_O_WORKDIR=${path_in2}" >> $file_t
+echo 'echo $PBS_O_WORKDIR' >> $file_t
+echo 'cd $PBS_O_WORKDIR' >> $file_t
+
+opts=
+shift 1
+while [ "$1" != "" ]; do
+  opts="$opts $1"
+  shift 1
+done
+
+echo "echo ./${prog_in} $opts" >> $file_t
+echo "echo ./${prog_in} $opts | sh" >> $file_t
+
+echo qsub $file_t
+echo qsub $file_t | sh
+
+
+#echo $0
+#echo opts is $opts
+
+#./run_batch_assemble ../a iw1

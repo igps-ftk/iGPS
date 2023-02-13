@@ -1,0 +1,10 @@
+[Unit]
+Description=Slurm client daemon
+After=network.target
+
+[Service]
+Type=forking
+ExecStart=/usr/local/slurm/sbin/slurmd
+
+[Install]
+WantedBy=multi-user.target

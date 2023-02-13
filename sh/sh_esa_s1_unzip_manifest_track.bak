@@ -1,0 +1,114 @@
+#!/bin/sh
+
+# Name:
+#   sh_esa_s1_unzip_manifest_track
+#   
+
+# Purpose:
+#  
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#  
+
+. ${HOME}/.bashrc
+
+PROG=sh_esa_s1_unzip_manifest_track
+
+path=
+opath=
+
+while [ "$1" != "" ]; do
+  case $1 in 
+    -path)
+      path=$2
+      ;;
+    -opath)
+      opath=$2
+      ;;
+    *)
+      echo "[]ERROR: invalid option ($1)!!"
+      exit 1
+      ;;
+  esac
+  shift 2
+done
+
+
+if [ "$opath" == "" ]; then
+  opath=${path}/metainfo/manifest.safe
+fi
+
+
+if [ "$path" == "" ]; then
+  this_host=`hostname`
+  host_type=`echo $this_host | awk '{print substr($1,1,4)}'`
+  case $host_type in
+    gpsa)
+      if [ "$esa_data" = "" ]; then
+        echo "[$PROG]ERROR: ESA environment esa_data variable not set! Stopped!!"
+        exit 1
+      fi
+      path=${esa_data}/s1
+      opath=${esa_data}/metainfo/manifest.safe
+      ;;
+    node)
+      path=/sar/s1
+      opath=/sar/s1/metainfo/manifest.safe
+      ;;
+    *)
+      echo "[$PROG]ERROR: platform ($host_type) not supported!!"
+      exit 1
+      ;;  
+  esac
+fi
+
+echo "[]INFO: working in $path "
+echo "[]INFO: output to $opath"
+
+tracks=`ls $path | grep "^[AD][0-9]"`
+#tracks="$tracks ok"
+for track in $tracks; do
+  odir=${opath}/${track}
+  if [ ! -d $odir ]; then
+     mkdir -p $odir
+  fi
+  echo sh_esa_s1_unzip_manifest $odir ${path}/${track} 
+  echo sh_esa_s1_unzip_manifest $odir ${path}/${track} | sh
+done
+
+
+if [ "$path" == "/sar/s1" ]; then
+
+  #link *.safe files to all/ directory
+  esa_root=/sar/s1/metainfo/manifest.safe
+  opath=${esa_root}/all
+  paths=`ls ${esa_root} | grep '^[AD][0-9]'`
+  
+  for path in $paths; do
+     echo $path
+     files=`find ${esa_root}/${path}/ -maxdepth 1 -name "S1*.safe"`
+     for file in $files; do
+       if [ -L ${opath}/`basename $file` ]; then
+         continue
+       fi
+       #exit
+       echo "ln -s $file ${opath}/"
+       echo "ln -s $file ${opath}/" | sh
+     done
+  done
+  
+  
+  cd /sar/s1/metainfo/
+  #tar zcf manifest.safe.tar.gz manifest.safe --exclude='all'
+  #rsync -avP manifest.safe.tar.gz 10.4.134.16:/cygdrive/i/INSAR/sar/s1/metainfo/
+
+fi

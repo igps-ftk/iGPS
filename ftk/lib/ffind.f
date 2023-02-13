@@ -25,9 +25,9 @@ c     list files to temp file
      &     //'" |sort > '//tfname(1:index(tfname,' '))
       else
       bufcmd='find '//path(1:index(path,' '))
-     &     //' -depth 1 '
-     &     //' -name " |sort'//filter(1:index(filter,' ')-1)
-     &     //'" > '//tfname(1:index(tfname,' '))
+     &     //' -maxdepth 1 '
+     &     //' -name "'//filter(1:index(filter,' ')-1)
+     &     //'"  |sort> '//tfname(1:index(tfname,' '))
       endif
 
 c      write(*,'(A)') 'Output to temp file: ', bufcmd

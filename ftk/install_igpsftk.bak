@@ -115,12 +115,38 @@ end
 
 echo ' '
 echo +++++++++++++++++++++++++++++++++++
+echo "SAR libraries & programs"
+echo +++++++++++++++++++++++++++++++++++
+echo " "
+
+set PROGS = "util overlap profile"
+#set PROGS = ""
+foreach PROG ($PROGS)
+    cd $TARGETDIR/sar
+    ${UNIMAKE_CMD} -m ${PROG} -c ${FC_CMD} -e ${arch} 
+    if( $status != 0 ) then
+	echo "Failure in ${UNIMAKE_CMD} for ${PKG}/${PROG} -- ${INST_PROG} terminated"   
+	exit 1
+    endif   
+    cd ${PROG}; ${MK_CMD}
+    if( $status != 0 ) then
+	echo "Failure in ${UNIMAKE_CMD} for ${PKG}/${PROG} -- ${INST_PROG} terminated"   
+	exit 1
+    endif
+    touch tmp.o; \rm -f *.o  
+    echo Made ${PROG} 
+end
+
+
+
+echo ' '
+echo +++++++++++++++++++++++++++++++++++
 echo "Making the CME libraries & programs"
 echo +++++++++++++++++++++++++++++++++++
 echo " "
 
 set PROGS = " corr stack cmc"
-#set PROGS = ""
+set PROGS = ""
 foreach PROG ($PROGS)
     cd $TARGETDIR/cme  
     ${UNIMAKE_CMD} -m ${PROG} -c ${FC_CMD} -e ${arch} 
@@ -226,7 +252,7 @@ echo Making the tools programs
 echo ++++++++++++++++++++++++++++++++++
 echo " "
 set PROGS = "rewindstdin xyzneu u2l xyz2wgs84 td2rnx rnxdc newpsf met2wfile llhxyz geoxyz hello fcomb fcf"
-set PROGS = "rnxdc newpsf"
+set PROGS = "hello rnxdc newpsf"
 foreach PROG (${PROGS})
     cd $TARGETDIR/tools
     ${UNIMAKE_CMD} -m ${PROG} -c ${FC_CMD} -e ${arch} 

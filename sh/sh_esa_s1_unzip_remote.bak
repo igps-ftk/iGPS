@@ -1,0 +1,106 @@
+#!/bin/sh
+
+# Name:
+#   sh_esa_s1_unzip_remote
+#   
+
+# Purpose:
+#   Unzip S1 data files from the data holder (remote node) itself.
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+# 
+PROG=sh_esa_s1_unzip_remote
+
+if [ "$esa_unzip" = "" ]; then
+    echo "[$PROG]ERROR:ESA environment esa_unzip variable not set! Stopped!!"
+    exit 1
+fi
+
+
+if [ "$esa_data" = "" ]; then
+    echo "[$PROG]ERROR:ESA environment esa_data variable not set! Stopped!!"
+    exit 1
+fi
+
+if [ "$1" == "" ]; then
+    echo "[$PROG]ERROR:Usage: sh_esa_s1_unzip file [iw0|iw1|iw2|iw3]"
+    exit 1
+fi
+file=$1
+
+if [ "$2" = "" ]; then
+    echo "[$PROG]INFO:iw_type not specified! Default iw1/iw2/iw3 will be extracted."
+    iw_typs='iw1 iw2 iw3'
+else
+    iw_typs=`echo $2 | sed -e 's/,/ /g'`
+fi
+echo "[$PROG]INFO:iw to extract: $iw_typs"
+
+iws="iw1 iw2 iw3"
+iw_exclude_str=
+for iw_typ in $iws ; do
+  echo "[$PROG]INFO:iw_typ is $iw_typ"
+  tmp=`echo $iw_typs | grep $iw_typ`
+  echo "[$PROG]INFO:tmp is $tmp"
+  if [ "$tmp" != "" ]; then
+     continue
+  fi
+  iw_exclude_str="$iw_exclude_str *${iw_typ}*"
+done
+echo "[$PROG]INFO:iw to exclude: $iw_exclude_str"
+#exit
+
+grep '^ ' $file | awk '{print $1}' > .tmp
+while read line; do
+    echo $line
+    dfile="`echo $line | awk -F. '{print $1}'`.zip"
+
+
+    ofile="`echo $line | awk -F. '{print $1}'`.SAFE"
+    #echo ${opath_esa}/${ofile}
+    if [ -d ${esa_unzip}/${ofile} ]; then
+        echo "INFO:already done [${esa_unzip}/${ofile}]. Skipped."
+        #continue
+    fi
+
+    #echo ${path_esa}/${dfile}
+    zipfile=${esa_data}/S1/${dfile}
+    if [ ! -s ${esa_data}/S1/${dfile} ]; then
+        if [ ! -s ${esa_data}/S1.2/${dfile} ]; then
+            echo "ERROR:data not found [${esa_data}/S1/${dfile}]!!"
+            continue
+        else
+            zipfile=${esa_data}/S1.2/${dfile}
+        fi
+    fi
+
+    echo "[$PROG]INFO:Ready to extract $dfile"
+    
+    ls -l $zipfile
+    
+    if [ -L $zipfile ]; then
+      zipfile2=`ls -l $zipfile | awk '{print $11}'`
+      cmdstr="unzip -n ${zipfile2} -x '*-vh-*'  $iw_exclude_str -d ${esa_unzip}"
+      hid=`echo $zipfile2 | awk -F\/ '{print $2}' | sed -e 's/[a-z]//g' | sed -e 's/[A-Z]//g'`
+      remote_host="gpsac${hid}"
+      echo ssh $remote_host $cmdstr
+      ssh $remote_host $cmdstr 
+    
+    else
+      echo unzip -n ${zipfile} -x *-vh-*  $iw_exclude_str -d ${esa_unzip} 
+      #echo unzip -n ${zipfile} -x *-vh-*  $iw_exclude_str -d ${esa_unzip} | sh
+    fi
+    #exit
+
+    wc -l .tmp
+done < .tmp
+

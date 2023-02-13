@@ -1,0 +1,39 @@
+#!/bin/sh
+
+# Name:
+#   sh_sar_gacos_tgz_unzip
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+path=./tgz
+
+if [ ! -d $path ]; then
+  echo "[]ERROR: no input path ($path)!!"
+  exit 1
+fi
+
+opath=./ztd
+
+mkdir -p $opath
+
+files=`ls ${path}/20*.tar.gz`
+for file in $files; do
+  echo tar zxvf $file -C $opath
+  echo tar zxvf $file -C $opath | sh
+  #exit
+done
+

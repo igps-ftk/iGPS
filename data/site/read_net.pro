@@ -87,7 +87,7 @@ PRO READ_NET, FILE, $ ; QOCA Network format coordinate file {input, string}
     NL=N_ELEMENTS(LINES)
     SITES=STRARR(NL)
     LLHS=DBLARR(3,NL)
-    FOR LI=0, NL-1 DO BEGIN
+    FOR LI=0ull, NL-1 DO BEGIN
       ;help,li
       LINE=LINES[LI]
       ;STOP

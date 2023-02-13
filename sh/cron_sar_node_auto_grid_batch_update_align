@@ -1,0 +1,172 @@
+#!/bin/sh
+
+# Name:
+#   cron_sar_node_auto_grid_batch
+#
+
+# Purpose:
+#
+
+# Example:
+#
+
+# Modifications:
+#
+
+# Algorigthm:
+#
+
+# Dependency:
+#
+
+. ${HOME}/.bashrc
+
+
+PROG=cron_sar_node_auto_grid_batch
+
+
+usage(){
+    echo "[$PROG]INFO: $PROG [-file session_list_file ]"
+    echo "[$PROG]INFO:       [-iw SUBSWATH]"
+    echo "[$PROG]INFO: "
+    echo "[$PROG]INFO:   Subswaths:"
+    echo "[$PROG]INFO:     iw1 - subswath 1 (F1)"
+    echo "[$PROG]INFO:     iw2 - subswath 2 (F2)"
+    echo "[$PROG]INFO:     iw3 - subswath 3 (F3)"
+    echo "[$PROG]INFO:    Can be any combination of the three, e.g., iw1,iw3"
+    echo "[$PROG]INFO: "
+}
+
+
+
+
+host=`hostname`
+
+session_stage=1
+
+path=/sar/proc_gmtsar/auto_grid
+cd $path
+
+file_proc=proc.list
+
+iws='iw1 iw2 iw3'
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -file)
+      file_proc=$2
+      ;;
+    -iw)
+      iws=$2
+      iws=`echo $iws | sed -e 's/,/ /g'`
+      ;;
+    -h|-H|--help|-help|"?")
+      usage
+      exit 0
+      ;;
+    *)
+      echo "[$PROG]ERROR: invalid option ($1)!!"
+      echo "[$PROG]INFO: use $PROG -h for usage."
+      exit 1
+      ;;
+  esac
+
+  shift 2
+done
+pwd
+echo file_proc $file_proc
+if [ ! -s $file_proc ]; then
+  echo "[$PROG]ERROR: file not found ($file_proc)!!"
+  exit 1
+fi
+file $file_proc
+
+iw_ids=`echo $iws | sed -e 's/iw/ /g'`
+#e.g., iw_ids='1 2 3'
+echo iw_ids $iw_ids
+#check iw ids
+for i in $iw_ids; do
+  case $i in
+    1|2|3)
+      echo "iw $i checked"
+      ;;
+    *)
+      echo "[]ERROR: invalid iw ($i)!!"
+      exit 1
+      ;;
+  esac
+done
+
+oldpath=`pwd`
+echo oldpath $oldpath
+
+dt=`date -u +%Y%m%d%H%M%S`
+pid=$$
+file_tmp=.tmp.expts.$dt.$pid
+
+grep '^ ' $file_proc> $file_tmp
+expts=`cat $file_tmp`
+np=`cat $file_tmp | wc -l`
+echo "# expt: $np"
+#exit
+
+pi=0
+for expt in $expts; do
+  echo processing $expt
+  cd $oldpath
+  pwd
+  cd $expt
+  pwd
+  file_in=input.lst.ok.2020
+  file_in=input.lst.ok
+  file_in=input.lst
+
+  
+
+  wc -l $file_in
+
+  if [ ! -s $file_in ]; then
+    echo "[$PROG]WARNING: no data file ($file_in) for expt ($expt)!"
+    continue
+  fi
+
+
+
+
+  
+  #processing step 0: create dem.grd
+  path_cur=`pwd`
+  sess=`basename $path_cur`
+  pwd
+
+
+  #loop for each subswath (iw1 iw2 iw3)
+  for i in $iw_ids ; do
+    echo "[$PROG]INFO: processing F${i}"
+    if [ ! -d F${i} ]; then
+      echo "[$PROG]WARNING: processing directory F${i} NOT exist! "
+      continue
+    fi
+    #continue
+    if [ ! -s F${i}/data.in ]; then
+      echo "[$PROG]WARNING: no data.in for expt ($expt F${i})! "
+      continue
+    fi
+    if [ ! -s F${i}/baseline_table.dat ]; then
+      echo "[$PROG]WARNING: no baseline_table.dat for expt ($expt F${i})! "
+      continue
+    fi
+    #
+    cd F${i}
+    echo "sh_esa_s1_align_node_group -file ../$file_in -iw iw${i}"
+    echo "sh_esa_s1_align_node_group -file ../$file_in -iw iw${i}" | sh
+
+    
+    cd ..
+
+    pwd
+    #exit
+  done # end-of-loop-F1/2/3
+
+
+done

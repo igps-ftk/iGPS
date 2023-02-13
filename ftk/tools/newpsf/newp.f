@@ -38,18 +38,18 @@ c      write(*,*) '#param:',iargc()
          if (strbuf(1:2).eq.'-h'.or.strbuf(1:6).eq.'--help') goto 800
       enddo
       goto 801
- 800  write(*,*) 'Syntax: newp [filename] [--file=~/.../doc/prog.f]'
-      write(*,*) '        newp [--file=~/.../doc/prog.f] [filename]'
+ 800  write(*,*) 'Syntax: newp [filename] [--file=~/.../inc/prog.f]'
+      write(*,*) '        newp [--file=~/.../inc/prog.f] [filename]'
       stop
 
  801  continue
-      file='~/gpsf/cgps/doc/prog.f'
-      file='/export/home/tianyf/gpsf/cgps/doc/prog.f'
+      file='~/gpsf/cgps/inc/prog.f'
+      file='/home/tianyf/iGPS/ftk/inc/prog.f'
 c     in Solaris x86 10, the ~ home directory substitute does not work.
 c     f90/Sun Studio11
 
       call getenv('HOME',home)
-      file=home(1:nblen(home))//'/gpsf/cgps/doc/prog.f'
+      file=home(1:nblen(home))//'/iGPS/ftk/inc/prog.f'
       fido=6
       ofile=' '
       do i=1,iargc()

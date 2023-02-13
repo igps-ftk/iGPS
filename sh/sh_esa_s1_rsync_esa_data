@@ -1,0 +1,69 @@
+#!/bin/sh
+
+# Name:
+#   sh_esa_s1_rsync_esa_data
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+prog=sh_esa_s1_rsync_esa_data
+
+. ${HOME}/.bashrc
+
+host=`hostname | awk '{print substr($1,1,4)}'`
+echo "[${prog}]INFO: host is $host"
+
+if [ "$host" != "node" ]; then
+  echo "[${prog}]ERROR: only run for node!!"
+  exit 1
+fi
+
+shares=`df -h|grep '^gpsac' | awk '{print $1}'`
+mounts=`df -h|grep '^gpsac' | awk '{print $6}'`
+
+n=0
+for share in $shares; do
+  n=`expr $n + 1`
+  echo "[${prog}]INFO: working in shared place $share"
+  cur_host=`echo $share | awk '{print $1}' | awk -F: '{print $1}'`
+  cur_path=`echo $mounts | awk '{print $i}' i=$n`
+  echo cur_path $cur_path
+
+  cur_path_s1=${cur_path}/esa.data/S1/
+  cur_path_s2=${cur_path}/esa.data/S1.2/
+
+  #S1
+  if [ -d $cur_path_s1 ]; then
+    cd $cur_path_s1
+    echo "[${prog}]INFO: working in `pwd`"
+    echo "[${prog}]INFO: calling sh_esa_s1_rsync_zip"
+    echo sh_esa_s1_rsync_zip | sh
+  fi
+  
+   #S1.2
+  if [ -d $cur_path_s2 ]; then
+    cd $cur_path_s2
+    ##pwd
+    echo "[${prog}]INFO: working in `pwd`"
+    echo "[${prog}]INFO: calling sh_esa_s1_rsync_zip"
+    echo sh_esa_s1_rsync_zip | sh
+  fi
+
+done
+
+
+cron_node_upload_s1_zip -path /g4c/gsar/china_east/S1/
+cron_node_upload_s1_zip -path /g13d/esa.data/china_east/S1/
+

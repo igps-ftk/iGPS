@@ -1,0 +1,108 @@
+#!/bin/sh
+
+# Name:
+#   sh_esa_s1_get_csv
+#   
+
+# Purpose:
+#   Get meta data information for S1 files from ASF
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+. ${HOME}/.bashrc
+
+
+PROG=sh_esa_s1_get_csv
+
+if [ "$esa_data" == "" ]; then
+  echo "[$PROG]ERROR: environtment variable esa_data NOT set!!"
+  exit 1
+fi
+
+if [ ! -d $esa_data ]; then
+  echo "[$PROG]ERROR: directory $esa_data NOT exist!!"
+  exit 1
+fi
+
+path=
+#path=`pwd` #default current path
+path=${esa_data}/s1
+if [ "`hostname`" == "node1" ]; then
+  path=/sar/s1/links
+fi
+
+
+opath=${esa_data}/metainfo/csv/ #default esa.data/metalink
+
+
+while [ "$1" != "" ]; do
+    case $1 in 
+	-path)
+	    path=$2
+	    ;;
+        -opath)
+            opath=$2
+            ;;
+	*)
+	    echo "[$PROG]ERROR: invalid option $1!!"
+	    exit 1
+	    ;;
+    esac
+    shift 2
+done
+
+file_lock=${opath}/_tmp_${PROG}.lock
+if [ -s $file_lock ]; then
+  echo "[$PROG]ERROR: already running!! Locked by $file_lock."
+  exit 1
+fi
+hostname > $file_lock
+date >> $file_lock
+
+#get files list
+if [ "$path" == "" ];then
+    files=`find ${esa_data}/S1/ -maxdepth 1 -name "S1*.zip"`
+    files=`find ${esa_data}/S1.2/ -maxdepth 1 -name "S1*.zip"`
+else
+    echo "searching files in $path"
+    files=`find $path -maxdepth 1 -name "S1*.zip"`
+fi
+
+
+
+for file in $files; do
+  fname=`basename $file | awk -F. '{print $1}'`
+
+  URL="https://api.daac.asf.alaska.edu/services/search/param?granule_list=${fname}&output=CSV&processingLevel=SLC"
+  echo $URL
+
+  ofile=${opath}/${fname}.csv
+  
+  if [ -e $ofile ]; then
+    echo "[$PROG]INFO: already exist ($ofile). Skip it."
+    continue
+  fi
+
+  curl $URL > $ofile
+  #exit
+done
+
+#remove invalid files
+cd ${esa_data}/metainfo/csv
+\rm nl
+find . -name "*.csv" | xargs wc -l > nl
+cat nl | grep ' 1 ' 
+cat nl | grep ' 1 ' | awk '{print "rm -f",$2}' | sh
+
+\rm $file_lock
+

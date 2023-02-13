@@ -1,0 +1,16 @@
+#!/bin/sh
+
+ids=`grep '^ ' ../ids`
+
+
+
+for id in $ids; do
+  echo rsync -avP ./authorized_keys gpsac${id}:/root/.ssh/
+  echo rsync -avP ./authorized_keys gpsac${id}:/root/.ssh/ | sh
+
+  #rsync -avP .bashrc gpsac${id}:/root/
+  #rsync -avP .inputrc gpsac${id}:/root/
+
+  #exit
+done
+

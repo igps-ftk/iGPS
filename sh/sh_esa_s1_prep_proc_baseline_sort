@@ -35,6 +35,9 @@ file=  #input file
 super_master_ind=1 #super master index
 echo defaults values initiated
 
+update_config=y	#update master line in batch_tops.config with the template (batch_tops.config.2)
+
+
 while [ "$1" != "" ]; 
 do
     case $1 in
@@ -43,6 +46,9 @@ do
 	    ;;
 	-super_master)
 	    super_master_ind=$2
+	    ;;
+	-update_config)
+	    update_config=$2
 	    ;;
 	*)
 	    echo "[]ERROR: wrong input option ($1)!!"
@@ -83,5 +89,7 @@ done
 
 sort -n .tmp.intf.in | awk '{print $2}' > ./intf.in
 
-ref_img=`echo $ids | awk '{print $smi}' smi=$super_master_ind`
-sed -e "s/master_image.*/master_image = $ref_img/" batch_tops.config.2 > batch_tops.config
+if [ "$update_config" == "y" ]; then
+  ref_img=`echo $ids | awk '{print $smi}' smi=$super_master_ind`
+  sed -e "s/master_image.*/master_image = $ref_img/" ../batch_tops.config > batch_tops.config
+fi

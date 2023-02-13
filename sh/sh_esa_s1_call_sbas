@@ -1,0 +1,238 @@
+#!/bin/sh
+
+# Name:
+#   sh_esa_s1_call_sbas
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#SBAS: sbas.A.B.CCCC.DDDD.EEEEEEEE.FFFFFFFF.GGGG.HH.ZZZ
+#  A	-	resample level
+#		1 - full resolution (4:1; 25m)
+#		2 - 50m (8:2)
+#		3 - 100m (16:4)
+#		4 - 200m (32:8)
+#  B	-	atm code
+#		0 - no aps correction
+#		1 - with -atm 1	
+#		2 - with -atm 2
+#		3 - with -atm 3
+#		4 - with -atm 4	
+#		5 - with -atm 5	
+#		8 - GACOS only
+#		9 - with GACOS	
+#  CCCC	-	minimum time span (number of days)
+#  DDDD	-	maximum time span
+#  EEEEEEEE	-	starting date
+#  FFFFFFFF	-	starting date
+#  GGG	-	number of scenes
+#  HHHH	-	number of interferograms
+#  II	-	version number
+#  ZZZ	-	comment
+     
+
+# Dependency:
+#   
+
+
+PROG=sh_esa_s1_call_sbas
+
+usage(){
+echo "[$PROG]INFO: [-r A] [-a B] [-t1 CCCC] [-t2 DDDD] [-c ZZZ] "
+echo "       [-i INTF_ALL] [-ow IS_OVERWRITE(y/)] [-p IS_PARALLEL(y/)]"
+cat <<eob
+  SBAS: sbas.A.B.CCCC.DDDD.EEEEEEEE.FFFFFFFF.GGGG.HH.ZZZ
+    A	-	resample level
+  		1 - full resolution (4:1; 25m)
+  		2 - 50m (8:2)
+  		3 - 100m (16:4)
+  		4 - 200m (32:8)
+    B	-	atm code
+  		0 - no aps correction
+  		1 - with -atm 1	
+  		2 - with -atm 2
+  		3 - with -atm 3
+  		4 - with -atm 4	
+  		5 - with -atm 5	
+  		8 - GACOS only
+  		9 - with GACOS	
+    CCCC	-	minimum time span (number of days)
+    DDDD	-	maximum time span
+    EEEEEEEE	-	starting date
+    FFFFFFFF	-	starting date
+    GGG	-	number of scenes
+    HHHH	-	number of interferograms
+    II	-	version number
+    ZZZ	-	comment
+eob
+
+}
+
+
+#>>from sh_esa_s1_sbas
+SAT=SAT #ENVI
+file_ll_grd=
+n_atm=0
+intf_path=intf_all
+out_path=SBAS
+overwrite=n
+wavelength=0.0554658 #for Sentinel-1
+incidence=38
+fix_incidence=n
+range=800184.946186
+fix_range=n
+#<<<
+
+a_reso=3 #pixel size (default 16:4, 100m)
+b_atm=0
+c_t1=1
+d_t2=9999
+e_date1=
+f_date2=
+g_ns=
+h_ni=
+i_ver='01'
+z_cmt='___'
+
+ipath=intf_all
+
+is_parallel=n
+is_exec_sbas=y
+
+file_intf_tab=intf.tab
+file_scene_tab=scene.tab
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -r) #code for resolution/ground pixel size
+      a_reso=$2
+      ;;
+    -a)
+      b_atm=$2
+      ;;
+    -t1)
+      c_t1=$2
+      ;;
+    -t2)
+      d_t2=$2
+      ;;
+    -c|-cmt|-comment)
+      z_cmt=$2
+      ;;
+    -sat)
+      SAT=$2
+      ;;
+    -file_ll_grd)
+      file_ll_grd=$2
+      ;;
+    -atm)
+      n_atm=$2
+      ;;
+    -i|-ipath)
+      ipath=$2
+      ;;
+    -o|-opath)
+      out_path=`dirname "$2/test.txt"`
+      ;;
+    -ow|-overwrite)
+      overwrite=$2
+      ;;
+    -p|-parallel)
+      is_parallel=$2
+      ;;
+    -fix_incidence)
+      fix_incidence=$2
+      ;;
+    -fix_range)
+      fix_range=$2
+      ;;
+    -exec)
+      is_exec_sbas=$2
+      ;;
+    -file_intf)
+      file_intf_tab=$2
+      ;;
+    -file_scene)
+      file_scene_tab=$2
+      ;;
+    -h|--help|-help|-H)
+      usage
+      exit
+      ;;
+    *)
+      echo "[$PROG]ERROR: invalid option ($1)!!"
+      usage
+      exit 1
+      ;;
+  esac
+  
+  shift 2
+
+done
+
+prog_sbas=sbas
+if [ "$is_parallel" == "y" ]; then
+  if [ "$OMP_NUM_THREADS" == "" ]; then
+    echo "[]ERROR: OMP_NUM_THREADS variable must be set for paralleling sbas!!"
+    exit 1
+  fi
+  prog_sbas=sbas_parallel
+fi
+echo "[]INFO: SBAS program is $prog_sbas"
+#exit
+
+c_t1=`echo $c_t1 | awk '{printf("%04d",$1)}'`
+d_t2=`echo $d_t2 | awk '{printf("%04d",$1)}'`
+
+if [ ! -s ${file_scene_tab} -o ! -s ${file_intf_tab} ]; then
+  continue
+fi
+year1=`sort ${file_scene_tab} | head -1 | awk '{print substr($1,1,4)}'`
+doyr1=`sort ${file_scene_tab} | head -1 | awk '{print substr($1,5,3)+1}'`
+e_date1=`doy $year1 $doyr1 | head -1 | awk '{print $2}' | sed -e 's/\///g'`
+year2=`sort ${file_scene_tab} | tail -1 | awk '{print substr($1,1,4)}'`
+doyr2=`sort ${file_scene_tab} | tail -1 | awk '{print substr($1,5,3)+1}'`
+f_date2=`doy $year2 $doyr2 | head -1 | awk '{print $2}' | sed -e 's/\///g'`
+
+
+g_ns=`wc -l ${file_scene_tab} | awk '{printf("%03d",$1)}'`
+h_ni=`wc -l ${file_intf_tab} | awk '{printf("%04d",$1)}'`
+
+echo pixel size code $a_reso
+echo atm code $b_atm
+echo minimum time span $c_t1
+echo maximum time span $d_t2
+echo starting date $e_date1
+echo ending date $f_date2
+echo number of scenes $g_ns
+echo number of interferograms $h_ni
+echo version $i_ver
+echo comment $z_cmt
+
+if [ $n_atm -gt 0 ]; then
+  b_atm=$n_atm
+fi
+
+if [ $b_atm -gt 0 -a $b_atm -lt 8 ]; then
+  n_atm=$b_atm
+fi
+
+opath="sbas.$a_reso.$b_atm.$c_t1.$d_t2.$e_date1.$f_date2.$g_ns.$h_ni.$i_ver.$z_cmt"
+
+#>>>WARNING
+#DO NOT delete or change the below line
+echo OUT_SBAS_PATH $opath
+#<<<WARNING
+
+if [ "$is_exec_sbas" == "y" ]; then
+  echo sh_esa_s1_sbas -opath $opath -ipath $ipath -sat $SAT -atm $n_atm -overwrite $overwrite -fix_incidence $fix_incidence -fix_range $fix_range -multilook $a_reso -prog $prog_sbas -file_intf $file_intf_tab -file_scene $file_scene_tab
+  echo sh_esa_s1_sbas -opath $opath -ipath $ipath -sat $SAT -atm $n_atm -overwrite $overwrite -fix_incidence $fix_incidence -fix_range $fix_range -multilook $a_reso -prog $prog_sbas -file_intf $file_intf_tab -file_scene $file_scene_tab | sh
+fi

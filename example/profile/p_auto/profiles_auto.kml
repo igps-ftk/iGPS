@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://earth.google.com/kml/2.0">
+<Document><Folder>
+<name>profiles_auto</name>
+
+<Placemark>
+<name>profile_0</name>
+<LineString>
+<coordinates>
+97.4855986641124,22.0348558114591 105.1074423868276,26.7185376196809
+</coordinates>
+</LineString>
+<Style><LineStyle><color>ff0000ff</color></LineStyle>  <PolyStyle><fill>0</fill></PolyStyle></Style>
+</Placemark>
+<Placemark>
+<name>profile_1</name>
+<LineString>
+<coordinates>
+97.3146641633774,22.2566968612741 104.9365078860926,26.9403786694959
+</coordinates>
+</LineString>
+<Style><LineStyle><color>ff0000ff</color></LineStyle>  <PolyStyle><fill>0</fill></PolyStyle></Style>
+</Placemark>
+<Placemark>
+<name>profile_2</name>
+<LineString>
+<coordinates>
+97.1454390076498,22.4763195005909 104.7672827303649,27.1600013088128
+</coordinates>
+</LineString>
+<Style><LineStyle><color>ff0000ff</color></LineStyle>  <PolyStyle><fill>0</fill></PolyStyle></Style>
+</Placemark>
+<Placemark>
+<name>profile_3</name>
+<LineString>
+<coordinates>
+96.9409775677224,22.6782319541111 104.5628212904376,27.3619137623329
+</coordinates>
+</LineString>
+<Style><LineStyle><color>ff0000ff</color></LineStyle>  <PolyStyle><fill>0</fill></PolyStyle></Style>
+</Placemark>
+<Placemark>
+<name>profile_4</name>
+<LineString>
+<coordinates>
+96.7397784675720,22.8763964257397 104.3616221902872,27.5600782339616
+</coordinates>
+</LineString>
+<Style><LineStyle><color>ff0000ff</color></LineStyle>  <PolyStyle><fill>0</fill></PolyStyle></Style>
+</Placemark>
+<Placemark>
+<name>profile_5</name>
+<LineString>
+<coordinates>
+96.5770927283524,23.0988052665171 104.1989364510676,27.7824870747389
+</coordinates>
+</LineString>
+<Style><LineStyle><color>ff0000ff</color></LineStyle>  <PolyStyle><fill>0</fill></PolyStyle></Style>
+</Placemark>
+<Placemark>
+<name>profile_6</name>
+<LineString>
+<coordinates>
+96.4485164133424,23.3401545601490 104.0703601360576,28.0238363683709
+</coordinates>
+</LineString>
+<Style><LineStyle><color>ff0000ff</color></LineStyle>  <PolyStyle><fill>0</fill></PolyStyle></Style>
+</Placemark>
+<Placemark>
+<name>profile_7</name>
+<LineString>
+<coordinates>
+96.3561654020444,23.5955246050566 103.9780091247596,28.2792064132785
+</coordinates>
+</LineString>
+<Style><LineStyle><color>ff0000ff</color></LineStyle>  <PolyStyle><fill>0</fill></PolyStyle></Style>
+</Placemark>
+<Placemark>
+<name>profile_8</name>
+<LineString>
+<coordinates>
+96.2621129296424,23.8510278288241 103.8839566523576,28.5347096370460
+</coordinates>
+</LineString>
+<Style><LineStyle><color>ff0000ff</color></LineStyle>  <PolyStyle><fill>0</fill></PolyStyle></Style>
+</Placemark>
+</Folder></Document>
+</kml>

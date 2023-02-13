@@ -1,0 +1,91 @@
+#!/bin/sh
+
+# Name:
+#   
+#   
+
+# Purpose:
+#   Unzip S1 data files.
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+# 
+
+
+if [ "$esa_unzip" = "" ]; then
+    echo "ESA environment esa_unzip variable not set! Stopped!!"
+    exit 1
+fi
+
+
+if [ "$esa_data" = "" ]; then
+    echo "ESA environment esa_data variable not set! Stopped!!"
+    exit 1
+fi
+
+if [ "$1" == "" ]; then
+    echo "Usage: sh_esa_s1_unzip file [iw0|iw1|iw2|iw3]"
+    exit
+fi
+file=$1
+
+if [ "$2" = "" ]; then
+    echo "[INFO]iw_type not specified! Default iw1/iw2/iw3 will be extracted."
+    iw_typ=iw0
+else
+    iw_typ=$2
+fi
+
+
+grep '^ ' $file | awk '{print $1}' > .tmp
+while read line; do
+    #echo $line
+    dfile="`echo $line | awk -F. '{print $1}'`.zip"
+#    #echo ${path_esa}/${dfile}
+#    if [ ! -s ${esa_data}/S1/${dfile} ]; then
+#	echo "ERROR:data not found [${esa_data}/S1/${dfile}]!!"
+#        continue
+#	exit 1
+#    fi
+
+    ofile="`echo $line | awk -F. '{print $1}'`.SAFE"
+    #echo ${opath_esa}/${ofile}
+    if [ -d ${esa_unzip}/${ofile} ]; then
+	echo "INFO:already done [${esa_unzip}/${ofile}]. Skipped."
+	continue
+    fi
+
+    #echo ${path_esa}/${dfile}
+    if [ ! -s ${esa_data}/S1/${dfile} ]; then
+        echo "ERROR:data not found [${esa_data}/S1/${dfile}]!!"
+        continue
+        exit 1
+    fi
+
+    
+    continue
+
+
+    echo "unzip ${esa_data}/S1/${dfile}"
+    if [ "$iw_typ" = "iw1" ]; then
+	unzip ${esa_data}/S1/${dfile} -x *-vh-*  *iw2*  *iw3* -d ${esa_unzip}
+    elif [ "$iw_typ" = "iw2" ]; then
+	unzip ${esa_data}/S1/${dfile} -x *-vh-*  *iw1*  *iw3* -d ${esa_unzip}
+    elif [ "$iw_typ" = "iw3" ]; then
+	unzip ${esa_data}/S1/${dfile} -x *-vh-*  *iw1*  *iw2* -d ${esa_unzip}
+    elif [ "$iw_typ" = "iw0" ]; then
+	unzip ${esa_data}/S1/${dfile} -x *-vh-*  -d ${esa_unzip}
+    else
+	echo "[]WARNING:wrong sub-swatch option $iw_typ !! Skipped!"
+    fi
+    #exit
+done < .tmp
+

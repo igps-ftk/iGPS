@@ -1,4 +1,4 @@
-# Makefile for site on CYGWIN_NT-6.1-WOW 2.8.0(0.309/5/3) by unimake at Fri, Jun 09, 2017  4:50:34 PM
+# Makefile for site on CYGWIN_NT-6.1-WOW 3.1.4 by unimake at Fri, Mar 27, 2020 10:07:54 PM
 
 all: test_site_read extract_stinfo rdsit rdsite_old sitcomm sitminus
 

@@ -38,7 +38,7 @@ while read day; do
     day2=`echo $day | awk -F: '{print $2}'`
     n2=`grep -n $day2 data.in | awk -F: '{print $1}'`
     ymd2=`sed -n "${n2}p" scene.tab | awk '{print $1}'`
-    #echo $ymd1 $ymd2 $n1 $n2
+    echo $ymd1 $ymd2 $n1 $n2
     if [ -s ./intf_all_los_ll_png/${ymd1}_${ymd2}-los_ll.png ]; then
 	echo "[]WARNING:./intf_all_los_ll_png/${ymd1}_${ymd2}-los_ll.png exist! skip"
 	continue

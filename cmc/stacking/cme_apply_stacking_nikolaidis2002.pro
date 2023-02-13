@@ -19,146 +19,49 @@ PRO CME_APPLY_STACKING_NIKOLAIDIS2002, $
     ISPLOT=ISPLOT,  $
     _EXTRA=_EX
     
-  PROG='CME_APPLY_STACKING_NIKOLAIDIS2002
+  PROG=(STRSPLIT(LAST(SCOPE_TRACEBACK()),/EXTRACT))[0]
   
-  IF N_PARAMS() LT 3 THEN BEGIN
+  IF N_PARAMS() LT 1 THEN BEGIN
     PATH=FILEPATH(ROOT_DIR=!IGPS_ROOT,SUBDIRECTORY=['example','eq.nepal20150425'], $
       'pos.neu')
-    OPATH=FILEPATH(ROOT_DIR=!IGPS_ROOT,SUBDIRECTORY=['example','eq.nepal20150425'], $
-      'pos.neu.flt')
-    CMEFILE=FILEPATH(ROOT_DIR=!IGPS_ROOT,SUBDIRECTORY=['example','eq.nepal20150425'], $
-      'cmes.neu')
+;    OPATH=FILEPATH(ROOT_DIR=!IGPS_ROOT,SUBDIRECTORY=['example','eq.nepal20150425'], $
+;      'pos.neu.flt')
+;    CMEFILE=FILEPATH(ROOT_DIR=!IGPS_ROOT,SUBDIRECTORY=['example','eq.nepal20150425'], $
+;      'cmes.neu')
       
-    path='J:\gpse\rerun.lutai\comb\trnsLTCM\gsoln\pos3.neu.npst'
-    opath='J:\gpse\rerun.lutai\comb\trnsLTCM\gsoln\pos3.neu.npst.flt'
-    cmefile='J:\gpse\rerun.lutai\comb\trnsLTCM\gsoln\cme3.neu'
-    
-    path='D:\data\cmonoc\timeseries\fromIS\ftp.cgps.ac.cn\products\position.2016feb07\gamit\test.yn\resid.with.seasonal'
-    opath='D:\data\cmonoc\timeseries\fromIS\ftp.cgps.ac.cn\products\position.2016feb07\gamit\test.yn\resid.with.seasonal.flt'
-    cmefile='D:\data\cmonoc\timeseries\fromIS\ftp.cgps.ac.cn\products\position.2016feb07\gamit\test.yn\cmeyn.neu'
-    
-    path='D:\data\cmonoc\timeseries\fromIS\ftp.cgps.ac.cn\products\position.2016feb07\gamit\test.yn\resid.with.seasonal.flt'
-    opath='D:\data\cmonoc\timeseries\fromIS\ftp.cgps.ac.cn\products\position.2016feb07\gamit\test.yn\resid.with.seasonal.flt.de-anncme'
-    cmefile='D:\data\cmonoc\timeseries\fromIS\ftp.cgps.ac.cn\products\position.2016feb07\gamit\test.yn\anncme.neu'
-    
-    path='D:\gpse\eq.20161113.NewZealand.Mw7.8\daily\pos.neu.ngz'
-    opath='D:\gpse\eq.20161113.NewZealand.Mw7.8\daily\pos.neu.ngz.flt'
-    cmefile='D:\gpse\eq.20161113.NewZealand.Mw7.8\daily\cmes.neu'
-    
-    path='D:\gsar\asc\jiali.b\asc_F1\SBAS\outp_eq_gbjd2'
-    cmefile='D:\gsar\asc\jiali.b\asc_F1\SBAS\outp_eq_gbjd2\cmes.txt'
-    opath='D:\gsar\asc\jiali.b\asc_F1\SBAS\outp_eq_gbjd2\flt'
-    
-    path='D:\gsar\des\dangxiong2.b\des_F1\SBAS\outp_eq_gbjd2'
-    opath='D:\gsar\des\dangxiong2.b\des_F1\SBAS\outp_eq_gbjd2\flt'
-    cmefile='D:\gsar\des\dangxiong2.b\des_F1\SBAS\outp_eq_gbjd2\cmes.txt'
+;    path='J:\gpse\rerun.lutai\comb\trnsLTCM\gsoln\pos3.neu.npst'
+;    opath='J:\gpse\rerun.lutai\comb\trnsLTCM\gsoln\pos3.neu.npst.flt'
+;    cmefile='J:\gpse\rerun.lutai\comb\trnsLTCM\gsoln\cme3.neu'
+;    
+;    path='D:\data\cmonoc\timeseries\fromIS\ftp.cgps.ac.cn\products\position.2016feb07\gamit\test.yn\resid.with.seasonal'
+;    opath='D:\data\cmonoc\timeseries\fromIS\ftp.cgps.ac.cn\products\position.2016feb07\gamit\test.yn\resid.with.seasonal.flt'
+;    cmefile='D:\data\cmonoc\timeseries\fromIS\ftp.cgps.ac.cn\products\position.2016feb07\gamit\test.yn\cmeyn.neu'
+;    
+;    path='D:\data\cmonoc\timeseries\fromIS\ftp.cgps.ac.cn\products\position.2016feb07\gamit\test.yn\resid.with.seasonal.flt'
+;    opath='D:\data\cmonoc\timeseries\fromIS\ftp.cgps.ac.cn\products\position.2016feb07\gamit\test.yn\resid.with.seasonal.flt.de-anncme'
+;    cmefile='D:\data\cmonoc\timeseries\fromIS\ftp.cgps.ac.cn\products\position.2016feb07\gamit\test.yn\anncme.neu'
+;    
+;    path='D:\gpse\eq.20161113.NewZealand.Mw7.8\daily\pos.neu.ngz'
+;    opath='D:\gpse\eq.20161113.NewZealand.Mw7.8\daily\pos.neu.ngz.flt'
+;    cmefile='D:\gpse\eq.20161113.NewZealand.Mw7.8\daily\cmes.neu'
+;    
+;    path='D:\gsar\asc\jiali.b\asc_F1\SBAS\outp_eq_gbjd2'
+;    cmefile='D:\gsar\asc\jiali.b\asc_F1\SBAS\outp_eq_gbjd2\cmes.txt'
+;    opath='D:\gsar\asc\jiali.b\asc_F1\SBAS\outp_eq_gbjd2\flt'
+;    
+;    path='D:\gsar\des\dangxiong2.b\des_F1\SBAS\outp_eq_gbjd2'
+;    opath='D:\gsar\des\dangxiong2.b\des_F1\SBAS\outp_eq_gbjd2\flt'
+;    cmefile='D:\gsar\des\dangxiong2.b\des_F1\SBAS\outp_eq_gbjd2\cmes.txt'
     ;
     NEUERRIS=[-1,-1,-1]
     ;
-    path='D:\gsar\des\mila2\des_F3\SBAS\outp_eq_gbjd2'
-    opath='D:\gsar\des\mila2\des_F3\SBAS\outp_eq_gbjd2\flt'
-    cmefile='D:\gsar\des\mila2\des_F3\SBAS\outp_eq_gbjd2\cmes.txt'
-    ;
-    path='D:\gsar\asc\mila1\asc_F1\SBAS\outp_eq_gbjd2'
-    opath='D:\gsar\asc\mila1\asc_F1\SBAS\outp_eq_gbjd2\flt'
-    cmefile='D:\gsar\asc\mila1\asc_F1\SBAS\outp_eq_gbjd2\cmes.txt'
-    ;
-    path='D:\gsar\asc\mila1\asc_F1\SBAS\nc.detrend\outp_eq_gbjd2\'
-    opath='D:\gsar\asc\mila1\asc_F1\SBAS\nc.detrend\outp_eq_gbjd2\flt'
-    cmefile='D:\gsar\asc\mila1\asc_F1\SBAS\nc.detrend\outp_eq_gbjd2\cmes.txt'
-    ;
-    path='D:\gsar\des\envisat.d.t405f2979.test\SBAS\outp_bengco_north2b\'
-    opath='D:\gsar\des\envisat.d.t405f2979.test\SBAS\outp_bengco_north2b\flt'
-    cmefile='D:\gsar\des\envisat.d.t405f2979.test\SBAS\outp_bengco_north2b\cmes.txt'
+    path='C:\Downloads\izmi\izmi.neu\eu'
     
-    path='D:\gsar\des\envisat.d.t405f2979.test\SBAS\outp'
-    opath='D:\gsar\des\envisat.d.t405f2979.test\SBAS\outp\flt'
-    cmefile='D:\gsar\des\envisat.d.t405f2979.test\SBAS\cmes.neu'
-    ;
-    path='D:\gsar\des\envisat.d.bengco.t405f2979\SBAS\outp_bengco_north2b'
-    opath='D:\gsar\des\envisat.d.bengco.t405f2979\SBAS\outp_bengco_north2b\flt'
-    cmefile='D:\gsar\des\envisat.d.bengco.t405f2979\SBAS\cmes.neu'
+    path='D:\gsar\auto_grid\A113_0111\F1\sbas.2.0.0001.0072.20210801.20220609.027.0141.01.___\roi_11031\ts'
     
-    path='D:\gsar\des\envisat.d.bengco.t405f2979\SBAS6\outp_bengco_north3'
-    opath='D:\gsar\des\envisat.d.bengco.t405f2979\SBAS6\outp_bengco_north3\flt'
-    cmefile='D:\gsar\des\envisat.d.bengco.t405f2979\SBAS6\cmes.neu'
     
-    ;
-    path='D:\gsar\des\mila2\des_F3\SBAS\outp_eq_gbjd2\'
-    opath='D:\gsar\des\mila2\des_F3\SBAS\outp_eq_gbjd2\flt'
-    cmefile='D:\gsar\des\mila2\des_F3\SBAS\outp_eq_gbjd2\cmes.txt'
-    
-    path='D:\gsar\asc\mila1\asc_F1\SBAS4\nc.detrend\outp_bengco_north3\'
-    opath='D:\gsar\asc\mila1\asc_F1\SBAS4\nc.detrend\outp_bengco_north3\flt'
-    cmefile='D:\gsar\asc\mila1\asc_F1\SBAS4\nc.detrend\outp_bengco_north3\cmes.txt'
-    
-    path='D:\gsar\des\envisat.d.t405f2979.test\tmp\outp_bengco_north3'
-    opath='D:\gsar\des\envisat.d.t405f2979.test\tmp\outp_bengco_north3\flt'
-    cmefile='D:\gsar\des\envisat.d.t405f2979.test\tmp\cmes.neu'
-    
-    path='D:\gsar\des\envisat.d.t405f2979.test\SBAS\outp_bengco_north3'
-    opath='D:\gsar\des\envisat.d.t405f2979.test\SBAS\outp_bengco_north3\flt'
-    cmefile='D:\gsar\des\envisat.d.t405f2979.test\SBAS\cmes.neu'
-    
-    path='\\gpsac4\root\g4c\gsar\envisat.d.t405f2979.test\SBAS\outp_bengco_north3'
-    opath='\\gpsac4\root\g4c\gsar\envisat.d.t405f2979.test\SBAS\outp_bengco_north3\flt'
-    cmefile='\\gpsac4\root\g4c\gsar\envisat.d.t405f2979.test\SBAS\cmes.neu'
-    
-    path='D:\gsar\asc\mila1\asc_F1\SBAS4\nc.detrend\outp_mila\'
-    opath='D:\gsar\asc\mila1\asc_F1\SBAS4\nc.detrend\outp_mila\flt'
-    cmefile='D:\gsar\asc\mila1\asc_F1\SBAS4\nc.detrend\outp_mila\cmes.neu'
-    
-    path='D:\gsar\des\mila2\des_F3\SBAS\outp_mila2\'
-    opath='D:\gsar\des\mila2\des_F3\SBAS\outp_mila2\flt'
-    cmefile='D:\gsar\des\mila2\des_F3\SBAS\outp_mila2\cmes.neu'
-    
-    path='D:\gsar\des\mila2\des_F3\SBAS7\outp_mila2'
-    opath='D:\gsar\des\mila2\des_F3\SBAS7\outp_mila2\flt'
-    cmefile='D:\gsar\des\mila2\des_F3\SBAS7\cmes.neu'
-    
-    path='D:\gsar\des\mila2\des_F3\SBAS8\outp'
-    opath='D:\gsar\des\mila2\des_F3\SBAS8\outp\flt'
-    cmefile='D:\gsar\des\mila2\des_F3\SBAS8\outp\cmes.neu'
-    
-    ;    path='D:\gsar\asc\mila1\asc_F1\SBAS4\nc.detrend\outp'
-    ;    opath='D:\gsar\asc\mila1\asc_F1\SBAS4\nc.detrend\outp\flt'
-    ;    cmefile='D:\gsar\asc\mila1\asc_F1\SBAS4\nc.detrend\cmes.neu'
-    
-    path='D:\gsar\asc\mila1\asc_F1\SBAS4\nc.detrend\x5\raw'
-    opath='D:\gsar\asc\mila1\asc_F1\SBAS4\nc.detrend\x5\raw.flt'
-    cmefile='D:\gsar\asc\mila1\asc_F1\SBAS4\nc.detrend\x5\raw.resid\cmes.neu'
-    ;
-    path='D:\gsar\des\mila2\des_F3\SBAS8\x5\raw'
-    opath='D:\gsar\des\mila2\des_F3\SBAS8\x5\raw.flt'
-    cmefile='D:\gsar\des\mila2\des_F3\SBAS8\x5\cmes.neu'
-    
-    path='D:\gsar\asc\dangxiong.b\asc_F3\SBAS\x5\raw'
-    opath='D:\gsar\asc\dangxiong.b\asc_F3\SBAS\x5\raw.flt'
-    cmefile='D:\gsar\asc\dangxiong.b\asc_F3\SBAS\x5\cmes.neu'
-    
-    path='D:\gsar\des\envisat.d.t405f2979.test\SBAS14\x5\raw'
-    opath='D:\gsar\des\envisat.d.t405f2979.test\SBAS14\x5\raw.flt'
-    cmefile='D:\gsar\des\envisat.d.t405f2979.test\SBAS14\x5\raw.resid\cmes.neu'
-    
-    path='D:\gsar\asc\envisat.a.t398f621.bengco\SBAS\x10\raw'
-    opath='D:\gsar\asc\envisat.a.t398f621.bengco\SBAS\x10\raw.flt'
-    cmefile='D:\gsar\asc\envisat.a.t398f621.bengco\SBAS\x10\cmes.neu'
-    
-    path='D:\gsar\des\mila4\des_F1\SBAS7\x5\raw'
-    opath='D:\gsar\des\mila4\des_F1\SBAS7\x5\raw.flt'
-    cmefile='D:\gsar\des\mila4\des_F1\SBAS7\x5\cmes.neu'
-    
-    path='\\gpsac4\root\g4b\tianyf\mila3\asc_F3\SBAS\x3\raw'
-    opath='\\gpsac4\root\g4b\tianyf\mila3\asc_F3\SBAS\x3\raw.flt'
-    cmefile='\\gpsac4\root\g4b\tianyf\mila3\asc_F3\SBAS\x3\cmes.neu'
-    
-    path='\\gpsac4\root\g4b\tianyf\mila3\asc_F3\SBAS\x5\raw'
-    opath='\\gpsac4\root\g4b\tianyf\mila3\asc_F3\SBAS\x5\raw.flt'
-    cmefile='\\gpsac4\root\g4b\tianyf\mila3\asc_F3\SBAS\x5\cmes.neu'
-    
-    path='D:\gsar\asc\mila3\asc_F3\SBAS6\x5\raw'
-    opath='D:\gsar\asc\mila3\asc_F3\SBAS6\x5\raw.flt'
-    cmefile='D:\gsar\asc\mila3\asc_F3\SBAS6\x5\cmes.neu'
+   cmefile=getpathname(path)+path_sep()+'cmes.neu'
+  ;stop
     
   ENDIF
   
@@ -166,7 +69,19 @@ PRO CME_APPLY_STACKING_NIKOLAIDIS2002, $
   IF N_ELEMENTS(XSIZE) EQ 0 THEN XSIZE=600
   IF N_ELEMENTS(YSIZE) EQ 0 THEN YSIZE=500
   IF N_ELEMENTS(ISPLOT) EQ 0 THEN ISPLOT=0
-  
+  ;
+  IF N_ELEMENTS(cmefile) EQ 0 THEN BEGIN
+    cmefile=getpathname(getpathname(path+PATH_SEP()+'ts.txt'))+PATH_SEP()+'cmes.neu'
+    ;cmefile='\\gpsac5\root\g5c\gsar\cona1\des_F3\SBAS3\x10\cmes.neu'
+    ;cmefile='D:\gsar\des\mila2s\des_F3\SBAS.556.atm0\x10\cmes.neu'
+    ;    cmefile='\\gpsac5\root\g5c\tianyf\wulan3\asc_F2.2\SBAS3\x30\cmes.neu'
+    ;cmefile='\\vmicd\root\c2\gsar\xiangyang_boruo1\asc_F2\SBAS5\x90\cmes.neu'
+    PRINT,cmefile
+  ;stop
+  ENDIF
+  IF N_ELEMENTS(opath) EQ 0 THEN BEGIN
+    opath=getpathname(path+PATH_SEP()+'test.txt')+'.flt'
+  ENDIF
   
   
   FILES = FILE_SEARCH(PATH+PATH_SEP()+'*.neu', COUNT=NF)
@@ -177,7 +92,7 @@ PRO CME_APPLY_STACKING_NIKOLAIDIS2002, $
   ENDIF
   ;PRINT,CFILE
   ;STOP
-  if file_test(opath,/directory) ne 1 then file_mkdir,opath
+  IF FILE_TEST(opath,/directory) NE 1 THEN FILE_MKDIR,opath
   
   NEUIS=[3,4,5]
   IF N_ELEMENTS(NEUERRIS) EQ 0 THEN  NEUERRIS=NEUIS+3
@@ -275,6 +190,7 @@ PRO CME_APPLY_STACKING_NIKOLAIDIS2002, $
     ;BREAK
     ;WAIT,.5
     OFILE=OPATH+PATH_SEP()+GETFILENAME(FILE)
+    print,ofile
     ODATA=DATA
     ODATA[NEUIS,*]=RDATA[1:3,*]
     WRITE_SIO, OFILE, DATA=ODATA, SRC=[FILE, CMEFILE], USER=USER, PROG=PROG

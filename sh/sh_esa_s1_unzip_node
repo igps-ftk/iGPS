@@ -1,0 +1,199 @@
+#!/bin/sh
+
+# Name:
+#
+#
+
+# Purpose:
+#   Unzip S1 data files.
+
+# Example:
+#
+
+# Modifications:
+#
+
+# Algorigthm:
+#
+
+# Dependency:
+#
+#. ${HOME}/.bashrc
+
+PROG=sh_esa_s1_unzip_node
+
+#esa_data_node=/sar/esa.sentinel-1/links
+esa_data_node=/sar/s1/links
+
+if [ "$esa_unzip" = "" ]; then
+    echo "ESA environment esa_unzip variable not set! Stopped!!"
+    exit 1
+fi
+
+if [ "$1" == "" ]; then
+    echo "[$PROG]Usage: sh_esa_s1_unzip file [iw1|iw2|iw3]"
+    exit
+fi
+
+iw_typs=`echo "iw1,iw2,iw3" | sed -e 's/,/ /g'`
+
+is_local=n
+is_check_done=n
+is_test=n
+is_overwrite=n
+
+#two modes of input parameters
+if [ "`echo $1 | awk '{print substr($1,1,1)}'`" == "-" ]; then
+
+  while [ "$1" != "" ]; do
+    case $1 in
+      -f|-file)
+        file=$2
+        ;;
+      -i|-iw)
+        iw_typs=`echo $2 | sed -e 's/,/ /g'`
+        ;;
+      -l|-local)
+        is_local=$2
+        ;;
+      -p|-path)
+        esa_data_node=$2
+        ;;
+      -u|-update)
+        is_check_done=$2
+        ;;
+      -t|-test)
+        is_test=$2
+        ;;
+      -o|-overwrite)
+        is_overwrite=$2
+        ;;
+      *)
+        echo "[]ERROR: invalid option ($1)!!"
+        exit 1
+        ;;
+    esac
+    shift 2
+  done
+
+else  #mode 2
+
+  file=$1  
+  if [ "$2" = "" ]; then
+      echo "[INFO]iw_type not specified! Default iw1/iw2/iw3 will be extracted."
+      iw_typs='iw1 iw2 iw3'
+  else
+      iw_typs=`echo $2 | sed -e 's/,/ /g'`
+  fi
+  
+fi  #end-of-mode-2
+
+
+
+if [ "$is_local" == "y" ]; then
+  esa_data_node=/sar/esa.sentinel-1/links
+fi
+
+echo "[$PROG]INFO:iw to extract is $iw_typs"
+
+iws="iw1 iw2 iw3"
+iw_exclude_str=
+iw_rem=
+for iw_typ in $iws ; do
+  echo "iw_typ is $iw_typ"
+  tmp=`echo $iw_typs | grep $iw_typ`
+  echo "tmp is $tmp"
+  if [ "$tmp" != "" ]; then
+    iw_rem="$iw_rem $iw_typ"
+    continue
+  fi
+  iw_exclude_str="$iw_exclude_str *${iw_typ}*"
+done
+echo "[$PROG]INFO:iw to exclude is $iw_exclude_str"
+echo "[$PROG]INFO:iw remain is $iw_rem"
+n_iw_rem=`echo $iw_rem | awk '{print NF}'`
+#exit
+
+file_tmp=
+
+
+if [ "$is_check_done" == "y" ]; then
+
+  timestamp=`date | sed -e 's/ /_/g' | sed -e 's/:/-/g'`
+  file_tmp=_tmp_input_lst_${PROG}_${timestamp}
+  file2_tmp=_tmp_file_in_${PROG}_${timestamp}
+  grep '^ ' $file  > $file2_tmp
+  for iw in `echo $iw_typs | sed -e 's/,/ /g'`; do
+    ii=`echo $iw | awk '{print substr($1,3,1)}'`
+    file_blt="F${ii}/baseline_table.dat"
+    if [ -s $file_blt ]; then
+      file_data="F${ii}/data.in"
+      break
+    fi
+  done
+  echo baseline file $file_blt
+
+  #\rm -rf $file_tmp
+  sid=`head -1 $file_data | awk -F- '{print substr($5,1,8)}'`
+  cat $file2_tmp | grep $sid > $file_tmp
+  while read line; do
+    sid=`echo $line | awk -F_ '{print substr($6,1,8)}'`
+    #echo sid $sid
+    tmp=`cat $file_blt | grep $sid`
+    if [ "$tmp" == "" ]; then
+      echo " $line" >> $file_tmp
+    fi
+  done < $file2_tmp
+  wc -l $file_tmp
+  file=$file_tmp
+fi
+
+#echo file $file
+
+
+dos2unix $file
+
+lines=`grep '^ ' $file | awk '{print $1}'`
+ni=1
+ntot=`grep '^ ' $file | wc -l`
+for line in $lines; do
+    #echo $line
+    echo "[$PROG]INFO: $ni / $ntot `basename $line`"
+    ni=`expr $ni + 1`
+
+    dfile="`echo $line | awk -F. '{print $1}'`.zip"
+    ofile="`echo $line | awk -F. '{print $1}'`.SAFE"
+    
+    #echo ${opath_esa}/${ofile}
+    if [ "$is_overwrite" != "y" -a -d ${esa_unzip}/${ofile}/measurement ]; then
+      n_iw_out=0
+      for iw_i in $iw_rem; do
+        file_out=`find ${esa_unzip}/${ofile}/measurement -maxdepth 1 -type f -name "s1*${iw_i}*.tiff"`
+        if [ "$file_out" != "" ]; then
+          n_iw_out=`expr $n_iw_out + 1`
+        fi
+      done
+      #echo $n_iw_rem $n_iw_out
+      if [ $n_iw_rem -eq $n_iw_out ]; then
+        echo "INFO:already done (${esa_unzip}/$ofile). Skipped."
+        continue
+      fi
+    fi
+
+    #echo ${path_esa}/${dfile}
+    zipfile=${esa_data_node}/${dfile}
+    if [ ! -s ${zipfile} ]; then
+      echo "[$PROG]ERROR:data not found (${zipfile})!!"
+      continue
+    fi
+
+    echo "[$PROG]INFO: extracting $dfile"
+    echo unzip -n ${zipfile} -x *-vh-*  $iw_exclude_str -d ${esa_unzip}
+    if [ "$is_test" != "y" ]; then
+      echo unzip -n ${zipfile} -x *-vh-*  $iw_exclude_str -d ${esa_unzip} | sh
+    fi
+done
+
+if [ "$file_tmp" != "" ]; then
+  \rm -f $file_tmp $file2_tmp
+fi

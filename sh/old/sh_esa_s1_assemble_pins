@@ -1,0 +1,130 @@
+#!/bin/sh
+
+# Name:
+#   sh_esa_s1_prep_assemble
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+if [ "$esa_data" = "" ]; then
+    echo "[ERROR]ESA environment variable esa_data must be set first! Stopped."
+    exit 1
+fi
+
+
+if [ "$esa_unzip" = "" ]; then
+    echo "ESA environment esa_unzip variable not set! Stopped!!"
+    exit 1
+fi
+
+if [ "$1" = "" ]; then
+  echo "Usage: sh_esa_s1_assemble_pins input_file  iw_type pins_file"
+  exit 1
+fi
+
+file=$1
+
+iw_typ=iw2
+if [ "$2" != "" ]; then
+    iw_typ=$2
+fi
+
+file_roi=$3
+
+
+
+file_tmp=`pwd`/.tmp.unzip
+echo $file_tmp
+\rm -f $file_tmp
+days=`grep -h '^ ' $file | awk -F_ '{print $6}' | awk -FT '{print $1}' | sort |uniq`
+echo $days
+for day in $days; do
+  echo $day
+  nf=`grep '^ ' -h $file | grep $day | wc -l` 
+  if [ $nf -ne 2 ]; then
+    echo "[]ERROR: not enough files ($nf) for combining data of $day!!"
+    #grep '^ ' -h $file | grep $day
+    continue
+  fi
+  echo "combining $nf frames for $day ..."
+  grep '^ ' -h $file | grep $day |sort | awk '{print $0}' >> $file_tmp
+  #tfiles=`grep '^ ' -h $file | grep $day |sort`
+  #echo $tfiles
+done
+
+#sh_esa_s1_unzip $file_tmp
+
+\rm -rf raw0 raw
+mkdir raw0 raw
+cd raw0
+pwd
+sh_esa_s1_link_raworig $file_tmp $iw_typ
+sh_esa_s1_link_orb3 >& tiff_EOF.list
+sh_esa_s1_prep_prep $file_tmp $iw_typ
+
+ls *.tiff | sed -e 's/.tiff//g'> .tmp.tiff
+days=`grep -h '^ ' $file_tmp | awk -F_ '{print $6}' | awk -FT '{print $1}' | sort |uniq`
+
+# get starting and ending azimuths
+pin1=`head -1 $file_roi | awk '{print $1,$2}'` 
+pin2=`tail -1 $file_roi | awk '{print $1,$2}'` 
+
+
+
+##echo pin2 is $pin2
+##echo file2 is $file2
+##echo orb2 is $orb2
+##\rm -rf tmp2
+##make_s1a_tops ${file2}.xml ${file2}.tiff tmp2 0
+##ext_orb_s1a tmp2.PRM $orb2 tmp2
+##tmpazi2=`echo $pin2 | awk '{print $1,$2,0}' | SAT_llt2rat tmp2.PRM 1 | awk '{printf("%d",$2+0.5)}'`
+##echo  tmpazi2 is $tmpazi2
+#### refinie the calculation in case the pin is far away from the starting frame. (baseline error)
+##shift_atime_PRM.csh tmp2.PRM $tmpazi2
+##azi2=`echo $pin2 | awk '{print $1,$2,0}' | SAT_llt2rat tmp2.PRM 1 | awk '{printf("%d",$2+0.5 + '$tmpazi2')}'`
+##echo  azi2 is $azi2
+
+#exit
+
+#mosaic 
+for day in $days; do
+  echo $day
+  echo "combining $nf frames for $day ..."
+  file1=`cat .tmp.tiff | grep $day |sort | awk '{print $1}' | head -1`
+  file2=`cat .tmp.tiff | grep $day |sort | awk '{print $1}' | tail -1`
+  
+  orb1=`grep '^ ' tiff_EOF.list | grep $file1 | awk '{print $2}'`
+  orb2=`grep '^ ' tiff_EOF.list | grep $file2 | awk '{print $2}'`
+  echo pin1 is $pin1
+  echo file1 is $file1
+  echo orb1 is $orb1
+  pwd
+  \rm -rf tmp1
+  make_s1a_tops ${file1}.xml ${file1}.tiff tmp1 0
+  ext_orb_s1a tmp1.PRM $orb1 tmp1
+  tmpazi1=`echo $pin1 | awk '{print $1,$2,0}' | SAT_llt2rat tmp1.PRM 1 | awk '{printf("%d",$2+0.5)}'`
+  echo  tmpazi1 is $tmpazi1
+  ## refinie the calculation in case the pin is far away from the starting frame. (baseline error)
+  shift_atime_PRM.csh tmp1.PRM $tmpazi1
+  azi1=`echo $pin1 | awk '{print $1,$2,0}' | SAT_llt2rat tmp1.PRM 1 | awk '{printf("%d",$2+0.5 + '$tmpazi1')}'`
+  azi2=`echo $pin2 | awk '{print $1,$2,0}' | SAT_llt2rat tmp1.PRM 1 | awk '{printf("%d",$2+0.5 + '$tmpazi1')}'`
+  echo  azi1 is $azi1
+  echo  azi2 is $azi2
+
+  echo assemble_tops $azi1 $azi2 $file1 $file2 ../raw/$file1
+  echo assemble_tops $azi1 $azi2 $file1 $file2 ../raw/$file1 | sh
+  #exit
+done

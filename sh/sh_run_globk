@@ -234,12 +234,14 @@ while [ $i -lt $ndays ]; do
     #echo "\cp -f /acd3/igs/pub/hfilesi.gmf/${year}/${doy}/h${net}a.${yr}${doy}.Z ."
     #\cp -f /acd3/igs/pub/hfilesi.gmf/${year}/${doy}/h${net}a.${yr}${doy}.Z .
     \cp -f /home/hfilesi.gmf.v3/${year}/${doy}/hltr?a.${yr}${doy}.Z .
+    #exit
 
 
     #\uncompress -f *.Z  #uncompress will stop if one file is corrupted!
     #Thus, it's better to uncompress one-by-one.
     files=`ls h????a.?????.Z`
     for file in $files; do
+        gunzip $file
 	\uncompress -f $file
     done
 

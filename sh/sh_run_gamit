@@ -99,6 +99,8 @@ hfile_path=/home/tianyf/hfiles
 #script_file to be deleted
 script_file=non #default not delete the running script, except batched by SLURM.
 
+ftp_root_prefix=pub
+#ftp_root_preifx=gnss
 
 # process command-line parameters
 #####################################################
@@ -196,7 +198,9 @@ is_reg_lgn=`echo $regs | awk '{print index($0,"REG_LGN")}'`
 
 #hard-wired parameter
 #host="210.31.68.163"
-host="ftp://${host}"
+#host="ftp://${host}"
+host="http://${host}"
+
 
 #begin re-run
 echo " >re-run ..."
@@ -243,46 +247,54 @@ while [ $i -lt $ndays ]; do
 	#${ftp_prog} ${host}/pub/rinex/${year}/${doy}/${yr}d/${site}${doy}0.${yr}d.Z
 	#${ftp_prog} ${host}/pub1/rinex/${year}/${doy}/${site}${doy}0.${yr}d.Z
 	#${ftp_prog} ${host}/pub1/rinex/${year}/${doy}/${yr}d/${site}${doy}0.${yr}d.Z
-	#wget -nc ${host}/pub/rinex/${year}/${doy}/${site}${doy}0.${yr}d.Z >> $logfile 2>>${logfile}
+	wget -nc ${host}/${ftp_root_prefix}/rinex/${year}/${doy}/${site}${doy}0.${yr}d.Z >> $logfile 2>>${logfile}
+        wget -nc ${host}/${ftp_root_prefix}/rinex/${year}/${doy}/${site}${doy}0.${yr}d.gz >> $logfile 2>>${logfile}
+        #\cp /g10a/ftp/pub/rinex/${year}/${doy}/${site}${doy}0.${yr}[od].Z .
+        #\cp /g10a/ftp/pub/rinex/${year}/${doy}/${site}${doy}0.${yr}[od].gz .
+
 	#wget -nc ${host}/pub/rinex/${year}/${doy}/${site}${doy}0.${yr}o.Z >> $logfile 2>>${logfile}
 	
  #for FTP server as GPSDC
-        \cp -f /dcd0/ftp/pub/rinex/${year}/${doy}/${site}${doy}0.${yr}d.Z . >> $logfile 2>>${logfile}
-        \cp -f /dcd0/ftp/pub/rinex/${year}/${doy}/${site}${doy}0.${yr}o.Z . >> $logfile 2>>${logfile}
+        #\cp -f /dcd0/ftp/pub/rinex/${year}/${doy}/${site}${doy}0.${yr}d.Z . >> $logfile 2>>${logfile}
+        #\cp -f /dcd0/ftp/pub/rinex/${year}/${doy}/${site}${doy}0.${yr}o.Z . >> $logfile 2>>${logfile}
 
         #for FTP server as VMICD
-        \cp -f /home/FTP/pub/rinex/${year}/${doy}/${site}${doy}0.${yr}d.Z . >> $logfile 2>>${logfile}
-        \cp -f /home/FTP/pub/rinex/${year}/${doy}/${site}${doy}0.${yr}o.Z . >> $logfile 2>>${logfile}
+        #\cp -f /home/FTP/pub/rinex/${year}/${doy}/${site}${doy}0.${yr}d.Z . >> $logfile 2>>${logfile}
+        #\cp -f /home/FTP/pub/rinex/${year}/${doy}/${site}${doy}0.${yr}o.Z . >> $logfile 2>>${logfile}
 
 	#\cp -f /igs/pub/rinex/${year}/${doy}/${site}${doy}?.${yr}?.Z .  >> $logfile 2>>${logfile}
+        if [ -d /sar/${ftp_root_prefix}/rinex/${year}/${doy} ]; then
+          \cp -f /sar/${ftp_root_prefix}/rinex/${year}/${doy}/${site}${doy}?.${yr}?.*[zZ] .  >> $logfile 2>>${logfile}
+        fi
+
 	#for CMONOC network
 	if [ $is_reg_lutai_cgps -gt 0 ]; then
-	    \cp -f /home/lutai/rinex/${year}/${doy}/${site}${doy}0.${yr}d.Z . >> $logfile 2>>${logfile}
+	    \cp -f /home/lutai/rinex/${year}/${doy}/${site}${doy}0.${yr}d.*[zZ] . >> $logfile 2>>${logfile}
 	fi
 	if [ $is_reg_lutai_sgps -gt 0 ]; then
-	    \cp -f /home/lutai/survey.mode/reg${year}/${doy}/${site}${doy}0.${yr}d.Z . >> $logfile 2>>${logfile}
+	    \cp -f /home/lutai/survey.mode/reg${year}/${doy}/${site}${doy}0.${yr}d.*[zZ] . >> $logfile 2>>${logfile}
 	fi
 	if [ $is_reg_cmonoc_cont -gt 0 ]; then
-	    \cp -f /home/cmonoc/DATA/${year}/${doy}/${site}${doy}0.${yr}d.Z .  >> $logfile  2>>${logfile}
+	    \cp -f /home/cmonoc/DATA/${year}/${doy}/${site}${doy}0.${yr}d.*[zZ] .  >> $logfile  2>>${logfile}
 	   #\cp -f /home/cmonoc/DATA/${year}/${doy}/${site}${doy}0.${yr}d.Z .  >> $logfile 2>>${logfile}
 	fi
 	if [ $is_reg_cmonoc_survey_mode -gt 0 ]; then
-	    \cp -f /home/cmonoc/survey.mode/${year}/${doy}/${site}${doy}?.${yr}d.Z . >> $logfile  2>>${logfile}
+	    \cp -f /home/cmonoc/survey.mode/${year}/${doy}/${site}${doy}?.${yr}d.*[zZ] . >> $logfile  2>>${logfile}
 	fi
 	#For TigiCAS network
 	if [ $is_reg_tigicas -gt 0 ]; then
-	    \cp -f /home/TigiCAS/rinex/${year}/${doy}/${site}${doy}0.${yr}d.Z . >> $logfile  2>>${logfile}
+	    \cp -f /home/TigiCAS/rinex/${year}/${doy}/${site}${doy}0.${yr}d.*[zZ] . >> $logfile  2>>${logfile}
 	fi
 	#for local yushu quake
 	#\cp -f /export/home/tianyf/gpse/rerun.yushu/data/rinex/${year}/${doy}/${site}${doy}0.${yr}o . >> $logfile  2>>${logfile}
 	#for Geonet
 	if [ $is_reg_nepal -gt 0 ]; then
-	    #\cp -f /export/home/nepal/rinex/${year}/${doy}/${site}${doy}0.${yr}d.Z .  >> $logfile  2>>${logfile}
+	    #\cp -f /export/home/nepal/rinex/${year}/${doy}/${site}${doy}0.${yr}d.*[zZ] .  >> $logfile  2>>${logfile}
 	    \cp -f /home/nepal/rinex/${year}/${doy}/${site}${doy}?.${yr}?.gz . >> $logfile  2>>${logfile}
 	    \cp -f /home/nepal/rinex/${year}/${doy}/${site}${doy}?.${yr}?.Z .  >> $logfile  2>>${logfile}
 	fi
 	if [ $is_reg_wenchuan -gt 0 ]; then
-	    \cp -f /home/wenchuan/rinex/${year}/${doy}/${site}${doy}?.${yr}d.Z . >> $logfile  2>>${logfile}
+	    \cp -f /home/wenchuan/rinex/${year}/${doy}/${site}${doy}?.${yr}d.*[zZ] . >> $logfile  2>>${logfile}
 	fi
 	if [ $is_reg_beijing -gt 0 ]; then
 	    files=`find  /home/beijing/raw/${year}/${doy}/ -iname "*${site}*.*o*"`
@@ -308,7 +320,9 @@ while [ $i -lt $ndays ]; do
 
 	#lhasa campaign
 	if [ $is_reg_lgn -gt 0 ]; then
-	    \cp -f /home/lhasa_block/${year}/${doy}/${site}${doy}0.${yr}o* .  >> $logfile 2>>${logfile}
+	    #\cp -f /g10a/ftp/pub/lhasa_block/daily/${year}/${doy}/${site}${doy}0.${yr}o* .  >> $logfile 2>>${logfile}
+            \cp -f /g16n/lgn/${year}/${doy}/${site}${doy}0.${yr}o* .  >> $logfile 2>>${logfile}
+
         #\cp -f /home/eBACKUP/LasaData/rinex/${year}/${doy}/${site}${doy}0.${yr}o* .  >> $logfile 2>>${logfile}
 	fi
 
@@ -330,8 +344,9 @@ while [ $i -lt $ndays ]; do
     echo " >>uncompress rinex files"
     sh_crx2rnx  -f ???????0.??d.Z >> $logfile 2>>${logfile}
     #uncompress *.??o.Z files
-    \uncompress -f *.??o.Z
-    \gunzip -f *.??o.gz
+    \uncompress -f *.??[do].Z
+    \gunzip -f *.??[do].gz
+    sh_crx2rnx -f *d
 
     #exit
     echo " >>get met.."
@@ -353,7 +368,7 @@ while [ $i -lt $ndays ]; do
     mkdir -p ${rerun_root}/brdc
     cd ${rerun_root}/brdc
     #\ln -s -f ${igs_root}/nav/${year}/${doy}/brdc${doy}0.${yr}n.Z .
-    ${ftp_prog} ${host}/pub/nav/${year}/${doy}/brdc${doy}0.${yr}n.Z  >> $logfile 2>>${logfile}
+    ${ftp_prog} ${host}/${ftp_root_prefix}/nav/${year}/${doy}/brdc${doy}0.${yr}n.Z  >> $logfile 2>>${logfile}
     #delete file with zero size?
     #if [ ! -s brdc${doy}0.${yr}n.Z ]; then
 	#\rm -f brdc${doy}0.${yr}n.Z
@@ -368,14 +383,68 @@ while [ $i -lt $ndays ]; do
 	continue
     fi
     #exit
-    \uncompress -f brdc${doy}0.${yr}n.Z
-    if [ $? -ne 0 ]; then
+   
+    ls -l
+    #is_Z=`cat brdc${doy}0.${yr}n.Z | uncompress | grep 'not in compressed format'`
+    cat brdc${doy}0.${yr}n.Z | uncompress 
+    if [ $? -eq 0 ]; then
+    #if [ "$is_Z" == "" ]; then
+      \uncompress -f brdc${doy}0.${yr}n.Z
+    else
+      \gunzip -f brdc${doy}0.${yr}n.Z
+    fi
+    
+    #if [ $? -ne 0 ]; then
+    if [ ! -s brdc${doy}0.${yr}n ]; then
+        ls -l #brdc${doy}0.${yr}n
 	echo "Error:  unable to unzip bbrdc/nav file! Skipping"  >> $logfile 2>>${logfile}
 	i=`expr $i + 1`
 	doy=`expr $doy + 1`
 	continue
     fi
     \rm -f brdc${doy}0.${yr}n.Z
+
+
+#link ionex
+    echo " >>get ionex.."
+    case $orbit in
+      IGSF)
+        orb_typ=igs
+        ;;
+      IGSR)
+        orb_typ=igr
+        ;;
+      *)
+        echo "[]ERROR: wrong type orbit ($orbit)!!"
+        exit 1
+        ;;
+    esac
+    mkdir -p ${rerun_root}/ionex
+    cd ${rerun_root}/ionex
+    #\ln -s -f ${igs_root}/nav/${year}/${doy}/brdc${doy}0.${yr}n.Z .
+    ${ftp_prog} ${host}/${ftp_root_prefix}/ionex/${year}/${doy}/${orb_typ}g${doy}0.${yr}i.Z  >> $logfile 2>>${logfile}
+    #delete file with zero size?
+    #if [ ! -s igsg${doy}0.${yr}i.Z ]; then
+	    #\rm -f brdc${doy}0.${yr}n.Z
+    #fi
+    #echo "zero?"
+    if [ ! -s ${orb_typ}g${doy}0.${yr}i.Z ]; then
+    	echo "WARNING: No ionex file exist! Skipping"  >> $logfile 2>>${logfile}
+    	\rm -f ${orb_typ}g${doy}0.${yr}i.Z
+    	##i=`expr $i + 1`
+    	##doy=`expr $doy + 1`
+    	###exit
+    	##continue
+    fi
+    #exit
+    \uncompress -f ${orb_typ}g${doy}0.${yr}i.Z
+    if [ $? -ne 0 ]; then
+    	echo "Error:  unable to unzip ionex file! Skipping"  >> $logfile 2>>${logfile}
+    	##i=`expr $i + 1`
+    	##doy=`expr $doy + 1`
+    	##continue
+    fi
+    #exit
 
 
 #link orbit files
@@ -390,7 +459,7 @@ while [ $i -lt $ndays ]; do
 	${ftp_prog} ${host}/pub/gfiles/${gpsw}/gpgga${y}.${doy}.Z  >> $logfile 2>>${logfile}
 	\uncompress -f ${igs_root}/gfiles/${gpsw}/gpgga${y}.${doy}.Z .  >> $logfile 2>>${logfile}
 	\rm -f gpgga${y}.${doy}.Z
-    elif [ "${orbit}" = "IGSF" ]; then
+    elif [ "${orbit}" = "IGSF"  -o "${orbit}" = "IGFF" ]; then
 	if [ -f ${rerun_root}/gfiles/gigsf${y}.${doy} ]; then
 	    #yearGfile=`head -1 ${rerun_root}/gfiles/gigsf${y}.${doy} | awk '{print $1}'`
 	    #if [ $yearGfile -eq $year} ]; then
@@ -400,15 +469,22 @@ while [ $i -lt $ndays ]; do
 	    mkdir ${rerun_root}/igs
 	    cd ${rerun_root}/igs
 	    #\ln -s -f ${igs_root}/products/${gpsw}/igs${gpsw}${gpsd}.sp3.Z .
-	    ${ftp_prog} ${host}/pub/products/${gpsw}/igs${gpsw}${gpsd}.sp3.Z >> $logfile 2>>${logfile}
-	    \uncompress -f igs${gpsw}${gpsd}.sp3.Z  >> $logfile 2>>${logfile}
+	    ${ftp_prog} ${host}/${ftp_root_prefix}/products/${gpsw}/igs${gpsw}${gpsd}.sp3.Z >> $logfile 2>>${logfile}
+            cat igs${gpsw}${gpsd}.sp3.Z | uncompress
+            if [ $? -eq 0 ]; then
+  	      \uncompress -f igs${gpsw}${gpsd}.sp3.Z  >> $logfile 2>>${logfile}
+            else
+              gunzip  -f igs${gpsw}${gpsd}.sp3.Z 
+            fi
 	    links.arc J2000 ${year} usno >> $logfile 2>>${logfile}
 	    sh_sp3fit -f igs${gpsw}${gpsd}.sp3 -o igsf -t -u -m 0.200 >> $logfile 2>>${logfile}
+	    ##sh_sp3fit -f igs${gpsw}${gpsd}.sp3 -o igff -t -u -m 0.200 >> $logfile 2>>${logfile}
 	    \cp -f gigsf${y}.${doy} ../gfiles >> $logfile 2>>${logfile}
+	    \cp -f gigfg${y}.${doy} ../gfiles >> $logfile 2>>${logfile}
 	    #echo "not supported, yet!"
 	    #exit 1
 	fi
-    elif [ "${orbit}" = "IGSR" ]; then
+    elif [ "${orbit}" = "IGSR" -o "${orbit}" = "IGRR" ]; then
 	if [ -f ${rerun_root}/gfiles/gigsr${y}.${doy} ]; then
 	    echo "G-file exist: ${rerun_root}/gfiles/gigsf${y}.${doy}  skipping..." >> $logfile
 	else
@@ -416,12 +492,22 @@ while [ $i -lt $ndays ]; do
 	    cd ${rerun_root}/igs
 	    #\ln -s -f ${igs_root}/products/${gpsw}/igs${gpsw}${gpsd}.sp3.Z .
 
-	    ${ftp_prog} ${host}/pub/products/${gpsw}/igr${gpsw}${gpsd}.sp3.Z >> $logfile 2>>${logfile}
-	    \uncompress -f igr${gpsw}${gpsd}.sp3.Z
+	    ${ftp_prog} ${host}/${ftp_root_prefix}/products/${gpsw}/igr${gpsw}${gpsd}.sp3.Z >> $logfile 2>>${logfile}
+            cat igr${gpsw}${gpsd}.sp3.Z | uncompress
+            if [ $? -eq 0 ]; then
+         	    \uncompress -f igr${gpsw}${gpsd}.sp3.Z
+            else
+              gunzip -f igr${gpsw}${gpsd}.sp3.Z
+            fi
+            #exit
 	    links.arc J2000 ${year} usno
             echo "sh_sp3fit -f igr${gpsw}${gpsd}.sp3 -o igsr -t -u -m 0.200" >> $logfile
 	    sh_sp3fit -f igr${gpsw}${gpsd}.sp3 -o igsr -t -u -m 0.200 >> $logfile 2>>${logfile}
-	    \cp -f gigsr${y}.${doy} ../gfiles
+	    ##sh_sp3fit -f igr${gpsw}${gpsd}.sp3 -o igrr -t -u -m 0.200 >> $logfile 2>>${logfile}
+	    \cp -f gigsr${y}.${doy} ../gfiles >> $logfile 2>>${logfile}
+            \cp -f gigsg${y}.${doy} ../gfiles >> $logfile 2>>${logfile}
+            \cp -f gigrg${y}.${doy} ../gfiles >> $logfile 2>>${logfile}
+
 	    #echo "not supported, yet!"
 	    #exit 1
 	fi
@@ -432,8 +518,9 @@ while [ $i -lt $ndays ]; do
 	    mkdir ${rerun_root}/igs
 	    cd ${rerun_root}/igs
 	    #\ln -s -f ${igs_root}/products/${gpsw}/igs${gpsw}${gpsd}.sp3.Z .
-	    ${ftp_prog} ${host}/pub/products/${gpsw}/igu${gpsw}${gpsd}_18.sp3.Z
+	    ${ftp_prog} ${host}/${ftp_root_prefix}/products/${gpsw}/igu${gpsw}${gpsd}_18.sp3.Z
 	    \uncompress -f igu${gpsw}${gpsd}*.sp3.Z
+            gunzip  -f igu${gpsw}${gpsd}*.sp3.Z
 	    links.arc J2000 ${year} usno
 	    sh_sp3fit -f igu${gpsw}${gpsd}_18.sp3 -o igsu -t -d ${year} ${doy} -u -m 0.200
 	    \cp -f gigsu${y}.${doy} ../gfiles
@@ -447,7 +534,7 @@ while [ $i -lt $ndays ]; do
 	    mkdir ${rerun_root}/igs
 	    cd ${rerun_root}/igs
 	    #\ln -s -f ${igs_root}/products/${gpsw}/igs${gpsw}${gpsd}.sp3.Z .
-	    ${ftp_prog} ${host}/pub/products/${gpsw}/repro1/ig1${gpsw}${gpsd}.sp3.Z
+	    ${ftp_prog} ${host}/${ftp_root_prefix}/products/${gpsw}/repro1/ig1${gpsw}${gpsd}.sp3.Z
 	    \uncompress -f ig1${gpsw}${gpsd}*.sp3.Z
 	    links.arc J2000 ${year} usno
 	    sh_sp3fit -f ig1${gpsw}${gpsd}.sp3 -o igsf -t -d ${year} ${doy} -u -m 0.200
@@ -477,6 +564,7 @@ while [ $i -lt $ndays ]; do
 
     echo " running sh_gamit ..."
     echo "sh_gamit -expt ${expt} -d ${year} ${doy} -orbit ${orbit} -met -noftp -yrext  -dopt a b c D H d k x y p t"
+    #exit 1
 #run sh_gamit
     cd ${rerun_root}
     sh_gamit -expt ${expt} -d ${year} ${doy} -orbit ${orbit} -met -noftp -yrext  -dopt a b c D H d k x y p t  >> $logfile 2>>${logfile}

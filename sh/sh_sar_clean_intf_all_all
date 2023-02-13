@@ -1,0 +1,98 @@
+#!/bin/sh
+
+# Name:
+#   sh_sar_clean_intf_all
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+path=`pwd`
+
+mode=2 #1-old; 2-by directory
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -path)
+      path=$2
+      ;;
+    *)
+      echo "[]ERROR: invalid option ($1)!!"
+      exit 1
+      ;;
+  esac
+  shift 2
+done
+
+echo $path
+if [ ! -d $path ]; then
+  echo "[]ERROR: path not exist ($path)!!"
+  exit 1
+fi
+
+oldpath=`pwd`
+cd $path
+path=`pwd`
+cd $oldpath
+
+pname=`basename $path`
+
+if [ "$pname" != "intf_all" ]; then
+  echo please run this script under ./intf_all/ directory
+  exit 1
+fi
+
+echo "[]INFO: removing files from $path"
+echo "[]INFO: `date`"
+
+#mode 1
+if [ $mode -eq 1 ]; then
+  du -hs 
+  #exit
+  echo removing *.pdf
+  find . -name "*.pdf" -exec rm {} \;
+  echo removing *.ps
+  find . -name "*.ps" -exec rm {} \;
+  echo removing conncomp.grd
+  find . -name "conncomp.grd" -exec rm {} \;
+  echo removing '[d-t]*.grd'
+  find . -name "[d-t]*.grd" -exec rm {} \;
+  echo removing _ll.grd
+  find . -name "*_ll.grd" -exec rm {} \;
+  echo removing  amp
+  find . -name "*amp*" -exec rm {} \;
+
+  du -hs
+fi
+
+
+#mode 2
+if [ $mode -eq 2 ]; then
+  #du -hs 
+  #exit
+  dirs=`ls $path | grep '^20' | grep '_20' | grep '20....._20.....'`
+  for dir in $dirs; do
+    echo "[]INFO: cleaning $path/$dir ..."
+    \rm $path/$dir/*.pdf >& /dev/null
+    \rm $path/$dir/*.ps  >& /dev/null
+    \rm $path/$dir/conncomp.grd>& /dev/null
+    \rm $path/$dir/[d-t]*.grd  >& /dev/null
+    \rm $path/$dir/*_ll.grd  >& /dev/null
+    \rm $path/$dir/*amp*  >& /dev/null
+    #exit
+  done
+  #du -hs
+fi
+
+echo "[]INFO: `date`"

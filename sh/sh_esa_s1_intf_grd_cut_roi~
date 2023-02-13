@@ -1,0 +1,109 @@
+#!/bin/sh
+
+# Name:
+#   sh_esa_s1_intf_grd_cut_roi
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   trans.dat
+#   intf_all/
+#
+path=./intf_all/
+opath=./intf_all_roi/
+
+PROG=sh_esa_s1_intf_grd_cut_roi
+
+roi_file=
+
+types='corr_cut.grd unwrap_mask.grd'
+
+if [ $# -eq 0 ]; then
+    echo "[$PROG]ERROR: please give input parameters!!"
+    echo "[$PROG]Usage: sh_esa_s1_intf_grd_cut_roi -file ROI.kml"
+    exit 1
+fi
+
+
+while [ "$1" != "" ]; do
+    case $1 in
+	-file)
+	    roi_file=$2
+	    ;;
+        -opath)
+            opath=$2
+            ;;
+	*)
+	    echo "[$PROG]ERROR: invalid option ($1)!!"
+	    exit 1
+	    ;;
+	esac
+    shift 2
+done
+
+echo $roi_file
+echo $path 
+echo $opath
+
+
+kml2gmt $roi_file > .tmp1
+cat .tmp1 |grep -v '>' | awk '{print $1,$2,0}'>  .roi.llh
+cat .roi.llh
+
+ln -s ./topo/trans.dat .
+
+proj_ll2ra_ascii.csh trans.dat .roi.llh .roi.xyz
+cat .roi.xyz
+#cat .roi.xy | awk '{print $2,$1}' > .roi.xy2
+
+#exit
+
+files=`find ${path} -name "corr_cut.grd"`
+
+file=`echo $files | awk '{print $1}'`
+pI=`grdinfo -I $file`
+echo $pI
+pR=`gmt gmtinfo $pI .roi.xyz`
+echo $pR
+#exit
+
+for file in $files; do
+    path_in=`dirname $file`
+    path_out="${opath}/`basename $path_in`"
+    mkdir -p $path_out
+    
+    #if [ ! -s $path_out/unwrap_mask_ll.png ]; then
+    # 	\cp -r $path_in/unwrap_mask_ll.png $path_out
+    #fi
+
+    for type in $types; do
+	
+	file_in=${path_in}/${type}
+	file_out=${path_out}/${type}
+
+	if [ -s $file_out ]; then
+	    echo "[]Exist! Skipped."
+	    continue
+	fi
+
+	echo grdcut $file_in $pR -G${file_out}
+	echo grdcut $file_in $pR -G${file_out} | sh
+    done
+
+    #exit
+done
+
+#while read line; do
+#    echo $line
+#done < .tmp2

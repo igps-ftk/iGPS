@@ -1,0 +1,79 @@
+#!/bin/sh
+
+# Name:
+#   sh_esa_s1_mv_correct_track
+#   
+
+# Purpose:
+#  Move S1 SLC zip files in wrong to track directory to correct place (/sar)
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#  
+
+if [ "$esa_data" = "" ]; then
+    echo "[]ERROR: ESA environment esa_data variable not set! Stopped!!"
+    exit 1
+fi
+ 
+
+ 
+path=/sar/esa.sentinel-1/
+opath=/sar/esa.sentinel-1/
+
+echo "[]INFO: working in $path "
+
+dirs=`ls $path | grep "^t[0-9]" |grep t`
+for cur_dir in $dirs; do
+  echo $cur_dir
+  cur_track=`echo $cur_dir | awk '{print substr($1,2)}'`
+
+files=`find ${path}/${cur_dir} -maxdepth 1 -name "S1*.zip"`
+
+for file in $files; do
+  echo "[]INFO: $file"
+  bname=`basename $file | awk -F. '{print $1}'`
+  #file_safe="${esa_data}/safe/all/${bname}.manifest.safe"
+  file_safe=`echo ${file}  | sed -e 's/.zip/.manifest.safe/g'`
+  if [ ! -s $file_safe ]; then
+    echo "[]ERROR: no meta file for $bname !! Skipped."
+    continue
+  fi
+
+  relativeorbit=`grep relativeOrbitNumber $file_safe |grep start| awk -F\> '{print $2}' | awk -F\< '{
+print $1}'`
+  #echo $ad $relativeorbit $file
+  
+  if [ $cur_track -eq $relativeorbit ]; then
+    continue
+  fi
+
+
+  odir="${opath}/t${relativeorbit}"
+  echo "[]INFO:odir is $odir"
+  #exit
+
+  if [ ! -d $odir ]; then
+    mkdir -p $odir
+  fi
+
+
+  file_t=${odir}/${bname}.zip
+  if [ -s ${file_t} ]; then
+    echo "[]INFO: already exist in $file_t ! Skipped."  
+    continue
+  fi
+  
+  echo "mv $file $odir/"
+
+done
+
+done

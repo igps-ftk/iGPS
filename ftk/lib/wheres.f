@@ -1,5 +1,5 @@
 CTITLE
-       FUNCTION where(arr,n,np,x)
+       FUNCTION wheres(arr,n,np,x)
 c     --PURPOSE--
 
 c     --ALGORITHM--
@@ -13,8 +13,8 @@ C      INCLUDE '../../inc/cgps.h'
 
 c     >>VAR_DEC
 c     --INPUT--
-      integer*4 n,np,where
-      real*8 arr(n),x
+      integer*4 n,np,wheres
+      character*(*) arr(n),x
 
 c     --OUTPUT--
 
@@ -25,36 +25,37 @@ c     --Local Parameters--
       real*8 abs
 
 c     <<VAR_DEC
-      left=1
-      right=np
- 802  middle=(left+right)/2
-c      write(*,*) left,middle,right
-      if (left.gt.right.or.(right-left).eq.1) then
-         where=-1
-         goto 801
-      endif
-      
-      if (abs(x-arr(middle)).lt.1e-12) then
-         where=middle
-         goto 801
-      elseif (x.lt.arr(middle)) then
-         right=middle
-      else
-         left=middle
-      endif
+ccc      left=1
+ccc      right=np
+ccc 802  middle=(left+right)/2
+cccc      write(*,*) left,middle,right
+ccc      if (left.gt.right.or.(right-left).eq.1) then
+ccc         wheres=-1
+ccc         goto 801
+ccc      endif
+ccc      
+ccc      if (abs(x-arr(middle)).lt.1e-12) then
+ccc         wheres=middle
+ccc         goto 801
+ccc      elseif (x.lt.arr(middle)) then
+ccc         right=middle
+ccc      else
+ccc         left=middle
+ccc      endif
+ccc
+ccc      goto 802
 
-      goto 802
-
-c      do i=1,np
-cc         if (arr(i).eq.x) then
+      do i=1,np
+c        write(*,*) i,arr(i),' ',x
+         if (arr(i).eq.x) then
 c         if (abs(arr(i)-x).le.1e-12) then
-c            where=i
-c            goto 801
-c         endif
-c      enddo
-c      where=-1
+            wheres=i
+            goto 801
+         endif
+      enddo
+      wheres=-1
 
  801  continue
-c      write(*,*) where
+c      write(*,*) wheres
       RETURN
       END

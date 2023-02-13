@@ -1,0 +1,102 @@
+#!/bin/sh
+
+# Name:
+#   sh_sar_sbas_extract_time_series_ll
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+
+PROG=sh_sar_sbas_extract_time_series_ll
+
+path_old=`pwd`
+
+file=
+path=$path_old
+opath=neu
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -f|-file)
+      file=$2
+      ;;
+    -p|-path)
+      path=$2
+      ;; 
+    -o|-opath)
+      opath=$2
+      ;; 
+    *)
+      echo "[$PROG]ERROR: invalid option ($1)!!"
+      echo "[$PROG]Usage: ${PROG} "
+      echo "[$PROG]Usage: e.g.,"
+      echo "[$PROG]Usage: ${PROG} "
+      exit 1
+      ;;
+  esac
+  shift 2  
+done
+
+if [ "$file" == "" ]; then
+  echo "[]ERROR: no input file given!!"
+  exit 1
+fi
+
+mkdir -p $opath
+if [ $? -ne 0 ]; then
+  echo "[]ERROR: cannot create output path ($opath)!!"
+  exit 1
+fi
+
+disp_files=`find $path -maxdepth 1 -type f -name "disp_20?????_mask_ll.grd" | sort`
+#echo disp_files $disp_files
+
+#\rm -f _disp_times
+#for disp_file in $disp_files; do
+#  disp_name=`basename $disp_file`
+#  year=`echo $disp_name | awk -F_ '{print substr($2,1,4)}'`
+#  doyr=`echo $disp_name | awk -F_ '{print substr($2,5,3)}'`
+#  dyr=`doy $year $doyr | tail -1 | awk '{print $3}'`
+#  echo "$disp_name $dyr $year $doyr" >> _disp_times
+#done
+#
+
+while read sline; do
+  site=`echo $sline | awk '{print $1}'`
+  lon=`echo $sline | awk '{print $2}'`
+  lat=`echo $sline | awk '{print $3}'`
+  echo lon lat $lon $lat
+  ofile=${opath}/${site}.neu
+  \rm -f $ofile
+  
+  wc -l _disp_times
+  while read tline; do
+    #echo tline $tline
+    disp_name=`echo $tline | awk '{print $1}'`
+    disp_time=`echo $tline | awk '{print $2,$3,$4}'`
+    disp_file="$path/$disp_name"
+    
+    #echo $disp_file
+    disp_vals=`echo $lon $lat | gmt grdtrack -G$disp_file`
+    echo "$disp_time $disp_vals" >> $ofile
+    #exit
+  done < _disp_times
+  #tail _disp_times
+  #wc -l _disp_times
+  exit
+  
+done < $file
+

@@ -1,0 +1,199 @@
+#!/bin/sh
+
+# Name:
+#   sh_esa_s1_assemble
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+PROG=sh_esa_s1_assemble
+
+file_roi_kml=
+file_roi=`pwd`/pins #temporary ROI file
+
+
+if [ $# -lt 2 ]; then
+    echo "Usage: sh_esa_s1_assemble -file input_file  -iw iw_type"
+    echo "Usage:    [ -roi pins_file_kml ]"
+    echo "Usage:    [ -raw0 RAW0_DIR ]"
+    echo "Usage:    [ -raw RAW_DIR ]"
+    exit 1
+fi
+
+file=
+iw_typ=
+path_raw0=`pwd`/raw0
+path_raw=`pwd`/raw
+
+
+while [ "$1" != "" ]; do
+    case $1 in
+        -file)
+            file=$2
+            ;;
+        -iw)
+            iw_typ=$2  
+            ;;
+        -roi)
+            file_roi_kml=$2
+            ;;
+        -raw0)
+            oldpath=`pwd`
+            cd $2
+            if [ $? -ne 0 ]; then
+                echo "[$PROG]ERROR: invalid -raw0 value ($2) !!"
+                cd $oldpath
+                exit 1
+            fi
+            path_raw0=`pwd`
+            cd $oldpath
+            ;;
+        -raw)
+            oldpath=`pwd`
+            cd $2
+            if [ $? -ne 0 ]; then
+                echo "[$PROG]ERROR: invalid -raw value ($2) !!"
+                cd $oldpath
+                exit 1
+            fi
+            path_raw=`pwd`
+            cd $oldpath
+            ;;
+        *)
+            echo "[$PROG]ERROR: invalid option ($1) !!"
+            exit 1
+            ;;
+    esac
+    
+    shift 2
+done
+
+
+if [ "$file" = "" ]; then
+    echo "[$PROG]ERROR: no input file specified!!"
+    exit 1
+fi
+
+if [ "$iw_typ" = "" ]; then
+    echo "[$PROG]ERROR: no subswath (iw1/iw2/iw3) specified!!"
+    exit 1
+fi
+
+if [ "$file_roi_kml" != "" ]; then
+    #convert ROI
+    kml2gmt $file_roi_kml |grep -v '>'  > $file_roi
+    cat $file_roi | awk '{print "["PROG"]INRO:"$0}' PROG=$PROG 
+fi
+
+
+file_tmp=`pwd`/.tmp.unzip
+echo $file_tmp
+\rm -f $file_tmp
+days=`grep -h '^ ' $file | awk -F_ '{print $6}' | awk -FT '{print $1}' | sort |uniq`
+echo $days
+for day in $days; do
+  echo $day
+  nf=`grep '^ ' -h $file | grep $day | wc -l` 
+  ##if [ $nf -ne 1 ]; then
+  ##  #echo "[$PROG]ERROR: not enough files ($nf) for combining data of $day!!"
+  ##  #grep '^ ' -h $file | grep $day
+  ##  echo continue
+  ##fi
+  echo "combining $nf frames for $day ..."
+  grep '^ ' -h $file | grep $day |sort | awk '{print $0}' >> $file_tmp
+  #tfiles=`grep '^ ' -h $file | grep $day |sort`
+  #echo $tfiles
+done
+
+#sh_esa_s1_unzip $file_tmp
+
+\rm -rf ${path_raw0} ${path_raw}
+mkdir ${path_raw0} ${path_raw}
+cd ${path_raw0}
+pwd
+sh_esa_s1_link_raworig $file_tmp $iw_typ
+sh_esa_s1_link_orb3 >& tiff_EOF.list
+sh_esa_s1_prep_prep $file_tmp $iw_typ
+
+ls *.tiff | sed -e 's/.tiff//g'> .tmp.tiff
+days=`grep -h '^ ' $file_tmp | awk -F_ '{print $6}' | awk -FT '{print $1}' | sort |uniq`
+
+if [ "$file_roi_kml" != "" ]; then
+    # get starting and ending azimuths
+    pin1=`head -1 $file_roi | awk '{print $1,$2}'` 
+    pin2=`tail -1 $file_roi | awk '{print $1,$2}'` 
+fi
+
+
+#mosaic 
+for day in $days; do
+  echo $day
+  nf=`cat .tmp.tiff | grep $day | wc -l` 
+  file1=`cat .tmp.tiff | grep $day |sort | awk '{print $1}' | head -1`
+  file2=`cat .tmp.tiff | grep $day |sort | awk '{print $1}' | tail -1`
+  files=`cat .tmp.tiff | grep $day |sort | awk '{for(i=1;i<=NF;i++){print $i}}'`
+  
+    \rm -rf ../${path_raw}/${file1}.tiff
+
+  if [ $nf -eq 1 -a "$file_roi_kml" = "" ]; then
+  #if [ $nf -eq 1 ]; then
+    echo "[$PROG]INFO: link current file to the ${path_raw} directory"
+    echo "[$PROG]INFO: ln -s ${file1}.tiff ${path_raw}/"
+    echo "cd ${path_raw}/ && ln -s ${path_raw0}/${file1}.tiff ./" | sh
+    echo "cd ${path_raw}/ && ln -s ${path_raw0}/${file1}.xml ./" | sh
+    continue
+  fi
+  
+  echo "[$PROG]INFO: combining $nf frames for $day ..."
+  
+  orb1=`grep '^ ' tiff_EOF.list | grep $file1 | awk '{print $2}'`
+  orb2=`grep '^ ' tiff_EOF.list | grep $file2 | awk '{print $2}'`
+  
+  
+  echo orb1 is $orb1
+  pwd
+  
+  azi1='0s'
+  azi2='0s'
+  
+  if [ "$file_roi_kml" != "" ]; then
+  
+      echo pin1 is $pin1
+      echo pin2 is $pin2
+      echo file1 is $file1
+      
+      \rm -rf tmp1
+      make_s1a_tops ${file1}.xml ${file1}.tiff tmp1 0
+      ext_orb_s1a tmp1.PRM $orb1 tmp1
+      tmpazi1=`echo $pin1 | awk '{print $1,$2,0}' | SAT_llt2rat tmp1.PRM 1 | awk '{printf("%d",$2+0.5)}'`
+      echo  tmpazi1 is $tmpazi1
+      ## refinie the calculation in case the pin is far away from the starting frame. (baseline error)
+      shift_atime_PRM.csh tmp1.PRM $tmpazi1
+      azi1=`echo $pin1 | awk '{print $1,$2,0}' | SAT_llt2rat tmp1.PRM 1 | awk '{printf("%d",$2+0.5 + '$tmpazi1')}'`
+      azi2=`echo $pin2 | awk '{print $1,$2,0}' | SAT_llt2rat tmp1.PRM 1 | awk '{printf("%d",$2+0.5 + '$tmpazi1')}'`
+      echo  azi1 is $azi1
+      echo  azi2 is $azi2
+  fi
+
+  
+
+  if [ $nf -eq 1 ]; then
+    files="$file1"
+    #files="$file1 $file1"
+  fi
+  echo assemble_tops $azi1 $azi2 $files ${path_raw}/$file1
+  echo assemble_tops $azi1 $azi2 $files ${path_raw}/$file1 | sh
+  #exit
+done

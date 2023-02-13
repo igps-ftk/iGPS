@@ -37,8 +37,27 @@ if [ $? -ne 0 ]; then
 fi
 pwd
 
-rm -f index.html
-wget --no-check-certificate https://qc.sentinel1.eo.esa.int/aux_poeorb/
-grep EOF index.html | awk -F\" '{print " https://qc.sentinel1.eo.esa.int/aux_poeorb/"$2}' > eof.list
+page=1
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -page)
+      page=$2
+      ;;
+    *)
+      echo "[]ERROR: invalide option ($1)!!"
+      exit 1
+      ;;
+  esac
+  shift 2
+done
+echo page is $page
+
+ofile=index.html
+rm -f $ofile
+wget --no-check-certificate -O $ofile https://qc.sentinel1.eo.esa.int/aux_poeorb/?page=${page}
+#wget --no-check-certificate https://qc.sentinel1.eo.esa.int/aux_poeorb/page=2
+#grep EOF index.html | awk -F\" '{print " https://qc.sentinel1.eo.esa.int/aux_poeorb/"$2}' > eof.list
+grep EOF $ofile | awk -F\" '{print " "$2}' > eof.list
 sh_esa_s1_get_orb eof.list
 

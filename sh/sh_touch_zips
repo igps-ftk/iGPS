@@ -1,0 +1,103 @@
+#!/bin/sh
+
+# Name:
+#   sh_touch_zips
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+force=n #run this script in any places. NOTE: be careful. you may lose your real data!!!
+local=n #only overwrite local existing files
+test=n
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -force)
+      force=$2
+      ;;
+    -local)
+      local=$2
+      ;;
+    -test)
+      test=$2
+      ;;
+    *)
+      echo "[]ERROR: invalid option ($1)!!"
+      exit 1
+      ;;
+  esac
+  shift 2
+done
+
+path=`pwd`
+
+path_leading=`echo $path | awk -F\/ '{print substr($2,1,1)}'`
+echo path_leading $path_leading
+echo "[]INFO: current path is $path"
+i=1
+while [ $i -le 3 ]; do
+  sleep 1
+  echo $i | awk '{ printf(".")}'
+  i=`expr $i + 1`
+done
+
+if [ "$path_leading" != "r" ]; then
+  echo "[]INFO: $PROG only supposed to run in USB devices (/run/media/...) "
+  echo "[]WARNING: make sure you are working in the correct path!"
+  echo "[]INFO: current path $path"
+  
+  if [ "$force" != "y" ]; then
+    exit 1
+  fi
+fi
+
+if [ "$local" == "y" ]; then #only overwrite existing files
+  files=`ls S1*.zip`
+  for file in $files; do
+    tmp=`cat zips | grep "$file"`
+    echo "tmp $tmp"
+    if [ "$tmp" == "" ]; then
+      continue
+    fi
+    echo "[]INFO: zeroing $file (`du -hs`) ..."
+    if [ "$test" == "y" ]; then
+      echo "[]INFO:touching $file ...(testing)"
+    else
+      echo 1 > `basename $file`
+    fi
+  done
+else #if local not equal "y", then ...
+while read file; do #loop the zips file
+  #echo file $file
+#  if [ "$local" == "y" ]; then #only overwrite existing files
+#    if [ ! -s $file ]; then
+#      continue
+#    fi
+#  fi
+  #echo touch `basename $file` | sh
+  #echo "touching $file ..."
+  if [ "$test" == "y" ]; then
+    echo "[]INFO:touching $file ...(testing)"
+  else
+    #echo "echo 1 > `basename $file`" 
+    echo 1 > `basename $file`
+  fi
+  #exit
+done < ./zips
+
+fi
+
+du -hs

@@ -1,0 +1,36 @@
+#!/bin/sh
+
+# Name:
+#   sh_png2jpg
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+files=`ls *.png`
+
+mkdir -p jpg
+
+for file in $files ; do
+    ofile="./jpg/${file%.*}.png"
+    #echo ofile $ofile
+    if [ -s $ofile ]; then
+      #echo $file already done
+      continue
+    fi
+    #exit 
+    echo "convert $file -scale 20% $ofile"
+    echo "convert $file -scale 20% $ofile" | sh
+done

@@ -1,0 +1,52 @@
+#!/bin/sh
+
+
+host_name=`hostname`
+echo host name $host_name
+id_cur=`echo $host_name | sed -e 's/[a-z]//g' | sed -e 's/[A-Z]//g'`
+echo current host id $id_cur
+host_type=`echo $host_name | sed -e 's/[0-9]//g'`
+echo host type $host_type
+
+file_ids=../ids.${host_name}
+if [ ! -s $file_ids ]; then
+  echo "[$PROG]ERROR:file $file_ids not exist!!"
+  exit
+fi
+
+ids=`grep '^ ' $file_ids`
+#ids=`cat ../ids_12`
+echo ids $ids
+exit
+
+for id in $ids; do
+  if [ $id -eq 1 ]; then
+    echo continue
+  fi
+
+  #cmdstr='rm -rf /home/tianyf/gsar/temp/*'
+  cmdstr1="rm -rf /home/tianyf/gsar/temp"
+  cmdstr2="mkdir -p /home/tianyf/gsar/temp"
+  cmdstr3='rm -rf /home/tianyf/gpse/trns/solut/gmf/IGSF/temp'
+  cmdstr4='mkdir -p /home/tianyf/gpse/trns/solut/gmf/IGSF/temp'
+  cmdstr5='rm -rf /home/tianyf/gpse/trns/solut/gmf/IGSR/temp'
+  cmdstr6='mkdir -p /home/tianyf/gpse/trns/solut/gmf/IGSR/temp'
+
+
+  echo  clean slurm temporary files on ${host_type}${id} with command $cmdstr
+  ssh ${host_type}${id} 'du -hs /home/tianyf/gsar/temp/'
+  ssh ${host_type}${id} 'du -hs /home/tianyf/gpse/trns/solut/gmf/IGSF/temp'
+  ssh ${host_type}${id} 'du -hs /home/tianyf/gpse/trns/solut/gmf/IGSR/temp'
+
+  #continue
+  ssh ${host_type}${id} $cmdstr1
+  ssh ${host_type}${id} $cmdstr2
+  ssh ${host_type}${id} $cmdstr3
+  ssh ${host_type}${id} $cmdstr4
+  ssh ${host_type}${id} $cmdstr5
+  ssh ${host_type}${id} $cmdstr6
+
+  #exit
+done
+
+

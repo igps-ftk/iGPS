@@ -37,9 +37,10 @@ c     --Local Parameters--
 
       character*1023 files(NMAX),file,ptn,file_cmd,file_log,dir_log
       character*1023 file_remote,file_local,file_site,file_archive
+      character*1203 file2
       integer*4 nf,fid,ioerr
 
-      logical exi
+      logical exi,exi2
       
       integer iargc
       integer*4 ndoyr,nblen
@@ -553,20 +554,34 @@ c     &           site(1:nblen(site)), doy,'/',year
             endif
             write(file,701) dir_cur(1:nblen(dir_cur)),
      &           site,doy,yr
- 701        format(A,"/",a4,I3.3,"0.",I2.2,"d.Z")
+c 701        format(A,"/",a4,I3.3,"0.",I2.2,"d.Z")
+ 701        format(A,"/",a4,I3.3,"0.",I2.2,"d.gz")
+
+            write(file2,731) dir_cur(1:nblen(dir_cur)),
+     &           site,doy,yr
+ 731        format(A,"/",a4,I3.3,"0.",I2.2,"d.Z")
+
 c            write(*,*) file(1:nblen(file))
 c     ,orbType
 c     , year,doy,gpsw,gpsd
 c            goto 800
             inquire(file=file, exist=exi)
-c     write(*,*) 'EX:',exi
+            inquire(file=file2, exist=exi2)
+
+            write(*,*) 'EX:',exi,exi2
             if (exi) then
                write(*,*) '#already exist: '//
      &              file(1:nblen(file))
                goto 801
 c     Here, checking the validation of existing files is not performed.
-c     
             endif
+
+            if (exi2) then
+               write(*,*) '#already exist: '//
+     &              file2(1:nblen(file2))
+               goto 801
+            endif
+
 
 
 c     check for gsac files
@@ -605,7 +620,9 @@ c     queue for the kasi structure
 
             write(file,706) dir_cur(1:nblen(dir_cur)),yr,
      &           site,doy,yr
- 706        format(A,"/",I2.2,"d/",a4,I3.3,"0.",I2.2,"d.Z")
+c 706        format(A,"/",I2.2,"d/",a4,I3.3,"0.",I2.2,"d.Z")
+ 706        format(A,"/",I2.2,"d/",a4,I3.3,"0.",I2.2,"d.gz")
+
 c            write(*,*) file(1:nblen(file))
 c     ,orbType
 c     , year,doy,gpsw,gpsd
@@ -631,9 +648,13 @@ c     first, create the target directory.
                goto 800
             endif
 
-
-            write(file_remote,702) site,doy,yr
- 702        format(A4,I3.3,"0.",I2.2,"d.Z")
+            if (url.eq.'') then
+              write(file_remote,702) site,doy,yr
+c 702        format(A4,I3.3,"0.",I2.2,"d.Z")
+ 702          format(A4,I3.3,"0.",I2.2,"d.gz")
+            else
+              file_remote=url(6:)
+            endif
 
 c     append the file to cmd_file
 c     if using ncftp

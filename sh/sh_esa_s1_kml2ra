@@ -1,0 +1,68 @@
+#!/bin/sh
+
+# Name:
+#   sh_esa_s1_kml2ra
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   trans.dat
+#
+
+PROG=sh_esa_s1_kml2ra
+
+roi_file=
+
+
+if [ $# -eq 0 ]; then
+    echo "[$PROG]ERROR: please give input parameters!!"
+    echo "[$PROG]Usage: sh_esa_s1_kml2ra -file ROI.kml"
+    exit 1
+fi
+
+
+while [ "$1" != "" ]; do
+    case $1 in
+	-file)
+	    roi_file=$2
+	    ;;
+	*)
+	    echo "[$PROG]ERROR: invalid option ($1)!!"
+	    exit 1
+	    ;;
+	esac
+    shift 2
+done
+
+echo $roi_file
+echo $path 
+echo $opath
+
+
+kml2gmt $roi_file > .tmp1
+cat .tmp1 |grep -v '>' | awk '{print $1,$2,0}'>  .roi.llh
+cat .roi.llh
+
+proj_ll2ra_ascii.csh trans.dat .roi.llh .roi.xyz
+cat .roi.xyz
+#cat .roi.xy | awk '{print $2,$1}' > .roi.xy2
+
+tmp=`gmtinfo -C .roi.xyz`
+xmin=`echo $tmp | awk '{if ($1<0){print 0}else {print $1}}'`
+xmax=`echo $tmp | awk '{if ($2<0){print 0}else {print $2}}'`
+ymin=`echo $tmp | awk '{if ($3<0){print 0}else {print $3}}'`
+ymax=`echo $tmp | awk '{if ($4<0){print 0}else {print $4}}'`
+R="$xmin $xmax $ymin $ymax"
+echo "range is $R"
+

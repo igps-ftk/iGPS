@@ -1,0 +1,138 @@
+#!/bin/sh
+
+# Name:
+#   sh_sar_scene_tab_gap
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+
+PROG=sh_sar_scene_tab_gap
+
+path_old=`pwd`
+
+usage(){
+  echo "[$PROG]Usage: ${PROG} "
+  echo "[$PROG]Usage: e.g.,"
+  echo "[$PROG]Usage:  "
+}
+
+t2_intf=72
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -t2_intf)
+      t2_intf=$2
+      ;;
+    *)
+      echo "[$PROG]ERROR: invalid option ($1)!!"
+      usage
+      exit 1
+      ;;
+  esac
+  shift 2  
+done
+
+
+t_interval_max=`cat scene.tab1 | grep '^202' | sort | awk '{print $2}' | awk 'NR==1{old=$1;next}{print $1-old; old=$1}' | max | awk '{print int($1)}'`
+echo t_interval_max $t_interval_max
+
+nl=`cat scene.tab1 | wc -l`
+echo nl $nl
+li=1
+gaps=
+lens=
+leni=1
+ymd1_max=
+ymd2_max=
+len_max=0
+
+while [ $li -lt $nl ]; do
+  li2=`expr $li + 1`
+  line1=`sed -n "${li}p" scene.tab1`
+  day1=`echo $line1 | awk '{print $2}'`
+  line2=`sed -n "${li2}p" scene.tab1`
+  day2=`echo $line2 | awk '{print $2}'`
+  gap1=`expr $day2 - $day1`
+
+  if [ $leni -eq 1 ]; then
+    ymd1=`echo $line1 | awk '{print $1}'`
+  fi
+
+  leni=`expr $leni + 1`
+  if [ $gap1 -gt $t2_intf ]; then
+    echo "too large gap $gap1  length $leni"
+    gaps="$gaps $gap1"
+    lens="$lens $leni"
+    ymd2=`echo $line1 | awk '{print $1}'`
+    echo leni $leni len_max $len_max 
+    if [ $leni -gt $len_max ]; then
+      ymd1_max=$ymd1
+      ymd2_max=$ymd2
+      len_max=$leni
+    fi
+
+    leni=1
+  else
+    ymd2=`echo $line1 | awk '{print $1}'`
+  fi
+
+  if [ $li2 -eq $nl ]; then
+    gap1=$t2_intf
+    gaps="$gaps $gap1"
+    lens="$lens $leni"
+    ymd2=`echo $line2 | awk '{print $1}'`
+    echo leni $leni len_max $len_max 
+    if [ $leni -gt $len_max ]; then
+      ymd1_max=$ymd1
+      ymd2_max=$ymd2
+      len_max=$leni
+    fi
+
+  fi
+
+  echo $line1 $line2 $day1 $day2 $gap1
+
+  li=`expr $li + 1`
+done
+
+echo gaps $gaps
+echo lens $lens
+
+echo "maximum length:"
+echo $ymd1_max
+echo $ymd2_max
+
+year1=`echo $ymd1_max | awk '{print substr($1,1,4)}'`
+doyr1=`echo $ymd1_max | awk '{print substr($1,5,3)-1}'`
+if [ $doyr1 -le 0 ]; then
+  year1=`expr $year1 - 1`
+  doyr1=`doy $year1 12 31 | head -1 | awk '{print $6}'`
+fi
+year2=`echo $ymd2_max | awk '{print substr($1,1,4)}'`
+doyr2=`echo $ymd2_max | awk '{print substr($1,5,3)+1}'`
+doyr2_max=`doy $year2 12 31 | head -1 | awk '{print $6}'`
+
+if [ $doyr2 -gt $doyr2_max ]; then
+  year2=`expr $year1 + 1`
+  doyr2=1
+fi
+echo $year1 $doyr1 $year2 $doyr2
+echo "--y1=$year1"
+echo "--d1=$doyr1"
+echo "--y2=$year2"
+echo "--d2=$doyr2"
+echo "TIME_INTF_START_END --y1=$year1 --d1=$doyr1 --y2=$year2  --d2=$doyr2"

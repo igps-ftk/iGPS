@@ -1,0 +1,189 @@
+#!/bin/sh
+
+# Name:
+#   sh_sar_los_profile_fit
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+
+PROG=sh_sar_los_profile_fit
+
+path=
+ncores=6
+delay=0.1
+lock_file_slurm=
+overwrite=n
+d1=
+d2=
+nr=
+nfs=
+nfts=
+nld=
+step_rot=
+step_fs=
+step_fts=
+step_ld=
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -p|-path)
+      path=$2
+      ;;
+    -n|-ncore)
+      ncores=$2
+      ;;
+    -d|-delay)
+      delay=$2
+      ;;
+    -l|-lockfile)
+      lock_file_slurm=$2
+      ;;
+    -o|-overwrite)
+      overwrite=$2
+      ;;
+    -d1)
+      d1=$2
+      ;;
+    -d2)
+      d2=$2
+      ;;
+    -nr)
+      nr=$2
+      ;;
+    -nfs)
+      nfs=$2
+      ;;
+    -nfts)
+      nfts=$2
+      ;;
+    -nld)
+      nld=$2
+      ;;
+    -step_rot)
+      step_rot=$2
+      ;;
+    -step_fs)
+      step_fs=$2
+      ;;
+    -step_fts)
+      step_fts=$2
+      ;;
+    -step_ls)
+      step_ld=$2
+      ;;
+    *)
+      echo "[$PROG]ERROR: invalid option ($1)!!"
+      echo "[$PROG]Usage: ${PROG} "
+      echo "[$PROG]Usage: e.g.,"
+      echo "[$PROG]Usage: ${PROG} "
+      exit 1
+      ;;
+  esac
+  shift 2  
+done
+
+if [ "$path" == "" ]; then
+  path=`find . -maxdepth 1 -type d -name "p.*" | sort |head -1`
+fi
+echo path $path
+
+if [ "$path" == "" ]; then
+  echo "[$PROG]Usage: ${PROG} -path profile_path"
+  exit 1
+fi
+
+lckfile=${path}/_sarlosfit.lock
+if [ -s $lckfile ]; then
+  echo "[$PROG]WARNING: session locked by $lckfile"
+  exit 1
+fi
+hostname > $lckfile
+whoami >> $lckfile
+date >> $lckfile
+
+
+cmdfile=${path}/_sarlosfit.cmd
+\rm -f $cmdfile
+files=`find $path -maxdepth 1 -type f -name "profile_???_vel.psxy"|sort`
+echo files $files
+
+for file in $files; do
+  echo $file
+  ofile=`echo $file | sed -e 's/.psxy/_mdl.txt/g'`
+  echo ofile $ofile
+  
+  if [ -s $ofile -a "$overwrite" == "n" ]; then
+    echo "[$PROG]INFO: output file already exist. Skipped."
+    continue
+  fi
+  
+  cmdstr="sar_los_profile_fit --file=${file} --ofile=${ofile}"
+  
+  if [ "$d1" != "" ]; then
+    cmdstr="$cmdstr --d1=${d1}"
+  fi
+  if [ "$d2" != "" ]; then
+    cmdstr="$cmdstr --d2=${d2}"
+  fi
+  if [ "$nr" != "" ]; then
+    cmdstr="$cmdstr --nr=${nr}"
+  fi
+  if [ "$nfs" != "" ]; then
+    cmdstr="$cmdstr --nfs=${nfs}"
+  fi
+  if [ "$nfts" != "" ]; then
+    cmdstr="$cmdstr --nfts=${nfts}"
+  fi
+  if [ "$nld" != "" ]; then
+    cmdstr="$cmdstr --nld=${nld}"
+  fi
+  if [ "$step_rot" != "" ]; then
+    cmdstr="$cmdstr --step_rot=${step_rot}"
+  fi
+  if [ "$step_fs" != "" ]; then
+    cmdstr="$cmdstr --step_fs=${step_fs}"
+  fi
+  if [ "$step_fts" != "" ]; then
+    cmdstr="$cmdstr --step_fts=${step_fts}"
+  fi
+  if [ "$step_ld" != "" ]; then
+    cmdstr="$cmdstr --step_ld=${step_ld}"
+  fi
+  
+  echo $cmdstr 
+  echo $cmdstr >> $cmdfile
+  
+  #echo "sar_los_profile_fit --file=${file} --ofile=${ofile}"
+  #echo "sar_los_profile_fit --file=${file} --ofile=${ofile}" >> $cmdfile
+  ##echo "sar_los_profile_fit --file=${file} --ofile=${ofile}"  | sh
+done
+
+wc -l $cmdfile
+
+parallel --jobs $ncores --delay $delay < $cmdfile
+
+
+\rm -f $lckfile
+
+
+if [ "$lock_file_slurm" != "" ]; then
+  if [ -s $lock_file_slurm ]; then
+    echo "[$PROG]INFO:remove slurm lock file $lock_file_slurm"
+    echo "\rm -f $lock_file_slurm"
+    echo "\rm -f $lock_file_slurm" | sh
+  fi
+fi

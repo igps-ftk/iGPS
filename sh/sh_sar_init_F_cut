@@ -1,0 +1,173 @@
+#!/bin/sh
+
+# Name:
+#   sh_sar_init_F_cut
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+PROG=sh_sar_init_F_cut
+
+usage(){
+  echo "[$PROG]INFO: $PROG -r|-roi ROI_KML_FILE"
+  echo "[$PROG]INFO:   [-i|-iw iw1/iw2/iw3]"
+  echo "[$PROG]INFO:   [-p|-path PATH_EXPT]"
+  echo "[$PROG]INFO:   [-s|-slc  y_n_CUT_SLC]"
+
+}
+
+
+file_roi=
+R=
+iw=iw1
+path_expt=`pwd`
+path_old=$path_expt
+is_cut_slc=y
+Fi=
+roi_id=
+is_init=y
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -r|-roi)
+      cd `dirname $2`
+      file_roi="`pwd`/`basename $2`"
+      cd $path_old
+      ;;
+    -R)
+      R=$2
+      ;;
+    -F|-Fi)
+      Fi=$2
+      ;;
+    -i|-iw)
+      iw=$2
+      ;;
+    -n|-name)
+      roi_id=$2
+      ;;
+    -p|-path)
+      cd $2
+      if [ $? -ne 0 ]; then
+        echo "[]ERROR: cannot enter $2!!"
+        exit 1
+      fi
+      path_expt=`pwd`
+      cd $path_old
+      ;;
+    -s|-slc)
+      is_cut_slc=$2
+      ;;
+    -init)
+      is_init=$2
+      ;;
+    -h|--help)
+      usage
+      exit 1
+      ;;
+    *)
+      echo "[$PROG]ERROR: invalid option ($1)!!"
+      echo "[$PROG]Usage: ${PROG} "
+      echo "[$PROG]Usage: e.g.,"
+      usage
+      exit 1
+      ;;
+  esac
+  shift 2  
+done
+
+
+if [ "$R" == "" ]; then
+  if [ "$file_roi" == "" ]; then
+    echo "[]ERROR: no ROI file given!!"
+    usage
+    exit 1
+  fi
+fi
+
+
+if [ "$Fi" == "" ]; then
+  iw_id=`echo $iw | awk '{print substr($1,3,1)}'`
+  if [ $iw_id -ne 1 -a $iw_id -ne 2 -a $iw_id -ne 3 ]; then
+    echo "[]ERROR: wrong IW option ($iw)!!"
+    usage
+    exit 1
+  fi
+  pathF="$path_expt/F${iw_id}"
+else
+  pathF="$path_expt/${Fi}"
+fi
+
+files=`find $pathF/raw/ -maxdepth 1 -type f -name "S1*.SLC"`
+if [ "$files" == "" ]; then
+  echo "[]ERROR: no SLC files in $pathF/raw!!"
+  exit 1
+fi
+
+if [ "$roi_id" == "" ]; then
+  roi_id=`basename $file_roi | sed -e 's/.kml//g'`
+fi
+
+path_raw_new=$pathF/raw.${roi_id}
+if [ ! -d $path_raw_new ]; then
+  echo mkdir -p $path_raw_new
+  echo mkdir -p $path_raw_new | sh
+fi
+
+
+path_F_new=${pathF}.$roi_id
+if [ ! -d $path_F_new ]; then
+  echo mkdir -p $path_F_new
+  echo mkdir -p $path_F_new | sh
+fi
+
+cd $path_F_new
+pwd
+#exit
+
+if [ "$is_init" == "y" ]; then
+  echo "rsync -avP $pathF/topo $path_F_new"
+  echo "rsync -avP $pathF/topo $path_F_new" | sh
+  echo "rsync -avP $pathF/da* $path_F_new"
+  echo "rsync -avP $pathF/da* $path_F_new" | sh
+  echo "rsync -avP $pathF/ba* $path_F_new"
+  echo "rsync -avP $pathF/ba* $path_F_new" | sh
+  echo "rsync -avP $pathF/intf.in* $path_F_new"
+  echo "rsync -avP $pathF/intf.in* $path_F_new" | sh
+  echo "ln -s $path_raw_new $path_F_new/raw"
+  echo "ln -s $path_raw_new $path_F_new/raw" | sh
+
+  cat $path_F_new/batch_tops.config | sed -e 's/proc_stage = 2/proc_stage = 1/g' | sed -e 's/filter_wavelength = 200/filter_wavelength = 100/g' | sed -e 's/range_dec = 8/range_dec = 4/g' | sed -e 's/azimuth_dec = 2/azimuth_dec = 1/g' | sed -e 's/region_cut.*/region_cut =/g' | sed -e 's/dec_factor = 2/dec_factor = 1/g' > $path_F_new/_new_batch_tops.config
+  \cp -fp $path_F_new/_new_batch_tops.config $path_F_new/batch_tops.config
+fi
+
+
+cd $pathF
+pwd
+
+#exit
+if [ "$is_cut_slc" == "y" ]; then
+  if [ "$R" != "" ]; then
+    echo sh_slc_cut -R $R -opath $path_raw_new
+    echo sh_slc_cut -R $R -opath $path_raw_new | sh
+  fi
+  if [ "$file_roi" != "" ]; then
+    echo sh_slc_cut -file $file_roi -opath $path_raw_new
+    echo sh_slc_cut -file $file_roi -opath $path_raw_new | sh
+  fi
+fi
+
+

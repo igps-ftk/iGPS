@@ -47,6 +47,10 @@ PRO GPS_SITE_SHP, SFILE,OFILE,LFILE=LFILE
     ofile='D:\ICD\projects\2015nov.lys.yunnan\DATA\30S24h\rnx\sites.shp'
     lfile='D:\ICD\projects\2015nov.lys.yunnan\DATA\30S24h\rnx\site.latlonht.net'
     
+    sfile='D:\ICD\projects\CEA.2017.Tibet.GNSS_InSAR\2017nov\result\tibet.icd_all.sit'
+    ofile='D:\ICD\projects\CEA.2017.Tibet.GNSS_InSAR\2017nov\result\tibet.icd_all.shp'
+    lfile='D:\ICD\projects\CEA.2017.Tibet.GNSS_InSAR\2017nov\result\tibet.icd_all.net'
+    
     PRINT,'Usage: gps_site_shp, site_file, out_name[, lfile=lfile]'
     ;RETURN
   ENDIF
@@ -69,5 +73,5 @@ PRO GPS_SITE_SHP, SFILE,OFILE,LFILE=LFILE
 ;  ENDFOR
   ;RETURN
   ;stop
-  SHP_POINT,OFILE, SITES,XI=REFORM(LLS[0,*]), YI=REFORM(LLS[1,*]), CAPS='sname'
+  SHP_POINT,OFILE, SITES,XI=REFORM(LLS[0,*]), YI=REFORM(LLS[1,*]);, CAPS='sname'
 END

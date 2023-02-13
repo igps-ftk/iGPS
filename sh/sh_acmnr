@@ -90,7 +90,7 @@ while ($i < 367)
 	set yr = `echo $file | awk '{print substr($0,10,2)}'`
 	#echo "yr: $yr"
 	set yr = `expr $yr + 0`
-	if ($yr < 20) then
+	if ($yr < 80) then
 	    set year = `expr $yr + 2000`
 	else if ($yr < 100) then
 	    set year = `expr $yr + 1900`

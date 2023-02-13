@@ -1,0 +1,285 @@
+#!/bin/sh
+
+# Name:
+#   sh_esa_s1_run_tsa
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+. ${HOME}/.bashrc
+which doy
+
+PROG=sh_esa_s1_run_tsa_update
+
+host=`hostname | awk '{print substr($1,1,4)}'`
+echo "[$PROG]INFO: host is $host"
+
+
+
+echo "[$PROG]INFO: please run this script in the subswatch (iw1/iw2/iw3) directory (e.g., under F1/ F2/ F3/)."
+#PROC_ROOT/
+#         |-input.lst   (frames list to process)
+#         |-batch_tops.config   (configuration of processing parameters)
+#         |-dem.grd    (dem file)
+#         |-F1/
+#         |-F2/
+#         |-F3/
+#         |-f123/
+#
+
+if [ "$esa_data" = "" ]; then
+    echo "[$PROG]ERROR: ESA environment variable esa_data must be set first! Stopped."
+    exit 1
+fi
+
+if [ ! -s ../dem.grd ]; then
+    echo "[$PROG]ERROR: DEM file ../dem.grd is mondatory! Stopped."
+    exit 1
+fi
+
+
+if [ ! -d raw0 ]; then
+    echo "[$PROG]ERROR: raw0 directory not exist!!"
+    exit 1
+fi
+
+if [ ! -d raw ]; then
+    echo "[$PROG]ERROR: raw directory not exist!!"
+    exit 1
+fi
+
+if [ ! -s batch_tops.config ]; then
+    echo "[$PROG]ERROR: batch_tops.config file not exist!!"
+    exit 1
+fi
+
+if [ ! -s data.in ]; then
+    echo "[$PROG]ERROR: data.in file not exist!!"
+    exit 1
+fi
+
+if [ -d raw.append ]; then
+    echo "[$PROG]ERROR: update directory (raw.append) already exist!! Remove it to proceed."
+    #exit 1
+fi
+
+if [ -d raw0.append ]; then
+    echo "[$PROG]ERROR: update directory (raw0.append) already exist!! Remove it to proceed."
+    #exit 1
+fi
+
+
+mkdir -p topo
+cd topo
+ln -s ../../dem.grd ./
+cd ..
+
+file='../input.lst.ok'
+iw_typ=iw1
+file_roi_kml=
+
+#to-be-excluded S1 scenes (file_exclude)
+file_exclude=../exclude_scene.txt
+
+if [ "$1" == "" ]; then
+    echo "[$PROG]INRO: usage: $PROG -file INPUT_FILE  [ -iw IW1/2/3 ]  [-roi ROI_FILE_KML]"
+    echo "[$PROG]INRO:        default input file (file) is input.lst.ok"
+    echo "[$PROG]INRO:        defauult subswath (iw) is iw1"
+    exit 1
+fi
+
+while [ "$1" != "" ]; do
+    case $1 in
+        -file)
+            file=`pwd`/$2
+            ;;
+        -iw)
+            iw_typ=$2  
+            ;;
+        -roi)
+            path_tmp=`pwd`
+            cd `dirname $2`
+            file_roi_kml=`pwd`/`basename $2`
+            cd $path_tmp
+            ;;
+        *)
+            echo "[$PROG]ERROR: invalid option ($1) !!"
+            exit 1
+            ;;
+    esac
+    
+    shift 2
+done
+
+echo "[$PROG]INRO: input file is $file"
+echo "[$PROG]INRO: subswath is $iw"
+echo "[$PROG]INRO: ROI file is $file_roi_kml"
+
+
+iw_i=`echo $iw_typ | awk '{print substr($1,3,1)}'`
+
+#this program first combine two adjacent frames and then do time series analysis
+#content of file
+# one frame each line with leading blank column
+# S1A_IW_SLC__1SSV_20141020T115800_20141020T115827_002913_0034D7_89AC.manifest.safe        0.9040404040404041
+# S1A_IW_SLC__1SSV_20141020T115825_20141020T115852_002913_0034D7_F546.manifest.safe        1.0000000000000000
+
+###S1 scenes to be processed
+##file_proc=`pwd`/.s1_proc_list
+##grep '^ ' $file > $file_proc
+##if [ -s $file_exclude ]; then
+##    grep '^ ' $file_exclude > .tmp_s1_exclude
+##    while read line; do
+##      fname=`echo $line|awk '{print $1}'`
+##      tmp=`grep $fname $file_proc`
+##      if [ "$tmp" == "" ]; then
+##        continue
+##      fi
+##      grep -v $fname $file_proc > .tmp_s1_proc
+##      \mv -f .tmp_s1_proc $file_proc
+##    done < .tmp_s1_exclude
+##    
+##    grep '^ ' $file_exclude | wc -l
+##fi
+##
+##grep '^ ' $file |wc -l
+##grep '^ ' $file_proc | wc -l
+
+
+
+#check data.in and input file to get new scenes
+ids1=`grep '^ ' $file | awk -F_ '{print substr($6,1,8)}' |sort |uniq` #scenes in input file (request)
+ids2=`cat ./data.in | awk -F- '{print substr($5,1,8)}' |sort |uniq` #scenes already done (processed)
+echo ids1 is $ids1
+echo ids2 is $ids2
+ids_new=
+for id1 in $ids1; do
+    tmp=`echo $ids2 | grep $id1`
+    if [ "$tmp" == "" ]; then
+	ids_new="$ids_new $id1"
+    fi
+done
+if [ "$ids_new" == "" ]; then #no new scenes to be process
+    echo "[$PROG]: no new scenes to process."
+    exit 0
+fi
+echo ids_new is $ids_new
+
+#get the master scene. The data of master will be re-processed, but only used for alignment of new scenes (will not overwrite existing files).
+id_master=`cat batch_tops.config | sed 's/#.*$//g' | grep master_image | awk '{print substr($3,4,8)}'`
+echo "[$PROG]id_master is $id_master"
+#exit
+
+
+file_new=`pwd`/.tmp.tiffs.new
+\rm -rf $file_new
+file_tiff1=`grep '^ ' $file | grep $id_master`
+echo " $file_tiff1" >> $file_new
+for id in $ids_new; do
+    file_tiff1=`grep '^ ' $file | grep $id`
+    echo " $file_tiff1" >> $file_new
+done
+
+echo file_new $file_new
+#if [ "$host" = "node" ]; then
+#    sh_esa_s1_unzip_node $file_new $iw_typ
+#else
+#    sh_esa_s1_unzip3 $file_new
+#fi
+
+#exit
+
+echo "[$PROG]INRO: (1) prepare the new data (link & assemble ...)"
+mkdir -p raw0.append raw.append
+#sh_esa_s1_assemble_snap -file $file_new -iw $iw_typ -raw0 `pwd`/raw0.append -raw `pwd`/raw.append
+if [ "$file_roi_kml" != "" ]; then
+    sh_esa_s1_assemble_snap -file $file_new -iw $iw_typ -raw0 `pwd`/raw0.append -raw `pwd`/raw.append -roi $file_roi_kml  #>& log.asmb
+else
+    sh_esa_s1_assemble_snap -file $file_new -iw $iw_typ -raw0 `pwd`/raw0.append -raw `pwd`/raw.append #>& log.asmb
+fi
+
+echo "[$PROG]INRO: working in `pwd`"
+#exit
+
+echo "[$PROG]INRO: (2) create spatiotemporal baseline information for new data"
+echo link orbit files to raw.append directory
+cd ./raw.append
+echo "[$PROG]INRO: working in `pwd`"
+sh_esa_s1_link_orb3 >& tiff_EOF.list
+
+grep '^ ' ./tiff_EOF.list | sed -e 's/.tiff /:/g'> data.in
+preproc_batch_tops.csh data.in dem.grd 1
+
+\mv -f ../data.in ../data.in.old
+master_scene=`head -1 ../data.in.old | awk '{print $1}'`
+echo master_scene $master_scene
+head -1 ../data.in.old > ../data.in
+#grep -h $master_scene ../data.in.old  > ../data.in
+cat data.in ../data.in.old |sort |uniq | grep -v $master_scene >> ../data.in
+
+#re-generate new data.in file
+grep '^ ' ./tiff_EOF.list | sed -e 's/.tiff /:/g' | grep $master_scene > data.in
+grep '^ ' ./tiff_EOF.list | sed -e 's/.tiff /:/g' | grep -v $master_scene >> data.in
+
+echo "[$PROG]INRO: (3) generating SLC (align) for the new data"
+echo "[$PROG]INRO: working in `pwd`"
+rm *.PRM* *.SLC *.LED
+ln -s ../../dem.grd .
+preproc_batch_tops_esd.csh ./data.in dem.grd 2 1
+
+echo "[$PROG]INRO: re-geneate the correct version of baseline_table.dat file"
+cat ./data.in | awk -F- '{print "S1_"substr($5,1,8)"_ALL_F"iw_i".PRM"}' iw_i=$iw_i > prmlist
+echo "get_baseline_table.csh prmlist `head -1 prmlist`"
+echo "get_baseline_table.csh prmlist `head -1 prmlist`" | sh
+
+#ls S1*ALL_*.PRM |sort > prmlist
+#id_master=`head -1 ../data.in | awk -F- '{print substr($5,1,8)}'`
+#echo "[$PROG]INFO: master scene is $id_master"
+#PRM_master=`grep $id_master prmlist`
+#echo get_baseline_table.csh prmlist $PRM_master
+#echo get_baseline_table.csh prmlist $PRM_master | sh
+\mv -f ../baseline_table.dat ../baseline_table.dat.old
+cat baseline_table.dat ../baseline_table.dat.old |sort|uniq> baseline_table.dat.new 
+grep -h $id_master baseline_table.dat.new > ../baseline_table.dat
+grep -v -h $id_master baseline_table.dat.new >> ../baseline_table.dat
+
+for id in $ids_new; do
+  \mv -f S1*${id}* ../raw/
+done
+
+
+cd ..
+echo "[$PROG]INRO: return to `pwd`"
+
+###exit
+###
+###
+###echo "[$PROG]INRO: (4) generating interferograms"
+###echo "[$PROG]INRO: creating input file (intf.in) for producing interferograms"
+####sh_esa_s1_prep_proc $file $iw_typ
+####sh_esa_s1_prep_proc_baseline -file baseline_table.dat -max_dist 250 -min_interval 300
+###sh_esa_s1_prep_proc_baseline_sort -file baseline_table.dat
+####sh_esa_s1_prep_proc_time_sort -file baseline_table.dat
+###echo "[$PROG]INRO: generating interferograms (time-consuming) ... take a rest :)"
+###sh_sar_cp_los_ll_png
+###sh_esa_s1_prep_sbas -time_span_min 1
+###sh_esa_s1_intf_in_get_remain
+###exit
+###intf_tops.csh intf.in.rem batch_tops.config >& log.intf
+###
+###
+###echo "[$PROG]INRO: (5) generating time series and velocities"
+

@@ -1,0 +1,25 @@
+#!/bin/sh
+
+ids=`grep '^ ' ids_online`
+#ids=`cat ../ids_12`
+ids=`grep '^ ' ../ids`
+
+for id in $ids; do
+  if [ $id -le 1 ]; then
+    echo continue
+    echo continue
+    cmdstr1="systemctl stop slurmctld"
+    echo  starting slurmd service on node${id} with command $cmdstr1
+    ssh node${id} $cmdstr1
+
+  fi
+
+  cmdstr1="systemctl stop slurmd"
+  echo  starting slurmd service on node${id} with command $cmdstr1
+  ssh node${id} $cmdstr1
+
+
+  #exit
+done
+
+

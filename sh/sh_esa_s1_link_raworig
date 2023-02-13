@@ -24,6 +24,8 @@ if [ "$esa_unzip" = "" ]; then
     exit 1
 fi
 
+echo esa_unzip $esa_unzip
+
 
 if [ "$1" = "" ]; then
     echo "Usage: sh_esa_link_raworig file [iw_type]"
@@ -48,7 +50,21 @@ while read line; do
 	echo "ERROR:data not found [${path_esa}/${dfile}]!!"
 	exit 1
     fi
-    echo find ${esa_unzip}/${dfile} -name "s1*-${iw_typ}-*-vv-*.tiff"
-    find ${esa_unzip}/${dfile}/ -name "s1*-${iw_typ}-*-vv-*.tiff" -exec ln -s {} \;
-    echo " ${dfile} linked."
+    file_tiff=`find ${esa_unzip}/${dfile} -name "s1*-${iw_typ}-*-vv-*.tiff"`
+    if [ "$file_tiff" == "" ]; then
+    	echo "[$PROG]ERROR: unzipped tiff file not found ($dfile)!!"
+    	exit 1
+    fi
+    
+    bname=`basename $file_tiff`
+    if [ -s $bname ]; then
+	#echo "[$PROG]INFO: already linked."
+	continue
+    fi
+
+    echo "[$PROG]INFO: linking $bname ..."
+    ln -s $file_tiff
+    #find ${esa_unzip}/${dfile}/ -name "s1*-${iw_typ}-*-vv-*.tiff" -exec ln -s {} \;
+    #echo " ${dfile} linked."
+    
 done < .tmp

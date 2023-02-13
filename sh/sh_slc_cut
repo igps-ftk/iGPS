@@ -1,0 +1,127 @@
+#!/bin/sh
+
+# Name:
+#   sh_slc_cut
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+PROG=sh_slc_cut
+
+
+path_old=`pwd`
+
+path=`pwd`/raw
+opath=`pwd`/raw.cut
+file_roi=
+region_cut= #e.g., 15000/21000/000/2000
+is_overwrite=n
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -file)
+      cd `dirname $2`
+      file_roi="`pwd`/`basename $2`"
+      cd $path_old
+      ;;
+    -R)
+      region_cut=$2
+      ;;
+    -opath)
+      opath=$2
+      ;;
+    -overwrite)
+      is_overwrite=$2
+      ;;
+    *)
+      echo "[$PROG]ERROR: invalid option ($1)!!"
+      exit 1
+      ;;
+  esac
+  shift 2
+done
+
+if [ "$file_roi" == "" -a "$region_cut" == "" ]; then
+  echo "[$PROG]ERROR: at least one type of range MUST be given!!"
+  echo "[$PROG]        1).ROI file (-file roi.kml)"
+  echo "[$PROG]        2).rectangular ranges (XMIN/XMAX/YMIN/YMAX)"
+  exit 1
+fi
+
+
+echo path $path 
+echo opath $opath
+echo file_roi $file_roi
+echo region_cut $region_cut
+
+mkdir -p $opath
+cd $opath
+opath=`pwd`
+cd $path_old
+
+
+if [ "$region_cut" == "" ]; then
+
+  gmt kml2gmt $file_roi > ${opath}/.tmp1
+  cat ${opath}/.tmp1 |grep -v '>' | awk '{print $1,$2,0}'>  ${opath}/.roi.llh
+  cat ${opath}/.roi.llh
+  
+  cd $opath
+  ln -s ../topo/trans.dat .
+  
+  proj_ll2ra_ascii.csh trans.dat .roi.llh .roi.xyz
+  cat .roi.xyz
+  #cat .roi.xy | awk '{print $2,$1}' > .roi.xy2
+  
+  #exit
+  
+#  files=`find ../${path} -name "corr_cut.grd"`
+#  file=`echo $files | awk '{print $1}'`
+#  echo file $file
+#  if [ "$file" == "" ]; then
+    pI=-I4/1
+#  else 
+#    pI=`grdinfo -I $file`
+#  fi
+  echo pI $pI
+  region_cut=`gmt gmtinfo $pI .roi.xyz | awk '{print substr($0,3)}'`
+  cd ..
+else
+  region_cut="${region_cut}"
+fi
+echo "region_cut $region_cut"
+
+
+cd $path
+files=`ls S1*ALL*.PRM`
+for file in $files ; do
+  echo $file
+  bname=`basename $file | sed -e 's/.PRM//g'`
+  ofile="${opath}/${bname}"
+
+  if [ -s ${ofile}.SLC -a "$is_overwrite" == "n" ]; then
+    echo "[$PROG]INFO:already exist (${ofile}.SLC). Skipped."
+    continue
+  fi
+  echo cut_slc $file _tmp1 $region_cut
+  echo cut_slc $file _tmp1 $region_cut | sh
+
+  \mv -f _tmp1.PRM ${ofile}.PRM
+  \mv -f _tmp1.SLC ${ofile}.SLC
+  \cp -fp ${bname}.LED ${opath}/
+  #exit
+done
+

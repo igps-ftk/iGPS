@@ -1,0 +1,122 @@
+#!/bin/sh
+
+# Name:
+#   sh_esa_s1_link_h2
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+group='S1'
+
+host_cur=`hostname`
+
+while [ "$1" != "" ];do
+  case $1 in
+    -group)
+      group=$2
+      ;;
+    *)
+      echo "[]ERROR: invalid optin ($1)!!"
+      exit 1
+      ;;
+  esac
+  shift 2
+done
+
+
+
+#dirs="g4b g4c g4d g4e g4f g5a g5c g5d g6b g6c g6f g6g g7b g7i g9b g9c g10a g10b g12a g12b g12c g12d g12e g12f g13a g13b g13c g13d g13e g14a g14b g14c g14d g15b g15e g16a g16c g16d g16e g16f g16g g16h g16i"
+#paths=
+#for dir in $dirs; do
+#  paths="$paths /${dir}/esa.data/S1.2/"
+#done
+
+shares=`df -h|grep '^gpsac' | awk '{print $1}'`
+mounts=`df -h|grep '^gpsac' | awk '{print $6}'`
+
+paths=
+n=0
+for share in $shares; do
+  n=`expr $n + 1`
+  #echo "[${prog}]INFO: working in shared place $share"
+  cur_host=`echo $share | awk '{print $1}' | awk -F: '{print $1}'`
+  cur_path=`echo $mounts | awk '{print $i}' i=$n`
+  #echo cur_path $cur_path
+  #if [ "$cur_path" == "/g4d" ]; then
+  #  continue
+  #fi
+  
+  #cur_path_s1="${cur_path}/esa.data/S1/"
+  #cur_path_s2="${cur_path}/esa.data/S1.2/"
+  #cur_path_s3="${cur_path}/esa.data/S1.3/"
+  cur_path_si="${cur_path}/esa.data/${group}/"
+  paths="$paths $cur_path_si"
+done
+
+if [ "$host_cur" == "gpsac4" ]; then
+paths="$paths /g4b/esa.data/${group}/"
+paths="$paths /g4c/esa.data/${group}/"
+paths="$paths /g4d/esa.data/${group}/"
+paths="$paths /g4e/esa.data/${group}/"
+paths="$paths /g4f/esa.data/${group}/"
+#paths="/g14g/esa.data/pbo/"
+#paths="$paths /g14g/esa.data/pbo/"
+#paths=/g14o/esa.data/S1.2
+
+elif [ "$host_cur" == "gpsac8" ]; then
+  parts="/g8a /g8b g8d /g8e /g8f /g8g"
+  for part in $parts; do
+    paths="$paths ${part}/esa.data/${group}/"
+  done
+else
+  echo "unknown host: $host_cur!!"
+  exit
+fi
+
+echo "searching files in $paths"
+
+
+
+for path in $paths ; do
+  if [ ! -d $path ]; then
+    continue
+  fi
+  
+  echo "working $path ..."
+  files=`ls ${path}/S1*.zip`
+  for file in $files; do
+    #chmod o-w $file
+    #sfile="${esa_data}/`echo $group | awk '{print tolower($1)}'`/`basename $file`"
+    sfile="${esa_data}/s1/`basename $file`"
+
+
+    #remove broken symbolic link 
+    if [[ -L "${sfile}" ]] && [[ ! -a "${sfile}" ]];then
+      echo "[]INFO: broken link"
+      file $sfile
+      echo "remove $sfile"
+      \rm -rf $sfile
+    fi
+
+    if [ -s $sfile ]; then
+        continue
+    fi
+    ##echo mv $sfile /h2/esa.data/S1/tmp/ |sh
+    echo ln -s $file $sfile
+    echo ln -s $file $sfile | sh
+    #exit
+  done
+done

@@ -39,6 +39,7 @@ PRO PROFILE_LINE_AUTO_GET_PROFILE, xy1, xy2, xy3, oxy=oxy, $
   ENDIF
   
   oxy=[[x4,y4],[x5,y5]]
+  ;stop
 END
 
 ;+
@@ -76,10 +77,22 @@ PRO PROFILE_LINES_AUTO, xys,  $ ;input; mondatory; double [2,npt]; in decimal de
     ;
     ffile='D:\data\vector\profile\fault_fake_sangri.psxy'
     ffile='D:\tmp\gyaringco\fault_bc.psxy'
+    ffile='D:\tmp\114.psxy.org'
+    ffile='C:\GMT_pub\vector\profile\fa_dawaco_maiqiongco.psxy'
+    ffile='C:\GMT_pub\vector\profile\fa_minjiang.psxy'
+    
+    ffile='C:\GMT_pub\vector\profile\fa_ygr.psxy'
+    ;ffile='\\192.168.11.68\tianyf\iGPS\ftk\sar\profile\fa_ygr1.psxy'
     ;
+    ffile='\\192.168.11.68\tianyf\iGPS\ftk\sar\profile\fa_test.psxy'
+    ffile='C:\GMT_pub\vector\profile\fa_QusumDetachment.psxy'
+    ffile='C:\GMT_pub\vector\profile\pf_aksaichin_west.psxy'
+    
+    
     ofile=desuffix(ffile)+'_autoprofiles.psxy'
     ;read fault vector (if specified)
     
+    ;stop
     lines_fvec=read_txt(ffile)
     lines_fvec2=STRTRIM(lines_fvec,2)
     pos=WHERE(strmids(lines_fvec2,0,1) NE '>')
@@ -88,13 +101,15 @@ PRO PROFILE_LINES_AUTO, xys,  $ ;input; mondatory; double [2,npt]; in decimal de
       RETURN
     ENDIF
     xys=DOUBLE(str_lines2arr(lines_fvec2[pos]))
+    ;stop
     
     ;strike=75d0*!dpi/180d0
     
     ;spacing=
     
-    auto_strike=2
-  ;auto_strike=2
+    auto_strike=3 ;use starting-ending points to calcualte strike angle
+    auto_strike=2 ;use mean of strikes of all segments
+;    auto_strike=1 ;use individual strike for each segment
   ENDIF
   
   IF N_ELEMENTS(isplot) EQ 0 THEN isplot=0
@@ -113,7 +128,7 @@ PRO PROFILE_LINES_AUTO, xys,  $ ;input; mondatory; double [2,npt]; in decimal de
   ENDELSE
   
   
-  IF N_ELEMENTS(spacing) EQ 0 THEN spacing=20 ;km
+  IF N_ELEMENTS(spacing) EQ 0 THEN spacing=5 ;km
   ;convert km to degree using the mean latitude
   latmid=MEAN(xys[1,*])
   km_per_deg=MAP_2POINTS(0,latmid,1,latmid,/meters)*1d-3
@@ -131,15 +146,53 @@ PRO PROFILE_LINES_AUTO, xys,  $ ;input; mondatory; double [2,npt]; in decimal de
       xy2=xys[*,i+1]
       ;PLOTS,[xy1[0],xy2[0]],[xy1[1],xy2[1]],color='ffff00'x,thick=2,psym=-2
       tmp=(xy1[1]-xy2[1])/(xy1[0]-xy2[0])
-      strike=ATAN(tmp)
-      strikes[i]=strike
-    ;PRINT,'fault strike for segment ',i+1,' is: ',(!dpi/2d0-strike)*180/!dpi, ' degrees'
+      slope=ATAN(tmp)
+      
+      ; scale slope to [0,2pi] will cause failure of calculating strike mean. 
+;      if slope lt 0 then begin
+;        slope=slope+2*!dpi
+;      endif
+;      ;so, let it remain within [-pi, pi]
+      
+;      
+;      IF  xy2[0] GT xy1[0]  THEN BEGIN
+;        strike=!DPI/2-slope
+;      ENDIF ELSE BEGIN
+;        strike=!DPI*3d0/2-slope
+;      ENDELSE
+;      strikes[i]=strike
+      strikes[i]=slope
+    ;PRINT,'fault strike for segment ',i+1,' is: ',(!dpi/2d0-slope)*180/!dpi, ' degrees'
+    PRINT,'fault strike for segment ',i+1,' is: ',slope*180/!dpi, ' degrees'
     ;stop
     ENDFOR
     strike_avg=MEAN(strikes)
-    PRINT, '['+PROG+']Mean fault strike is: ',(!dpi/2d0-strike_avg)*180/!dpi, ' degrees'
+    PRINT, '['+PROG+']Mean fault strike is: ',strike_avg*180/!dpi, ' degrees'
   ;strike=strike_avg
+  ;stop
   ENDIF
+  
+  ;stop
+  
+  IF auto_strike EQ 3 THEN BEGIN ;no strike from input
+    ;calculate a  strike using the staring and ending points of fault segments
+    xy1=xys[*,0]
+    xy2=xys[*,N_ELEMENTS(xys[0,*])-1]
+    ;PLOTS,[xy1[0],xy2[0]],[xy1[1],xy2[1]],color='ffff00'x,thick=2,psym=-2
+    tmp=(xy1[1]-xy2[1])/(xy1[0]-xy2[0])
+    slope=ATAN(tmp)
+;    IF  xy2[0] GT xy1[0]  THEN BEGIN
+;      strike=!DPI/2-slope
+;    ENDIF ELSE BEGIN
+;      strike=!DPI*3d0/2-slope
+;    ENDELSE
+;    strike_se=strike
+    strike_se=slope
+    PRINT, '['+PROG+']Start-end fault strike is: ',strike_se*180/!dpi, ' degrees'
+  ;strike=strike_avg
+  ;stop
+  ENDIF
+  ;STOP
   
   IF isplot EQ 1 THEN BEGIN
     ;plot fault line
@@ -166,13 +219,23 @@ PRO PROFILE_LINES_AUTO, xys,  $ ;input; mondatory; double [2,npt]; in decimal de
     IF auto_strike EQ 1 THEN BEGIN ;no strike from input
       ;calculate strikes for each fault segments
       tmp=(xy1[1]-xy2[1])/(xy1[0]-xy2[0])
-      strike=ATAN(tmp)
+      slope=ATAN(tmp)
+;      IF  xy2[0] GT xy1[0]  THEN BEGIN
+;        strike=!DPI/2-slope
+;      ENDIF ELSE BEGIN
+;        strike=!DPI*3d0/2-slope
+;      ENDELSE
+      strike=slope
       IF isplot EQ 1 THEN PRINT, '['+PROG+']Fault strike for segment '+STRTRIM(i+1,2)+':',  $
-        (!dpi/2d0-strike)*180/!dpi, ' degrees'
+        strike*180/!dpi, ' degrees'
     ENDIF
     
     IF auto_strike EQ 2 THEN BEGIN
       strike=strike_avg
+    ;IF isplot EQ 1 THEN PRINT,'fault strike:',(!dpi/2d0-strike)*180/!dpi, ' degrees'
+    ENDIF
+    IF auto_strike EQ 3 THEN BEGIN
+      strike=strike_se
     ;IF isplot EQ 1 THEN PRINT,'fault strike:',(!dpi/2d0-strike)*180/!dpi, ' degrees'
     ENDIF
     
@@ -240,7 +303,7 @@ PRO PROFILE_LINES_AUTO, xys,  $ ;input; mondatory; double [2,npt]; in decimal de
       xy3=xy2
       len_acc_i=len_acc_i+len_seg_i
     ENDELSE
-  ;STOP
+    ;STOP
   ENDFOR
   xys_pf=xys[*,1:*]
   oxys=oxys[*,*,1:*]
@@ -249,12 +312,12 @@ PRO PROFILE_LINES_AUTO, xys,  $ ;input; mondatory; double [2,npt]; in decimal de
   IF N_ELEMENTS(ofile) NE 0 THEN BEGIN
     PRINT, '['+PROG+']writing GMT(pxsy) file '+ofile
     np=N_ELEMENTS(oxys[0,0,*])
-    openw,fid,ofile,/get_lun
+    OPENW,fid,ofile,/get_lun
     FOR i=0,np-1 DO BEGIN
-      printf,fid,'> profile_'+strtrim(i+1,2)
-      printf,fid,reform(oxys[*,*,i]),format='(2(1x,f))'
-    ENDFOR    
-    free_lun,fid
+      PRINTF,fid,'> profile_'+STRTRIM(i+1,2)
+      PRINTF,fid,REFORM(oxys[*,*,i]),format='(2(1x,f))'
+    ENDFOR
+    FREE_LUN,fid
     ;
     shp_file=desuffix(ofile)+'.shp'
     PRINT, '['+PROG+']writing Shapefile file '+shp_file
@@ -285,6 +348,7 @@ PRO PROFILE_LINES_AUTO, xys,  $ ;input; mondatory; double [2,npt]; in decimal de
       WRITE_JPEG,jfile,TVRD(true=1),true=1,quality=100
     ENDIF
     WSET, oldwin
+    HELP,oldwin
   ENDIF
   PRINT, '['+PROG+']Normal end.'
 END

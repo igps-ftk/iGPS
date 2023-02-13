@@ -46,9 +46,9 @@ x set by tianyf on March 23 2012 for solution 2012/014~2012/019 of TRNC
 *
 * Set the tolerances used in trimming the one-way data to remove small
 * segments between bias flags.  The following are defaults:
-*  trim_oneway   120  8  0.1  24
+  trim_oneway   120  8  0.1  24
 * For regional networks use
-   trim_oneway   1000  10  0.2  50
+*   trim_oneway   1000  10  0.2  50
 * The first two parameters are the minimum times in seconds and minimum
 * epochs for attempting to remove a bias flag; the last two are the minimum
 * fraction of total span and minimum number of epochs allowed after last bias
@@ -62,16 +62,16 @@ x set by tianyf on March 23 2012 for solution 2012/014~2012/019 of TRNC
 *
 * DD criteria for removing bias flags: chi-sq ratio  chi-sq min  max gap  gap scale 
 * For global networks use
-*  remove_bias 10  3  1800  5
+  remove_bias 10  3  1800  5
 * For regional networks use
-   remove_bias 10  3  3600  5
+*   remove_bias 10  3  3600  5
 * For fewer flags but more risk over small gaps, decrease the first value (see
 * autcln.out).  For fewer flags and more risk over large gaps, increase the 
 * third and decrease the fourth,
  
 * Maximum number of bias flags per SV before deleting all the data.  
 * Default infinite (not checked).
-  max_scan_edit  30
+*  max_scan_edit  30
 
 * To enhance numerical stability in SOLVE (but be careful in interpreting 
 * one-way residuals)   
@@ -81,7 +81,7 @@ x set by tianyf on March 23 2012 for solution 2012/014~2012/019 of TRNC
   summary autcln.prefit.sum
 
 * Exclude L1-only (or bad RINEX files) to avoid problems: comment out if you want to process L1 data
-  noL1only 
+*  noL1only 
 
 * Commands to be used if post-fit editing invoked in the sestbl.
 POST  summary  autcln.post.sum

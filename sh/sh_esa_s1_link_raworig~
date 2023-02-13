@@ -48,6 +48,13 @@ while read line; do
 	echo "ERROR:data not found [${path_esa}/${dfile}]!!"
 	exit 1
     fi
-    find ${esa_unzip}/${dfile} -name "s1*-${iw_typ}-*-vv-*.tiff" -exec ln -s {} \;
-    echo " ${dfile} linked."
+    file_tiff=`find ${esa_unzip}/${dfile} -name "s1*-${iw_typ}-*-vv-*.tiff"`
+    if [ "$file_tiff" == "" ]; then
+    	echo "[$PROG]ERROR: unzipped tiff file not found ($file_tiff)!!"
+    	exit 1
+   fi
+
+   echo "[$PROG]INFO: linking tiff file $file_tiff ..."
+    #find ${esa_unzip}/${dfile}/ -name "s1*-${iw_typ}-*-vv-*.tiff" -exec ln -s {} \;
+    #echo " ${dfile} linked."
 done < .tmp

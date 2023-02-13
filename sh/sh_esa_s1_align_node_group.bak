@@ -1,0 +1,364 @@
+#!/bin/sh
+
+# Name:
+#   
+#   
+
+# Purpose:
+#   Unzip S1 data files.
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+# 
+
+t1=`date +%s`
+echo t1 $t1
+
+node_list="1,2,3,4,5,6"
+node_list="1,3,4,5,6"
+#node_list="1,2,3,4,5,6,7,8,9,10,13,14,15,16,17,18,19,20"
+node_list="4,5,6,7,8,9,15,16,17,18,19,20"
+#node_list='1  3'
+
+iw=iw1
+
+file=input.lst
+file=input.lst.proc
+
+file_config=../config.txt
+
+file_roi=
+
+t1_intf=1
+t2_intf=72
+
+is_force_run=n
+
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -node)
+      node_list=$2
+      ;;
+    -iw)
+      iw=$2
+      ;;
+    -file)
+      file=$2
+      ;;
+    -roi)
+      path_tmp=`pwd`
+      cd `dirname $2`
+      file_roi=`pwd`/`basename $2`
+      cd $path_tmp
+      ;;
+    -t1_intf)
+      t1_intf=$2
+      ;;
+    -t2_intf)
+      t2_intf=$2
+      ;;
+    -force)
+      is_force_run=$2
+      ;;
+    *)
+      echo "[]ERROR: invalid option ($1)!!"
+      echo "[]INFO: Usage: sh_esa_s1_align_node_parallel [-file input.lst ]"
+      echo "[]INFO:          [-iw iw1|iw2|iw3 (e.g., iw1,iw3)]"
+      echo "[]INFO:          [-node NODES_LIST (e.g., 1,2,3)]"
+      exit 1
+      ;;
+  esac
+  shift 2
+done
+
+
+node_list=`echo $node_list | sed -e 's/,/ /g'`
+nnd=`echo $node_list | awk '{print NF}'`
+
+
+if [ ! -s $file ]; then
+  echo "[]EROR: input file ($file) not exist!!"
+  exit 1
+fi
+
+path_old=`pwd`
+
+path=`dirname $file`
+cd $path
+file="`pwd`/`basename $file`"
+
+path=$path_old
+
+if [ "$esa_unzip" = "" ]; then
+    echo "ESA environment esa_unzip variable not set! Stopped!!"
+    exit 1
+fi
+
+iw_i=`echo $iw | awk '{print substr($1,3,1)}'`
+echo "iw $iw (iw_i: $iw_i)"
+echo file $file
+echo path $path
+echo node_list $node_list
+#exit
+
+cd $path
+echo file $file
+
+
+tmp=`ls *lock`
+if [ "$tmp" != "" -a "$is_force_run" == "n" ]; then
+  echo "[]INFO: session locked by $tmp!!"
+  exit 1
+fi
+
+#clear previous run
+rm -rf _align_group_node*
+
+#../config.txt
+if [ ! -s $file_config ]; then
+   echo "[]ERROR: no configuration file ($file_config) !!"
+   exit 1
+fi
+
+master_date=`grep '^ ' $file_config | grep master_date | awk -F= '{print $2}'`
+echo master_date $master_date
+if [ "$master_date" == "" ]; then
+   echo "[]ERROR: no master date in $file_config !!"
+   exit 1
+fi
+
+lines_master=`grep -h '^ ' $file | awk '{print $1}' |  grep $master_date`
+if [ "$lines_master" == "" ]; then
+   echo "[]ERROR: master scene not found in $file !!"
+   exit 1
+fi
+
+#exit
+
+#skip already done
+\rm -f _tmp_align_group
+lines=`grep -h '^ ' $file | awk '{print $1}' `
+for line in $lines; do
+  #echo line $line
+  #tmp=`echo "$line" | awk '{print substr($0,1,1)}'`
+  #if [ "$tmp" != "" ]; then
+  #  echo "$line is comment"
+  #  continue
+  #fi
+  datestr=`echo $line | awk -F_ '{print substr($6,1,8)}'`
+  tmp=`grep -h $datestr baseline_table.dat`
+  if [ "$tmp" != "" ]; then
+    echo "[]INFO: data for $datestr already done. Skip it."
+    continue
+  fi
+  echo " $line" >> _tmp_align_group
+done
+
+sh_sar_datetime_snap -file _tmp_align_group -ofile _tmp_align_group_snapped
+
+
+#number of files
+#nf=`grep -h '^ ' _tmp_align_group | wc -l`
+nf=`cat _tmp_align_group_snapped | wc -l`
+echo nf $nf
+
+#cat _tmp_align_group
+#exit
+
+if [ $nf -lt 1 ]; then #no new data
+  echo "[]INFO: no new data."
+  exit 0
+fi
+
+
+npg=`echo $nnd $nf | awk '{if(($2/$1)==int($2/$1)){print $2/$1}else{print int($2/$1)+1 }}'`
+
+echo nf $nf nnd $nnd npg $npg
+
+#exit
+gi=1
+#gi=2
+while [ $gi -le $nnd ]; do
+  li1=`expr \( $gi - 1 \) \* $npg + 1`
+  li2=`echo $gi $npg | awk '{print ($1)*$2}'` 
+  if [ $li2 -gt $nf ]; then
+    li2=$nf
+  fi
+  if [ $li1 -gt $nf ]; then
+    break
+  fi
+
+  echo $li1 $li2
+
+  id=`echo $node_list | awk '{print $gi}' gi=$gi`
+  echo gi $gi id $id
+
+  file_unzip=${path}/_align_group_node${id}.list
+  file_lock=${path}/_align_group_node${id}.lock
+  file_log=${path}/_align_group_node${id}.log
+  file_log2=${path}/_align_group_node${id}.log2
+
+  file_done=${path}/_align_group_node${id}.done
+  path_proc=${path}/_align_group_node${id}
+  mkdir -p $path_proc
+
+  #echo " $lines_master" > $file_unzip 
+  \rm -f $file_unzip
+  for line_master in $lines_master; do
+    echo " $line_master" >> $file_unzip 
+  done
+  echo "slaves:" >> $file_unzip
+  sed -n "${li1},${li2}p" _tmp_align_group_snapped | grep -v $master_date | awk '{for(i=1;i<=NF;i++){print "",$i}}'  >> $file_unzip
+  #exit
+
+  if [ -s $file_lock ]; then
+    is_locked=`cat $file_lock | awk '{print $1}'`
+  else
+    is_locked=0
+  fi
+  echo is_locked $is_locked
+  if [ $is_locked -eq 1 ]; then
+    echo "[]WARNING: session has been locked ($file_lock)!!"
+  fi
+
+  echo "1 $file" > $file_lock
+  #echo "wait a second (for nfs share latency)"
+  #sleep 3
+  if [ "$file_roi" == "" ]; then
+    opt_roi=
+  else
+    opt_roi="-roi $file_roi"
+  fi
+  echo ssh node${id} sh_esa_s1_align_node_caller -file $file_unzip -file_lock $file_lock -file_log $file_log -iw $iw -path_proc $path_proc -master_date $master_date $opt_roi
+  ssh node${id} "nohup sh_esa_s1_align_node_caller -file $file_unzip -file_lock $file_lock -file_log $file_log  -iw $iw -path_proc $path_proc -master_date $master_date $opt_roi >$file_log2 &"
+  echo $file >> $file_done
+  
+  #break
+  gi=`expr $gi + 1`
+done
+wc -l _align_group*.list
+
+exit
+
+is_done=0
+while [ $is_done -eq 0 ]; do
+  np=`head -1 _align*.lock|awk '{print $1}' | grep '1' | wc -l`
+  echo np  $np nnd $nnd
+  if [ $np -eq 0 ]; then
+    is_done=1
+    
+    tmp=
+    nl=`cat data.in | wc -l`
+    if [ -s data.in.old ]; then
+      tmp=`/bin/diff data.in data.in.old`
+      nl_old=`cat data.in.old | wc -l`
+    else
+      nl_old=0
+    fi
+    if [ $nl -lt $nl_old ]; then
+      echo "[]ERROR: sth. wrong with data.in or data.in.old !!"
+      exit 1
+    fi
+#    if [ ! -s data.in.old -o "$tmp" != "" ]; then
+    if [ ! -s data.in.old ]; then
+      \cp -f data.in data.in.old
+    fi
+    head -1 data.in.old > data.in
+    cat data.in.old _align_group*/data.in |sort |uniq | grep -v $master_date >> data.in
+    
+    cd raw
+    echo "[$PROG]INRO: re-geneate the correct version of baseline_table.dat file"
+    #ls S1*ALL_*.PRM |sort > prmlist
+    #create prmlist from data.in
+    cat ../data.in | awk -F- '{print "S1_"substr($5,1,8)"_ALL_F"iw_i".PRM"}' iw_i=$iw_i > prmlist
+
+    #id_master=`head -1 ../data.in.old | awk -F- '{print substr($5,1,8)}'`
+    #echo "[$PROG]INFO: master scene is $id_master"
+    #PRM_master=`grep $id_master prmlist`
+    echo get_baseline_table.csh prmlist `head -1 prmlist`
+    echo get_baseline_table.csh prmlist `head -1 prmlist` | sh
+    
+    tmp2=
+    nl2=`cat ../baseline_table.dat | wc -l`
+    if [ -s ../baseline_table.dat ]; then
+      tmp2=`/bin/diff data.in data.in.old`
+      nl2_old=`cat ../baseline_table.dat.old | wc -l`
+    fi
+    if [ $nl2 -lt $nl2_old ]; then
+      echo "[]ERROR: sth. wrong with ../baseline_table.dat or ../baseline_table.dat.old !!"
+      exit 1
+    fi
+    if [ ! -s ../baseline_table.dat.old -o "$tmp2" != "" ]; then
+      \cp -f ../baseline_table.dat ../baseline_table.dat.old
+    fi
+    
+    #cat baseline_table.dat ../baseline_table.dat.old |sort|uniq> ../baseline_table.dat.2
+    #grep -h $master_date ../baseline_table.dat.2 > ../baseline_table.dat
+    #grep -v -h $master_date ../baseline_table.dat.2 >> ../baseline_table.dat
+    \cp -f baseline_table.dat ../
+    
+    #check the order of the data.in and baseline_table.dat files
+    cat ../baseline_table.dat | awk -F_ '{print substr($2,1,8)}' > _b1
+    cat ../data.in | awk -F- '{print substr($5,1,8)}' > _d1
+    tmp=`/usr/bin/diff _b1 _d1`
+    if [ "$tmp" != "" ]; then
+      echo "[]WARNING: the order of data.in and baseline_table.dat files are different!"
+    else
+      cd ..
+      t_interval_max=`cat baseline_table.dat | grep '^S1_202' | sort | awk '{print $3}' | awk 'NR==1{old=$1;next}{print $1-old; old=$1}' | max | awk '{print int($1)}'`
+      echo t_interval_max $t_interval_max
+      
+      if [ $t_interval_max -gt 120 ]; then
+        echo "[$PROG]WARNING: too large interval ($t_interval_max)! Reset to 120."
+        t_interval_max=120
+      fi
+      
+      t2_intf_used1=36
+      if [ $t_interval_max -gt 36 ]; then
+        echo "[$PROG]INFO: set t2_intf_used1 to $t_interval_max."
+        t2_intf_used1=$t_interval_max
+        if [ $t2_intf_used1 -gt 60 ]; then
+          t2_intf_used1=60
+        fi
+      fi
+      echo t2_intf_used1 $t2_intf_used1
+      
+      t2_intf_used=`expr $t2_intf_used1 + 36`
+      if [ $t2_intf_used -lt $t2_intf ]; then
+        t2_intf_used=$t2_intf
+      fi
+      echo t2_intf_used $t2_intf_used
+
+      #fix the intervals
+      t2_intf_used1=36
+      t2_intf_used=72
+
+      echo "sh_esa_s1_prep_proc_baseline -file baseline_table.dat -min_interval $t1_intf -max_interval $t2_intf_used -update_config n"
+      sh_esa_s1_prep_proc_baseline -file baseline_table.dat -min_interval $t1_intf -max_interval $t2_intf_used -update_config n
+
+
+
+      sh_sar_prep_sbases -t "1,$t2_intf_used1 1,$t2_intf_used"
+
+    fi
+    \rm _align_group_node*.lock #clear locking files and exit
+
+  else
+    t2=`date +%s`
+    delta_t=`expr $t2 - $t1`
+    delta_tm=`echo $t1 $t2 | awk '{print ($2-$1)/60 }'`
+    echo "[]INFO: $delta_t seconds ( $delta_tm minutes) elapsed (`pwd`) ..."
+    sleep 3
+  fi
+
+  
+done

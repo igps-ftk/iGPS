@@ -15,6 +15,7 @@
 local_root=/data0/igs0/pub/products
 local_root=/d2/ftp/pub/products
 local_root=/h1/ftp/pub/products
+local_root=/g3c/pub/products
 
 #yearStart=1994
 #yearStart=2008

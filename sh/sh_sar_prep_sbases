@@ -1,0 +1,89 @@
+#!/bin/sh
+
+# Name:
+#   sh_sar_prep_sbases
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+
+PROG=sh_sar_prep_sbases
+
+
+if [ ! -s baseline_table.dat ]; then
+  echo "[]ERROR: no baseline_table.dat file!!"
+  exit 1
+fi
+
+if [ ! -s intf.in ]; then
+  echo "[]ERROR: no intf.in file!!"
+  exit 1
+fi
+
+oldpath=`pwd`
+
+t1t2s='0, 1,12, 1,24 1,36 1,48 1,60 1,72 1,120 1,180 ,366  37, 73, 73,120 121, 181, 367, 121,500 367,900 700, 900,'
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -t)
+      t1t2s=$2
+      ;;
+    *)
+      echo "[$PROG]ERROR:invalid option ($1)!!"
+      exit 1
+      ;;
+  esac
+  shift 2
+done
+
+for t1t2 in $t1t2s; do
+  t1=`echo $t1t2 | awk -F, '{print $1}'`
+  t2=`echo $t1t2 | awk -F, '{print $2}'`
+  
+  cmdstr="sh_esa_s1_prep_sbas"
+  oname="b"
+  if [ "$t1" == "" ]; then
+    t1=1
+  fi
+  cmdstr="$cmdstr -t1 $t1"
+  oname="${oname}${t1}-"
+    
+  if [ "$t2" != "" ]; then
+    cmdstr="$cmdstr -t2 $t2"
+    oname="${oname}${t2}"
+  fi
+  echo oname $oname
+  echo $cmdstr
+  
+  cd $oldpath
+  pwd
+  
+  if [ ! -d $oname ]; then
+    mkdir -p $oname
+  fi
+  if [ -s $oname/intf.tab1 -a -s $oname/scene.tab1 ]; then
+    echo "[]WARNING: data already exist in $oname! Skipped."
+    continue
+  fi
+  
+  cd $oname
+  ln -s ../intf.in
+  ln -s ../baseline_table.dat
+  echo $cmdstr | sh
+  cd ..
+  
+done

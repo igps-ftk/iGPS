@@ -1,0 +1,80 @@
+#!/bin/sh
+
+echo "Please run this script in the root directory of the processing experiment."
+
+if [ "$esa_data" = "" ]; then
+    echo "[ERROR]ESA environment variable esa_data must be set first! Stopped."
+    exit 1
+fi
+
+if [ ! -s ./topo/dem.grd ]; then
+    echo "DEM file ./topo/dem.grd is mondatory! Stopped."
+    exit 1
+fi
+
+
+if [ "$1" == "" ]; then
+    echo "Usage: ./run_batch file [iw_type]"
+    exit
+fi
+file=`pwd`/$1
+
+iw_typ=iw2
+if [ "$2" != "" ]; then
+    iw_typ=$2
+fi
+
+if [ ! -d raw_orig ]; then
+    echo "[$PROG]ERROR: raw_orig directory not exist!!"
+    exit 1
+fi
+#rm ./raw_orig/*.tiff
+cd raw_orig
+pwd
+sh_esa_s1_link_raworig $file $iw_typ
+#exit
+#rm ../raw_orig/*.EOF
+sh_esa_s1_link_orb3 >& tiff_EOF.list
+cd ..
+#exit
+
+if [ ! -d raw ]; then
+    echo "[$PROG]ERROR: raw directory not exist!!"
+    exit 1
+fi
+#mkdir -p raw
+cd raw
+#rm ../raw/*.xml
+sh_esa_s1_prep_prep $file $iw_typ
+
+grep '^ ' ../raw_orig/tiff_EOF.list | sed -e 's/.tiff /:/g'> data.in
+cd ..
+pwd
+#exit
+#./0README_prep-1.txt >& log.prep1
+cd raw/
+ln -s ../raw_orig/*EOF .
+ln -s ../raw_orig/*tiff .
+ln -s ../topo/dem.grd .
+preproc_batch_tops_esd_update.csh data.in dem.grd 1
+sed -e 's/_U_//g' baseline_table.dat.upd > ../baseline_table.dat
+gmt psconvert -A -Tejf baseline.ps
+\cp -f baseline.pdf ../
+#exit
+#rm *.PRM* *.SLC *.LED
+cd ..
+pwd
+#./1README_prep-2.txt >& log.prep2
+#exit
+cd raw
+preproc_batch_tops_esd_update.csh data.in dem.grd 2
+cd ..
+pwd
+#sh_esa_s1_prep_proc $file $iw_typ
+#sh_esa_s1_prep_proc_baseline -file baseline_table.dat -max_dist 250 -min_interval 300
+#sh_esa_s1_prep_proc_baseline_sort -file baseline_table.dat
+sh_esa_s1_prep_proc_time_sort -file baseline_table.dat
+#./2README_proc.txt >& log.proc
+
+#sh_esa_s1_prep_sbas
+#./3README_sbas.txt >& log.sbas

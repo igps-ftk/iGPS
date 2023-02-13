@@ -29,7 +29,6 @@ set MK_CMD = "make -f Makefile.${arch}"
 set UNIMAKE_CMD = ${TARGETDIR}/unimake_igpsftk
 #set FC_CMD = ifort #Fortran Compiler
 #set FC_CMD = gfortran
-set FC_CMD = gftn
 
 #Test compiler used.
 cd $TARGETDIR
@@ -38,7 +37,7 @@ if( $status != 0 ) then
   echo "Failure in ${UNIMAKE_CMD} for testing compiler in lib --  terminated"   
   exit 1
 endif
-#set FC_CMD = `cat lib/Makefile.${arch} | awk '{if(substr($1,1,1)!="#"){print $0}}' | grep FTN | grep '=' | tail -1 | awk -F= '{print $2}' | awk '{print $1}'`
+set FC_CMD = `cat lib/Makefile.${arch} | awk '{if(substr($1,1,1)!="#"){print $0}}' | grep FTN | grep '=' | tail -1 | awk -F= '{print $2}' | awk '{print $1}'`
 echo Using Fortran Compiler: $FC_CMD
 #${UNIMAKE_CMD} -m lib -c ${FC_CMD} -e ${arch} 
 #exit
@@ -113,6 +112,32 @@ foreach PROG ( $PROGS )
     touch tmp.o; \rm -f *.o  
     echo Made ${PROG} 
 end
+
+echo ' '
+echo +++++++++++++++++++++++++++++++++++
+echo "SAR libraries & programs"
+echo +++++++++++++++++++++++++++++++++++
+echo " "
+
+set PROGS = "util overlap profile"
+#set PROGS = ""
+foreach PROG ($PROGS)
+    cd $TARGETDIR/sar
+    ${UNIMAKE_CMD} -m ${PROG} -c ${FC_CMD} -e ${arch} 
+    if( $status != 0 ) then
+	echo "Failure in ${UNIMAKE_CMD} for ${PKG}/${PROG} -- ${INST_PROG} terminated"   
+	exit 1
+    endif   
+    cd ${PROG}; ${MK_CMD}
+    if( $status != 0 ) then
+	echo "Failure in ${UNIMAKE_CMD} for ${PKG}/${PROG} -- ${INST_PROG} terminated"   
+	exit 1
+    endif
+    touch tmp.o; \rm -f *.o  
+    echo Made ${PROG} 
+end
+
+
 
 echo ' '
 echo +++++++++++++++++++++++++++++++++++
@@ -227,7 +252,7 @@ echo Making the tools programs
 echo ++++++++++++++++++++++++++++++++++
 echo " "
 set PROGS = "rewindstdin xyzneu u2l xyz2wgs84 td2rnx rnxdc newpsf met2wfile llhxyz geoxyz hello fcomb fcf"
-set PROGS = "hello rnxdc newpsf"
+set PROGS = "hello llhxyz newpsf rnxdc"
 foreach PROG (${PROGS})
     cd $TARGETDIR/tools
     ${UNIMAKE_CMD} -m ${PROG} -c ${FC_CMD} -e ${arch} 

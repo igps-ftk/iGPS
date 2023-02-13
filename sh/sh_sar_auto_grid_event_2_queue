@@ -1,0 +1,144 @@
+#!/bin/sh
+
+# Name:
+#   sh_sar_auto_grid_event_2_queue
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+. ${HOME}/.bashrc
+
+date
+hostname
+
+PROG=sh_sar_auto_grid_event_2_queue
+
+
+timestamp=`date | sed -e 's/ /_/g' | sed -e 's/:/-/g'`
+
+
+root_proc=/sar/proc_gmtsar/auto_grid
+
+file_lock=$root_proc/script/_${PROG}.lock
+
+if [ -s $file_lock ]; then
+  echo "[$PROG]ERROR: session locked by $file_lock!!"
+  exit 1
+fi
+
+date > $file_lock
+hostname >> $file_lock
+
+
+
+while [ "$1" != "" ]; do
+  case $1 in
+    *)
+      echo "[$PROG]ERROR: invalid option ($1)!!"
+      echo "[$PROG]Usage: ${PROG} "
+      echo "[$PROG]Usage: e.g.,"
+      echo "[$PROG]Usage: ${PROG} "
+      \rm -f $file_lock
+      exit 1
+      ;;
+  esac
+  shift 2  
+done
+
+file_tmp_roi=${root_proc}/script/_tmp_psxy_${PROG}_${timestamp}
+
+echo "[$PROG]INFO: searching roi (kml) files ..."
+files_queue=`find /sar/proc_gmtsar/irm/event/queue/ -maxdepth 1 -type f -name "*.kml"|sort`
+for file_queue in $files_queue; do
+  echo $file_queue
+  #ofile="/sar/proc_gmtsar/auto_grid/script/event/queue/`basename $file_queue | sed -e 's/.kml$//g'`.txt"
+  #if [ -s $ofile ]; then
+  #  continue
+  #fi
+  gmt kml2gmt $file_queue > $file_tmp_roi
+  
+  
+  #priority_level
+  p_l=`basename $file_queue | awk -F. '{printf("%04d\n", $1+0)}'`
+  if [ $p_l -le 0 ]; then
+    p_l=9999
+  fi
+  
+  #echo sh_vec_intersect -file $file_tmp_roi -vfile /sar/proc_gmtsar/auto_grid/script/S1_frames_A.psxy
+  #frames_got_a=`sh_vec_intersect -file $file_tmp_roi -vfile /sar/proc_gmtsar/auto_grid/script/S1_frames_A.psxy`
+  #echo sh_vec_intersect -file $file_tmp_roi -vfile /sar/proc_gmtsar/auto_grid/script/S1_frames_D.psxy
+  #frames_got_d=`sh_vec_intersect -file $file_tmp_roi -vfile /sar/proc_gmtsar/auto_grid/script/S1_frames_D.psxy`
+  
+  frames_got_a=`sar_s1_frame_match /sar/proc_gmtsar/auto_grid/script/S1_frames_A.psxy $file_tmp_roi | grep MATCHED | awk '{print $2}'`
+  frames_got_d=`sar_s1_frame_match /sar/proc_gmtsar/auto_grid/script/S1_frames_D.psxy $file_tmp_roi | grep MATCHED | awk '{print $2}'`
+  
+  frames_got="$frames_got_a $frames_got_d"
+  
+  #echo frames_got_a $frames_got_a
+  #echo frames_got_d $frames_got_d
+  #echo frames_got $frames_got
+  #exit
+  
+  if [ "$frames_got" != "" ]; then
+    #echo ofile $ofile
+    #\rm -f $ofile
+    #echo $frames_got | awk '{for(i=1;i<=NF;i++){print "",$i}}' >> $ofile
+    for frame_got in $frames_got; do
+      ofile="/sar/proc_gmtsar/auto_grid/script/event/queue/${p_l}.${frame_got}.list"
+      #echo ofile $ofile
+      
+      if [ -s $ofile ]; then
+        echo "[$PROG]INFO: already exist($ofile)."
+        continue
+      fi
+      
+      tmp=`find /sar/proc_gmtsar/auto_grid/script/event/queue/ -maxdepth 1 -type f -name "*${frame_got}*.list" |sort |head -1`
+      if [ "$tmp" != "" ]; then
+        p_l2=`basename $tmp | awk -F. '{print $1+0}'`
+        if [ $p_l2 -eq 0 ]; then
+          p_l2=9999
+        fi
+        if [ $p_l -lt $p_l2 ]; then
+          echo "\mv -f $tmp $ofile"
+        else
+          echo "[$PROG]INFO: already queued and with higher priority ($p_l2 vs. $p_l)."
+          continue
+        fi
+      else
+        ok1=`sh_sar_auto_grid_check_status -e $frame_got -iw iw1 | awk '{print $3}'`
+        ok2=`sh_sar_auto_grid_check_status -e $frame_got -iw iw2 | awk '{print $3}'`
+        ok3=`sh_sar_auto_grid_check_status -e $frame_got -iw iw3 | awk '{print $3}'`
+        echo ok1 $ok1 ok2 $ok2 ok3 $ok3
+        if [ $ok1 -ge 4 -a $ok2 -ge 4 -a $ok3 -ge 4 ]; then
+          echo  "[$PROG]INFO: all iw sessions already done for $frame_got."
+          continue
+        fi
+        echo "[$PROG]INFO: task queued ($ofile)."
+        echo " $frame_got" > $ofile
+        #exit
+      fi
+      #break
+    done
+  fi
+  #break
+  echo "\mv -f $file_queue /sar/proc_gmtsar/irm/event/complete/"
+  echo "\mv -f $file_queue /sar/proc_gmtsar/irm/event/complete/" | sh
+done
+
+\rm -f $file_tmp_roi
+\rm -f $file_lock
+
+echo "[$PROG]INFO: normal end."

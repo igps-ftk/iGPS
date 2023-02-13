@@ -1,0 +1,67 @@
+#!/bin/sh
+
+# Name:
+#   sh_grd_dims
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+path=`pwd`
+
+file="corr_cut.grd"
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -file)
+      file=$2
+      ;;
+    -path)
+      path=$2
+      ;;
+
+    *)
+      echo " []ERROR: invalid option ($1)!!"
+      exit 1
+      ;;
+  esac
+  shift 2
+done
+
+
+echo " path is $path"
+echo " file is $file"
+
+
+dirs=`ls ${path}/ | grep _`
+i=0
+for dir in $dirs; do
+    echo " dir is $dir"
+    files_i=`ls ${dir}/${file}`
+    #echo " files_i is $files_i"
+    for file_i in $files_i; do
+	echo " $file_i"
+	tmp1=`gmt grdinfo -C $file_i`
+	echo $tmp1
+    done
+
+    #i=`expr $i + 1`
+    #echo " i is $i"
+    #if [ $i -gt 5 ]; then
+    #  exit
+    #fi
+    #exit
+done
+

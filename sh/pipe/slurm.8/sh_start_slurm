@@ -1,0 +1,33 @@
+#!/bin/sh
+
+ids=`grep '^ ' ../ids`
+#ids=`cat ../ids_12`
+#ids=" 1 7 8 9 10 13 14 15 16 17 18"
+ids=`grep '^ ' ids_online`
+ids='1 2 3 4 5 6'
+
+
+for id in $ids; do
+
+  cmdstr1="systemctl daemon-reload"
+  echo "reload daemon settings on node${id} with $cmdstr1 ..."
+  ssh node${id} $cmdstr1
+
+  if [ $id -eq 1 ]; then
+    echo continue
+    echo continue
+    cmdstr2='systemctl restart slurmctld'
+    echo "re-initiate control daemon on node${id} with $cmdstr2..."
+    ssh node${id} $cmdstr2
+    
+  fi
+
+  cmdstr3="systemctl restart slurmd"
+  echo  starting slurmd service on node${id} with command $cmdstr3
+  ssh node${id} $cmdstr3
+
+
+  #exit
+done
+
+

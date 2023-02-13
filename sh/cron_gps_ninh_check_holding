@@ -1,0 +1,31 @@
+#!/bin/sh
+
+# Name:
+#   cron_gps_ninh_check_holding
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+. ~/.bashrc
+
+PROG=cron_gps_ninh_check_holding
+
+year=2010
+while [ $year -le 2020 ]; do
+  ndays=`doy $year 12 31 12 0 | head -1 | awk '{print $6}'`
+  echo "chk_dc_hold ${year} 1 $ndays --dir=/g3c/pub/rinex > holding.${year}"
+  echo "chk_dc_hold ${year} 1 $ndays --dir=/g3c/pub/rinex > holding.${year}" | sh
+  year=`expr $year + 1`
+done

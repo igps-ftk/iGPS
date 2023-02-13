@@ -180,7 +180,8 @@ PRO SINCOS2SIN, CCOSB, CSINB, AMP=C, PHASE=B, $
     esinb=0.95
     ecosb=0.99
     
-    
+    csinb=0.56d0    
+    ccosb=1.36d0
   ENDIF
   
   IF CCOSB EQ 0 && CSINB EQ 0 THEN BEGIN
@@ -257,6 +258,6 @@ PRO SINCOS2SIN, CCOSB, CSINB, AMP=C, PHASE=B, $
   
   IF N_PARAMS() LT 2 THEN BEGIN
     ;IF B LT 0 THEN B=B+2*!DPI
-    PRINT,C, B,B*180/!DPI
+    PRINT,C, B, B*180/!DPI
   ENDIF
 END

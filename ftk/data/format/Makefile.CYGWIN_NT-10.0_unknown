@@ -1,0 +1,145 @@
+# Makefile for format on CYGWIN_NT-10.0 3.1.7 by unimake at Sat Jul  2 23:53:45 CST 2022
+
+all: cgps_data_format asc2bin_sio asc2bin_sios jpl2sios trk2sios trk2hneus l_l_r2llr l_l_r2llrs l_l_r2llrs_panga pbo2sios pbo2cats pos2neu pos2qmap qocaload2cats qocaload2sios scec_csv2sio sio2cats sio2otr sio2otd sio2otx usgs_ts2sio cmonoc2sios neu_extract_by_neu qmap_extract_by_neu tenv3_to_sios
+
+
+
+# ASSIGMENTS
+### G77 flags ###
+#FTN = g77 
+#FFLAGS = -O3 -Wuninitialized -Wunused -Wimplicit -fno-f2c -ffast-math -fno-automatic -fno-backslash -Wno-globals -fno-globals
+#CC = gcc
+#CFLAGS = -g -lz 
+### GCC V4 gfortran flags ###
+FTN = gfortran
+#FFLAGS = -O2 -Wuninitialized -Wunused -Wimplicit -fno-f2c -ffast-math -fno-automatic -fno-backslash
+FFLAGS = -O2 -Wuninitialized -fno-f2c -ffast-math -fno-automatic -fno-backslash -m64 -mcmodel=large
+#FFLAGS = -O2 -Wuninitialized -fno-f2c -ffast-math -fno-automatic -fno-backslash -fallow-argument-mismatch  -mcmodel=medium #-m64 # -mcmodel=large
+CC = gcc
+CFLAGS = -g -lz 
+#### For 64-bit machines:
+#CFLAGS = -g --DADD64BIT
+
+CGPS_DATA_FORMAT = cgps_data_format.a.CYGWIN_NT-10.0_unknown
+SLIB = ../read/cgps_data_read.a.CYGWIN_NT-10.0_unknown ../write/cgps_data_write.a.CYGWIN_NT-10.0_unknown ../site/cgps_data_site.a.CYGWIN_NT-10.0_unknown ../../lib/cgps_lib.a.CYGWIN_NT-10.0_unknown ../../../../gglib/gglib.a.CYGWIN_NT-10.0_unknown 
+X11LIB = 
+II = 
+
+cgps_data_format : $(CGPS_DATA_FORMAT)
+
+asc2bin_sio : asc2bin_sio.f  $(SLIB) 
+	$(FTN) asc2bin_sio.f  $(SLIB) -o asc2bin_sio.CYGWIN_NT-10.0_unknown $(FFLAGS)
+	rm -f asc2bin_sio.o
+
+asc2bin_sios : asc2bin_sios.f  $(SLIB) 
+	$(FTN) asc2bin_sios.f  $(SLIB) -o asc2bin_sios.CYGWIN_NT-10.0_unknown $(FFLAGS)
+	rm -f asc2bin_sios.o
+
+jpl2sios : jpl2sios.f  $(SLIB) ../../inc/cgps.h
+	$(FTN) jpl2sios.f  $(SLIB) -o jpl2sios.CYGWIN_NT-10.0_unknown $(FFLAGS)
+	rm -f jpl2sios.o
+
+trk2sios : trk2sios.f  $(SLIB) ../../inc/cgps.h
+	$(FTN) trk2sios.f  $(SLIB) -o trk2sios.CYGWIN_NT-10.0_unknown $(FFLAGS)
+	rm -f trk2sios.o
+
+trk2hneus : trk2hneus.f  $(SLIB) ../../inc/cgps.h
+	$(FTN) trk2hneus.f  $(SLIB) -o trk2hneus.CYGWIN_NT-10.0_unknown $(FFLAGS)
+	rm -f trk2hneus.o
+
+l_l_r2llr : l_l_r2llr.f  $(SLIB) ../../inc/cgps.h
+	$(FTN) l_l_r2llr.f  $(SLIB) -o l_l_r2llr.CYGWIN_NT-10.0_unknown $(FFLAGS)
+	rm -f l_l_r2llr.o
+
+l_l_r2llrs : l_l_r2llrs.f  $(SLIB) ../../inc/cgps.h
+	$(FTN) l_l_r2llrs.f  $(SLIB) -o l_l_r2llrs.CYGWIN_NT-10.0_unknown $(FFLAGS)
+	rm -f l_l_r2llrs.o
+
+l_l_r2llrs_panga : l_l_r2llrs_panga.f  $(SLIB) ../../inc/cgps.h
+	$(FTN) l_l_r2llrs_panga.f  $(SLIB) -o l_l_r2llrs_panga.CYGWIN_NT-10.0_unknown $(FFLAGS)
+	rm -f l_l_r2llrs_panga.o
+
+pbo2sios : pbo2sios.f  $(SLIB) ../../inc/cgps.h
+	$(FTN) pbo2sios.f  $(SLIB) -o pbo2sios.CYGWIN_NT-10.0_unknown $(FFLAGS)
+	rm -f pbo2sios.o
+
+pbo2cats : pbo2cats.f  $(SLIB) ../../inc/cgps.h
+	$(FTN) pbo2cats.f  $(SLIB) -o pbo2cats.CYGWIN_NT-10.0_unknown $(FFLAGS)
+	rm -f pbo2cats.o
+
+pos2neu : pos2neu.f  $(SLIB) ../../inc/cgps.h
+	$(FTN) pos2neu.f  $(SLIB) -o pos2neu.CYGWIN_NT-10.0_unknown $(FFLAGS)
+	rm -f pos2neu.o
+
+pos2qmap : pos2qmap.f  $(SLIB) ../../inc/cgps.h
+	$(FTN) pos2qmap.f  $(SLIB) -o pos2qmap.CYGWIN_NT-10.0_unknown $(FFLAGS)
+	rm -f pos2qmap.o
+
+qocaload2cats : qocaload2cats.f  $(SLIB) ../../inc/cgps.h
+	$(FTN) qocaload2cats.f  $(SLIB) -o qocaload2cats.CYGWIN_NT-10.0_unknown $(FFLAGS)
+	rm -f qocaload2cats.o
+
+qocaload2sios : qocaload2sios.f  $(SLIB) ../../inc/cgps.h
+	$(FTN) qocaload2sios.f  $(SLIB) -o qocaload2sios.CYGWIN_NT-10.0_unknown $(FFLAGS)
+	rm -f qocaload2sios.o
+
+scec_csv2sio : scec_csv2sio.f  $(SLIB) ../../inc/cgps.h
+	$(FTN) scec_csv2sio.f  $(SLIB) -o scec_csv2sio.CYGWIN_NT-10.0_unknown $(FFLAGS)
+	rm -f scec_csv2sio.o
+
+sio2cats : sio2cats.f  $(SLIB) ../../inc/cgps.h
+	$(FTN) sio2cats.f  $(SLIB) -o sio2cats.CYGWIN_NT-10.0_unknown $(FFLAGS)
+	rm -f sio2cats.o
+
+sio2otr : sio2otr.f  $(SLIB) ../../inc/cgps.h
+	$(FTN) sio2otr.f  $(SLIB) -o sio2otr.CYGWIN_NT-10.0_unknown $(FFLAGS)
+	rm -f sio2otr.o
+
+sio2otd : sio2otd.f  $(SLIB) ../../inc/cgps.h
+	$(FTN) sio2otd.f  $(SLIB) -o sio2otd.CYGWIN_NT-10.0_unknown $(FFLAGS)
+	rm -f sio2otd.o
+
+sio2otx : sio2otx.f  $(SLIB) ../../inc/cgps.h
+	$(FTN) sio2otx.f  $(SLIB) -o sio2otx.CYGWIN_NT-10.0_unknown $(FFLAGS)
+	rm -f sio2otx.o
+
+usgs_ts2sio : usgs_ts2sio.f  $(SLIB) ../../inc/cgps.h
+	$(FTN) usgs_ts2sio.f  $(SLIB) -o usgs_ts2sio.CYGWIN_NT-10.0_unknown $(FFLAGS)
+	rm -f usgs_ts2sio.o
+
+cmonoc2sios : cmonoc2sios.f  $(SLIB) ../../inc/cgps.h
+	$(FTN) cmonoc2sios.f  $(SLIB) -o cmonoc2sios.CYGWIN_NT-10.0_unknown $(FFLAGS)
+	rm -f cmonoc2sios.o
+
+neu_extract_by_neu : neu_extract_by_neu.f  $(SLIB) ../../inc/cgps.h
+	$(FTN) neu_extract_by_neu.f  $(SLIB) -o neu_extract_by_neu.CYGWIN_NT-10.0_unknown $(FFLAGS)
+	rm -f neu_extract_by_neu.o
+
+qmap_extract_by_neu : qmap_extract_by_neu.f  $(SLIB) ../../inc/cgps.h
+	$(FTN) qmap_extract_by_neu.f  $(SLIB) -o qmap_extract_by_neu.CYGWIN_NT-10.0_unknown $(FFLAGS)
+	rm -f qmap_extract_by_neu.o
+
+tenv3_to_sios : tenv3_to_sios.f  $(SLIB) ../../inc/cgps.h
+	$(FTN) tenv3_to_sios.f  $(SLIB) -o tenv3_to_sios.CYGWIN_NT-10.0_unknown $(FFLAGS)
+	rm -f tenv3_to_sios.o
+
+$(CGPS_DATA_FORMAT) : \
+	$(CGPS_DATA_FORMAT)(l_l_r2llr_func.o)
+	ranlib cgps_data_format.a.CYGWIN_NT-10.0_unknown
+
+$(CGPS_DATA_FORMAT)(l_l_r2llr_func.o): ../../inc/cgps.h
+
+.c.a:
+	$(CC) -c $(CFLAGS) -I$(II) $<
+	ar rv $@ *.o
+	rm -f $*.o
+
+.f.a:
+	$(FTN) -c $(FFLAGS) $<
+	ar rv $@ *.o
+	rm -f $*.o
+
+
+cleanall:
+	rm -f *.a.CYGWIN_NT-10.0_unknown *.o *core NONE asc2bin_sio asc2bin_sios jpl2sios trk2sios trk2hneus l_l_r2llr l_l_r2llrs l_l_r2llrs_panga pbo2sios pbo2cats pos2neu pos2qmap qocaload2cats qocaload2sios scec_csv2sio sio2cats sio2otr sio2otd sio2otx usgs_ts2sio cmonoc2sios neu_extract_by_neu qmap_extract_by_neu tenv3_to_sios  NONE.CYGWIN_NT-10.0_unknown asc2bin_sio.CYGWIN_NT-10.0_unknown asc2bin_sios.CYGWIN_NT-10.0_unknown jpl2sios.CYGWIN_NT-10.0_unknown trk2sios.CYGWIN_NT-10.0_unknown trk2hneus.CYGWIN_NT-10.0_unknown l_l_r2llr.CYGWIN_NT-10.0_unknown l_l_r2llrs.CYGWIN_NT-10.0_unknown l_l_r2llrs_panga.CYGWIN_NT-10.0_unknown pbo2sios.CYGWIN_NT-10.0_unknown pbo2cats.CYGWIN_NT-10.0_unknown pos2neu.CYGWIN_NT-10.0_unknown pos2qmap.CYGWIN_NT-10.0_unknown qocaload2cats.CYGWIN_NT-10.0_unknown qocaload2sios.CYGWIN_NT-10.0_unknown scec_csv2sio.CYGWIN_NT-10.0_unknown sio2cats.CYGWIN_NT-10.0_unknown sio2otr.CYGWIN_NT-10.0_unknown sio2otd.CYGWIN_NT-10.0_unknown sio2otx.CYGWIN_NT-10.0_unknown usgs_ts2sio.CYGWIN_NT-10.0_unknown cmonoc2sios.CYGWIN_NT-10.0_unknown neu_extract_by_neu.CYGWIN_NT-10.0_unknown qmap_extract_by_neu.CYGWIN_NT-10.0_unknown tenv3_to_sios.CYGWIN_NT-10.0_unknown
+# End of Makefile

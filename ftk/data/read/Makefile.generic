@@ -88,8 +88,9 @@ FFLAGS = -O3 -Wuninitialized -fno-f2c -ffast-math -fno-automatic -fno-backslash 
 # Generic Makefile for comlib
 # Last changed by R. King 061229
 #
-#LABELS: cgps_data_read:NONE:cgps_data_read:NONE
-# LABELS: test_reads:test_reads:NONE:test_reads
+# LABELS: cgps_data_read:NONE:cgps_data_read:NONE
+#LABELS: test_reads:test_reads:cgps_data_read:test_reads
+#LABELS: fdiff:fdiff:cgps_data_read:fdiff
 
 
 #SHARELIB: .:cgps_data_read
@@ -101,9 +102,10 @@ FFLAGS = -O3 -Wuninitialized -fno-f2c -ffast-math -fno-automatic -fno-backslash 
 #OBJ_cgps_data_read read_cmonoc read_cols read_ctl
 # OBJ_cgps_data_read_host read_ds607_nc_HHHH  read_nc_HHHH read_ncep_nc_HHHH query_nc_HHHH
 #OBJ_cgps_data_read read_ds607_txt read_grbtxt read_l_l_r read_l_l_r_panga  read_load_avg read_load_ref read_met read_sio_bin read_sio_hdr
-#OBJ_cgps_data_read read_pbo read_pos read_sio read_trk l_l_r_read read_poletide_bull_a read_usgs read_qmap read_tenv3
+#OBJ_cgps_data_read read_pbo read_pos read_sio read_trk l_l_r_read read_poletide_bull_a read_usgs read_qmap read_tenv3 read_txt read_psxy read_esa_s1_manifest_safe
 # OBJ_cgps_data_read 
 # OJB_cgps_data_read read_sio
 # the above line not work! Why? No more than 2 lines?
 # Oh, not. I made a mistake. It's OBJ, NOT OJB. :)
 #OBJ_test_reads test_reads
+

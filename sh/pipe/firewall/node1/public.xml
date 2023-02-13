@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<zone>
+  <short>Public</short>
+  <description>For use in public areas. You do not trust the other computers on networks to not harm your computer. Only selected incoming connections are accepted.</description>
+  <service name="ssh"/>
+  <service name="dhcpv6-client"/>
+  <service name="nfs"/>
+  <service name="rpc-bind"/>
+  <service name="mountd"/>
+  <port protocol="tcp" port="5901"/>
+  <port protocol="tcp" port="111"/>
+  <port protocol="udp" port="111"/>
+  <port protocol="tcp" port="2049"/>
+  <port protocol="udp" port="2049"/>
+  <port protocol="tcp" port="32803"/>
+  <port protocol="udp" port="32769"/>
+  <port protocol="tcp" port="892"/>
+  <port protocol="udp" port="892"/>
+  <port protocol="tcp" port="662"/>
+  <port protocol="udp" port="662"/>
+  <port protocol="tcp" port="2020"/>
+  <port protocol="udp" port="2020"/>
+  <port protocol="tcp" port="6817"/>
+  <port protocol="tcp" port="6818"/>
+  <port protocol="tcp" port="7321"/>
+  <port protocol="udp" port="6817"/>
+  <port protocol="udp" port="6818"/>
+  <port protocol="udp" port="7321"/>
+  <rule family="ipv4">
+    <source address="10.4.0.0/16"/>
+    <accept/>
+  </rule>
+  <rule family="ipv4">
+    <source invert="True" address="10.4.0.0/16"/>
+    <drop/>
+  </rule>
+</zone>

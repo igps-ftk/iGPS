@@ -1,0 +1,97 @@
+#!/bin/sh
+
+# Name:
+#   sh_esa_s1_prep_merge_batch
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+orbtype=des
+path=../
+Fn=F1
+
+while [ "$1" != "" ]; do
+    case $1 in
+	-orbtype)
+	    orbtype=$2
+	    ;;
+	-path)
+	    oldpath=`pwd`
+	    cd $2
+	    path=`pwd`
+	    cd $oldpath
+	    ;;
+	-Fn)
+	    Fn=$2
+	    ;;
+	*)
+	    echo "[]ERROR: wrong input $1"
+	    echo "Usage: sh_esa_s1_prep_merge_batch"
+	    echo "  inputs:"
+	    echo "    1) ../asc_F1/intf_all/ or ../asc_F2/intf_all"
+	    echo "    2) *F2*"
+	    echo "    3) *F3*"
+	    echo "(c)Copyright 2017 by Yunfeng Tian (tianyf@gmail.com)"
+	    ;;
+	esac
+    shift 2
+done
+
+dirs=`find ${path}/${orbtype}_${Fn}/intf_all -maxdepth 1 -type d -name "20?????_20?????"|sort`
+for dir in $dirs; do
+    #echo $dir
+    file_prms=`find  ${dir}/ -name "S1*.PRM"|sort`
+    tmp=`echo $file_prms | awk '{print $1}' | sed -e "s/${Fn}/F1/g"`
+    #echo $tmp $Fn
+    file_prm1=`basename $tmp`
+    tmp=`echo $file_prms | awk '{print $2}' | sed -e "s/${Fn}/F1/g"`
+    #echo $tmp
+    file_prm2=`basename $tmp`
+    #echo $file_prms
+    #echo $file_prm1
+    #echo $file_prm2
+    odir=`dirname $tmp`
+    #exit
+    #file1=`echo "${dir}/${file_prm1}" | sed -e 's/F1/F2/g'`
+    #file1=`echo "${dir}/${file_prm2}" | sed -e 's/F1/F2/g'`
+    #if [ ! -e $file1 ]; then
+	#echo " $file1 not exist"
+	#continue
+	#exit 1
+    #fi
+    #if [ ! -e $file2 ]; then
+	#echo " $file2 not exist"
+	#continue
+	#exit 1
+    #fi
+    #file1=`echo "${dir}/${file_prm1}" | sed -e 's/F1/F3/g'`
+    #file1=`echo "${dir}/${file_prm2}" | sed -e 's/F1/F3/g'`
+    #if [ ! -e $file1 ]; then
+	#echo " $file1 not exist"
+	#continue
+	#exit 1
+    #fi
+    #if [ ! -e $file2 ]; then
+	#echo " $file2 not exist"
+	#continue
+	#exit 1
+    #fi
+    line_f1="${odir}/:${file_prm1}:${file_prm2}"
+    line_f2=`echo $line_f1 | sed -e 's/F1/F2/g'`
+    line_f3=`echo $line_f1 | sed -e 's/F1/F3/g'`
+    echo $line_f1,$line_f2,$line_f3
+done
+

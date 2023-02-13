@@ -1,0 +1,159 @@
+#!/bin/sh
+
+# Name:
+#   
+#   
+
+# Purpose:
+#   Unzip S1 data files.
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+# 
+
+t1=`date +%s`
+echo t1 $t1
+
+node_list="1,2,3,4,5,6"
+node_list="1,2,3,4,5,6,7,8,9,10,13,14,15,16,17,18,19,20"
+#node_list='3'
+
+iws=iw1,iw2,iw3
+
+file=input.lst
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -node)
+      node_list=$2
+      ;;
+    -iw)
+      iws=$2
+      ;;
+    -file)
+      file=$2
+      ;;
+    *)
+      echo "[]ERROR: invalid option ($1)!!"
+      echo "[]INFO: Usage: sh_esa_s1_unzip_node_parallel [-file input.lst ]"
+      echo "[]INFO:          [-iw iw1|iw2|iw3 (e.g., iw1,iw3)]"
+      echo "[]INFO:          [-node NODES_LIST (e.g., 1,2,3)]"
+      exit 1
+      ;;
+  esac
+  shift 2
+done
+
+
+node_list=`echo $node_list | sed -e 's/,/ /g'`
+nnd=`echo $node_list | awk '{print NF}'`
+
+
+if [ ! -s $file ]; then
+  echo "[]EROR: input file ($file) not exist!!"
+  exit 1
+fi
+
+
+path=`dirname $file`
+oldpath=`pwd`
+
+if [ "$esa_unzip" = "" ]; then
+    echo "ESA environment esa_unzip variable not set! Stopped!!"
+    exit 1
+fi
+
+echo iw $iws
+echo file $file
+echo path $path
+echo node_list $node_list
+#exit
+
+cd $path
+path=`pwd`
+file="${path}/`basename $file`"
+echo file $file
+cd $oldpath
+#exit
+
+grep -h '^ ' $file | awk '{print $1}' > _tmp_unzip_group
+nf=`cat _tmp_unzip_group | wc -l`
+echo nf $nf
+cat _tmp_unzip_group
+
+
+npg=`echo $nnd $nf | awk '{if(($2/$1)==int($2/$1)){print $2/$1}else{print int($2/$1)+1 }}'`
+
+echo nf $nf nnd $nnd npg $npg
+
+gi=1
+while [ $gi -le $nnd ]; do
+  li1=`expr \( $gi - 1 \) \* $npg + 1`
+  li2=`echo $gi $npg | awk '{print ($1)*$2}'` 
+  if [ $li2 -gt $nf ]; then
+    li2=$nf
+  fi
+  if [ $li1 -gt $nf ]; then
+    break
+  fi
+
+  echo $li1 $li2
+
+  id=`echo $node_list | awk '{print $gi}' gi=$gi`
+  echo gi $gi id $id
+
+  file_unzip=${path}/_unzip_group_node${id}.list
+  file_lock=${path}/_unzip_group_node${id}.lock
+  file_log=${path}/_unzip_group_node${id}.log
+  file_done=${path}/_unzip_group_node${id}.done
+
+  sed -n "${li1},${li2}p" _tmp_unzip_group | awk '{print "",$1}' > $file_unzip
+
+  if [ -s $file_lock ]; then
+    is_locked=`cat $file_lock | awk '{print $1}'`
+  else
+    is_locked=0
+  fi
+  echo is_locked $is_locked
+  if [ $is_locked -eq 1 ]; then
+    echo "[]WARNING: session has been locked ($file_lock)!!"
+  fi
+
+  echo "1 $file" > $file_lock
+  echo "wait a second (for nfs share latency)"
+  #sleep 3
+  echo ssh node${id} sh_esa_s1_unzip_node_caller -file $file_unzip -file_lock $file_lock -file_log $file_log -iw $iws
+  ssh node${id} "nohup sh_esa_s1_unzip_node_caller -file $file_unzip -file_lock $file_lock -file_log $file_log  -iw $iws >/dev/null &"
+  echo $file >> $file_done
+
+  #break
+  gi=`expr $gi + 1`
+done
+wc -l _unzip_group*.list
+
+#exit
+
+is_done=0
+while [ $is_done -eq 0 ]; do
+  np=`head -1 _unzip*.lock|awk '{print $1}' | grep '1' | wc -l`
+  echo np  $np nnd $nnd
+  if [ $np -eq 0 ]; then
+    is_done=1
+  else
+    t2=`date +%s`
+    delta_t=`expr $t2 - $t1`
+    delta_tm=`echo $t1 $t2 | awk '{print ($2-$1)/60 }'`
+    echo "[]INFO: $delta_t seconds ( $delta_tm minutes) elapsed ..."
+    sleep 3
+  fi
+
+  
+done

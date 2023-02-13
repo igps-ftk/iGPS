@@ -19,7 +19,7 @@
 # Dependency:
 #   
 
-days=`ls -lS intf_all_los_ll_png/*-los_ll.png | awk '{print $9}'|awk -F/ '{print $2}' | awk -F- '{print $1}'`
+days=`ls -lS intf_all_los_ll_png/*_ll.png | awk '{print $9}'|awk -F/ '{print $2}' | awk -F- '{print $1}'`
 
 rm -rf intf.in.s
 dos2unix scene.tab >& /dev/null

@@ -49,7 +49,7 @@ c     in Solaris x86 10, the ~ (home directory) substitute does not work.
 c     f90/Sun Studio11
 
       call getenv('HOME',home)
-      file=home(1:nblen(home))//'/gpsf/cgps/doc/manmod.1'
+      file=home(1:nblen(home))//'/iGPS/ftk/doc/manmod.1'
       fido=6
       ofile=''
       do i=1,iargc()

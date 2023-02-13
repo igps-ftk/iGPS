@@ -1,0 +1,88 @@
+#!/bin/sh
+
+# Name:
+#   sh_link_s1_files
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+
+PROG=sh_link_s1_files
+
+. ${HOME}/.bashrc
+
+host=`hostname | awk '{print substr($1,1,4)}'`
+echo "[${prog}]INFO: host is $host"
+
+if [ "$host" != "node" ]; then
+  echo "[${prog}]ERROR: only run for node!!"
+  exit 1
+fi
+
+shares=`df -h|grep '^gpsac' | awk '{print $1}'`
+mounts=`df -h|grep '^gpsac' | awk '{print $6}'`
+
+n=0
+for share in $shares; do
+  n=`expr $n + 1`
+  echo "[${prog}]INFO: working in shared place $share"
+  cur_host=`echo $share | awk '{print $1}' | awk -F: '{print $1}'`
+  cur_path=`echo $mounts | awk '{print $i}' i=$n`
+  echo cur_path $cur_path
+  if [ "$cur_path" == "/g4d" ]; then
+    continue
+  fi
+
+  cur_path_s1=${cur_path}/esa.data/S1/
+  cur_path_s2=${cur_path}/esa.data/S1.2/
+  cur_path_s3=${cur_path}/esa.data/S1.3/
+
+
+  #S1
+  if [ -d $cur_path_s1 ]; then
+    echo sh_sar_node_link_s1_files_by_path_frame2 -path $cur_path_s1 
+    echo sh_sar_node_link_s1_files_by_path_frame2 -path $cur_path_s1 | sh
+    #exit
+  fi
+  
+  #S1.2
+  if [ -d $cur_path_s2 ]; then
+    echo sh_sar_node_link_s1_files_by_path_frame2 -path $cur_path_s2 
+    echo sh_sar_node_link_s1_files_by_path_frame2 -path $cur_path_s2 | sh
+  fi
+
+  #S1.3
+  if [ -d $cur_path_s3 ]; then
+    echo sh_sar_node_link_s1_files_by_path_frame2 -path $cur_path_s3 
+    echo sh_sar_node_link_s1_files_by_path_frame2 -path $cur_path_s3 | sh
+  fi
+
+  
+  #exit
+done
+
+echo sh_sar_node_link_s1_files_by_path_frame2 -path /g4e/esa.data/S1
+echo sh_sar_node_link_s1_files_by_path_frame2 -path /g4e/esa.data/S1 | sh
+echo sh_sar_node_link_s1_files_by_path_frame2 -path /g4e/esa.data/S1.2
+echo sh_sar_node_link_s1_files_by_path_frame2 -path /g4e/esa.data/S1.2 | sh
+echo sh_sar_node_link_s1_files_by_path_frame2 -path /g4e/esa.data/S1.3
+echo sh_sar_node_link_s1_files_by_path_frame2 -path /g4e/esa.data/S1.3 | sh
+echo sh_sar_node_link_s1_files_by_path_frame2 -path /g4f/esa.data/S1.2
+echo sh_sar_node_link_s1_files_by_path_frame2 -path /g4f/esa.data/S1.2 | sh
+echo sh_sar_node_link_s1_files_by_path_frame2 -path /g4f/esa.data/S1.3
+echo sh_sar_node_link_s1_files_by_path_frame2 -path /g4f/esa.data/S1.3 | sh
+
+

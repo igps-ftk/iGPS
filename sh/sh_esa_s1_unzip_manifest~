@@ -24,16 +24,34 @@ if [ "$esa_data" = "" ]; then
     exit 1
 fi
 
+#opath=${esa_data}/safe/safe
+
+if [ "$1" == "" ]; then
+  opath=${esa_data}/safe/safe
+else
+  oldopath=`pwd`
+  cd $1
+  opath=`pwd`
+  cd $oldopath
+fi
+
 files=`ls ${esa_data}/S1/*.zip`
 for file in $files; do
     #echo $file
-    ofile=`echo ${file} | sed -e 's/.zip//g'`.manifest.safe
+    ofile=${opath}/`basename ${file} | sed -e 's/.zip//g'`.manifest.safe
     #echo $ofile
     if [ -s $ofile ]; then
-	echo "Skip    ${ofile} !"
+	#echo "Skip    ${ofile} !"
+        continue
     fi
     echo "Extract $ofile"
+    #continue
     unzip -p $file "*manifest.safe" > $ofile
+    if [ ! -s $ofile ]; then
+	echo "Zero output file! Deleted."
+	rm -f $ofile
+	#mv $file ${esa_data}/S1/tmp/
+    fi
     
     #exit
 done

@@ -1,0 +1,127 @@
+#!/bin/sh
+
+# Name:
+#   sh_esa_s1_unzip_manifest_ac
+#
+
+# Purpose:
+#
+
+# Example:
+#
+
+# Modifications:
+#
+
+# Algorigthm:
+#
+
+# Dependency:
+#
+PROG=sh_esa_s1_unzip_manifest_ac
+
+. ${HOME}/.bashrc
+
+if [ "$esa_data" = "" ]; then
+    echo "[${PROG}]ERROR: ESA environment variable esa_data must be set first! Stopped."
+    exit 1
+fi
+
+echo "[${PROG}]INFO: Usage: sh_esa_s1_unzip_manifest [out_path  [input_path] ]"
+echo "[${PROG}]INFO:   Default:"
+echo "[${PROG}]INFO:     out_path: ${esa_data}/safe/S1"
+echo "[${PROG}]INFO:     input_path: ${esa_data}/s1"
+
+opath=${esa_data}/metainfo/manifest.safe
+oldopath="`pwd`"
+path=${esa_data}/s1
+
+file_lock=${opath}/_${PROG}.lock
+if [ -s $file_lock ]; then
+  echo "[$PROG]ERROR: locked by $file_lock!!"
+  exit 1
+fi
+
+hostname > $file_lock
+date >> $file_lock
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -path)
+      cd $2
+      path=`pwd`
+      cd $oldpath
+      ;;
+    -opath)
+      cd $2
+      opath=`pwd`
+      cd $oldpath
+      ;;
+    *)
+      echo "[$PROG]ERROR: invalid option ($1)!!"
+      exit 1
+      ;;
+  esac
+  shift 2
+done
+
+echo "[${PROG}]INFO:   Currently:"
+echo "[${PROG}]INFO:     out_path: ${opath}"
+echo "[${PROG}]INFO:     input_path: ${path}"
+
+mkdir -p $opath
+#mkdir -p $opath/all
+
+#files=`ls ${path}/*.zip`
+files=`find "$path" -maxdepth 1 -name "S1*.zip"`
+#files=$path/S1B_IW_SLC__1SSV_20180202T005038_20180202T005053_009437_010F74_C7FD.zip
+np=0
+for file in $files; do
+    echo $file
+     track=`unzip -c $file "*/manifest.safe" | grep relativeOrbitNumber  | grep start |  awk -F\> '{print $2}' | awk -F\< '{printf("%03d", $1)}'`
+    ad=`unzip -c $file "*/manifest.safe" | grep pass | awk -F\> '{print $2}' | awk -F\< '{print substr($1,1,1)}'`
+    if [ "$track" == "" -o "$ad" == "" ]; then
+      echo "[$PROG]ERROR: no track information in $file!!"
+      continue
+    fi
+      
+    echo track $track ad $ad
+    opath_i=${opath}/${ad}${track}
+    ofile="${opath_i}/`basename ${file} | sed -e 's/.zip//g'`.manifest.safe"
+
+    echo opath_i $opath_i
+    echo ofile $ofile
+
+    if [ -s $ofile ]; then
+      echo "[$PROG]INFO: output file already exist ($ofile)."
+      continue
+    fi
+
+      if [ ! -d $opath_i ]; then
+        echo mkdir -p $opath_i
+        echo mkdir -p $opath_i | sh
+      fi
+      #echo "\mv -f $ofile $opath_i"
+
+
+    #echo $ofile
+    if [ ! -s "${ofile}" ]; then
+      echo "[${PROG}]INFO: extracting $ofile"
+      #continue
+      unzip -p "$file" "*manifest.safe" > "$ofile"
+      
+      if [ ! -s "$ofile" ]; then
+        echo "[${PROG}]WARNING: zero size output file! Deleted."
+        \rm -f "$ofile"
+        continue
+      fi
+      np=`expr $np + 1`
+
+      
+    fi
+    
+    
+done
+echo "[${PROG}]INFO: # ${np} manifest.safe files added."
+
+\rm -rf $file_lock

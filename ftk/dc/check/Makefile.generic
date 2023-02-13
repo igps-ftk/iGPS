@@ -96,8 +96,8 @@ CFLAGS = -g -lz    #gftn
 #LABELS: chk_dc_hold:chk_dc_hold:NONE:chk_dc_hold
 # LABELS_host: chk_dc_hold_HHHH:chk_dc_hold_HHHH:NONE:chk_dc_hold_HHHH
 #LABELS: chk_rnx_d:chk_rnx_d:NONE:chk_rnx_d
-#LABELS: chk_rnx_dz:chk_rnx_dz:NONE:chk_rnx_dz
-#LABELS: chk_rnx_dz3:chk_rnx_dz3:NONE:chk_rnx_dz3
+# LABELS: chk_rnx_dz:chk_rnx_dz:NONE:chk_rnx_dz
+# LABELS: chk_rnx_dz3:chk_rnx_dz3:NONE:chk_rnx_dz3
 #LABELS: glorg_origin:glorg_origin:NONE:glorg_origin
 #LABELS: hold_rnx_stat:hold_rnx_stat:NONE:hold_rnx_stat
 #LABELS: lhl:lhl:NONE:lhl

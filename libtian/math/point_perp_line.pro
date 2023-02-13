@@ -20,6 +20,10 @@ PRO POINT_PERP_LINE, a1, b1, c1, d1
     c1=[104.769,    27.037]*1d0
     a1=[105.687,    29.356]*1d0
     
+    a1=[100.320,    25.841]*1d0
+    b1=[104.769,    27.037]*1d0
+    c1=[105.687,    29.356]*1d0
+    
 ;    ;for vertical line    
 ;    b1=[100.320,    25.841]*1d0
 ;    c1=[104.769,    27.037]*1d0
@@ -81,7 +85,8 @@ PRO POINT_PERP_LINE, a1, b1, c1, d1
     PLOTS,x,x*rate2+intercept2,color='00ff00'x,psym=-1
     PLOTS,d1[0],d1[1],psym=4,color='0'x,symsize=2
     
-    jfile='J:\phd\expt\gpsf\external\addon\vel\fault\point_perp_line.eg.jpg'
+    jfile=filepath('point_perp_line.eg.jpg',root_dir=!igps_root,subdirectory=['libtian','math'])
     write_jpeg, jfile, tvrd(true=1),true=1,quality=100
+    print,d1
   ENDIF
 END

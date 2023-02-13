@@ -1,0 +1,117 @@
+#!/bin/sh
+
+# Name:
+#   sh_sar_node_link_s1_files_by_path_frame2
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+
+PROG=sh_sar_node_link_s1_files_by_path_frame2
+
+path=`pwd`
+
+timestamp=`date | sed -e 's/ /_/g' | sed -e 's/:/-/g'`
+file_tmp=/tmp/_tmp_manifest_safe_${PROG}_${timestamp}
+
+while [ "$1" != "" ]; do
+  case $1 in 
+    -path)
+      path=$2
+      ;;
+    *)
+      echo "[]ERROR: invalid option ($1)!!"
+      exit 1
+      ;;
+  esac
+  shift 2
+done
+
+
+files=`find $path -maxdepth 1 -type f -name "S1*IW*SLC*_20*.zip"`
+for file in $files; do
+  echo FILE $file
+  fname=`basename $file | sed -e 's/.zip//g'`
+  
+    
+  #link it to /sar/s1/all2/
+  #remove broken symbolic link 
+#  odir_all2=/sar/s1/all2
+#  if [[ -L "$odir_all2/${fname}.zip" ]] && [[ ! -a "$odir_all2/${fname}.zip" ]];then
+#    echo "[]INFO: broken link"
+#    file $odir_all2/${fname}.zip
+#    echo "remove $odir_all2/${fname}.zip"
+#    \rm -rf $odir_all2/${fname}.zip
+#  fi
+#
+#  if [ ! -L $odir_all2/${fname}.zip ]; then
+#    echo "ln -s $file /$odir_all2/"
+#    echo "ln -s $file /$odir_all2/" | sh
+#  fi
+  
+  csvfile=${esa_data}/metainfo/csv/${fname}.csv
+  if [ ! -s $csvfile ]; then
+    echo "[]WARNING: no csv file for $fname!"
+    continue
+  fi
+  
+  frame=`tail -1 $csvfile | awk -F\",\" '{printf("%04d", $8)}'`
+  track=`tail -1 $csvfile | awk -F\",\" '{printf("%03d", $7)}'`
+  trk=`tail -1 $csvfile | awk -F\",\" '{print $7}'`
+  ad=`tail -1 $csvfile | awk -F\",\" '{print  substr($25,1,1)}'`
+  #echo frame $frame
+  #echo track $track
+  #echo ad $ad
+  #exit
+  
+
+  if [ "$track" == "000" -o "$track" == "" -o "$ad" == "" ]; then
+    echo "[]ERROR: cannot decypher track number in $csvfile!!"
+    echo "\rm -f $csvfile"
+    continue
+    exit 1
+  fi
+  
+  odir=/sar/s1_track_frame_slc/${ad}${track}/${frame}/
+  #echo "$odir/${fname}.zip"
+  
+  if [ ! -d $odir ]; then
+    echo "mkdir -p $odir"
+    echo "mkdir -p $odir" | sh
+  fi
+
+  ##remove all links
+  echo "RM rm -rf $odir/${fname}.zip"
+  #continue
+
+  #remove broken symbolic link
+  if [[ -L "$odir/${fname}.zip" ]] && [[ ! -a "$odir/${fname}.zip" ]];then
+    echo "[]INFO: broken link"
+    file $odir/${fname}.zip
+    echo "remove $odir/${fname}.zip"
+    \rm -rf $odir/${fname}.zip
+  fi
+
+  
+  if [ ! -L $odir/${fname}.zip ]; then
+    echo "ln -s $file $odir"
+    echo "ln -s $file $odir" | sh
+  fi
+
+
+  
+  #exit
+done

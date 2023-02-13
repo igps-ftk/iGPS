@@ -2,14 +2,14 @@ FUNCTION POLYGON_OVERLAY,xys1,xys2,i1=i1, xstep=xstep, ystep=ystep
 
   np1=N_ELEMENTS(xys1[0,*])
   np2=N_ELEMENTS(xys2[0,*])
-  IF np1 NE np2 || np1 NE 4 THEN STOP
+  ;IF np1 NE np2 || np1 NE 4 THEN STOP
   
   xmin=MIN([REFORM(xys1[0,*]),REFORM(xys2[0,*])],max=xmax)
   ymin=MIN([REFORM(xys1[1,*]),REFORM(xys2[1,*])],max=ymax)
   
   rect=[xmin,xmax,ymin,ymax]
   if n_elements(xstep) eq 0 then xstep=.1
-  if n_elements(xstep) eq 0 then ystep=.1
+  if n_elements(ystep) eq 0 then ystep=.1
   
   ;  ;WINDOW,0,xsize=900,ysize=900
   ;  FOR pi=0,np1-1 DO BEGIN
@@ -48,6 +48,9 @@ FUNCTION POLYGON_OVERLAY,xys1,xys2,i1=i1, xstep=xstep, ystep=ystep
   ;    ENDFOR
   ;  ;stop
   ;  ENDFOR
+  ;stop
+  ;xstep=1
+  ;ystep=1
   POLYGON_RASTERIZE, xys1,rect=rect,xstep=xstep,ystep=ystep, $  ;,nx=nx,ny=ny
     odata=odata1,oxs=oxs1,oys=oys1
   POLYGON_RASTERIZE, xys2,rect=rect,xstep=xstep,ystep=ystep, $  ;,nx=nx,ny=ny

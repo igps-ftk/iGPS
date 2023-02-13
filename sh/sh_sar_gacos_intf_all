@@ -1,0 +1,97 @@
+#!/bin/sh
+
+# Name:
+#   sh_sar_gacos_intf_all
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+path_intf=`pwd`/intf_all/
+path_ztd=`pwd`/ztd.gmtsar/
+path_ztd=`pwd`/ztd.ra
+
+opath=`pwd`/gacos_all
+path_old=`pwd`
+
+intfs=`find $path_intf -maxdepth 1 -type d -name "2*_2*"`
+#intfs=`find $path_intf -maxdepth 1 -type d -name "2014288_2018051"`
+for intf in $intfs; do
+    echo $intf
+    
+    intf_name=`basename $intf`
+   
+    
+    yr1=`echo $intf_name | awk -F_ '{print substr($1,1,4)}'`
+    doy1=`echo $intf_name | awk -F_ '{print substr($1,5,3)+1}'`
+    yr2=`echo $intf_name | awk -F_ '{print substr($2,1,4)}'`
+    doy2=`echo $intf_name | awk -F_ '{print substr($2,5,3)+1}'`
+    ymd1=`doy $yr1 $doy1 | head -1 | awk '{print $2}' | sed -e 's/\///g'`
+    ymd2=`doy $yr2 $doy2 | head -1 | awk '{print $2}' | sed -e 's/\///g'` 
+    echo $yr1 $doy1 $yr2 $doy2 $ymd1 $ymd2
+    
+    ztd1=${path_ztd}/${ymd1}_ra.grd
+    ztd2=${path_ztd}/${ymd2}_ra.grd
+    if [ ! -s $ztd1 ]; then
+        echo "[]ERROR: no ztd1 file ($ztd1)!!"
+        continue
+    fi
+    if [ ! -s $ztd2 ]; then
+        echo "[]ERROR: no ztd2 file ($ztd2)!!"
+        continue
+    fi
+    
+     
+    opath_intf=${opath}/$intf_name
+    mkdir -p $opath_intf
+    echo "[]INFO: diff gacos ztd "
+    ztd12=${opath_intf}/ztd_gacos.grd
+    if [ ! -s $ztd12 ]; then
+        echo gmt grdmath $ztd2 $ztd1 SUB 1000 MUL 0.0554658 DIV -79.58 DIV = $ztd12
+        echo gmt grdmath $ztd2 $ztd1 SUB 1000 MUL 0.0554658 DIV -79.58 DIV = $ztd12 | sh
+    fi
+    cd $opath_intf
+    
+
+    bname_ztd12="ztd_gacos"
+   
+    if [ ! -s $bname_ztd12.jpg ]; then
+        zmin=`gmt grdinfo -C $ztd12 | awk '{print $6}'`
+        zmax=`gmt grdinfo -C $ztd12 | awk '{print $7}'`
+        echo $zmin $zmax
+        gmt makecpt -Cjet -T${zmin}/${zmax}/.001 -Z -I > phase.cpt
+        gmt grdimage $ztd12 -JX5i -I$ztd12  -Cphase.cpt -Bxaf -Byaf -BWSne -P -V -X1.3i -Y3i -K > $bname_ztd12.ps
+        gmt psscale -R$ztd12  -J -DJTC+w5i/0.2i+h+e -Cphase.cpt -Baf+l"Zenith total delay (radian)" -O >> $bname_ztd12.ps
+        gmt psconvert -Tj -P -Z $bname_ztd12.ps
+    fi
+    
+    if [ ! -s ${bname_ztd12}_detrend.grd ]; then
+        gmt grdtrend $bname_ztd12.grd -N3r -D${bname_ztd12}_detrend.grd
+    fi
+    if [ ! -s ${bname_ztd12}_detrend.jpg ]; then
+        zmin=`gmt grdinfo -C ${bname_ztd12}_detrend.grd | awk '{print $6}'`
+        zmax=`gmt grdinfo -C ${bname_ztd12}_detrend.grd | awk '{print $7}'`
+        echo $zmin $zmax
+        gmt makecpt -Cjet -T${zmin}/${zmax}/.001 -Z -I > phase.cpt
+        gmt grdimage ${bname_ztd12}_detrend.grd -JX5i -I${bname_ztd12}_detrend.grd  -Cphase.cpt -Bxaf -Byaf -BWSne -P -V -X1.3i -Y3i -K > ${bname_ztd12}_detrend.ps
+        gmt psscale -R${bname_ztd12}_detrend.grd  -J -DJTC+w5i/0.2i+h+e -Cphase.cpt -Baf+l"Zenith total delay (radian)" -O >> ${bname_ztd12}_detrend.ps
+        gmt psconvert -Tj -P -Z ${bname_ztd12}_detrend.ps
+    fi
+    
+
+    cd $path_old 
+    #exit
+done
+

@@ -49,8 +49,8 @@ PRO WRITE_NET, $
   PRINTF,FID,'*'
   PRINTF,FID,'*  site    full-name      latitude        longitude         height       u       v       w    epoch       t1        t2'
   
-  
-  FOR I=0,NSIT-1 DO BEGIN
+  ;FOR I=0ull,NSIT-1 DO printf,fid,STRUPCASE(SITES[I]),llhs[*,i],format='(1x,a,3(1x,f))'
+  FOR I=0ull,NSIT-1 DO BEGIN
     IF LLHS[0,I] EQ -9999 || TOTAL(LLHS[*,I]) EQ 0 THEN CONTINUE
     LAT=LLHS[1,I]
     LON=LLHS[0,I]

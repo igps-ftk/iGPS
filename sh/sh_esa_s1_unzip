@@ -19,6 +19,11 @@
 # Dependency:
 # 
 
+PROG=sh_esa_s1_unzip
+
+esa_data_node=/sar/esa.sentinel-1/alll
+#esa_data_node=/sar/esa.sentinel-1/links
+esa_data_node=/g4d/esa.data/s1
 
 if [ "$esa_unzip" = "" ]; then
     echo "ESA environment esa_unzip variable not set! Stopped!!"
@@ -26,54 +31,107 @@ if [ "$esa_unzip" = "" ]; then
 fi
 
 
-if [ "$esa_data" = "" ]; then
-    echo "ESA environment esa_data variable not set! Stopped!!"
-    exit 1
-fi
+#if [ "$esa_data" = "" ]; then
+#    echo "ESA environment esa_data variable not set! Stopped!!"
+#    exit 1
+#fi
 
 if [ "$1" == "" ]; then
-    echo "Usage: sh_esa_s1_unzip file [iw0|iw1|iw2|iw3]"
+    echo "[$PROG]Usage: $PROG file [iw0|iw1|iw2|iw3]"
     exit
 fi
-file=$1
 
-if [ "$2" = "" ]; then
+iws="iw1,iw2,iw3"
+
+is_check_done=n
+
+#two modes of input parameters
+if [ "`echo $1 | awk '{print substr($1,1,1)}'`" == "-" ]; then
+
+  while [ "$1" != "" ]; do
+    case $1 in
+      -f|-file)
+        file=$2
+        ;;
+      -i|-iw)
+        iws=$2
+        ;;
+      -l|-local)
+        is_local=$2
+        ;;
+      -p|-path)
+        esa_data_node=$2
+        ;;
+      -update)
+        is_check_done=$2
+        ;;
+      *)
+        echo "[]ERROR: invalid option ($1)!!"
+        exit 1
+        ;;
+    esac
+    shift 2
+  done
+
+else  #mode 2
+
+  file=$1
+  if [ "$2" = "" ]; then
     echo "[INFO]iw_type not specified! Default iw1/iw2/iw3 will be extracted."
-    iw_typ=iw0
-else
-    iw_typ=$2
+    iws='iw1,iw2,iw3'
+  else 
+    iw_typs=`echo $2 | sed -e 's/,/ /g'`
+  fi
+  
+fi  #end-of-mode-2
+
+
+
+
+file_tmp=
+if [ "$is_check_done" == "y" ]; then
+
+  timestamp=`date | sed -e 's/ /_/g' | sed -e 's/:/-/g'`
+  file_tmp=_tmp_input_lst_${PROG}_${timestamp}
+  file2_tmp=_tmp_file_in_${PROG}_${timestamp}
+  grep '^ ' $file  > $file2_tmp
+  for iw in `echo $iws | sed -e 's/,/ /g'`; do
+    ii=`echo $iw | awk '{print substr($1,3,1)}'`
+    file_blt="F${ii}/baseline_table.dat"
+    if [ -s $file_blt ]; then
+      file_data="F${ii}/data.in"
+      break
+    fi
+  done
+  echo baseline file $file_blt
+
+  #\rm -rf $file_tmp
+  sid=`head -1 $file_data | awk -F- '{print substr($5,1,8)}'`
+  cat $file2_tmp | grep $sid > $file_tmp
+  while read line; do
+    sid=`echo $line | awk -F_ '{print substr($6,1,8)}'`
+    #echo sid $sid
+    tmp=`cat $file_blt | grep $sid`
+    if [ "$tmp" == "" ]; then
+      echo " $line" >> $file_tmp
+    fi
+  done < $file2_tmp
+  wc -l $file_tmp
+  file=$file_tmp
 fi
 
+echo file $file
 
-grep '^ ' $file | awk '{print $1}' > .tmp
-while read line; do
-    #echo $line
-    dfile="`echo $line | awk -F. '{print $1}'`.zip"
-    #echo ${path_esa}/${dfile}
-    if [ ! -s ${esa_data}/S1/${dfile} ]; then
-	echo "ERROR:data not found [${esa_data}/S1/${dfile}]!!"
-        continue
-	exit 1
-    fi
+echo sh_esa_s1_unzip_node -path /g4d/esa.data/s1   -file $file -iw $iws
+echo sh_esa_s1_unzip_node -path /g4d/esa.data/s1   -file $file -iw $iws | sh
 
-    ofile="`echo $line | awk -F. '{print $1}'`.SAFE"
-    #echo ${opath_esa}/${ofile}
-    if [ -d ${esa_unzip}/${ofile} ]; then
-	echo "INFO:already done [${esa_unzip}/${ofile}]. Skipped."
-	continue
-    fi
-    echo "unzip ${esa_data}/S1/${dfile}"
-    if [ "$iw_typ" = "iw1" ]; then
-	unzip ${esa_data}/S1/${dfile} -x *-vh-*  *iw2*  *iw3* -d ${esa_unzip}
-    elif [ "$iw_typ" = "iw2" ]; then
-	unzip ${esa_data}/S1/${dfile} -x *-vh-*  *iw1*  *iw3* -d ${esa_unzip}
-    elif [ "$iw_typ" = "iw3" ]; then
-	unzip ${esa_data}/S1/${dfile} -x *-vh-*  *iw1*  *iw2* -d ${esa_unzip}
-    elif [ "$iw_typ" = "iw0" ]; then
-	unzip ${esa_data}/S1/${dfile} -x *-vh-*  -d ${esa_unzip}
-    else
-	echo "[]WARNING:wrong sub-swatch option $iw_typ !! Skipped!"
-    fi
-    #exit
-done < .tmp
+echo sh_esa_s1_unzip_node -path /g4d/esa.data/s1.2 -file $file -iw $iws
+echo sh_esa_s1_unzip_node -path /g4d/esa.data/s1.2 -file $file -iw $iws | sh
 
+echo sh_esa_s1_unzip_node -path /g4d/esa.data/s1.3 -file $file -iw $iws
+echo sh_esa_s1_unzip_node -path /g4d/esa.data/s1.3 -file $file -iw $iws | sh
+
+
+if [ "$file_tmp" != "" ]; then
+  \rm -f $file_tmp $file2_tmp
+fi

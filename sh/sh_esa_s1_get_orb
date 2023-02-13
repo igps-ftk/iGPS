@@ -37,7 +37,17 @@ mkdir -p ${esa_data}/aux_poeorb/
 grep -v '^#' $file > ${esa_data}/aux_poeorb/.tmp
 cd ${esa_data}/aux_poeorb/
 while read line ; do
-  wget -c --no-check-certificate $line
-  #exit
+    year=`basename $line | awk -F_ '{print substr($7,2,4)}'`
+    echo $year
+    opath_t=${esa_data}/aux_poeorb/${year}
+    if [ ! -d $opath_t ] ; then
+	echo mkdir $opath_t
+	echo mkdir $opath_t | sh
+    fi
+    cd $opath_t
+    pwd
+
+    echo wget -c --no-check-certificate $line
+    echo wget -c --no-check-certificate $line | sh
 done < ${esa_data}/aux_poeorb/.tmp
 

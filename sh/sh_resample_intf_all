@@ -1,0 +1,121 @@
+#!/bin/sh
+
+# Name:
+#   sh_resample_intf_all
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   Run this script under F1/F2/F3 (which contains intf_all)
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+
+PROG=sh_resample_intf_all
+
+#default scale factor
+sf=2  
+
+#input path
+path=intf_all
+
+#output directory
+opath=${path}_r${sf}
+
+#command-line parameter
+while [ "$1" != "" ]; do
+  case $1 in
+    -path)
+      path=$2
+      ;;
+    -opath)
+      opath=$2
+      ;;
+    -sf) #scale factor for resampling 2, 4, ...
+      sf=$2
+      ;;
+    -h|--help|-H)
+      echo "Usage: sh_resample_intf_all [-path PATH_IN] [-opath PATH_OUT] [-sf scale_factor]"
+      echo "  default input path: intf_all"
+      echo "  default output path: intf_all_rN (N is the scale_factor)"
+      echo ""
+      ;;
+    *)
+      echoe "ERROR: invalid option ($1)!!"
+      exit 1
+      ;;
+  esac
+  shift 2
+done
+
+#make sure the input directory exist
+if [ ! -d $path ]; then
+  echo "error: input directory $path not exist!!"
+  exit 1
+fi
+
+echo "input path: $path"
+echo "output path: $opath"
+echo "scale factor: $sf"
+
+path_old=`pwd`
+
+#get list of interferograms in intf_all
+pairs=`ls $path | grep '^2'|sort`
+#echo $pairs
+
+#crate output directory if it not present
+mkdir -p $opath
+
+#loop through interferograms
+for pair in $pairs; do
+  cd $path_old
+  opath_i=${opath}/${pair}
+  #create output directory, if it not exist
+  echo mkdir -p $opath_i
+  echo mkdir -p $opath_i | sh
+  
+  #resample all *.grd files
+  files=`ls ${path}/${pair}/*.grd`
+  for file in $files; do
+    echo $file
+    ofile="${opath_i}/`basename $file`"
+    
+    if [ -s $ofile ]; then
+      echo "$ofile already exists! Skip it"
+      continue
+    fi
+    
+    xs=`grdinfo -C $file | awk '{print int($8*2+.5)}'`
+    ys=`grdinfo -C $file | awk '{print int($9*2+.5)}'`
+    #echo xs $xs ys $ys
+    I="-I${xs}/${ys}"
+    echo "[$PROG]INFO: output pixel size = $I"
+
+    #echo "grdsample $file -G${ofile} $I"
+    #echo "grdsample $file -G${ofile} $I" | sh
+    echo "grdsample $file -G${ofile} $I" -nn+c
+    echo "grdsample $file -G${ofile} $I" -nn+c | sh
+  done
+  
+  #link other files
+  cd $opath_i
+  ln -s ../../${path}/${pair}/S1* ./
+  ln -s ../../${path}/${pair}/trans.dat ./
+  ln -s ../../${path}/${pair}/gauss_* ./
+  ln -s ../../${path}/${pair}/*.PRM ./
+  
+  #exit
+done 
+
+
+

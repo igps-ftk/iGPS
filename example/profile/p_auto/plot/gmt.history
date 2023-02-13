@@ -1,0 +1,11 @@
+# GMT 5 Session common arguments shelf
+BEGIN GMT 5.4.5
+B	20f10:Distance from Fault (km):/2f1:Strike-slip Rate (mm/yr)::. :/SWen
+J	X
+JQ	Q5.6i
+JX	X5i/2i
+R	-100/100/0/20
+X	6.5i
+Y	-3.05i
+L	19
+END

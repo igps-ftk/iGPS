@@ -20,19 +20,39 @@
 #   
 prog=sh_intf_tab_from_phase_files
 
-files=`ls intf_all_los_ll_png/*.png`
-nf=`ls intf_all_los_ll_png/*.png | wc -l`
+#files=`ls intf_all_los_ll_png/*.png`
+files=`ls intf_all_los_ll_png/*.*`
+nf=`ls intf_all_los_ll_png/*.* | wc -l`
 echo "total files #: $nf"
 
 rm -rf intf.tab
+
+ntot=$nf
+np=`echo $ntot | awk '{print int($1/10)}'`
+if [ $np -eq 0 ]; then
+  np=1
+fi
+n=0
+
+nerr=0
 for file in $files; do
-    echo $file
+    #echo $file
+
+    n=`expr $n + 1`
+    #echo $n $np $ntot
+    #echo $n $np | awk '{if( ($1-int($1/$2)*$2)==0){printf(".")}}'
+    echo $n $np | awk '{if( ($1-int($1/$2)*$2)==0){printf("\b:>")}}'
+    #sleep .5
+
     id=`basename $file | awk -F- '{print $1}'`
-    echo $id
-    tmp=`cat intf.tab1 |grep $id`
+    #echo $id
+    tmp=`cat intf.tab1 |grep $id|head -1`
     if [ "$tmp" = "" ]; then
-      echo "[${prog}]WARNING: not found for $id !!"
+      #echo "[${prog}]WARNING: not found for $id !!"
+      nerr=`expr $nerr + 1`
       continue
+    #else
+      #echo "result is: $tmp"
     fi
     echo $tmp >> intf.tab
 done
@@ -45,3 +65,8 @@ rm -rf scene.tab
 while read line; do
     cat scene.tab1 | grep $line >> scene.tab
 done < a1
+
+if [ $nerr -gt 0 ]; then
+  echo "[${prog}]WARNING: $nerr interferograms not used!"
+fi
+wc -l *.tab

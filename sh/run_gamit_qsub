@@ -21,7 +21,16 @@
 . ${HOME}/.bashrc
 
 #Please edit the below PROC_DIR for IGS data (rinex, nav, products) in the naming convenction of SIO.
+if [ "$IGS_ROOT" == "" ]; then
 IGS_DIR=/h1/ftp/pub
+IGS_DIR=/sar/gnss/pub
+IGS_DIR=/g3c/pub
+IGS_DIR=/g10a/ftp/pub
+IGS_DIR=/sar/gnss
+else
+  IGS_DIR=$IGS_ROOT
+fi
+
 #--
 # |-rinex/
 # |      -2016/
@@ -60,6 +69,9 @@ echo "*Note: the daily processing will be in ${PROC_DIR}/TEMP/"
 
 #Archive H-file directory
 HFILE_DIR=/c1/hfilesi.v16
+HFILE_DIR=/home/hfilesi.gmf.v3
+HFILE_DIR=/sar/gnss/pub/hfilesi.v21
+HFILE_DIR=${NINH_HFILE}
 
 #Temporary files directory
 TMP_DIR=/d2/tianyf/trns/IGSF
@@ -91,9 +103,15 @@ ndays=1
 overwrite=0
 
 
+delay=30
+
+
 
 while [ "$1" != "" ]; do
     case $1 in
+        -delay)
+            delay=$2
+            ;;
 	-dir)
 	    path_old=`pwd`
 	    cd $2
@@ -117,7 +135,6 @@ while [ "$1" != "" ]; do
 	    ;;
 	-orbit)
 	    orbit=$2
-      PROC_DIR=/home/tianyf/gpse/trns/solut/gmf/${orbit}
 	    ;;
 	-overwrite)
 	    overwrite=$2
@@ -158,8 +175,8 @@ while [ $di -le $ndays ]; do
       if [ $jd_doyr -ge $jd_icd1 ]; then
 	expts="lasa trna trnb trnc trnd trne trnf trng trnh"
       else
-	#expts="lasa trna trnb trnc trnd trne trnf trng trnh"
-	expts=" trna trnb trnc trnd trne trnf trng trnh"	
+	expts="lasa trna trnb trnc trnd trne trnf trng trnh"
+	#expts=" trna trnb trnc trnd trne trnf trng trnh"	
       fi
     fi
     echo $expts
@@ -170,11 +187,13 @@ gpsd=`doy $year $doyr | grep 'GPS Week' | awk '{printf("%d",$7)}'`
 
 #check whether orbit file exist
 case $orbit in
-    IGSR)
+    IGSR|IGRR)
 	file_orb=${IGS_DIR}/products/${gpsw}/igr${gpsw}${gpsd}.sp3.Z
+        PROC_DIR=/home/tianyf/gpse/trns/solut/gmf/IGSR
 	;;
-    IGSF)
+    IGSF|IGFF)
 	file_orb=${IGS_DIR}/products/${gpsw}/igs${gpsw}${gpsd}.sp3.Z
+        PROC_DIR=/home/tianyf/gpse/trns/solut/gmf/IGSF
 	;;
     *)
 	echo "[run_rapid]ERROR: orbit $orbit not yet supported!"
@@ -196,37 +215,75 @@ for expt in $expts; do
 
     #check whether already done
     file_h=${HFILE_DIR}/${year}/${doyr}/h${expt}a.${yr}${doyr}.Z
-    if [ -s $file_h ]; then
-	#solut_type=`zgrep tig $file_h | head -1 | awk '{print substr($2,2,4)}'`
-        solut_type=igsf
-	echo "orbit solution type: ${solut_type}"
-	case $orbit in
-	    IGSR)
-		if [ "$solut_type" = "igsf" -o "$solut_type" = "igsr" ]; then
-		    echo "[run_rapid]Already done (${file_h})!"
-		    if [ $overwrite -eq 0 ]; then
-			continue
-		    else
-			echo "[run_rapid]WARNING:overwriting!"
-		    fi
-		else
-		    echo "[run_rapid]H-file exists but not correct orbit type!"
-		fi
-		;;
-	    IGSF)
-		if [ "$solut_type" = "igsf" ]; then
-		    echo "[run_rapid]Already done (${file_h})!"
-		    if [ $overwrite -eq 0 ]; then
-			continue
-		    else
-			echo "[run_rapid]WARNING:overwriting!"
-		    fi
-			
-		else
-		    echo "[run_rapid]H-file exists but not correct orbit type!"
-		fi
-		;;
-	esac
+    file_s=${HFILE_DIR}/${year}/${doyr}/sh_gamit_${year}_${doyr}.summary.${expt}.Z
+    #
+    echo "first, check the summary file for orbit type ..."
+    if [ -s $file_s ]; then
+  	solut_type=`zgrep -h orbit $file_s | head -1 | awk '{print tolower($9)}'`
+        #echo "solut_type is $solut_type"
+          #solut_type=igsf
+  	echo "orbit solution type: ${solut_type}"
+  	case $orbit in
+  	    IGSR|IGRR)
+  		if [ "$solut_type" = "igsf" -o "$solut_type" = "igsg" -o "$solut_type" = "igff" -o "$solut_type" = "igsr"  -o "$solut_type" = "igrr" ]; then
+  		    echo "[run_rapid]Already done (${file_h})!"
+  		    if [ $overwrite -eq 0 ]; then
+  			continue
+  		    else
+  			echo "[run_rapid]WARNING:overwriting!"
+  		    fi
+  		else
+  		    echo "[run_rapid]H-file exists but not correct orbit type!"
+  		fi
+  		;;
+  	    IGSF|IGFF)
+  		if [ "$solut_type" = "igsf" -o "$solut_type" = "igsg"  -o "$solut_type" = "igff" ]; then
+  		    echo "[run_rapid]Already done (${file_h})!"
+  		    if [ $overwrite -eq 0 ]; then
+  			continue
+  		    else
+  			echo "[run_rapid]WARNING:overwriting!"
+  		    fi
+  			
+  		else
+  		    echo "[run_rapid]H-file exists but not correct orbit type!"
+  		fi
+  		;;
+  	esac    
+    else #
+      echo "no summary file, then check the h-file for orbit type ..."
+      if [ -s $file_h ]; then
+  	solut_type=`zgrep tig $file_h | head -1 | awk '{print substr($2,2,4)}'`
+          #solut_type=igsf
+  	echo "orbit solution type: ${solut_type}"
+  	case $orbit in
+  	    IGSR|IGRR)
+  		if [ "$solut_type" = "igsf" -o "$solut_type" = "igsg" -o "$solut_type" = "igff" -o "$solut_type" = "igsr"  -o "$solut_type" = "igrr"]; then
+  		    echo "[run_rapid]Already done (${file_h})!"
+  		    if [ $overwrite -eq 0 ]; then
+  			continue
+  		    else
+  			echo "[run_rapid]WARNING:overwriting!"
+  		    fi
+  		else
+  		    echo "[run_rapid]H-file exists but not correct orbit type!"
+  		fi
+  		;;
+  	    IGSF|IGFF)
+  		if [ "$solut_type" = "igsf" -o "$solut_type" = "igsg"  -o "$solut_type" = "igff" ]; then
+  		    echo "[run_rapid]Already done (${file_h})!"
+  		    if [ $overwrite -eq 0 ]; then
+  			continue
+  		    else
+  			echo "[run_rapid]WARNING:overwriting!"
+  		    fi
+  			
+  		else
+  		    echo "[run_rapid]H-file exists but not correct orbit type!"
+  		fi
+  		;;
+  	esac
+      fi
     fi
 
     tmp=`date | sed -e 's/ /_/g' | sed -e 's/:/-/g'`
@@ -258,7 +315,7 @@ for expt in $expts; do
     echo "pwd " >> $file_t
 
     echo 'date' >> $file_t
-    echo 'sleep 10' >> $file_t
+    echo 'sleep 1' >> $file_t
     echo 'date' >> $file_t
     echo "echo ${path_t}/${expt}/run_s1 -year $year -doy $doyr -ndays 1 -orbit $orbit" >> $file_t
     echo "${path_t}/${expt}/run_s1 -year $year -doy $doyr -ndays 1 -orbit $orbit -script $file_t" >> $file_t
@@ -270,6 +327,8 @@ for expt in $expts; do
     pwd
     #sleep 1
     sbatch $file_t
+    echo "[]INFO: waiting $delay seconds to submit the next task ..."
+    sleep $delay
     #exit
 done
 

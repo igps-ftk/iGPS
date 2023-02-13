@@ -1,0 +1,97 @@
+#!/bin/sh
+
+. ${HOME}/.bashrc
+
+
+if [ "$esa_data" = "" ]; then
+    echo "[ERROR]ESA environment variable esa_data must be set first! Stopped."
+    exit 1
+fi
+
+orbit=aux_poeorb
+files_tiff=
+
+while [ "$1" != "" ]; do
+    case $1 in
+        -orbit)
+            orbit=$2
+            ;;
+        -files)
+            files_tiff=$2
+            ;;
+        *)
+            echo "Invalid option $1 !"
+            exit 1
+            ;;
+    esac
+    shift 2
+done
+
+path_poeorb=${esa_data}/aux_poeorb
+path_resorb=${esa_data}/aux_resorb
+path_preorb=${esa_data}/aux_preorb
+
+
+
+oldyear=
+
+if [ "$files_tiff" == "" ]; then
+  files_tiff=`ls *.tiff`
+fi
+
+for file_tiff in $files_tiff; do
+    year=`basename $file_tiff | awk -F- '{print substr($5,1,4)}'`
+    #echo year is $year
+    if [ "$oldyear" != $year ]; then
+      oldyear=$year
+      files_poeorb=`find ${path_poeorb}/${year} -maxdepth 1 -name "*.EOF"` >& /dev/null
+      files_resorb=`find ${path_resorb}/${year} -maxdepth 1 -name "*.EOF"` >& /dev/null
+      files_preorb=`find ${path_preorb}/${year} -maxdepth 1 -name "*.EOF"` >& /dev/null
+
+    fi
+
+    is_found=0    
+
+    if [ "$files_poeorb" != "" ]; then
+      tmp=`esa_s1_tiff_EOFs $file_tiff $files_poeorb | head -1`
+      file_orb=`echo $tmp | awk '{print $2}'`
+      if [ "$file_orb" != "" ]; then
+        echo "[]INFO:orbit file is $file_orb for ${file_tiff}"
+        is_found=1
+      fi
+    fi
+
+    if [ $is_found -eq 0 ]; then
+      if [ "$files_resorb" != "" ]; then
+        tmp=`esa_s1_tiff_EOFs $file_tiff $files_resorb | head -1`
+        file_orb=`echo $tmp | awk '{print $2}'`
+        if [ "$file_orb" != "" ]; then
+          echo "[]INFO:orbit file is $file_orb for ${file_tiff}"
+          is_found=1
+        fi
+      fi
+    fi
+
+    if [ $is_found -eq 0 ]; then
+      if [ "$files_preorb" != "" ]; then
+        tmp=`esa_s1_tiff_EOFs $file_tiff $files_preorb | head -1`
+        file_orb=`echo $tmp | awk '{print $2}'`
+        if [ "$file_orb" != "" ]; then
+          echo "[]INFO:orbit file is $file_orb for ${file_tiff}"
+          is_found=1
+        fi
+      fi
+    fi
+
+    if [ $is_found -eq 0 ]; then
+      echo "[]WARNING: no orb file found for $file_tiff!"
+      continue
+    fi  
+  
+    if [ ! -s `basename $file_orb` ]; then
+      \rm -rf `basename $file_orb`
+      echo "ln -s $file_orb" | sh
+    fi
+    echo " $file_tiff `basename $file_orb`"
+    #exit
+done

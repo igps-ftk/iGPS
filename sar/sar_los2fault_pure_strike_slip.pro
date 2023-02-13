@@ -23,11 +23,17 @@ PRO SAR_LOS2FAULT_PURE_STRIKE_SLIP, los,  $ ;los displcement
     ;for gyaringco fault
     beta=(36+270d0)*!dpi/180d0
     
+    ;for ganzi fault
+    
+    ;for eklf
+    orbtyp='d'
+    beta=(103)*!dpi/180d0
+    
   ENDIF
   
   IF N_ELEMENTS(theta) EQ 0 THEN BEGIN
     ;theta - satellite looking angle
-    theta=33d0*!dpi/180d0
+    theta=38d0*!dpi/180d0
   ENDIF
   
   ;alpha - azimuth angle of satellite orbit
@@ -78,16 +84,16 @@ PRO SAR_LOS2FAULT_PURE_STRIKE_SLIP, los,  $ ;los displcement
   fx=los/sf
   fy=0d0
   IF N_PARAMS() LT 2 THEN BEGIN
-    PRINT,los,beta,theta,alpha
-    PRINT,los,los_g,fx,fy
+    PRINT,'los,beta,theta,alpha:',los,beta*180/!dpi,theta*180/!dpi,alpha*180/!dpi
+    PRINT,'los,los_g,fx,fy:',los,los_g,fx,fy
     
     los2=[-1*SIN(alpha2)*SIN(theta),-1*COS(alpha2)*SIN(theta), -1*COS(theta)] ##  $
       [[fy],[fx],[0]]
-    PRINT,los2
+    PRINT,'los2:',los2
     
     los3=[-1*SIN(alpha2)*SIN(theta),-1*COS(alpha2)*SIN(theta), -1*COS(theta)] ##  $
       [[0],[ds],[dd]]
-    PRINT,los3
+    PRINT,'los3:',los3
   ENDIF
 ;STOP
 END

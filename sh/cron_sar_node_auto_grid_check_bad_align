@@ -1,0 +1,134 @@
+#!/bin/sh
+
+# Name:
+#   cron_sar_node_auto_grid_check_master
+#   
+
+# Purpose:
+#   check whether the alignment has been done with wrong master
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+. ${HOME}/.bashrc
+
+PROG=cron_sar_node_auto_grid_check_bad_align
+
+
+usage(){
+    echo "[$PROG]INFO: $PROG "
+    echo "[$PROG]INFO:      "
+    echo "[$PROG]INFO: "
+}
+
+
+path_run=/sar/proc_gmtsar/auto_grid
+
+exptstr='[AD]???_????'
+iws='1 2 3'
+is_update_master=n
+
+while [ "$1" != "" ]; do
+  case $1 in
+   -update_master)
+      is_update_master=$2
+      ;;
+    -exptstr)
+      exptstr=$2
+      ;;
+    -h|-H|--help|-help|"?")
+      usage
+      exit 0
+      ;;
+    *)
+      echo "[$PROG]ERROR: invalid option ($1)!!"
+      echo "[$PROG]INFO: use $PROG -h for usage."
+      exit 1
+      ;;
+  esac
+
+  shift 2
+done
+
+paths=`find $path_run -maxdepth 1 -type d -name "$exptstr" | sort`
+#echo paths $paths
+#exit
+for path in $paths; do
+  echo path $path
+  expt=`basename $path`
+
+  file_config=${path}/config.txt
+  
+  if [ ! -s $file_config ]; then
+    echo "no $file_config"
+    continue
+  fi
+  
+
+  
+  #exit 
+  for i in $iws ; do
+    echo "[$PROG]INFO: processing F${i}"
+    if [ ! -d ${path}/F${i}/raw ]; then
+      echo "not processed yet"
+      continue
+    fi
+    tmp=`find ${path}/F${i}/raw/ -maxdepth 1 -type f -name "*ALL*.PRM"`
+    if [ "$tmp" == "" ]; then
+      echo "no PRM files"
+      continue
+    fi
+    n1=`grep -h num_line ${path}/F${i}/raw/*ALL*.PRM|sort|uniq|wc -l`
+    n2=`grep -h num_rng_bins ${path}/F${i}/raw/*ALL*.PRM|sort|uniq|wc -l`
+    echo n1 $n1 n2 $n2
+    if [ $n1 -eq 1 -a $n2 -eq 1 ]; then
+       continue
+    fi
+    pwd
+    echo "dimensions not consistent: $n1 $n2 ($path/F${i})!!"
+    #exit
+    continue
+    file_data_in=${path}/F${i}/data.in
+    if [ ! -s ${file_data_in} ]; then
+        echo "no $file_data_in"
+        continue
+    fi
+    
+    master_date=`grep -h '^ ' $file_config | grep master_date | awk '{if(index($0,"#")>0){print substr($0,1,index($0,"#")-1)}else{print $0}}' | tail -1 | awk '{print $3}'`
+    echo master_date $master_date
+  
+    master_data_in=`head -1 $file_data_in | awk -F- '{print substr($5,1,8)}'`
+    tmp=`head -1 $file_data_in | grep $master_date`
+    if [ "$master_date" != "$master_data_in" ]; then
+      echo "[]WARNING: master in config.txt and data.in files not consistent!"
+      echo "master $master_date  in $file_config"
+      echo "master $master_data_in in $file_data_in"
+      
+      if [ "$is_update_master" == "y" ]; then
+        echo "Now, to correct master info in $file_config"
+        
+        line_id=`grep -h '^ ' $file_config | grep master_date | awk '{if(index($0,"#")>0){print substr($0,1,index($0,"#")-1)}else{print $0}}' |tail -1`
+        echo "line_id $line_id"
+        
+        sed -e "s/$line_id/\#$line_id/g" $file_config > _tmp_config
+        if [ $? -eq 0 ]; then
+          \mv _tmp_config $file_config
+        fi
+        #cat _tmp_config
+        echo " master_date = $master_data_in" >> $file_config
+      fi
+      pwd
+    fi
+  done
+  
+  #exit
+done

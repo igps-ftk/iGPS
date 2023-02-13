@@ -1,4 +1,4 @@
-# Makefile for get on CYGWIN_NT-6.1-WOW 2.8.0(0.309/5/3) by unimake at Fri, Jun 09, 2017  4:51:33 PM
+# Makefile for get on CYGWIN_NT-6.1-WOW 3.1.4 by unimake at Fri, Mar 27, 2020 10:09:43 PM
 
 all: sites_minus rdhold cgps_dc_get_lib get_met get_nav get_orb get_clk get_erp get_rnx get_rnx_igs.org.cn get_hfile rdgsac
 

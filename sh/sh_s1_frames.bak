@@ -1,0 +1,65 @@
+#!/bin/sh
+
+# Name:
+#   sh_s1_frames
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+
+PROG=sh_s1_frames
+
+while [ "$1" != "" ]; do
+  case $1 in
+    *)
+      echo "[$PROG]ERROR: invalid option ($1)!!"
+      echo "[$PROG]Usage: ${PROG} "
+      echo "[$PROG]Usage: e.g.,"
+      echo "[$PROG]Usage: ${PROG} "
+      exit 1
+      ;;
+  esac
+  shift 2  
+done
+
+ORBs='A D'
+
+for ORB in $ORBs; do
+  ofile=S1_frames_${ORB}.psxy
+  \rm -f $ofile
+  
+  expts=`find .. -maxdepth 1 -type d -name "${ORB}???_????"|sort`
+  for expt in $expts; do
+    echo $expt
+    file_poly=`find $expt -maxdepth 1 -type f -name "over*.psxy"`
+    if [ "$file_poly" == "" ]; then
+      continue
+    fi
+    
+    target=`echo $file_poly | awk -F. '{print $4}'`
+    echo target $target
+    
+    l1=`grep -n $target $file_poly | awk -F\: '{print $1+1}'`
+    l2=`expr $l1 + 3`
+    
+    echo "> -L`basename $expt` -D`basename $expt`" >> $ofile
+    sed -n "${l1},${l2}p" $file_poly >> $ofile
+    #break
+  done
+  
+  gmt2kml $ofile -Fp -W2p,yellow  -G+f > S1_frames_${ORB}.kml
+
+done

@@ -1,0 +1,110 @@
+#!/bin/sh
+
+# Name:
+#   cron_get_gcmt_quake_catalog
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+
+PROG=cron_get_gcmt_quake_catalog
+
+if [ "$GMT_pub" == "" ]; then
+  echo "[]ERROR: environment variable GMT_pub not set!!"
+  exit 1
+fi
+
+echo GMT_pub $GMT_pub
+
+while [ "$1" != "" ]; do
+  case $1 in
+    *)
+      echo "[$PROG]ERROR: invalid option ($1)!!"
+      echo "[$PROG]Usage: ${PROG} "
+      echo "[$PROG]Usage: e.g.,"
+      echo "[$PROG]Usage: ${PROG} "
+      exit 1
+      ;;
+  esac
+  shift 2  
+done
+
+path=${GMT_pub}/quake/gcmt/psmeca/
+cd $path
+
+if [ $? -ne 0 ]; then
+  echo "[]ERROR: cannot enter $path!!"
+  exit 1
+fi
+
+pwd
+
+echo "[]INFO:downloading files ..."
+
+year=`date -u +%Y`
+mon=`date -u +%m`
+day=`date -u +%d`
+echo year mon day $year $mon $day
+
+
+#1).download the last month (continously updating throughout this month)
+year_pre=$year
+mon_pre=`expr $mon - 1 | awk '{printf("%02d",$1)}'`
+if [ $mon_pre -le 0 ]; then
+  mon_pre=12
+  year_pre=`expr $year_pre - 1`
+fi
+echo year_pre mon_pre $year_pre $mon_pre
+
+ofile="gcmt-${year_pre}${mon_pre}.txt"
+echo ofile $ofile
+#if [ ! -s $ofile ]; then
+if [ "$ofile" != "" ]; then
+  doys=`doy $year_pre $mon_pre 1 | head -1 | awk '{print int($6)}'`
+  mjds=`doy $year_pre $mon_pre 1 | head -1 | awk '{print int($10)}'`
+  if [ $mon_pre -le 11 ]; then
+    mon_next=`expr $mon_pre + 1`
+    mjde=`doy $year_pre $mon_next 1 | head -1 | awk '{print int($10)}'`
+  else
+    year_next=`expr $year_pre + 1`
+    echo year_next $year_next
+    mjde=`doy $year_next 1 1 | head -1 | awk '{print int($10)}'`
+  fi
+
+  echo mjds mjde $mjds $mjde
+  ndays=`expr $mjde - $mjds`
+  echo "https://www.globalcmt.org/cgi-bin/globalcmt-cgi-bin/CMT5/form?yr=1976&mo=1&day=1&oyr=1976&omo=1&oday=1&itype=jul&jyr=${year_pre}&jday=${doys}&ojyr=1976&ojday=1&otype=nd&nday=${ndays}&lmw=0&umw=10&lms=0&ums=10&lmb=0&umb=10&llat=-90&ulat=90&llon=-180&ulon=180&lhd=0&uhd=1000&lts=-9999&uts=9999&lpe1=0&upe1=90&lpe2=0&upe2=90&list=6"
+  wget -O $ofile "https://www.globalcmt.org/cgi-bin/globalcmt-cgi-bin/CMT5/form?yr=1976&mo=1&day=1&oyr=1976&omo=1&oday=1&itype=jul&jyr=${year_pre}&jday=${doys}&ojyr=1976&ojday=1&otype=nd&nday=${ndays}&lmw=0&umw=10&lms=0&ums=10&lmb=0&umb=10&llat=-90&ulat=90&llon=-180&ulon=180&lhd=0&uhd=1000&lts=-9999&uts=9999&lpe1=0&upe1=90&lpe2=0&upe2=90&list=6"
+
+fi
+
+
+#2).download data for this month
+
+
+ofile="gcmt-${year}${mon}.txt"
+echo ofile $ofile
+doys=`doy $year $mon 1 | head -1 | awk '{print int($6)}'`
+mjds=`doy $year $mon 1 | head -1 | awk '{print int($10)}'`
+mjde=`doy $year $mon $day | head -1 | awk '{print int($10)}'`
+echo mjds mjde $mjds $mjde
+ndays=`expr $mjde - $mjds`
+echo "https://www.globalcmt.org/cgi-bin/globalcmt-cgi-bin/CMT5/form?yr=1976&mo=1&day=1&oyr=1976&omo=1&oday=1&itype=jul&jyr=${year}&jday=${doys}&ojyr=1976&ojday=1&otype=nd&nday=${ndays}&lmw=0&umw=10&lms=0&ums=10&lmb=0&umb=10&llat=-90&ulat=90&llon=-180&ulon=180&lhd=0&uhd=1000&lts=-9999&uts=9999&lpe1=0&upe1=90&lpe2=0&upe2=90&list=6"
+wget -O $ofile "https://www.globalcmt.org/cgi-bin/globalcmt-cgi-bin/CMT5/form?yr=1976&mo=1&day=1&oyr=1976&omo=1&oday=1&itype=jul&jyr=${year}&jday=${doys}&ojyr=1976&ojday=1&otype=nd&nday=${ndays}&lmw=0&umw=10&lms=0&ums=10&lmb=0&umb=10&llat=-90&ulat=90&llon=-180&ulon=180&lhd=0&uhd=1000&lts=-9999&uts=9999&lpe1=0&upe1=90&lpe2=0&upe2=90&list=6"
+
+
+grep -h ' X Y ' gcmt-??????.txt |sort |uniq > gcmt.psmeca
+

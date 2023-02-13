@@ -1,0 +1,34 @@
+#!/bin/sh
+
+# Name:
+#   sh_esa_s1_all_link_here
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+esa_root=/sar/esa.sentinel-1
+paths=`ls ${esa_root} | grep '^[AD][0-9]'`
+
+for path in $paths; do
+   echo $path
+   files=`find ${esa_root}/${path}/ -maxdepth 1 -type f -user tianyf -name "S1*.zip"`
+   for file in $files; do
+     echo "chmod 444 $file"
+     echo "chmod 444 $file" | sh
+     echo "chown gps $file"
+     echo "sudo chown gps $file" | sh
+     #echo "ln -s $file ${opath}/" | sh
+   done
+done

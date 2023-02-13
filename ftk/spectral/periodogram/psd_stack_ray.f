@@ -26,12 +26,12 @@ c     --EXTERNAL--
 
 c     --Local Parameters--
       integer*4 fid,i,j,k,nrow,ncol
-      integer*4 nmax
-c      parameter(nmax=856730)
-c      parameter(nmax=1536264)
-      parameter(nmax=2000000)
-      real*8 data(nmax,4),odata(nmax,4),fns(nmax),fn,fnsu(nmax)
-      integer*4 indx(nmax),nindx,nrec(nmax),pos
+      integer*4 nmaxp
+c      parameter(nmaxp=856730)
+c      parameter(nmaxp=1536264)
+      parameter(nmaxp=2000000)
+      real*8 data(nmaxp,4),odata(nmaxp,4),fns(nmaxp),fn,fnsu(nmaxp)
+      integer*4 indx(nmaxp),nindx,nrec(nmaxp),pos
       character*1023 tmpstr
       
       integer*4 iargc,nblen,where
@@ -80,13 +80,13 @@ c      write(*,'(a)') ' sorting freq.'
 c      do i=1,nrow
 c         write(*,*) fns(i)
 c      enddo
-      call sortm(fns,nmax,nrow)
+      call sortm(fns,nmaxp,nrow)
 c      write(*,'(a)') ' sort ok.'
 c      do i=1,nrow
 c         write(*,*) fns(i)
 c      enddo
 c      write(*,'(a)') ' calling uniq..'
-      call uniq(fns,nmax,nrow,indx,nindx)
+      call uniq(fns,nmaxp,nrow,indx,nindx)
 c      write(*,'(a)') ' uniq done.'
 c      write(*,*) '#indx:',nindx
 c      stop
@@ -99,7 +99,7 @@ c      write(*,*) '#indx:',nindx
 c     stack the data
       do i=1,nrow
          fn=data(i,1)
-         pos=where(fnsu,nmax,nindx,fn)
+         pos=where(fnsu,nmaxp,nindx,fn)
 c         write(*,*) pos
          nrec(pos)=nrec(pos)+1
          do k=1,nneu

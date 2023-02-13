@@ -1,0 +1,198 @@
+#!/bin/sh
+
+# Name:
+#   sh_grd_detrend_refs
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+makecpt -Cjet -T-20/20/.1 -Z -I > vel.cpt
+
+roi_file=refs.kml
+roi_file=ref.kml
+
+path=./intf_all/
+opath=./intf_all_detrend_roi/
+
+oldpath=`pwd`
+
+
+bname_corr=corr
+bname_corr=corr_cut
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -corr)
+      bname_corr=$2
+      ;;
+    *)
+      echo "[]ERROR: wrong option ($1)!!"
+      exit 1
+      ;;
+  esac
+  shift 2
+done
+
+
+mkdir -p $opath
+
+pairs=`ls ${path}| grep "^2" | grep "_2"`
+#echo $pairs
+pair=`echo $pairs | awk '{print $1}'`
+#pair=`ls ${path}| grep "^2" | grep "_2" | head -1`
+
+
+cd $opath
+pwd
+
+ln -s ../trans.dat
+touch gauss_2000
+
+
+file_unwrap_ref="../${path}/${pair}/unwrap_mask.grd"
+if [ ! -s $file_unwrap_ref ]; then
+  echo "[$PROG]ERROR: no reference unwarp grid ($file_unwrap_ref)!!"
+  exit
+fi
+echo "[$PROG]INFO: using reference grid $file_unwrap_ref"
+#exit
+
+tmp=`gmt grdinfo -C -L2 $file_unwrap_ref`
+echo $tmp
+rmin=`echo $tmp | awk '{print $2-00}'`
+rmax=`echo $tmp | awk '{print $3+00}'`
+amin=`echo $tmp | awk '{print $4-00}'`
+amax=`echo $tmp | awk '{print $5+00}'`
+
+limitU=`echo $tmp | awk '{print $12+$13*2}'`
+limitL=`echo $tmp | awk '{print $12-$13*2}'`
+#echo $limitU $limitL
+
+std=`echo $tmp | awk '{printf("%5.1f", $13)}'`
+#echo gmt makecpt -Cjet -I -Z -T$limitL/$limitU/.1 -D
+gmt makecpt -Cjet -I -Z -T$limitL/$limitU/.1 -D > unwrap.cpt
+
+
+echo $rmin $rmax $amin $amax
+echo "$rmin $amin 0" > _tmp.ra
+echo "$rmin $amax 1" >> _tmp.ra
+echo "$rmax $amax 2" >> _tmp.ra
+echo "$rmax $amin 3" >> _tmp.ra
+cat _tmp.ra
+proj_ra2ll_ascii.csh trans.dat _tmp.ra _tmp.ll
+cat _tmp.ll
+gmt2kml -Fl -W2p,blue _tmp.ll  > _tmp.kml
+
+tmp=`gmt gmtinfo -C _tmp.ll`
+echo $tmp
+xmin=`echo $tmp | awk '{print $1-.1}'`
+xmax=`echo $tmp | awk '{print $2+.1}'`
+ymin=`echo $tmp | awk '{print $3-.1}'`
+ymax=`echo $tmp | awk '{print $4+.1}'`
+
+#exit
+
+
+
+
+###if [ ! -s _trend_mask.grd ]; then
+##  echo "[$PROG]INFO: create the trend mask from KML polygon file"
+##  gmt kml2gmt ../$roi_file > _trend_mask.psxy 
+##  R=`gmt gmtinfo -I.0008/.0008 _trend_mask.psxy`
+##  R=-R${xmin}/${xmax}/${ymin}/${ymax}
+##  echo R $R
+##  gmt grdmask _trend_mask.psxy $R -I.0008/.0008 -N0/1/1 -G_trend_mask.grd
+##  gmt makecpt -Cjet -I -Z -T0/1/1  > mask.cpt
+##  grd2kml.csh _trend_mask mask.cpt
+##      
+##  proj_ll2ra.csh trans.dat _trend_mask.grd _trend_mask_ra.grd
+##  gmt grdimage _trend_mask_ra.grd -JX6.5i -Bxaf+lRange -Byaf+lAzimuth -BWSen -Cmask.cpt -X1.3i -Y3i -P  > _trend_mask_ra.ps
+##  #gmt psscale -R_trend_mask_ra.grd -J -DJTC+w5i/0.2i+h+e -Cunwrap.cpt -Bxaf+l"Unwrapped phase" -By+lrad -O >> _trend_mask_ra.ps
+##  gmt psconvert -A -Tj -P -Z _trend_mask_ra.ps
+##  gmt grdinfo _trend_mask_ra.grd
+##  
+##  echo gmt grdsample _trend_mask_ra.grd -R$file_unwrap_ref `gmt grdinfo -I $file_unwrap_ref` -G_trend_mask_unwrap.grd
+##  gmt grdsample _trend_mask_ra.grd -R$file_unwrap_ref `gmt grdinfo -I $file_unwrap_ref` -G_trend_mask_unwrap.grd
+##  
+##  gmt grdconvert _trend_mask_unwrap.grd+n0 _trend_mask_unwrap2.grd=nf
+##  
+##
+#fi
+#exit
+
+file_mask_unwrap=_trend_mask_unwrap2.grd
+
+for pair in $pairs; do
+
+  pwd
+
+  file_corr="../intf_all/${pair}/${bname_corr}.grd"
+  if [ "$file_corr" = "" -o ! -s $file_corr ]; then
+  	echo "[$PROG]WARNING: coherence $file_corr not exist! skip $pair"
+  	continue
+  fi
+    
+  file_unwrap="../intf_all/${pair}/unwrap_mask.grd"
+  if [ ! -s $file_unwrap ]; then
+	  echo "[$PROG]WARNING: unwrap phase not exist ($file_unwrap)! skip $pair"
+	  continue
+  fi
+  
+  ofile_corr="${pair}/${bname_corr}.grd"
+  ofile_unwrap="${pair}/unwrap_mask.grd"  
+  
+  mkdir -p ${pair}
+  
+  if [ ! -s $ofile_corr ]; then
+  	echo ln -s ../intf_all/${pair}/${bname_corr}.grd ${pair}/
+  	echo ln -s ../intf_all/${pair}/${bname_corr}.grd ${pair}/ | sh
+  fi
+  
+  #echo "checking uwnrap file"
+  if [ ! -s $ofile_unwrap ]; then
+    
+    echo "gmt grdmath $file_unwrap $file_mask_unwrap MUL = _tmp1.grd"
+    echo "gmt grdmath $file_unwrap $file_mask_unwrap MUL = _tmp1.grd" | sh
+    gmt grdimage _tmp1.grd -JX6.5i -Bxaf+lRange -Byaf+lAzimuth -BWSen -Cunwrap.cpt -X1.3i -Y3i -P -K > _tmp1.ps
+    gmt psscale -R_tmp1.grd -J -DJTC+w5i/0.2i+h+e -Cunwrap.cpt -Bxaf+l"Unwrapped phase" -By+lrad -O >> _tmp1.ps
+    gmt psconvert -A -Tj -P -Z _tmp1.ps
+    
+    #grd2kml.csh _tmp1 vel.cpt
+    echo "gmt grdtrend -N3 _tmp1.grd -T_trend.grd"
+    echo "gmt grdtrend -N3 _tmp1.grd -T_trend.grd" | sh
+    #  
+    gmt grdimage _trend.grd -JX6.5i -Bxaf+lRange -Byaf+lAzimuth -BWSen -Cunwrap.cpt -X1.3i -Y3i -P -K > _trend.ps
+    gmt psscale -R_trend.grd -J -DJTC+w5i/0.2i+h+e -Cunwrap.cpt -Bxaf+l"Unwrapped phase" -By+lrad -O >> _trend.ps
+    gmt psconvert -A -Tj -P -Z _trend.ps
+    
+    #gmt grdinfo _trend.grd
+    #grd2kml.csh _trend vel.cpt
+    echo "gmt grdmath $file_unwrap _trend.grd SUB = $ofile_unwrap"
+    echo "gmt grdmath $file_unwrap _trend.grd SUB = $ofile_unwrap" | sh
+    #grd2kml.csh vel_mask_ll_ref vel.cpt
+    #exit
+    
+    cd ${pair}
+    
+    gmt grdimage unwrap_mask.grd -JX6.5i -Bxaf+lRange -Byaf+lAzimuth -BWSen -C../../unwrap.cpt -X1.3i -Y3i -P   > unwrap_mask.ps
+    #gmt psscale -Runwrap_mask.grd -J -DJTC+w5i/0.2i+h+e -Cunwrap.cpt -Bxaf+l"Unwrapped phase" -By+lrad -O >> unwrap_mask.ps
+    gmt psconvert -A -Tj -P -Z unwrap_mask.ps
+    cd ..
+  fi
+  exit
+done
+
+

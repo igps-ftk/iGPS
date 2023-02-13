@@ -1,0 +1,143 @@
+#!/bin/sh
+
+# Name:
+#   
+#   
+
+# Purpose:
+#   Unzip S1 data files.
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+# 
+
+
+node_list="1,2,3,4,5,6"
+#node_list='3'
+
+iws=iw1,iw2,iw3
+
+file=input.lst
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -node)
+      node_list=$2
+      ;;
+    -iw)
+      iws=$2
+      ;;
+    -file)
+      file=$2
+      ;;
+    *)
+      echo "[]ERROR: invalid option ($1)!!"
+      echo "[]INFO: Usage: sh_esa_s1_unzip_node_parallel [-file input.lst ]"
+      echo "[]INFO:          [-iw iw1|iw2|iw3 (e.g., iw1,iw3)]"
+      echo "[]INFO:          [-node NODES_LIST (e.g., 1,2,3)]"
+      exit 1
+      ;;
+  esac
+  shift 2
+done
+
+
+node_list=`echo $node_list | sed -e 's/,/ /g'`
+nnd=`echo $node_list | awk '{print NF}'`
+
+
+if [ ! -s $file ]; then
+  echo "[]EROR: input file ($file) not exist!!"
+  exit 1
+fi
+
+
+path=`dirname $file`
+oldpath=`pwd`
+
+if [ "$esa_unzip" = "" ]; then
+    echo "ESA environment esa_unzip variable not set! Stopped!!"
+    exit 1
+fi
+
+echo iw $iws
+echo file $file
+echo path $path
+echo node_list $node_list
+#exit
+
+cd $path
+path=`pwd`
+file="${path}/`basename $file`"
+echo file $file
+cd $oldpath
+#exit
+
+grep -h '^ ' $file | awk '{print $1}' > _tmp_unzip_parallel
+nf=`cat _tmp_unzip_parallel | wc -l`
+echo nf $nf
+cat _tmp_unzip_parallel
+#exit
+
+
+fi=1
+is_done=0
+while [ $is_done -eq 0 ]; do
+  file=`sed -n "${fi}p" _tmp_unzip_parallel | awk '{print $1}'`
+  echo $fi file $file
+  for id in $node_list; do
+    if [ $fi -gt $nf ]; then
+      sleep 1
+      break
+    fi
+    file_unzip=${path}/_unzip_parallel_node${id}.list
+    file_lock=${path}/_unzip_parallel_node${id}.lock
+    file_log=${path}/_unzip_parallel_node${id}.log
+    file_done=${path}/_unzip_parallel_node${id}.done
+
+    if [ -s $file_lock ]; then
+      is_locked=`cat $file_lock | awk '{print $1}'`
+    else
+      is_locked=0
+    fi
+    echo is_locked $is_locked
+
+    if [ ! -s $file_lock -o $is_locked -eq 0 ]; then
+      echo " $file" > $file_unzip
+      echo "1 $file" > $file_lock
+      echo "wait a second (for nfs share latency)"
+      sleep 3
+      echo ssh node${id} sh_esa_s1_unzip_node_caller -file $file_unzip -file_lock $file_lock -file_log $file_log -iw $iws
+      ssh node${id} "sh_esa_s1_unzip_node_caller -file $file_unzip -file_lock $file_lock -file_log $file_log  -iw $iws >/dev/null &"
+      echo $file >> $file_done
+      #echo waiting for 1 second
+      #sleep 3
+      fi=`expr $fi + 1`
+      break
+    fi
+  done
+  np=`head -1 _unzip*.lock|awk '{print $1}' | grep '1' | wc -l`
+  echo np  $np nnd $nnd
+  if [ $np -eq $nnd ]; then
+    for id in $node_list; do
+     echo "node$id"
+     #ssh node${id} "ps aux | grep unzip_caller"
+    done 
+    sleep 3
+    #exit
+  elif [ $np -eq 0 ]; then
+    if [ $fi -eq `expr $nf + 1` ]; then
+      is_done=1
+    fi
+  fi
+
+  
+done

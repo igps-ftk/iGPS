@@ -1,0 +1,150 @@
+#!/bin/sh
+
+# Name:
+#   sh_sar_datetime_snap
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+
+PROG=sh_sar_datetime_snap
+
+timestamp=`date | sed -e "s/ /_/g\" | sed -e "s/:/-/g"`
+
+path_old=`pwd`
+
+usage(){
+  echo "[$PROG]Usage: ${PROG} "
+  echo "[$PROG]Usage:   -f|-file INPUT_LIST_FILE"
+  echo "[$PROG]Usage:   -o|-ofile OUTPUT_FILE"
+  echo "[$PROG]Usage: e.g.,"
+  echo "[$PROG]Usage:  "
+}
+
+file=_tmp_align_group
+
+ofile=.tmp.pair
+ofile=
+
+file_tmp=`pwd`/_tmp_${PROG}_${timestamp}_unzip 
+#ofile_tmp=`pwd`/_tmp_${PROG}_${timestamp}_out
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -f|-file)
+      file=$2
+      ;;
+    -o|-ofile)
+      ofile=$2
+      ;;
+    *)
+      echo "[$PROG]ERROR: invalid option ($1)!!"
+      usage
+      exit 1
+      ;;
+  esac
+  shift 2  
+done
+
+if [ "$ofile" == "" ]; then
+  ofile="${file}_snapped.txt"
+fi
+
+
+echo $file_tmp
+\rm -f $file_tmp
+days=`grep -h '^ ' $file | awk -F_ '{print $6}' | awk -FT '{print $1}' | sort |uniq`
+echo $days
+for day in $days; do
+  echo $day
+  nf=`grep '^ ' -h $file | grep $day | wc -l` 
+  #if [ $nf -ne 1 ]; then
+  #  echo "[$PROG]ERROR: not enough files ($nf) for combining data of $day!!"
+  #  #grep '^ ' -h $file | grep $day
+  #  echo continue
+  #fi
+  echo "[$PROG]INFO: combining $nf frames for $day ..."
+  grep '^ ' -h $file | grep $day |sort | awk '{print $0}' >> $file_tmp
+  #tfiles=`grep '^ ' -h $file | grep $day |sort`
+  #echo $tfiles
+done
+
+#sh_esa_s1_unzip $file_tmp
+
+grep -h '^ ' $file_tmp | awk -F_ '{print $6,$0}'| sort |uniq > .files
+times=`cat .files | awk '{print $1}'`
+file_ids=`cat .files | awk '{print $2}' | awk -F. '{print $1}'`
+echo "file_ids : $file_ids"
+#exit
+
+ntim=`echo $times | wc -w`
+echo "# days: $ntim"
+dyrs=
+for time_i in $times; do
+  year=`echo $time_i | awk '{print substr($1,1,4)}'`
+  mon=`echo $time_i | awk '{print substr($1,5,2)}'`  
+  day=`echo $time_i | awk '{print substr($1,7,2)}'`
+  hr=`echo $time_i | awk '{print substr($1,10,2)}'`
+  min=`echo $time_i | awk '{print substr($1,12,2)}'`
+  sec=`echo $time_i | awk '{print substr($1,14,2)}'`
+  #echo $time_i $year $mon $day $hr $min $sec
+  dyr=`doy $year $mon $day $hr $min | tail -1 | awk '{print $3}'`
+  dyrs="$dyrs $dyr"
+done
+echo "dyrs : $dyrs"
+
+
+\rm -f $ofile
+i=1
+is_new=0
+while [ $i -lt $ntim ]; do
+  dyr1=`echo $dyrs | awk '{print $I}' I=$i`
+  file_id1=`echo $file_ids | awk '{print $I}' I=$i`
+  file_ids_i="$file_id1"
+  j=`expr $i + 1`
+  ni=0
+  while [ $j -le $ntim ]; do  
+    dyr2=`echo $dyrs | awk '{print $J}' J=$j`
+    file_id2=`echo $file_ids | awk '{print $J}' J=$j`
+    is_ok=`echo $dyr1 $dyr2  | awk '{if( sqrt(($2-$1)*($2-$1))<0.0027 ) {print 1}else{print 0}}'`
+    if [ $is_ok -eq 1 ]; then  
+      ##echo i j are  $i $j 
+      file_ids_i="$file_ids_i $file_id2"
+      ni=`expr $ni + 1`
+    else
+      echo $file_ids_i  >> $ofile
+      break
+    fi
+    j=`expr $j + 1`
+  done
+  ##echo i ni are $i $ni
+  i=`expr $i + $ni + 1`
+  #ni=0 #??
+done
+
+if [ $ni -eq 0 ]; then
+    file_ids_i=`echo $file_ids | awk '{print $I}' I=$i`
+fi
+echo $file_ids_i  >> $ofile
+#echo $dyrs
+#exit
+
+
+echo "[$PROG]INFO: cleaning temporary file $file_tmp."
+\rm -f $file_tmp
+
+echo "[$PROG]INFO: writting $ofile ..."
+echo "[$PROG]INFO: Normal end."

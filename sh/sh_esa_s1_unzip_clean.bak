@@ -1,0 +1,126 @@
+#!/bin/sh
+
+# Name:
+#
+#
+
+# Purpose:
+#   Delete unzipped S1 data files in the temporary directory ${esa_unzip}.
+#     Note: the whole directory for individual scence will be removed.
+
+# Example:
+#
+
+# Modifications:
+#
+
+# Algorigthm:
+#
+
+# Dependency:
+#
+PROG=sh_esa_s1_unzip_clean
+
+
+if [ "$esa_unzip" = "" ]; then
+    echo "ESA environment esa_unzip variable not set! Stopped!!"
+    exit 1
+fi
+
+if [ "$1" == "" ]; then
+    echo "Usage: sh_esa_s1_unzip_clean file [iw?]"
+    echo " or"
+    echo "       sh_esa_s1_unzip_clean -file file [-iw iw?] [-test n/y]"
+    exit
+fi
+
+is_only_test=n
+iw_typs=
+
+#two modes of input parameters
+if [ "`echo $1 | awk '{print substr($1,1,1)}'`" == "-" ]; then
+
+  while [ "$1" != "" ]; do
+    case $1 in
+      -f|-file)
+        file=$2
+        ;;
+      -i|-iw)
+        iw_typs=`echo $2 | sed -e 's/,/ /g'`
+        ;;
+      -test)
+        is_only_test=$2
+        ;;
+      *)
+        echo "[$PROG]ERROR: invalid option ($1)!!"
+        exit 1
+        ;;
+    esac
+    shift 2
+  done
+
+else  #mode 2
+
+  file=$1
+
+  if [ "$2" != "" ]; then
+    iw_typs=`echo $2 | sed -e 's/,/ /g'`
+  fi
+
+fi  #end-of-mode-2
+
+if [ ! -s $file ]; then
+  echo "[$PROG]ERROR: file not exist($file)!!"
+  exit 1
+fi
+
+len_un=`echo $esa_unzip | awk '{print length($1)}'`
+if [ $len_un -lt 12 ]; then
+    echo '[]ERROR:possible problem with $esa_unzip varible!!'
+    echo "[]INFO:current is ($esa_unzip)."
+    exit 1
+fi
+
+lines=`grep '^ ' -h $file | awk '{print $1}' |sort`
+for line in $lines; do
+  #echo $line
+  dfile="`echo $line | awk -F. '{print $1}'`.zip"
+
+  ofile="`echo $line | awk -F. '{print $1}'`.SAFE"
+  path_tmp="${esa_unzip}/${ofile}"
+
+  leni=`echo $path_tmp | awk '{print length($1)}'`
+  if [ $leni -lt $len_un ]; then
+    echo '[]ERROR:possible problem with $esa_unzip environment!!'
+    echo '[]INFO:pleae make sure before continue.'
+    echo "[]INFO:current is ($esa_unzip)."
+    exit 1
+  fi
+
+  #echo $path_tmp
+  if [ -d $path_tmp ]; then
+    if [ "$iw_typs" == "" ]; then #delete the directory
+      echo "[]INFO:deleting (${path_tmp}) ..."
+      echo "\rm -rf ${path_tmp}"
+      if [ "$is_only_test" != "y" ]; then
+        echo "\rm -rf ${path_tmp}" | sh
+      fi
+    else #only delete tiff files
+      for iw in $iw_typs; do
+        files_tiff=`find $path_tmp/measurement/s1?-${iw}-slc-vv-20*.tiff | sort`
+        for file_tiff in $files_tiff; do
+          echo "\rm -f $file_tiff"
+          echo is_only_test $is_only_test
+          if [ "$is_only_test" != "y" ]; then
+            #echo "\rm -f $file_tiff" | sh
+            \rm -f $file_tiff
+          fi
+        done
+      done
+    fi    
+  fi
+
+
+  #exit
+done
+

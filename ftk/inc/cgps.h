@@ -4,7 +4,7 @@ C$$$c 1996.0041 1996   2        0.14340        0.19175       -0.02486   0.00259 
 C$$$c 1996.0068 1996   3        0.14934        0.19744       -0.01892   0.00281   0.00233   0.00969 r_ne r_nu r_eu
       integer*4 nmax_row,nmax_col,nmax_head
 C  number of data lines (usually < 7000 as of 2015 for daily position time series).
-c      parameter(nmax_row=6000)
+c     parameter(nmax_row=6000)
 c      parameter(nmax_row=10300)
       parameter(nmax_row=8750)
 C  number of columns (SIO/NEU format only has less than 12 columns as exampled above)
@@ -45,3 +45,7 @@ c      parameter(nmax_sites=1300)
 c      parameter(nmax_proc=1125)
       parameter(nmax_sites=2490)
       parameter(nmax_proc=2490)
+
+
+      integer*4 nmax
+      parameter(nmax=1000000)

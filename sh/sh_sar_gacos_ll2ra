@@ -1,0 +1,71 @@
+#!/bin/sh
+
+# Name:
+#   sh_sar_gacos_ll2ra
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+PROG=sh_sar_gacos_ll2ra
+
+path=./ztd.ll
+if [ ! -d $path ]; then
+  echo "[]ERROR: no input path ($path)!!"
+  exit 1
+fi
+
+opath=./ztd.ra
+
+path_old=`pwd`
+mkdir -p $opath
+ln -s `pwd`/trans.dat $opath
+
+#file_refgrd=`pwd`/intf_all/2014288_2018051/unwrap_mask.grd
+file_refgrd=`find ${path_old}/intf_all/ -name "unwrap_mask.grd" |sort | head -1`
+echo reference grd is $file_refgrd
+#exit
+
+files=`ls ${path}/20??????_ll.grd`
+for file in $files; do
+    cd $path_old
+    echo $file
+    bname=`basename $file | sed -e s'/_ll.grd//g'`
+    echo bname $bname
+
+    ofile=${opath}/${bname}_ra.grd
+    #exit
+    
+    if [ -s ${opath}/${bname}_ra.grd ]; then
+      continue
+    fi
+    
+
+    
+    echo "[$PROG]INFO: convert GMT grid ztd into radar coordinate system ..."
+    #cd $opath
+    echo proj_ll2ra_full.csh trans.dat ${file} ${ofile} $file_refgrd
+    echo proj_ll2ra_full.csh trans.dat ${file} ${ofile} $file_refgrd| sh
+    
+    zmin=`gmt grdinfo -C ${ofile} | awk '{print $6}'`
+    zmax=`gmt grdinfo -C ${ofile} | awk '{print $7}'`
+    echo $zmin $zmax
+    gmt makecpt -Cjet -T${zmin}/${zmax}/.001 -Z -I > phase.cpt
+    gmt grdimage ${ofile} -JX5i -I${ofile}  -Cphase.cpt -Bxaf -Byaf -BWSne -P -V -X1.3i -Y3i -K > ${opath}/${bname}_ra.ps
+    gmt psscale -R${ofile} -J -DJTC+w5i/0.2i+h+e -Cphase.cpt -Baf+l"Zenith total delay (m)" -O >> ${opath}/${bname}_ra.ps
+    gmt psconvert -Tj -P -Z ${opath}/${bname}_ra.ps
+    
+    
+    #exit
+done

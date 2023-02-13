@@ -29,16 +29,73 @@ if [ "$esa_data" = "" ]; then
     fi
 fi
 
-path=${esa_data}/aux_resorb/
+ndays=3
+orb_type=res
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -ndays)
+      ndays=$2
+      ;;
+    -orb_type)
+      orb_type=$2
+      ;;
+    *)
+      echo "[]ERROR: invalid option ($1)!!"
+      exit 2
+      ;;
+  esac
+  shift 2
+done
+
+if [ "$orb_type" != "poe" -a  "$orb_type" != "res" -a  "$orb_type" != "pre" ]; then
+  echo "[]ERROR: invalid orbit type ($orb_type)!!"
+  exit 1
+fi 
+
+path=${esa_data}/aux_${orb_type}orb/
+if [ ! -d $path ]; then
+  echo "mkdir -p $path"
+  mkdir -p $path
+fi
 cd $path
 if [ $? -ne 0 ]; then
   ehco "Error!"
   exit 1
 fi
 pwd
+oldpath=`pwd`
 
-rm -f index.html
-wget --no-check-certificate https://qc.sentinel1.eo.esa.int/aux_resorb/
-grep EOF index.html | awk -F\" '{print " https://qc.sentinel1.eo.esa.int/aux_resorb/"$2}' > reseof.list
-sh_esa_s1_get_resorb reseof.list
 
+ORB_TYPE=`echo $orb_type | awk '{print toupper($1)}'`
+
+di=0
+while [ $di -lt $ndays ]; do
+  pwd
+  cd $oldpath
+  pwd 
+
+  year=`date -u +%Y -d "-$di days"`
+  mon=`date -u +%m -d "-$di days"`
+  day=`date -u +%d -d "-$di days"`
+  rm -f index.html
+#wget --no-check-certificate https://qc.sentinel1.eo.esa.int/aux_resorb/
+  url="http://aux.sentinel1.eo.esa.int/${ORB_TYPE}ORB/${year}/${mon}/${day}/"
+  wget --no-check-certificate $url
+
+#grep EOF index.html | awk -F\" '{print " https://qc.sentinel1.eo.esa.int/aux_resorb/"$2}' > reseof.list
+  if [ ! -s index.html ]; then
+    nl=0
+  else
+    grep EOF index.html | awk -F\" '{print " "url$2}' url=$url> reseof.list
+    nl=`cat reseof.list | wc -l`
+  fi
+  echo "nl $nl"
+  if [ $nl -ge 1 ]; then
+    cat reseof.list
+    echo sh_esa_s1_get_resorb reseof.list
+    echo sh_esa_s1_get_resorb reseof.list | sh
+  fi
+  #exit
+  di=`expr $di + 1`
+done #end-of-day-loop

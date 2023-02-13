@@ -1,0 +1,117 @@
+#!/bin/sh
+
+# Name:
+#   sh_sar_plot_baseline
+#   
+
+# Purpose:
+#   Create spatio-temporal baseline plot.
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   + baseline_table.dat
+#   + intf.tab
+
+
+PROG=sh_sar_plot_intf_tab
+
+
+
+gmt gmtset PS_MEDIA = a4
+gmt gmtset FONT_TITLE = 12p
+gmt gmtset FONT_LABEL         = 8p
+gmt gmtset FONT_ANNOT_PRIMARY = 9p
+gmt gmtset MAP_FRAME_PEN               = .5p
+gmt gmtset MAP_FRAME_WIDTH             = 0.1c
+gmt gmtset MAP_TICK_LENGTH = .1c
+gmt gmtset MAP_TITLE_OFFSET = .1051c
+
+if [ ! -s baseline_table.dat ]; then
+  echo "[$PROG]ERROR:baseline_table.dat file is missing!!"
+  exit 1
+fi
+#file baseline_table.dat
+
+
+#file intf.tab
+
+#default output file name
+ofile=f-baseline.ps
+
+is_lbl=n
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -h|help)
+      echo "Usage: $PROG  [ -out OUTPUT_FILE_BASE_NAME ] "
+      exit 1
+      ;;
+    -o|-out|-ofile)
+      ofile=$2
+      ;;
+    -l|-label)
+      is_lbl=$2
+      ;;
+    *)
+      echo "[$PROG]ERROR: invalid option ($1)!!"
+      exit 1
+      ;;
+  esac
+
+  shift 2
+done
+
+cat baseline_table.dat | awk '{print $2,$5}' | awk '{if(NF==2){print substr($1,1,4)+substr($1,5)/365.25,$2}}' > .tmp.blt
+
+
+R=`gmt gmtinfo -I2/50 .tmp.blt`
+echo R $R
+#R=`echo $R | awk -F\/ '{print $1"/"$2"/-250/250"}'`
+#echo R $R
+gmt psxy $R -JX4i/2.5i -Sc.1c -Gyellow -W.35p,red -B2f1:"Time":/50f10:"Perpendicular Baseline (m)"::."":/WSen -P -K .tmp.blt > $ofile
+#gmt psxy -R -J -W0.2p,purple,- -O -K .tmp_  >> $ofile
+
+
+if [ "$is_lbl" == "y" ]; then
+
+  rm -rf .tmp_2
+  while read line; do
+    id=`echo $line | awk '{print $1}' | awk -F_ '{print $2}' `
+    #year=`echo $line | awk '{print substr($2,1,4)}'`
+    #doyr=`echo $line | awk '{print substr($2,5,3)}'`
+    #dyr=`doy $year $doyr | tail -1 | awk '{print $3}'`
+    dyr=`echo $line | awk '{print substr($2,1,4)+substr($2,5)/365.25}'`
+    blen=`echo $line | awk '{print $5}'`
+    echo "$dyr $blen $id" >> .tmp_2
+  done < baseline_table.dat
+  #
+  gmt pstext -R -J -F+f5p+a0+jBC -O -K .tmp_2 >> $ofile
+fi
+
+gmt psxy -R -J -O <<eof -W.35p,lightgray,- >> $ofile
+>
+0 -10000
+0 10000
+>
+-10000 0
+10000 0
+eof
+
+echo "converting JPEG ($ofile) ..."
+gmt psconvert -A -Tj $ofile
+echo "converting PDF ..."
+gmt psconvert -A -Tf $ofile
+
+
+
+echo "[$PROG]INFO: normal end"
+
+

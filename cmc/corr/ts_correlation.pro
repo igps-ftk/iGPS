@@ -52,6 +52,10 @@ PRO TS_CORRELATION, $
     path='J:\gpse\rerun.lutai\comb\trnsLTCM\gsoln\pos15.neu.npst.cmc\cmc.diff.0-5'
     opath='J:\gpse\rerun.lutai\comb\trnsLTCM\gsoln\pos15.neu.npst.cmc\cmc.diff.0-5.corr'
     coords_file='J:\gpse\rerun.lutai\comb\trnsLTCM\gsoln\pos2.net'
+    
+    path='D:\gsar\asc\xiangyang_boruo1\asc_F2\SBAS\x10\raw'
+    opath='D:\gsar\asc\xiangyang_boruo1\asc_F2\SBAS\x10\raw\cmc\corr'
+    coords_file='D:\gsar\asc\xiangyang_boruo1\asc_F2\SBAS\x10\raw\sites.net'
 
     IS_USE_SAV=0
     ;IS_USE_SAV=1
@@ -279,7 +283,7 @@ PRO TS_CORRELATION, $
       SITES_CORR =REFORM(SITE_CORR[*,*,NEUI])
       SITES_CORR = MAT_TRANSFILL(TRANSPOSE(SITES_CORR))
       PRINTF, FID, '+CORR/'+NEUS[NEUI]
-      FMT="( 2(I"+STRTRIM(STRLEN(STRTRIM(N_ELEMENTS(SITES),2)),2)+",1X),3(E20.12,1X),: )"
+      FMT="( 2(I"+STRTRIM(STRLEN(STRTRIM(N_ELEMENTS(SITES),2)),2)+",1X),3(E10.3,1X),: )"
       FOR SI=0, N_ELEMENTS(SITES)-1 DO BEGIN
         NLINE=CEIL(N_ELEMENTS(SITES)/3D0)
         FOR I=0, NLINE-1 DO BEGIN
@@ -291,7 +295,7 @@ PRO TS_CORRELATION, $
 
     SITES_BLEN_DEG = MAT_TRANSFILL(TRANSPOSE(SITES_BLEN_DEG))
     PRINTF, FID, '+BLEN/DEG'
-    FMT="( 2(I"+STRTRIM(STRLEN(STRTRIM(N_ELEMENTS(SITES),2)),2)+",1X),3(E20.12,1X),: )"
+    FMT="( 2(I"+STRTRIM(STRLEN(STRTRIM(N_ELEMENTS(SITES),2)),2)+",1X),3(E10.3,1X),: )"
     FOR SI=0, N_ELEMENTS(SITES)-1 DO BEGIN
       NLINE=CEIL(N_ELEMENTS(SITES)/3D0)
       FOR I=0, NLINE-1 DO BEGIN
@@ -302,7 +306,7 @@ PRO TS_CORRELATION, $
 
     SITES_BLEN_KM = MAT_TRANSFILL(TRANSPOSE(SITES_BLEN_KM))
     PRINTF, FID, '+BLEN/KM'
-    FMT="( 2(I"+STRTRIM(STRLEN(STRTRIM(N_ELEMENTS(SITES),2)),2)+",1X),3(E20.12,1X),: )"
+    FMT="( 2(I"+STRTRIM(STRLEN(STRTRIM(N_ELEMENTS(SITES),2)),2)+",1X),3(E10.3,1X),: )"
     FOR SI=0, N_ELEMENTS(SITES)-1 DO BEGIN
       NLINE=CEIL(N_ELEMENTS(SITES)/3D0)
       FOR I=0, NLINE-1 DO BEGIN

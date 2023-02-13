@@ -1,0 +1,50 @@
+#!/bin/sh
+
+# Name:
+#   cron_sar_node_link_s1_files2_lys
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+. ${HOME}/.bashrc
+
+
+PROG=cron_sar_node_link_s1_files2_lys
+
+lock_file=/sar/s1_track_frame_slc/_tmp_${PROG}.lock
+if [ -s $lock_file ]; then
+  echo "[$PROG]ERROR: already running!!"
+  exit 1
+fi
+
+hostname > $lock_file
+
+path=/disk_4
+path=/sar/user/ysli/
+
+dirs=`find $path -maxdepth 1 -type d -name "[AD][0-9]*"|sort`
+for dir in $dirs; do
+  echo $dir
+  echo sh_esa_s1_get_csv -path $dir
+  #echo sh_esa_s1_get_csv -path $dir | sh
+
+  echo sh_sar_node_link_s1_files_by_path_frame2 -path $dir
+  echo sh_sar_node_link_s1_files_by_path_frame2 -path $dir | sh
+  #exit
+  
+done
+
+\rm -f $lock_file

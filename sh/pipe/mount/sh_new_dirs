@@ -1,0 +1,76 @@
+#!/bin/sh
+
+mkdir -p /usr/local/dcw-gmt-1.1.4
+mkdir -p /usr/local/GMT-6.0.0
+mkdir -p /usr/local/gmt5sar20200529
+mkdir -p /usr/local/gshhg-gmt-2.3.7/
+mkdir -p /usr/local/gamit-v10.71
+chown tianyf /usr/local/dcw-gmt-1.1.4 /usr/local/GMT-6.0.0 /usr/local/gmt5sar20200529 /usr/local/gshhg-gmt-2.3.7/ /usr/local/gamit-v10.71
+#mkdir -p /composer_xe_2015.3.187/
+#mkdir -p /opt
+mkdir -p /usr/local/orbits/
+#mkdir -p /home/tianyf/iGPS
+#mkdir -p /home/tianyf/iGPS.addon/
+
+mkdir -p /g4b
+mkdir -p /g4c
+mkdir -p /g4d
+
+mkdir -p /g5a
+mkdir -p /g5b
+mkdir -p /g5c
+mkdir -p /g5d
+
+mkdir -p /g6b
+mkdir -p /g6c
+mkdir -p /g6d
+mkdir -p /g6e
+mkdir -p /g6f
+mkdir -p /g6g
+mkdir -p /g6h
+
+mkdir -p /g7b
+mkdir -p /g7c
+mkdir -p /g7d
+mkdir -p /g7e
+mkdir -p /g7f
+mkdir -p /g7g
+mkdir -p /g7h
+mkdir -p /g7i
+
+mkdir -p /g9a
+mkdir -p /g9b
+mkdir -p /g9c
+mkdir -p /g9d
+mkdir -p /g9h
+
+mkdir -p /g10a
+mkdir -p /g10b
+mkdir -p /g10c
+mkdir -p /g10d
+mkdir -p /g10h
+
+mkdir -p /g12a
+mkdir -p /g12b
+mkdir -p /g12c
+mkdir -p /g12d
+mkdir -p /g12e
+mkdir -p /g12f
+mkdir -p /g12h
+
+mkdir -p /g13a
+mkdir -p /g13b
+mkdir -p /g13c
+mkdir -p /g13d
+mkdir -p /g13e
+mkdir -p /g13f
+mkdir -p /g13h
+
+mkdir -p /g14a
+mkdir -p /g14b
+mkdir -p /g14c
+mkdir -p /g14d
+mkdir -p /g14n
+mkdir -p /g14h
+
+

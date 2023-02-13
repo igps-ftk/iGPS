@@ -1194,6 +1194,7 @@ PRO IGPS_RESET, EV
     END
     'SIO NEU': BEGIN
       DT_QUERYSTR = '*.neu'
+      ;DT_QUERYSTR = '*.txt'
       ST.UNIT='m'
       ST.FMT='((1x,F10.5,1x,I4,1x,I3,3(1x,F12.7),1x,3(1x,F12.7) ))'
       ;SET PANEL_MODEL_CKB_PLUS_SIO ACCORDINGLY
@@ -1394,6 +1395,9 @@ PRO IGPS_RESET, EV
     'YICE': BEGIN
       DT_QUERYSTR='*.dat'
     END
+    'YICE2': BEGIN
+      DT_QUERYSTR='*.dat'
+    END
     'ERCE': BEGIN
       DT_QUERYSTR='*.list'
       ST.SF=1
@@ -1403,6 +1407,9 @@ PRO IGPS_RESET, EV
     END
     'EOST Loading Service': BEGIN
       DT_QUERYSTR='*.*'
+    END
+    'Taiwan': BEGIN
+      DT_QUERYSTR='*.COR'
     END
     ELSE: BEGIN
       DT_QUERYSTR = ''
@@ -1962,7 +1969,7 @@ PRO ON_IGPS_BTN_LOAD, EV, SITE=SITE,UPDATE=UPDATE, PATH=PATH, $
   
   CAPTION=ST.CAPTION+' #['+STRTRIM(N_ELEMENTS(CUR),2)+'/'+ $
     STRTRIM(N_ELEMENTS(*ST.FILES),2)+ $
-    ';'+STRING(SITES[CUR],FORMAT='(10000(A4,:,","))')+ $
+    ';'+STRING(SITES[CUR],FORMAT='(20000(A4,:,","))')+ $
   ']: '+ST.PATH
   WIDGET_CONTROL,EV.TOP,BASE_SET_TITLE=CAPTION
   ;HELP,*ST.FILES,/ST
@@ -2881,6 +2888,24 @@ PRO ON_IGPS_BTN_LOAD, EV, SITE=SITE,UPDATE=UPDATE, PATH=PATH, $
       ST.SF=1D0
     ;STOP
     END
+    'YICE2': BEGIN
+      READ_YICE2, FILE, DATA=DATA
+      ;STOP
+      IF N_ELEMENTS(DATA) EQ 0 THEN BEGIN  ;NO DATA
+        IGPS_RESET, EV
+        RETURN
+      ENDIF
+      IND_TIME = 0
+      NEUIS = [1,2,3]
+      NEUERRIS = NEUIS+3
+      TIME_AXES_TYPE='DYR'
+      DECYRS=REFORM(DATA[IND_TIME,*])
+      DECYRS_TO_JDS, DECYRS+0d0, JDS
+      MJDS = JDS - 2400000.5D0
+      TIME_AXES_VAL_MJD=PTR_NEW(MJDS)
+      ST.SF=1D0
+    ;STOP
+    END
     'ERCE':  BEGIN
       READ_CMONOC, FILE, DATA=DATA
       IND_TIME = 0
@@ -2929,6 +2954,24 @@ PRO ON_IGPS_BTN_LOAD, EV, SITE=SITE,UPDATE=UPDATE, PATH=PATH, $
       TIME_AXES_TYPE='DYR'
       MJDS=REFORM(DATA[IND_TIME,*])
       JD_TO_DECYRSS, MJDs, DECYRS
+      TIME_AXES_VAL_MJD=PTR_NEW(MJDS)
+      ST.SF=1D0
+    ;STOP
+    END
+    'Taiwan': BEGIN
+      READ_taiwan_cor, FILE, DATA=DATA
+      ;STOP
+      IF N_ELEMENTS(DATA) EQ 0 THEN BEGIN  ;NO DATA
+        IGPS_RESET, EV
+        RETURN
+      ENDIF
+      IND_TIME = 0
+      NEUIS = [1,2,3]+3
+      NEUERRIS = REPLICATE(-1,3)
+      TIME_AXES_TYPE='DYR'
+      DECYRS=REFORM(DATA[IND_TIME,*])
+      DECYRS_TO_JDS, DECYRS+0d0, JDS
+      MJDS = JDS - 2400000.5D0
       TIME_AXES_VAL_MJD=PTR_NEW(MJDS)
       ST.SF=1D0
     ;STOP
@@ -4249,6 +4292,11 @@ PRO ON_IGPS_MNU_DEOFFSET, EV
 END
 
 ;/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+PRO ON_IGPS_MNU_GPS_VEL_PROFILE, EV
+  VEL_PROFILES_UI, GROUP_LEADER=EV.TOP
+END
+
+;/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 PRO ON_IGPS_MNU_QUIT, EV
   WIDGET_CONTROL,EV.TOP,/DESTROY
 END
@@ -4461,6 +4509,7 @@ PRO ON_IGPS_PANEL_COMBINE_MINUS_OK, EV
     IF OVERWRITE EQ 0 && FILE_TEST(OFILE,/REGULAR) THEN BEGIN
       PRINT,'[iGPS:MINUS]Warning: already exists ['+OFILE+'].',FORMAT='(A)'
       NFS=NFS+1
+      ;stop
       CONTINUE
     ENDIF
     PRINT,'[iGPS:MINUS]Processing '+SITE+'.',FORMAT='(A)'
@@ -4513,7 +4562,7 @@ PRO ON_IGPS_PANEL_COMBINE_MINUS_OK, EV
   MSGBOX, ['Done!',$
     '',$
     STRTRIM(NFO,2)+' files have been processed.', $
-    STRTRIM(NFS,2)+' output files already exist and not overwritten!', $
+    STRTRIM(NFS,2)+' files not processed!', $
     ''], TITLE='iGPS', /INFO, DIALOG_PARENT=EV.TOP
 END
 
@@ -5188,6 +5237,31 @@ PRO ON_IGPS_PANEL_FORMAT_BTN_OK, EV
             ODATA[2,*]=DAY_OF_YEARS
             ODATA[1,*]=FIX(ODATA[0,*])
           END
+          'Taiwan': BEGIN
+            ;STOP
+            FMT='((1x,F10.5,1x,I4,1x,I3,3(1x,F12.7) ))'
+            ODATA=(*ST.DATA)[[0,0,0,4,5,6],*]
+            ODATA[3:5,*]=ODATA[3:5,*]*ST.SF*1D-3
+            DECYRS=REFORM(ODATA[0,*])
+            DECYRS_TO_JDS, DECYRS, JDS
+            JD_TO_YMDHMSS,JDS, DATES, SECTAGS
+            YMD_TO_DOYS,DATES, DAY_OF_YEARS
+            ODATA[2,*]=DAY_OF_YEARS
+            ODATA[1,*]=FIX(ODATA[0,*])
+          END
+          'ISCEA [Detrend]': BEGIN
+            FMT=ST.FMT
+            ODATA=DBLARR(9,N_ELEMENTS((*ST.DATA)[0,*]))
+            ODATA[3:8,*]=(*ST.DATA)[[7,9,11,8,10,12],*]
+            ODATA[3:8,*]=ODATA[3:8,*]/ST.SF*1e-3
+            DECYRS=REFORM((*ST.DATA)[2,*])
+            DECYRS_TO_JDS, DECYRS, JDS
+            JD_TO_YMDHMSS,JDS, DATES, SECTAGS
+            YMD_TO_DOYS,DATES, DAY_OF_YEARS
+            ODATA[2,*]=DAY_OF_YEARS
+            ODATA[0,*]=DECYRS
+            ODATA[1,*]=FIX(ODATA[0,*])
+          END
           ELSE: BEGIN
             ;FMT='(F10.5,3F10.6,3F10.6)'
             FMT=ST.FMT
@@ -5198,7 +5272,10 @@ PRO ON_IGPS_PANEL_FORMAT_BTN_OK, EV
             ODATA=DBLARR(9,N_ELEMENTS((*ST.DATA)[0,*]))
             ODATA[3:5,*]=(*ST.DATA)[ST.IND_NEU,*]
             ODATA[6:8,*]=(*ST.DATA)[ST.IND_NEUERR,*]
-            ODATA[3:8,*]=ODATA[3:8,*]/ST.SF*1E3
+            ;ODATA[3:8,*]=ODATA[3:8,*]/ST.SF*1E-3 ;a bug fixed on Fri, Mar 29, 2019  7:10:38 PM by tianyf
+            ODATA[3:8,*]=ODATA[3:8,*]*ST.SF*1E-3 
+            ;stop
+            ;ODATA[3:8,*]=ODATA[3:8,*]/ST.SF*1E3 ;a bug fixed on Wed, Mar 06, 2019 12:35:41 PM by tianyf
             ODATA[0,*]=*ST.TIME_AXES_VAL
             ODATA[1,*]=FIX(*ST.TIME_AXES_VAL)
             ;            FOR I=0,N_ELEMENTS((*ST.DATA)[0,*])-1 DO BEGIN
@@ -5568,14 +5645,20 @@ PRO ON_IGPS_PANEL_MODEL_BTN_OK, EV
     FILE_STAT=OPATH+PATH_SEP()+'STAT.MODEL'
     OPENW,FID_STAT,FILE_STAT,/GET_LUN
     WRITE_SYS_INFO,FID_STAT,USER=USER,PROG='iGPS:MODEL',SRC=PATH
-    IF CKB_OUT_STAT EQ 1 && CKB_ANNUAL && CKB_SEMIANNUAL THEN BEGIN
-      PRINTF,FID_STAT,'SITE','NEU','AMP.ANN','PHA.ANN','AMP.SEMI','PHA.SEMI', $
-        'RATE','SIGMA.RATE','RMSE','SIG.ANN.AMP', $
-        FORMAT='("*",A4,1X,A3,8(1X,A12))'
-    ENDIF ELSE BEGIN
-      PRINTF,FID_STAT,'SITE','NEU','RATE','SIGMA.RATE', $
-        FORMAT='("*",A4,1X,A3,6(1X,A12))'
-    ENDELSE
+    COL_NAMES=['SITE','NEU','RATE','SIGMA.RATE']
+    IF CKB_ANNUAL THEN COL_NAMES=[COL_NAMES,'AMP.ANN','PHA.ANN']
+    IF CKB_SEMIANNUAL THEN COL_NAMES=[COL_NAMES,'AMP.SEMI','PHA.SEMI']
+    COL_NAMES=[COL_NAMES,'RMSE']
+    IF CKB_ANNUAL THEN COL_NAMES=[COL_NAMES,'SIG.ANN.AMP']
+    PRINTF,FID_STAT,COL_NAMES,FORMAT='("*",A4,1X,A3,8(1X,A12))'
+    ;    IF CKB_OUT_STAT EQ 1 && CKB_ANNUAL && CKB_SEMIANNUAL THEN BEGIN
+    ;      PRINTF,FID_STAT,'SITE','NEU','AMP.ANN','PHA.ANN','AMP.SEMI','PHA.SEMI', $
+    ;        'RATE','SIGMA.RATE','RMSE','SIG.ANN.AMP', $
+    ;        FORMAT='("*",A4,1X,A3,8(1X,A12))'
+    ;    ENDIF ELSE BEGIN
+    ;      PRINTF,FID_STAT,'SITE','NEU','RATE','SIGMA.RATE', $
+    ;        FORMAT='("*",A4,1X,A3,6(1X,A12))'
+    ;    ENDELSE
     
     ;OUTPUT VELOCITY
     ; format(1x,a8,2f10.4,8f8.1,f9.4)
@@ -5775,7 +5858,7 @@ PRO ON_IGPS_PANEL_MODEL_BTN_OK, EV
         ENDELSE
       ENDIF
       
-      ;PRINT,CMDSTR
+      PRINT,CMDSTR
       ;PRINT,'RAD_OPT:',RAD_OPT
       ;CONTINUE
       ;print,psdecay
@@ -5811,8 +5894,8 @@ PRO ON_IGPS_PANEL_MODEL_BTN_OK, EV
       ENDIF
       ;STOP
       FDATA[IND_NEU[NEUI],*]=YFIT
-      FDATA2[IND_NEU[NEUI],0:N_ELEMENTS(Y2FIT)-1]=Y2FIT
-      FDATA2[0,0:N_ELEMENTS(Y2FIT)-1]=T2
+      ;FDATA2[IND_NEU[NEUI],0:N_ELEMENTS(Y2FIT)-1]=Y2FIT
+      ;FDATA2[0,0:N_ELEMENTS(Y2FIT)-1]=T2
       
       IF CKB_RESID_OUT_TREND THEN BEGIN
         ;STOP
@@ -5877,6 +5960,9 @@ PRO ON_IGPS_PANEL_MODEL_BTN_OK, EV
       HEADER_MDL=[HEADER_MDL, '#','# '+NEUSTR[NEUI]+' COMPONENT']
       ;HEADERS=[HEADERS, '# SLOPE 1:'+STRING(COEF[1],FORMAT='(F9.4)')]
       
+      ;Summary file line
+      SUM_LINE=STRING(SITE,NEUSTR[NEUI],FORMAT='(1X,A4,1X,A3)')
+      
       ;PRINT,'SLOPES:',SLOPE
       FOR I=0,0 DO BEGIN
         HEADER_MDL=[HEADER_MDL, $
@@ -5886,6 +5972,7 @@ PRO ON_IGPS_PANEL_MODEL_BTN_OK, EV
           +'-'+STRING(SLOPE[3,I],FORMAT='(F10.5)')+')' $
           ]
       ENDFOR
+      SUM_LINE=SUM_LINE+STRING(SLOPE[0,0],SLOPE[1,0],FORMAT='(2(1X,F12.7))')
       FOR I=1,N_ELEMENTS(SLOPE[0,*])-1 DO BEGIN
         HEADER_MDL=[HEADER_MDL, $
           '#     slope '+STRTRIM(I+1,2)+':'+STRING(SLOPE[0,I],FORMAT='(E)') $
@@ -5918,6 +6005,8 @@ PRO ON_IGPS_PANEL_MODEL_BTN_OK, EV
           +' +- '+STRING(EAMP, FORMAT='(F10.5)') $
           +' ; phase: '+STRING(PHASE,FORMAT='(F10.5)') $
         ]
+        ;
+        SUM_LINE=SUM_LINE+STRING(ANN_AMP,ANN_PHASE,FORMAT='(2(1X,F12.7))')
       ENDIF
       ;STOP
       IF CKB_SEMIANNUAL && N_ELEMENTS(SEMIANNUAL) GT 0 THEN BEGIN
@@ -5929,6 +6018,7 @@ PRO ON_IGPS_PANEL_MODEL_BTN_OK, EV
           '# semi-annual:'+STRING(AMP,FORMAT='(F10.5)') $
           +' +- '+STRING(EAMP, FORMAT='(F10.5)') $
           +' ; phase: '+STRING(PHASE,FORMAT='(F10.5)')]
+        SUM_LINE=SUM_LINE+STRING(SEMI_AMP,SEMI_PHASE,FORMAT='(2(1X,F12.7))')
       ENDIF
       
       IF NEUI LT 3 THEN BEGIN
@@ -6039,21 +6129,24 @@ PRO ON_IGPS_PANEL_MODEL_BTN_OK, EV
       ;STOP
       
       IF CKB_OUT_STAT EQ 1 THEN BEGIN
-        IF N_ELEMENTS(ANN_AMP) GT 0 && N_ELEMENTS(SEMI_AMP) GT 0 THEN BEGIN
-          PRINTF,FID_STAT,SITE,NEUSTR[NEUI],ANN_AMP,ANN_PHASE,SEMI_AMP,SEMI_PHASE, $
-            SLOPE[0,0],SLOPE[1,0],RMSE,ANN_EAMP,$
-            FORMAT='(1X,A4,1X,A3,7(1X,F12.7),1x,f12.7)'
-        ;PRINT,ANN_EAMP
-        ;HELP,ANN_EAMP
-        ENDIF ELSE BEGIN
-          ;HELP,OFFSET
-          ;PM,OFFSET
-          PRINTF,FID_STAT,SITE,NEUSTR[NEUI], $
-            SLOPE[0,0],SLOPE[1,0],RMSE,$
-            ;OFFSET[0,*], OFFSET[1,*], $
-            FORMAT='(1X,A4,1X,A3,2(1X,F12.5),1X,F10.5,5X,4F20.8)'
-            
-        ENDELSE
+        SUM_LINE=SUM_LINE+STRING(RMSE,FORMAT='(1(1X,F12.7))')
+        IF CKB_ANNUAL THEN SUM_LINE=SUM_LINE+STRING(ANN_EAMP,FORMAT='(1(1X,F12.7))')
+        PRINTF,FID_STAT,SUM_LINE,FORMAT='(A)'
+      ;        IF N_ELEMENTS(ANN_AMP) GT 0 && N_ELEMENTS(SEMI_AMP) GT 0 THEN BEGIN
+      ;          PRINTF,FID_STAT,SITE,NEUSTR[NEUI],ANN_AMP,ANN_PHASE,SEMI_AMP,SEMI_PHASE, $
+      ;            SLOPE[0,0],SLOPE[1,0],RMSE,ANN_EAMP,$
+      ;            FORMAT='(1X,A4,1X,A3,7(1X,F12.7),1x,f12.7)'
+      ;        ;PRINT,ANN_EAMP
+      ;        ;HELP,ANN_EAMP
+      ;        ENDIF ELSE BEGIN
+      ;          ;HELP,OFFSET
+      ;          ;PM,OFFSET
+      ;          PRINTF,FID_STAT,SITE,NEUSTR[NEUI], $
+      ;            SLOPE[0,0],SLOPE[1,0],RMSE,$
+      ;            ;OFFSET[0,*], OFFSET[1,*], $
+      ;            FORMAT='(1X,A4,1X,A3,2(1X,F12.5),1X,F10.5,5X,4F20.8)'
+      ;
+      ;        ENDELSE
         
       ;
       ENDIF
@@ -6142,21 +6235,21 @@ PRO ON_IGPS_PANEL_MODEL_BTN_OK, EV
         SRC=SRC, $
         USER=USER
         
-      FFILE2=FPATH+PATH_SEP()+DESUFFIX(GETFILENAME(FILE))+'_interp.neu'
-      POS=WHERE(FDATA2[0,*] GT 0)
-      FDATA2=FDATA2[*,POS]
-      DECYRS=REFORM(FDATA2[0,*])
-      DECYRS_TO_JDS, DECYRS, JDS
-      JD_TO_YMDHMSS , JDS, DATES, SECONDS, MJD=MJDS
-      YMDS=DATES[0:2,*]
-      YMD_TO_DOYS, YMDS, DOYRS
-      FDATA2[1,*]=FIX(FDATA2[0,*])
-      FDATA2[2,*]=DOYRS
-      WRITE_SIO, FFILE2, DATA=FDATA2, HEADERS=HEADERS, $
-        FMT=FMT, $
-        PROG='iGPS:MODEL+WRITE_SIO', $
-        SRC=SRC, $
-        USER=USER
+    ;      FFILE2=FPATH+PATH_SEP()+DESUFFIX(GETFILENAME(FILE))+'_interp.neu'
+    ;      POS=WHERE(FDATA2[0,*] GT 0)
+    ;      FDATA2=FDATA2[*,POS]
+    ;      DECYRS=REFORM(FDATA2[0,*])
+    ;      DECYRS_TO_JDS, DECYRS, JDS
+    ;      JD_TO_YMDHMSS , JDS, DATES, SECONDS, MJD=MJDS
+    ;      YMDS=DATES[0:2,*]
+    ;      YMD_TO_DOYS, YMDS, DOYRS
+    ;      FDATA2[1,*]=FIX(FDATA2[0,*])
+    ;      FDATA2[2,*]=DOYRS
+    ;      WRITE_SIO, FFILE2, DATA=FDATA2, HEADERS=HEADERS, $
+    ;        FMT=FMT, $
+    ;        PROG='iGPS:MODEL+WRITE_SIO', $
+    ;        SRC=SRC, $
+    ;        USER=USER
     ENDIF
     
     ;SEASONAL FITTED OUTPUT; ONLY FOR SPECIFIC USAGE; NOT PUBLIC

@@ -1,0 +1,40 @@
+#!/bin/sh
+
+# Name:
+#   sh_esa_s1_slc_test
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+path=`pwd`
+files=`find $path -maxdepth 1 -name "S1*.zip"`
+for file in $files; do
+  echo $file
+  tmp=`unzip -tq $file`
+  echo $tmp
+  tmp1=`echo $tmp | grep 'No errors detected'`
+  if [ "$tmp1" == "" ]; then
+    echo "Error"
+    continue
+  else
+    echo md5sum $file
+    tmp2=`md5sum $file`
+    bname=`basename $file`
+    echo $tmp2 $bname | awk '{print $1,$3}' >> md5.txt
+  fi
+
+#  exit
+done

@@ -1,0 +1,78 @@
+#!/bin/sh
+
+# Name:
+#   sh_new
+
+# Purpose:
+#   Create a new shell script with a template.
+
+
+if [ $# -lt 1 ]; then
+    echo "Usage: sh_new ofile"
+    exit
+fi
+
+# output file name
+ofile=$1
+if [ -f $ofile ]; then
+    echo "Target file [${ofile}] exist! Overwrite it? [y/n]:"
+    read yn
+    #echo $yn
+    if [ "${yn}" != "y" ]; then
+	exit
+    fi
+    echo "WARNING: file [${ofile}] overwritten."
+fi
+
+# module file name
+mfile=${HOME}/iGPS/ftk/inc/mod_sh
+if [ ! -f ${mfile} ]; then
+    echo "ERROR: Module file NOT exist!"
+    exit
+fi
+
+#
+
+# get the line number of "# Name:"
+linu=`grep -n "# Name:" $mfile | awk -F":" '{print $1}'`
+# copy the first part to output file
+sed -n "1,${linu}p" $mfile > $ofile
+# insert function/subroutine name information to output file
+echo "#   $ofile" >> $ofile
+# append the second part to output file
+linu=`expr $linu + 1`
+sed -n "${linu},$ p" $mfile >> $ofile
+
+echo "PROG=$ofile" >> $ofile
+
+echo "">> $ofile
+echo 'timestamp=`date | sed -e "s/ /_/g\" | sed -e "s/:/-/g"`' >> $ofile
+
+
+# add executable property
+chmod +x $ofile
+
+
+cat <<eob >> $ofile
+
+path_old=\`pwd\`
+
+usage(){
+  echo "[\$PROG]Usage: \${PROG} "
+  echo "[\$PROG]Usage: e.g.,"
+  echo "[\$PROG]Usage: \${PROG} "
+}
+
+while [ "\$1" != "" ]; do
+  case \$1 in
+    *)
+      echo "[\$PROG]ERROR: invalid option (\$1)!!"
+      usage
+      exit 1
+      ;;
+  esac
+  shift 2  
+done
+
+eob
+# the END

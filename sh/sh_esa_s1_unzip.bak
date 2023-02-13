@@ -1,0 +1,137 @@
+#!/bin/sh
+
+# Name:
+#   
+#   
+
+# Purpose:
+#   Unzip S1 data files.
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+# 
+
+PROG=sh_esa_s1_unzip
+
+esa_data_node=/sar/esa.sentinel-1/alll
+#esa_data_node=/sar/esa.sentinel-1/links
+esa_data_node=/g4d/esa.data/s1
+
+if [ "$esa_unzip" = "" ]; then
+    echo "ESA environment esa_unzip variable not set! Stopped!!"
+    exit 1
+fi
+
+
+#if [ "$esa_data" = "" ]; then
+#    echo "ESA environment esa_data variable not set! Stopped!!"
+#    exit 1
+#fi
+
+if [ "$1" == "" ]; then
+    echo "[$PROG]Usage: $PROG file [iw0|iw1|iw2|iw3]"
+    exit
+fi
+
+iws="iw1,iw2,iw3"
+
+is_check_done=n
+
+#two modes of input parameters
+if [ "`echo $1 | awk '{print substr($1,1,1)}'`" == "-" ]; then
+
+  while [ "$1" != "" ]; do
+    case $1 in
+      -f|-file)
+        file=$2
+        ;;
+      -i|-iw)
+        iws=$2
+        ;;
+      -l|-local)
+        is_local=$2
+        ;;
+      -p|-path)
+        esa_data_node=$2
+        ;;
+      -update)
+        is_check_done=$2
+        ;;
+      *)
+        echo "[]ERROR: invalid option ($1)!!"
+        exit 1
+        ;;
+    esac
+    shift 2
+  done
+
+else  #mode 2
+
+  file=$1
+  if [ "$2" = "" ]; then
+    echo "[INFO]iw_type not specified! Default iw1/iw2/iw3 will be extracted."
+    iws='iw1,iw2,iw3'
+  else 
+    iw_typs=`echo $2 | sed -e 's/,/ /g'`
+  fi
+  
+fi  #end-of-mode-2
+
+
+
+
+file_tmp=
+if [ "$is_check_done" == "y" ]; then
+
+  timestamp=`date | sed -e 's/ /_/g' | sed -e 's/:/-/g'`
+  file_tmp=_tmp_input_lst_${PROG}_${timestamp}
+  file2_tmp=_tmp_file_in_${PROG}_${timestamp}
+  grep '^ ' $file  > $file2_tmp
+  for iw in `echo $iws | sed -e 's/,/ /g'`; do
+    ii=`echo $iw | awk '{print substr($1,3,1)}'`
+    file_blt="F${ii}/baseline_table.dat"
+    if [ -s $file_blt ]; then
+      file_data="F${ii}/data.in"
+      break
+    fi
+  done
+  echo baseline file $file_blt
+
+  #\rm -rf $file_tmp
+  sid=`head -1 $file_data | awk -F- '{print substr($5,1,8)}'`
+  cat $file2_tmp | grep $sid > $file_tmp
+  while read line; do
+    sid=`echo $line | awk -F_ '{print substr($6,1,8)}'`
+    #echo sid $sid
+    tmp=`cat $file_blt | grep $sid`
+    if [ "$tmp" == "" ]; then
+      echo " $line" >> $file_tmp
+    fi
+  done < $file2_tmp
+  wc -l $file_tmp
+  file=$file_tmp
+fi
+
+echo file $file
+
+echo sh_esa_s1_unzip_node -path /g4d/esa.data/s1   -file $file -iw $iws
+echo sh_esa_s1_unzip_node -path /g4d/esa.data/s1   -file $file -iw $iws | sh
+
+echo sh_esa_s1_unzip_node -path /g4d/esa.data/s1.2 -file $file -iw $iws
+echo sh_esa_s1_unzip_node -path /g4d/esa.data/s1.2 -file $file -iw $iws
+
+echo sh_esa_s1_unzip_node -path /g4d/esa.data/s1.3 -file $file -iw $iws
+echo sh_esa_s1_unzip_node -path /g4d/esa.data/s1.3 -file $file -iw $iws
+
+
+if [ "$file_tmp" != "" ]; then
+  \rm -f $file_tmp $file2_tmp
+fi

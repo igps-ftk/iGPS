@@ -1,0 +1,85 @@
+#!/bin/sh
+
+# Name:
+#   sh_esa_s1_unzip_node_caller
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+
+PROG=sh_esa_s1_unzip_node_caller
+
+file=
+file_lock=
+file_log='/dev/null'
+iws=iw1,iw2,iw3
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -file)
+      file=$2
+      ;;
+    -file_lock)
+      file_lock=$2
+      ;;
+    -file_log)
+      file_log=$2
+      ;;
+    -iw)
+       iws=$2
+       ;;
+    *)
+      echo "[]ERROR: invalid option ($1)!!"
+      exit 1
+      ;;
+  esac
+
+  shift 2
+done
+echo file $file
+pwd
+path=`dirname $file`
+cd $path
+pwd
+
+if [ "$file" == "" ]; then
+  echo "[]ERROR: input is blank ($file)!!"
+  exit 1
+fi
+if [ ! -s "$file" ]; then
+  echo "[]ERROR: input file not exist ($file)!!"
+  exit 1
+fi
+
+echo "sh_esa_s1_unzip_node $file $iws >> $file_log"
+sh_esa_s1_unzip_node $file $iws >> $file_log
+#echo wait 1 second
+#sleep 1
+
+if [ "$file_lock" != "" ]; then
+  if [ ! -s $file_lock ]; then
+    echo "[]WARNING: file not exist ($file_lock)! What's wrong?"
+  fi
+  #sleep 5
+  #is_done=0
+  #while [ $is_done -eq 0 ];
+  file $file_lock
+  #\rm -f $file_lock
+  echo "0 $file" > $file_lock
+  echo "[]INFO: locking file removed ($file_lock)."
+  file $file_lock
+fi
+

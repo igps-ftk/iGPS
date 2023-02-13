@@ -27,8 +27,12 @@ PRO SHP_POINT,  $
   ;CHECK THE DIMENSIONS OF ATTRIBUTE ARRAY
   NATT=-1
   IF N_ELEMENTS(ATTDAT) NE 0 THEN BEGIN
-    NATT=N_ELEMENTS(ATTDAT)
-    NATTREC=N_ELEMENTS(*ATTDAT[0])
+    IF SIZE(ATTDAT,/N_DIM) EQ 1 THEN BEGIN
+      NATT=1
+    ENDIF ELSE BEGIN
+      NATT=FIRST(SIZE(ATTDAT,/DIM))
+    ENDELSE
+    ;NATTREC=N_ELEMENTS(*ATTDAT[0])
   ENDIF
   
   ;set column (field) names
@@ -63,8 +67,9 @@ PRO SHP_POINT,  $
     mynewshape->IDLFFSHAPE::ADDATTRIBUTE, CAPS[AI], 7, 25
   ENDFOR
   
+  ;stop
   ;Insert each point
-  FOR pi=0, N_ELEMENTS(xi)-1 DO BEGIN
+  FOR pi=0ull, N_ELEMENTS(xi)-1 DO BEGIN
     ;print,'pi: ',pi
     ;Create structure for new entity
     entNew = {IDL_SHAPE_ENTITY}
@@ -85,6 +90,8 @@ PRO SHP_POINT,  $
     ;Define the values for the new attributes
     FOR ai=0, NATT-1 DO BEGIN
       cmdStr='attrNew.ATTRIBUTE_'+STRTRIM(STRING(ai),2)+' = (*ATTDAT[AI])[PI]'
+      ;cmdStr='attrNew.ATTRIBUTE_'+STRTRIM(STRING(ai),2)+' = (*ATTDAT[AI])[PI]'
+      ;;cmdStr='attrNew.ATTRIBUTE_'+STRTRIM(STRING(ai),2)+' = (*ATTDAT[AI])[PI]'
       ;cmdStr='attrNew.ATTRIBUTE_'+STRTRIM(STRING(ai),2)+' = ATTDAT[ai*NATT+pi]'
       ;PRINT,cmdstr
       dummy=EXECUTE(cmdstr)

@@ -1,0 +1,128 @@
+#!/bin/sh
+
+# Name:
+#   sh_grd_resample
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+files=`ls disp_???????.grd`
+
+file=`ls disp_???????.grd | head -1`
+
+sf=10
+sf=4
+
+#output directory
+mkdir -p r${sf}
+
+#current pixel size
+psz_xx=`grdinfo -C $file | awk '{print $8}'`
+psz_yy=`grdinfo -C $file | awk '{print $9}'`
+
+echo $psz_xx $psz_yy
+
+out_psz_xx=`echo $psz_xx $sf | awk '{print $1*$2}'`
+out_psz_yy=`echo $psz_yy $sf | awk '{print $1*$2}'`
+
+echo $out_psz_xx $out_psz_yy
+
+#masking
+for file in $files; do
+    bname=`basename $file`
+    fname="${bname%.*}"
+
+    out_name="r${sf}/${fname}_mask.grd"
+    #echo $out_name
+
+    if [ -s $out_name ] ; then
+	echo "[]Exists! Skip ($out_name) .."
+	continue
+    fi
+
+    echo "grdmath $file vel_mask.grd MUL = ${out_name}"
+    echo "grdmath $file vel_mask.grd MUL = ${out_name}" | sh
+
+    #exit
+done
+
+#resample
+files=`ls r${sf}/disp_???????_mask.grd`
+for file in $files; do
+    bname=`basename $file`
+    fname="${bname%.*}"
+
+    out_name="r${sf}/${fname}_r${sf}.grd"
+    #echo $out_name
+
+    if [ -s $out_name ] ; then
+	echo "[]Exists! Skip ($out_name) .."
+	continue
+    fi
+
+
+    echo grdsample $file -I${out_psz_xx}/${out_psz_yy} -G${out_name}
+    echo grdsample $file -I${out_psz_xx}/${out_psz_yy} -G${out_name}  | sh
+    #exit
+done
+
+#exit
+#convert to ra to ll
+#ln -s trans.dat r${sf}/
+#touch r${sf}/gauss_400
+
+echo "convert ra to ll ..."
+cd r${sf}
+rm ./trans.dat 
+ln -s ../trans.dat
+ln -s ../gauss*
+files=`ls disp_???????_mask_r${sf}.grd`
+
+for file in $files; do
+    bname=`basename $file`
+    fname="${bname%.*}"
+
+    out_name="${fname}_ll.grd"
+    #echo $out_name
+    if [ -s $out_name ] ; then
+	echo "[]Exists! Skip ($out_name) .."
+	continue
+    fi
+
+    echo proj_ra2ll.csh trans.dat $file $out_name
+    echo proj_ra2ll.csh trans.dat $file $out_name | sh
+    
+    #exit
+done
+
+#convert to classic file format
+files=`ls disp_???????_mask_r${sf}_ll.grd`
+for file in $files; do
+    bname=`basename $file`
+    fname="${bname%.*}"
+
+    out_name="${fname}_ll.nc"
+    #echo $out_name
+    if [ -s $out_name ] ; then
+	echo "[]Exists! Skip ($out_name) .."
+	continue
+    fi
+
+    echo gmt grdconvert $file $out_name=cf
+    echo gmt grdconvert $file $out_name=cf | sh
+    
+    exit
+done

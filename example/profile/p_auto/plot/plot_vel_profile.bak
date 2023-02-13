@@ -1,0 +1,176 @@
+#!/bin/sh
+
+# Name:
+#   plot_vel_profile
+#
+
+# Purpose:
+#
+
+# Example:
+#
+
+# Modifications:
+#
+
+# Algorigthm:
+#
+
+# Dependency:
+#
+
+gmtset PAPER_MEDIA = a0
+gmtset HEADER_FONT_SIZE = 12p
+gmtset LABEL_FONT_SIZE         = 11p
+gmtset ANNOT_FONT_SIZE_PRIMARY = 9p
+gmtset FRAME_PEN               = .5p
+gmtset FRAME_WIDTH             = 0.1c
+gmtset TICK_LENGTH = .1c
+gmtset HEADER_OFFSET = .1051c
+
+#colormap for distance between station and profile
+makecpt -Cno_green -T0/100/1 -Z> dist.cpt
+
+#colormap for topography
+makecpt -Ctopo -T-3000/9000/1 -Z  -V > mytopo.cpt
+
+
+#(1)DEM Location
+path_dem="/cygdrive/c/GMT_pub/dem.gmt/ETOPO1_Ice_g_gmt4"
+
+#(2)geographical corners
+R=-R99/104/23/27	#x-min/x-max/y-min/y-max
+
+#(3) interval of X/Y axis interval
+B=-B2f1/2f1
+
+#(4)which profile to plot
+n=3
+n=`echo $n | awk '{printf("%03d",$1)}'`
+
+#(5)Location of profile files
+path_profile=../
+file_profile=${path_profile}/profile_${n}_vel.psxy
+
+
+#output file
+ofile=vel_profile_${n}.ps
+
+
+#searching DEM file
+files_dem=`find $path_dem -name "*.grd"`
+#first, plot DEM
+fir=1
+for file_dem in $files_dem; do
+    if [ $fir -eq 1 ]; then
+    echo "grdimage $file_dem -Cmytopo.cpt $R -JQ3.3i  ${B}:."":WSEN -K -P > ${ofile}"
+	grdimage $file_dem -Cmytopo.cpt $R -JQ5.6i    ${B}:"":/10f5:""::."(a). GPS Station Map":WSEN -K -P   > ${ofile}
+	fir=0
+    else
+	echo "grdimage $file_dem -Cmytopo.cpt -R -JQ -B  -K -O >> ${ofile}"
+	grdimage $file_dem -Cmytopo.cpt -R -JQ   -K -O >> ${ofile}
+    fi
+done
+
+#add borders, rivers, lakes, ...
+pscoast  -R -Dh -I1 -J -Swhite -Wwhite   -K -O  >> ${ofile}
+
+
+
+#file=../in.gps.velocity/jgrb52327-sup-00012-017JB014465-Data%20Set%20SI-S01.txt
+#cat $file | awk '{print $1,$2,$3,$4,$5,$6,$7,$8}' > .tmp.gps
+#psxy -R -JQ -Sc0.12c -W.5p -H1 -Gwhite .tmp.gps -O -K >> $ofile
+#psvelo -R -JQ -W0.35p,navy -H1 -Glightblue -Se.05/0.95/0   -L -A6p+e -V .tmp.gps -O -K>> $ofile
+
+
+grep '^ ' $file_profile | awk '{print $9,$10,$12,$13,$14,$15,0,$1}' > .tmp.gps
+psvelo -R -J -W0.5p,red -Gpurple -Se.1/0.95/0   -A9p+e -V .tmp.gps -O -K >> $ofile
+
+#Plot profile line
+grep '^# PSXY_PROFILE' $file_profile | awk '{print $3,$4}'> .tmp
+psxy -R -J -O .tmp -W2p,yellow,- -K  >> $ofile
+psxy -R -J -O .tmp -St.3c -W1.5p,navy -Gwhite -K >> $ofile  
+
+#plot station location
+grep "^ " $file_profile |awk '{print $9,$10,$4}' > .tmp
+\cp -f .tmp .tmp1
+psxy -R -J -Sc0.25c  -Cdist.cpt -W.5p .tmp -O -K >> $ofile
+#add station name
+grep "^ " $file_profile |awk '{print $9,$10,$1}' > .tmp
+pstext -R -J -O -K .tmp -F+f7p+a0+jLT >> $ofile
+	
+#plot fault-profile intersection
+grep PSXY_FAULT_PROFILE_INTERSECT $file_profile | awk '{print $3,$4}' > .tmp
+psxy -R -J -O .tmp -Sd.3c -W1p,white -Gred -K >> $ofile
+
+#plot fault trace
+grep PSXY_FAULT_TRACE $file_profile | awk '{print $3,$4}' > .tmp
+psxy -R -J -O .tmp -W1.5p,blue -K >> $ofile
+
+
+
+
+
+gmtset TICK_LENGTH = -.1c
+gmtset FRAME_WIDTH = .2c
+gmtset FRAME_PEN               = 1p
+
+#plot the velocity profiles
+
+grep "^ " $file_profile | awk '{print $11,$5,$4,$6}' >.tmp.along
+R=`minmax -I50/10 .tmp.along`
+echo $R
+psxy $R -JX5i/2i -X6.5i -Y3.05i -Sc.21c -B20f10:"Distance from Fault (km)":/2f1g1:"Extensional Rate (mm/yr)"::."":/SWen -O -K -W.5p -Ey.02c/.5p .tmp.along -Cdist.cpt >>$ofile
+
+grep "^ " $file_profile | awk '{print $11,-1,$1}' >.tmp.along.name
+pstext -R -J -O -K .tmp.along.name -F+f7p,navy+a0+jCT -D0/.25c -N >> $ofile
+
+pstext -R -J -O -K -F+f+a+j -N  <<eof >> $ofile
+-97 1 11p 0 LT (b)
+eof
+
+psxy -R -J -O -K <<eof -W.5p,yellow,- >> $ofile
+-1000 -5
+1000 -5
+eof
+psxy -R -J -O -K <<eof -W.5p,blue >> $ofile
+0 -1000
+0 1000
+eof
+
+
+
+grep "^ " $file_profile | awk '{print $11,$7,$4,$8}' >.tmp.tang
+R=`minmax -I50/10 .tmp.tang`
+psxy $R -JX5i/2i -Y-3.05i -Sd.21c -B20f10:"Distance from Fault (km)":/2f1:"Strike-slip Rate (mm/yr)"::." ":/SWen -O -K -W.5p -Ey.2c/.5p .tmp.tang -Cdist.cpt >>$ofile
+
+pstext -R -J -O -K -F+f+a+j -N <<eof >> $ofile
+5 19 8p -90 LT Honghe Fault
+-95 19 14p 0 LT (c)
+eof
+
+psxy -R -J -O -K -L -Gyellow@50 <<eof >> $ofile
+>
+-50 6
+-5 6
+-5 9
+-50 9
+>
+70 9
+5 9
+5 12
+70 12
+eof
+
+psxy -R -J -O -K <<eof -W.5p,yellow,- >> $ofile
+-1000 10
+1000 10
+eof
+psxy -R -J -O <<eof -W.5p,blue >> $ofile
+0 -1000
+0 1000
+eof
+
+
+ps2raster -A -Tj $ofile
+#ps2raster -A -Tf $ofile

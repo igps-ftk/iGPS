@@ -1,0 +1,52 @@
+#!/bin/sh
+
+# Name:
+#   sh_sar_expt_rename1
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+
+PROG=sh_sar_expt_rename1
+
+paths=`find . -maxdepth 1 -type d -name "[0-9]*"`
+for path in $paths; do
+  echo $path
+  #file_in=`find $path -maxdepth 1 -type f -name "input*.ok"|sort|tail -1`
+  file_in=`find $path -maxdepth 1 -type f -name "input*.lst"|sort|tail -1`
+  if [ "$file_in" == "" ]; then
+    echo "[$PROG]WARNING: no input file!"
+    continue
+  fi
+  echo $file_in
+  
+  timestr=`grep '^ ' $file_in|head -1 | awk -F_ '{print substr($6,1,8)}'`
+  echo timestr $timestr
+  names=`grep -h '^ ' $file_in | grep $timestr| awk '{print $1}'`
+  echo names $names
+  name_new=`sh_sar_name_expt $names | grep EXPT | awk '{print $2}'`
+  echo name_new $name_new
+  if [ "$name_new" == "" ]; then
+    echo "[$PROG]WARNING: failed to get new name for ($path)!"
+    continue
+  fi
+  
+  location=`echo $path | awk -F- '{print $NF}' | sed -e 's/m_//g'`
+  name_new="${name_new}-${location}"
+  
+  echo "mv $path $name_new"
+  #exit
+done

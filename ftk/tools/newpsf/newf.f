@@ -38,16 +38,16 @@ c      write(*,*) '#param:',iargc()
          if (strbuf(1:2).eq.'-h'.or.strbuf(1:6).eq.'--help') goto 800
       enddo
       goto 801
- 800  write(*,*) 'Syntax: newp [filename] [--file=~/.../doc/func.f]'
-      write(*,*) '        newp [--file=~/.../doc/func.f] [filename]'
+ 800  write(*,*) 'Syntax: newp [filename] [--file=~/.../inc/func.f]'
+      write(*,*) '        newp [--file=~/.../inc/func.f] [filename]'
       stop
 
  801  continue
-      file='~/gpsf/cgps/doc/func.f'
-      file='/export/home/tianyf/gpsf/cgps/doc/func.f'
+c      file='~/gpsf/cgps/inc/func.f'
+      file='/home/tianyf/iGPS/ftk/inc/func.f'
       
       call getenv('HOME',home)
-      file=home(1:nblen(home))//'/gpsf/cgps/doc/func.f'
+      file=home(1:nblen(home))//'/iGPS/ftk/inc/func.f'
       fido=6
       ofile=' '
       do i=1,iargc()

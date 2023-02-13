@@ -1,0 +1,53 @@
+#!/bin/sh
+
+# Name:
+#   sh_sar_clean_intf_all
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+path=`pwd`
+echo $path
+if [ "`basename $path`" != "intf_all" ]; then
+  echo please run this script under ./intf_all/ directory
+  exit 1
+fi
+
+echo removing files from $path
+
+du -hs 
+#exit
+echo removing *.pdf
+find . -name "*.pdf" -exec rm {} \;
+#echo removing corr.grd
+#find . -name "corr.grd" -exec rm {} \;
+echo removing '[d-l]*.grd'
+find . -name "[d-l]*.grd" -exec rm {} \;
+echo removing '[n-o]*.grd'
+find . -name "[n-o]*.grd" -exec rm {} \;
+echo removing '[q-t]*.grd'
+find . -name "[q-t]*.grd" -exec rm {} \;
+echo removing 'mask[23]*.grd'
+find . -name "mask[23]*.grd" -exec rm {} \;
+echo removing 'p*_mask.grd'
+find . -name "p*_mask*.grd" -exec rm {} \;
+echo removing 'phase.grd'
+find . -name "phase.grd" -exec rm {} \;
+echo removing _ll.grd
+find . -name "*_ll.grd" -exec rm {} \;
+echo removing  amp
+find . -name "*amp*" -exec rm {} \;
+
+du -hs

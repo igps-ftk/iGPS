@@ -1,0 +1,12 @@
+#!/bin/sh
+
+ids=`cat ../ids | grep '^ '`
+
+
+for id in $ids; do
+  echo scp ./authorized_keys node${id}:/home/tianyf/.ssh/
+  echo scp ./authorized_keys node${id}:/home/tianyf/.ssh/ | sh
+
+  #exit
+done
+

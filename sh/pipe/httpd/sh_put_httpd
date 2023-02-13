@@ -1,0 +1,30 @@
+#!/bin/sh
+
+ids=`grep '^ ' -h  ../ids`
+#ids="19 20"
+#ids=`cat ../ids_12`
+
+file='httpd.conf'
+for id in $ids; do
+  echo scp ./$file node${id}:/etc/httpd/conf/
+  echo scp ./$file node${id}:/etc/httpd/conf/ | sh
+
+  #exit
+done
+
+
+file='welcome.conf'
+for id in $ids; do
+  echo scp ./$file node${id}:/etc/httpd/conf.d/
+  echo scp ./$file node${id}:/etc/httpd/conf.d/ | sh
+
+  #exit
+done
+
+for id in $ids; do
+  if [ $id -eq 1 ]; then
+    echo continue
+  fi
+  echo "restarting httpd service on node${id} ..."
+  ssh node${id} "systemctl restart httpd"
+done

@@ -12,23 +12,25 @@
 PRO POLYLINE_SHP2PSXY, FILE, OFILE
   ;!!Note: make sure that the input file is using the correct projection (usually geographic: wgs84).
   IF N_ELEMENTS(FILE) EQ 0 THEN BEGIN
-    ;FILE=DIALOG_PICKFILE(TITLE='Input Fault Lines File (Shapefile) in Suitable Map Projection?',FILTER='*.shp')
-    ;file='D:\ICD\projects\nsfc\2011\annual.report.2013\earthquake.catalog\areas\shp\quake_areas.shp'
-;  
-;    file='D:\data\vector\fault.China.100m\gmt\fa100m.shp'
-;    file='D:\ICD\projects\nsfc\2017\figure\vector\fa\normal.shp'
-;    file='D:\ICD\projects\nsfc\2017\figure\vector\fa\sinustral.shp'
-;    ;file='D:\ICD\projects\nsfc\2017\figure\vector\fa\dextral.shx'
-    file='D:\ICD\projects\DirectorFund\Application.2012\InSAR\2016\from.ZhangQingyun\bengco\vector\profile_jiali.shp'
-    file='D:\Papers\paper.bengco\vector\profile_xianshuihe.shp'
-    ;file='D:\Papers\paper.bengco\vector\fault_lenglongling.shp'
-    file='D:\Papers\paper.bengco\vector\profile_lenglongling.shp'
-    file='D:\Papers\paper.bengco\vector\fault_cona_east.shp'
-    file='D:\Papers\paper.bengco\vector\profile_cona_east.shp'
-    file='D:\Papers\paper.bengco\vector\fault_anduo_sewa.shp'
-    file='D:\data\vector\profile\fault_yzs.shp'
-    file='D:\data\vector\profile\fault_naqu_north.shp'
-    file='D:\data\vector\profile\fault_sangri_cuona.shp'
+    FILE=DIALOG_PICKFILE(TITLE='Input Fault Lines File (Shapefile) in Suitable Map Projection?',FILTER='*.shp')
+;    ;file='D:\ICD\projects\nsfc\2011\annual.report.2013\earthquake.catalog\areas\shp\quake_areas.shp'
+;;  
+;;    file='D:\data\vector\fault.China.100m\gmt\fa100m.shp'
+;;    file='D:\ICD\projects\nsfc\2017\figure\vector\fa\normal.shp'
+;;    file='D:\ICD\projects\nsfc\2017\figure\vector\fa\sinustral.shp'
+;;    ;file='D:\ICD\projects\nsfc\2017\figure\vector\fa\dextral.shx'
+;    file='D:\ICD\projects\DirectorFund\Application.2012\InSAR\2016\from.ZhangQingyun\bengco\vector\profile_jiali.shp'
+;    file='D:\Papers\paper.bengco\vector\profile_xianshuihe.shp'
+;    ;file='D:\Papers\paper.bengco\vector\fault_lenglongling.shp'
+;    file='D:\Papers\paper.bengco\vector\profile_lenglongling.shp'
+;    file='D:\Papers\paper.bengco\vector\fault_cona_east.shp'
+;    file='D:\Papers\paper.bengco\vector\profile_cona_east.shp'
+;    file='D:\Papers\paper.bengco\vector\fault_anduo_sewa.shp'
+;    file='D:\data\vector\profile\fault_yzs.shp'
+;    file='D:\data\vector\profile\fault_naqu_north.shp'
+;    file='D:\data\vector\profile\fault_sangri_cuona.shp'
+;    file='D:\Papers\paper.haiyuan.creep\vector\profile_\profile_CD_.shp'
+;    file='D:\Papers\paper.Xiangyang-Buruo\figure\1.map\97manyi\97manyi_rupture_s.shp'
     ofile=desuffix(file)+'.psxy'
     IF FILE EQ '' THEN RETURN
     CD,GETPATHNAME(FILE)

@@ -1,0 +1,42 @@
+#!/bin/sh
+
+# Name:
+#   sh_link_slc_iw_tracks
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+files=`ls ${esa_data}/safe/safe/*.safe`
+for file in $files; do
+    #echo $file
+    ad=`grep pass $file | awk -F\> '{print substr($2,1,1)}'`
+    relativeorbit=`grep relativeOrbitNumber $file |grep start| awk -F\> '{print $2}' | awk -F\< '{print $1}'`
+    #echo $ad $relativeorbit $file
+    odir=/var/www/html/s1/SLC/${ad}${relativeorbit}
+    if [ ! -d $odir ]; then
+	mkdir -p $odir
+    fi
+    dfile=${esa_data}/S1/`basename $file | awk -F. '{print $1".zip"}'`
+    ofile=${odir}/`basename $dfile`
+    if [ -L $ofile ]; then
+	continue
+    fi
+    echo ln -s $dfile $odir
+    echo ln -s $dfile $odir |sh
+    #exit
+done
+
+

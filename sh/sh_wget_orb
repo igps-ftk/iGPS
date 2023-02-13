@@ -8,12 +8,18 @@
 
 . ${HOME}/.bashrc
 
+if [ "$IGS_ROOT" == "" ]; then
 #local_root=/export/home/tianyf/tmp/products
 #local_root=/cygdrive/e/igs/pub/products
 #local_root=/data0/igs0/pub/products
 local_root=/data0/igs0/pub/products
 local_root=/d2/ftp/pub/products
-local_root=/h1/ftp/pub/products
+local_root=/g3c/pub/products
+local_root=/g10a/ftp/pub/products
+else
+  local_root=${IGS_ROOT}/products
+fi
+
 
 #yearStart=1994
 #yearStart=2008
@@ -118,6 +124,21 @@ do
 done
 #echo $sites
 
+if [ $yearStart -lt 50 ] ; then
+  yearStart=`expr $yearStart + 2000`
+fi
+if [ $yearStart -ge 50 -a $yearStart -lt 100 ]; then
+  yearStart=`expr $yearStart + 1900`
+fi
+
+if [ $yearEnd -lt 50 ] ; then
+  yearEnd=`expr $yearEnd + 2000`
+fi
+if [ $yearEnd -ge 50 -a $yearEnd -lt 100 ]; then
+  yearEnd=`expr $yearEnd + 1900`
+fi
+
+
 
 #echo $sites
 
@@ -142,6 +163,8 @@ case $orbit in
 esac
 
 year=${yearStart}
+echo year $year yearEnd $yearEnd
+#exit
 while [ ${year} -le ${yearEnd} ]; do
 
     if [ ${year} -eq ${yearStart} ]; then
@@ -167,17 +190,19 @@ while [ ${year} -le ${yearEnd} ]; do
         cd ${week_dir}
         pwd
 
-	echo "wget -nc --http-user=anonymous --http-password=tianyf@gmail.com http://gpsdc/pub/products/${gpsw}/igs${gpsw}${gpsd}.sp3.Z"
+	echo "wget -nc --http-user=anonymous --http-password=tianyf@gmail.com http://garner.ucsd.edu/pub/products/${gpsw}/igs${gpsw}${gpsd}.sp3.Z"
 	#if [ "${orbt}" = "u" ]; then
 	#wget -c --http-user=anonymous --http-password=tianyf@gmail.com http://garner.ucsd.edu/pub/products/${gpsw}/ig${orbt}${gpsw}${gpsd}${hr}.sp3.Z
 	wget -nc --http-user=anonymous --http-password=tianyf@gmail.com http://garner.ucsd.edu/pub/products/${gpsw}/ig${orbt}${gpsw}${gpsd}${hr}.sp3.Z
+        #wget -nc --http-user=anonymous --http-password=tianyf@gmail.com ftp://igs.gnsswhu.cn/pub/gps/products/${gpsw}/ig${orbt}${gpsw}${gpsd}${hr}.sp3.Z
+
 	###wget -nc --http-user=anonymous --http-password=tianyf@gmail.com http://garner.ucsd.edu/pub/products/${gpsw}/ig${orbt}${gpsw}${gpsd}${hr}.clk.Z
 	#else
 	#    wget -c --http-user=anonymous --http-password=tianyf@gmail.com http://garner.ucsd.edu/pub/products/${gpsw}/ig${orbt}${gpsw}${gpsd}.sp3.Z
 	#fi
 	if [ $gpsd -eq 6 ]; then
 	    #wget -nc --http-user=anonymous --http-password=tianyf@gmail.com http://garner.ucsd.edu/pub/products/ig${orbt}${gpsw}7.erp.Z
-	    wget -nc --http-user=anonymous --http-password=tianyf@gmail.com http://garner.ucsd.edu/pub/products/${gpsw}/ig${orbt}${gpsw}7.erp.Z
+echo	    wget -nc --http-user=anonymous --http-password=tianyf@gmail.com http://garner.ucsd.edu/pub/products/${gpsw}/ig${orbt}${gpsw}7.erp.Z
 	fi
 	doy=`expr $doy + 1`
     done

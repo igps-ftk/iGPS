@@ -1,0 +1,22 @@
+#!/bin/sh
+
+ids=`cat ../ids`
+#ids=`cat ../ids_12`
+ids="19 20"
+
+#file='httpd.conf'
+#for id in $ids; do
+#  echo scp ./$file node${id}:/etc/httpd/conf/
+#  echo scp ./$file node${id}:/etc/httpd/conf/ | sh
+#
+#  #exit
+#done
+
+
+for id in $ids; do
+  if [ $id -eq 1 ]; then
+    echo continue
+  fi
+  echo "setting time zone on node${id} ..."
+  ssh node${id} "timedatectl set-timezone Asia/Shanghai"
+done

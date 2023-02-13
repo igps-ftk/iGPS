@@ -1,0 +1,31 @@
+#!/bin/sh
+
+# Name:
+#   sh_esa_s1_sbas_tar
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+if [ "$1" = "" ]; then
+  path=`pwd`
+  out_path=`basename $path`
+  echo out_path $out_path
+else
+  out_path=$1
+fi
+#exit
+
+tar zcf ${out_path}.tar.gz vel_ll.kml vel_ll.png vel_ll_scalebar.jpg *.tab vel_mask_ll* rms_mask_ll3* look_mask_ll3* baseline* data.in f-baseline* incidence orb.psxy orb.psxy.kml

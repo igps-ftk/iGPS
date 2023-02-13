@@ -35,6 +35,9 @@ file=  #input file
 super_master_ind=1 #super master index
 echo defaults values initiated
 
+order=d #descending order
+update_config=y	#update master line in batch_tops.config with the template (batch_tops.config.2)
+
 while [ "$1" != "" ]; 
 do
     case $1 in
@@ -43,6 +46,12 @@ do
 	    ;;
 	-super_master)
 	    super_master_ind=$2
+	    ;;
+	-order)
+	    order=`echo $2 | awk '{print substr($1,1,1)}'`
+	    ;;
+	-update_config)
+	    update_config=$2
 	    ;;
 	*)
 	    echo "[]ERROR: wrong input option ($1)!!"
@@ -58,7 +67,7 @@ doyrs=`cat $file | awk '{print $3}'`
 dists=`cat $file | awk '{print $5}'`
 nday=`cat $file | wc -l`
 
-#echo ids: $ids
+echo ids: $ids
 echo here
 #exit
 
@@ -71,6 +80,7 @@ while [ $i -le $nday ]; do
 	#
 	dist_j=`echo $doyrs | awk '{print $j}' j=$j`
 	dist_ij=`echo $dist_i $dist_j | awk '{print sqrt(($1-$2)*($1-$2)) }'`
+	#echo $dist_j $dist_ij
 	if [ $super_master_ind -eq 1 ]; then
 	    echo $ids | awk '{print dist_ij,$i":"$j}' i=$i j=$j dist_ij=$dist_ij >> .tmp.intf.in
 	else
@@ -81,7 +91,11 @@ while [ $i -le $nday ]; do
     i=`expr $i + 1`
 done
 
-sort -n .tmp.intf.in | awk '{print $2}' > ./intf.in
+if [ "$order" = "a" ]; then
+    sort -n .tmp.intf.in | awk '{print $2}' > ./intf.in
+else
+    sort -nr .tmp.intf.in | awk '{print $2}' > ./intf.in
+fi
 
 ref_img=`echo $ids | awk '{print $smi}' smi=$super_master_ind`
 sed -e "s/master_image.*/master_image = $ref_img/" batch_tops.config.2 > batch_tops.config

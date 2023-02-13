@@ -19,18 +19,23 @@
 # Dependency:
 #   
 
+file=`ls defo_??.txt | head -1`
+
 spacing=.001
 
-X_MAX=92
-Y_MAX=29
-X_MIN=90
-Y_MIN=28
+tmp=`minmax -C -I${spacing} $file`
+
+X_MAX=`echo $tmp | awk '{print $2}'`
+Y_MAX=`echo $tmp | awk '{print $4}'`
+X_MIN=`echo $tmp | awk '{print $1}'`
+Y_MIN=`echo $tmp | awk '{print $3}'`
 half_spacing=`echo $spacing | awk '{print $1/2}'`
 xmin=`echo $X_MIN $half_spacing | awk '{print $1+$2}'`
 ymin=`echo $Y_MIN $half_spacing | awk '{print $1+$2}'`
 xmax=`echo $X_MAX $half_spacing | awk '{print $1-$2}'`
 ymax=`echo $Y_MAX $half_spacing | awk '{print $1-$2}'`
 
+echo $xmin $xmax $ymin $ymax $half_spacing
 
 files=`ls ./defo_??.txt`
 for file in $files; do

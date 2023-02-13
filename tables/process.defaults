@@ -70,7 +70,8 @@
 # set aprf = frame.global.igs.apr
 # set aprf = frame.igs.apr
 # set aprf = icd150625.apr
- set aprf = xyz.stab.igs.apr
+# set aprf = xyz.stab.igs.apr
+  set aprf = igb14_comb.apr
 
 # Set compress (copts), delete (dopts) and archive (aopts) options. (Don't forget to set the archivepth.)
 # Possible d-, c-, and a- opts: D, H, ao, ac, as, b, c, d, e, g, h, i, j, k, l, m, o, p, q, t, x, ps, all" 
@@ -82,7 +83,7 @@
 # Minimum raw disk space in Kbytes
  set minraw = '30000'
 # Minimum rinex disk space in Kbytes
- set minrinex = '30000'
+ set minrinex = '300'
 # Minimum archive disk space in Kbytes
  set minarchive = '20000'
 # Minimum working disk space in Kbytes

@@ -1,0 +1,102 @@
+#!/bin/sh
+
+# Name:
+#   sh_sar_sbas_ref_ll2rc
+#   
+
+# Purpose:
+#   Convert reference position (in longitude and latitude degress) to row/column indexes
+#     of the grid files for SBAS input
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   1). Convert longitude/latitude to radar coordiantes;
+#   2). Convert radar coodiantes to row/column.
+
+# Dependency:
+#   
+
+PROG=sh_sar_sbas_ref_ll2rc
+
+file_in=./ref_lonlat.txt
+file_grd=./corr_cut.grd
+
+if [ ! -s 'trans.dat' ]; then
+    echo "[$PROG]ERROR:tranlation file (trans.dat) not exist!!"
+    exit 1
+fi
+
+while [ "$1" != "" ]; do
+    case $1 in
+	-file_in)
+	    $file_in=$2
+	    ;;
+	-file_grd)
+	    $file_grd=$2
+	    ;;
+	-h|-help)
+	    echo "Usage: sh_sar_sbas_ref_ll2rc [-file_in FILE_IN] [-file_grd FILE_GRD] [-h|-help]" 
+	    echo "  Inputs (mandatory):"
+	    echo "    1). trans.dat"
+	    echo "    2). input reference point file (^ lon lat)"
+	    echo "    3). input grid file in radar coordiantes"
+	    exit 1
+	    ;;
+	*)
+	    echo  "[$PROG]ERROR:invalid input parameter ($1)!!"
+	    exit 1
+	    ;;
+    esac
+
+    shift 2
+done
+
+if [ ! -s $file_in ]; then
+    echo "[$PROG]ERROR:input file ($file_in) not exist!!"
+    exit 1
+fi
+if [ ! -s $file_grd ]; then
+    echo "[$PROG]ERROR:input grid file ($file_grd) not exist!!"
+    exit 1
+fi
+
+grep '^ ' $file_in | tail -1 | awk '{print $1,$2,0}'> .tmp.ref.llz
+
+
+#echo "[$PROG]INFO:project $file_grd to lon/lat coordiantes..."
+echo "[$PROG]INFO:project $file_grd to lon/lat coordiantes..."
+touch gauss_200
+proj_ra2ll.csh trans.dat $file_grd ${file_grd}.1 >& /dev/null
+grd2xyz ${file_grd}.1 | grep -v NaN | head -10 >> .tmp.ref.llz
+
+echo "[$PROG]INFO:project lon/lat to radar coordinates..."
+proj_ll2ra_ascii.csh trans.dat .tmp.ref.llz .tmp.ref.xyz >& /dev/null
+
+x_ra=`head -1 .tmp.ref.xyz | awk '{print $1}'`
+y_ra=`head -1 .tmp.ref.xyz | awk '{print $2}'`
+echo "[$PROG]INFO:$x_ra $y_ra"
+
+
+tmp=`grdinfo -C $file_grd`
+xmin_ra=`echo $tmp | awk '{print $2}'`
+xmax_ra=`echo $tmp | awk '{print $3}'`
+ymin_ra=`echo $tmp | awk '{print $4}'`
+ymax_ra=`echo $tmp | awk '{print $5}'`
+xstep_ra=`echo $tmp | awk '{print $8}'`
+ystep_ra=`echo $tmp | awk '{print $9}'`
+
+echo "[$PROG]INFO:$xmin_ra $xmax_ra $ymin_ra $ymax_ra $xstep_ra $ystep_ra"
+
+ind_row=`echo $x_ra $xmin_ra $xstep_ra | awk '{print ($1-$2)/$3}'`
+ind_col=`echo $y_ra $ymin_ra $ystep_ra | awk '{print ($1-$2)/$3}'`
+
+echo "[$PROG]INFO: $ind_row $ind_col"
+ind_x=`echo $ind_row | awk '{if( ($1-int($1))>0) {print int($1)+1}else{print int($1)}}'`
+ind_y=`echo $ind_col | awk '{if( ($1-int($1))>0) {print int($1)+1}else{print int($1)}}'`
+echo "[$PROG]INFO:(RESULTS) $ind_x $ind_y"
+echo $ind_x $ind_y > ref_rowcol.txt

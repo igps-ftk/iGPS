@@ -37,8 +37,11 @@ while read line; do
     echo $line
     dfile="${EOLISA}/${line}.E2"
     if [ ! -s ${dfile} ]; then
-	echo "[]ERROR:data not found [${dfile}]!!"
-	exit 1
+      dfile="${EOLISA}/${line}.N1"
+      if [ ! -s ${dfile} ]; then
+      	echo "[]ERROR:data not found [${dfile}]!!"
+      	exit 1
+	    fi
     fi
     echo ln -s $dfile | sh
     if [ $? -eq 0 ]; then

@@ -1,0 +1,63 @@
+#!/bin/sh
+
+# Name:
+#   sh_esa_s1_link_h2
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+path=`pwd`
+is_test=y
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -p|-path)
+      path=$2
+     ;;
+    -t|-test)
+      is_test=$2
+     ;;
+    *)
+      echo "[]ERROR: invalid option ($1)!!"
+      exit 1
+      ;;
+  esac
+  shift 2
+done
+
+
+  if [ ! -d $path ]; then
+    continue
+  fi
+  
+  echo "working $path .."
+  files=`find ${path} -maxdepth 1 -name "S1*.zip"`
+  for file in $files; do
+
+    #remove broken symbolic link 
+    if [[ -L "${file}" ]] && [[ ! -a "${file}" ]];then
+      echo "[]INFO: broken link"
+      file $file
+      echo "remove $file"
+      echo "\rm -rf $file"
+      if [ "$is_test" == "n" ]; then
+        echo "\rm -rf $file" | sh
+      fi
+
+    fi
+
+  done
+

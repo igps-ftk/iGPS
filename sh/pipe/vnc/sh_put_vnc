@@ -1,0 +1,13 @@
+#!/bin/sh
+
+ids=`cat ../ids`
+ids="19 20"
+
+file='vncserver@\:1.service'
+for id in $ids; do
+  echo scp ./$file node${id}:/etc/systemd/system/
+  echo scp ./$file node${id}:/etc/systemd/system/ | sh
+
+  #exit
+done
+

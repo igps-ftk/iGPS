@@ -1,0 +1,103 @@
+#!/bin/sh
+
+# Name:
+#   sh_esa_s1_link_h2
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+. ${HOME}/.bashrc
+
+
+dirs="g8a g8b g8d g8e g8f g8g g11a g11b g11c g11d g11e g11g g11k g17b"
+for dir in $dirs; do
+  files=`ls /${dir}/esa.data/S1/*.zip`
+
+  for file in $files; do
+      sfile="${esa_data}/s1/`basename $file`"
+
+      #remove broken symbolic link 
+      if [[ -L "${sfile}" ]] && [[ ! -a "${sfile}" ]];then
+        echo "[]INFO: broken link"
+        file $sfile
+        echo "remove $sfile"
+        \rm -rf $sfile
+      fi
+
+      if [ -s $sfile ]; then
+        continue
+      fi
+
+      ##echo mv $sfile /h2/esa.data/S1/tmp/ |sh
+      echo ln -s $file $sfile
+      echo ln -s $file $sfile | sh
+      #exit
+  done
+  
+done
+
+exit
+##
+#files=`ls /d1/gsar/tianshan/S1*.zip`
+#for file in $files; do
+#    sfile="/h2/esa.data/S1/`basename $file`"
+#    ##echo mv $sfile /h2/esa.data/S1/tmp/ |sh
+#    echo ln -s $file $sfile | sh
+    #exit
+#done
+##files=`ls /h1/esa.data/S1/*.zip`
+#files=`ls /b1/gsar/taiwan/S1*.zip`
+#for file in $files; do
+#    sfile="/h2/esa.data/S1/`basename $file`"
+#    ##echo mv $sfile /h2/esa.data/S1/tmp/ |sh
+#    echo ln -s $file $sfile | sh
+#    #exit
+#done
+#
+#files=`ls /d1/esa.data/S1/*.zip`
+#for file in $files; do
+##    sfile="/h2/esa.data/S1/`basename $file`"
+#    ##echo mv $sfile /h2/esa.data/S1/tmp/ |sh
+#    echo ln -s $file $sfile | sh
+##    #exit
+#done
+#
+#
+#files=`ls /g11b/esa.data/S1/*.zip`
+#for file in $files; do
+#    sfile="/h2/esa.data/S1/`basename $file`"
+#    ##echo mv $sfile /h2/esa.data/S1/tmp/ |sh
+#    echo ln -s $file $sfile | sh
+#    #exit
+#done
+#
+#
+#files=`ls /g11d/esa.data/S1/*.zip`
+#for file in $files; do
+#    sfile="/h2/esa.data/S1/`basename $file`"
+#    ##echo mv $sfile /h2/esa.data/S1/tmp/ |sh
+#    echo ln -s $file $sfile | sh
+#    #exit
+#done
+#
+#
+#
+#files=`ls /b1/esa.data/S1/*.zip`
+#for file in $files; do
+#    sfile="/h2/esa.data/S1/`basename $file`"
+#    ##echo mv $sfile /h2/esa.data/S1/tmp/ |sh
+#    echo ln -s $file $sfile | sh
+#    #exit
+#done

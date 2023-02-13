@@ -1,0 +1,64 @@
+#!/bin/sh
+
+# Name:
+#   sh_sar_del_merged_tiff
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+oldpath=`pwd`
+
+paths=`find /sar/proc_gmtsar/landslide/ -maxdepth 1 -type d -name "[a-z]*_*"`
+echo $paths
+#exit
+is='1 2 3'
+
+for path in $paths; do
+  echo "# $path"
+  for i in $is; do
+    Fpath="${path}/F${i}.x2/intf_all"
+    #echo Fpath is $Fpath
+    if [ ! -d $Fpath ]; then
+      continue
+    fi
+
+    if [ -d ${path}/F${i}.x2/sbas1 ]; then
+        continue
+    fi
+    echo "[]INFO: ${path}/F${i}.x2"
+    cd ${path}/F${i}.x2
+    rm slurm*
+    sh_esa_s1_prep_sbas -time_span_min 1 -time_span_max 121
+    sh_sar_cp_los_ll_png
+    sh_intf_remove_trend
+    sh_sar_intf_tab_from_phase_files
+    continue
+
+    cd $Fpath
+    pwd
+    echo sh_sar_clean_intf_all_all
+    echo sh_sar_clean_intf_all_all | sh
+    echo "deleting unwrap.grd files ..."
+    find `pwd` -name "unwrap.grd" -exec rm {} \;
+    find `pwd` -name "unwrap_ll*" -exec rm {} \;
+    find `pwd` -name "corr_ll*" -exec rm {} \;
+
+
+    cd $oldpath
+    #exit
+  done
+  #exit
+done

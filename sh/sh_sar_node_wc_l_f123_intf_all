@@ -1,0 +1,60 @@
+#!/bin/sh
+
+# Name:
+#   sh_sar_del_merged_tiff
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+oldpath=`pwd`
+
+paths=`find /sar/proc_gmtsar/interseismic -maxdepth 1 -type d -name "*[a-z]*" |sort`
+for path in $paths; do
+  echo "# $path"
+  Fpath="${path}/f123.1/intf_all"
+  if [ ! -d $Fpath ]; then
+    continue
+  fi
+
+  if [ -s ${path}/f123.1/intf.in ]; then
+    n0=`wc -l ${path}/f123.1/intf.in | awk '{printf("%05d",$1)}'`
+  else
+    n0=00000
+  fi
+
+  if [ -d $Fpath ]; then
+    n1=`ls ${Fpath} |wc -l | awk '{printf("%05d",$1)}'`
+  else
+     n1=00000
+  fi
+ 
+  if [ -d ${path}/f123.1/intf_all_los_ll_png ]; then
+    n2=`ls ${path}/f123.1/intf_all_los_ll_png | wc -l | awk '{printf("%05d",$1)}'`
+  else
+    n2=00000
+  fi
+
+  if [ -d ${path}/f123.1/intf_all_detrend ]; then
+    n3=`ls ${path}/f123.1/intf_all_detrend | wc -l | awk '{printf("%05d",$1)}'`
+  else
+    n3=00000
+  fi
+
+  echo " $n0 $n1 $n2 $n3 $path"
+
+  cd $oldpath
+  #exit
+done

@@ -1,0 +1,78 @@
+#!/bin/sh
+
+# Name:
+#   sh_esa_s1_metalink_to_md5
+#   
+
+# Purpose:
+#  Convert ASF metalink chcksum information to md5sum file (${esa_data}/meta4/md5.txt).
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+prog=sh_esa_s1_metalink_to_md5
+
+if [ "$esa_data" == "" ]; then
+    echo "[${prog}]ERROR: environtment variable esa_data NOT set!!"
+    exit 1
+fi
+
+if [ ! -d $esa_data ]; then
+    echo "[${prog}]ERROR: directory $esa_data NOT exist!!"
+    exit 1
+fi
+
+
+md5file=${esa_data}/md5.txt
+
+path=${esa_data}/metalink
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -path)
+      path=$2
+      ;;
+    *)
+      echo "[${prog}]ERROR: invalid option ($1)!!"
+      exit 1
+      ;;
+  esac
+  shift 2
+done
+
+
+#find files
+echo "[${prog}]INFO: searching metalink files in $path ..."
+files=`find ${path} -maxdepth 1 -name "S1*.metalink"`
+
+for file in $files; do
+    #echo "[${prog}]INFO: $file"
+
+    bname=`basename $file | awk -F. '{print $1}'`
+    
+    tmp=`grep $bname $md5file`
+    if [ "$tmp" != "" ]; then
+	#echo "[${prog}]INFO: already in it."
+	continue
+    fi
+
+    hashval=`cat $file | grep "${bname}.zip" | awk -Fhash '{print $2}' | awk -F'<' '{print $1}' | awk -F'>' '{print $2}'`
+    #echo $hashval
+    if [ "$hashval" == "" ]; then
+	echo "[${prog}]WARNING: no checksum informaiton found for $bname !"
+	continue
+    fi
+    echo "[${prog}]INFO: adding $hashval ${bname}.zip"
+    echo $hashval ${bname}.zip >> $md5file
+     #exit
+   
+   
+done 

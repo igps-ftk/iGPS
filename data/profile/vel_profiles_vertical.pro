@@ -23,11 +23,28 @@ PRO VEL_PROFILEs_VERTICAL, vfile, pfile, opath
     fa='longmenshan'
     opath='D:\ICD\相关课题\IAA\figure\3.wenchuan.interseismic\pv'
     
-    PROFILE_NAME2VECTORFILE,   $
-      fa,   $ ;input, fault name
-      ffile=ffile,  $ ;output, fault file
-      pfile=pfile ;output, profile file
+    vfile='D:\ICD\projects\nsfc\2019\report\2021\figure\profile.gps.igps\VEL.MODEL_U'
+    pfile='D:\gsar\interseismic\077-d-m4-0483_0488_0493_0498-jiali2_nujiang4_cona1\f123\sbas.4.0.0367.9999.20141103.20200523.104.1433.01.___\p.fa_jiali\profiles_auto.psxy'
+    fa='fa_jiali'
+    ffile='C:\GMT_pub\vector\profile\fa_jiali.psxy'
+    opath='D:\ICD\projects\nsfc\2019\report\2021\figure\profile.gps.igps\pgu.fa_jiali'
+    
+    vfile='C:\GMT_pub\gps\liang.etal.2013\vel_u.txt'
+    ffile='C:\GMT_pub\vector\profile\fa_haiyuan.psxy'
+    pfile='D:\gsar\interseismic\033-d-m4-0458_0463_0468_0473-qinghai_lake_haiyuan\f123\sbas.4.0.0367.9999.20141031.20210421.147.1280.01.___\p.fa_haiyuan\profiles_auto.psxy'
+    opath='D:\gsar\doc\eq.20220108.m6.9.menyuan\figure\profile.gps.liang.etal.2013\pgu.fa_haiyuan'
+    
+       vfile='\\10.4.134.31\root\g6e\gsar\gic3dv\dayi\2019ea001036_dataverse_files.dayi\gic3dv.out.u'
+    ffile='C:\GMT_pub\vector\profile\fa_lms_central.psxy'
+    pfile='\\10.4.134.31\root\g6e\gsar\gic3dv\dayi\2019ea001036_dataverse_files.dayi\pg.fa_lms_central_h\profiles_auto.psxy'
+    opath='\\10.4.134.31\root\g6e\gsar\gic3dv\dayi\2019ea001036_dataverse_files.dayi\pg.fa_lms_central_u'
+    
+;    PROFILE_NAME2VECTORFILE,   $
+;      fa,   $ ;input, fault name
+;      ffile=ffile,  $ ;output, fault file
+;      pfile=pfile ;output, profile file
   ENDIF
+  
   
   IF FILE_TEST(opath,/directory) NE 1 THEN FILE_MKDIR,opath
   IF N_ELEMENTS(out_plot) EQ 0 THEN out_plot=0
@@ -37,7 +54,8 @@ PRO VEL_PROFILEs_VERTICAL, vfile, pfile, opath
   lines=read_txt(pfile)
   np=0
   pxys=-9999d0
-  MaxDist=180d0 ;maximum searching distance beside the profile line, in kilometers
+  MaxDist=5d0 ;maximum searching distance beside the profile line, in kilometers
+  ;stop
   
   FOR li=0, N_ELEMENTS(lines)-1 DO BEGIN
     line=lines[li]
@@ -272,7 +290,8 @@ PRO VEL_PROFILEs_VERTICAL, vfile, pfile, opath
     
     x0=REFORM(p_lls[1,pos[ind]])
     y0=REFORM(vel_up_all[ind])
-    y0s=SMOOTH(y0,5,/edge_tru)
+    ;y0s=SMOOTH(y0,5,/edge_tru)
+    y0s=y0
     
     ofile=opath+PATH_SEP()+'profile_'+STRING(pi+1,format='(i02)')+'_vel.psxy'
     OPENW,fid,ofile,/get_lun

@@ -1,0 +1,56 @@
+#!/bin/sh
+
+# Name:
+#   sh_lsattr_esa_data
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+
+PROG=sh_lsattr_esa_data
+
+host=`hostname`
+
+hid="g`echo $host | sed -e 's/[a-z]//g'`"
+echo hid $hid
+
+paths=`df -h | grep $hid | awk '{print $6}'`
+for path in $paths; do
+  echo $path
+  if [ ! -s ${path}/esa.data/S1 ]; then
+    continue
+  fi
+  
+  if [ "$path" == "/g4e" -o "$path" == "/g4d" ]; then
+    continue
+  fi
+
+  if [ -s ${path}/esa.data/S1 ]; then  
+    echo "lsattr ${path}/esa.data/S1/*.zip >> /g4d/esa.data/lsatrr.txt"
+    echo "lsattr ${path}/esa.data/S1/*.zip >> /g4d/esa.data/lsatrr.txt" | sh
+  fi
+
+  if [ -s ${path}/esa.data/S1.2 ]; then
+    echo "lsattr ${path}/esa.data/S1.2/*.zip >> /g4d/esa.data/lsatrr.txt"
+    echo "lsattr ${path}/esa.data/S1.2/*.zip >> /g4d/esa.data/lsatrr.txt" | sh
+  fi
+
+  if [ -s ${path}/esa.data/S1.3 ]; then
+    echo "lsattr ${path}/esa.data/S1.3/*.zip >> /g4d/esa.data/lsatrr.txt"
+    echo "lsattr ${path}/esa.data/S1.3/*.zip >> /g4d/esa.data/lsatrr.txt" | sh
+  fi
+
+done

@@ -1,0 +1,13 @@
+#!/bin/sh
+
+ids=`cat ../ids`
+
+
+
+for id in $ids; do
+  echo scp ./.inputrc node${id}:/root/
+  echo scp ./.inputrc node${id}:/root/ | sh
+
+  #exit
+done
+

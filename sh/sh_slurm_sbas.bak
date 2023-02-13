@@ -1,0 +1,140 @@
+#!/bin/sh
+
+# Name:
+#   sh_slurm_sbas
+#   
+
+# Purpose:
+#   Queue sbas tasks to slurmd.
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+. ${HOME}/.bashrc
+
+
+PROG=sh_slurm_sbas
+
+
+#--
+# |-F?
+# |  |-intf_all/
+# |  |-raw/
+# |  |-topo/
+# |  |  |-dem.grd
+# |  |  |-trans.dat
+# |  |-batch_tops.config
+# |  |-intf.in
+# |  |-intf.tab
+# |  |-scene.tab
+
+t1_sbas=1
+t2_sbas=9999
+reso=2
+delay=10
+
+
+while [ "$1" != "" ]; do
+  case $1 in
+	  -t1)
+	    t1_sbas=$2
+	    ;;
+	  -t2)
+	    t2_sbas=$2
+	    ;;
+	  -r|-resolutoin)
+	    reso=$2
+	    ;;
+	  -d|-delay)
+	    delay=$2
+	    ;;
+	  *)
+	    echo "[$PROG]ERROR: invalid options ($1) !!!"
+	    exit 1
+	    ;;
+  esac
+  shift 2
+done
+
+if [ ! -s intf.tab ]; then
+	echo "[$PROG]ERROR: no intf.tab!!"
+	exit 1
+fi
+if [ ! -s scene.tab ]; then
+	echo "[$PROG]ERROR: no scene.tab!!"
+	exit 1
+fi
+
+
+cpath=`pwd`
+F_ID=`basename ${cpath}`
+tmp=`dirname $cpath`
+E_ID=`basename ${tmp}`
+echo expt ID is $E_ID $F_ID
+
+n_intf=`cat intf.tab | wc -l`
+n_scen=`cat scene.tab | wc -l`
+
+sbas_id="${t1_sbas}_${t2_sbas}_${n_intf}_${n_scen}"
+
+echo "[$PROG]INFO: queuing $sbas_id ..."
+
+cmdfile=slurm_sbas_${sbas_id}.cmd
+if [ -s "$cmdfile" ]; then
+  echo "[$PROG]INFO:already queued ($cmdfile). Skipped."
+  exit
+fi
+
+logfile="slurm_sbas_${sbas_id}.log"
+
+echo "which gmt" > $cmdfile
+echo 'echo $PATH' >> $cmdfile
+echo 'which sbas' >> $cmdfile
+echo "sh_esa_s1_call_sbas -t1 $t1_sbas -t2 $t2_sbas -r $reso " >> $cmdfile
+
+
+file_t=slurm_sbas_${sbas_id}.sh
+
+
+
+echo "#!/bin/sh" > $file_t
+echo "#SBATCH --job-name=${F_ID}-${E_ID}-${sbas_id}" >> $file_t
+echo "#SBATCH --nodes=1" >> $file_t
+echo "#SBATCH --ntasks=1" >> $file_t
+echo "#SBATCH -p sbas" >> $file_t
+echo "#SBATCH --cpus-per-task=1" >> $file_t
+echo "cd $cpath" >> $file_t
+echo "pwd; hostname; date" >> $file_t
+
+echo "sh $cmdfile >& $logfile" >> $file_t
+
+echo 'date' >> $file_t
+
+echo $file_t
+cat $file_t
+#exit
+pwd
+sbatch $file_t
+
+tmp1=`sinfo | grep intf | grep -i idle`
+tmp2=`sinfo | grep intf | grep -i mix`
+tmp="${tmp1}${tmp2}"
+#echo "tmp1|$tmp1|"
+#echo "tmp2|$tmp2|"
+#echo "tmp|$tmp|"
+#if [ "$tmp" != "" ]; then
+  sleep 10
+  echo delay is $delay
+#fi
+
+
+sinfo
+squeue -p sbas

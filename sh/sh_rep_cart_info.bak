@@ -1,0 +1,53 @@
+#!/bin/sh
+
+# Name:
+#   sh_rep_cart_info
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+if [ $# -ne 2 ]; then
+  echo "Usage: sh_rep_cart_info file ofile"
+  exit 1
+fi
+
+file=products_t128_1.meta4
+ofile=products_t128_ok.meta4
+
+file=$1
+ofile=$2
+
+if [ "$file1" == "$file2" ]; then
+  echo "[sh_rep_cart_info]ERROR:output file is the same as input file!!"
+  echo input $file
+  echo output $ofile
+  exit 1
+fi
+ 
+newstr=Products
+
+oldstr="Users('tianyf')\/Cart"
+echo $oldstr
+echo $newstr
+echo sed  "s/${oldstr}/${newstr}/g" $file $ofile
+sed  "s/${oldstr}/${newstr}/g" $file > ._tmp
+
+oldstr="Users('y.f.tian')\/Cart"
+echo $oldstr
+echo $newstr
+echo sed  "s/${oldstr}/${newstr}/g" $file $ofile
+sed  "s/${oldstr}/${newstr}/g" ._tmp > $ofile
+

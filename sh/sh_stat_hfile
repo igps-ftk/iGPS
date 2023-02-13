@@ -102,15 +102,15 @@ while [ ${year} -le ${yearEnd} ]; do
         #pwd
 	hfile=${local_root}/${year}/${doy}/h${expt}a.${yr}${doy}.Z
 	if [ -s $hfile ]; then
-	    ns=`gzgrep "Number of stations" $hfile | head -1 | awk '{printf("%03d", $4)}'`
+	    ns=`zgrep "Number of stations" $hfile | head -1 | awk '{printf("%03d", $4)}'`
 	    #echo $hfile $ns
 	    decyrs=`doy $year $doy | tail -1 | awk '{print $3}'`
 	    decyrs=`doy $year $doy | head -1 | awk '{print $8}'`
-	    lines=`gzgrep -n "Name of track stations" $hfile | head -1 | awk -F":" '{print $1}'`
+	    lines=`zgrep -n "Name of track stations" $hfile | head -1 | awk -F":" '{print $1}'`
 	    linee=`expr $lines + $ns - 1`
 	    linee=`expr $lines + $ns `
 	    #echo $linee
-	    snames=`gzcat $hfile | head -${linee} | tail -${ns} | awk '{print $2}'`
+	    snames=`zcat $hfile | head -${linee} | tail -${ns} | awk '{print $2}'`
 	    echo $expt $decyrs $year $doy $ns $snames
 	else
 	    echo $expt $decyrs $year $doy 000

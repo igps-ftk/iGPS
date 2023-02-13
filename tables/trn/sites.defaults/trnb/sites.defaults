@@ -26,8 +26,8 @@ x mali_gps trnb ftprnx xstinfo glreps
  maui_gps trnb ftprnx xstinfo glreps
  maw1_gps trnb ftprnx xstinfo glreps
  mcm4_gps trnb ftprnx xstinfo glreps
- mdo1_gps trnb ftprnx xstinfo glreps
- mkea_gps trnb ftprnx xstinfo glreps
+x mdo1_gps trnb ftprnx xstinfo glreps
+x mkea_gps trnb ftprnx xstinfo glreps
  nlib_gps trnb ftprnx xstinfo glreps
  npri_gps trnb ftprnx xstinfo glreps
  nrc1_gps trnb ftprnx xstinfo glreps
@@ -36,7 +36,7 @@ x mali_gps trnb ftprnx xstinfo glreps
  onsa_gps trnb ftprnx xstinfo glreps
  pert_gps trnb ftprnx xstinfo glreps
  petp_gps trnb ftprnx xstinfo glreps
- pie1_gps trnb ftprnx xstinfo glreps
+x pie1_gps trnb ftprnx xstinfo glreps
  pin1_gps trnb ftprnx xstinfo glreps
  pin2_gps trnb ftprnx xstinfo glreps
  pol2_gps trnb ftprnx xstinfo glreps

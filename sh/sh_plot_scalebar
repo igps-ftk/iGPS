@@ -1,0 +1,37 @@
+#!/bin/sh
+
+# Name:
+#   sh_plot_scalebar
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+gmtset FONT_LABEL                     = 7p,Helvetica,black
+gmtset FONT_ANNOT_SECONDARY           = 7p,Helvetica,black
+gmtset FONT_TITLE                     = 7p,Helvetica,black
+gmtset FONT_ANNOT_PRIMARY             = 7p,Helvetica,black
+gmtset MAP_FRAME_PEN                  = .25p,blue
+gmtset MAP_TICK_PEN_PRIMARY           = .5p,red
+gmtset MAP_ANNOT_OFFSET_PRIMARY       = .41p
+#gmtset MAP_ANNOT_OFFSET_PRIMARY       = 3p
+gmtset MAP_TICK_LENGTH_PRIMARY        = 2p/1p
+
+
+
+gmt makecpt -Cjet -T-10/10/.1 -Z -I > vel_ll.cpt4
+gmt psscale -Dx.15i/.17i/2c/.5c  -Cvel_ll.cpt4 -B10f5::/:"mm/yr": -P  > scalebar.ps
+gmt ps2raster -A -Tj scalebar.ps
+

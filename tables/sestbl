@@ -71,6 +71,7 @@ Quick-pre observable = LC_ONLY    ; For 1st iter or autcln pre, default same as 
 Decimation factor = 4               ; FOR SOLVE, default = 1  
 Quick-pre decimation factor = 10  ; 1st iter or autcln pre, default same as Decimation Factor
 Scratch directory = ./    
+Ion model = NONE
 
 
 Optional controls:

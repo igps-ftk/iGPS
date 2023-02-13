@@ -130,7 +130,9 @@ c     V20150106T225944
          call ymdhms_to_jd(date,sec,jd)
          jd2a=jd
 c         write(*,*) year,mon,day,hh,mm,ss,jd2a
-         if (jd2a>jd1b) then
+c         if (jd2a>jd1b) then
+         if (jd2a>jd1a-0.01) then
+c       earlier 15 minutes
 c            write(*,*) 'time out of range 1'
             goto 700
          endif
@@ -145,7 +147,9 @@ c     ending time
          call ymdhms_to_jd(date,sec,jd)
          jd2b=jd
 c         write(*,*) year,mon,day,hh,mm,ss,jd2b
-         if (jd2b<jd1a) then
+c         if (jd2b<jd1a) then
+c       
+         if (jd2b<jd1b+.01) then
 c            write(*,*) 'time out of range 2'
             goto 700
          endif

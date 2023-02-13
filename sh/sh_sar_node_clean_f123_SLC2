@@ -1,0 +1,51 @@
+#!/bin/sh
+
+# Name:
+#   sh_sar_node_clean_f123_SLC
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+oldpath=`pwd`
+
+swaths='1 2 3'
+
+grep '^ ' wc-l-20200424.txt > .tmp
+
+while read line; do
+  echo $line
+  path=`echo $line | awk '{print $5}'`
+  #exit
+  for i in $swaths; do
+    if [ ! -d ${path}/F${i} ]; then
+      continue
+    fi
+    echo "rm -rf ${path}/F${i}/intf_all"
+    echo "rm -rf ${path}/F${i}/intf"
+    echo "rm -rf ${path}/F${i}/intf_2*"
+    echo "rm -rf ${path}/F${i}/intf_all_los_ll_png"
+
+    files=`find ${path}/F${i}/raw -name "s1*.tiff"`
+    for file in $files; do
+      echo rm $file
+    done
+
+    files=`find ${path}/F${i}/raw -name "s1*.SLC"`
+    for file in $files; do
+      echo rm $file
+    done
+    #exit
+  done
+done < .tmp

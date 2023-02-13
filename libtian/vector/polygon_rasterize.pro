@@ -44,6 +44,7 @@ PRO POLYGON_RASTERIZE, xys,rect=rect,xstep=xstep,ystep=ystep, $  ;,nx=nx,ny=ny
     oxs[i,*]=rect[0]+xstep*i
     FOR j=0, ny-1 DO BEGIN
       oys[i,j]=rect[2]+ystep*j
+      ;is_in=IS_POINT_INSIDE_POLYGON(xys, [86,36])
       is_in=IS_POINT_INSIDE_POLYGON(xys, [oxs[i,j],oys[i,j]])
       IF is_in NE 1 THEN CONTINUE
       ;plots,oxs[i,j],oys[i,j],psym=2,color='ff0000'x

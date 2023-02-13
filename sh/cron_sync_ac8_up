@@ -1,0 +1,40 @@
+#!/bin/sh
+
+# Name:
+#   cron_sync_ac8_up
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+rsync -avP /g8g/esa.data/aux_poeorb/2022 jiang@210.31.68.9:/cygdrive/d/esa.data/aux_poeorb/
+rsync -avP /g8g/esa.data/aux_poeorb/2021 jiang@210.31.68.9:/cygdrive/d/esa.data/aux_poeorb/
+
+rsync -avP /g8g/esa.data/aux_resorb/2022 jiang@210.31.68.9:/cygdrive/d/esa.data/aux_resorb/
+rsync -avP /g8g/esa.data/aux_resorb/2021 jiang@210.31.68.9:/cygdrive/d/esa.data/aux_resorb/
+
+rsync -avP /g8g/esa.data/meta4 jiang@210.31.68.9:/cygdrive/d/esa.data/
+rsync -avP /g8g/esa.data/metainfo/metalink jiang@210.31.68.9:/cygdrive/d/esa.data/metainfo
+rsync -avP /g8g/esa.data/metainfo/xml jiang@210.31.68.9:/cygdrive/d/esa.data/metainfo
+rsync -avP /g8g/esa.data/vector jiang@210.31.68.9:/cygdrive/d/esa.data/
+
+rsync -avP /g8g/esa.data/metainfo/manifest.safe jiang@210.31.68.9:/cygdrive/d/esa.data/metainfo
+#rsync -avP /g8g/esa.data/safe/S1.2/*.safe jiang@210.31.68.9:/cygdrive/d/esa.data/safe/all/
+
+#rsync -avP /g8g/esa.data/safe/S1/*.safe /g8g/esa.data/safe/all/
+#rsync -avP /g8g/esa.data/safe/S1.2/*.safe /g8g/esa.data/safe/all/
+
+
+

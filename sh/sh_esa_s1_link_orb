@@ -1,5 +1,7 @@
 #!/bin/sh
 
+. ${HONE}/.bashrc
+
 
 if [ "$esa_data" = "" ]; then
     echo "[ERROR]ESA environment variable esa_data must be set first! Stopped."

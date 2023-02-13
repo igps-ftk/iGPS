@@ -1,0 +1,73 @@
+#!/bin/sh
+
+# Name:
+#   sh_s1_whois
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+
+PROG=sh_s1_whois
+
+path_old=`pwd`
+
+usage(){
+  echo "[$PROG]Usage: ${PROG} "
+  echo "[$PROG]Usage: e.g.,"
+  echo "[$PROG]Usage:  "
+}
+
+file=
+
+csvlist=/g4d/esa.data/metainfo/csv/filelist
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -f|-file)
+      file=$2
+      ;;
+    *)
+      echo "[$PROG]ERROR: invalid option ($1)!!"
+      usage
+      exit 1
+      ;;
+  esac
+  shift 2  
+done
+
+if [ "$file" == "" ]; then
+  echo "[$PROG]ERROR: no file given!!"
+  exit 1
+fi
+
+#echo $file
+file_id=`basename $file | awk -F. '{print $1}'`
+#echo file_id $file_id
+
+#file_csv=`find /g4d/esa.data/metainfo/csv -maxdepth 1 -type f -name "*$file_id*.csv" | sort | tail -1`
+file_csv=`cat $csvlist | grep $file_id | sort | tail -1`
+if [ "$file_csv" == "" ]; then
+  eixt
+fi
+
+#echo $file_csv
+frame=`tail -1 $file_csv | awk -F\",\" '{printf("%04d", $8)}'`
+track=`tail -1 $file_csv | awk -F\",\" '{printf("%03d", $7)}'`
+trk=`tail -1 $file_csv | awk -F\",\" '{print $7}'`
+ad=`tail -1 $file_csv | awk -F\",\" '{print  substr($25,1,1)}'`
+
+echo ${ad}${track}_${frame} $ad $track $frame $file
+

@@ -1,0 +1,62 @@
+#!/bin/sh
+
+# Name:
+#   sh_tar_sbas
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+remote_host=10.4.134.16
+remote_root=/cygdrive/i/INSAR/sar
+
+
+expts=`find /sar/proc_gmtsar/landslide/ -maxdepth 1 -type d -name "[AD]**"`
+echo expts $expts
+opath="${remote_root}/proc_gmtsar/landslide"
+
+
+for expt in $expts; do
+  echo $expt
+  
+  opath_t="${opath}/`echo $expt | sed -e 's/\/sar\/proc_gmtsar\/landslide\///g'`"
+  #echo "ssh $remote_host \"mkdir -p $opath_t\" "
+  #echo "ssh $remote_host \"mkdir -p $opath_t\" " | sh
+  rsync -avP --exclude "*.grd"  --exclude "*.tiff"  --exclude "*.SLC"  --exclude "*.dat"  --exclude "*.xml" --exclude "*.EOF" --exclude "*.PRM*"  --exclude "*.LED"   --exclude "*intf*"  ${expt} ${remote_host}:${remote_root}/proc_gmtsar/landslide/
+  continue
+  for i in 1 2 3 ; do
+    dir_sbass=`find ${dir}/F${i}.x2/ -maxdepth 1 -type d -name "sbas*"`
+    for dir_sbas in $dir_sbass; do
+      echo $dir_sbas
+      opath_t="${opath}/`echo $dir_sbas | sed -e 's/\/sar\/proc_gmtsar\/landslide\///g'`"
+      echo "ssh $remote_host \"mkdir -p $opath_t\" "
+      echo "ssh $remote_host \"mkdir -p $opath_t\" " | sh
+      #continue
+
+      rsync -avP $dir_sbas/*.kml ${remote_host}:$opath_t/
+      rsync -avP $dir_sbas/*.png ${remote_host}:$opath_t/
+      rsync -avP $dir_sbas/vel_mask_ll* ${remote_host}:$opath_t/
+      rsync -avP $dir_sbas/data.in ${remote_host}:$opath_t/
+      rsync -avP $dir_sbas/baseline* ${remote_host}:$opath_t/
+      rsync -avP $dir_sbas/*.pdf ${remote_host}:$opath_t/
+      rsync -avP $dir_sbas/*.jpg ${remote_host}:$opath_t/
+
+      rsync -avP $dir_sbas/*.tab ${remote_host}:$opath_t/
+      
+      #exit
+
+    done
+  done
+done

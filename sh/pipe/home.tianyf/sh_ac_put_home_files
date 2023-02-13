@@ -1,0 +1,23 @@
+#!/bin/sh
+
+ids=`cat ../ids`
+ids='4 5 6 7 9 10 12'
+#ids='4 5'
+
+for id in $ids; do
+
+  #echo scp ./.bashrc node${id}:/home/tianyf/
+  #echo scp ./.bashrc node${id}:/home/tianyf/ | sh
+  #continue
+
+
+  echo scp -p .cshrc gpsac${id}:/home/tianyf/
+  echo scp -p .cshrc gpsac${id}:/home/tianyf/ | sh
+
+  #echo scp /home/tianyf/.gmtversions node${id}:/home/tianyf/
+  #echo scp /home/tianyf/.gmtversions node${id}:/home/tianyf/ | sh
+
+
+  #exit
+done
+

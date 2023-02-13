@@ -1,0 +1,93 @@
+# Makefile for profile on Linux 3.10.0-1160.49.1.el7.x86_64 by unimake at Sun Jan 23 07:06:07 CST 2022
+
+all: sar_los_profile_fit profile_vector_auto profile_sar_los_auto
+
+
+
+# ASSIGMENTS
+   
+# ASSIGMENTS
+### LF95 flags ###  
+#FTN = lf95  
+#FFLAGS = -O 
+#CC = gcc
+#CFLAGS = -g
+### IFC 7.0 flags ###
+#FTN = ifc
+#FFLAGS = -O -Vaxlib -save -zero -u -72 -w95 -w90 -cm   
+#CC = icc   
+#CFLAGS = -O 
+### IFORT 8.0 flags ###
+#FTN = ifort
+#FFLAGS = -O3 -L/usr/lib -Vaxlib -save -zero -u -72 -w95 -w90 -cm -assume byterecl -static -shared-intel #-xN
+#FFLAGS = -O3 -L/usr/lib -Vaxlib -save -zero -u -72 -w95 -w90 -cm -assume byterecl -static  -L/opt/intel/mkl/9.1.023/lib/em64t/ -lmkl_lapack -lmkl_em64t   -lguide -lpthread  #-xN
+#CC = icc   
+#CFLAGS = -O  -lz 
+#IFORT 2013
+#FFLAGS = -FI -zero -fpp -nbs -save -DOS_UNIX -assume byterecl -warn noalignments  -mcmodel large -shared-intel
+#CFLAGS = -O0  -lz 
+### G77 flags ###
+#FTN = g77 
+#FFLAGS = -O3 -Wuninitialized -Wunused -Wimplicit -fno-f2c -ffast-math -fno-automatic -fno-backslash -Wno-globals -fno-globals
+#CC = gcc
+#CFLAGS = -g  
+
+# test for PGI Fortran compiler
+#FTN = pgf77 
+#FFLAGS = -O3 -Msave -Mpreprocess -DOS_UNIX
+# -Wuninitialized -Wunused -Wimplicit -fno-f2c -ffast-math -fno-automatic -fno-b
+# ackslash -Wno-globals -fno-globals
+#CC = pgcc
+#CFLAGS = -g  
+
+### GCC V4 gfortran flags ###
+FTN = gfortran
+FFLAGS = -O2 -Wuninitialized -Wunused -Wimplicit -fno-f2c -ffast-math -fno-automatic -fno-backslash -m64 -mcmodel=large
+CC = gcc
+#CFLAGS = -g  
+#### For 64-bit machines:
+CFLAGS = -g -m64 -DADD64BIT
+
+SAR_PROFILE_LIB = sar_profile_lib.a.Linux_x86_64
+SAR_PROFILE_LIB = sar_profile_lib.a.Linux_x86_64
+SLIB = ../../data/read/cgps_data_read.a.Linux_x86_64 ../../data/site/cgps_data_site.a.Linux_x86_64 ../../lib/cgps_lib.a.Linux_x86_64 ../../../../gglib/gglib.a.Linux_x86_64 ./sar_profile_lib.a.Linux_x86_64 
+X11LIB = 
+II = 
+
+sar_los_profile_fit : sar_los_profile_fit.f  $(SLIB) 
+	$(FTN) sar_los_profile_fit.f  $(SLIB) -o sar_los_profile_fit.Linux_x86_64 $(FFLAGS)
+	rm -f sar_los_profile_fit.o
+
+profile_vector_auto : profile_vector_auto.f $(SAR_PROFILE_LIB) $(SLIB) ../../inc/cgps.h
+	$(FTN) profile_vector_auto.f $(SAR_PROFILE_LIB) $(SLIB) -o profile_vector_auto.Linux_x86_64 $(FFLAGS)
+	rm -f profile_vector_auto.o
+
+profile_sar_los_auto : profile_sar_los_auto.f $(SAR_PROFILE_LIB) $(SLIB) ../../inc/cgps.h
+	$(FTN) profile_sar_los_auto.f $(SAR_PROFILE_LIB) $(SLIB) -o profile_sar_los_auto.Linux_x86_64 $(FFLAGS)
+	rm -f profile_sar_los_auto.o
+
+$(SAR_PROFILE_LIB) : \
+	$(SAR_PROFILE_LIB)(along_line_shift.o) \
+	$(SAR_PROFILE_LIB)(perp_line_shift.o)
+	ranlib sar_profile_lib.a.Linux_x86_64
+
+$(SAR_PROFILE_LIB) : \
+	$(SAR_PROFILE_LIB)(along_line_shift.o) \
+	$(SAR_PROFILE_LIB)(perp_line_shift.o)
+	ranlib sar_profile_lib.a.Linux_x86_64
+
+
+.c.a:
+	$(CC) -c $(CFLAGS) -I$(II) $<
+	ar rv $@ *.o
+	rm -f $*.o
+
+.f.a:
+	$(FTN) -c $(FFLAGS) $<
+	ar rv $@ *.o
+	rm -f $*.o
+
+
+cleanall:
+	rm -f *.a.Linux_x86_64 *.o *core sar_los_profile_fit profile_vector_auto profile_sar_los_auto  sar_los_profile_fit.Linux_x86_64 profile_vector_auto.Linux_x86_64 profile_sar_los_auto.Linux_x86_64
+# End of Makefile

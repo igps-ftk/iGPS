@@ -1,9 +1,9 @@
 ;+
-; :Description:
+; :DESCRIPTION:
 ;    Calulate the intersect point (d2) of a line (defined by two points: a1, b1) and
 ;      a line defined by one point (c2) and its rate (rate2).
 ;
-; :Params:
+; :PARAMS:
 ;    a1 - the first point defining the straight line
 ;    b1 - the second point defining the line
 ;    c2 - the outer point
@@ -14,7 +14,7 @@
 ; :Modifications:
 ;   +Create on Thu, Nov 05, 2015 11:56:30 PM by tianyf
 ;
-; :Author: tianyf
+; :AUTHOR: tianyf
 ;-
 PRO POINT_INTERSECT_RECT, rect, a1, rate1, b1, c1
   IF N_PARAMS() LT 3 THEN BEGIN
@@ -25,17 +25,23 @@ PRO POINT_INTERSECT_RECT, rect, a1, rate1, b1, c1
     rate1=-.000d0
     rate1=1.25d0
     ;rate1=(rect[1]-a1[1])/(rect[0]-a1[0])
-  ;rate1=!values.d_infinity
+    ;rate1=!values.d_infinity
     
-  ;    ;for vertical line
-  ;    b1=[100.320,    25.841]*1d0
-  ;    c1=[104.769,    27.037]*1d0
-  ;    a1=[100.320,    29.356]*1d0
-  ;
-  ;    ;for horizontal line
-  ;    b1=[100.320,    25.841]*1d0
-  ;    c1=[104.769,    27.037]*1d0
-  ;    a1=[105.687,    25.841]*1d0
+    ;    ;for vertical line
+    ;    b1=[100.320,    25.841]*1d0
+    ;    c1=[104.769,    27.037]*1d0
+    ;    a1=[100.320,    29.356]*1d0
+    ;
+    ;    ;for horizontal line
+    ;    b1=[100.320,    25.841]*1d0
+    ;    c1=[104.769,    27.037]*1d0
+    ;    a1=[105.687,    25.841]*1d0
+    ;
+    ;
+    rect=DOUBLE(STRSPLIT('94.671687       25.844816       108.50326       35.119381',/extract))
+    a1=[103.90954 ,      31.213408]*1d0
+    rate1=-1.1644416d0
+    
   ENDIF
   
   ;  ;if vertical line
@@ -94,7 +100,7 @@ PRO POINT_INTERSECT_RECT, rect, a1, rate1, b1, c1
         ENDIF
       ENDFOR
     ENDFOR
-    pos=where(finite(out_ps[0,*]))
+    pos=WHERE(FINITE(out_ps[0,*]))
   ENDIF
   b1=out_ps[*,pos[0]]
   c1=out_ps[*,pos[1]]
@@ -108,7 +114,9 @@ PRO POINT_INTERSECT_RECT, rect, a1, rate1, b1, c1
     PLOT,[rect[0],rect[2],rect[2],rect[0],rect[0]], $
       [rect[1],rect[1],rect[3],rect[3],rect[1]], $
       color='0'x,background='ffffff'x,/ynozero, $
-      /iso,yrange=[23,30],xrange=[98,110],thick=3
+      /iso, $
+      ;yrange=[23,30],xrange=[98,110],  $
+      thick=3
     PLOTS,[a1[0]],[a1[1]],color='0'x,psym=2
     ;OPLOT,[c1[0],x1],[c1[1],y1],color='0'x,thick=3
     
@@ -128,7 +136,10 @@ PRO POINT_INTERSECT_RECT, rect, a1, rate1, b1, c1
     PLOTS,o4[0],o4[1],psym=4,color='0'x,symsize=2
     PLOTS,[b1[0],c1[0]],[b1[1],c1[1]],psym=-4,symsize=3,color='ff0000'x
     
-    jfile='J:\phd\expt\gpsf\external\addon\vel\fault\point_intersect_rect.eg.jpg'
-    WRITE_JPEG, jfile, TVRD(true=1),true=1,quality=100
+  ;    jfile='D:\iGPS\libtian\math\point_intersect_rect.eg2.jpg'
+  ;    WRITE_JPEG, jfile, TVRD(true=1),true=1,quality=100
+  
+  print,b1
+  print,c1
   ENDIF
 END

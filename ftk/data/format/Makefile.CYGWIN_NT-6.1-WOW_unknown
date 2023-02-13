@@ -1,18 +1,18 @@
-# Makefile for format on CYGWIN_NT-6.1-WOW 2.8.0(0.309/5/3) by unimake at Fri, Jun 09, 2017  4:50:41 PM
+# Makefile for format on CYGWIN_NT-6.1-WOW 3.1.4 by unimake at Fri, Mar 27, 2020 10:08:05 PM
 
 all: cgps_data_format asc2bin_sio asc2bin_sios jpl2sios trk2sios trk2hneus l_l_r2llr l_l_r2llrs l_l_r2llrs_panga pbo2sios pbo2cats pos2neu pos2qmap qocaload2cats qocaload2sios scec_csv2sio sio2cats sio2otr sio2otd sio2otx usgs_ts2sio cmonoc2sios neu_extract_by_neu qmap_extract_by_neu tenv3_to_sios
 
-FFLAGS = -O3 -Wuninitialized -fno-f2c -ffast-math -fno-automatic -fno-backslash -lnetcdf -I/usr/local/netcdf-3.6.3-gftn/inc -L/usr/local/netcdf-3.6.3-gftn/lib
 
- 
 
 # ASSIGMENTS
 ### G77 flags ###
 #FTN = g77 
+#FFLAGS = -O3 -Wuninitialized -Wunused -Wimplicit -fno-f2c -ffast-math -fno-automatic -fno-backslash -Wno-globals -fno-globals
 #CC = gcc
 #CFLAGS = -g -lz 
 ### GCC V4 gfortran flags ###
 FTN = gfortran
+FFLAGS = -O3 -Wuninitialized -Wunused -Wimplicit -fno-f2c -ffast-math -fno-automatic -fno-backslash
 CC = gcc
 CFLAGS = -g -lz 
 #### For 64-bit machines:

@@ -1,19 +1,31 @@
-PRO SAR_S1_MANIFEST2OUTLINE, path
+PRO SAR_S1_MANIFEST2OUTLINE, path, opath
 
   PROG=(STRSPLIT(LAST(SCOPE_TRACEBACK()),/EXTRACT))[0]
   
   IF N_PARAMS() LT 1 THEN BEGIN
   
-    path='C:\Downloads\esa.data\S1'
-    path='C:\Downloads\esa.data\S1\tmp'
+    path='C:\Downloads\esa.data\safe\all\'
+    ;    path='C:\Downloads\esa.data\safe\S1.2'
+    path='C:\Downloads\esa.data\safe\S1'
+    ;    path='C:\Downloads\esa.data\safe\9'
+    path='\\10.4.35.86\root\g4b\gsar\A000'
+    path='\\10.4.35.82\root\g4d\gsar\turkey\A116'
+    
     
   ENDIF
   
+  IF N_ELEMENTS(opath) EQ 0 THEN BEGIN
+    opath=path
+  ENDIF
   
-  files=FILE_SEARCH(path+PATH_SEP()+'*.manifest.safe', count=nf)
+  files=FILE_SEARCH(path+PATH_SEP()+'S1?*_SLC*.manifest.safe', count=nf)
   IF nf LE 0 THEN BEGIN
     RETURN
   ENDIF
+  PRINT,'['+prog+']INFO: #files = '+STRTRIM(nf,2)+'.'
+  ;stop
+  
+  PRINT,'['+prog+']INFO: reading footprints for all data files ...'
   
   regions=REPLICATE(PTR_NEW(),nf)
   nps=INTARR(nf)
@@ -24,6 +36,11 @@ PRO SAR_S1_MANIFEST2OUTLINE, path
     file=files[fi]
     names[fi]=GETFILENAME(file)
     ;
+    perc=((fi+1d0)/nf*100)
+    IF (fi MOD 100) EQ 0 THEN BEGIN
+      PRINT,'['+prog+']INFO: footprints '+STRING(perc,'(I3,"%",1x)')+'...'
+    ENDIF
+    
     lines=read_txt(file)
     line=grepi(lines,'coordinates')
     ; <gml:coordinates>32.437653,89.348289 32.836613,91.993134 31.158100,92.323769 30.756710,89.728622</gml:coordinates>
@@ -52,12 +69,13 @@ PRO SAR_S1_MANIFEST2OUTLINE, path
     ENDCASE
     
   ENDFOR
+  PRINT,'['+prog+']INFO: footprints '+STRING(100,'(I3,"%",1x)')+'...'
   
   ;stop
   pos=WHERE(obtyps EQ 0)
   HELP,pos
   IF pos[0] NE -1 THEN BEGIN
-    ofile=path+PATH_SEP()+'outline_ascending.shp'
+    ofile=opath+PATH_SEP()+'outline_ascending.shp'
     SHP_POLYGON,  $
       ofile,   $ ;output shapefile name
       region=regions[pos],   $ ;x,y coorinates of each polygons (pointer type)
@@ -71,7 +89,7 @@ PRO SAR_S1_MANIFEST2OUTLINE, path
   pos=WHERE(obtyps EQ 1)
   HELP,pos
   IF pos[0] NE -1 THEN BEGIN
-    ofile=path+PATH_SEP()+'outline_descending.shp'
+    ofile=opath+PATH_SEP()+'outline_descending.shp'
     SHP_POLYGON,  $
       ofile,   $ ;output shapefile name
       region=regions[pos],   $ ;x,y coorinates of each polygons (pointer type)

@@ -24,7 +24,7 @@ c     --EXTERNAL--
 
 c     --Local Parameters--
       integer*4 nmaxsite,nsite1,nsite2,i,j
-      parameter(nmaxsite=5000)
+      parameter(nmaxsite=50000)
       character*4 sites1(nmaxsite),sites2(nmaxsite),sites(nmaxsite)
 
       integer*4 ind1(nmaxsite),ind2(nmaxsite)

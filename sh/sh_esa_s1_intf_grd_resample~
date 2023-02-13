@@ -1,0 +1,41 @@
+#!/bin/sh
+
+# Name:
+#   sh_esa_s1_intf_grd_2_classic
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+path=intf_all
+opath=intf_all_classic
+
+dirs=`ls $path/ | grep _  |grep "201[4-9]"`
+for dir in $dirs; do
+    echo $dir
+    odir="${opath}/${dir}"
+    echo "mkdir -p $odir"
+    echo "mkdir -p $odir" | sh
+
+    echo "\cp -f ${path}/${dir}/unwrap_mask_ll.png ${odir}/"
+    echo "\cp -f ${path}/${dir}/unwrap_mask_ll.png ${odir}/" | sh
+    
+    echo "grdconvert ${path}/${dir}/corr_cut.grd ${odir}/corr_cut.grd=cf"
+    echo "grdconvert ${path}/${dir}/corr_cut.grd ${odir}/corr_cut.grd=cf" | sh
+
+    echo "grdconvert ${path}/${dir}/unwrap_mask.grd ${odir}/unwrap_mask.grd=cf"
+    echo "grdconvert ${path}/${dir}/unwrap_mask.grd ${odir}/unwrap_mask.grd=cf" | sh
+    #exit
+done

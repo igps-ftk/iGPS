@@ -1,0 +1,72 @@
+#!/bin/sh
+
+# Name:
+#   sh_sar_s1_files_list
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+. ${HOME}/.bashrc
+
+PROG=sh_sar_s1_files_list
+
+file_lock=/sar/s1/_tmp_${PROG}.lock
+
+if [ -s $file_lock ]; then
+  echo "[$PROG]WARNING: locked by $file_lock!"
+  exit 1
+fi
+
+date > $file_lock
+hostname >> $file_lock
+
+path_old=`pwd`
+
+usage(){
+  echo "[$PROG]Usage: ${PROG} "
+  echo "[$PROG]Usage: e.g.,"
+  echo "[$PROG]Usage:  "
+}
+
+while [ "$1" != "" ]; do
+  case $1 in
+    *)
+      echo "[$PROG]ERROR: invalid option ($1)!!"
+      usage
+      \rm -f $file_lock
+      exit 1
+      ;;
+  esac
+  shift 2  
+done
+
+path=/sar/s1/links
+#path=/sar/s1/A011
+
+echo "[PROG]INFO:searching files in $path ..."
+find $path -maxdepth 1 -type l -name "S1*.zip" -exec ls -l {} \; > /sar/s1/files.ll
+echo "[$PROG]INFO: checking files size ..."
+sort -k9 /sar/s1/files.ll | awk '{print "ls -lh",$NF}' | sh > /sar/s1/files.lh
+
+nf=`wc -l /sar/s1/files.lh | awk '{print $1}'`
+stot=`cat /sar/s1/files.lh | awk '{print $5}' | sed -e 's/G//g' | sed -e 's/M//g' | total`
+
+stot_T=`echo $stot | awk '{print $1/1024.}'`
+
+echo $nf > /sar/s1/files.stat
+echo $stot >> /sar/s1/files.stat
+echo $stot_T >> /sar/s1/files.stat
+
+\rm -rf $file_lock

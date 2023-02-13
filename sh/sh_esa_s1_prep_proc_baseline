@@ -18,6 +18,8 @@
 
 # Dependency:
 #   
+. ${HOME}/.bashrc
+
 
 if [ "$esa_unzip" = "" ]; then
     echo "ESA environment esa_unzip variable not set! Stopped!!"
@@ -27,15 +29,18 @@ fi
 
 if [ "$1" == "" -o "$2" == "" ]; then
     echo "Usage: sh_esa_s1_prep_proc -file baseline_table_file "
-    exit 1
+    #exit 1
 fi
 
 
-file=  #input file
+file=baseline_table.dat  #input file
 super_master_ind=1 #super master index
 max_dist=500  #meters
 min_interval=.1 #days
+max_interval=10000 #days
 echo defaults values initiated
+
+update_config=y	#update master line in batch_tops.config with the template (batch_tops.config.2)
 
 while [ "$1" != "" ]; 
 do
@@ -49,8 +54,14 @@ do
 	-max_dist)
 	    max_dist=$2
 	    ;;
-	-min_interval)
+	-t1|-min_interval)
 	    min_interval=$2
+	    ;;
+        -t2|-max_interval)
+            max_interval=$2
+            ;;
+	-update_config)
+	    update_config=$2
 	    ;;
 	*)
 	    echo "[]ERROR: wrong input option ($1)!!"
@@ -60,6 +71,8 @@ do
     shift 2
 done
 
+
+echo $file
 #exit
 ids=`cat $file | awk '{print $1}'`
 doyrs=`cat $file | awk '{print $3}'`
@@ -75,7 +88,7 @@ while [ $i -le $nday ]; do
     while [ $j -le $nday ]; do
 	#Remove large perpendicular baseline pairs
 	dist=`echo $dists | awk '{print sqrt(($i-$j)*($i-$j)) }' i=$i j=$j`
-	isOK=`echo $dist $max_dist | awk '{if($1<$2){print 1}else{print 0}}'`
+	isOK=`echo $dist $max_dist | awk '{if($1<=$2){print 1}else{print 0}}'`
 	if [ $isOK -ne 1 ]; then
 	    img1=`echo $ids | awk '{print $i}' i=$i`
 	    img2=`echo $ids | awk '{print $j}' j=$j`
@@ -86,11 +99,11 @@ while [ $i -le $nday ]; do
 	#
 	#Remove long temporal interval
 	interval=`echo $doyrs | awk '{print sqrt(($i-$j)*($i-$j)) }' i=$i j=$j`
-	isOK=`echo $interval $min_interval | awk '{if($1>$2){print 1}else{print 0}}'`
+	isOK=`echo $interval $min_interval $max_interval | awk '{if($1>=$2&&$1<=$3){print 1}else{print 0}}'`
 	if [ $isOK -ne 1 ]; then
 	    img1=`echo $ids | awk '{print $i}' i=$i`
 	    img2=`echo $ids | awk '{print $j}' j=$j`
-	    echo "[]WARNING:too short time interval ($interval days) between $img1 and $img2. Skipped!"
+	    echo "[]WARNING:too short/long time interval ($interval days) between $img1 and $img2. Skipped!"
 	    j=`expr $j + 1`
 	    continue
 	fi
@@ -105,5 +118,8 @@ while [ $i -le $nday ]; do
     i=`expr $i + 1`
 done
 
-ref_img=`echo $ids | awk '{print $smi}' smi=$super_master_ind`
-sed -e "s/master_image.*/master_image = $ref_img/" batch_tops.config.2 > batch_tops.config
+
+if [ "$update_config" == "y" ]; then
+  ref_img=`echo $ids | awk '{print $smi}' smi=$super_master_ind`
+  sed -e "s/master_image.*/master_image = $ref_img/" ../batch_tops.config > batch_tops.config
+fi

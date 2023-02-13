@@ -39,19 +39,19 @@ c      write(*,*) '#param:',iargc()
       enddo
       goto 801
  800  write(*,'(a)') 'Syntax:'
-      write(*,700) 'newhtml [filename] [--file=~/.../doc/mod.html]'
-      write(*,700) 'newhtml [--file=~/.../doc/mod.html] [filename]'
+      write(*,700) 'newhtml [filename] [--file=~/.../inc/mod.html]'
+      write(*,700) 'newhtml [--file=~/.../inc/mod.html] [filename]'
  700  format(8x,a)
       stop
 
  801  continue
-      file='~/gpsf/cgps/doc/prog.f'
-      file='/export/home/tianyf/gpsf/cgps/doc/mod.html'
+      file='~/iGPS/ftk/inc/prog.f'
+      file='/export/home/tianyf/iGPS/ftk/inc/mod.html'
 c     in Solaris x86 10, the ~ home directory substitute does not work.
 c     f90/Sun Studio11
 
       call getenv('HOME',home)
-      file=home(1:nblen(home))//'/gpsf/cgps/doc/mod.html'
+      file=home(1:nblen(home))//'/iGPS/ftk/inc/mod.html'
       fido=6
       ofile=' '
       do i=1,iargc()

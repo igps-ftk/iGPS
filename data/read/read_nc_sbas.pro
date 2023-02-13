@@ -5,6 +5,8 @@ PRO READ_NC_SBAS,FILE,DATA=DATA, $
     
   IF N_PARAMS() LT 1 THEN BEGIN
     file='C:\Downloads\gsartest\dangxiong2\des_F2\disp_002_ll.nc'
+    file='\\gpsac5\root\b1\gsar\m_manyi4\des_F2\unwraps\2017299_2016287-unwrap.grd'
+    file='\\10.4.134.32\root\g7e\gsar\m_tangrayumco_shenza-dingjie2\f123.1\SBAS5\r10\disp_2018305_ll_r10.nc'
   ENDIF
   
   IF N_ELEMENTS(VAR_TYPE) EQ 0 THEN VAR_TYPE='z'

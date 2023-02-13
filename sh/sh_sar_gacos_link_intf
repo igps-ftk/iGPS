@@ -1,0 +1,66 @@
+#!/bin/sh
+
+# Name:
+#   sh_sar_link_gacos_intf
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+path_old=`pwd`
+
+
+path_intf_all=intf_all/
+path_gacos_all=gacos_all/
+opath=gacos_intf_all
+
+mkdir -p $opath
+
+intfs=`find $path_gacos_all -maxdepth 1 -type d -name "2*_2*"`
+for intf in $intfs; do
+    cd $path_old
+    echo $intf
+    intf_name=`basename $intf`
+    opath_intf=${opath}/${intf_name}
+    mkdir -p $opath_intf
+    cd $opath_intf
+    pwd
+    file_corr=../../${path_intf_all}/${intf_name}/corr_cut.grd
+    if [ -s $file_corr ]; then
+        ln -s ${file_corr} .
+    else
+        echo "[]ERROR: no corr file ($file_corr)!!"
+        continue
+    fi
+
+
+    file_unwrap=../../${path_gacos_all}/${intf_name}/ztd_gacos_detrend.grd
+    if [ -s $file_unwrap ]; then
+        ln -s ${file_unwrap} unwrap_mask.grd
+    else
+        echo "[]ERROR: no gacos ztd file ($file_unwrap)!!"
+        continue
+    fi
+
+
+   file_jpg=../../${path_gacos_all}/${intf_name}/ztd_gacos_detrend.jpg
+    if [ -s $file_jpg ]; then
+        ln -s ${file_jpg} .
+    else
+        echo "[]ERROR: no gacos ztd jpg  file ($file_jpg)!!"
+        continue
+    fi
+
+    #exit
+done

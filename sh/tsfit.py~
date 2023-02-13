@@ -1,0 +1,21 @@
+#!/bin/python
+
+import numpy as np
+
+f = open("0001.neu", "r")
+#lines = text_file.readlines()
+#lines = text_file.read().split(' ')
+#print (lines)
+#print (len(lines))
+#text_file.close()
+line=f.readline()
+data_list=[]
+while line:
+  num=list(map(float,line.split()))
+  data_list.append(num)
+  line=f.readline()
+f.close
+data_array=np.array(data_list)
+
+print(data_array)
+print( len(data_array) )

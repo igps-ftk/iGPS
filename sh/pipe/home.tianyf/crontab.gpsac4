@@ -1,0 +1,8 @@
+#1 12 * * * /g4d/esa.data/sh/cron_esa_s1_get_orb
+2 2 * * * /home/tianyf/iGPS/sh/cron_backup_igps
+30 * * * * /home/tianyf/iGPS/sh/cron_sync_ac4_down >& /home/tianyf/tmp/cron-ac4-down
+*/1 * * * * /home/tianyf/iGPS/sh/cron_sync_ac4_down_arp >& /home/tianyf/tmp/cron-ac4-down-arp
+
+1 1,13 * * * /home/tianyf/iGPS/sh/cron_asf_china_east >& /home/tianyf/tmp/log.cron_asf_china_east
+1 */6 * * * /home/tianyf/iGPS/sh/cron_esa_s1_zip_check >& /home/tianyf/tmp/log.cron_esa_s1_zip_check
+

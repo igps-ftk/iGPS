@@ -1,0 +1,24 @@
+#!/bin/sh
+
+ids=`grep '^ ' ../ids`
+#ids=`grep '^ ' ids_online`
+#ids=`cat ../ids_12`
+#ids=" 1 7 8 9 10 13 14 15 16 17 18"
+#ids=`grep '^ ' ids_online`
+
+
+for id in $ids; do
+  if [ $id -lt 1 ]; then
+    echo continue
+    echo continue
+  fi
+
+  cmdstr2="systemctl restart firewalld"
+  cmdstr1="firewall-cmd --reload"
+  echo  on node${id} with command $cmdstr1 and $cmdstr2
+  #ssh node${id} $cmdstr1
+  ssh node${id} $cmdstr2
+
+
+  #exit
+done

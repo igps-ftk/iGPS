@@ -1,0 +1,25 @@
+#!/bin/sh
+
+ids=`grep '^ ' ../ids`
+#ids=`cat ../ids_12`
+#ids="2"
+ids='19 20'
+ids='19 20'
+
+for id in $ids; do
+  if [ $id -lt 1 ]; then
+    echo continue
+    continue
+  fi
+
+  cmdstr1="systemctl enable httpd"
+  cmdstr2="systemctl restart httpd"
+  echo  starting slurmd service on node${id} with command $cmdstr1 and $cmdstr2
+  ssh node${id} $cmdstr1
+  ssh node${id} $cmdstr2
+
+
+  #exit
+done
+
+

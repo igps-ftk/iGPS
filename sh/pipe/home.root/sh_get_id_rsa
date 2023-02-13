@@ -1,0 +1,48 @@
+#!/bin/sh
+
+# Name:
+#   sh_get_id_rsa
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+
+PROG=sh_get_id_rsa
+
+path_old=`pwd`
+
+usage(){
+  echo "[$PROG]Usage: ${PROG} "
+  echo "[$PROG]Usage: e.g.,"
+  echo "[$PROG]Usage:  "
+}
+
+while [ "$1" != "" ]; do
+  case $1 in
+    *)
+      echo "[$PROG]ERROR: invalid option ($1)!!"
+      usage
+      exit 1
+      ;;
+  esac
+  shift 2  
+done
+
+ids=`grep '^ ' ../ids`
+for id in $ids; do
+  echo "mkdir -p g${id}"
+  echo "rsync -avP g$id:/root/.ssh/id_rsa.pub g${id}/"
+done

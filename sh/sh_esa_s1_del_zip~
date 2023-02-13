@@ -1,0 +1,45 @@
+#!/bin/sh
+
+# Name:
+#   sh_mv_manifest_outside
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+grep '^ ' safe_outside.txt | awk -F\\ '{print $4}' > .tmp
+dos2unix .tmp
+while read line ; do
+  file1=${esa_data}/S1/`echo ${line} | awk -F. '{print $1".zip"}'`
+  if [ -L $file1 ]; then
+      file2=`ls -l $file1 | awk '{print $11}'`
+      #exit
+  else
+      file2=$file1
+  fi
+  ofile=/cloud1/ESA/S1.2/`basename ${file2} `
+  #echo $ofile
+  if [ -s $ofile ]; then
+      echo "$ofile already copied! skip"
+      continue
+  fi
+  #echo scp $file1 /cloud1/ESA/S1.2/
+  #echo scp $file1 /cloud1/ESA/S1.2/ | sh
+  #echo rsync -th --progress $file2 /cloud1/ESA/S1.2/
+  #echo rsync -th --progress $file2 /cloud1/ESA/S1.2/ | sh
+  echo rm -f $file1
+  echo rm -rf $file2
+  #exit
+done < .tmp
+

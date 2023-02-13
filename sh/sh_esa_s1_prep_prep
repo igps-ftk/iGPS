@@ -18,6 +18,7 @@
 
 # Dependency:
 #   
+PROG=sh_esa_s1_prep_prep
 
 if [ "$esa_unzip" = "" ]; then
     echo "ESA environment esa_unzip variable not set! Stopped!!"
@@ -49,8 +50,25 @@ while read line; do
     
     awk 'NR>1 {print $0}' < ${esa_unzip}/${dfile}/manifest.safe > tmp_file
     files=`ls ${esa_unzip}/${dfile}/annotation/*-${iw_typ}-*.xml`
+
+    ipf_ver=`cat ${esa_unzip}/${dfile}/manifest.safe | grep IPF | tail -1 | awk -F\" '{print $4}'`
+    echo "ipf_ver $ipf_ver $dfile"
+
+    is_update_ipf=`cat ${esa_unzip}/${dfile}/manifest.safe | grep IPF | tail -1 | awk -F\" '{if($4>2.36){print 0}else{print 1}}'`
+    echo is_update_ipf $is_update_ipf
+
     for file in $files; do
-	cat ${file} tmp_file ${GMT5SAR}/preproc/S1A_preproc/src_tops/s1a-aux-cal.xml > `basename ${file}`
+      ofile="`basename ${file}`"
+      if [ -s $ofile ]; then
+        echo "[$PROG]INFO: already exist! NOT overwitten ($ofile)."
+        continue
+      fi
+      if [ $is_update_ipf -eq 1 ]; then
+        echo "[$PROG]INFO: creating ($ofile) ..."
+        cat ${file} tmp_file ${GMT5SAR}/preproc/S1A_preproc/src_tops/s1a-aux-cal.xml > $ofile
+      else
+        ln -s $file .
+      fi
     done
     #exit
 done < .tmp

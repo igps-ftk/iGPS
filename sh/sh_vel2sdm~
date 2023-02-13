@@ -1,0 +1,34 @@
+#!/bin/sh
+
+# Name:
+#   sh_vel2sdm
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+xmin=92.3
+xmax=92.4
+ymin=29.775
+ymax=29.875
+
+grdcut vel_ll.grd -Gvel_ll_cut.grd -R${xmin}/${xmax}/${ymin}/${ymax}
+grdcut rms_ll.grd -Grms_ll_cut.grd -R${xmin}/${xmax}/${ymin}/${ymax}
+
+grd2xyz vel_ll_cut.grd > vel_ll_cut.xyz
+grd2xyz rms_ll_cut.grd > rms_ll_cut.xyz
+
+paste vel_ll_cut.xyz rms_ll_cut.xyz > vel_rms_ll_cut.xyz
+
+grep -iv 'nan'  vel_rms_ll_cut.xyz | awk '{print $2,$1,$3,$6}' > vel_asc.xyze

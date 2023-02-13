@@ -1,0 +1,3 @@
+1 1,13 * * * /home/tianyf/iGPS/sh/cron_asf_china_east >& /home/tianyf/tmp/log.cron_asf_china_east
+2 5,13,21 * * * /home/tianyf/iGPS/sh/cron_sar_check_slc_md5_g16h >& /home/tianyf/tmp/log.cron_sar_check_slc_md5_g16h
+3 10,23 * * * /home/tianyf/iGPS/sh/cron_esa_s1_zip_check >& /home/tianyf/tmp/log.cron_esa_s1_zip_check

@@ -1,0 +1,83 @@
+#!/bin/sh
+
+# Name:
+#   sh_sar_name_expt
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+
+PROG=sh_sar_name_expt
+
+
+targets=' S1A_IW_SLC__1SDV_20150204T001611_20150204T001638_004466_00579C_7291 S1A_IW_SLC__1SDV_20150204T001636_20150204T001703_004466_00579C_EBE5 S1A_IW_SLC__1SDV_20150204T001700_20150204T001727_004466_00579C_D99A.manifest.safe'
+targets=
+
+if [ "$1" == "" ]; then
+  echo "[$PROG]ERROR: no input information!!"
+  exit
+fi
+
+
+while [ "$1" != "" ]; do
+  #echo $1
+  targets="$targets $1"
+  shift 1
+done
+#echo targets $targets
+#exit
+
+
+
+
+oldtrack=0
+frames=
+count=0
+for target in $targets; do
+  target_i=`echo $target | awk -F. '{print $1}'`
+  #echo $target_i
+  file_csv="${esa_data}/metainfo/csv/${target_i}.csv"
+  if [ ! -s $file_csv ]; then
+    echo "[$PROG]ERRROR: no information found for $target!!"
+    exit 1
+  fi
+  #wc -l $file_csv
+  track=`tail -1 $file_csv | awk -F\",\" '{printf("%03d",$7)}'`
+  frame=`tail -1 $file_csv | awk -F\",\" '{printf("%04d", $8)}'`
+  ad=`tail -1 $file_csv | awk -F\",\" '{print tolower(substr($25,1,1))}'`
+  uid=`tail -1 $file_csv | awk -F\",\" '{print $1}'| awk -F_ '{print $10}'`
+  #echo track $track frame $frame uid $uid
+  if [ $oldtrack -eq 0 ]; then
+    oldtrack=$track
+  fi
+  
+  if [ $track -ne $oldtrack ]; then
+    ehco "[$PROG]ERROR: not in the same track ($track vs. $oldtrack)!!"
+    exit 1
+  fi
+  
+  if [ "$frames" == "" ]; then
+    frames=${frame}${uid}
+  else
+    frames="${frames}_${frame}${uid}"
+  fi
+  
+  count=`expr $count + 1`
+done
+
+
+out_name="${track}-${ad}-m${count}-${frames}"
+echo "EXPT $out_name"

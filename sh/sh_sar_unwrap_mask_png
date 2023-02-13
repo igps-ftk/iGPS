@@ -1,0 +1,63 @@
+#!/bin/sh
+
+# Name:
+#   sh_sar_unwrap_mask_ll_png
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+path=`pwd`
+
+if [ "`basename $path`" != "intf_all_detrend" ]; then
+    echo "[]WARNING: this script is supposed to run in intf_all_detrend directory!"
+    #exit 1
+fi
+
+files=`find $path -name "unwrap_mask.grd"`
+for file in $files; do
+    echo $file
+    path_cur=`dirname $file`
+    #bname=`basename $file`
+    #
+    cd $path_cur
+    pwd
+    #ls
+    #grdinfo unwrap_mask.grd
+    #ln -s ../../topo/trans.dat
+    #touch gauss_400
+    #proj_ra2ll.csh trans.dat unwrap_mask.grd unwrap_mask_ll.grd
+
+    #makecpt -Cjet -T-10/10/.1 -Z > unwrap.cpt
+    #grd2kml.csh unwrap_mask_ll unwrap.cpt
+
+    tmp=`gmt grdinfo -C -L2 unwrap_mask.grd`
+    #echo tmp $tmp
+    limitU=`echo $tmp | awk '{print $12+$13*2}'`
+    limitL=`echo $tmp | awk '{print $12-$13*2}'`
+    #echo $limitU $limitL
+
+    std=`echo $tmp | awk '{printf("%5.1f", $13)}'`
+    #echo gmt makecpt -Cjet -I -Z -T$limitL/$limitU/.1 -D
+    gmt makecpt -Cjet -I -Z -T$limitL/$limitU/.1 -D > unwrap.cpt
+    #echo $tmp $limitU $limitL
+    #exit
+
+    gmt grdimage unwrap_mask.grd -JX6.5i -Bxaf+lRange -Byaf+lAzimuth -BWSen -Cunwrap.cpt -X1.3i -Y3i -P -K > unwrap_mask.ps
+    gmt psscale -Runwrap_mask.grd -J -DJTC+w5i/0.2i+h+e -Cunwrap.cpt -Bxaf+l"Unwrapped phase" -By+lrad -O >> unwrap_mask.ps
+    gmt psconvert -A -Tj -P -Z unwrap_mask.ps
+    
+    #exit
+done

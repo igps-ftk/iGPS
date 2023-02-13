@@ -1,0 +1,44 @@
+#!/bin/sh
+
+# Name:
+#   sh_reDown_bad_rnx
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+
+PROG=sh_reDown_bad_rnx
+
+cat ../chk_size.txt | grep BAD | awk -F: '{print $2}' > .tmp
+
+while read line; do
+  echo $line
+  bname=`basename $line`
+  year=`echo $line | awk -F\/ '{print $6}'`
+  doyr=`echo $line | awk -F\/ '{print $7}'`
+  yr=`echo $year | awk '{print substr($1,3,2)}'`
+
+  echo "rm -rf $line"
+  echo "rm -rf $line" | sh
+
+  #url=`echo $line | awk '{print "http://garner.ucsd.edu/"substr($0,5)}'`
+  #echo "wget -c --http-user=anonymous --http-password=tianyf@gmail.com $url -O $line"
+
+  url="ftp://nfs.kasi.re.kr/gps/data/daily/$year/$doyr/${yr}d/$bname"
+  echo "wget -c $url -O $line"
+  echo "wget -c $url -O $line" | sh
+
+done < .tmp

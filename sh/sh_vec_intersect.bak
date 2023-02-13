@@ -1,0 +1,81 @@
+#!/bin/sh
+
+# Name:
+#   sh_vec_intersect
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+
+PROG=sh_vec_intersect
+
+
+timestamp=`date | sed -e 's/ /_/g' | sed -e 's/:/-/g'`
+
+vfile=S1_frames_A.psxy
+
+file=
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -file)
+      file=$2
+      ;;
+    -vfile)
+      vfile=$2
+      ;;
+    *)
+      echo "[$PROG]ERROR: invalid option ($1)!!"
+      echo "[$PROG]Usage: ${PROG} "
+      echo "[$PROG]Usage: e.g.,"
+      echo "[$PROG]Usage: ${PROG} "
+      exit 1
+      ;;
+  esac
+  shift 2  
+done
+
+if [ "$file" == "" ]; then
+  echo "[$PROG]ERROR: no file!!"
+  exit 1
+fi
+
+file1_tmp=_tmp_s1_frame_${PROG}_${timestamp}
+file2_tmp=_tmp_xy_${PROG}_${timestamp}
+
+lis=`grep -n '>' $vfile | awk -F\: '{print $1}'`
+for l1 in $lis; do
+  l2=`expr $l1 + 4`
+  #echo from line $l1 to $l2
+  sed -n "${l1},${l2}p" $vfile > ${file1_tmp}
+  
+  grep -v '>' $file > $file2_tmp
+  
+  while read line; do
+    is_in=`is_point_in_polygon $line $file1_tmp | grep is_in | awk '{print $2}'`
+    if [ $is_in -eq 1 ]; then
+      break
+    fi
+  done < $file2_tmp
+  
+  if [ $is_in -eq 1 ]; then
+    head -1 $file1_tmp | awk '{print (substr($2,3)}'
+    #exit
+  fi
+done
+
+\rm -f $file1_tmp $file2_tmp
+

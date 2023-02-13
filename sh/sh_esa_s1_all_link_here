@@ -1,0 +1,38 @@
+#!/bin/sh
+
+# Name:
+#   sh_esa_s1_all_link_here
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+opath=/sar/esa.sentinel-1/alll
+paths=`ls ../|grep '^t'`
+for path in $paths; do
+   echo $path
+   files=`find ../${path}/ -maxdepth 1 -name "S1*.zip"`
+   for file in $files; do
+     if [ -L ${opath}/`basename $file` ]; then
+       continue
+     fi
+     #exit
+     if [ -s ${file}.aria2 ]; then
+       echo "#[]INFO: not finished files ($file)! Skipped."
+       continue
+     fi
+     echo "ln -s $file ${opath}/"
+     echo "ln -s $file ${opath}/" | sh
+   done
+done

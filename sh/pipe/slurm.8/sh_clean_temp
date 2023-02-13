@@ -1,0 +1,21 @@
+#!/bin/sh
+
+ids=`grep '^ ' ../ids`
+#ids=`cat ../ids_12`
+
+for id in $ids; do
+  if [ $id -eq 1 ]; then
+    echo continue
+  fi
+
+  #cmdstr='rm -rf /home/tianyf/gsar/temp/*'
+  cmdstr="rm -rf /home/tianyf/gsar/temp"
+  cmdstr2="mkdir -p /home/tianyf/gsar/temp"
+
+  echo  clean slurm temporary files on node${id} with command $cmdstr
+  ssh node${id} $cmdstr
+  ssh node${id} $cmdstr2
+  #exit
+done
+
+

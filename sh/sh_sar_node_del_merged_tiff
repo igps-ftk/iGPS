@@ -1,0 +1,50 @@
+#!/bin/sh
+
+# Name:
+#   sh_sar_del_merged_tiff
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+
+paths=`find /sar/proc_gmtsar/interseismic -maxdepth 1 -type d -name "*[a-z]*"`
+for path in $paths; do
+  echo "# $path"
+  Fpaths=`find $path -maxdepth 1 -type d -name "???_F?"`
+  for Fpath in $Fpaths; do
+    echo "# $Fpath"
+    nf=`find $Fpath/raw -maxdepth 1 -type f -name "s1*.tiff" | wc -l | awk '{print $1}'`
+    nff=`wc -l $Fpath/baseline_table.dat | awk '{print $1}'`
+    echo "# nf $nf  vs nff $nff"
+    if [ $nf -ne $nff ]; then
+      echo "#continue"
+    fi
+    files_tiff=`find $Fpath/raw -maxdepth 1 -type f -name "s1*.tiff" | sort`
+    ii=1
+    for file_tiff in $files_tiff; do
+      if [ $ii -le 3 ]; then
+        echo "#keep $file_tiff"
+        ii=`expr $ii + 1`
+        #continue
+      fi
+
+      echo rm $file_tiff 
+
+      ii=`expr $ii + 1`
+    done
+  done
+  #exit
+done

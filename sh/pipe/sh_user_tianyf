@@ -1,0 +1,13 @@
+#!/bin/sh
+
+ids=`cat ids`
+
+ids="6"
+
+for id in $ids; do
+  echo rsh node${id} groupadd --gid 501 tianyf 
+  echo rsh node${id} groupadd --gid 501 tianyf | sh
+
+  exit
+done
+

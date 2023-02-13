@@ -1,4 +1,4 @@
-# Makefile for periodogram on CYGWIN_NT-6.1-WOW 2.8.0(0.309/5/3) by unimake at Fri, Jun 09, 2017  4:51:18 PM
+# Makefile for periodogram on CYGWIN_NT-6.1-WOW 3.1.4 by unimake at Fri, Mar 27, 2020 10:09:17 PM
 
 all: psdsios psd_stack_ray
 

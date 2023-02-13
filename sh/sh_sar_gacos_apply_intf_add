@@ -1,0 +1,78 @@
+#!/bin/sh
+
+# Name:
+#   sh_sar_apply_gacos_intf
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+path_old=`pwd`
+
+
+path_intf_all=intf_all_detrend
+path_intf_all=intf_all
+path_gacos_all=gacos_all
+opath=intf_all_gacos_add
+
+mkdir -p $opath
+
+intfs=`find $path_gacos_all/ -maxdepth 1 -type d -name "2*_2*"`
+for intf in $intfs; do
+    cd $path_old
+    echo $intf
+    intf_name=`basename $intf`
+    opath_intf=${opath}/${intf_name}
+    mkdir -p $opath_intf
+    cd $opath_intf
+    pwd
+    file_gacos=../../${intf}/ztd_gacos_detrend.grd
+
+
+    file_corr=../../${path_intf_all}/${intf_name}/corr_cut.grd
+    if [ -s $file_corr ]; then
+        ln -s ${file_corr} .
+    else
+        echo "[]ERROR: no corr file ($file_corr)!!"
+        continue
+    fi
+
+    #continue
+
+    file_unwrap=../../${path_intf_all}/${intf_name}/unwrap_mask.grd
+    if [ -s $file_unwrap ]; then
+         if [ ! -s unwrap_mask.grd ]; then
+             echo gmt grdmath ${file_unwrap} ${file_gacos} ADD = unwrap_mask.grd
+             echo gmt grdmath ${file_unwrap} ${file_gacos} ADD = unwrap_mask.grd | sh
+        fi
+    else
+        echo "[]ERROR: no gacos ztd file ($file_unwrap)!!"
+        continue
+    fi
+
+
+    if [  -s unwrap_mask.jpg ]; then
+        zmin=`gmt grdinfo -C unwrap_mask.grd | awk '{print $6}'`
+        zmax=`gmt grdinfo -C unwrap_mask.grd | awk '{print $7}'`
+        echo $zmin $zmax
+        gmt makecpt -Cjet -T${zmin}/${zmax}/.001 -Z -I > phase.cpt
+        gmt grdimage unwrap_mask.grd -JX5i -I$ztd12  -Cphase.cpt -Bxaf -Byaf -BWSne -P -V -X1.3i -Y3i -K > unwrap_mask.ps
+        gmt psscale -Runwrap_mask.grd  -J -DJTC+w5i/0.2i+h+e -Cphase.cpt -Baf+l"Wrapped PHase (radian)" -O >> unwrap_mask.ps
+        gmt psconvert -Tj -P -Z -A unwrap_mask.ps
+    fi
+
+    cd $path_old
+
+    #exit
+done

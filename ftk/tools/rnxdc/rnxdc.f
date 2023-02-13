@@ -12,7 +12,8 @@ c-
 
 
 c     variables declaration:
-      character*80 file,ofile,strbuf,flag,strtmp
+      character*1023 file,ofile
+      character*80 strbuf,flag,strtmp
       integer ioerr,ui,uo,tmp(2),nskip
       logical eof
       integer nblen,iargc,i

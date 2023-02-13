@@ -3,29 +3,29 @@
 ;
 ;-
 PRO CMC_CAL_OPTIMAL, $
-  path, $  ;residual path
-  corr_file, $  ;correlation coefficients
-  opath, $  ;output cmc series path
-  files=files,$ ;input files (overriding the path parameter)
-  szwin=szwin, xrange=xrange, yranges=yranges, $  ;for smoothing time series
-  dmin=dmin, $
-  is_use_sav=is_use_sav, $
-  tlb=tlb, $  ; used for update igps status text, if specified., $
-  status=status, $
-  fids=fids, $  ; file ids for files to process (use indgen(nf) to process all)
-  sf=sf, $
-  preview=preview, $  ;output smoothed cmc and filtered time series
-  opath_cmc_raw=opath_cmc_raw, $
-  opath_flt_raw=opath_flt_raw, $
-  nmin=nmin, $
-  prog=prog, $
-  overwrite=overwrite, $
-  _extra=_ex
-
+    path, $  ;residual path
+    corr_file, $  ;correlation coefficients
+    opath, $  ;output cmc series path
+    files=files,$ ;input files (overriding the path parameter)
+    szwin=szwin, xrange=xrange, yranges=yranges, $  ;for smoothing time series
+    dmin=dmin, $
+    is_use_sav=is_use_sav, $
+    tlb=tlb, $  ; used for update igps status text, if specified., $
+    status=status, $
+    fids=fids, $  ; file ids for files to process (use indgen(nf) to process all)
+    sf=sf, $
+    preview=preview, $  ;output smoothed cmc and filtered time series
+    opath_cmc_raw=opath_cmc_raw, $
+    opath_flt_raw=opath_flt_raw, $
+    nmin=nmin, $
+    prog=prog, $
+    overwrite=overwrite, $
+    _extra=_ex
+    
   PROG='CMC_CAL_OPTIMAL'
-
+  
   IF N_PARAMS() LT 3 THEN BEGIN
-
+  
     ;for all pbo sites (2015mar24)
     PATH='C:\garner\WNAM_Clean_ResidNeuTimeSeries_comb_20150318'
     ;opath='C:\garner\WNAM_Clean_ResidNeuTimeSeries_comb_20150318.cmc0'
@@ -34,32 +34,32 @@ PRO CMC_CAL_OPTIMAL, $
     CORR_FILE='C:\garner\WNAM_Clean_ResidNeuTimeSeries_comb_20150318.corr\pbo_sio_neu.snx'
     ;
     ;@gpsac4, TOTAL time:         6153 seconds OR      102.5644166668256100 minutes
-
+    
     ;path='E:\Papers.data\Paper.SpatialFltering\garner\WNAM_Clean_ResidNeuTimeSeries_comb_20150318'
     ;corr_file='E:\Papers.data\Paper.SpatialFltering\garner\WNAM_Clean_ResidNeuTimeSeries_comb_20150318.corr\pbo_sio_neu.snx'
-
+    
     ;path='/home/tianyf/garner/WNAM_Clean_ResidNeuTimeSeries_comb_20150318'
     ;corr_file='/home/tianyf/garner/WNAM_Clean_ResidNeuTimeSeries_comb_20150318.corr/pbo_sio_neu.snx'
-
+    
     ;    path='E:\Papers.data\Paper.SpatialFltering\pbo\pbo.final_igs08.pos.neu.demean'
     ;    corr_file='E:\Papers.data\Paper.SpatialFltering\pbo\pbo.final_igs08.pos.neu.demean.corr\pbo_pbo_neu.snx'
     ;
     ;    path='/home/tianyf/Papers.data/Paper.SpatialFltering/jpl/resid.enu'
     ;    corr_file='/home/tianyf/Papers.data/Paper.SpatialFltering/jpl/resid.neu.corr/glb_jpl_neu.snx'
-
+    
     ;for seasonal error analysis, sio
     path='E:\Papers.data\Paper.Seasonal.Positioning.Error\sio\GLB_Clean_ResidNeuTimeSeries_sopac_20160116.smoothed_resid.cln'
     corr_file='E:\Papers.data\Paper.Seasonal.Positioning.Error\sio\GLB_Clean_ResidNeuTimeSeries_sopac_20160116.smoothed_resid.cln.corr\glb_sio_neu.snx'
-;    ;for jpl
-;    path='e:\Papers.data\Paper.Seasonal.Positioning.Error\jpl\point.neu.smoothed_resid.cln'
-;    corr_file='e:\Papers.data\Paper.Seasonal.Positioning.Error\jpl\point.neu.smoothed_resid.cln.corr\glb_jpl_neu.snx'
+    ;    ;for jpl
+    ;    path='e:\Papers.data\Paper.Seasonal.Positioning.Error\jpl\point.neu.smoothed_resid.cln'
+    ;    corr_file='e:\Papers.data\Paper.Seasonal.Positioning.Error\jpl\point.neu.smoothed_resid.cln.corr\glb_jpl_neu.snx'
     sf=1d3
     ;nmin=3
     
-
-
-
-
+    
+    
+    
+    
     ;
     ;opath='C:\garner\WNAM_Clean_ResidNeuTimeSeries_comb_20150318.cmc3.5'
     OPATH='C:\garner\WNAM_Clean_ResidNeuTimeSeries_comb_20150318.cmc0b'
@@ -75,18 +75,22 @@ PRO CMC_CAL_OPTIMAL, $
     ;
     ;opath='/home/tianyf/garner/WNAM_Clean_ResidNeuTimeSeries_comb_20150318.cmc0_2015may13'
     ;opath='E:\Papers.data\Paper.SpatialFltering\garner\WNAM_Clean_ResidNeuTimeSeries_comb_20150318.cmc0_p'
-
-
+    
+    
     ;    PATH='D:\Papers.data\Paper.SpatialFltering\cmonoc\raw.resid'
     ;    OPATH='D:\Papers.data\Paper.SpatialFltering\cmonoc\raw.resid.cmc0'
     ;    CORR_FILE='D:\Papers.data\Paper.SpatialFltering\cmonoc\raw.resid.cmc0\corr\cmonoc_iscea_corr_neu.snx'
     opath='E:\Papers.data\Paper.Seasonal.Positioning.Error\sio\GLB_Clean_ResidNeuTimeSeries_sopac_20160116.smoothed_resid.cln.cmc0'
-;    opath='E:\Papers.data\Paper.Seasonal.Positioning.Error\jpl\point.neu.smoothed_resid.cln.cmc0'
-
-
+    ;    opath='E:\Papers.data\Paper.Seasonal.Positioning.Error\jpl\point.neu.smoothed_resid.cln.cmc0'
+    
+    
+    path='D:\gsar\asc\mila1s\asc_F1\SBAS.948.atm0\x5\raw.resid'
+    corr_file='D:\gsar\asc\mila1s\asc_F1\SBAS.948.atm0\x5\raw.cmc\corr\GLB_IGS_corr_neu.snx'
+    opath='D:\gsar\asc\mila1s\asc_F1\SBAS.948.atm0\x5\raw.cmc'
+    
     IS_USE_SAV=0
     IS_USE_SAV=1
-
+    
     ;fids=indgen(3)
     ;fids=indgen(829)+830 ;Total time:         4863 seconds or       81.0591450492540986 minutes
     ;fids=indgen(9=830) ;Total time:         6278 seconds or      104.6464868823687198 minutes
@@ -95,18 +99,18 @@ PRO CMC_CAL_OPTIMAL, $
     ;FIDS=635  ;GOUG FOR JPL
     
     preview=0
-
-
+    
+    
   ENDIF
-
+  
   status=0
-
+  
   LBL_ID=-1
   IF N_ELEMENTS(TLB) NE 0 THEN BEGIN
     LBL_ID=WIDGET_INFO(TLB, FIND_BY_UNAME='LBL_STATUS')
   ENDIF
-
-
+  
+  
   ;Model control parameters
   IF N_ELEMENTS(DMIN) EQ 0 THEN DMIN=0d0  ;first dmin = 0, then dmin=3.5
   IF N_ELEMENTS(NMIN) EQ 0 THEN NMIN=5  ;MINIMUM NUMBER OF CMC SITES
@@ -122,16 +126,16 @@ PRO CMC_CAL_OPTIMAL, $
   ;grid size 5*5
   IF N_ELEMENTS(TAUS) EQ 0 THEN TAUS=INDGEN(10)*5+1
   IF N_ELEMENTS(WS) EQ 0 THEN WS=INDGEN(10)*5+1
-
+  
   IF N_ELEMENTS(IS_USE_SAV) EQ 0 THEN IS_USE_SAV=0
   IF N_ELEMENTS(NEUSTR) EQ 0 THEN NEUSTR=['N','E','U']
-
+  
   IF N_ELEMENTS(DT_QUERYSTR) EQ 0 THEN DT_QUERYSTR='*.neu'
   IF N_ELEMENTS(CFILE) EQ 0 THEN CFILE=GET_CFILE()
   IF N_ELEMENTS(SF) EQ 0 THEN SF=1D3
   IF N_ELEMENTS(PREVIEW) EQ 0 THEN PREVIEW=0
   IF N_ELEMENTS(OVERWRITE) EQ 0 THEN OVERWRITE=0
-
+  
   ;outputting directories
   OPATH_FLT_RAW=OPATH+PATH_SEP()+'flt'+STRTRIM(DMIN,2) ;filtered time series (by CMC)
   OPATH_CMC_RAW=OPATH+PATH_SEP()+'cmc'+STRTRIM(DMIN,2) ; CMC
@@ -172,13 +176,13 @@ PRO CMC_CAL_OPTIMAL, $
       ENDIF
     ENDELSE
   ENDIF
-
+  
   ;GRIDDING SIZE
   NTAU=N_ELEMENTS(TAUS)
   NW=N_ELEMENTS(WS)
-
+  
   ;OUTPUT PLOT AXIS RANGES
-
+  
   IF N_ELEMENTS(XRANGE) EQ 0 THEN BEGIN
     XRANGE=[2006.,2010.6]
     XRANGE=[2005.8,2014.]
@@ -187,21 +191,21 @@ PRO CMC_CAL_OPTIMAL, $
     XRANGE=[1992,2015.2]
     XRANGE=[1992,2016.1]
   ENDIF
-
+  
   IF N_ELEMENTS(YRANGES) EQ 0 THEN BEGIN
     YRANGES=DBLARR(2,3)
     YRANGES[*,0]=[-.005,.005]*1D3
     YRANGES[*,1]=[-.005,.005]*1D3
     YRANGES[*,2]=[-.01,.01]*1D3
-
-    ;    YRANGES[*,0]=[-.005,.005]*2d3
-    ;    YRANGES[*,1]=[-.005,.005]*2d3
-    ;    YRANGES[*,2]=[-.01,.01]*2d3
+    
+  ;    YRANGES[*,0]=[-.005,.005]*2d3
+  ;    YRANGES[*,1]=[-.005,.005]*2d3
+  ;    YRANGES[*,2]=[-.01,.01]*2d3
   ENDIF
-
+  
   ;HELP, FILES
   ;STOP
-
+  
   NF=N_ELEMENTS(FILES)
   IF NF NE 0 THEN BEGIN
     PATH=GETPATHNAME(FILES[0])
@@ -214,14 +218,14 @@ PRO CMC_CAL_OPTIMAL, $
     IF LBL_ID NE -1 THEN WIDGET_CONTROL,LBL_ID,SET_VALUE=STR_STATUS
     RETURN
   ENDIF
-
-
+  
+  
   STR_STATUS=STRING('['+PROG+'] Read time sereis data in <'+PATH+'>.')
   PRINT, STR_STATUS
-  IF LBL_ID NE -1 THEN WIDGET_CONTROL,LBL_ID,SET_VALUE=STR_STATUS  
+  IF LBL_ID NE -1 THEN WIDGET_CONTROL,LBL_ID,SET_VALUE=STR_STATUS
   ;first, read all time series and save as a *.sav file.
   ;help, overwrite
-  ;stop
+  ;STOP
   NEU2SAV, $
     PATH, $   ;Input PATH
     FILES=FILES, $
@@ -232,8 +236,19 @@ PRO CMC_CAL_OPTIMAL, $
   ;then, restore the time series file.
   FILE_SAVED=GETPATHNAME(PATH+PATH_SEP()+'text.txt')+'.sav'
   RESTORE,FILENAME=FILE_SAVED
-
-
+  ;
+  ;if no sig, then set to 1
+  SZ=(SIZE(DATAA,/DIMENS))
+  IF SZ[0] EQ 3 THEN BEGIN
+    TMP=DBLARR(SZ[0]*2,SZ[1],SZ[2])
+    TMP[0:2,*,*]=DATAA
+    POS=WHERE(TMP[0,*,0] NE 0)
+    IF POS[0] NE -1 THEN BEGIN
+    TMP[3:*,POS,*]=1
+    ENDIF
+    DATAA=TMP
+  ENDIF
+  ;STOP
   ;
   ;Read/restore inter-station correlations
   FILE_SAVED=CORR_FILE+'.sav'
@@ -258,11 +273,11 @@ PRO CMC_CAL_OPTIMAL, $
     ; save as .sav file for later use
     SAVE,FILENAME=FILE_SAVED,SITES,CORRS,BLEN, BLEN_KM, LLHS
   ENDELSE
-
+  
   ;stop
   ;no correlation weighting (for pbo 746 sites 2014mar30 ONLY!)
   ;CORRS[*]=1
-
+  
   ;CORRECT NaN VALUES IN CORRS IF ANY
   POS=FINITE(CORRS,/NAN)
   TMP=WHERE(POS EQ 1)
@@ -270,8 +285,8 @@ PRO CMC_CAL_OPTIMAL, $
     PRINT,'['+PROG+'] WARNING: NaN values detected in inter-station correlations!'
     CORRS[TMP]=0
   ENDIF
-
-
+  
+  
   ;
   ;  ;FILE TO SAVE OPTIMAL VALUES OF TAU AND W
   ;  OFILE_PARAM=OPATH+PATH_SEP()+'param_tau_w.txt'
@@ -280,9 +295,9 @@ PRO CMC_CAL_OPTIMAL, $
   ;  PRINTF,FIDO_PARAM,'SITE','NEU','TAU','W',FORMAT='("*",A4,1X,A3,1X,A9,1X,A9)'
   ;  FLUSH,FIDO_PARAM
   ;STOP
-
+  
   T0=SYSTIME(/SECONDS)
-
+  
   ;help,fids
   ;print,fids
   ;return
@@ -291,7 +306,7 @@ PRO CMC_CAL_OPTIMAL, $
     ;FIDS=7
     FIDS=INDGEN(NF)
   ENDIF
-
+  
   NFID=N_ELEMENTS(FIDS)
   
   ;FOR FI=0, NFID-1 DO BEGIN
@@ -306,19 +321,19 @@ PRO CMC_CAL_OPTIMAL, $
     ;STOP
     tmp=EXECUTE(CMDSTR)
     DELTA_T=SYSTIME(1)-T0*1ULL
-
+    
   ENDFOR
-
-
-
+  
+  
+  
   DELTA_T=SYSTIME(1)-T0*1ULL
   ;PRINT,'Total time: '+STRING(DELTA_T,FORMAT='(I)')+' seconds or '+STRING(DELTA_T/60D0,FORMAT='(F)')+' minutes'
   STR_STATUS=STRING('['+prog+'] Total time: '+STRING(DELTA_T,FORMAT='(I)')+' seconds or '+STRING(DELTA_T/60D0,FORMAT='(F)')+' minutes')
   PRINT, STR_STATUS
   IF LBL_ID NE -1 THEN WIDGET_CONTROL,LBL_ID,SET_VALUE=STR_STATUS
-
-
-
+  
+  
+  
   ;RELEASE MEMORY
   CMC_ALL=-1
   CORRS=-1
@@ -333,7 +348,7 @@ PRO CMC_CAL_OPTIMAL, $
   FOR PI=0,N_ELEMENTS(INDS)-1 DO IF PTR_VALID(INDS[PI]) THEN PTR_FREE,INDS[PI]
   INDS=-1
   FOR I=0,N_ELEMENTS(HEADERS)-1 DO IF PTR_VALID(HEADERS[I]) THEN PTR_FREE,HEADERS[I]
-
+  
   CBLEN=-1
   CCORR=-1
   CSITES=-1
@@ -368,9 +383,9 @@ PRO CMC_CAL_OPTIMAL, $
   SLLHS_=-1
   SSITES_=-1
   TMPIND=-1
-
+  
   status=1
   ;STOP
   PRINT,'['+PROG+'] Normal end.'
-  ;THAT'S ALL.
+;THAT'S ALL.
 END

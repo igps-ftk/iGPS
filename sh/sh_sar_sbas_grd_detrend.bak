@@ -1,0 +1,74 @@
+#!/bin/sh
+
+# Name:
+#   sh_sar_sbas_grd_detrend
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+makecpt -Cjet -T-10/10/.1 -Z -I > vel.cpt
+
+#\rm _*
+roi_file=ref.kml
+
+file_grd=vel_mask_ll
+#file_grd=vel_ll
+
+
+  file_ref=_detrend_mask.grd
+
+N=3r
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -file_grd)
+      file_grd=$2
+      ;;
+    -N)
+      N=$2
+      ;;
+    *)
+      echo "[]ERROR: wrong option ($1)!!"
+      exit 1
+      ;;
+  esac
+  shift 2
+done
+
+ofile_grd=${file_grd}_detrend
+
+
+I=`gmt grdinfo -I ${file_grd}.grd`
+echo I $I
+
+
+    echo "gmt grdtrend -N$N ${file_grd}.grd -T_trend.grd -D${ofile_grd}.grd"
+    echo "gmt grdtrend -N$N ${file_grd}.grd -T_trend.grd -D${ofile_grd}.grd" | sh
+    #  
+    #gmt grdimage _trend.grd -JX6.5i -Bxaf+lRange -Byaf+lAzimuth -BWSen -C../unwrap.cpt -X1.3i -Y3i -P -K > _trend.ps
+    #gmt psscale -R_trend.grd -J -DJTC+w5i/0.2i+h+e -C../unwrap.cpt -Bxaf+l"Unwrapped phase" -By+lrad -O >> _trend.ps
+    #gmt psconvert -A -Tj -P -Z _trend.ps
+    
+    #gmt grdinfo _trend.grd
+    grd2kml.csh _trend vel.cpt
+    #echo "gmt grdmath ${file_grd}.grd _trend.grd SUB = ${ofile_grd}.grd"
+    #echo "gmt grdmath ${file_grd}.grd _trend.grd SUB = ${ofile_grd}.grd" | sh
+    grd2kml.csh ${ofile_grd} vel.cpt
+    #exit
+    
+    #gmt grdsample ${ofile_grd}.grd -I.008/.008 -G${ofile_grd}3_ref.grd
+    #gmt grd2xyz -s ${ofile_grd}3_ref.grd > ${file_grd}3_ref.xyz
+   

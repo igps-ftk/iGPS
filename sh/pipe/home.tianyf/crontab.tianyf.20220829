@@ -1,0 +1,48 @@
+#1 1 * * * /home/tianyf/iGPS/sh/sh_esa_s1_rsync_esa_data >& /sar/esa.sentinel-1/in-progress/log.sync.remote.dirs.txt
+2 2 * * * /home/tianyf/iGPS.addon/sh/cron_asf_aux_poeorb >& /sar/esa.sentinel-1/in-progress/log.aux.poeorb.txt
+3 3 * * * /home/tianyf/iGPS.addon/sh/cron_asf_aux_resorb >& /sar/esa.sentinel-1/in-progress/log.aux.resorb.txt
+4 4 * * * /home/tianyf/iGPS.addon/sh/cron_aux_resorb_push_node_to_ac4 >& /sar/esa.sentinel-1/in-progress/log.aux.resorb.2g4.txt
+5 4 * * * /home/tianyf/iGPS.addon/sh/cron_aux_poeorb_push_node_to_ac4 >& /sar/esa.sentinel-1/in-progress/log.aux.poeorb.2g4.txt
+
+
+
+##3 3 * * * /home/tianyf/iGPS/sh/sh_esa_s1_link_node_alll >& /sar/esa.sentinel-1/in-progress/log.link.alll.txt
+#4 4 * * * /home/tianyf/iGPS/sh/sh_esa_s1_chmod_node >& /sar/esa.sentinel-1/in-progress/log.chmod.txt
+#4 4 * * * /home/tianyf/iGPS/sh/cron_sar_node_link_s1_files_nas50t >& /sar/s1/log.cron_sar_node_link_s1_files_nas50t
+5 5 * * * /home/tianyf/iGPS/sh/sh_esa_s1_unzip_manifest_track >& /sar/s1/metainfo/manifest.safe/log.manifest_safe.txt
+6 */6 * * * /home/tianyf/iGPS/sh/cron_sar_node_check_in_progress >& /sar/esa.sentinel-1/in-progress/log.check.in-progress.txt
+#6 6 * * * /home/tianyf/iGPS/sh/cron_sar_node_get_metalink >& /sar/esa.sentinel-1/in-progress/log.get.metalink.txt
+#7 7 * * * /home/tianyf/iGPS/sh/sh_esa_s1_metalink_to_md5 >& /sar/esa.sentinel-1/in-progress/log.metalink2md5.txt
+#8 8 * * * /home/tianyf/iGPS/sh/cron_sar_node_check_md5 >& /sar/esa.sentinel-1/in-progress/log.check.md5.txt
+#####9 9 * * * /home/tianyf/iGPS/sh/cron_node_remove_old_s1_zip >& /sar/esa.sentinel-1/in-progress/log.remove_old_s1_zip.txt
+#10 10 * * * /home/tianyf/iGPS/sh/cron_node_sync_to_weiyun >& /sar/esa.sentinel-1/in-progress/log.sync_to_weiyun.txt
+11 11 * * * /home/tianyf/iGPS/sh/cron_sar_node_link_s1_files >& /sar/s1/log.cron_sar_node_link_s1_files.txt
+12 12 * * * /home/tianyf/iGPS/sh/cron_sar_node_link_s1_files_ac >& /sar/s1/log.cron_sar_node_link_s1_files_ac.txt
+##13 13 * * * /home/tianyf/iGPS/sh/cron_sar_node_extract_manifest_safe_by_track_frame >& /sar/s1/log.cron_sar_node_extract_manifest_safe_by_track_frame.txt
+14 14 * * * /home/tianyf/iGPS/sh/sh_esa_s1_get_csv >& /sar/s1/metainfo/log.sh_esa_s1_get_csv.txt
+#15 15 * * * /home/tianyf/iGPS/sh/cron_sar_node_auto_grid_create >& /sar/proc_gmtsar/auto_grid/log.cron_sar_node_auto_grid_create.txt
+#16 16 * * * /home/tianyf/iGPS/sh/cron_sar_node_auto_grid_batch -stage 1 >& /sar/proc_gmtsar/auto_grid/log.cron_sar_node_auto_grid_batch.stage1.txt
+#17 17 * * * /home/tianyf/iGPS/sh/cron_sar_node_auto_grid_batch -stage 3 >& /sar/proc_gmtsar/auto_grid/log.cron_sar_node_auto_grid_batch.stage3.txt
+#18 18 * * * /home/tianyf/iGPS/sh/cron_sar_node_auto_grid_batch -stage 4 >& /sar/proc_gmtsar/auto_grid/log.cron_sar_node_auto_grid_batch.stage4.txt
+
+
+#>>moved to n15
+#19 19 * * * /home/tianyf/iGPS/sh/cron_sar_node_link_s1_files2 >& /sar/s1_track_frame_slc/log.cron_sar_node_link_s1_files2.txt
+##20 19 * * * /home/tianyf/iGPS/sh/cron_sar_node_link_s1_files_ac2 >& /sar/s1_track_frame_slc/log.cron_sar_node_link_s1_files_ac2.txt
+#21 2 * * * /home/tianyf/iGPS/sh/sh_count_num_lys >& /sar/s1_track_frame_slc/log.sh_count_num.txt
+2 * * * * /home/tianyf/iGPS/sh/cron_sar_node_link_s1_files2_lys >& /sar/s1_track_frame_slc/log.cron_sar_node_link_s1_files_ac2_lys.txt
+#<<
+
+#1 1 * * * /home/tianyf/iGPS/sh/cron_asf_by_track >& /sar/esa.sentinel-1/in-progress/log.download.node1.txt
+
+22 22 * * * /home/tianyf/iGPS.addon/sh/cron_sync_safe >& /home/tianyf/tmp/log.cron_sync_safe.txt
+#23 23 * * * /home/tianyf/iGPS/sh/sh_sar_auto_grid_rescale_vel >& /sar/proc_gmtsar/auto_grid/scirpt/log.sh_sar_auto_grid_rescale_vel.txt
+
+1 */6 * * * /home/tianyf/iGPS/sh/sh_sar_irm_link_sbas >& /sar/proc_gmtsar/irm/www/log.sh_sar_irm_link_sbas
+31 */6 * * * /home/tianyf/iGPS/sh/sh_irm_get_frame_rect >& /sar/proc_gmtsar/irm/www/log.sh_irm_get_frame_rect
+
+11 1 * * * /home/tianyf/iGPS/sh/sh_sar_auto_grid_running_info >& /sar/proc_gmtsar/auto_grid/script/log/log.sh_sar_auto_grid_running_info
+*/5 * * * * /home/tianyf/iGPS/sh/sh_sar_auto_grid_event_2_queue >& /sar/proc_gmtsar/auto_grid/script/log/log.sh_sar_auto_grid_event_2_queue
+32 2 * * * /home/tianyf/iGPS/sh/sh_del_zip_vh >& /sar/esa.sentinel-1/in-progress/log.sh_del_zip_vh
+*/5 * * * * /home/tianyf/iGPS/sh/sh_sar_auto_grid_run_expt >> /sar/proc_gmtsar/auto_grid/script/log/log.sh_sar_auto_grid_run_expt
+*/5 * * * * /sar/0intro/cron_dipp_sys_stat >& /sar/0intro/log.cron_dipp_sys_stat

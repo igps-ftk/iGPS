@@ -1,0 +1,163 @@
+#!/bin/sh
+
+# Name:
+#   sh_sar_sbas_cut_roi_vel_disp
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+
+PROG=sh_sar_sbas_cut_roi_vel_disp
+
+path_old=`pwd`
+
+
+path_sbas=
+file_roi=
+opath=
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -p|-path)
+      path_sbas=$2
+      ;;
+    -r|-roi)
+      file_roi=$2
+      ;;
+    -o|-opath)
+      opath=$2
+      ;;
+    *)
+      echo "[$PROG]ERROR: invalid option ($1)!!"
+      echo "[$PROG]Usage: ${PROG} "
+      echo "[$PROG]Usage: e.g.,"
+      echo "[$PROG]Usage: ${PROG} "
+      exit 1
+      ;;
+  esac
+  shift 2  
+done
+
+if [ "$path_sbas" == "" ]; then
+  echo "[$PROG]INFO: no sbas path given. Current location used."
+  path_sbas=`pwd`
+fi
+if [ ! -d $path_sbas ]; then
+  echo "[$PROG]ERROR: sbas path not exist ($path_sbas)!! "
+  exit 1
+fi
+
+if [ "$file_roi" == "" ]; then
+  echo "[$PROG]INFO: no roi file given. Default (roi.kml) name used."
+  file_roi=roi.kml
+fi
+if [ ! -s $file_roi ]; then
+  echo "[$PROG]ERROR: roi file not exist ($file_roi)!! "
+  exit 1
+fi
+
+if [ "$opath" == "" ]; then
+  echo "[$PROG]INFO: no output path given. Default ($path_sbas/roi) used."
+  opath=$path_sbas/roi
+fi
+if [ ! -d $opath ]; then
+  echo "mkdir -p $opath"
+  echo "mkdir -p $opath" | sh
+fi
+
+kml2gmt $file_roi > _polygons
+grep -n '> -L' _polygons | sed -e 's/:/ /g' > _poly_starts
+li_all=`cat _polygons | wc -l`
+np_all=`cat _poly_starts | wc -l`
+echo li_all $li_all
+#exit
+
+
+file_vel="$path_sbas/vel_mask_ll.grd"
+files_disp=`find $path_sbas -maxdepth 1 -type f -name "disp_20?????_mask_ll.grd"|sort`
+
+#exit
+
+
+\rm -f _stats
+pi=1
+pi=1
+while [ $pi -le $np_all ]; do
+  li_start=`sed -n "${pi}p" _poly_starts | awk '{print $1}'`
+  wkk_id=`sed -n "${li_start}p" _polygons | awk -F\" '{print $2}'`
+  echo wkk_id is $wkk_id
+  #exit
+  
+  cd $path_old
+  
+  opath_i="$opath/${wkk_id}"
+  if [ ! -d $opath_i ]; then
+    echo "mkdir -p $opath_i"
+    echo "mkdir -p $opath_i" | sh
+  fi
+
+
+  #pi=`expr $pi + 1`
+  #continue
+  pj=`expr $pi + 1`
+  echo pi np_all $pi $np_all
+  if [ $pi -eq $np_all ]; then
+    li_end=$li_all
+  else
+    li_end=`sed -n "${pj}p" _poly_starts | awk '{print $1-1}'`
+  fi
+  #ofile="$opath/`echo ${pi} | awk '{printf("%04d",$1)}'`.psxy"
+  ofile="$opath_i/poly.psxy"
+  echo ofile pi li_start li_end $ofile $pi $li_start $li_end
+  
+  if [ ! -s $ofile ]; then
+    sed -n "${li_start},${li_end}p" _polygons > $ofile
+  fi
+  #exit  
+  
+  ofile_vel="$opath_i/vel_mask_ll.grd"
+
+  if [ ! -s $ofile_vel ]; then
+
+      echo "sh_grd_cut_one_roi -f $file_vel -r $ofile -o $ofile_vel"
+      echo "sh_grd_cut_one_roi -f $file_vel -r $ofile -o $ofile_vel" | sh
+      
+      gmt grd2cpt $ofile_vel -Cjet -I -Z > $opath_i/vel.cpt
+      sh_grd2kml $ofile_vel $opath_i/vel.cpt
+   
+    if [ -s $ofile_vel ]; then
+      echo "got it"
+      #tpath_sbas="`dirname $file_grd`/"
+      #echo tpath_sbas $tpath_sbas
+      #disp_files=`find $tpath_sbas -maxdepth 1 -type f -name "disp_20?????_mask_ll.grd"|sort`
+      #echo disp_files $disp_files
+      for file_disp in $files_disp; do
+        ofile_disp="${opath_i}/`basename $file_disp`"
+        echo "sh_grd_cut_one_roi -f $file_disp -r $ofile -o $ofile_disp"
+        echo "sh_grd_cut_one_roi -f $file_disp -r $ofile -o $ofile_disp" | sh
+        exit
+      done
+
+      #break
+    fi
+
+  fi
+
+  
+  #exit
+  
+  pi=`expr $pi + 1`
+done

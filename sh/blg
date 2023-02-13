@@ -1,0 +1,44 @@
+#!/bin/sh
+
+# Name:
+#   blg
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+
+PROG=blg
+
+path_old=`pwd`
+
+usage(){
+  echo "[$PROG]Usage: ${PROG} "
+  echo "[$PROG]Usage: e.g.,"
+  echo "[$PROG]Usage:  "
+}
+
+while [ "$1" != "" ]; do
+  case $1 in
+    *)
+      echo "[$PROG]ERROR: invalid option ($1)!!"
+      usage
+      exit 1
+      ;;
+  esac
+  shift 2  
+done
+
+cat baseline_table.dat | grep '^S1_202' | sort | awk '{print $3}' | awk 'NR==1{old=$1;next}{print $1-old; old=$1}' | max | awk '{print int($1)}'

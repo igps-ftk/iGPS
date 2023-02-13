@@ -16,7 +16,7 @@ c     data: double (M*N)
       character*1000 buf,hfile
 
       integer*4 fid, ioerr
-      integer*4 nrow, ncol, nhead, nmax
+      integer*4 nrow, ncol, nhead, nmax_tmp
  
       character*(*) headers(nmax_head)
       real*8 data(nmax_row, nmax_col),tmpdata(nrow,ncol)
@@ -29,7 +29,7 @@ c     data: double (M*N)
 c      call file_info (file, nrow, ncol, nhead, headers)
       call desuffix(file,hfile)
       hfile=hfile(1:nblen(hfile))//'.hdr'
-      call read_sio_hdr(hfile, nhead, headers, nmax, nrow, ncol)
+      call read_sio_hdr(hfile, nhead, headers, nmax_tmp, nrow, ncol)
 c      
 c      write(*,*) nrow, ncol,nhead
 

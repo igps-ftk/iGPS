@@ -1,4 +1,4 @@
-# Makefile for write on CYGWIN_NT-6.1-WOW 2.8.0(0.309/5/3) by unimake at Fri, Jun 09, 2017  4:50:24 PM
+# Makefile for write on CYGWIN_NT-6.1-WOW 3.1.4 by unimake at Fri, Mar 27, 2020 10:07:37 PM
 
 all: cgps_data_write
 

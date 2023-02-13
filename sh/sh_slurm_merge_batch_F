@@ -1,0 +1,235 @@
+#!/bin/sh
+
+# Name:
+#   run_gamit_qsub
+#   
+
+# Purpose:
+#   Queue gamit tasks to slurmd.
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+. ${HOME}/.bashrc
+
+
+#the directory to hold the interferograms, e.g. f123.1
+COMB_DIR=`pwd`
+ROOT_DIR=${COMB_DIR}/..
+
+#--
+# |-F1/
+# |  |-intf_all/
+# |  |-raw/
+# |
+# |-F2/
+# |  |-intf_all/
+# |  |-raw/
+# |
+# |-F3/
+# |  |-intf_all/
+# |  |-raw/
+# |
+# |-f123/ (running directory)
+# |  |-batch_tops.config
+# |  |-dem.grd
+# |  |-intf.in.f123
+# |  |-raln.grd
+# |  |-ralt.grd
+# |  |-trans.dat
+
+if [ ! -s dem.grd ]; then
+  echo "[]ERROR: no/wrong dem.grd file!!"
+  exit 1
+fi
+
+
+#session name
+tmp=`dirname ${COMB_DIR}/test.txt`
+#echo tmp is $tmp
+#echo COMB_DIR is $COMB_DIR
+PROC_ID=`dirname ${tmp} | awk -F\/ '{print $NF}'`
+echo PROC_ID is $PROC_ID
+
+
+#gamit processing directory, e.g. 
+PROC_DIR=/home/tianyf/gsar/
+echo "*Note: the daily processing will be in ${PROC_DIR}/temp/"
+
+#Archive H-file directory
+ARCHIVE_DIR=${COMB_DIR}/intf_all
+mkdir -p $ARCHIVE_DIR
+
+#Temporary files directory
+TMP_DIR=`pwd`
+
+
+overwrite=n
+file_intf_in=intf.in.f123.2
+file_master=intf.in.f123.1
+batch_config=batch_tops.config
+delay=30
+
+while [ "$1" != "" ]; do
+    case $1 in
+	-f|-file)
+	    file_intf_in=$2
+	    ;;
+	-m|-master)
+            file_master=$2
+	    ;;
+	-c|-config)
+	    batch_config=$2
+	    ;;
+	-d|-delay)
+	    delay=$2
+	    ;;
+	-ndays)
+	    ndays=$2
+	    ;;
+	-orbit)
+	    orbit=$2
+	    ;;
+	-overwrite)
+	    overwrite=$2
+	    ;;
+        -expt)
+            expts=$2
+            expts=`echo $expts | sed -e 's/,/ /g'`
+            ;;
+	*)
+	    echo "[run_rapid]ERROR: invalid options ($1) !!!"
+	    exit 1
+	    ;;
+    esac
+    shift 2
+done
+
+echo Year/Doy/Ndays/Orbit $year $doyr $ndays $orbit
+#exit
+
+#test ascending/descending
+orb_type=
+if [ -d ../asc_F1 ]; then
+    orb_type=asc
+elif [ -d ../des_F1 ]; then
+    orb_type=des
+else
+    echo "[]ERROR:no ascending/descending paths found!"
+    #exit 1
+fi
+
+echo "orbit type: $orb_type"
+
+
+
+
+while read line; do
+    date1=`echo $line |awk -F":" '{print $2}'|cut -c 4-11`
+    date2=`echo $line |awk -F":" '{print $3}'|cut -c 4-11`
+    dir_name=`echo $line | awk -F, '{print $1}' | awk -F: '{print $1}' | awk -F"/" '{print $(NF-1)}'`
+
+
+    cmdfile=slurm_merge_batch_${date1}_${date2}.cmd
+
+    echo "${ARCHIVE_DIR}/${dir_name}/unwrap_mask.grd"
+    #exit
+    if [ -s "${ARCHIVE_DIR}/${dir_name}/unwrap_mask.grd" ]; then
+      echo overwrite $overwrite
+      if [ "$overwrite" == "n" ]; then
+        echo "[]INFO:output already exist (${dir_name})! Skipped."
+        continue
+      else
+        echo "[]INFO: >$overwrite<"
+      fi
+    else
+      if [ -s "$cmdfile" -a "$overwrite" == "n" ]; then
+        echo "[]INFO:already queued(${date1}_${date2})! Skipped."
+        continue
+      fi
+    fi
+
+    logfile="slurm_merge_batch_"$date1"_"$date2".log"
+    infile="slurm_merge_batch_"$date1"_"$date2".in"
+    
+    echo $line > $infile
+    #cmdfile=merge_batch_${date1}_${date2}.cmd
+    echo "#!/bin/sh" > $cmdfile
+    echo "hostname" >> $cmdfile
+    echo "which sbas" >> $cmdfile
+    echo 'echo $PATH' >> $cmdfile
+    echo "merge_batch2.csh $file_master $infile $batch_config >& $logfile" >> $cmdfile
+
+    #dir_name=`echo $line | awk -F, '{print $1}' | awk -F: '{print $1}' | awk -F"/" '{print $(NF-1)}'`
+    echo dir_name $dir_name
+    file_t=${COMB_DIR}/slurm_merge_batch_${dir_name}.sh
+    #check whether already done
+    #
+
+    tmp=`date | sed -e 's/ /_/g' | sed -e 's/:/-/g'`
+ 
+
+    echo "#!/bin/sh" > $file_t
+    echo "#SBATCH --job-name=${dir_name}-${COMB_ID}-${PROC_ID}" >> $file_t
+    echo "#SBATCH --nodes=1" >> $file_t
+    echo "#SBATCH --ntasks=1" >> $file_t
+    echo "#SBATCH --cpus-per-task=1" >> $file_t
+    echo "pwd; hostname; date" >> $file_t
+
+
+    path_t=${PROC_DIR}/temp/${tmp}-${PROC_ID}-${dir_name}
+    echo "mkdir -p $path_t " >> $file_t
+    # make links
+    echo "cd ${path_t}" >> $file_t
+    echo "ln -s ${ROOT_DIR}/F1" >> $file_t
+    echo "ln -s ${ROOT_DIR}/F2" >> $file_t
+    echo "ln -s ${ROOT_DIR}/F3" >> $file_t
+    echo "mkdir -p f123" >> $file_t
+    echo "cd f123" >> $file_t
+    echo "pwd" >> $file_t
+
+    echo "ln -s ${COMB_DIR}/batch_tops.config" >> $file_t
+    echo "ln -s ${COMB_DIR}/dem.grd" >> $file_t
+    echo "ln -s ${COMB_DIR}/raln.grd" >> $file_t
+    echo "ln -s ${COMB_DIR}/ralt.grd" >> $file_t
+    echo "ln -s ${COMB_DIR}/trans.dat" >> $file_t
+    echo "ln -s ${COMB_DIR}/$cmdfile" >> $file_t
+    echo "ln -s ${COMB_DIR}/$infile" >> $file_t
+    echo "ln -s ${COMB_DIR}/$file_master" >> $file_t
+
+
+
+    echo 'date' >> $file_t
+    echo '#sleep 3' >> $file_t
+    echo "sh $cmdfile" >> $file_t
+
+    echo "if [ -s \"${dir_name}/unwrap_mask.grd\" ]; then " >> $file_t
+    #echo "  sh_sar_clean_intf $dir_name" >> $file_t
+    echo "  sh_sar_clean_intf_more $dir_name" >> $file_t
+    echo "  mv $dir_name ${ARCHIVE_DIR}/" >> $file_t
+    echo "fi" >> $file_t
+
+    echo 'date' >> $file_t
+    echo "cp -f $logfile $COMB_DIR" >> $file_t
+
+    echo $file_t
+    #cat $file_t
+    pwd
+    #sleep 1
+    sbatch $file_t
+    sleep $delay
+    echo delay is $delay
+    #exit
+done < $file_intf_in
+
+
+sinfo
+squeue

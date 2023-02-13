@@ -1,0 +1,133 @@
+#!/bin/sh
+
+# Name:
+#   sh_alos_prep_sbas
+#   
+
+# Purpose:
+#   Prepare intf.tab and scene.tab files for sbas processing.
+#   Output results to intf.tab1 and scenes.tab1 files which are inputs for sh_sar_intf_tab_from_phase_files
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+PROG=sh_alos_prep_sbas
+
+function usage_of_it(){
+
+    echo "Usage: $PROG"
+    echo "  input:"
+    echo "    1) baseline_table.dat"
+    echo "    2) intf.in"
+    echo "    3) data.in"
+    echo "  output:"
+    echo "    1) intf.tab1"
+    echo "    2) scene.tab1"
+    echo "(c)Copyright 2017 Yunfeng Tian (tianyf@gmail.com)"
+}
+
+#default parameters
+file_baseline_tab=./baseline_table.dat
+file_intf_in=./intf.in
+file_data_in=./data.in
+path_intf_all='../ia'
+file_unwrap=unwrap_mask.grd
+file_corr=corr_cut.grd
+
+while [ "$1" != "" ]; 
+do
+    case $1 in
+	-h)
+	     usage_of_it
+	    exit 1
+	    ;;
+	-file_baseline)
+	    file_baselin_tab=`pwd`/$2
+	    ;;
+	-file_intf_in)
+	    file_intf_in=`pwd`/$2
+	    ;;
+	-path_intf_all)
+	    path_intf_all=$2
+	    ;;
+	-file_unwrap)
+	    file_unwrap=$2
+	    ;;
+	-file_corr)
+	    file_corr=$2
+	    ;;
+	*)
+	    echo "[$PROG]ERROR: wrong input option ($1)!!"
+	    usage_of_it
+	    exit 1
+	    ;;
+    esac
+    shift 2
+done
+
+
+if [ ! -e "$file_baseline_tab" ]; then
+    echo "[$PROG]ERROR: input file $file_baseline_tab not exist! Stopped!!"
+    exit 1
+fi
+
+if [ ! -e "$file_data_in" ]; then
+    echo "[$PROG]ERROR input file $file_data_in not exist! Stopped!!"
+    exit 1
+fi
+
+nlb=`wc -l $file_baseline_tab | awk '{print $1}'`
+nld=`wc -l $file_data_in | awk '{print $1}'`
+if [ $nlb -ne $nld ]; then
+    echo "[$PROG]ERROR: number of lines of $file_baseline_tab and $file_data_in differ! Stopped!!"
+    exit 1
+fi
+#exit
+
+if [ ! -e "$file_intf_in" ]; then
+    echo "[$PROG]ERROR input file $file_intf_in not exist! Stopped!!"
+    exit 1
+fi
+
+
+sort -n -k2 $file_baseline_tab > .blentab
+
+\rm -f ./scene.tab1
+while read line; do
+    #cho $line
+    echo $line | awk '{print substr($2,1,7),$3}' >> ./scene.tab1   
+done < .blentab
+
+\rm -rf intf.tab1
+while read line; do
+    echo $line
+    #id1=`echo $line | awk -F: '{print $1}' | awk -F_ '{print $7}'`
+    #id2=`echo $line | awk -F: '{print $2}' | awk -F_ '{print $7}'`
+    id1=`echo $line | awk -F: '{print $1}' | awk -F_ '{print $1}'`
+    id2=`echo $line | awk -F: '{print $2}' | awk -F_ '{print $1}'`
+    ind1=`sed -n -e "/$id1/=" $file_data_in`
+    ind2=`sed -n -e "/$id2/=" $file_data_in`
+    echo $id1 $id2
+    echo $ind1 $ind2
+    yeardoyr1=`sed -n "${ind1}p" .blentab | awk '{print substr($2,1,7)}'`
+    yeardoyr2=`sed -n "${ind2}p" .blentab | awk '{print substr($2,1,7)}'`
+    echo $yeardoyr1 $yeardoyr2
+    blen1=`sed -n "${ind1}p" .blentab | awk '{print $5}'`
+    blen2=`sed -n "${ind2}p" .blentab | awk '{print $5}'`
+    echo $blen1 $blen2
+    #yeardoyr1=`grep "^$id1 " .blentab | awk '{print substr($2,1,7)}'`
+    #yeardoyr2=`grep "^$id2 " .blentab | awk '{print substr($2,1,7)}'`
+    #blen1=`grep "^$id1 " .blentab | awk '{print $5}'`
+    #blen2=`grep "^$id2 " .blentab | awk '{print $5}'`
+    echo ${path_intf_all}/${yeardoyr1}_${yeardoyr2}/${file_unwrap}  ${path_intf_all}/${yeardoyr1}_${yeardoyr2}/${file_corr} $yeardoyr1 $yeardoyr2  `echo $blen1 $blen2 | awk '{print $2-$1}'` >> intf.tab1
+    #exit
+done < $file_intf_in
+

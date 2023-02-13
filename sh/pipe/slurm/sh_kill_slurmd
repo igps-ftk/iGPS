@@ -1,0 +1,32 @@
+#!/bin/sh
+
+ids=`grep '^ ' ../ids`
+ids=`grep '^ ' ids_online`
+#ids=`cat ../ids_12`
+
+#ids='7 8'
+
+for id in $ids; do
+  if [ $id -eq 1 ]; then
+    #continue
+  fi
+
+  cmdstr="ps aux|grep 'slurmd' | awk '{print \"kill\",\$2}' | sh"
+  echo  killing slurmd process on node${id} with command $cmdstr
+
+  echo ssh node${id} $cmdstr
+  #echo ssh node${id} $cmdstr | sh
+
+  cmdstr2="ps aux|grep 'slurmd' | grep -v 'grep' |  awk '{print \"kill\",\$2}'"
+  tmps=`ssh node${id} $cmdstr2`
+  echo $tmps
+  echo ssh node${id} $tmps | sh
+
+
+
+  #echo scp ./$file node${id}:/usr/local/slurm/etc/ | sh
+
+  #exit
+done
+
+

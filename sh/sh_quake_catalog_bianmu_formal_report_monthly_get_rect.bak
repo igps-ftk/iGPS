@@ -1,0 +1,156 @@
+#!/bin/sh
+
+# Name:
+#   sh_quake_catalog_bianmu_formal_report_monthly_get_rect
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+
+PROG=sh_quake_catalog_bianmu_formal_report_monthly_get_rect
+
+path_old=`pwd`
+
+usage(){
+  echo "[$PROG]Usage: ${PROG} "
+  echo "[$PROG]Usage: e.g.,"
+  echo "[$PROG]Usage:  "
+}
+
+
+file=${GMT_pub}/quake/bianmu/formal.report.monthly/catalog_dbo
+
+R=
+xmin=
+xmax=
+ymin=
+ymax=
+
+mag=-999
+
+ofile=
+
+timestamp=`date | sed -e 's/ /_/g' | sed -e 's/:/-/g'`
+
+file_roi=
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -R)
+      R=$2
+      xmin=`echo $R | awk -F\/ '{print $1}'`
+      xmax=`echo $R | awk -F\/ '{print $2}'`
+      ymin=`echo $R | awk -F\/ '{print $3}'`
+      ymax=`echo $R | awk -F\/ '{print $4}'`
+      ;;
+    -x1|-xmin)
+      xmin=$2
+      ;;
+    -x2|-xmax)
+      xmax=$2
+      ;;
+    -y1|-ymin)
+      ymin=$2
+      ;;
+    -y2|-ymax)
+      ymax=$2
+      ;;
+    -m|-mag)
+      mag=$2
+      ;;
+    -o|-ofile)
+      ofile=$2
+      ;;
+    -r|-roi)
+      file_roi=$2
+      ;;
+    *)
+      echo "[$PROG]ERROR: invalid option ($1)!!"
+      usage
+      exit 1
+      ;;
+  esac
+  shift 2  
+done
+
+if [ "$file_roi" == "" ]; then # Rectangular ROI
+
+  if [ "$R" == "" ]; then
+    R=$xmin/$xmax/$ymin/$ymax
+  fi
+  
+  if [ "$xmin" == "" -o "$xmax" == "" -o "$ymin" == "" -o "$ymax" == "" ]; then
+    echo "[$PROG]ERROR: invalid range $xmin/$xmax/$ymin/$ymax !!"
+    exit 1
+  fi
+  
+  echo R $R
+  echo rect $xmin $xmax $ymin $ymax
+  
+  #DBO GD 2008-01-01 00:35:19.58  21.869  111.706  10 ML    0.6  0.081 2   0   5 44 44 eq ¹ã¶«ÑôÎ÷            
+
+  if [ "$ofile" == "" ]; then
+    cat $file | awk '{if($6>=xmin&&$6<=xmax&&$5>=ymin&&$5<=ymax&&$9>=mag){print $0}}' xmin=$xmin xmax=$xmax ymin=$ymin ymax=$ymax mag=$mag
+    exit
+  else
+    cat $file | awk '{if($6>=xmin&&$6<=xmax&&$5>=ymin&&$5<=ymax&&$9>=mag){print $0}}' xmin=$xmin xmax=$xmax ymin=$ymin ymax=$ymax mag=$mag > $ofile
+  fi
+else #Polygon ROI by KML file
+  file_tmp_roi=_tmp_${PROG}_${timestamp}_roi
+  gmt kml2gmt $file_roi > $file_tmp_roi
+  tmp=`gmt gmtinfo -C $file_tmp_roi`
+  xmin=`echo $tmp | awk '{print $1}'`
+  xmax=`echo $tmp | awk '{print $2}'`
+  ymin=`echo $tmp | awk '{print $3}'`
+  ymax=`echo $tmp | awk '{print $4}'`
+  
+  file_tmp_rect=_tmp_${PROG}_${timestamp}_rect
+  cat $file | awk '{if($6>=xmin&&$6<=xmax&&$5>=ymin&&$5<=ymax&&$9>=mag){print $0}}' xmin=$xmin xmax=$xmax ymin=$ymin ymax=$ymax mag=$mag > $file_tmp_rect
+  
+  file_tmp_out=_tmp_${PROG}_${timestamp}_out
+  \rm -rf $file_tmp_out
+  while read line; do
+    x=`echo $line | awk '{print $6}'`
+    y=`echo $line | awk '{print $5}'`
+    #echo is_point_in_polygon $x $y $file_tmp_roi
+    is_in=`is_point_in_polygon $x $y $file_tmp_roi | grep is_in | tail -1 | awk '{print $2}'`
+    #echo is_in $is_in
+    if [ $is_in -ne 1 ]; then
+      continue
+    fi
+    if [ "$ofile" == "" ]; then
+      echo "$line"
+    else
+      echo "$line" >> $file_tmp_out
+    fi
+    #exit
+  done < $file_tmp_rect 
+fi
+
+
+if [ "$ofile" != "" ]; then
+#  cat $file_tmp_out
+#else
+  cat $file_tmp_out > $ofile
+  #DBO XZ 2022-06-06 20:59:14.48  28.202   94.755  10 ML    2.9  0.074 3   0   5 54 54 eq place_name
+  cat $ofile | awk '{print "> -L\""$3"T"$4,$8$9"\""; print $6,$5}' > _tmp_${PROG}_${timestamp}
+  ofile_kml=`echo $ofile | sed -e 's/.txt$/.kml/g'`
+  echo ofile_kml $ofile_kml
+  gmt gmt2kml -N -T$ofile/Seismicity _tmp_${PROG}_${timestamp} > $ofile_kml
+  \rm -f _tmp_${PROG}_${timestamp}
+fi
+
+\rm -f $file_tmp_rect $file_tmp_out

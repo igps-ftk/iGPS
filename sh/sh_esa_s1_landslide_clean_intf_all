@@ -1,0 +1,96 @@
+#!/bin/sh
+
+# Name:
+#   sh_esa_s1_landslide_clean_intf_all
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+
+PROG=sh_esa_s1_landslide_clean_intf_all
+
+oldpath=`pwd`
+
+proc_type='clean_intf_all'
+proc_type='prep_sbas'
+#proc_type='sbas'
+
+while [ "$1" != "" ]; do
+	case $1 in
+		-proc_type)
+			proc_type=$2
+			;;
+		*)
+			echo "[]ERROR: invalid option ($1)!!"
+			exit 1
+			;;
+	esac
+	shift 2
+done
+
+paths=`ls |grep '^[AD]'`
+for path in $paths; do
+	#echo $path
+	for i in 1 2 3 ; do
+	  #echo $i
+	  case $proc_type in
+	  	clean_intf_all)
+	  		path_Fi=${path}/F${i}/intf_all
+			  echo $path_Fi
+			  if [ ! -d $path_Fi ]; then
+			  	continue
+			  fi
+			  cd $path_Fi
+			  pwd
+			  echo sh_sar_clean_intf_all_all
+			  echo sh_sar_clean_intf_all_all | sh
+			  ;;
+			  
+			prep_sbas)				
+	  		path_Fi=${path}/F${i}
+			  echo $path_Fi
+			  if [ ! -d $path_Fi ]; then
+			  	continue
+			  fi
+			  cd $path_Fi
+			  pwd
+			  echo sh_esa_s1_prep_sbas -time_span_min 1
+			  echo sh_esa_s1_prep_sbas -time_span_min 1 | sh
+			  echo sh_sar_cp_los_ll_png los_ll.png
+			  echo sh_sar_cp_los_ll_png los_ll.png | sh
+			  echo sh_sar_intf_tab_from_phase_files
+			  echo sh_sar_intf_tab_from_phase_files | sh
+				;;
+			sbas)			
+	  		path_Fi=${path}/F${i}
+			  echo $path_Fi
+			  if [ ! -d $path_Fi ]; then
+			  	continue
+			  fi
+			  cd $path_Fi
+			  pwd
+			  echo sh_esa_s1_sbas
+			  echo sh_esa_s1_sbas | sh
+				;;
+			*)
+				echo "[]ERROR: unknown processing type!!"
+				exit 1
+				;;
+	  esac
+	  
+	  cd $oldpath
+	done
+done

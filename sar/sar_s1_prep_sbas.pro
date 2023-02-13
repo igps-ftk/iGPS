@@ -1,14 +1,8 @@
 PRO SAR_S1_PREP_SBAS, path
 
   IF N_PARAMS() LT 1 THEN BEGIN
-    path='\\gpsac5\root\d1\gsar\mila2\des_F3'  
-    path='\\gpsac4\root\g4b\tianyf\m_jiali1\asc_F3'  
-    path='\\gpsac5\root\b1\gsar\mila4\des_F1'
-    path='\\gpsac4\root\g4b\tianyf\mila3\asc_F3'
-    ;path='\\gpsac4\root\dcd0\gsar\mila4\des_F1'
-    path='D:\gsar\des\mila2_oct\des_F3'
-    path='D:\gsar\des\mila2s\des_F3'
-    path='\\gpsac4\root\g4b\tianyf\mila3s\asc_F3'
+    path='\\10.4.134.31\root\g6b\gsar\m_woniuhu4\des_F3'
+    path='D:\gsar\des\m_yzs2_shenza-dingjie\des_F1'
   ENDIF
   
   file_baseline_tab=path+PATH_SEP()+'baseline_table.dat'
@@ -74,19 +68,26 @@ PRO SAR_S1_PREP_SBAS, path
       yearJ=FIX(STRMID(ids[j],0,4))
       dayJ=FIX(STRMID(ids[j],4,3))
       DOY,yearJ,1,dayJ,12,0,jd=jdJ
+;      ;
+;      IF ABS(jdJ-jdI) LE 90 THEN CONTINUE
+;      
+;      IF ABS(jdJ-jdI) GT 190 THEN CONTINUE
+      IF yearI GE 2017 THEN BEGIN
+        IF ABS(jdJ-jdI) LT 60 THEN CONTINUE
+        IF ABS(jdJ-jdI) GT 90 THEN CONTINUE
+      ENDIF
       ;
-      ;IF ABS(jdJ-jdI) LE 330 THEN CONTINUE
-      ;      IF (FIX(ABS(jdJ-jdI)) MOD 360) GT 90 THEN CONTINUE
+            IF (FIX(ABS(jdJ-jdI)) MOD 360) GT 90 THEN CONTINUE
       
       links[i,j]=1
       count=count+1
       PRINTF,fid,path_intf_all,ids[i],ids[j], $
         path_intf_all,ids[i],ids[j],  $
         ids[i],ids[j], blens[j]-blens[i], $
-;        format='(a,a,"_",a,"/unwrap.grd ",a,a,"_",a,"/corr.grd",1x,a,1x,a,1x,f)'
-        format='(a,a,"_",a,"/unwrap.grd ",a,a,"_",a,"/corr_cut.grd",1x,a,1x,a,1x,f)'
-        ;format='(a,a,"_",a,"/unwrap_mask.grd ",a,a,"_",a,"/corr_cut.grd",1x,a,1x,a,1x,f)'
-        ;format='(a,a,"_",a,"/unwrap_mask.grd ",a,a,"_",a,"/corr.grd",1x,a,1x,a,1x,f)'
+;                format='(a,a,"_",a,"/unwrap.grd ",a,a,"_",a,"/corr.grd",1x,a,1x,a,1x,f)'
+        ;format='(a,a,"_",a,"/unwrap.grd ",a,a,"_",a,"/corr_cut.grd",1x,a,1x,a,1x,f)'
+        format='(a,a,"_",a,"/unwrap_mask.grd ",a,a,"_",a,"/corr_cut.grd",1x,a,1x,a,1x,f)'
+    ;format='(a,a,"_",a,"/unwrap_mask.grd ",a,a,"_",a,"/corr.grd",1x,a,1x,a,1x,f)'
     ENDFOR
   ENDFOR
   FREE_LUN,fid

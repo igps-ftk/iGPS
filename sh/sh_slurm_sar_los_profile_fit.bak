@@ -1,0 +1,211 @@
+#!/bin/sh
+
+# Name:
+#   sh_slurm_sar_los_profile_fit
+#   
+
+# Purpose:
+#   Queue gamit tasks to slurmd.
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+. ${HOME}/.bashrc
+
+
+
+path=
+overwrite=n
+delay=1
+ncore=6
+overwrite=n
+d1=
+d2=
+nr=
+nfs=
+nfts=
+nld=
+step_rot=
+step_fs=
+step_fts=
+step_ld=
+
+while [ "$1" != "" ]; do
+  case $1 in
+	  -p|-path)
+	    path=$2
+	    ;;
+	  -d|-delay)
+	    delay=$2
+	    ;;
+	  -o|-overwrite)
+	    overwrite=$2
+	    ;;
+    -n|-ncore)
+      core=$2
+      ;;
+    -d1)
+      d1=$2
+      ;;
+    -d2)
+      d2=$2
+      ;;
+    -nr)
+      nr=$2
+      ;;
+    -nfs)
+      nfs=$2
+      ;;
+    -nfts)
+      nfts=$2
+      ;;
+    -nld)
+      nld=$2
+      ;;
+    -step_rot)
+      step_rot=$2
+      ;;
+    -step_fs)
+      step_fs=$2
+      ;;
+    -step_fts)
+      step_fts=$2
+      ;;
+    -step_ls)
+      step_ld=$2
+      ;;
+	  *)
+	    echo "[run_rapid]ERROR: invalid options ($1) !!!"
+	    exit 1
+	    ;;
+    esac
+    shift 2
+done
+
+#exit
+
+if [ "$path" == "" ]; then
+  echo "[]ERROR: no path given!!"
+  echo "[]INFO: Usage: $PROG -p profile_path [ -d delay_seconds ] [-n #cores]"
+  exit 1
+fi
+
+path=`dirname "${path}/test.txt"`
+if [ ! -d $path ]; then
+  echo "[]ERROR: profile path not exist ($path)!!"
+  exit 1
+fi
+echo "[$PROG]INFO:working in $path"
+cd $path
+pwd
+
+#the directory to hold the interferograms, e.g. f123.1
+COMB_DIR=`pwd`
+ROOT_DIR=${COMB_DIR}/..
+
+#session name
+tmp=`dirname ${COMB_DIR}/test.txt`
+#echo tmp is $tmp
+#echo COMB_DIR is $COMB_DIR
+PROC_ID=`dirname ${tmp} | awk -F\/ '{print $NF}'`
+COMB_ID=`basename ${tmp}`
+echo PROC_ID is $PROC_ID
+echo COMB_ID is $COMB_ID
+
+
+sbas_path=`dirname $path`
+pname=`basename $path`
+lckfile="${sbas_path}/slurm_sar_los_profile_fit_${pname}.lock"
+if [ -s $lckfile ]; then
+  echo "[]INFO: task already running/queued!"
+  echo "[]INFO: locked by $lckfile"
+  exit 1
+fi
+
+hostname > $lckfile
+whoami >> $lckfile
+date >> $lckfile
+
+
+echo "[]INFO: queuing $path ..."
+#exit 
+
+file_t="${sbas_path}/slurm_sar_los_profile_fit_${pname}.cmd"
+logfile="${sbas_path}/slurm_sar_los_profile_fit_${pname}.log"
+
+echo logfile $logfile
+
+#
+
+#tmp=`date | sed -e 's/ /_/g' | sed -e 's/:/-/g'`
+
+
+echo "#!/bin/sh" > $file_t
+echo "#SBATCH --job-name=${COMB_ID}-${PROC_ID}" >> $file_t
+echo "#SBATCH --nodes=1" >> $file_t
+echo "#SBATCH --ntasks=1" >> $file_t
+echo "#SBATCH --cpus-per-task=1" >> $file_t
+echo "pwd; hostname; date" >> $file_t
+
+echo "pwd" >> $file_t
+echo 'date' >> $file_t
+
+
+cmdstr="sh_sar_los_profile_fit -p $path -n $ncore -d .1 -lockfile $lckfile 
+ 
+if [ "$d1" != "" ]; then
+  cmdstr="$cmdstr --d1=${d1}"
+fi
+if [ "$d2" != "" ]; then
+  cmdstr="$cmdstr --d2=${d2}"
+fi
+if [ "$nr" != "" ]; then
+  cmdstr="$cmdstr --nr=${nr}"
+fi
+if [ "$nfs" != "" ]; then
+  cmdstr="$cmdstr --nfs=${nfs}"
+fi
+if [ "$nfts" != "" ]; then
+  cmdstr="$cmdstr --nfts=${nfts}"
+fi
+if [ "$nld" != "" ]; then
+  cmdstr="$cmdstr --nld=${nld}"
+fi
+if [ "$step_rot" != "" ]; then
+  cmdstr="$cmdstr --step_rot=${step_rot}"
+fi
+if [ "$step_fs" != "" ]; then
+  cmdstr="$cmdstr --step_fs=${step_fs}"
+fi
+if [ "$step_fts" != "" ]; then
+  cmdstr="$cmdstr --step_fts=${step_fts}"
+fi
+if [ "$step_ld" != "" ]; then
+  cmdstr="$cmdstr --step_ld=${step_ld}"
+fi
+
+cmdstr="$cmdstr >& $logfile"
+
+#echo "sh_sar_los_profile_fit -p $path -n $ncore -d .1 -lockfile $lckfile >& $logfile" >> $file_t
+echo "$cmdstr" >> $file_t
+
+
+echo 'date' >> $file_t
+
+echo $file_t
+cat $file_t
+pwd
+
+#sleep 1
+sbatch $file_t
+#exit
+#\rm -f $lckfile
+

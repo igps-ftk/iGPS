@@ -1,0 +1,104 @@
+#!/bin/sh
+
+# Name:
+#   sh_sar_create_link_F123
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+swaths='1 2 3'
+
+while [ "$1" != "" ]; do
+  case $1 in 
+    -swath)
+      swaths=`echo $2 | sed -e 's/,/ /g'`
+      ;;
+    *)
+      echo "[]ERROR: invalid option ($1)!!"
+      exit 1
+      ;;
+  esac
+  shift 2
+done
+
+echo swaths is $swaths
+#exit
+
+path=`pwd`
+
+dec=2
+
+
+cd F1
+mkdir -p t1
+cd t1
+pwd
+\cp -fp ../baseline_table.dat .
+if [ ! -s intf.in ]; then
+  sh_esa_s1_prep_proc_baseline -file baseline_table.dat -min_interval 181 >& log.sh_esa_s1_prep_proc_baseline
+fi
+wc -l intf.in
+shuf intf.in | head -200 > ../intf.in.1
+cd ..
+
+mkdir -p t2
+cd t2
+pwd
+\cp -fp ../baseline_table.dat .
+if [ ! -s intf.in ]; then
+  sh_esa_s1_prep_proc_baseline -file baseline_table.dat -min_interval 1 -max_interval 181 >& log.sh_esa_s1_prep_proc_baseline
+fi
+wc -l intf.in
+\cp -fp intf.in ../intf.in.2
+cd ..
+
+pwd
+cat intf.in.[12] | sort |uniq | shuf > intf.in
+wc -l intf.in*
+
+cat intf.in | sed -e 's/F1/F2/g' > ../F2/intf.in
+cat intf.in | sed -e 's/F1/F3/g' > ../F3/intf.in
+cd ..
+pwd
+
+#swaths='1 2 3'
+for swath in $swaths; do
+  if [ ! -s F${swath}/batch_tops.config ]; then
+    echo "[]WARNING: F${swath} data preparation not completed! Skipped."
+    continue
+  fi
+
+  mkdir -p F${swath}.x${dec}
+  cd F${swath}.x${dec}
+  pwd
+  ln -s ../F${swath}/raw/
+  #ln -s ../F${swath}/topo/
+  mkdir -p topo
+  cd topo
+  ln -s ../../dem.grd .
+  cd ..
+
+  cat ../F${swath}/batch_tops.config | sed -e 's/proc_stage = 1/proc_stage = 2/g' | sed -e 's/filter_wavelength = 100/filter_wavelength = 200/g' | sed -e 's/range_dec = 4/range_dec = 8/g' | sed -e 's/azimuth_dec = 1/azimuth_dec = 2/g' | sed -e 's/region_cut.*/region_cut =/g' > ./batch_tops.config
+  \cp -fp ../F${swath}/intf.in .
+  head -1 intf.in > 1
+  \cp -fp ../F${swath}/baseline_table.dat .
+  \cp -fp ../F${swath}/raw/data.in .
+  if [ ! -s scene.tab1 ]; then
+    sh_esa_s1_prep_sbas -time_span_min 1 >& log.sh_esa_s1_prep_sbas
+  fi
+  cd ..
+  #exit
+done

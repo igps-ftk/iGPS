@@ -1,0 +1,69 @@
+#!/bin/sh
+
+# Name:
+#   sh_sar_cp_los_ll_png
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+if [ "$1" = "-h" -o "$1" = "-help" ]; then
+    echo Usage: sh_sar_cp_los_ll_png [types]
+    echo   "Types: los,phasefilt,unwrap_mask,..., default is los."
+    exit 0
+fi
+
+types="los_ll phase unwrap"
+types=los_ll.png
+if [ "$1" != "" ]; then
+    types=`echo $1 | sed -e 's/,/ /g'`
+fi
+echo copy file types: $types
+
+if [ ! -d intf ]; then
+    echo "[]ERROR:directory intf not exist!!"
+    exit 1
+fi
+
+if [ ! -d intf_all ]; then
+    echo "[]WARNING:directory intf_all not exist! Create the link to intf."
+    ln -s intf intf_all
+fi
+
+#exit
+path=./intf_all/
+path=./ia/
+
+echo input path is $path
+
+#path=./intf/
+opath=./intf_all_los_ll_png
+
+mkdir -p $opath
+
+for type in $types; do
+    #echo $type
+    files=`find $path -name "${type}"`
+    for file in $files; do
+	tpath=`dirname $file`
+	ofile=${opath}/`basename ${tpath}`-`basename $file`
+	if [ -s $ofile ]; then
+	    continue
+	fi
+	echo cp -fp $file $ofile
+	echo cp -fp $file $ofile |sh
+    done
+done
+

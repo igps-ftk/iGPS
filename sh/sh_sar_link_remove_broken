@@ -1,0 +1,107 @@
+#!/bin/sh
+
+# Name:
+#   sh_sar_link_remove_broken
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+
+PROG=sh_sar_link_remove_broken
+
+archive=ac
+
+while [ "$1" != "" ]; do
+  case $1 in
+   -archive|-a)
+      archive=$2
+      ;;
+    *)
+      echo "[$PROG]ERROR: invalid option ($1)!!"
+      echo "[$PROG]Usage: ${PROG} "
+      echo "[$PROG]Usage: e.g.,"
+      echo "[$PROG]Usage: ${PROG} "
+      exit 1
+      ;;
+  esac
+  shift 2  
+done
+
+case $archive in
+  ac)
+    path=/g4d/esa.data
+    ;;
+  node)
+    path=/sar/s1
+    ;;
+  *)
+    echo "[]ERROR: wrong arhive ($archive)!!"
+    exit 1
+    ;;
+esac
+
+if [ "$archive" == "ac" ]; then
+  paths="/g4d/esa.data/s1 /g4d/esa.data/s1.2 /g4d/esa.data/s1.3"
+  for path in $paths; do
+    echo "[]INFO: searching links in $path ..."
+    files=`find $path -maxdepth 1 -type l -name "S1*.zip"`
+    for file in $files; do
+      #remove broken symbolic link 
+      if [[ -L $file ]] && [[ ! -a $file ]];then
+         echo "[]INFO: broken link"
+         file $file
+         echo "remove $file"
+         \rm $file
+      fi
+    done
+   done
+
+
+elif [ "$archive" == "node" ]; then
+  paths='/sar/s1/all /sar/esa.sentinel-1/links'
+  for path in $paths; do
+    echo "[]INFO: searching links in $path ..."
+    files=`find $path -maxdepth 1 -type l -name "S1*.zip"`
+    for file in $files; do
+      #remove broken symbolic link 
+      if [[ -L $file ]] && [[ ! -a $file ]]; then
+         echo "[]INFO: broken link"
+         file $file
+         echo "remove $file"
+         \rm $file
+      fi
+    done
+  done
+
+  paths=`find /sar/s1 -maxdepth 1 -type d -name "[AD]*"`
+  for path in $paths; do
+    echo "[]INFO: searching links in $path ..."
+    files=`find $path -maxdepth 1 -type l -name "S1*.zip"`
+    for file in $files; do
+      #remove broken symbolic link 
+      if [[ -L $file ]] && [[ ! -a $file ]]; then
+         echo "[]INFO: broken link"
+         file $file
+         echo "remove $file"
+         \rm $file
+      fi
+    done
+  done
+ 
+
+fi
+
+

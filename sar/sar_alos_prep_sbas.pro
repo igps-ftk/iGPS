@@ -4,9 +4,12 @@ PRO SAR_ALOS_PREP_SBAS, path
     path='\\gpsac4\root\g4c\gsar\envisat.d.bengco.t405f2979'
     path='\\gpsac4\root\g4c\gsar\envisat.d.t405f2979.test'
     path='\\vmshare\root\data\FTP\user\tianyf\envisat.d.t405f2979.test'
-;    path='\\gpsac5\root\b1\gsar\envisat.a.t398f621.bengco'
-;    path='\\gpsac5\root\b1\gsar\envisat.d.t448f2907.shuanghu'
-path='\\gpsac5\root\b1\gsar\envisat.d.t219f2979.silingco'
+    ;    path='\\gpsac5\root\b1\gsar\envisat.a.t398f621.bengco'
+    ;    path='\\gpsac5\root\b1\gsar\envisat.d.t448f2907.shuanghu'
+    path='\\gpsac5\root\b1\gsar\envisat.d.t219f2979.silingco'
+    path='\\gpsac5\root\b1\gsar\envisat.d.t333f2853.haiyuan'
+    path='\\gpsac4\root\g4c\gsar\alos.f670p505.burog'
+    path='\\gpsac5\root\g5b\gsar\f640p476.longriba'
     jdmin=2000
   ENDIF
   
@@ -24,7 +27,7 @@ path='\\gpsac5\root\b1\gsar\envisat.d.t219f2979.silingco'
   path_intf_all="../intf_all/"
   path_intf_all='../ia/'
   
-  if n_elements(jdmin) eq 0 then jdmin=-99999d0
+  IF N_ELEMENTS(jdmin) EQ 0 THEN jdmin=-99999d0
   
   
   lines=read_txt(file_intf_in)
@@ -100,8 +103,8 @@ path='\\gpsac5\root\b1\gsar\envisat.d.t219f2979.silingco'
       PRINTF,fid,path_intf_all,ids[i],ids[j], $
         path_intf_all,ids[i],ids[j],  $
         ids[i],ids[j], blens[j]-blens[i], $
-        format='(a,a,"_",a,"/unwrap.grd ",a,a,"_",a,"/corr.grd",1x,a,1x,a,1x,f)'
-        ;format='(a,a,"_",a,"/unwrap_mask.grd ",a,a,"_",a,"/corr_cut.grd",1x,a,1x,a,1x,f)'
+;        format='(a,a,"_",a,"/unwrap.grd ",a,a,"_",a,"/corr.grd",1x,a,1x,a,1x,f)'
+    format='(a,a,"_",a,"/unwrap_mask.grd ",a,a,"_",a,"/corr_cut.grd",1x,a,1x,a,1x,f)'
     ;format='(a,a,"_",a,"/unwrap_mask.grd ",a,a,"_",a,"/corr.grd",1x,a,1x,a,1x,f)'
     ENDFOR
   ENDFOR

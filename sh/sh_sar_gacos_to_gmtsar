@@ -1,0 +1,87 @@
+#!/bin/sh
+
+# Name:
+#   sh_sar_gacos_to_gmtsar
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+PROG=sh_sar_gacos_to_gmtsar
+
+path=./ztd
+if [ ! -d $path ]; then
+  echo "[]ERROR: no input path ($path)!!"
+  exit 1
+fi
+
+opath=./ztd.gmtsar
+
+path_old=`pwd`
+mkdir -p $opath
+ln -s `pwd`/trans.dat $opath
+
+#file_refgrd=`pwd`/intf_all/2014288_2018051/unwrap_mask.grd
+file_refgrd=`find ${path_old}/intf_all/ -name "unwrap_mask.grd" |sort | head -1`
+echo reference grd is $file_refgrd
+#exit
+
+files=`ls ${path}/20??????.ztd`
+for file in $files; do
+    echo $file
+    bname=`basename $file | sed -e s'/.ztd//g'`
+    
+    if [ -s ${opath}/${bname}_ra.grd ]; then
+      continue
+    fi
+    
+    if [ ! -s ${opath}/${bname}_ll.grd ]; then
+      echo "[$PROG]INFO: convert binary ztd file ($file) to GMT grid format ..."
+      gfile="${opath}/${bname}_ll.grd"
+      lonmin=`grep X_FIRST ${file}.rsc | awk '{print $2}'`
+      latmax=`grep Y_FIRST ${file}.rsc | awk '{print $2}'`
+      width=`grep WIDTH ${file}.rsc | awk '{print $2}'`
+      length=`grep FILE_LENGTH ${file}.rsc | awk '{print $2}'`
+      x_step=`grep X_STEP ${file}.rsc | awk '{print $2}'`
+      y_step=`grep Y_STEP ${file}.rsc | awk '{print $2}'`
+      I="-I${x_step}/${x_step}"
+      echo "gmt xyz2grd $file -G$gfile -RLT$lonmin/$latmax/$width/$length $I -di0 -ZTLf"
+      echo "gmt xyz2grd $file -G$gfile -RLT$lonmin/$latmax/$width/$length $I -di0 -ZTLf" | sh
+    fi
+    #continue
+    
+    echo "[$PROG]INFO: convert GMT grid ztd into radar coordinate system ..."
+    cd $opath
+    echo proj_ll2ra_full.csh trans.dat ${bname}_ll.grd ${bname}_ra.grd $file_refgrd
+    echo proj_ll2ra_full.csh trans.dat ${bname}_ll.grd ${bname}_ra.grd $file_refgrd| sh
+    
+    zmin=`gmt grdinfo -C ${bname}_ll.grd | awk '{print $6}'`
+    zmax=`gmt grdinfo -C ${bname}_ll.grd | awk '{print $7}'`
+    echo $zmin $zmax
+    gmt makecpt -Cjet -T${zmin}/${zmax}/.001 -Z -I > phase.cpt
+    gmt grdimage ${bname}_ll.grd -JX5i -I${bname}_ll.grd  -Cphase.cpt -Bxaf -Byaf -BWSne -P -V -X1.3i -Y3i -K > ${bname}_ll.ps
+    gmt psscale -R${bname}_ll.grd  -J -DJTC+w5i/0.2i+h+e -Cphase.cpt -Baf+l"Zenith total delay (m)" -O >> ${bname}_ll.ps
+    gmt psconvert -Tj -P -Z ${bname}_ll.ps
+    
+    zmin=`gmt grdinfo -C ${bname}_ra.grd | awk '{print $6}'`
+    zmax=`gmt grdinfo -C ${bname}_ra.grd | awk '{print $7}'`
+    echo $zmin $zmax
+    gmt makecpt -Cjet -T${zmin}/${zmax}/.001 -Z -I > phase.cpt
+    gmt grdimage ${bname}_ra.grd -JX5i -I${bname}_ra.grd  -Cphase.cpt -Bxaf -Byaf -BWSne -P -V -X1.3i -Y3i -K > ${bname}_ra.ps
+    gmt psscale -R${bname}_ra.grd  -J -DJTC+w5i/0.2i+h+e -Cphase.cpt -Baf+l"Zenith total delay (m)" -O >> ${bname}_ra.ps
+    gmt psconvert -Tj -P -Z ${bname}_ra.ps
+    
+    cd $path_old 
+    #exit
+done

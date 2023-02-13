@@ -1,0 +1,26 @@
+#!/bin/sh
+
+# Name:
+#   cron_sync_ac4_down
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+#rsync -avP jiang@210.31.68.9:/cygdrive/d/esa.data/aux_poeorb/2020 /g4d/esa.data/aux_poeorb/
+#rsync -avP jiang@210.31.68.9:/cygdrive/d/esa.data/aux_resorb/2020 /g4d/esa.data/aux_resorb/
+#rsync -avP jiang@210.31.68.9:/cygdrive/d/esa.data/arp/events /g4d/esa.data/arp/
+
+

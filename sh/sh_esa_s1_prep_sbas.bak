@@ -1,0 +1,148 @@
+#!/bin/sh
+
+# Name:
+#   sh_esa_s1_prep_sbas
+#   
+
+# Purpose:
+#   Prepare intf.tab and scene.tab files for sbas processing.
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+PROG=sh_esa_s1_prep_sbas
+
+function usage_of_it(){
+
+    echo "Usage: sh_esa_s1_prep_sbas"
+    echo "  input:"
+    echo "    1) baseline_table.dat"
+    echo "    2) intf.in"
+    echo "  output:"
+    echo "    1) intf.tab"
+    echo "    2) scene.tab"
+    echo "(c)Copyright 2017 Yunfeng Tian (tianyf@gmail.com)"
+}
+
+#default parameters
+file_baseline_tab=./baseline_table.dat
+file_intf_in=./intf.in
+path_intf_all='../ia'
+file_unwrap=unwrap.grd
+file_unwrap=unwrap_mask.grd
+file_corr=corr_cut.grd
+
+time_span_min=180 #in days
+time_span_max=3600
+
+while [ "$1" != "" ]; 
+do
+    case $1 in
+	-h)
+	     usage_of_it
+	    exit 1
+	    ;;
+	-file_baseline)
+	    file_baselin_tab=`pwd`/$2
+	    ;;
+	-file_intf_in)
+	    file_intf_in=`pwd`/$2
+	    ;;
+        -file_corr)
+            file_corr=$2
+            ;;
+	-path_intf_all)
+	    path_intf_all=$2
+	    ;;
+	-file_unwrap)
+	    file_unwrap=$2
+	    ;;
+	-file_corr)
+	    file_corr=$2
+	    ;;
+	-time_span_min)
+	    time_span_min=$2
+	    ;;
+        -time_span_max)
+            time_span_max=$2
+            ;;
+	*)
+	    echo "[$PROG]ERROR: wrong input option ($1)!!"
+	    usage_of_it
+	    exit 1
+	    ;;
+    esac
+    shift 2
+done
+
+
+if [ ! -e "$file_baseline_tab" ]; then
+    echo "[$PROG]ERROR: input file $file_baseline_tab not exist! Stopped!!"
+    exit 1
+fi
+#exit
+
+if [ ! -e "$file_intf_in" ]; then
+    echo "[$PROG]ERROR input file $file_intf_in not exist! Stopped!!"
+    exit 1
+fi
+
+
+sort -n -k2 $file_baseline_tab > .blentab
+
+\rm -f ./scene.tab1
+while read line; do
+    #cho $line
+    echo $line | awk '{print substr($2,1,7),$3}' >> ./scene.tab1   
+done < .blentab
+
+\rm -rf intf.tab1
+ntot=`wc -l $file_intf_in | awk '{print $1}'`
+np=`echo $ntot | awk '{print int($1/10)}' | awk '{if($1<=0){print 1}else{print $1}}'`
+n=0
+while read line; do
+    n=`expr $n + 1`
+    #echo $n $np $ntot
+    echo $n $np | awk '{if( ($1-int($1/$2)*$2)==0){printf(".")}}'
+
+    id1=`echo $line | awk -F: '{print $1}'`
+    id2=`echo $line | awk -F: '{print $2}'`
+    yeardoyr1=`grep "$id1" .blentab | awk '{print substr($2,1,7)}'`
+    yeardoyr2=`grep "$id2" .blentab | awk '{print substr($2,1,7)}'`
+    if [ "$yeardoyr1" = "" -o "$yeardoyr2" = "" ]; then
+        continue
+    fi 
+    # time interval checking
+    year1=`echo $yeardoyr1 | awk '{print substr($1,1,4)}'`
+    doyr1=`echo $yeardoyr1 | awk '{print substr($1,5,3)}'`
+    year2=`echo $yeardoyr2 | awk '{print substr($1,1,4)}'`
+    doyr2=`echo $yeardoyr2 | awk '{print substr($1,5,3)}'`
+    ndays=`echo $year1 $doyr1 $year2 $doyr2 | awk '{print sqrt(($3*365+$4-($1*365+$2))*($3*365+$4-($1*365+$2)))}'`
+    #echo "time span for $id1 $id2 is $ndays"
+    if [ $ndays -lt $time_span_min ]; then	
+        #echo "time span too short! skipped $id1_$id2."
+        continue
+    fi
+   if [ $ndays -gt $time_span_max ]; then
+        #echo "time span too long! skipped $id1_$id2."
+        continue
+    fi
+
+
+    #exit
+    #
+    blen1=`grep "$id1" .blentab | awk '{print $5}'`
+    blen2=`grep "$id2" .blentab | awk '{print $5}'`
+    echo ${path_intf_all}/${yeardoyr1}_${yeardoyr2}/${file_unwrap}  ${path_intf_all}/${yeardoyr1}_${yeardoyr2}/${file_corr} $yeardoyr1 $yeardoyr2  `echo $blen1 $blen2 | awk '{print $2-$1}'` >> intf.tab1
+   # exit
+done < $file_intf_in
+wc -l *.tab1
+echo "[$PROG]INFO: normal end."

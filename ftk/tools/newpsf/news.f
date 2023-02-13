@@ -38,15 +38,15 @@ c      write(*,*) '#param:',iargc()
          if (strbuf(1:2).eq.'-h'.or.strbuf(1:6).eq.'--help') goto 800
       enddo
       goto 801
- 800  write(*,*) 'Syntax: news [filename] [--file=~/.../doc/sub.f]'
-      write(*,*) '        news [--file=~/.../doc/sub.f] [filename]'
+ 800  write(*,*) 'Syntax: news [filename] [--file=~/.../inc/sub.f]'
+      write(*,*) '        news [--file=~/.../inc/sub.f] [filename]'
       stop
 
  801  continue
-      file='~/gpsf/cgps/doc/sub.f'
-      file='/export/home/tianyf/gpsf/cgps/doc/sub.f'
+      file='~/iGPS/ftk/inc/sub.f'
+      file='/export/home/tianyf/iGPS/ftk/inc/sub.f'
       call getenv('HOME',home)
-      file=home(1:nblen(home))//'/gpsf/cgps/doc/sub.f'
+      file=home(1:nblen(home))//'/iGPS/ftk/inc/sub.f'
       fido=6
       ofile=' '
       do i=1,iargc()

@@ -1,0 +1,53 @@
+#!/bin/sh
+
+# Name:
+#   sh_sdm_mdl_plot
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+file=output-insar.dat
+file=output-insar-des.dat
+file=output-insar-asc
+#file=output-insar2.dat
+#file=output-insar-mila1s.dat
+#file=output-insar-mila2s.dat
+
+if [ "$1" != "" ]; then
+  file=$1
+fi
+
+sed -n '2,$p' $file | awk '{print $2,$1,$3*1000}' > _obs.xyz
+sed -n '2,$p' $file | awk '{print $2,$1,$5*1000}' > _modeled.xyz
+sed -n '2,$p' $file | awk '{print $2,$1,$4*1000}' > _resi.xyz
+
+I=-I6.5s/3s
+#I=-I200s/120s
+I=-I40s/24s
+
+R=`minmax ${I} _obs.xyz`
+echo $R
+
+xyz2grd _obs.xyz $R ${I}  -Gdisp_obs.grd 
+xyz2grd _modeled.xyz $R ${I}  -Gdisp_modeled.grd 
+xyz2grd _resi.xyz $R ${I}  -Gdisp_resi.grd 
+#xyz2grd _modeled.xyz $R ${I} -r -fg -Gdisp_modeled.grd -bi3f
+#xyz2grd _resi.xyz $R ${I} -r -fg -Gdisp_resi.grd -bi3f
+
+gmt makecpt -Cjet -T-15/15/.1 -Z -I> disp.cpt
+grd2kml.csh disp_obs disp.cpt
+grd2kml.csh disp_modeled disp.cpt
+grd2kml.csh disp_resi disp.cpt

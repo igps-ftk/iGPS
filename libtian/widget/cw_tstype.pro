@@ -108,7 +108,9 @@ FUNCTION CW_TSTYPE, PARENT, $
       ;'USGS PASADENA', $
       'USGS RNEU', $
       'YICE', $
-      'ERCE' $
+      'YICE2', $
+      'ERCE', $
+      'Taiwan' $
       ]
   ENDIF
   ST = { ID:0, $

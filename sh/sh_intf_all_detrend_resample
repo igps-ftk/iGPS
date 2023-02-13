@@ -1,0 +1,51 @@
+#!/bin/sh
+
+# Name:
+#   sh_intf_all_detrend_resample
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+path=./intf_all_detrend
+opath=./intf_all_detrend_resample
+I='-I16/4'
+I='-I32/8'
+
+mkdir -p $opath
+
+dirs=`ls ${path}/ | grep "_" | head -50000`
+for dir in $dirs; do
+    echo $dir
+    odir="${opath}/${dir}"
+    mkdir -p $odir
+    file_corr=${path}/${dir}/corr_cut.grd
+    file_corr_out=${odir}/corr_cut.grd
+    echo "grdsample $I $file_corr -G${file_corr_out}"
+    if [  ! -s $file_corr_out ] ; then
+       echo "grdsample $I $file_corr -G${file_corr_out}"  | sh
+    fi
+
+    file_unwrap=${path}/${dir}/unwrap_mask.grd
+    file_unwrap_out=${odir}/unwrap_mask.grd
+    echo "grdsample $I $file_unwrap -G${file_unwrap_out}"
+    if [ ! -s $file_unwrap_out ] ; then
+        echo "grdsample $I $file_unwrap -G${file_unwrap_out}"  | sh
+    fi
+    
+    #echo touch > ${odir}/corr.cpt
+
+    #exit 
+done

@@ -1,0 +1,178 @@
+#!/bin/sh
+
+# Name:
+#   sh_sar_init_F_cut
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+PROG=sh_sar_init_Fs
+
+usage(){
+  echo "[$PROG]INFO: $PROG [-nx NX] [-ny NY] (default 2x2)"
+  echo "[$PROG]INFO:   [-sub SUB_RECT_INDEX_LIST] (default all:a,b,c,d,....)"
+  echo "[$PROG]INFO:   [-overlap OVERLAP PERCENTAGE]"
+  echo "[$PROG]INFO:   [-i|-iw iw1/iw2/iw3]"
+  echo "[$PROG]INFO:   [-p|-path PATH_EXPT]"
+  echo "[$PROG]INFO:   [-s|-slc  y_n_CUT_SLC]"
+
+}
+
+
+file_roi=
+iw=iw1
+path_expt=`pwd`
+path_old=$path_expt
+is_cut_slc=y
+is_init=y
+Fi=
+
+nx=2
+ny=2
+sub_rects='a,b,c,d'
+sub_all='a b c d e f g h i j k l m n o p q r s t u v w x y z'
+overlap=.05
+
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -r|-roi)
+      cd `dirname $2`
+      file_roi="`pwd`/`basename $2`"
+      cd $path_old
+      ;;
+    -F|-Fi)
+      Fi=$2
+      ;;
+    -i|-iw)
+      iw=$2
+      ;;
+    -nx)
+      nx=$2
+      ;;
+    -ny)
+      ny=$2
+      ;;
+    -sub)
+      sub_rects=$2
+      ;;
+    -overlap)
+      overlap=$2
+      ;;
+    -p|-path)
+      cd $2
+      if [ $? -ne 0 ]; then
+        echo "[]ERROR: cannot enter $2!!"
+        exit 1
+      fi
+      path_expt=`pwd`
+      cd $path_old
+      ;;
+    -s|-slc)
+      is_cut_slc=$2
+      ;;
+    -init)
+      is_init=$2
+      ;;
+    -h|--help)
+      usage
+      exit 1
+      ;;
+    *)
+      echo "[$PROG]ERROR: invalid option ($1)!!"
+      echo "[$PROG]Usage: ${PROG} "
+      echo "[$PROG]Usage: e.g.,"
+      usage
+      exit 1
+      ;;
+  esac
+  shift 2  
+done
+
+
+#if [ "$file_roi" == "" ]; then
+#  echo "[]ERROR: no ROI file given!!"
+#  usage
+#  exit 1
+#fi
+
+
+if [ "$Fi" == "" ]; then
+  iw_id=`echo $iw | awk '{print substr($1,3,1)}'`
+  if [ $iw_id -ne 1 -a $iw_id -ne 2 -a $iw_id -ne 3 ]; then
+    echo "[]ERROR: wrong IW option ($iw)!!"
+    usage
+    exit 1
+  fi
+  pathF="$path_expt/F${iw_id}"
+else
+  pathF="$path_expt/${Fi}"
+fi
+
+files=`find $pathF/raw/ -maxdepth 1 -type f -name "S1*.SLC"`
+if [ "$files" == "" ]; then
+  echo "[]ERROR: no SLC files in $pathF/raw!!"
+  exit 1
+fi
+
+sub_rects=`echo $sub_rects | sed -e 's/,/ /g'`
+nsub=`echo $sub_rects | awk '{print NF}'`
+
+
+master_id=`head -1 $pathF/data.in | awk -F- '{print substr($5,1,8)}'`
+file_base=`find $pathF/raw -maxdepth 1 -type f -name "S1_${master_id}_ALL*.PRM"`
+echo file_base $file_base
+nrows=`cat $file_base | grep nrows | awk -F\= '{print $2}'`
+ncols=`cat $file_base | grep num_rng_bins | awk -F\= '{print $2}'`
+
+
+nxy=`expr $nx \* $ny`
+
+echo nrows ncols nx ny nxy $nrows $ncols $nx $ny $nxy
+
+stepx=`echo $ncols $nx | awk '{print int($1/$2+1)}'`
+stepy=`echo $nrows $ny | awk '{print int($1/$2+1)}'`
+
+echo steps $stepx $stepy
+
+for sub in $sub_rects; do
+  #echo sub $sub
+  subi=`echo $sub $sub_all | awk '{for(i=2;i<=27;i++){if($1==$i){print i-1}}}'`
+  #echo subi $subi 
+  yi=`echo $subi $nx | awk '{print int(($1-1)/$2)}'`
+  xi=`echo $subi $yi $nx | awk '{print $1-$2*$3-1}'`
+  echo sub subi xi yi $sub $subi $xi $yi 
+  
+  x1=`echo $xi $stepx $overlap | awk '{print $1*$2-$3*$2}'`
+  x2=`echo $xi $stepx $overlap | awk '{print ($1+1)*$2+$3*$2}'`
+  y1=`echo $yi $stepy $overlap | awk '{print $1*$2-$3*$2}'`
+  y2=`echo $yi $stepy $overlap | awk '{print ($1+1)*$2+$3*$2}'`
+
+  x1=`echo $x1 | awk '{if($1<0){print 0}else{print $1}}'`
+  x2=`echo $x2 $ncols | awk '{if($1>$2){print $2}else{print $1}}'`
+  y1=`echo $y1 | awk '{if($1<0){print 0}else{print $1}}'`
+  y2=`echo $y2 $ncols | awk '{if($1>$2){print $2}else{print $1}}'`
+ 
+  R="${x1}/${x2}/${y1}/${y2}"
+
+  echo x1 x2 y1 y2 $x1 $x2 $y1 $y2 $R
+  
+  echo "sh_sar_init_F_cut -R $R -name $sub -path $path_expt -iw iw${iw_id} -init $is_init"
+  echo "sh_sar_init_F_cut -R $R -name $sub -path $path_expt -iw iw${iw_id} -init $is_init" | sh
+
+
+  #exit
+done

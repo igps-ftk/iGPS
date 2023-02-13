@@ -1,0 +1,110 @@
+#!/bin/sh
+
+# Name:
+#   cron_asf_t164_suining
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+. ${HOME}/.bashrc
+
+
+if [ "$esa_data" = "" ]; then
+    echo "ESA environment esa_data variable not set! Stopped!!"
+    exit 1
+fi
+
+
+this_host=`hostname`
+user=tianyunfeng
+config_file=${esa_data}/vector/track-node.txt
+path='/sar/esa.sentinel-1/in-progress'
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -config)
+      config_file=$2
+      ;;
+    -user)
+      user=$2
+      ;;
+    -path)
+      path=$2
+      ;;
+    *)
+      echo "[]ERROR: invalid option ($1)!!"
+      exit 1
+      ;;
+  esac
+  shift 2
+
+done
+
+tmp=`grep '^ ' $config_file | grep " $this_host "`
+echo tmp is $tmp
+if [ "$tmp" == "" ]; then
+    echo "[]ERROR: no information found for host $this_host!!"
+    exit 1
+fi
+
+track=`echo $tmp | awk '{print $1}'`
+user=`echo $tmp | awk '{print $5}'`
+echo user is $user
+
+opath=${path}/${track}
+echo $opath
+echo $user
+if [ "$user" == "" ];then
+  user=tianyunfeng
+fi
+echo user is $user
+
+#exit
+mkdir -p ${opath}
+#exit
+cd $opath
+pwd
+
+lckfile="${opath}/_cron_asf_by_track.lock"
+if [ -s $lckfile ]; then
+  echo "[]WARNING: a previous session is already running !! Quit."
+  exit 1
+fi
+
+echo "[]INFO: downloading data for $track at $this_host ..." > $lckfile
+#exit
+
+ad=`echo $track | awk '{print substr($1,1,1)}'`
+case $ad in
+  a)
+    orb_type=ASCENDING
+    ;;
+  d)
+    orb_type=DESCENDING
+    ;;
+  *)
+    echo "[]ERROR: invalid orbit type ($ad)!!"
+    exit 1
+    ;;
+esac
+echo orb_type is $orb_type
+sh_esa_s1_query_asf -roi_file ${esa_data}/vector/roi_line_${track}.kml -roi_type line -orb_type $orb_type -out_type KML -out_file ${track}.kml 
+
+#exit
+sh_esa_s1_query_asf -roi_file ${esa_data}/vector/roi_line_${track}.kml -roi_type line -orb_type $orb_type -out_file ${track}.py
+
+sh_esa_s1_get_data_py_asf ${track}.py $opath $user
+
+\rm -f $lckfile

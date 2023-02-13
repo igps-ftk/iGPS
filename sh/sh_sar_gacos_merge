@@ -1,0 +1,84 @@
+#!/bin/sh
+
+# Name:
+#   sh_sar_gacos_mosaic
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+
+PROG=sh_sar_gacos_mosaic
+
+path_old=`pwd`
+
+path1=/g7b/gsar/gacos/099-a-m3-0081CA06_0087F6ED_0092696A-lijiang_deqin.test/ztd.gmtsar/
+path2=/g7b/gsar/gacos/t99-f1255-f1265-a-m_honghe5_lijiang/ztd.gmtsar/
+opath=./ztd.gmtsar.merged
+
+file_refgrd=`find ${path_old}/intf_all/ -name "unwrap_mask.grd" |sort | head -1`
+echo reference grd is $file_refgrd
+
+mkdir -p $opath
+
+if [ ! -s ll ]; then
+  gmt gmtconvert trans.dat -bi5d -o0,1 -bo2f > ll
+fi
+tmp=`gmtinfo -C -bi2f ll`
+xmin=`echo $tmp | awk '{print $1-0.1}'`
+xmax=`echo $tmp | awk '{print $2+0.1}'`
+ymin=`echo $tmp | awk '{print $3-0.1}'`
+ymax=`echo $tmp | awk '{print $4+0.1}'`
+Ro="-R${xmin}/${xmax}/${ymin}/${ymax}"
+echo "R $R"
+#exit
+
+files1=`find $path1 -maxdepth 1 -name "*_ra.grd" | sort`
+for file1 in $files1; do
+  cd $path_old
+
+  bname=`basename $file1 | sed -e s'/.grd//g'`
+  file2=${path2}/${bname}.grd
+  if [ ! -s $file2 ]; then
+    #echo "[]WARNING: no second file for $file1 !"
+    continue
+  fi
+  echo "merging $file1 and $file2"
+
+  ofile=${opath}/${bname}.grd
+  if [ -s $ofile ]; then
+    #echo "[]INFO: output file exist."
+    continue
+  fi
+
+  echo "$file1 - 1" > filelist
+  echo "$file2 - 1" >> filelist
+  echo "gmt grdblend filelist $R $I -G${ofile}"
+  echo "gmt grdblend filelist $R $I -G${ofile}" | sh
+ 
+  cd $opath
+  pwd
+
+    zmin=`gmt grdinfo -C ${bname}.grd | awk '{print $6}'`
+    zmax=`gmt grdinfo -C ${bname}.grd | awk '{print $7}'`
+    echo $zmin $zmax
+    gmt makecpt -Cjet -T${zmin}/${zmax}/.001 -Z -I > phase.cpt
+    gmt grdimage ${bname}.grd -JX5i -I${bname}.grd  -Cphase.cpt -Bxaf -Byaf -BWSne -P -V -X1.3i -Y3i -K > ${bname}.ps
+    gmt psscale -R${bname}.grd  -J -DJTC+w5i/0.2i+h+e -Cphase.cpt -Baf+l"Zenith total delay (m)" -O >> ${bname}.ps
+    gmt psconvert -Tj -P -Z ${bname}.ps
+  
+  #exit
+
+done

@@ -1,0 +1,83 @@
+#!/bin/sh
+
+# Name:
+#   sh_sar2tdfn
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+
+PROG=sh_sar2tdfn
+ofile=
+resample_grid=0.05 #(default)
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -o|-ofile)
+      ofile=$2
+      ;;
+    *)
+      echo "[$PROG]ERROR: invalid option ($1)!!"
+      echo "[$PROG]Usage: ${PROG} "
+      echo "[$PROG]Usage: e.g.,"
+      echo "[$PROG]Usage: ${PROG} "
+      exit 1
+      ;;
+  esac
+  shift 2  
+done
+
+year1=`head -1 scene.tab|awk '{print substr($1,1,4)}'`
+doyr1=`head -1 scene.tab|awk '{print substr($1,5,3)}'`
+year2=`tail -1 scene.tab|awk '{print substr($1,1,4)}'`
+doyr2=`tail -1 scene.tab|awk '{print substr($1,5,3)}'`
+echo $year1 $doyr1 $year2 $doyr2
+dyr1=`doy $year1 $doyr1 | tail -1 | awk '{print $3}'`
+dyr2=`doy $year2 $doyr2 | tail -1 | awk '{print $3}'`
+
+dyr_span=`echo $dyr1 $dyr2 | awk '{print $2-$1}'`
+echo $dyr1 $dyr2
+
+#exit
+
+gmt grdsample vel_mask_ll.grd -I${resample_grid} -Gvel_mask_ll4.grd
+gmt grdsample rms_mask_ll.grd -I${resample_grid} -Grms_mask_ll4.grd
+
+gmt grd2xyz vel_mask_ll4.grd -s > vel_mask_ll4.xyz
+gmt grd2xyz rms_mask_ll4.grd -s > rms_mask_ll4.xyz
+
+fname=vel_mask_ll4
+file_prm=master.PRM
+cat ${fname}.xyz | awk '{print $1,$2}' > _tmp_cal_sat_indicence.llde
+echo add_look.csh _tmp_cal_sat_indicence.llde $file_prm SAT ../topo/dem.grd
+echo add_look.csh _tmp_cal_sat_indicence.llde $file_prm SAT ../topo/dem.grd | sh
+#exit
+
+cat _tmp_cal_sat_indicence.lltnde | awk '{print $4,$5,$6}' | sar_cal_sat_incidence | awk '{print 90-$1}' > _tmp_incidences
+cat _tmp_cal_sat_indicence.lltnde | awk '{print $4,$5,$6}' | sar_cal_sat_incidence | awk '{print $2}' > _tmp_azimuth
+
+echo "paste _tmp_cal_sat_indicence.lltnde _tmp_incidences _tmp_azimuth > look_mask_ll4.xyz"
+echo "paste _tmp_cal_sat_indicence.lltnde _tmp_incidences _tmp_azimuth > look_mask_ll4.xyz" | sh
+
+
+paste vel_mask_ll4.xyz rms_mask_ll4.xyz look_mask_ll4.xyz > _vel_rms_look_mask_ll4.xyz
+
+#101.679298246	20.9477080836	0.182784050703	101.679298246	20.9477080836	0.524286746979	101.679298 20.947708 984.795852 0.622280 -0.117923 0.773862  	39.298	-79.269602982221045
+if [ "$ofile" == "" ]; then
+  cat _vel_rms_look_mask_ll4.xyz | awk '{print $1-360,$2,$3*1*dyr_span,$6*1}' dyr_span=$dyr_span 
+else
+  cat _vel_rms_look_mask_ll4.xyz | awk '{print $1-360,$2,$3*1*dyr_span,$6*1}' dyr_span=$dyr_span  > $ofile
+fi

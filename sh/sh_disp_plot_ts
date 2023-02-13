@@ -1,0 +1,121 @@
+#!/bin/sh
+
+# Name:
+#   sh_disp_plot_ts
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+PROG=sh_disp_plot_ts
+
+
+path=../anhui/disp/3/ts
+#path=
+
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -p|-path)
+      path=$2
+      ;;
+    -o|-opath)
+      opath=$2
+      ;;
+    *)
+      echo "[$PROG]ERROR: invalid option ($1)!!"
+      echo "[$PROG]Usage: ${PROG} "
+      echo "[$PROG]Usage: e.g.,"
+      echo "[$PROG]Usage: ${PROG} "
+      exit 1
+      ;;
+  esac
+  shift 2  
+done
+
+if [ "$path" == "" ]; then
+  echo "[$PROG]ERROR: no input path!!"
+  exit 1
+fi
+
+if [ ! -d "$path" ]; then
+  echo "[$PROG]ERROR: path not exist ($path)!!"
+  exit 1
+fi
+
+
+if [ "$opath" == "" ]; then
+  opath=$path
+fi
+
+
+gmt gmtset MAP_TICK_LENGTH = -.1c
+gmt gmtset MAP_LABEL_OFFSET            = 0.1c
+gmt gmtset MAP_TITLE_OFFSET           = .0c
+gmt gmtset PS_MEDIA = a4
+gmt gmtset FONT_TITLE = 9p
+gmt gmtset FONT_LABEL         = 8p
+gmt gmtset FONT_ANNOT_PRIMARY = 7p
+gmt gmtset MAP_FRAME_PEN               = .5p
+gmt gmtset MAP_FRAME_WIDTH             = 0.2c
+#gmt gmtset MAP_TICK_LENGTH = .2c
+gmt gmtset MAP_TITLE_OFFSET = .2051c
+
+ts=2010.7
+te=2029.7
+
+pwd
+
+files=`ls $path/[0-9]*.neu`
+#echo $files
+
+for file1 in $files; do
+  echo "[$PROG]INFO: plotting $file1 ..."
+  site=`basename $file1 | sed -e 's/.neu//g'`
+  SITE=`echo $site | awk '{print toupper($1)}'`
+  ofile="$opath/${site}.ps"
+  
+  site_short=`echo $site | awk '{print substr($1,1,1)substr($1,2)+0}'`
+  
+  #refv=`grep -v "#" $file1 | awk '{if($1>=ts&&$1<=te){print $6}}' ts=$ts te=$te | head -1`
+  refv=0
+  #echo refv $refv
+  grep -v "#" $file1 | awk '{if($1>=ts&&$1<=te){print $1,($6-refv)*1,$9*1}}' ts=$ts te=$te refv=$refv> .tmp1
+  R=`gmt gmtinfo -I1/50 .tmp1`
+  #R=-R2014.7/2016/-320/120
+  #R=`echo $R | awk -F/ '{print "-R2017.5/2022.5/"$3"/"$4}'`
+  #echo $R
+  gmt psxy $R -Y1i -JX4i/2.5i -B1f.083333333:"Time":/a:"LOS (mm)"::."${SITE} Position Time Series ":/WeSn .tmp1 -Ey+p.5p,gray -Sc.08c -Worange -Gred -P -K > $ofile
+  
+##
+##    psxy -R -J -O -K <<eof -W1p,green,->> $ofile
+##2015.313698630 -10000
+##2015.313698630 10000
+##eof
+##
+  gmt psxy -R -J -O <<eof -W.3p,gray,->> $ofile
+1980 0
+9999 0
+eof
+#psxy -R -J -O  .tmp2 -W.5p,blue >> $ofile
+
+    
+  gmt psconvert -A -Tj $ofile  
+  gmt psconvert -A -Tf -Z $ofile
+  #exit
+
+done
+
+echo "[$PROG]INFO: normal end."
