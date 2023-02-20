@@ -1173,5 +1173,5 @@ eob
     #exit
 done  #end-of-profile-loop
 
-#echo "[${PROG}]INFO: Normal end :)"
-echo -e "[${PROG}]INFO:\033[1;33;41m Normal end \033[0m\n"
+#echo "[${PROG}]INFO: done :)"
+echo -e "[${PROG}]INFO:\033[1;33;41m done \033[0m\n"

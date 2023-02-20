@@ -40,7 +40,9 @@ t1_sbas=1
 t2_sbas=9999
 reso=2
 delay=10
+path_intf=intf_all
 
+timestamp=`date | sed -e 's/ /_/g' | sed -e 's/:/-/g'`
 
 while [ "$1" != "" ]; do
   case $1 in
@@ -56,6 +58,9 @@ while [ "$1" != "" ]; do
 	  -d|-delay)
 	    delay=$2
 	    ;;
+          -i|-intf_all)
+            path_intf=$2
+            ;;
 	  *)
 	    echo "[$PROG]ERROR: invalid options ($1) !!!"
 	    exit 1
@@ -85,6 +90,12 @@ n_scen=`cat scene.tab | wc -l`
 
 sbas_id="${t1_sbas}_${t2_sbas}_${n_intf}_${n_scen}"
 
+file_intf_tab=_tmp_intf_tab_${sbas_id}_${timestamp}
+file_scene_tab=_tmp_scene_tab_${sbas_id}_${timestamp}
+\cp -f intf.tab $file_intf_tab
+\cp -f scene.tab $file_scene_tab
+
+
 echo "[$PROG]INFO: queuing $sbas_id ..."
 
 cmdfile=slurm_sbas_${sbas_id}.cmd
@@ -98,7 +109,9 @@ logfile="slurm_sbas_${sbas_id}.log"
 echo "which gmt" > $cmdfile
 echo 'echo $PATH' >> $cmdfile
 echo 'which sbas' >> $cmdfile
-echo "sh_esa_s1_call_sbas -t1 $t1_sbas -t2 $t2_sbas -r $reso " >> $cmdfile
+echo 'which sbas_parallel' >> $cmdfile
+echo 'echo OMP_NUM_THREADS $OMP_NUM_THREADS' >> $cmdfile
+echo "sh_esa_s1_call_sbas -t1 $t1_sbas -t2 $t2_sbas -r $reso -i $path_intf -file_intf $file_intf_tab -file_scene $file_scene_tab -p y" >> $cmdfile
 
 
 file_t=slurm_sbas_${sbas_id}.sh
@@ -131,7 +144,7 @@ tmp="${tmp1}${tmp2}"
 #echo "tmp2|$tmp2|"
 #echo "tmp|$tmp|"
 #if [ "$tmp" != "" ]; then
-  sleep 10
+  sleep 5
   echo delay is $delay
 #fi
 

@@ -1,0 +1,296 @@
+#!/bin/sh
+
+# Name:
+#   sh_esa_s1_run_tsa_update
+#   
+
+# Purpose:
+#   +Update alignment of new S1 SLC files from an existing processing session by sh_esa_s1_run_tsa.
+
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+PROG=sh_esa_s1_run_tsa_update
+
+if [ -t 0 ]; then
+    interactive=1
+else
+    interactive=0
+    . ${HOME}/.bashrc  
+fi
+which doy
+
+
+host=`hostname | awk '{print substr($1,1,4)}'`
+echo "[$PROG]INFO: host is $host"
+
+
+
+echo "[$PROG]INFO: please run this script in the subswatch (iw1/iw2/iw3) directory (e.g., under F1/ F2/ F3/)."
+#PROC_ROOT/
+#         |-input.lst   (frames list to process)
+#         |-batch_tops.config   (configuration of processing parameters)
+#         |-dem.grd    (dem file)
+#         |-F1/
+#         |-F2/
+#         |-F3/
+#         |-f123/
+#
+
+timestamp=`date | sed -e "s/ /_/g" | sed -e "s/:/-/g"`
+
+path_old=`pwd`
+
+usage(){
+  echo "[$PROG]HELP: ${PROG} "
+  echo "[$PROG]HELP:   -file INPUT_FILE"
+  echo "[$PROG]INRO:     default input.lst.ok"
+  echo "[$PROG]HELP:   [-i|-iw iw1/iw2/iw3]"
+  echo "[$PROG]INRO:     default iw1"
+  echo "[$PROG]HELP:   [-r|-roi ROI_FILE_KML]"
+
+  echo "[$PROG]HELP:   [-h|-help]"
+  echo "[$PROG]HELP: e.g.,"
+  echo "[$PROG]HELP:   ${PROG} "
+}
+
+if [ "$1" == "" ]; then
+    usage
+    exit 1
+fi
+
+#temporary files used by this script
+file_tmp_new=`pwd`/_tmp_${PROG}_${timestamp}tiffs_new
+
+#default value for command-line parameters 
+file='../input.lst.ok'
+iw_typ=iw1
+file_roi_kml=
+
+#to-be-excluded S1 scenes (file_exclude)
+#file_exclude=../exclude_scene.txt
+
+comb_method=stitch #assemble - use assemble_tops program; stitch - use stitch_tops program
+comb_method=assemble
+
+is_update_intf_in=y
+
+
+while [ "$1" != "" ]; do
+    case $1 in
+        -c|-comb_method)
+            comb_method=$2  
+            ;;
+        -f|-file)
+            file=`pwd`/$2
+            ;;
+        -i|-iw)
+            iw_typ=$2  
+            ;;
+        -r|-roi)
+            path_tmp=`pwd`
+            cd `dirname $2`
+            file_roi_kml=`pwd`/`basename $2`
+            cd $path_tmp
+            ;;
+        -u|-upd|-update|-update_intf|-update_intf_in)
+            is_update_intf_in=$2  
+            ;;
+        -h|-help|--help)
+            usage
+            exit 1
+            ;;
+        *)
+            echo "[$PROG]ERROR: invalid option ($1)!!"
+            usage
+            exit 1
+            ;;
+    esac    
+    shift 2
+done
+
+echo "[$PROG]INRO: input file is $file"
+echo "[$PROG]INRO: subswath is $iw"
+echo "[$PROG]INRO: ROI file is $file_roi_kml"
+echo "[$PROG]INRO: Merge mode is $comb_method"
+
+
+
+if [ "$esa_data" = "" ]; then
+    echo "[$PROG]ERROR: ESA environment variable esa_data must be set first! Stopped."
+    exit 1
+fi
+
+if [ ! -s ../dem.grd ]; then
+    echo "[$PROG]ERROR: DEM file ../dem.grd is mondatory! Stopped."
+    exit 1
+fi
+
+
+if [ "$comb_method" == "assemble" -a ! -d raw0 ]; then
+    echo "[$PROG]ERROR: raw0 directory not exist!!"
+    exit 1
+fi
+
+if [ ! -d raw ]; then
+    echo "[$PROG]ERROR: raw directory not exist!!"
+    exit 1
+fi
+
+if [ ! -s batch_tops.config ]; then
+    echo "[$PROG]ERROR: batch_tops.config file not exist!!"
+    exit 1
+fi
+
+if [ ! -s data.in ]; then
+    echo "[$PROG]ERROR: data.in file not exist!!"
+    exit 1
+fi
+
+if [ -d raw.append ]; then
+    echo "[$PROG]WARNING: update directory raw.append already exists and will be overwritten!"
+    #exit 1
+fi
+
+if [ "$comb_method" == "assemble" -a -d raw0.append ]; then
+    echo "[$PROG]WARNING: update directory raw0.append already exists and will be overwritten!"
+    #exit 1
+fi
+
+
+iw_i=`echo $iw_typ | awk '{print substr($1,3,1)}'`
+
+
+###S1 scenes to be processed
+##file_proc=`pwd`/.s1_proc_list
+##grep '^ ' $file > $file_proc
+##if [ -s $file_exclude ]; then
+##    grep '^ ' $file_exclude > .tmp_s1_exclude
+##    while read line; do
+##      fname=`echo $line|awk '{print $1}'`
+##      tmp=`grep $fname $file_proc`
+##      if [ "$tmp" == "" ]; then
+##        continue
+##      fi
+##      grep -v $fname $file_proc > .tmp_s1_proc
+##      \mv -f .tmp_s1_proc $file_proc
+##    done < .tmp_s1_exclude
+##    
+##    grep '^ ' $file_exclude | wc -l
+##fi
+##
+##grep '^ ' $file |wc -l
+##grep '^ ' $file_proc | wc -l
+
+
+
+#check data.in and input file to get new scenes
+ids1=`grep '^ ' $file | awk -F_ '{print substr($6,1,8)}' |sort |uniq` #scenes in input file (request)
+ids2=`cat ./data.in | awk -F- '{print substr($5,1,8)}' |sort |uniq` #scenes already done (processed)
+echo ids1 is $ids1
+echo ids2 is $ids2
+ids_new=
+for id1 in $ids1; do
+    tmp=`echo $ids2 | grep $id1`
+    if [ "$tmp" == "" ]; then
+	ids_new="$ids_new $id1"
+    fi
+done
+if [ "$ids_new" == "" ]; then #no new scenes to be process
+    echo "[$PROG]INFO: no new scenes to process."
+    exit 0
+fi
+echo ids_new is $ids_new
+
+#get the master scene. The data of master will be re-processed, but only used for alignment of new scenes (will not overwrite existing files).
+id_master=`cat batch_tops.config | sed 's/#.*$//g' | grep master_image | awk '{print substr($3,4,8)}'`
+echo "[$PROG]id_master is $id_master"
+#exit
+
+
+\rm -rf $file_tmp_new
+file_tiff1=`grep '^ ' $file | grep $id_master`
+echo " $file_tiff1" >> $file_tmp_new
+for id in $ids_new; do
+    file_tiff1=`grep '^ ' $file | grep $id`
+    echo " $file_tiff1" >> $file_tmp_new
+done
+
+echo file_tmp_new $file_tmp_new
+
+#exit
+
+echo "[$PROG]INRO: (1) prepare the new data (link & assemble ...)"
+mkdir -p raw.append
+if [ "$comb_method" == "assemble" ]; then
+  mkdir -p raw0.append 
+fi
+
+echo "[$PROG]INRO: (1) prepare the data (link & assemble/stitch ...)"
+if [ "$comb_method" == "assemble" ]; then
+  echo "[$PROG]INRO: output log to log.asmb.upd"
+  if [ "$file_roi_kml" != "" ]; then
+      sh_esa_s1_assemble_snap -file $file_tmp_new -iw $iw_typ -raw0 `pwd`/raw0.append -raw `pwd`/raw.append -roi $file_roi_kml > log.asmb.upd
+  else
+      sh_esa_s1_assemble_snap -file $file_tmp_new -iw $iw_typ -raw0 `pwd`/raw0.append -raw `pwd`/raw.append > log.asmb.upd
+  fi
+elif [ "$comb_method" == "stitch" ]; then
+  echo "[$PROG]INRO: output log to log.stch.upd"
+  sh_esa_s1_stitch_snap -file $file_tmp_new -iw $iw_typ  -raw `pwd`/raw.append  #> log.stch.upd
+else
+  echo "[$PROG]ERROR: wrong type ($comb_method) for merging frames!!"
+  exit 1
+fi
+
+#exit
+echo "[$PROG]INRO: (2) generating SLC (align) for the new data"
+cd ./raw.append
+echo "[$PROG]INRO: working in `pwd`"
+echo "[$PROG]INRO: clean existing files ..."
+\rm -f *.PRM* *.SLC *.LED >& /dev/null
+ln -s ../../dem.grd .
+preproc_batch_tops_esd.csh ./data.in dem.grd 2 1
+
+echo "[$PROG]INRO: (3) create spatiotemporal baseline information for new data"
+cat ./data.in | awk -F- '{print "S1_"substr($5,1,8)"_ALL_F"iw_i".PRM"}' iw_i=$iw_i > prmlist
+echo "get_baseline_table.csh prmlist `head -1 prmlist`"
+echo "get_baseline_table.csh prmlist `head -1 prmlist`" | sh
+
+sed -n '2,$p' data.in >> ../data.in
+sed -n '2,$p' baseline_table.dat >> ../baseline_table.dat
+
+for id in $ids_new; do
+  \mv -f S1*${id}* ../raw/
+done
+
+cd ..
+echo "[$PROG]INRO: return to `pwd`"
+
+if [ "$is_update_intf_in" == "y" ]; then
+  echo "[$PROG]INRO: (4) creating input file (intf.in) for producing interferograms"
+  \cp -f intf.in _tmp_${PROG}_${timestamp}_intf_in
+  sh_esa_s1_prep_proc_baseline -t1 1 -t2 120 -update_config n
+  \cp -f intf.in intf.in.b1-120.udp
+  sh_esa_s1_prep_proc_baseline -t1 121 -update_config n
+  \cp -f intf.in intf.in.b121-.udp
+  shuf intf.in.b121-.udp > intf.in.b121-.udp.s
+  head -300 intf.in.b121-.udp.s > intf.in.b121-.udp.s.300
+  cat _tmp_${PROG}_${timestamp}_intf_in intf.in.b1-120.udp intf.in.b121-.udp.s.300 | sort | uniq | shuf > intf.in
+  wc -l intf.in* da* ba*
+  
+  \rm -f b0-/*.tab1
+  sh_sar_prep_sbases -t 0,
+  \cp -f b0-/*.tab1 .
+fi
+
+echo "[$PROG]INFO: done."

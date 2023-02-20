@@ -1,0 +1,81 @@
+#!/bin/sh
+
+# Name:
+#   sh_sar_sbas_disp_extract_time_series
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+file_ll=input.ll
+
+
+while [ "$1" != "" ]; do
+    case $1 in
+	-file)
+	    file_ll=$2
+	    ;;
+	*)
+	    echo "[]ERROR: invalid option ($1)!!"
+	    exit 1
+	    ;;
+    esac
+    shift 2
+done
+
+echo "input lon/lat points file: $file_ll"
+cat $file_ll
+
+file_out=${file_ll}.out
+echo "output to: $file_out"
+
+if [ ! -s trans.dat ]; then
+    echo "[]ERROR: trans.dat file not exist!!"
+    exit 1
+fi
+
+#echo "converting lon/lat to radar coordinate ..."
+#proj_ll2ra_ascii.csh trans.dat $file_ll ${file_ll}.ra
+#cat ${file_ll}.ra
+
+
+files=`ls disp_*_ll.grd`
+
+cmdstr="grdtrack $file_ll "
+
+echo "" > $file_out
+
+for file in $files; do
+    #get displacement
+    cmdstr_i="$cmdstr -G${file}"
+    echo $cmdstr_i
+    tmp=`$cmdstr_i`
+    echo $tmp
+    disp_i=`echo $tmp | awk '{print $3}'`
+
+    #get time
+    year=`echo $file | awk -F_ '{print substr($2,1,4)}'`
+    doyr=`echo $file | awk -F_ '{print substr($2,5,3)}'`
+    dyr=`doy $year $doyr | tail -1 | awk '{print $3}'`
+    
+    echo $dyr  $year $doyr $disp_i
+    echo $dyr  $year $doyr $disp_i >> $file_out
+done
+
+cat $file_out
+
+
+
+
+

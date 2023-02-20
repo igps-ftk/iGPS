@@ -111,7 +111,7 @@ echo 'echo $PATH' >> $cmdfile
 echo 'which sbas' >> $cmdfile
 echo 'which sbas_parallel' >> $cmdfile
 echo 'echo OMP_NUM_THREADS $OMP_NUM_THREADS' >> $cmdfile
-echo "sh_esa_s1_call_sbas -t1 $t1_sbas -t2 $t2_sbas -r $reso -i $path_intf -file_intf $file_intf_tab -file_scene $file_scene_tab -p y" >> $cmdfile
+echo "sh_sar_call_sbas -t1 $t1_sbas -t2 $t2_sbas -r $reso -i $path_intf -file_intf $file_intf_tab -file_scene $file_scene_tab -p y" >> $cmdfile
 
 
 file_t=slurm_sbas_${sbas_id}.sh

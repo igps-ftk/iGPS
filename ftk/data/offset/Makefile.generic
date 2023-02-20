@@ -92,7 +92,7 @@
 #SHARELIB: ../read:cgps_data_read
 #SHARELIB: ../write:cgps_data_write
 #SHARELIB: ../../lib:cgps_lib
-#SHARELIB: ../../../../gglib:gglib
+#SHARELIB: ../../gglib:gglib
 #SHARELIB: ../../nr:nr_lib
 
 # OBJ_cgps_data_offset ftest offset_ftest_epoch offset_size func_offset_ftest

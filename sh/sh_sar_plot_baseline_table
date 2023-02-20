@@ -112,6 +112,6 @@ gmt psconvert -A -Tf $ofile
 
 
 
-echo "[$PROG]INFO: normal end"
+echo "[$PROG]INFO: done"
 
 

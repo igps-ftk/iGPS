@@ -1,0 +1,201 @@
+#!/bin/sh
+
+# Name:
+#   sh_asf_s1_query
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+# Inputs:
+#  1). roi files (line, point, polygon)
+#  2). orbit type (ascending, descending)
+#  3). output type (csv, kml, metalink, download, ...)
+ 
+ 
+PROG=sh_asf_s1_query
+
+
+timestamp=`date | sed -e "s/ /_/g" | sed -e "s/:/-/g"`
+
+path_old=`pwd`
+
+usage(){
+  echo "[$PROG]HELP: ${PROG} "
+  echo "[$PROG]HELP:   [-ac|-aria2_conf ARIA2_CONF_FILE]"
+  echo "[$PROG]HELP:   [-u|-user EARTHDATA_USER_NAME (only for DIPP)]"
+  echo "[$PROG]HELP:   [-p|-path OUTPUT_PATH]"
+  echo "[$PROG]HELP:   [-r|-roi ROI_FILE]"
+  echo "[$PROG]HELP:   [-w1 WEEKS_AGO_TIME_START]"
+  echo "[$PROG]HELP:   [-w2 WEEKS_AGO_TIME_END]"
+
+  echo "[$PROG]HELP:   [-h|-help]"
+  echo "[$PROG]HELP: e.g.,"
+  echo "[$PROG]HELP:   ${PROG} "
+}
+
+
+roi_type=line
+
+roi_file=
+roi_file=${GMT_pub}/vector/profile/line_t164.kml
+
+orb_type=
+#orb_type=DESCENDING
+
+track=
+
+platform=S1 #ALOS, A3, AIRSAR, AS, ERS, ERS-1, E1, ERS-2, E2, JERS-1, J1, RADARSAT-1, R1, SEASAT, SS, S1, Sentinel, Sentinel-1, Sentinel-1A, SA, Sentinel-1B, Sentinel-1 Interferogram (BETA), SB, SIR-C, SMAP, SP, UAVSAR, UA
+
+out_type=DOWNLOAD
+
+out_file=result.py
+s_week=2
+e_week=0
+s_week=
+e_week=
+
+#s_week=5
+#s_week=15
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -roi_file)
+      roi_file=$2
+      ;;
+    -roi_type)
+      roi_type=`echo $2 | awk '{print tolower($1)}'`
+      ;;
+    -sat)
+      platform=$2
+      ;;   
+    -orb_type)
+      orb_type=$2
+      ;;   
+    -out_type)
+      out_type=$2
+      ;;   
+    -out_file)
+      out_file=$2
+      ;;  
+    -track)
+      track=$2
+      ;;
+    -weeks)
+      s_week=$2
+      ;;
+    -eweeks)
+      e_week=$2
+      ;;  
+    -h|-help|--help)
+      usage
+      exit 1
+      ;;
+    *)
+      echo "[$PROG]ERROR: invalid option ($1)!!"
+      usage
+      exit 1
+      ;;
+  esac
+  shift 2
+done
+
+file_tmp_roi_gmt=_tmp_${PROG}_${timestamp}_roi_xy
+
+gmtfile=`echo $roi_file | sed -e 's/.kml/.psxy/g'`
+if [ ! -s $gmtfile ]; then
+  gmt kml2gmt $roi_file > $file_tmp_roi_gmt
+  xys=`gmt kml2gmt $roi_file`
+else
+  cat $gmtfile > $file_tmp_roi_gmt
+  xys=`cat $gmtfile`
+fi
+echo $xys
+
+#intersectsWith=polygon((-119.543 37.925, -118.443 37.7421, -118.682 36.8525, -119.77 37.0352, -119.543 37.925 ))
+#intersectsWith=linestring(-119.543 37.925, -118.443 37.7421)
+#intersectsWith=point(-119.543,37.925)
+
+case $roi_type in
+  point)    
+    roi_str=`echo $xys | awk '{print "intersectsWith=point%28"$3"+"$4"%29"}'`
+    ;;
+  line) # > -L"line_t164" 104.946308041 27.6750344184 106.131330306 32.3621562347
+    #cat $file_tmp_roi_gmt | awk '{print $1,$2}'|grep -v '^>' > .tmp
+    #tmpstr=`awk BEGIN{RS=EOF}'{gsub(/\n/,",");print}' .tmp`
+    #tmpstr=`echo $tmpstr | sed -e 's/ /+/g'`
+    
+    tmpstr=`cat $file_tmp_roi_gmt | awk '{print $1,$2}'|grep -v '^>' | awk '{print $1,$2}'|grep -v '^>'| sed -e 's/ /+/g'`
+    echo tmpstr $tmpstr
+    roi_str="intersectsWith=linestring%28${tmpstr}%29"
+    ;;
+  polygon)
+    #cat $file_tmp_roi_gmt | awk '{print $1,$2}'|grep -v '^>' > .tmp
+    #tmpstr=`awk BEGIN{RS=EOF}'{gsub(/\n/,",");print}' .tmp`
+    #tmpstr=`echo $tmpstr | sed -e 's/ /+/g'`
+    #
+    tmpstr=`cat $file_tmp_roi_gmt | awk '{print $1,$2}'|grep -v '^>' | awk BEGIN{RS=EOF}'{gsub(/\n/,",");print}'  | sed -e 's/ /+/g'`
+    echo tmpstr $tmpstr
+    roi_str="intersectsWith=polygon%28%28${tmpstr}%29%29"   
+    ;;
+  *)
+    echo "[$PROG]ERROR: wrong ROI tpye ($1)!! Must be one of ( point line polygon ). Case insensitive."
+    exit 1
+    ;;
+esac
+
+echo $roi_str
+
+
+qstr="curl https://api.daac.asf.alaska.edu/services/search/param?platform=${platform}\&${roi_str}\&output=${out_type}"
+
+
+#echo $qstr
+
+if [ "$platform" == "S1" ]; then
+  qstr="${qstr}\&processingLevel=SLC\&beamMode=IW"
+  
+  if [ "$orb_type" != "" ]; then
+    qstr="${qstr}\&flightDirection=${orb_type}" #now
+  fi
+fi
+
+if [ "$platform" == "ALOS" ]; then
+  qstr="${qstr}\&instrument=PALSAR\&processingLevel=L1.0"
+fi
+
+if [ "$s_week" != "" ]; then
+  qstr="${qstr}\&start=${s_week}+week+ago"
+fi
+
+if [ "$e_week" != "" ]; then
+  qstr="${qstr}\&end=${e_week}+week+ago"
+fi
+
+
+if [ "$track" != "" ]; then
+  qstr="$qstr\&relativeOrbit=${track}"
+fi
+
+qstr="$qstr > ${out_file}"
+echo $qstr
+echo $qstr | sh
+
+#curl https://api.daac.asf.alaska.edu/services/search/param?platform=${platform}\&${roi_str}\&output=DOWNLOAD\&beamMode=IW\&flightDirection=DESCENDING\&processingLevel=SLC > result2.py
+#
+
+\rm -f $file_tmp_roi_gmt
+
+echo "[$PROG]INFO: done."

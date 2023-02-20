@@ -99,6 +99,8 @@ paths={'D:\gsar\interseismic\158-a-m4-0103_0108_0113_0118-gozhaco\f123\sbas.4.0.
 paths={'D:\gsar\interseismic\033-d-m4-0493_0498_0503_0508-ehs\f123\sbas.4.0.0001.9999.20141031.20230117.119.0278.01.___\p.fa_deqin_zhongdian_daju_eq2013cluster'};
 paths={'D:\gsar\interseismic\014-a-m2-0115_0120-turkey20230206\f123\sbas.4.0.0001.9999.20141006.20230128.005.0010.01.___\p.fa_east_anatolia'};
 paths={'D:\gsar\interseismic\014-a-m2-0115_0120-turkey20230206\f123\sbas.4.0.0001.9999.20141006.20230128.019.0138.01.___\p.fa_east_anatolia'};
+paths={'D:\gsar\interseismic\014-a-m3-0110_0115_0120-turkey20230206\f123\sbas.4.0.0001.9999.20141018.20230128.021.0100.01.___\p.fa_east_anatolia'};
+paths={'D:\gsar\interseismic\021-d-m4-0455_0460_0465_070-turkey\f123\sbas.4.0.0001.9999.20141019.20220122.029.0051.01.___\p.fa_east_anatolia'};
 
 dmin=-250;
 dmax=260;
@@ -126,7 +128,7 @@ for pi=1:npath
   end
   disp(path);
   
-  files=dir([path,filesep,'profile_0*_vel.psxy']);
+  files=dir([path,filesep,'profile_014*_vel.psxy']);
   
   nf=size(files,1);
   for fi=1:nf

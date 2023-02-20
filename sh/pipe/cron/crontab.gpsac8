@@ -1,7 +1,0 @@
-1 */3 * * * /home/tianyf/iGPS/sh/cron_esa_s1_get_resorb >& /home/tianyf/tmp/cron_resorb
-6 */6 * * * /home/tianyf/iGPS/sh/cron_esa_s1_get_orb >& /home/tianyf/tmp/cron-orb
-10 * * * * /home/tianyf/iGPS/sh/cron_sync_ac8_up >& /home/tianyf/tmp/cron-orb-up
-3 3,15 * * * /home/tianyf/iGPS.addon/sh/cron_esa_s1_get_data >& /home/tianyf/tmp/cron-data
-9 * * * * /home/tianyf/iGPS/sh/sh_esa_s1_unzip_manifest_ac >& /home/tianyf/tmp/cron-manifest
-*/1 * * * * /home/tianyf/iGPS/sh/cron_sync_livemail >& /g8c/arp/log/cron-arp
-

@@ -1,5 +1,5 @@
 alias  liw='ls intf_all | wc -l'
-alias  lpw='ls intf_all_los_ll_png | wc -l'
+alias  lpw='ls intf_all_png | wc -l'
 alias  lxw='ls intf_all_x2 | wc -l'
 alias  dss='du -hs sbas*'
 alias  sq='squeue -o "%R %.58j %T"'

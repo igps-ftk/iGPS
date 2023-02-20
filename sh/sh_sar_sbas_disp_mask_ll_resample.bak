@@ -1,0 +1,204 @@
+#!/bin/sh
+
+# Name:
+#   sh_sar_sbas_disp_mask_ll_resample
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+PROG=sh_sar_sbas_disp_mask_ll_resample
+
+
+
+
+SAT=SAT
+
+#scale factor (downsample)
+sf=10
+sf=4
+
+
+while [ "$1" != "" ]; do
+    case $1 in
+        -s|-sf)
+            sf=$2
+            ;;
+        *)
+            echo "[$PROG]ERROR: invalid input $1 !!"
+            echo "Usage: $PROG [-sf SCALE_FACTOR]"
+            exit 1
+            ;;
+    esac
+    shift 2
+done
+
+
+if [ ! -s mask_def.grd ]; then
+  echo "[$PROG]ERROR: the mask file (mask_def.grd) is missing!! Use sh_esa_s1_corr_mask to create one."
+  exit
+fi
+
+
+#output directory
+mkdir -p r${sf}
+
+
+
+#masking
+files=`ls disp_???????.grd|sort`
+if [ "$files" == "" ]; then
+  echo "[]ERROR: no displacement files found!!"
+  exit 1
+fi
+
+
+zmin=0
+zmax=0
+
+for file in $files; do
+    bname=`basename $file`
+    fname="${bname%.*}"
+
+    out_name="${fname}_mask.grd"
+    #echo $out_name
+    
+    tmp=`gmt grdinfo $file -C`
+    zmin=`echo $tmp | awk '{if($6<zmin){print $6}else{print zmin}}' zmin=$zmin`
+    zmax=`echo $tmp | awk '{if($7>zmax){print $7}else{print zmax}}' zmax=$zmax`
+    echo zmin zmax $zmin $zmax
+    if [ -s $out_name ] ; then
+	    echo "[$PROG]INFO: already exists! Skip ($out_name) ..."
+	    continue
+    fi
+
+    echo "gmt grdmath $file mask_def.grd MUL = ${out_name}"
+    echo "gmt grdmath $file mask_def.grd MUL = ${out_name}" | sh
+
+    #exit
+done
+if [ "$zmin" == "$zmax" ] ; then
+  zmin=-10
+  zmax=10
+  echo "[]INFO:use defalut Z values for displacement($zmin, $zmax)."
+else
+  zmin=`echo $zmin $zmax | awk '{if(sqrt($1*$1)>sqrt($2*$2)){print $1}else{print -1*$2}}'`
+  zmax=`echo $zmin $zmax | awk '{if(sqrt($1*$1)>sqrt($2*$2)){print -1*$1}else{print $2}}'`
+fi
+echo final zmin zmax $zmin $zmax
+
+gmt makecpt -Cjet -T${zmin}/${zmax}/.1 -I -Z > disp.cpt
+#exit
+
+
+
+echo "[$PROG]INFO: converting files from ra to ll coordinates ..."
+files=`ls disp_???????_mask.grd`
+for file in $files; do
+    bname=`basename $file`
+    fname="${bname%.*}"
+
+    out_name="${fname}_ll.grd"
+    #echo $out_name
+    if [ -s $out_name ] ; then
+    	echo "[$PROG]INFO: already exists! Skip ($out_name) ..."
+    	continue
+    fi    
+    pwd
+
+    echo proj_ra2ll.csh trans.dat $file $out_name
+    echo proj_ra2ll.csh trans.dat $file $out_name | sh
+    
+    #exit
+done
+
+
+
+
+cd r${sf}
+\cp -fp ../*.tab .
+
+
+if [ ! -s vel.cpt ]; then
+  if [ ! -s ../vel.cpt ]; then
+    gmt makecpt -Cjet -T-10/10/.1 -Z -I > vel.cpt
+  else
+    \cp -f ../vel.cpt .
+  fi
+fi
+
+#resample
+files=`ls ../disp_???????_mask_ll.grd`
+file=`echo $files | awk '{print $1}'`
+
+#current pixel size
+psz_xx=`gmt grdinfo -C $file | awk '{print $8}'`
+psz_yy=`gmt grdinfo -C $file | awk '{print $9}'`
+echo  "[$PROG]INFO: current pixel size $psz_xx $psz_yy"
+
+out_psz_xx=`echo $psz_xx $sf | awk '{print $1*$2}'`
+out_psz_yy=`echo $psz_yy $sf | awk '{print $1*$2}'`
+echo  "[$PROG]INFO: output pixel size $out_psz_xx $out_psz_yy"
+
+
+for file in $files; do
+    bname=`basename $file`
+    fname="${bname%.*}"
+
+    out_name="${fname}_r${sf}.nc"
+    #echo $out_name
+
+    if [ -s $out_name ] ; then
+    	echo "[$PROG]INFO: already exists! Skip ($out_name) ..."
+    	continue
+    fi
+
+    echo gmt grdsample $file -I${out_psz_xx}/${out_psz_yy} -G${out_name}=cf
+    echo gmt grdsample $file -I${out_psz_xx}/${out_psz_yy} -G${out_name}=cf  | sh
+    
+    ln -s ${fname}_r${sf}.nc ${fname}_r${sf}.grd
+    echo grd2kml.csh ${fname}_r${sf} ../disp.cpt
+    echo grd2kml.csh ${fname}_r${sf} ../disp.cpt | sh 
+    \rm -rf ${fname}_r${sf}.grd
+    
+    #exit
+done
+
+echo gmt grdsample ../vel_mask_ll.grd -I${out_psz_xx}/${out_psz_yy} -Gvel_mask_ll_r${sf}.grd=cf
+echo gmt grdsample ../vel_mask_ll.grd -I${out_psz_xx}/${out_psz_yy} -Gvel_mask_ll_r${sf}.grd=cf  | sh
+
+
+fname=vel_mask_ll_r${sf}
+echo grd2kml.csh ${fname} vel.cpt
+echo grd2kml.csh ${fname} vel.cpt | sh 
+gmt grd2xyz ${fname}.grd | grep -v NaN > ${fname}.xyz
+
+cat ${fname}.xyz | awk '{print $1,$2}' > _tmp_cal_sat_indicence.llde
+
+file_prm=master.PRM
+ln -s ../$file_prm .
+ln -s ../*.LED .
+ln -s ../trans.dat .
+
+echo add_look.csh _tmp_cal_sat_indicence.llde $file_prm $SAT ../../topo/dem.grd
+echo add_look.csh _tmp_cal_sat_indicence.llde $file_prm $SAT ../../topo/dem.grd | sh
+#exit
+
+cat _tmp_cal_sat_indicence.lltnde | awk '{print $4,$5,$6}' | sar_cal_sat_incidence | awk '{print 90-$1}' > _tmp_incidences
+
+echo "paste _tmp_cal_sat_indicence.lltnde _tmp_incidences > look_mask_ll_r${sf}.xyz"
+echo "paste _tmp_cal_sat_indicence.lltnde _tmp_incidences > look_mask_ll_r${sf}.xyz" | sh
+
+\rm -f _tmp*

@@ -86,7 +86,7 @@
 #LABELS: nr_lib:NONE:nr_lib:NONE
 
 # SHARELIB: 
-# SHARELIB: ../../../../gglib:gglib
+# SHARELIB: ../../gglib:gglib
 
 #OBJ_nr_lib amoeba amotry
 #OBJ_nr_lib avevar bessj0 betacf betai covsrt

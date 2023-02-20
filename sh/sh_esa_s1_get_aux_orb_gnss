@@ -1,0 +1,276 @@
+#!/bin/sh
+
+# Name:
+#   sh_esa_s1_get_aux_orb_gnss
+#   
+
+# Purpose:
+#   +
+
+# Example:
+#   
+
+# Modifications:
+#   +
+
+# Algorigthm:
+#   +
+
+# Dependency:
+#   +
+#
+
+#check whether the script is called by crond service, or run interactively.
+
+###echo "\$0 is $0"
+####https://www.gnu.org/software/bash/manual/html_node/Special-Parameters.html
+###echo "\$- is $-"
+###case "$-" in
+###    *i*)
+###        interactive=1
+###        ;;
+###    *)
+###        interactive=0
+###        ;;
+###esac
+###echo "interactive $interactive"
+###
+####https://www.gnu.org/software/bash/manual/html_node/Is-this-Shell-Interactive_003f.html
+###echo "PS1 $PS1"
+###if [ -z "$PS1" ]; then
+###    interactive=0 
+###else
+###    interactive=1
+###fi
+###echo "interactive $interactive"
+
+if [ -t 0 ]; then
+    interactive=1
+else
+    interactive=0
+fi
+echo "interactive $interactive"
+
+if [ $interactive -eq 0 ]; then
+  . ${HOME}/.bashrc  
+fi
+
+PROG=sh_esa_s1_get_aux_orb_gnss
+
+
+#check the data root directory
+if [ "$esa_data" == "" ]; then
+  echo "[$PROG]ERROR: environment variable esa_data not set!!"
+  exit 1
+fi
+if [ ! -d $esa_data ]; then
+  ehco "[$PROG]ERROR: esa_data ($esa_data) not exist!!"
+  exit 1
+fi
+
+
+timestamp=`date | sed -e "s/ /_/g" | sed -e "s/:/-/g"`
+
+path_old=`pwd`
+
+usage(){
+  echo "[$PROG]HELP: ${PROG} "
+  echo "[$PROG]HELP:   [-l|-load_bashrc y/...]"
+  echo "[$PROG]HELP:   [-n|-ndays N_DAYS_BACKWARD]"
+  echo "[$PROG]HELP:   [-o|-orb|-orbit poe/res]"
+  echo "[$PROG]HELP: e.g.,"
+  echo "[$PROG]HELP:   ${PROG} "
+}
+
+
+load_bashrc=y
+
+back_ndays=29
+
+orb_typ=poe
+#orb_typ=res
+
+date_time=
+
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -d|-date)
+      date_time=$2
+      ;;
+    -l|-load_bashrc)
+      load_bashrc=$2
+      ;;
+    -n|-ndays)
+      back_ndays=$2
+      ;;
+    -o|-orb|-orbit)
+      orb_typ=$2
+      ;;
+    -h|-help|--help)
+      usage
+      exit 1
+      ;;
+    *)
+      echo "[$PROG]ERROR: invalid option ($1)!!"
+      usage
+      exit 1
+      ;;
+  esac
+  shift 2  
+done
+
+
+
+path=$esa_data/aux_${orb_typ}orb
+
+if [ ! -d $path ]; then
+  mkdir -p $path
+fi
+cd $path
+pwd
+
+file_lock=$path/esa.lock
+
+if [ -s $file_lock ]; then
+  echo "[$PROG]INFO:locked by $file_lock!!"
+  exit 1
+fi
+hostname > $file_lock
+date >> $file_lock
+
+ORB_TYP=`echo $orb_typ | awk '{print toupper($1)}'`
+
+#time1=`date -u +%FT%T -d last-month`
+time1=`date -u +%FT%T -d "today -${back_ndays} days"`
+time2=`date -u +%FT%T`
+
+if [ "$date_time" != "" ]; then
+  time1=`date -u +%FT%T -d "${date_time}T00:00:00 +24"`
+  time2=`date -u +%FT%T -d "${date_time}T23:59:59 -24"`
+fi
+
+##create output directory
+#year1=`echo $time1 | awk '{print substr($1,1,4)}'`
+#opath=${esa_data}/aux_${orb_typ}orb/$year1
+#if [ ! -e $opath ]; then
+#  mkdir -p $opath
+#fi
+#if [ ! -e $opath ]; then
+#  echo "[$PROG]ERROR: output path not exist ($opath)!!"
+#  exit 1
+#fi
+#year2=`echo $time2 | awk '{print substr($1,1,4)}'`
+#opath=${esa_data}/aux_${orb_typ}orb/$year2
+#if [ ! -e $opath ]; then
+#  mkdir -p $opath
+#fi
+#if [ ! -e $opath ]; then
+#  echo "[$PROG]ERROR: output path not exist ($opath)!!"
+#  exit 1
+#fi
+#
+##cd $opath
+##pwd
+#
+
+#\rm $path/_tmp_${PROG}_${timestamp}_query_*.txt #results.txt $path/_tmp_${PROG}_${timestamp}_query_list.txt $path/_tmp_${PROG}_${timestamp}_query_count.txt
+
+#echo in
+qstr="https://scihub.copernicus.eu/gnss/odata/v1/Products/\$count?\$filter=startswith(Name, 'S1') and substringof('"${ORB_TYP}"ORB', Name) and ContentDate/Start ge datetime'"$time1"' and ContentDate/End le datetime'"$time2"'"
+#qstr="https://scihub.copernicus.eu/gnss/odata/v1/Products/\$count"
+
+wget --no-check-certificate --content-disposition --continue  --user=gnssguest --password=gnssguest  --output-document=$path/_tmp_${PROG}_${timestamp}_query_count.txt "$qstr"
+nrec=`cat $path/_tmp_${PROG}_${timestamp}_query_count.txt`
+#echo "nrec $nrec"
+if [ "$nrec" == "" ]; then
+  echo "[$PROG]ERROR: cannot get count of orbit files!!"
+  exit 1
+fi
+#nrec=201
+nper=100
+
+if [ $nper -gt $nrec ]; then
+  npg=1
+  nper=$nrec
+else
+  npg=`echo $nrec $nper | awk '{if( (($1/$2)-int($1/$2))<0.00001){print int($1/$2)}else{print int($1/$2)+1} }'`
+fi
+
+#npg=1
+#echo $npg
+#exit
+
+pi=1
+while [ $pi -le $npg ]; do
+  PI=`echo $pi | awk '{printf("%04d",$1)}'`
+  #echo page $pi
+  skip=`echo $pi $nper | awk '{print ($1-1)*$2+0}'`
+  
+  qstr="https://scihub.copernicus.eu/gnss/odata/v1/Products?\$skip=$skip&\$top=100&\$filter=startswith(Name, 'S1') and substringof('"${ORB_TYP}"ORB', Name) and ContentDate/Start ge datetime'"$time1"' and ContentDate/End le datetime'"$time2"'"
+  echo qstr $qstr
+  wget --no-check-certificate --content-disposition --continue  --user=gnssguest --password=gnssguest  --output-document=$path/_tmp_${PROG}_${timestamp}_query_results_$pi.txt "$qstr"
+  cat $path/_tmp_${PROG}_${timestamp}_query_results_$pi.txt | sed -e s'/>/>\n/g' | grep Id | grep -v '<d' | awk -F\< '{print $1}' > $path/_tmp_${PROG}_${timestamp}_query_id_$pi.txt
+  cat $path/_tmp_${PROG}_${timestamp}_query_results_$pi.txt | sed -e s'/>/>\n/g' | grep Name | grep -v '<d' | awk -F\< '{print $1}' > $path/_tmp_${PROG}_${timestamp}_query_name_$pi.txt
+  paste $path/_tmp_${PROG}_${timestamp}_query_id_$pi.txt $path/_tmp_${PROG}_${timestamp}_query_name_$pi.txt > $path/_tmp_${PROG}_${timestamp}_query_list_$pi.txt
+  
+  wc -l $path/_tmp_${PROG}_${timestamp}_query_list_$pi.txt
+
+  while read line; do
+    id=`echo $line | awk '{print $1}'`
+    file="`echo $line | awk '{print $2}'`.EOF"
+    echo $id $file
+    
+    
+    year1=`echo $file | awk -F_ '{print substr($7,2,4)}'`
+    year2=`echo $file | awk -F_ '{print substr($8,1,4)}'`
+    
+    opath1=$esa_data/aux_${orb_typ}orb/$year1
+    opath2=$esa_data/aux_${orb_typ}orb/$year2
+    echo opath1 $opath1
+    echo opath2 $opath2
+   
+    #exit
+    if [ -s ${opath1}/${file} -a -s $opath2/$file ] ; then
+        echo "[$PROG]INFO: already exist($file)."
+      continue
+    fi
+    if [ ! -d $opath1 ]; then
+      mkdir -p $opath1
+    fi
+    if [ ! -d $opath2 ]; then
+      mkdir -p $opath2
+    fi
+    
+   
+    cd $opath2
+    pwd
+    if [ ! -s $opath2/$file ]; then
+      echo wget --no-check-certificate --content-disposition --continue  --user=gnssguest --password=gnssguest --tries=5 --progress=dot -e dotbytes=1M --output-file=./log.txt "https://scihub.copernicus.eu/gnss/odata/v1/Products('"$id"')/\$value"
+      wget --no-check-certificate --content-disposition --continue  --user=gnssguest --password=gnssguest --tries=5 --progress=dot -e dotbytes=1M  "https://scihub.copernicus.eu/gnss/odata/v1/Products('"$id"')/\$value"
+    fi
+    #exit
+    if [ "$year1" != "$year2" ]; then
+      if [ -s $opath1/$file ]; then
+        echo "[$PROG]INFO: already exist($opath1/$file)."
+        continue
+      fi
+      \cp -f ${opath2}/$file $opath1/
+    fi
+ 
+  done < $path/_tmp_${PROG}_${timestamp}_query_list_$pi.txt
+
+
+  pi=`expr $pi + 1`
+done
+
+
+#ls -lh *.EOF
+
+#clean temporary files
+\rm -f $path/_tmp_${PROG}_${timestamp}_query*
+
+\rm -f $file_lock
+
+
+echo "[$PROG]INFO: done."

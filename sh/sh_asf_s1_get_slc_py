@@ -1,0 +1,163 @@
+#!/bin/sh
+
+# Name:
+#   sh_asf_s1_get_slc_py
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+PROG=sh_asf_s1_get_slc_py
+
+timestamp=`date | sed -e "s/ /_/g" | sed -e "s/:/-/g"`
+
+path_old=`pwd`
+
+usage(){
+  echo "[$PROG]HELP: ${PROG} "
+  echo "[$PROG]HELP:   [-f|-file PY_FILE]"
+  echo "[$PROG]HELP:   [-ac|-aria2_conf ARIA2_CONF_FILE]"
+  echo "[$PROG]HELP:   [-u|-user EARTHDATA_USER_NAME (only for DIPP)]"
+  echo "[$PROG]HELP:   [-o|-opath OUTPUT_PATH]"
+
+  echo "[$PROG]HELP:   [-h|-help]"
+  echo "[$PROG]HELP: e.g.,"
+  echo "[$PROG]HELP:   ${PROG} "
+}
+
+
+if [ "$1" = "" ]; then
+  usage
+  exit 1
+fi
+
+user=tianyunfeng
+file_aria2_conf=
+
+file_py=
+
+opath=`pwd`
+
+
+if [ "`echo $1 | awk '{print substr($1,1,1)}'`" == "-" ]; then
+  while [ "$1" != "" ]; do
+    case $1 in
+      -f|-file)
+        file_py=$2
+        ;;
+      -a|-ac|-aria2_conf)
+        file_aria2_conf=$2
+        ;;
+      -u|-user)
+        user=$2
+        ;;
+      -o|-opath)
+        opath=$2
+        ;;
+      -w1)
+        w1=$2
+        ;;
+      -w2)
+        w2=$2
+        ;;
+      -h|-help|--help)
+        usage
+        exit 1
+        ;;
+      *)
+        echo "[$PROG]ERROR: invalid option ($1)!!"
+        usage
+        exit 1
+        ;;
+    esac
+    shift 2
+  done
+else
+  file_py=$1
+  
+  if [ "$2" != "" ]; then
+    opath=$2
+  fi
+  
+  if [ "$3" != "" ]; then
+     user=$3
+  fi
+fi
+
+if [ "$file_aria2_conf" == "" -o "$file_aria2_conf" == "null" ]; then
+  file_aria2_conf=${HOME}/iGPS.addon/sh/aria2.conf.${user}
+fi
+
+ext=${file_py##*.}
+echo $file_py $ext
+if [ "$ext" != "py" ]; then
+  echo "[$PROG]ERROR: wrong input file type (${file_py})!!"
+  exit 1
+fi
+#exit
+files=`cat $file_py | sed -e 's/https/https\n/g' | grep '.zip' | grep S1 | grep _IW_SLC__ | awk -F\" '{print $1}' | awk -F\/ '{print $6}' |sort `
+echo $files
+#exit
+
+cd $opath
+pwd
+
+
+
+for file in $files; do
+
+	#check if already in this server
+  #if [ -s $file  ]; then
+  if [ -s $file -a ! -s ${file}.aria2 ]; then
+    echo "$file already exist! skipped"
+    #echo ls -l $file
+    #echo ls -l $file | sh
+    file `pwd`/$file
+    continue
+  fi
+
+  if [ -s ${esa_data}/S1/$file -a ! -s ${esa_data}/S1/${file}.aria2 ]; then
+    echo "$file already exist! skipped"
+    #echo ls -l $file
+    #echo ls -l $file | sh
+    file ${esa_data}/S1/$file
+    continue
+  fi
+  
+  
+  #check if is already downloaded (but not in this server)
+  tmp=`cat ${esa_data}/s1.list |grep $file`
+	if [ "$tmp" != "" ]; then
+	  echo "[$PROG]INFO: already downloaded (maybe not in this sever)! skipped $file"
+	  echo "[$PROG]INFO: available at $tmp "
+	  continue
+	fi
+
+  tmp=`cat ${esa_data}/s1.2.list |grep $file`
+	if [ "$tmp" != "" ]; then
+	  echo "[$PROG]INFO: already downloaded (maybe not in this server 2)! skipped $file"
+	  echo "[$PROG]INFO: available at $tmp "
+	  continue
+	fi
+			
+  #
+  pwd
+  #exit
+  echo aria2c -c --conf-path=$file_aria2_conf --check-certificate=false  --http-auth-challenge=true  "https://datapool.asf.alaska.edu/SLC/SA/${file}"
+  aria2c -c --file-allocation=none --conf-path=$file_aria2_conf --check-certificate=false  --http-auth-challenge=true  "https://datapool.asf.alaska.edu/SLC/SA/${file}"
+  #exit
+done
+
+

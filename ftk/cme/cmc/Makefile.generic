@@ -93,7 +93,7 @@
 #SHARELIB: ../../data/read:cgps_data_read
 #SHARELIB: ../../data/write:cgps_data_write
 #SHARELIB: ../../lib:cgps_lib
-#SHARELIB: ../../../../gglib:gglib
+#SHARELIB: ../../gglib:gglib
 
 #OBJ_cmc_cal	cmc_cal
 # OBJ_cgps_cme_corr	corr_xy corr_xy2 corr_xy3 lin_corr_xy lin_corr_xy2 lin_corr_xy3

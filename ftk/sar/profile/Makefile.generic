@@ -99,7 +99,7 @@ CFLAGS = -g -Aa    #hp
 # SHARELIB: ../../data/write:cgps_data_write
 #SHARELIB: ../../data/site:cgps_data_site
 #SHARELIB: ../../lib:cgps_lib
-#SHARELIB: ../../../../gglib:gglib
+#SHARELIB: ../../gglib:gglib
 # SHARELIB: .:cgps_dc_get_lib
 # SHARELIB: .:cgps_dc_check
 #SHARELIB: .:sar_profile_lib

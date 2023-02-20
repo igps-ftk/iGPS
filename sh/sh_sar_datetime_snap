@@ -27,28 +27,54 @@ timestamp=`date | sed -e "s/ /_/g" | sed -e "s/:/-/g"`
 path_old=`pwd`
 
 usage(){
-  echo "[$PROG]Usage: ${PROG} "
-  echo "[$PROG]Usage:   -f|-file INPUT_LIST_FILE"
-  echo "[$PROG]Usage:   -o|-ofile OUTPUT_FILE"
-  echo "[$PROG]Usage: e.g.,"
-  echo "[$PROG]Usage:  "
+  echo "[$PROG]HELP: ${PROG} "
+  echo "[$PROG]HELP:   -f|-file INPUT_LIST_FILE"
+  echo "[$PROG]HELP:   [-o|-ofile OUTPUT_FILE]"
+
+  echo "[$PROG]HELP:   [-h|-help]"
+  echo "[$PROG]HELP: e.g.,"
+  echo "[$PROG]HELP:   ${PROG} "
 }
 
-file=_tmp_align_group
+if [ $# -lt 2 ]; then
+  usage
+  exit 1
+fi
 
-ofile=.tmp.pair
+
+#temporary files used by this script
+file_tmp_files=`pwd`/_tmp_${PROG}_${timestamp}_files
+
+#command-line parameters
+#file=_tmp_align_group
+file=
+
+master_date=
+
+#file_unzip=_tmp_unzip
+file_unzip=
+
+#ofile=.tmp.pair
 ofile=
 
-file_tmp=`pwd`/_tmp_${PROG}_${timestamp}_unzip 
-#ofile_tmp=`pwd`/_tmp_${PROG}_${timestamp}_out
 
 while [ "$1" != "" ]; do
   case $1 in
     -f|-file)
       file=$2
       ;;
+    -m|-master_date)
+      master_date=$2
+      ;;
+    -u|-unzip_list)
+      file_unzip=$2
+      ;;
     -o|-ofile)
       ofile=$2
+      ;;
+    -h|-help|--help)
+      usage
+      exit 1
       ;;
     *)
       echo "[$PROG]ERROR: invalid option ($1)!!"
@@ -59,13 +85,34 @@ while [ "$1" != "" ]; do
   shift 2  
 done
 
-if [ "$ofile" == "" ]; then
-  ofile="${file}_snapped.txt"
+
+if [ ! -s $file ]; then
+  echo "[$PROG]WARNING: input file not exist ($file)!!"
+  exit 1
 fi
 
 
-echo $file_tmp
-\rm -f $file_tmp
+if [ "$file_unzip" == "" ]; then
+  file_unzip="${file}_unzip.txt"
+  echo "[$PROG]info: no output unzip file given. Use default ($file_unzip)."
+fi
+
+if [ "$ofile" == "" ]; then
+  ofile="${file}_snapped.txt"
+  echo "[$PROG]info: no output file given. Use default ($ofile)."
+fi
+if [ -s $ofile ]; then
+  echo "[$PROG]WARNING: output file exists and will be orverwritten ($ofile)!"
+  \rm -f $ofile
+fi
+
+if [ "$master_date" == "" ]; then
+  master_date=`grep '^ ' $file | head -1 | awk -F_ '{print substr($6,1,8)}'`
+fi
+echo "[$PROG]INFO: master date is $master_date"
+
+echo $file_unzip
+\rm -f $file_unzip
 days=`grep -h '^ ' $file | awk -F_ '{print $6}' | awk -FT '{print $1}' | sort |uniq`
 echo $days
 for day in $days; do
@@ -77,16 +124,16 @@ for day in $days; do
   #  echo continue
   #fi
   echo "[$PROG]INFO: combining $nf frames for $day ..."
-  grep '^ ' -h $file | grep $day |sort | awk '{print $0}' >> $file_tmp
+  grep '^ ' -h $file | grep $day |sort | awk '{print $0}' >> $file_unzip
   #tfiles=`grep '^ ' -h $file | grep $day |sort`
   #echo $tfiles
 done
 
-#sh_esa_s1_unzip $file_tmp
-
-grep -h '^ ' $file_tmp | awk -F_ '{print $6,$0}'| sort |uniq > .files
-times=`cat .files | awk '{print $1}'`
-file_ids=`cat .files | awk '{print $2}' | awk -F. '{print $1}'`
+###grep -h '^ ' $file_unzip | awk -F_ '{print $6,$0}'| sort |uniq > $file_tmp_files
+grep -h '^ ' $file_unzip | awk -F_ '{print $6,$0}'| sort |uniq |grep "$master_date" > $file_tmp_files
+grep -h '^ ' $file_unzip | awk -F_ '{print $6,$0}'| sort |uniq |grep -v "$master_date" >> $file_tmp_files
+times=`cat $file_tmp_files | awk '{print $1}'`
+file_ids=`cat $file_tmp_files | awk '{print $2}' | awk -F. '{print $1}'`
 echo "file_ids : $file_ids"
 #exit
 
@@ -107,7 +154,6 @@ done
 echo "dyrs : $dyrs"
 
 
-\rm -f $ofile
 i=1
 is_new=0
 while [ $i -lt $ntim ]; do
@@ -142,9 +188,8 @@ echo $file_ids_i  >> $ofile
 #echo $dyrs
 #exit
 
+echo "[$PROG]INFO: cleaning temporary files ..."
+\rm -f $file_tmp_files
 
-echo "[$PROG]INFO: cleaning temporary file $file_tmp."
-\rm -f $file_tmp
-
-echo "[$PROG]INFO: writting $ofile ..."
-echo "[$PROG]INFO: Normal end."
+echo "[$PROG]INFO: results outputted to $ofile"
+echo "[$PROG]INFO: done."

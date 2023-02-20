@@ -47,7 +47,7 @@ ROOT_DIR=${COMB_DIR}/..
 # |  |-trans.dat
 
 if [ ! -s dem.grd ]; then
-  echo "[]ERROR: no/wrong dem.grd file!!"
+  echo "[$PROG]ERROR: no/wrong dem.grd file!!"
   exit 1
 fi
 
@@ -123,7 +123,7 @@ if [ -d ../asc_F1 ]; then
 elif [ -d ../des_F1 ]; then
     orb_type=des
 else
-    echo "[]ERROR:no ascending/descending paths found!"
+    echo "[$PROG]ERROR:no ascending/descending paths found!"
     #exit 1
 fi
 
@@ -145,14 +145,14 @@ while read line; do
     if [ -s "${ARCHIVE_DIR}/${dir_name}/unwrap_mask.grd" ]; then
       echo overwrite $overwrite
       if [ "$overwrite" == "n" ]; then
-        echo "[]INFO:output already exist (${dir_name})! Skipped."
+        echo "[$PROG]INFO:output already exist (${dir_name})! Skipped."
         continue
       else
-        echo "[]INFO: >$overwrite<"
+        echo "[$PROG]INFO: >$overwrite<"
       fi
     else
       if [ -s "$cmdfile" -a "$overwrite" == "n" ]; then
-        echo "[]INFO:already queued(${date1}_${date2})! Skipped."
+        echo "[$PROG]INFO:already queued(${date1}_${date2})! Skipped."
         continue
       fi
     fi

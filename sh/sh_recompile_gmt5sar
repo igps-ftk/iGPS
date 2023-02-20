@@ -74,4 +74,4 @@ if [ 1 -eq 1 ]; then
 
 fi  #end-of-if-re-make
 
-echo "[$PROG]INFO:normal end."
+echo "[$PROG]INFO:done."

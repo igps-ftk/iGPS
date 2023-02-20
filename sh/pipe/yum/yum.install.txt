@@ -1,6 +1,0 @@
-  yum -y install svn autoconf gcc-c++ libtiff-devel libhdf5-devel  gmt-devel  epel-release  gmt-devel  cmake subversion libcurl-devel netcdf-devel gdal-devel pcre-devel fftw3-devel lapack-devel openblas-devel  vncserver  tigervnc-server.x86_64  tigervnc-server.x86_64 atop aria2 wput wget ncftp vim emacs  mc worker gv   lm_sensors  lm_sensors  lm_sensors xsensors xterm  dos2unix unix2dos  wine-fixedsys-fonts.noarch bitmap-fixed-fonts.noarch terminus-fonts.noarch terminus-fonts-console.noarch texlive-fp.noarch ucs-miscfixed-fonts.noarch
- yum -y install httpd vsftpd ypbind rpcbind
- yum -y install alpine lftp tftp ftp ncftp wget wput curl
- yum -y install gdal.x86_64 gdal-devel
- yum -y install xorg-x11-font*
- yum -y install parallel

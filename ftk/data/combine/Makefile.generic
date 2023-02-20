@@ -111,7 +111,7 @@ FFLAGS = -O3 -L/usr/lib -Vaxlib -save -zero -u -72 -w95 -w90 -cm -assume byterec
 #SHARELIB: ../read:cgps_data_read
 #SHARELIB: ../write:cgps_data_write
 #SHARELIB: ../../lib:cgps_lib
-#SHARELIB: ../../../../gglib:gglib
+#SHARELIB: ../../gglib:gglib
  
 
 # OBJ_cgps_data_site read_sio_bin read_sio_hdr

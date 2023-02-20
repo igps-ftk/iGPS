@@ -1,0 +1,198 @@
+#!/bin/sh
+
+# Name:
+#   sh_asf_s1_get_aux_orb
+#   
+
+# Purpose:
+#   +
+
+# Example:
+#   
+
+# Modifications:
+#   +
+
+# Algorigthm:
+#   +
+
+# Dependency:
+#   +
+#
+
+
+PROG=sh_asf_s1_get_aux_orb
+
+
+if [ -t 0 ]; then
+    interactive=1
+else
+    interactive=0
+    . ${HOME}/.bashrc  
+fi
+#echo "interactive $interactive"
+#if [ $interactive -eq 0 ]; then
+#  . ${HOME}/.bashrc  
+#fi
+
+#check the data root directory
+if [ "$esa_data" == "" ]; then
+  ehco "[$PROG]ERROR: environment variable esa_data not set!!"
+  exit 1
+fi
+if [ ! -d $esa_data ]; then
+  ehco "[$PROG]ERROR: esa_data ($esa_data) not exist!!"
+  exit 1
+fi
+
+
+timestamp=`date | sed -e "s/ /_/g" | sed -e "s/:/-/g"`
+
+path_old=`pwd`
+
+usage(){
+  echo "[$PROG]HELP: ${PROG} "
+  echo "[$PROG]HELP:   [-l|-load_bashrc y/...]"
+  echo "[$PROG]HELP:   [-n|-ndays N_DAYS_BACKWARD]"
+  echo "[$PROG]HELP:   [-o|-orb|-orbit poe/res]"
+  echo "[$PROG]HELP:   [-wc|-wget_config FILE]"
+
+  echo "[$PROG]HELP:   [-h|-help]"
+  echo "[$PROG]HELP: e.g.,"
+  echo "[$PROG]HELP:   ${PROG} "
+}
+
+
+load_bashrc=n
+
+back_ndays=29
+
+orb_typ=poe
+#orb_typ=res
+
+update_index=y
+
+
+user_conf_asf=/home/tianyf/iGPS.addon/sh/wget.conf
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -l|-load_bashrc)
+      load_bashrc=$2
+      ;;
+    -n|-ndays)
+      back_ndays=$2
+      ;;
+    -o|-orb|-orbit)
+      orb_typ=$2
+      ;;
+    -u|-update_index)
+      update_index=$2
+      ;;
+    -w|-wc|-wget_config)
+      user_conf_asf=$2
+      ;;
+    -h|-help|--help)
+      usage
+      exit 1
+      ;;
+    *)
+      echo "[$PROG]ERROR: invalid option ($1)!!"
+      usage
+      exit 1
+      ;;
+  esac
+  shift 2  
+done
+
+if [ "$load_bashrc" == "y" ]; then
+  . ${HOME}/.bashrc
+fi
+
+if [ ! -s $user_conf_asf ]; then
+  echo "[$PROG]ERROR: user login file not found ($user_conf_asf)!!"
+  exit 1
+fi
+
+path=$esa_data/aux_${orb_typ}orb
+
+if [ ! -d $path ]; then
+  mkdir -p $path
+fi
+cd $path
+pwd
+
+file_lock=$path/asf.lock
+
+if [ -s $file_lock ]; then
+  echo "[$PROG]INFO:locked by $file_lock!!"
+  exit 1
+fi
+hostname > $file_lock
+date >> $file_lock
+#echo $file_lock
+#cat $file_lock
+#exit
+
+
+if [ "$update_index" == "y" ]; then
+  curl https://s1qc.asf.alaska.edu/aux_${orb_typ}orb/ > ${path}/index.html.txt
+  #wget -N https://s1qc.asf.alaska.edu/aux_${orb_typ}orb/files.txt #server-side file outdated
+fi
+
+\rm -f ${path}/index.list
+di=1
+while [ $di -le $back_ndays ]; do
+  datestr=`date -u +%FT%T -d "today -${di} days" | awk -FT '{print $1}' | sed -e 's/-//g'`
+  cat ${path}/index.html.txt |grep EOF | awk -F\" '{print $2}' | grep '^S1' | grep $datestr >> ${path}/index.list
+  
+  di=`expr $di + 1`
+done
+
+#test cross-year case
+cat ${path}/index.html.txt |grep EOF | awk -F\" '{print $2}' | grep '^S1' | grep 20221231 >  ${path}/index.list
+cat ${path}/index.html.txt |grep EOF | awk -F\" '{print $2}' | grep '^S1' | grep 20230101 >> ${path}/index.list
+
+#exit
+
+while read file; do
+  echo file $file
+  #S1A_OPER_AUX_RESORB_OPOD_20230116T061712_V20230116T021424_20230116T053154.EOF
+  year1=`echo $file | awk -F_ '{print substr($7,2,4)}'`
+  year2=`echo $file | awk -F_ '{print substr($8,1,4)}'`
+  
+  opath1=$esa_data/aux_${orb_typ}orb/$year1
+  opath2=$esa_data/aux_${orb_typ}orb/$year2
+  echo opath1 $opath1
+  echo opath2 $opath2
+ 
+  #exit
+  if [ -s ${opath1}/${file} -a -s $opath2/$file ] ; then
+    echo "[$PROG]INFO: already exist($file)."
+    continue
+  fi
+  if [ ! -d $opath1 ]; then
+    mkdir -p $opath1
+  fi
+  if [ ! -d $opath2 ]; then
+    mkdir -p $opath2
+  fi
+  cd $opath2
+  pwd
+  if [ ! -s $opath2/$file ]; then
+    echo "wget -c --config=$user_conf_asf https://s1qc.asf.alaska.edu/aux_${orb_typ}orb/${file}"
+    echo "wget -c --config=$user_conf_asf https://s1qc.asf.alaska.edu/aux_${orb_typ}orb/${file}" | sh
+  fi
+  #exit
+  if [ "$year1" != "$year2" ]; then
+    if [ -s $opath1/$file ]; then
+      echo "[$PROG]INFO: already exist($opath1/$file)."
+      continue
+    fi
+    \cp -f ${opath2}/$file $opath1/
+  fi
+done < ${path}/index.list
+
+\rm -f $file_lock
+
+echo "[$PROG]INFO: done."

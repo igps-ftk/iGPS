@@ -107,7 +107,7 @@ done
 #elif [ -d ../des_F1 ]; then
 #    orb_type=des
 #else
-#    echo "[]ERROR:no ascending/descending paths found!"
+#    echo "[$PROG]ERROR:no ascending/descending paths found!"
 #    exit 1
 #fi
 #
@@ -137,13 +137,13 @@ while read line; do
     #pwd
     #echo $out_dir
 
-    echo "[]INFO: chekcing ./intf_all/${out_dir}/unwrap_mask.grd ..."
+    echo "[$PROG]INFO: chekcing ./intf_all/${out_dir}/unwrap_mask.grd ..."
     if [ -s ./intf_all/${out_dir}/unwrap_mask.grd ]; then
-      echo "[]INFO: already done ($out_dir). Skipped."
+      echo "[$PROG]INFO: already done ($out_dir). Skipped."
       continue
     fi
 
-    echo "[]INFO: queuing $out_dir ..."
+    echo "[$PROG]INFO: queuing $out_dir ..."
     #continue
     #exit 
 
@@ -151,12 +151,12 @@ while read line; do
 
     if [ -s "${ARCHIVE_DIR}/${date1}_${date2}/unwrap_mask_ll.png" ]; then
       if [ "$ovewrite" == "n" ]; then
-        echo "[]INFO:output already! Skipped."
+        echo "[$PROG]INFO:output already! Skipped."
         continue
       fi
     else
       if [ -s "$cmdfile" -a "$overwrite" == "n" ]; then
-        echo "[]INFO:already queued! Skipped."
+        echo "[$PROG]INFO:already queued! Skipped."
         continue
       fi
     fi

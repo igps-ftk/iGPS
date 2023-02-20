@@ -96,7 +96,7 @@ FFLAGS = -O3 -Wuninitialized -fno-f2c -ffast-math -fno-automatic -fno-backslash 
 #SHARELIB: .:cgps_data_read
 # this library must proceed others (SUN OS 5.8)
 #SHARELIB: ../../lib:cgps_lib
-#SHARELIB: ../../../../gglib:gglib
+#SHARELIB: ../../gglib:gglib
 
 #OBJ_cgps_data_read data_read_sio file_info finfo file_info_usgs query_pbo query_pos read_scec_csv
 #OBJ_cgps_data_read read_cmonoc read_cols read_ctl

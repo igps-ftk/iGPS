@@ -1,0 +1,108 @@
+#!/bin/sh
+
+# Name:
+#   sh_s1_unzip
+#   
+
+# Purpose:
+#   Unzip S1 data files to a temporary directory for processing.
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+# 
+
+PROG=sh_s1_unzip
+
+
+timestamp=`date | sed -e "s/ /_/g" | sed -e "s/:/-/g"`
+
+path_old=`pwd`
+
+usage(){
+  echo "[$PROG]HELP: ${PROG} "
+  echo "[$PROG]HELP:   [-f|-file FRAME_LIST_FILE]"
+  echo "[$PROG]HELP:   [-i|-iw SUBSWATH (default all: iw1,iw2,iw3)]"
+  echo "[$PROG]HELP:   [-p|-path S1_SLC_FILE_PATH]"
+  echo "[$PROG]HELP:   [-u|-update IN_UPDATE_MODE_y_n]"
+
+  echo "[$PROG]HELP:   [-h|-help]"
+  echo "[$PROG]HELP: e.g.,"
+  echo "[$PROG]HELP:   ${PROG} "
+}
+
+
+if [ "$1" == "" ]; then
+    usage
+    exit 1
+fi
+
+if [ "$esa_unzip" = "" ]; then
+    echo "[$PROG]ERROR: esa_unzip variable not set!!"
+    exit 1
+fi
+
+esa_data_s1=/sar/esa.sentinel-1/alll
+#esa_data_s1=/sar/esa.sentinel-1/links
+esa_data_s1=${esa_data}/s1
+
+
+iws="iw1,iw2,iw3"
+
+is_check_done=n
+
+#two modes of input parameters
+if [ "`echo $1 | awk '{print substr($1,1,1)}'`" == "-" ]; then
+
+  while [ "$1" != "" ]; do
+    case $1 in
+      -f|-file)
+        file=$2
+        ;;
+      -i|-iw)
+        iws=$2
+        ;;
+      -l|-local)
+        is_local=$2
+        ;;
+      -p|-path)
+        esa_data_s1=$2
+        ;;
+      -u|-update)
+        is_check_done=$2
+        ;;
+      -h|-help|--help)
+        usage
+        exit 1
+        ;;
+      *)
+        echo "[$PROG]ERROR: invalid option ($1)!!"
+        usage
+        exit 1
+        ;;
+    esac
+    shift 2
+  done
+
+else  #mode 2
+
+  file=$1
+  if [ "$2" != "" ]; then
+    iws=$2
+  fi
+  
+fi  #end-of-mode-2
+
+
+
+echo sh_s1_unzip_node -path $esa_data_s1 -file $file -iw $iws -u $is_check_done
+echo sh_s1_unzip_node -path $esa_data_s1 -file $file -iw $iws -u $is_check_done | sh
+
+

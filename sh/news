@@ -1,0 +1,48 @@
+#!/bin/sh
+
+# Name:
+#   news
+#   
+
+# Purpose:
+#   +
+
+# Example:
+#   
+
+# Modifications:
+#   +
+
+# Algorigthm:
+#   +
+
+# Dependency:
+#   +
+#
+
+
+PROG=news
+
+timestamp=`date | sed -e "s/ /_/g" | sed -e "s/:/-/g"`
+
+path_old=`pwd`
+
+usage(){
+  echo "[$PROG]HELP: ${PROG} "
+  echo "[$PROG]HELP: e.g.,"
+  echo "[$PROG]HELP:   ${PROG} "
+}
+
+while [ "$1" != "" ]; do
+  case $1 in
+    *)
+      echo "[$PROG]ERROR: invalid option ($1)!!"
+      usage
+      exit 1
+      ;;
+  esac
+  shift 2  
+done
+
+
+echo "[$PROG]INFO: done."

@@ -51,9 +51,9 @@ c     <<VAR_DEC
       d2=0
       y=''
 
-      path_png='./intf_all_los_ll_png'
+      path_png='./intf_all_png'
 c$$$      path_png='/g7e/gsar/172-a-m4-0082_0087_0092_0097-jiali5_chayu3'//
-c$$$     +     '/f123/intf_all_los_ll_png/'
+c$$$     +     '/f123/intf_all_png/'
       filter='*.png'
       call  ffind(path_png,files,filter,nf,0)
       write(*,'(a,i6)') '[]INFO:#png files:',nf

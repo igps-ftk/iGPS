@@ -120,7 +120,7 @@ FFLAGS = -O3 -Wuninitialized -fno-f2c -ffast-math -fno-automatic -fno-backslash 
 #SHARELIB: ../write:cgps_data_write
 #SHARELIB: ../site:cgps_data_site
 #SHARELIB: ../../lib:cgps_lib
-#SHARELIB: ../../../../gglib:gglib
+#SHARELIB: ../../gglib:gglib
  
 
 # OBJ_cgps_data_site read_sio_bin read_sio_hdr

@@ -89,6 +89,6 @@
 #SHARELIB: ../../data/write:cgps_data_write
 #SHARELIB: ../../data/offset:cgps_data_offset
 #SHARELIB: ../../lib:cgps_lib
-#SHARELIB: ../../../../gglib:gglib
+#SHARELIB: ../../gglib:gglib
 # SHARELIB: ../../nr:nr_lib
  

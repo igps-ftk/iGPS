@@ -1,5 +1,5 @@
 alias  liw  'ls intf_all | wc -l'
-alias  lpw  'ls intf_all_los_ll_png | wc -l'
+alias  lpw  'ls intf_all_png | wc -l'
 alias  lxw  'ls intf_all_x2 | wc -l'
 alias  dss  'du -hs sbas*'
 alias  sq   'squeue -o "%A %R %.58j %T"'
@@ -106,13 +106,13 @@ alias  sag  sh_sar_auto_grid_batch #cron_sar_node_auto_grid_batch
 #alias    sh_esa_s1_arp
 #alias    sh_esa_s1_asf_list_by_track
 #alias    sh_esa_s1_assemble_snap
-alias  csb  sh_esa_s1_call_sbas
+alias  csb  sh_sar_call_sbas
 #alias    sh_esa_s1_check_md5
 #alias    sh_esa_s1_chmod_node
 #alias    sh_esa_s1_corr_mask
 #alias    sh_esa_s1_del_zip
 #alias    sh_esa_s1_disp_extract_time_series
-alias es   sh_esa_s1_expt_safe
+alias es   sh_s1_expt_safe
 #alias    sh_esa_s1_get_csv
 #alias    sh_esa_s1_get_data_list_asf
 #alias    sh_esa_s1_get_data_meta4_asf
@@ -128,11 +128,11 @@ alias es   sh_esa_s1_expt_safe
 #alias    sh_esa_s1_intf_grd_2_classic_intf_tab
 #alias    sh_esa_s1_intf_grd_2_classic_intf_tab_cut
 #alias    sh_esa_s1_intf_grd_cut_roi
-alias  irsp  sh_esa_s1_intf_grd_resample
+alias  irsp  sh_sar_intf_all_resample
 #alias    sh_esa_s1_intf_in_del_bad
 #alias    sh_esa_s1_intf_in_del_bad_ymd
 #alias    sh_esa_s1_intf_in_from_intf_all.all
-alias  irem  sh_esa_s1_intf_in_get_remain
+alias  irem  sh_s1_intf_in_unfinished
 #alias    sh_esa_s1_intf_in_sort_by_los
 #alias    sh_esa_s1_kml2ra
 #alias    sh_esa_s1_landslide_batch
@@ -159,8 +159,8 @@ alias  irem  sh_esa_s1_intf_in_get_remain
 #alias    sh_esa_s1_mv_zip_inside
 #alias    sh_esa_s1_mv_zip_outside
 #alias    sh_esa_s1_orb_res_archive
-alias  f3  sh_esa_s1_prep_f123
-alias  f3i  sh_esa_s1_prep_f123_in
+alias  f3  sh_s1_prep_f123
+alias  f3i  sh_s1_prep_f123_in
 #alias    sh_esa_s1_prep_merge_batch
 #alias    sh_esa_s1_prep_merge_batch_from_intf_in
 #alias    sh_esa_s1_prep_merge_batch_from_intf_in_F
@@ -179,20 +179,20 @@ alias  f3i  sh_esa_s1_prep_f123_in
 #alias    sh_esa_s1_rsync_zip_inside
 #alias    sh_esa_s1_rsync_zip_inside_node
 #alias    sh_esa_s1_run_aria2_batch
-alias  tsa  sh_esa_s1_run_tsa
-alias  tsau  sh_esa_s1_run_tsa_update
-alias  esb  sh_esa_s1_sbas
-alias  esbt  sh_esa_s1_sbas_tar
+alias  tsa  sh_s1_run_tsa
+alias  tsau  sh_s1_run_tsa_update
+alias  esb  sh_sar_sbas
+alias  esbt  sh_sar_sbas_tar
 #alias    sh_esa_s1_slc_test
 #alias    sh_esa_s1_stitch_snap
 #alias    sh_esa_s1_track_ad
-alias  eu  sh_esa_s1_unzip
-alias  euc  sh_esa_s1_unzip_clean
+alias  eu  sh_s1_unzip
+alias  euc  sh_s1_unzip_clean
 #alias    sh_esa_s1_unzip_manifest
 #alias    sh_esa_s1_unzip_manifest2
 #alias    sh_esa_s1_unzip_manifest_ac
 #alias    sh_esa_s1_unzip_manifest_track
-alias  eun  sh_esa_s1_unzip_node
+alias  eun  sh_s1_unzip_node
 #alias    sh_esa_s1_unzip_node_caller
 #alias    sh_esa_s1_unzip_node_group
 #alias    sh_esa_s1_unzip_node_parallel
@@ -251,7 +251,7 @@ alias  agr  sh_sar_auto_grid_restore_to_init
 #alias    sh_sar_clean_intf_more
 #alias    sh_sar_clean_merge
 #alias    sh_sar_copy_F
-alias  clp  sh_sar_cp_los_ll_png
+alias  clp  sh_sar_cp_intf_png
 #alias    sh_sar_cp_snaphued
 #alias    sh_sar_create_link_F123
 #alias    sh_sar_expt_rename1

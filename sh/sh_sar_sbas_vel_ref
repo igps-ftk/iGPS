@@ -131,4 +131,4 @@ else
   echo "[$PROG]WARNING:no velocity uncertainty information!"
 fi
 
-echo "[$PROG]INFO:normal end."
+echo "[$PROG]INFO:done."

@@ -1,0 +1,141 @@
+#!/bin/sh
+
+# Name:
+#   sh_esa_s1_prep_proc_baseline
+#   
+
+# Purpose:
+#   Prepare intf.in for processing.
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+PROG=sh_esa_s1_prep_proc_baseline
+
+
+if [ "$1" == "" -o "$2" == "" ]; then
+    echo "Usage: $PROG -file baseline_table.dat "
+    echo "         -t1|-min_interval min_temporal_baseline"
+    echo "         -t2|-max_interval max_temporal_baseline"
+    echo "         -u|-update_config Y_or_N"
+    echo "         -o|-ofile OUT_FILE"
+    echo "         -v|-verbose Y_or_N"
+    #exit 1
+fi
+
+
+file=baseline_table.dat  #input file
+super_master_ind=1 #super master index
+max_dist=500  #meters
+min_interval=.1 #days
+max_interval=10000 #days
+echo defaults values initiated
+
+update_config=y	#update master line in batch_tops.config with the template (batch_tops.config.2)
+
+ofile=intf.in
+
+is_verbose=n
+
+while [ "$1" != "" ]; 
+do
+    case $1 in
+	-f|-file)
+	    file=`pwd`/$2
+	    ;;
+	-super_master)
+	    super_master_ind=$2
+	    ;;
+	-max_dist)
+	    max_dist=$2
+	    ;;
+        -o|-ofile)
+            ofile=$2
+            ;;
+	-t1|-min_interval)
+	    min_interval=$2
+	    ;;
+        -t2|-max_interval)
+            max_interval=$2
+            ;;
+	-u|-update_config)
+	    update_config=$2
+	    ;;
+        -v|-verbose)
+            is_verbose=$2
+            ;;
+	*)
+	    echo "[$PROG]ERROR: wrong input option ($1)!!"
+	    exit 1
+	    ;;
+    esac
+    shift 2
+done
+
+
+echo $file
+#exit
+ids=`cat $file | awk '{print $1}'`
+doyrs=`cat $file | awk '{print $3}'`
+dists=`cat $file | awk '{print $5}'`
+nday=`cat $file | wc -l`
+
+#echo here
+
+\rm -f $ofile
+i=1
+while [ $i -le $nday ]; do
+    j=`expr $i + 1`
+    while [ $j -le $nday ]; do
+	#Remove large perpendicular baseline pairs
+	dist=`echo $dists | awk '{print sqrt(($i-$j)*($i-$j)) }' i=$i j=$j`
+	isOK=`echo $dist $max_dist | awk '{if($1<=$2){print 1}else{print 0}}'`
+	if [ $isOK -ne 1 ]; then
+	    img1=`echo $ids | awk '{print $i}' i=$i`
+	    img2=`echo $ids | awk '{print $j}' j=$j`
+            if [ "$is_verbose" == "y" ]; then
+  	      echo "[$PROG]INFO:large distance ($dist meters) between $img1 and $img2. Skipped!"
+            fi
+	    j=`expr $j + 1`
+	    continue
+	fi
+	#
+	#Remove long temporal interval
+	interval=`echo $doyrs | awk '{print sqrt(($i-$j)*($i-$j)) }' i=$i j=$j`
+	isOK=`echo $interval $min_interval $max_interval | awk '{if($1>=$2&&$1<=$3){print 1}else{print 0}}'`
+	if [ $isOK -ne 1 ]; then
+	    img1=`echo $ids | awk '{print $i}' i=$i`
+	    img2=`echo $ids | awk '{print $j}' j=$j`
+            if [ "$is_verbose" == "y"  ]; then
+	      echo "[$PROG]INFO:too short/long time interval ($interval days) between $img1 and $img2. Skipped!"
+            fi
+	    j=`expr $j + 1`
+	    continue
+	fi
+	#
+	if [ $super_master_ind -eq 1 ]; then
+	    echo $ids | awk '{print $i":"$j}' i=$i j=$j >> $ofile
+	else
+	    echo $ids | awk '{print $i":"$j":"$smi}' i=$i j=$j smi=$super_master_ind >> $ofile
+	fi
+	j=`expr $j + 1`
+    done
+    i=`expr $i + 1`
+done
+wc -l intf.in
+
+if [ "$update_config" == "y" ]; then
+  ref_img=`echo $ids | awk '{print $smi}' smi=$super_master_ind`
+  sed -e "s/master_image.*/master_image = $ref_img/" ../batch_tops.config > batch_tops.config
+fi
+
+echo "[$PROG]INFO: done."

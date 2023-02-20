@@ -22,14 +22,34 @@
 
 PROG=sh_sar_prep_sbases
 
+function usage_of_it(){
+
+    echo "Usage: $PROG -t TEMPORAL_BASELINE_THRESHOLD"
+    echo "  input:"
+    echo "    1) baseline_table.dat"
+    echo "    2) intf.in"
+    echo "  output:"
+    echo "    1) intf.tab"
+    echo "    2) scene.tab"
+    
+    echo "Example:"
+    echo "  $PROG -t 0"
+    echo "  $PROG -t 73,"
+    echo "  $PROG -t 1,36"
+    echo "  $PROG -t ,36"
+    
+    echo "Usage: $PROG -t 1,36 1,72 121,"
+    echo "(c)Copyright 2017 Yunfeng Tian (tianyf@gmail.com)"
+}
+
 
 if [ ! -s baseline_table.dat ]; then
-  echo "[]ERROR: no baseline_table.dat file!!"
+  echo "[$PROG]ERROR: no baseline_table.dat file!!"
   exit 1
 fi
 
 if [ ! -s intf.in ]; then
-  echo "[]ERROR: no intf.in file!!"
+  echo "[$PROG]ERROR: no intf.in file!!"
   exit 1
 fi
 
@@ -42,8 +62,12 @@ while [ "$1" != "" ]; do
     -t)
       t1t2s=$2
       ;;
+    -h)
+      usage_of_it
+      ;;
     *)
       echo "[$PROG]ERROR:invalid option ($1)!!"
+      usage_of_it
       exit 1
       ;;
   esac
@@ -76,7 +100,7 @@ for t1t2 in $t1t2s; do
     mkdir -p $oname
   fi
   if [ -s $oname/intf.tab1 -a -s $oname/scene.tab1 ]; then
-    echo "[]WARNING: data already exist in $oname! Skipped."
+    echo "[$PROG]WARNING: data already exist in $oname! Skipped."
     continue
   fi
   

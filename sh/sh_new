@@ -58,13 +58,22 @@ cat <<eob >> $ofile
 path_old=\`pwd\`
 
 usage(){
-  echo "[\$PROG]Usage: \${PROG} "
-  echo "[\$PROG]Usage: e.g.,"
-  echo "[\$PROG]Usage: \${PROG} "
+  echo "[\$PROG]HELP: \${PROG} "
+  echo "[\$PROG]HELP: e.g.,"
+  echo "[\$PROG]HELP:   \${PROG} "
 }
+
+if [ \$# -lt 2 ]; then
+  usage
+  exit 1
+fi
 
 while [ "\$1" != "" ]; do
   case \$1 in
+    -h|-help|--help)
+      usage
+      exit 1
+      ;;
     *)
       echo "[\$PROG]ERROR: invalid option (\$1)!!"
       usage
@@ -74,5 +83,7 @@ while [ "\$1" != "" ]; do
   shift 2  
 done
 
+
+echo "[\$PROG]INFO: done."
 eob
 # the END

@@ -1,9 +1,0 @@
-1 1 * * * /home/tianyf/iGPS/sh/sh_esa_s1_rsync_esa_data >& /sar/esa.sentinel-1/in-progress/log.sync.remote.dirs.txt
-2 2 * * * /home/tianyf/iGPS.addon/sh/cron_asf_aux_poeorb >& /sar/esa.sentinel-1/in-progress/log.aux.poeorb.txt
-3 3 * * * /home/tianyf/iGPS/sh/sh_esa_s1_link_node_alll >& /sar/esa.sentinel-1/in-progress/log.link.alll.txt
-4 4 * * * /home/tianyf/iGPS/sh/sh_esa_s1_chmod_node >& /sar/esa.sentinel-1/in-progress/log.chmod.txt
-5 5 * * * /home/tianyf/iGPS/sh/sh_esa_s1_unzip_manifest_track >& /sar/esa.sentinel-1/in-progress/log.manifest_safe.txt
-
-1 1 * * * /home/tianyf/iGPS/sh/cron_asf_by_track >& /sar/esa.sentinel-1/in-progress/log.download.node1.txt
-
-

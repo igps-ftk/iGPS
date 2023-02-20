@@ -93,7 +93,7 @@ FFLAGS = -O3 -Vaxlib -save -zero -u -72 -w95 -w90 -cm -assume byterecl -mcmodel 
 
 #SHARELIB: ./:cgps_data_site
 #SHARELIB: ../../lib:cgps_lib
-#SHARELIB: ../../../../gglib:gglib
+#SHARELIB: ../../gglib:gglib
  
 # SHARELIB: ../glout:glout_lib
 # SHARELIB: ../glfor:glfor_lib

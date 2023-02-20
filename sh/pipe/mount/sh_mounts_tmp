@@ -1,3 +1,0 @@
-mount gpsac18:/g18b /g18b
-mount gpsac18:/home/tianyf /g18h
-mount gpsac19:/g19b /g19b

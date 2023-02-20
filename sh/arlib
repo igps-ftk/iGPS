@@ -1,32 +1,66 @@
 #!/bin/sh
-#Merge gamit/globk functions into a *.a file, for using in ftk.
-#Output file is written to ~/gglib/.
-#Move this directory to ${iGPS}/ftk/ or create a symbolic link.
+
+# Name:
+#   arlib
+#   
+
+# Purpose:
+#   +Merge gamit/globk functions into a *.a file, for using in ftk.
+
+# Example:
+#   arlib /usr/local/gamit-v10.71
+
+# Modifications:
+#   +
+
+# Algorigthm:
+#   +Output file is written to ~/gglib/.
+#   +Move the output file to ${iGPS}/ftk/gglib/ or create a symbolic link.
+
+# Dependency:
+#   +GAMIT/GLOBK installation (e.g., /usr/local/gmait-v10.71/)
+#
+
+PROG=sh_asf_s1_get_aux_orb
+
+path_old=`pwd`
  
+usage(){
+  echo "[$PROG]HELP: ${PROG} [GAMIT_GLOBK_PATH  [OUTPUT_PATH]]"
+
+  echo "[$PROG]HELP:   [-h|-help]"
+  echo "[$PROG]HELP: e.g.,"
+  echo "[$PROG]HELP:   ${PROG}  /usr/local/gamit-v10.71"
+  echo "[$PROG]HELP:   ${PROG}  /usr/local/gamit-v10.71/  /home/tianyf/iGPS/ftk/gglib/"
+}
+
 arch=`sh_arch`
 #echo $arch
+
+if [ "`echo $1 | awk '{print substr($1,1,2)}'`" == "-h" ]; then
+  usage
+  exit 1
+fi
 
 #input gg directory
 path_gg=${HOME}/gg
 #exit
 if [ $# -ge 1 ]; then
-    oldpath=`pwd`
     cd $1
     path_gg=`pwd`
-    cd $oldpath
+    cd $path_old
 fi
 
 #output location
-path_lib=${HOME}/gglib
+path_lib=${iGPS}/ftk/gglib/
 if [ ! -d ${path_lib} ]; then
     mkdir -p ${path_lib}
 fi
 file_lib=${path_lib}/gglib.a.${arch}
 if [ $# -ge 2 ]; then
-    oldpath=`pwd`
     cd $2
     path_lib=`pwd`
-    cd $oldpath
+    cd $path_old
     file_lib=${path_lib}/gglib.a.${arch}
 fi
 #exit
@@ -36,10 +70,11 @@ fi
 files=`find $path_gg -name "*.a"`
 #files=
 if [ "$files" = "" ]; then
-    echo "[arlib]Error: no library files could be found in $path_gg."
-    echo "[arlib]Please check your ~/gg link, and try again. "
-    echo "[arlib]In some OS, arlib cannot work right with symbolic links. In this case, try:"
-    echo "[arlib]    arlib GAMIT_PATH"
+    echo "[$PROG]ERROR: no library files could be found in $path_gg."
+    echo "[$PROG]INFO: Please check your ~/gg link, and try again. "
+    echo "[$PROG]INFO: Sometimes symbolic link does not work."
+    echo "[$PROG]INFO: Try use original path: arlib GAMIT_PATH"
+    exit 1
 fi
 
 path_gg=`pwd`
@@ -55,7 +90,7 @@ for file in $files; do
     ar x $file
 done
 
-#delete preread_cf.o (which proved to cause errors when compile gpsf source code)
+#delete preread_cf.o (which proved to cause errors when compile iGPS ftk)
 \rm -f preread_cf.o
 #delete existing lib file
 \rm -f  ${file_lib}
@@ -66,10 +101,6 @@ ranlib ${file_lib}
 cd ..
 #pwd
 \rm -rf ${path_tmp}
-echo "[arlib]gg path: ${path_gg}"
-echo "[arlib]output: $file_lib"
-echo "[arlib]Done."
-
-#Deleted:
-#	preread_cf.o
-
+echo "[$PROG]INFO: gg path: ${path_gg}"
+echo "[$PROG]INFO: output: $file_lib"
+echo "[$PROG]INFO: Done."

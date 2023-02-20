@@ -61,18 +61,18 @@ done
 
 
 
-if [ ! -d intf_all_los_ll_png ]; then
-  echo "[]ERROR: intf_all_los_ll_png directory not exsit!!"
+if [ ! -d intf_all_png ]; then
+  echo "[]ERROR: intf_all_png directory not exsit!!"
   exit 1  
 fi
 
-#files=`ls intf_all_los_ll_png/*.png`
-files=`ls intf_all_los_ll_png/20?????_20?????-*.*`
-nf=`ls intf_all_los_ll_png/20?????_20?????-*.* | wc -l`
+#files=`ls intf_all_png/*.png`
+files=`ls intf_all_png/20?????_20?????-*.*`
+nf=`ls intf_all_png/20?????_20?????-*.* | wc -l`
 nf=`echo $files | wc -w`
 echo "total files #: $nf"
 if [ $nf -le 0 ]; then
-  echo "[]ERROR: no files in intf_all_los_ll_png directory!!"
+  echo "[]ERROR: no files in intf_all_png directory!!"
   exit 1  
 fi
 #echo $files > a

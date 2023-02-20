@@ -86,13 +86,13 @@ fi
 #exit
 
 if [ "$file" == "" ]; then
-  echo "[]ERROR: no orbit file (*.EOF) given!!"
+  echo "[$PROG]ERROR: no orbit file (*.EOF) given!!"
   exit 1
 fi
 
 
 if [ "$ofile" == "" ]; then
-  echo "[]ERROR: no output file!!"
+  echo "[$PROG]ERROR: no output file!!"
   exit 1
 fi
 
@@ -136,7 +136,7 @@ cat $file | grep '<Y unit="m">' | awk -F\> '{print $2}' | awk -F\< '{print $1}' 
 cat $file | grep '<Z unit="m">' | awk -F\> '{print $2}' | awk -F\< '{print $1}' > _Z
 cat $file | grep '<UT1>' | awk -F\> '{print $2}' | awk -F\< '{print $1}' | awk -F= '{print $2}' > _UT1
 
-echo "[]INFO:converting time strings ..."
+echo "[$PROG]INFO:converting time strings ..."
 cat _UT1 | sed -e 's/T/ /g' > _UT1b
 date +%s -f _UT1b > _UT1c
 
@@ -146,13 +146,13 @@ paste _X _Y _Z _UT1 _UT1c> _XYZU
 cat _XYZU  > _tmp_xyzu
 
 
-echo "[]INFO:filtering times ..."
+echo "[$PROG]INFO:filtering times ..."
 cat _tmp_xyzu | awk '{if($5>=t1b&&$5<=t2b){print $0}}' t1b=$t1b t2b=$t2b > _tmp_xyzu2
 
-echo "[]INFO:converting XYZ to LLH ..."
+echo "[$PROG]INFO:converting XYZ to LLH ..."
 \rm -f $ofile
 while read line; do
-  echo "[]INFO:converting $line ..."  
+  echo "[$PROG]INFO:converting $line ..."  
   x=`echo $line | awk '{print $1}'`
   y=`echo $line | awk '{print $2}'`
   z=`echo $line | awk '{print $3}'`
@@ -165,5 +165,5 @@ while read line; do
   #break
 done < _tmp_xyzu2
 
-gmt2kml -Fs -W1p,red $ofile -Sn.1 > ${ofile}.kml
-echo "[]INFO:normal end."
+gmt gmt2kml -Fs -W1p,red $ofile -Sn.1 > ${ofile}.kml
+echo "[$PROG]INFO:done."

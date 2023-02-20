@@ -89,7 +89,7 @@
 #SHARELIB: ../../data/read:cgps_data_read
 #SHARELIB: ../../data/write:cgps_data_write
 #SHARELIB: ../../lib:cgps_lib
-#SHARELIB: ../../../../gglib:gglib
+#SHARELIB: ../../gglib:gglib
 # SHARELIB: .:cgps_cme_stack
  
 

@@ -1,0 +1,128 @@
+#!/bin/sh
+
+# Name:
+#   sh_sar_intf_all_cut_roi
+#   
+
+# Purpose:
+#   Cut corr_cut.grd and unwarp_mask.grd files in intf_all directory according to ROI KML file.
+
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   trans.dat
+#   intf_all/
+#
+
+PROG=sh_sar_intf_all_cut_roi
+
+path_old=`pwd`
+
+usage(){
+  echo "[$PROG]HELP: ${PROG} "
+  echo "[$PROG]HELP:   [-f|-file ROI_KML_FILE]"
+  echo "[$PROG]HELP:   [-p|-path INPUT_PATH]"
+  echo "[$PROG]HELP:   [-o|-opath OUTPUT_PATH]"
+
+  echo "[$PROG]HELP:   [-h|-help]"
+  echo "[$PROG]HELP: e.g., in F1 (F2/F3) run"
+  echo "[$PROG]HELP:   ${PROG} -file roi.kml -opath intf_all_roi"
+}
+
+if [ $# -eq 0 ]; then
+    usage
+    exit 1
+fi
+
+roi_file=
+
+types='corr_cut.grd unwrap_mask.grd'
+
+
+path=./intf_all/
+opath=./intf_all_roi/
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -f|-file)
+        roi_file=$2
+        ;;
+    -p|-path)
+        path=$2
+        ;;
+    -o|-opath)
+        opath=$2
+        ;;
+    -h|-help|--help)
+      usage
+      exit 1
+      ;;
+    *)
+      echo "[$PROG]ERROR: invalid option ($1)!!"
+      usage
+      exit 1
+      ;;
+  esac
+  shift 2
+done
+
+echo $roi_file
+echo $path 
+echo $opath
+
+file_tmp_llh=_tmp_$PROG_$timestamp_llh
+file_tmp_xyz=_tmp_$PROG_$timestamp_xyz
+
+gmt kml2gmt $roi_file | grep -v '>' | awk '{print $1,$2,0}'>  $file_tmp_llh
+cat $file_tmp_llh
+
+ln -s ./topo/trans.dat .
+
+proj_ll2ra_ascii.csh trans.dat $file_tmp_llh $file_tmp_xyz
+cat $file_tmp_xyz
+#cat .roi.xy | awk '{print $2,$1}' > .roi.xy2
+
+#exit
+
+files=`find ${path} -name "corr_cut.grd"`
+
+file=`echo $files | awk '{print $1}'`
+pI=`grdinfo -I $file`
+echo $pI
+pR=`gmt gmtinfo $pI $file_tmp_xyz`
+echo $pR
+#exit
+
+for file in $files; do
+    path_in=`dirname $file`
+    path_out="${opath}/`basename $path_in`"
+    if [ ! -d $path_out ]; then
+      mkdir -p $path_out
+    fi
+    
+    #if [ ! -s $path_out/unwrap_mask_ll.png ]; then
+    #   \cp -r $path_in/unwrap_mask_ll.png $path_out
+    #fi
+
+    for type in $types; do
+      file_in=${path_in}/${type}
+      file_out=${path_out}/${type}
+      if [ -s $file_out ]; then
+          echo "[$PROG]INFO: already exist ($file_out). Skipped."
+          continue
+      fi
+      echo gmt grdcut $file_in $pR -G${file_out}
+      echo gmt grdcut $file_in $pR -G${file_out} | sh
+    done
+
+    #exit
+done
+

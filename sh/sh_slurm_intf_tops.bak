@@ -64,17 +64,17 @@ TMP_DIR=`pwd`
 overwrite=n
 file_intf_in=intf.in
 batch_config=batch_tops.config
-delay=1
+delay=10
 
 while [ "$1" != "" ]; do
     case $1 in
-	-file)
+	-f|-file)
 	    file_intf_in=$2
 	    ;;
-	-config)
+	-c|-config)
 	    batch_config=$2
 	    ;;
-	-delay)
+	-d|-delay)
 	    delay=$2
 	    ;;
 	-ndays)
@@ -166,7 +166,10 @@ while read line; do
     
     echo $line > $infile
     #cmdfile=slurm_intf_tops_${date1}_${date2}.cmd
-    echo "intf_tops.csh $infile $batch_config >& $logfile" > $cmdfile
+    echo "which gmt" > $cmdfile
+    echo 'echo $PATH' >> $cmdfile
+    echo 'which intf.csh' >> $cmdfile
+    echo "intf_tops.csh $infile $batch_config" >> $cmdfile
 
     #dir_name=`echo $line | awk -F, '{print $1}' | awk -F: '{print $1}' | awk -F"/" '{print $(NF-1)}'`
     
@@ -180,6 +183,7 @@ while read line; do
  
 
     echo "#!/bin/sh" > $file_t
+    echo "#SBATCH --job-name=${dir_name}-${COMB_ID}-${PROC_ID}" >> $file_t
     echo "#SBATCH --nodes=1" >> $file_t
     echo "#SBATCH --ntasks=1" >> $file_t
     echo "#SBATCH --cpus-per-task=1" >> $file_t
@@ -202,7 +206,8 @@ while read line; do
 
     echo 'date' >> $file_t
     echo '#sleep 3' >> $file_t
-    echo "sh $cmdfile" >> $file_t
+    echo "sh $cmdfile >& $logfile" >> $file_t
+    echo "hostname >> $logfile" >> $file_t
 
     echo "tmp=\`ls intf_all/ | grep _ \`" >> $file_t
     echo "if [ \"\$tmp\" != \"\" ]; then" >> $file_t
@@ -214,16 +219,26 @@ while read line; do
 #    echo "if [ -s \"${dir_name}/unwrap_mask_ll.png\" ]; then " >> $file_t
 #    echo "  mv intf_all/${dir_name} ${ARCHIVE_DIR}/" >> $file_t
     echo "fi" >> $file_t
+    echo "\cp -f $logfile ${COMB_DIR}" >> $file_t
 
     echo 'date' >> $file_t
 
     echo $file_t
     #cat $file_t
     pwd
-    #sleep 1
+    #sleep .1
     sbatch $file_t
-    sleep $delay
-    echo delay is $delay
+
+    tmp1=`sinfo | grep intf | grep -i idle`
+    tmp2=`sinfo | grep intf | grep -i mix`
+    tmp="${tmp1}${tmp2}"
+    echo "tmp1|$tmp1|"
+    echo "tmp2|$tmp2|"
+    echo "tmp|$tmp|"
+    if [ "$tmp" != "" ]; then
+      sleep $delay
+      echo delay is $delay
+    fi
     #exit
 done < $file_intf_in
 

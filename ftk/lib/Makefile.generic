@@ -98,8 +98,8 @@
 # LABELS: test:test:NONE:test
 
 # SHARELIB: 
-#SHARELIB: ../../../gglib:gglib
-#SHARELIB: ../data/read:cgps_data_read
+#SHARELIB: ../gglib:gglib
+# SHARELIB: ../data/read:cgps_data_read
 # SHARELIB: ./cgps_lib
 
 #OBJ_cgps_lib allr8 covj_1 desuffix determ ffind getfilename getfileext getlun getpathname 
