@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Name:
-#   sh_esa_s1_expt_safe
+#   sh_s1_expt_safe
 #   
 
 # Purpose:
@@ -20,7 +20,7 @@
 #   
 
 
-PROG=sh_esa_s1_expt_safe
+PROG=sh_s1_expt_safe
 
 
 timestamp=`date | sed -e 's/ /_/g' | sed -e 's/:/-/g'`
@@ -78,7 +78,7 @@ done
 files=`find $path -maxdepth 1 -type f -name "overlapping.S1*.txt"`
 nf=`find $path -maxdepth 1 -type f -name "overlapping.S1*.txt" | wc -l`
 if [ "$files" == "" ]; then
-  echo "[]ERROR: no existing overlapping files exist!!"
+  echo "[$PROG]ERROR: no existing overlapping files exist!!"
   exit 1
 fi
 
@@ -90,31 +90,31 @@ if [ "$perc_min" == "" ]; then
   if [ -s config.txt ]; then
     perc_min=`grep '^ ' config.txt | grep perc_min | awk -F\= '{print $2}'`
   fi
-  echo "[]INFO:perc_min in config.txt is $perc_min"
+  echo "[$PROG]INFO:perc_min in config.txt is $perc_min"
 fi
 if [ "$master_date" == "" ]; then
   if [ -s config.txt ]; then
     master_date=`grep '^ ' config.txt | grep master_date | awk -F\= '{print $2}'`
   fi
-  echo "[]INFO:master date in config.txt is $master_date"
+  echo "[$PROG]INFO:master date in config.txt is $master_date"
 fi
 
 
 if [ "$perc_min" == "" ]; then
   if [ -s input.lst.ok ]; then
-    echo "[]INFO: use mininum overlapping percentage value from input.lst.ok."
+    echo "[$PROG]INFO: use mininum overlapping percentage value from input.lst.ok."
     perc_min=`grep '^ ' input.lst.ok | awk '{print $2-.001}' | min`
   else
     if [ -s input.lst ]; then
-      echo "[]INFO: use mininum overlapping percentage value from input.lst."
+      echo "[$PROG]INFO: use mininum overlapping percentage value from input.lst."
       perc_min=`grep '^ ' input.lst | awk '{print $2-.001}' | min`
     else
-      echo "[]INFO: use mininum overlapping percentage value from overlapping.*.txt files."
+      echo "[$PROG]INFO: use mininum overlapping percentage value from overlapping.*.txt files."
       perc_min=`grep -h '^ ' $files | awk '{print $2-.001}' | min`
     fi
   fi
 fi
-echo "[]INFO:perc_min $perc_min"
+echo "[$PROG]INFO:perc_min $perc_min"
 #exit
 
 if [ -s exclude_date.txt ]; then

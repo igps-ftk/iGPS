@@ -69,26 +69,26 @@ while [ "$1" != "" ]; do
             file_roi_kml=$2
             ;;
         -raw0)
-            oldpath=`pwd`
+            path_old=`pwd`
             cd $2
             if [ $? -ne 0 ]; then
                 echo "[$PROG]ERROR: invalid -raw0 value ($2) !!"
-                cd $oldpath
+                cd $path_old
                 exit 1
             fi
             path_raw0=`pwd`
-            cd $oldpath
+            cd $path_old
             ;;
         -raw)
-            oldpath=`pwd`
+            path_old=`pwd`
             cd $2
             if [ $? -ne 0 ]; then
                 echo "[$PROG]ERROR: invalid -raw value ($2) !!"
-                cd $oldpath
+                cd $path_old
                 exit 1
             fi
             path_raw=`pwd`
-            cd $oldpath
+            cd $path_old
             ;;
         -h|-help|--help)
             usage
@@ -122,7 +122,7 @@ if [ "$file_roi_kml" != "" ]; then
 fi
 
 
-master_date=`head -1 data.in | awk -F- '{print substr($5,1,8)}'`
+master_date=`grep '^ ' $file | head -1 | awk -F_ '{print substr($6,1,8)}'`
 echo "[$PROG]INFO: master date is $master_date"
 sh_sar_datetime_snap -f $file -o $file_tmp_pair -u $file_tmp_unzip -m $master_date
 ###

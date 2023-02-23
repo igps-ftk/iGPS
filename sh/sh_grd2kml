@@ -81,7 +81,7 @@ fname=`basename $file_grd`
 bname=`echo $fname | sed -e 's/.grd$//g'`
 dname=`dirname $file_grd`
 
-oldpath=`pwd`
+path_old=`pwd`
 
 if [ "$dname" != "" ]; then
   cd $dname
@@ -137,6 +137,6 @@ sed '/\/GroundOverlay>/r _tmp_scalebar_kml' _tmp_kml > ${file_grd2}.kml
 \rm _tmp_kml _tmp_scalebar_kml
 
 if [ "$dname" != "" ]; then
-  cd $oldpath
+  cd $path_old
   echo "[]INFO: returned to `pwd`"
 fi

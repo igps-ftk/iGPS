@@ -53,7 +53,7 @@ if [ ! -s intf.in ]; then
   exit 1
 fi
 
-oldpath=`pwd`
+path_old=`pwd`
 
 t1t2s='0, 1,12, 1,24 1,36 1,48 1,60 1,72 1,120 1,180 ,366  37, 73, 73,120 121, 181, 367, 121,500 367,900 700, 900,'
 
@@ -78,7 +78,7 @@ for t1t2 in $t1t2s; do
   t1=`echo $t1t2 | awk -F, '{print $1}'`
   t2=`echo $t1t2 | awk -F, '{print $2}'`
   
-  cmdstr="sh_esa_s1_prep_sbas"
+  cmdstr="sh_sar_prep_sbas"
   oname="b"
   if [ "$t1" == "" ]; then
     t1=1
@@ -93,7 +93,7 @@ for t1t2 in $t1t2s; do
   echo oname $oname
   echo $cmdstr
   
-  cd $oldpath
+  cd $path_old
   pwd
   
   if [ ! -d $oname ]; then

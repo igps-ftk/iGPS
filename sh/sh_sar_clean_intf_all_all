@@ -41,10 +41,10 @@ if [ ! -d $path ]; then
   exit 1
 fi
 
-oldpath=`pwd`
+path_old=`pwd`
 cd $path
 path=`pwd`
-cd $oldpath
+cd $path_old
 
 pname=`basename $path`
 

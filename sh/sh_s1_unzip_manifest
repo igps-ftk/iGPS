@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Name:
-#   sh_S1_unzip_manifest
+#   sh_s1_unzip_manifest
 #
 
 # Purpose:
@@ -18,26 +18,25 @@
 
 # Dependency:
 #
-PROG=sh_S1_unzip_manifest
+PROG=sh_s1_unzip_manifest
 
-if [ -t 0 ]; then
-    interactive=1
-else
-    interactive=0
-fi
-echo "interactive $interactive"
-
-if [ $interactive -eq 0 ]; then
-  . ${HOME}/.bashrc  
-fi
-#. ${HOME}/.bashrc
+#if [ -t 0 ]; then
+#    interactive=1
+#else
+#    interactive=0
+#fi
+##echo "interactive $interactive"
+#
+#if [ $interactive -eq 0 ]; then
+#  . ${HOME}/.bashrc  
+#fi
 
 if [ "$esa_data" = "" ]; then
     echo "[${PROG}]ERROR: ESA environment variable esa_data must be set first! Stopped."
     exit 1
 fi
 
-echo "[${PROG}]INFO: Usage: sh_esa_s1_unzip_manifest [out_path  [input_path] ]"
+echo "[${PROG}]INFO: Usage: $PROG [out_path  [input_path] ]"
 echo "[${PROG}]INFO:   Default:"
 echo "[${PROG}]INFO:     out_path: ${esa_data}/safe/S1"
 echo "[${PROG}]INFO:     input_path: ${esa_data}/s1"
@@ -56,10 +55,10 @@ fi
 
 path="${esa_data}/s1"
 if [ "$2" != "" ]; then
-    oldpath="`pwd`"
+    path_old="`pwd`"
     cd "$2"
     path="`pwd`"
-    cd "$oldpath"
+    cd "$path_old"
 fi
 
 echo "[${PROG}]INFO:   Currently:"

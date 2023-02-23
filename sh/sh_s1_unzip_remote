@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Name:
-#   sh_esa_s1_unzip_remote
+#   sh_s1_unzip_remote
 #   
 
 # Purpose:
@@ -18,7 +18,7 @@
 
 # Dependency:
 # 
-PROG=sh_esa_s1_unzip_remote
+PROG=sh_s1_unzip_remote
 
 if [ "$esa_unzip" = "" ]; then
     echo "[$PROG]ERROR:ESA environment esa_unzip variable not set! Stopped!!"
@@ -32,7 +32,7 @@ if [ "$esa_data" = "" ]; then
 fi
 
 if [ "$1" == "" ]; then
-    echo "[$PROG]ERROR:Usage: sh_esa_s1_unzip file [iw0|iw1|iw2|iw3]"
+    echo "[$PROG]ERROR:Usage: $PROG file [iw0|iw1|iw2|iw3]"
     exit 1
 fi
 file=$1

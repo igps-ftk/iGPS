@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Name:
-#   sh_esa_s1_check_md5
+#   sh_s1_zip_check
 #   
 
 # Purpose:
@@ -18,6 +18,8 @@
 
 # Dependency:
 #   
+
+PROG=sh_s1_zip_check
 
 if [ "$esa_data" == "" ]; then
     echo "[]ERROR: environtment variable esa_data NOT set!!"

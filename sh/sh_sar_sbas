@@ -55,7 +55,7 @@ file_scene_tab=scene.tab
 while [ "$1" != "" ]; do
   case $1 in
     -h|help)
-      echo "Usage: sh_esa_s1_sbas  -sat SAT|ENVI -file_ll_grd grd_ll_filename  -atm num "
+      echo "Usage: $PROG -sat SAT|ENVI -file_ll_grd grd_ll_filename  -atm num "
       echo "                       -opath out_path -overwrite y|n"
       echo "                       -fix_incidence y|n -fix_range y|n"
       echo     To skip one parameter, use \'\' as its value.

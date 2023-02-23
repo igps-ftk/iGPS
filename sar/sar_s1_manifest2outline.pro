@@ -9,7 +9,7 @@ PRO SAR_S1_MANIFEST2OUTLINE, path, opath
     path='C:\Downloads\esa.data\safe\S1'
     ;    path='C:\Downloads\esa.data\safe\9'
     path='\\10.4.35.86\root\g4b\gsar\A000'
-    path='\\10.4.35.82\root\g4d\gsar\turkey\A116'
+    path='\\10.4.35.82\root\sar\esa.sentinel-1\in-progress\d001'
     
     
   ENDIF

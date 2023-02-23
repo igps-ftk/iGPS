@@ -19,7 +19,7 @@
 # Dependency:
 #   
 path=`pwd`
-oldpath=`pwd`
+path_old=`pwd`
 
 if [ "$1" != "" ]; then
   cd $1
@@ -28,7 +28,7 @@ if [ "$1" != "" ]; then
     exit 1
   fi
   path=`pwd`
-  cd $oldpath
+  cd $path_old
 fi
 
 echo $path
@@ -89,5 +89,5 @@ find . -maxdepth 1 -name "unwrap.grd" -exec rm {} \;
 
 du -hs
 
-cd $oldpath
+cd $path_old
 

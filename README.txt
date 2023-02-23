@@ -1,5 +1,9 @@
 Please download the latest release of iGPS.
 /_
+  |__iGPS-2023feb20/        ;iGPS released on 20 February 2023
+  |                         ;add support for InSAR processing with GMTSAR
+  |                         ; 
+  |
   |__iGPS-2016nov25/        ;iGPS released on 25 November 2016
   |                         ; *)add ftk (Fortran ToolKit)
   |
@@ -31,6 +35,8 @@ Please download the latest release of iGPS.
 
 Cheers,
 Yunfeng Tian (tianyf@gmail.com)
+https://github.com/igps-ftk
+https://sourceforge.net/projects/igps/
 http://gps.xinbaibaihuo.com (offline temporary)
 
 --------------------------------------------------------------------------------
@@ -58,7 +64,7 @@ ${iGPS}/
         ftk/ *Fortran tool kit for manipulating GNSS time series, etc.
         libtian/ *common routines
         main/ *iGPS GUI and event handler
-        sh/ *various Unix-like shell script for GNSS data processing
+        sh/ *various Unix-like shell script for GNSS and InSAR data processing
         tables/ *site coordiantes, etc.
         tools/ *auxiliary routines
 

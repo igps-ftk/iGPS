@@ -56,10 +56,10 @@ file_log=log1
 while [ "$1" != "" ]; do
     case $1 in
   -path)
-      oldpath=`pwd`
+      path_old=`pwd`
       cd $2
       path=`pwd`
-      cd $oldpath
+      cd $path_old
       ;;
   -file_intf_in)
       file_intf_in=$2

@@ -57,6 +57,7 @@ esa_data_s1=${esa_data}/s1
 iws="iw1,iw2,iw3"
 
 is_check_done=n
+is_test=n #no uncompressing; only tell whether data exists
 
 #two modes of input parameters
 if [ "`echo $1 | awk '{print substr($1,1,1)}'`" == "-" ]; then
@@ -74,6 +75,9 @@ if [ "`echo $1 | awk '{print substr($1,1,1)}'`" == "-" ]; then
         ;;
       -p|-path)
         esa_data_s1=$2
+        ;;
+      -t|-test)
+        is_test=$2
         ;;
       -u|-update)
         is_check_done=$2
@@ -102,7 +106,7 @@ fi  #end-of-mode-2
 
 
 
-echo sh_s1_unzip_node -path $esa_data_s1 -file $file -iw $iws -u $is_check_done
-echo sh_s1_unzip_node -path $esa_data_s1 -file $file -iw $iws -u $is_check_done | sh
+echo sh_s1_unzip_node -path $esa_data_s1 -file $file -iw $iws -u $is_check_done -t $is_test
+echo sh_s1_unzip_node -path $esa_data_s1 -file $file -iw $iws -u $is_check_done -t $is_test | sh
 
 

@@ -73,5 +73,5 @@ ls -l gauss_*
 
 proj_ra2ll.csh trans.dat vel.grd vel_ll.grd
 grd2kml.csh vel_ll vel.cpt
-sh_esa_s1_corr_mask -corr_min $corr_min -direction $corr_direction
-sh_esa_s1_sbas_tar
+sh_sar_sbas_corr_mask -corr_min $corr_min -direction $corr_direction
+sh_sar_sbas_tar
