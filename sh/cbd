@@ -1,0 +1,77 @@
+#!/bin/sh
+
+# Name:
+#   cbd
+#   
+
+# Purpose:
+#   + Compare the date order of baseline_table.dat and data.in
+
+# Example:
+#   
+
+# Modifications:
+#   + Created by tianyf on Fri Feb 24 20:20:10 CST 2023
+
+
+# Algorigthm:
+#   +
+
+# Dependency:
+#   +
+#
+
+
+PROG=cbd
+
+timestamp=`date | sed -e "s/ /_/g" | sed -e "s/:/-/g"`
+
+path_old=`pwd`
+
+usage(){
+  echo "[$PROG]HELP: ${PROG} "
+  echo "[$PROG]HELP: e.g.,"
+  echo "[$PROG]HELP:   ${PROG} "
+}
+
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -h|-help|--help)
+      usage
+      exit 1
+      ;;
+    *)
+      echo "[$PROG]ERROR: invalid option ($1)!!"
+      usage
+      exit 1
+      ;;
+  esac
+  shift 2  
+done
+
+if [ ! -s baseline_table.dat ]; then
+  echo "[$PROG]ERROR: no baseline_table.dat file!!"
+  exit 1
+fi
+if [ ! -s data.in ]; then
+  echo "[$PROG]ERROR: no data.in file!!"
+  exit 1
+fi
+
+
+file_tmp1=_tmp_${PROG}_${timestamp}_ba
+file_tmp2=_tmp_${PROG}_${timestamp}_da
+
+cat baseline_table.dat | awk '{print substr($1,4,8)}' > $file_tmp1
+cat data.in | awk -F- '{print substr($5,1,8)}' > $file_tmp2
+tmp=`diff $file_tmp1 $file_tmp2`
+if [ "$tmp" != "" ]; then
+  echo "[$PROG]WARNING: date order of baseline_table.dat and data.in is different!" 
+  echo $tmp
+else
+  echo "[$PROG]INFO: OK"
+fi
+
+\rm -f $file_tmp1 $file_tmp2
+echo "[$PROG]INFO: done."

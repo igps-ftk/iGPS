@@ -73,7 +73,7 @@ timestamp=`date | sed -e "s/ /_/g" | sed -e "s/:/-/g"`
 
 path_old=`pwd`
 
-usage(){
+usage_of_it(){
   echo "[$PROG]HELP: ${PROG} "
   echo "[$PROG]HELP:   [-l|-load_bashrc y/...]"
   echo "[$PROG]HELP:   [-n|-ndays N_DAYS_BACKWARD]"
@@ -108,12 +108,12 @@ while [ "$1" != "" ]; do
       orb_typ=$2
       ;;
     -h|-help|--help)
-      usage
+      usage_of_it
       exit 1
       ;;
     *)
       echo "[$PROG]ERROR: invalid option ($1)!!"
-      usage
+      usage_of_it
       exit 1
       ;;
   esac

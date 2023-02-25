@@ -51,7 +51,7 @@ timestamp=`date | sed -e "s/ /_/g" | sed -e "s/:/-/g"`
 
 path_old=`pwd`
 
-usage(){
+usage_of_it(){
   echo "[$PROG]HELP: ${PROG} "
   echo "[$PROG]HELP:   -file INPUT_FILE"
   echo "[$PROG]INRO:     default input.lst.ok"
@@ -65,7 +65,7 @@ usage(){
 }
 
 if [ "$1" == "" ]; then
-    usage
+    usage_of_it
     exit 1
 fi
 
@@ -107,12 +107,12 @@ while [ "$1" != "" ]; do
             is_update_intf_in=$2  
             ;;
         -h|-help|--help)
-            usage
+            usage_of_it
             exit 1
             ;;
         *)
             echo "[$PROG]ERROR: invalid option ($1)!!"
-            usage
+            usage_of_it
             exit 1
             ;;
     esac    

@@ -24,7 +24,7 @@ PROG=sh_sar_timesplit_intf
 
 path_old=`pwd`
 
-usage(){
+usage_of_it(){
   echo "[$PROG]Usage: ${PROG} -f|-file FILE"
   echo "[$PROG]Usage:         -dt|-data_type LIST_TYPE"
   echo "[$PROG]Usage:         -d|-date YYYYMMDD"
@@ -59,7 +59,7 @@ while [ "$1" != "" ]; do
       ;;
     *)
       echo "[$PROG]ERROR: invalid option ($1)!!"
-      usage
+      usage_of_it
       exit 1
       ;;
   esac

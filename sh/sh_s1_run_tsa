@@ -28,8 +28,8 @@ timestamp=`date | sed -e "s/ /_/g" | sed -e "s/:/-/g"`
 
 path_old=`pwd`
 
-usage(){
-  echo "[$PROG]INRO: usage: $PROG [-file INPUT_FILE]"
+usage_of_it(){
+  echo "[$PROG]INRO: syntax: $PROG [-file INPUT_FILE]"
   echo "[$PROG]INRO:   [ -iw IW1/2/3 ]  [-roi ROI_FILE_KML]"
   echo "[$PROG]INRO:   [-comb_method assemble/stitch] [-esd y/n]"
   echo "[$PROG]INRO:   [-master YYYYMMDD]"
@@ -113,7 +113,7 @@ dem_grid_file=${esa_data}/topo/srtm3/grid/china.grd
 
 
 if [ "$1" == "" ]; then
-    echo "[$PROG]INRO: usage: $PROG -file INPUT_FILE  [ -iw IW1/2/3 ]  [-roi ROI_FILE_KML]"
+    echo "[$PROG]INRO: syntax: $PROG -file INPUT_FILE  [ -iw IW1/2/3 ]  [-roi ROI_FILE_KML]"
     echo "[$PROG]INRO:        default input file (file) is input.lst.ok"
     echo "[$PROG]INRO:        default subswath (iw) is iw1"
     echo "[$PROG]WARNING: using default settings to process ..."
@@ -179,7 +179,7 @@ while [ "$1" != "" ]; do
            skip_intf=$2
            ;;
         -h|--help)
-           usage
+           usage_of_it
            exit 1
            ;;
         *)

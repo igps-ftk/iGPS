@@ -153,7 +153,7 @@ while [ "$1" != "" ]; do
 	    ;;
 	
         * )                     
-	    echo usage
+	    echo usage_of_it
 	    ;;
     esac
     shift 2

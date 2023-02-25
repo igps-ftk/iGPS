@@ -44,6 +44,7 @@ PRO GIF_FROM_JPEG, $
     PTN='*.jpg'
     
     path='C:\Downloads\ice\Presentation1\2'
+    path='D:\ICD\Eighth\2023\20230223.xinjing\figure\prepost\2022y'
     
     
     ofile=path+path_sep()+'ani.gif'
@@ -52,6 +53,8 @@ PRO GIF_FROM_JPEG, $
     delay_long=200
     delay=60
     delay_long=60
+    delay=90
+    delay_long=90
     ;    delay=10
     ;    delay_long=10
 ;    delay=10

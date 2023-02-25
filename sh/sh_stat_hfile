@@ -22,7 +22,7 @@
 #   
 
 if [ $# -lt 2 ]; then
-    echo "usage: sh_stat_hfile -dir DIR -yrs YRS -yre YRE -doys DOYS -doye DOYE -expt EXPT"
+    echo "syntax: sh_stat_hfile -dir DIR -yrs YRS -yre YRE -doys DOYS -doye DOYE -expt EXPT"
     exit
 fi
 

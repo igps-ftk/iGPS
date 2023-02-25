@@ -23,6 +23,10 @@
 
 PROG=sh_sar_prep_sbas
 
+timestamp=`date | sed -e "s/ /_/g" | sed -e "s/:/-/g"`
+
+path_old=`pwd`
+
 function usage_of_it(){
 
     echo "Usage: $PROG"

@@ -45,7 +45,7 @@
 
 PROG=sh_sar_call_sbas
 
-usage(){
+usage_of_it(){
 echo "[$PROG]INFO: [-r A] [-a B] [-t1 CCCC] [-t2 DDDD] [-c ZZZ] "
 echo "       [-i INTF_ALL] [-ow IS_OVERWRITE(y/)] [-p IS_PARALLEL(y/)]"
 cat <<eob
@@ -164,12 +164,12 @@ while [ "$1" != "" ]; do
       file_scene_tab=$2
       ;;
     -h|--help|-help|-H)
-      usage
+      usage_of_it
       exit
       ;;
     *)
       echo "[$PROG]ERROR: invalid option ($1)!!"
-      usage
+      usage_of_it
       exit 1
       ;;
   esac

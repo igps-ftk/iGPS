@@ -24,7 +24,7 @@
 
 PROG=sh_sar_sbas_corr_mask
 
-usage(){
+usage_of_it(){
     echo "[$PROG]HELP: $PROG   "
     echo "[$PROG]HELP:   [-corr_min VAL]"
     
@@ -68,12 +68,12 @@ while [ "$1" != "" ]; do
             is_out_full=$2
             ;;
         -h|-help|--help)
-            usage
+            usage_of_it
             exit 1
             ;;
         *)
             echo "[$PROG]ERROR: invalid option ($1)!!"
-            usage
+            usage_of_it
             exit 1
             ;;
     esac

@@ -56,14 +56,19 @@ fi
 path_old=`pwd`
 
 t1t2s='0, 1,12, 1,24 1,36 1,48 1,60 1,72 1,120 1,180 ,366  37, 73, 73,120 121, 181, 367, 121,500 367,900 700, 900,'
+is_overwrite=n
 
 while [ "$1" != "" ]; do
   case $1 in
     -t)
       t1t2s=$2
       ;;
+    -o|-overwrite)
+      is_overwrite=$2
+      ;;
     -h)
       usage_of_it
+      exit 1
       ;;
     *)
       echo "[$PROG]ERROR:invalid option ($1)!!"
@@ -99,7 +104,7 @@ for t1t2 in $t1t2s; do
   if [ ! -d $oname ]; then
     mkdir -p $oname
   fi
-  if [ -s $oname/intf.tab1 -a -s $oname/scene.tab1 ]; then
+  if [ -s $oname/intf.tab1 -a -s $oname/scene.tab1 -a "$is_overwrite" != "y" ]; then
     echo "[$PROG]WARNING: data already exist in $oname! Skipped."
     continue
   fi

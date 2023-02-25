@@ -26,7 +26,7 @@ PROG=sh_sar_intf_all_cut_roi
 
 path_old=`pwd`
 
-usage(){
+usage_of_it(){
   echo "[$PROG]HELP: ${PROG} "
   echo "[$PROG]HELP:   [-f|-file ROI_KML_FILE]"
   echo "[$PROG]HELP:   [-p|-path INPUT_PATH]"
@@ -38,7 +38,7 @@ usage(){
 }
 
 if [ $# -eq 0 ]; then
-    usage
+    usage_of_it
     exit 1
 fi
 
@@ -62,12 +62,12 @@ while [ "$1" != "" ]; do
         opath=$2
         ;;
     -h|-help|--help)
-      usage
+      usage_of_it
       exit 1
       ;;
     *)
       echo "[$PROG]ERROR: invalid option ($1)!!"
-      usage
+      usage_of_it
       exit 1
       ;;
   esac

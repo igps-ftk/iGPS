@@ -21,7 +21,7 @@
 
 PROG=sh_sar_init_Fs
 
-usage(){
+usage_of_it(){
   echo "[$PROG]INFO: $PROG [-nx NX] [-ny NY] (default 2x2)"
   echo "[$PROG]INFO:   [-sub SUB_RECT_INDEX_LIST] (default all:a,b,c,d,....)"
   echo "[$PROG]INFO:   [-overlap OVERLAP PERCENTAGE]"
@@ -88,14 +88,14 @@ while [ "$1" != "" ]; do
       is_init=$2
       ;;
     -h|--help)
-      usage
+      usage_of_it
       exit 1
       ;;
     *)
       echo "[$PROG]ERROR: invalid option ($1)!!"
       echo "[$PROG]Usage: ${PROG} "
       echo "[$PROG]Usage: e.g.,"
-      usage
+      usage_of_it
       exit 1
       ;;
   esac
@@ -105,7 +105,7 @@ done
 
 #if [ "$file_roi" == "" ]; then
 #  echo "[]ERROR: no ROI file given!!"
-#  usage
+#  usage_of_it
 #  exit 1
 #fi
 
@@ -114,7 +114,7 @@ if [ "$Fi" == "" ]; then
   iw_id=`echo $iw | awk '{print substr($1,3,1)}'`
   if [ $iw_id -ne 1 -a $iw_id -ne 2 -a $iw_id -ne 3 ]; then
     echo "[]ERROR: wrong IW option ($iw)!!"
-    usage
+    usage_of_it
     exit 1
   fi
   pathF="$path_expt/F${iw_id}"

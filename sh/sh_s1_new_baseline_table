@@ -1,0 +1,74 @@
+#!/bin/sh
+
+# Name:
+#   sh_s1_new_baseline_table
+#   
+
+# Purpose:
+#   + Create baseline_table.dat according to the order in data.in
+
+# Example:
+#   +
+
+# Modifications:
+#   +
+
+# Algorigthm:
+#   +
+
+# Dependency:
+#   + data.in
+#   + Aligned SLC files
+#   + get_baseline_table.csh (GMTSAR)
+#
+
+
+PROG=sh_s1_new_baseline_table
+
+timestamp=`date | sed -e "s/ /_/g" | sed -e "s/:/-/g"`
+
+path_old=`pwd`
+
+usage(){
+  echo "[$PROG]HELP: ${PROG} "
+  echo "[$PROG]HELP: e.g.,"
+  echo "[$PROG]HELP:   ${PROG} "
+}
+
+ofile=baseline_table.dat
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -h|-help|--help)
+      usage
+      exit 1
+      ;;
+    *)
+      echo "[$PROG]ERROR: invalid option ($1)!!"
+      usage
+      exit 1
+      ;;
+  esac
+  shift 2  
+done
+
+if [ ! -s data.in ]; then
+  echo "[$PROG]ERROR: no data.in file!!"
+fi
+
+\rm -f fp
+while read line; do
+  datestr=`echo $line | awk -F- '{print substr($5,1,8)}'`
+  file_prm=`find . -maxdepth 1 -type f -name "S1_${datestr}*ALL*.PRM"`
+  if [ "$file_prm" == "" ]; then
+    echo "[$PROG]WARNING: no SLC files found for $datestr!"
+    continue
+  fi
+  basename $file_prm >> fp
+done < data.in
+
+get_baseline_table.csh fp `head -1 fp`
+
+cbd
+
+echo "[$PROG]INFO: done."

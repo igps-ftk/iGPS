@@ -23,7 +23,7 @@ PROG=sh_sar_intf_all_resample
 
 path_old=`pwd`
 
-usage(){
+usage_of_it(){
   echo "[$PROG]HELP: ${PROG} "
   echo "[$PROG]HELP:   [-s|-sf|-scale_factor SCALE_FACTOR]"
   echo "[$PROG]HELP:   [-p|-path INPUT_PATH]"

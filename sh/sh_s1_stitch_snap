@@ -25,7 +25,7 @@ timestamp=`date | sed -e "s/ /_/g" | sed -e "s/:/-/g"`
 
 path_old=`pwd`
 
-usage(){
+usage_of_it(){
     echo "[$PROG]HELP: $PROG   "
     echo "[$PROG]HELP:   [ -file input_file ]"
     echo "[$PROG]HELP:   [ -iw iw_type ]"
@@ -40,7 +40,7 @@ usage(){
 
 
 if [ $# -lt 2 ]; then
-  usage
+  usage_of_it
   exit 1
 fi
 
@@ -91,12 +91,12 @@ while [ "$1" != "" ]; do
             cd $path_old
             ;;
         -h|-help|--help)
-            usage
+            usage_of_it
             exit 1
             ;;
         *)
             echo "[$PROG]ERROR: invalid option ($1) !!"
-            usage
+            usage_of_it
             exit 1
             ;;
     esac

@@ -57,26 +57,26 @@ cat <<eob >> $ofile
 
 path_old=\`pwd\`
 
-usage(){
+usage_of_it(){
   echo "[\$PROG]HELP: \${PROG} "
   echo "[\$PROG]HELP: e.g.,"
   echo "[\$PROG]HELP:   \${PROG} "
 }
 
 if [ \$# -lt 2 ]; then
-  usage
+  usage_of_it
   exit 1
 fi
 
 while [ "\$1" != "" ]; do
   case \$1 in
     -h|-help|--help)
-      usage
+      usage_of_it
       exit 1
       ;;
     *)
       echo "[\$PROG]ERROR: invalid option (\$1)!!"
-      usage
+      usage_of_it
       exit 1
       ;;
   esac

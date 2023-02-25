@@ -24,7 +24,7 @@ PROG=sh_max_interval
 
 path_old=`pwd`
 
-usage(){
+usage_of_it(){
   echo "[$PROG]Usage: ${PROG} "
   echo "[$PROG]Usage: e.g.,"
   echo "[$PROG]Usage:  "
@@ -39,7 +39,7 @@ while [ "$1" != "" ]; do
       ;;
     *)
       echo "[$PROG]ERROR: invalid option ($1)!!"
-      usage
+      usage_of_it
       exit 1
       ;;
   esac

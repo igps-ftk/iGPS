@@ -1513,7 +1513,7 @@ END
   echo " "
 
 #--------------------------------------------
-# Get the current disk usage (MAX)
+# Get the current disk use (MAX)
   ${udf} . >&! tmp.df.${ts}
   tail -n -1 tmp.df.${ts} | awk '{if ( substr($0,1,1) == " " ) {print $2,$3,$4} else {print $3,$4,$5}}' >&! tmp.rdf.${ts}
   awk '{print "Disk Usage: ",$1/1024.," Free ",$2/1024.0" Mbyte. Used "$3}' tmp.rdf.${ts} >&! disk.used.${ts}
