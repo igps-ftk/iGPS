@@ -89,6 +89,8 @@ if [ -s intf.in.f123.1 ]; then
   ofile='intf.in.f123.2'  
   file_log=log2
 fi
+
+echo "[$PROG]INFO: wroking in `pwd`"
 echo "[$PROG]INFO: searching for interferograms, please wait ..."
 
 S1_ID=`head -1 baseline_table.dat | awk '{print substr($1,1,3)}'`

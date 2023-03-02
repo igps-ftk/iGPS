@@ -293,4 +293,7 @@ if [ "$is_update_intf_in" == "y" ]; then
   \cp -f b0-/*.tab1 .
 fi
 
+sh_mail -prog "${PROG}" -text "`pwd`"
+
+
 echo "[$PROG]INFO: done."
