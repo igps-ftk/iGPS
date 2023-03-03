@@ -1,54 +1,54 @@
 
 
-PRO SAR_S1_MANIFEST_OVERLAPPING, path=path, ofile=ofile, target=target, xys=xys, names=names,  $
-    onames=onames, perc_min=perc_min, files=files,opath=opath, exclude_date=exclude_date
+PRO SAR_S1_MANIFEST_OVERLAPPING, path=path,   $ ;where to search *.manifest.safe files 
+    files=files, $  ;filenames of *.manifest.safe files, if path is not given, 
+    target=target,  $ ;frame name to match
+    opath=opath,  $ ;output path
+    ofile=ofile,  $ ;output file name. If not given, use "opath+target"
+    perc_min=perc_min,  $ ;minimum percentage of overlapping between two frames, default 83% (0.83)
+    xys=xys,  $
+    names=names,  $
+    onames=onames,  $
+    exclude_date=exclude_date
     
   PROG=(STRSPLIT(LAST(SCOPE_TRACEBACK()),/EXTRACT))[0]
   
+  
+  ;*.manifest.safe path
   IF N_ELEMENTS(path) EQ 0 THEN BEGIN
-    path='C:\Downloads\esa.data\safe\all\'
-    ;path='C:\Downloads\esa.data\safe\S1.2'
-    ;    path='C:\Downloads\esa.data\safe\safe_outside'
-    ;path='C:\Downloads\luoyi\xiluodu\safe'
-    ;path='C:\Downloads\esa.data\S1\tmp'
-    ;    path='\\gpsac4\root\g4d\esa.data\S1'
-    ;    path='\\gpsac5\root\h2\esa.data\S1'
-    ;
-    ;path='C:\Downloads\esa.data\manifest.tibet\MANIFEST'
-    ;path='C:\Downloads\S1'
-    path='C:\Downloads\esa.data\safe\manifest.safe\D62'
+    ;for test
+    path='C:\Downloads\esa.data\metainfo\manifest.safe\D018'
   ENDIF
   
   IF N_ELEMENTS(opath) EQ 0 || N_ELEMENTS(target) EQ 0 THEN BEGIN
-  
-  
-    target='S1A_IW_SLC__1SSV_20141009T230354_20141009T230421_002759_003198_8E1D.manifest.safe'
-    opath='D:\gsar\landslide\D62-20141009T230354.8E1D'
-    ;perc_min=.53
-    
+    ;for test
+    target='S1B_IW_SLC__1SDV_20190531T223417_20190531T223444_016494_01F0B6_383C.manifest.safe'
+    opath='D:\tmp'
+    perc_min=.8
   ENDIF
+  
   ;stop
-  if n_elements(perc_min) eq 0 then begin ;if no perc_min is given, then check the config.txt file
-    file_config=opath+path_sep()+'config.txt'
+  IF N_ELEMENTS(perc_min) EQ 0 THEN BEGIN ;if no perc_min is given, then check the config.txt file
+    file_config=opath+PATH_SEP()+'config.txt'
     perc_min_config=-9999d0
-    if file_test(file_config,/regular) eq 1 then begin
+    IF FILE_TEST(file_config,/regular) EQ 1 THEN BEGIN
       lines=read_txt(file_config, comment='~ ')
       ;help, lines
       tmp=grepi(lines,'perc_min')
-      if tmp[0] ne '' then begin
-        tmp_p=strsplit(last(tmp),'=',/extract)
-        perc_min_config=double(tmp_p[1])
-      endif
-    endif
-    if perc_min_config ne -9999d0 then begin
+      IF tmp[0] NE '' THEN BEGIN
+        tmp_p=STRSPLIT(last(tmp),'=',/extract)
+        perc_min_config=DOUBLE(tmp_p[1])
+      ENDIF
+    ENDIF
+    IF perc_min_config NE -9999d0 THEN BEGIN
       perc_min=perc_min_config
-    endif
-  endif
+    ENDIF
+  ENDIF
   IF N_ELEMENTS(perc_min) EQ 0 THEN perc_min=.83
-  print,'['+PROG+']INFO: perc_min =',perc_min
-  if perc_min lt .51d0 then begin
-    print,'['+PROG+']WARNING: minimum overlapping percentage is rather small ('+strtrim(perc_min,2)+')!'
-  endif
+  PRINT,'['+PROG+']INFO: perc_min =',perc_min
+  IF perc_min LT .51d0 THEN BEGIN
+    PRINT,'['+PROG+']WARNING: minimum overlapping percentage is rather small ('+STRTRIM(perc_min,2)+')!'
+  ENDIF
   
   
   IF N_ELEMENTS(target) EQ 0 THEN BEGIN
@@ -70,7 +70,7 @@ PRO SAR_S1_MANIFEST_OVERLAPPING, path=path, ofile=ofile, target=target, xys=xys,
   
   
   
-    ;stop
+  ;stop
   ofile=opath+PATH_SEP()+'overlapping.'+target+'.txt'
   
   IF N_ELEMENTS(xys) EQ 0 THEN BEGIN  ;if no xys/names inputs, then read files
@@ -132,7 +132,7 @@ PRO SAR_S1_MANIFEST_OVERLAPPING, path=path, ofile=ofile, target=target, xys=xys,
     !p.MULTI=[0,3,1]
     ;stop
     PLOT,[0],[0],background='ffffff'x,color='0'x,psym=-2,/iso,/yno,$
-      xrange=[83,101],yrange=[28,42],$
+      xrange=[-180,180],yrange=[-90,90],$
       title='Footprints of All Scenes',$
       xtitle='Longitude',ytitle='Latitude',charsize=1.2
       
@@ -188,7 +188,7 @@ PRO SAR_S1_MANIFEST_OVERLAPPING, path=path, ofile=ofile, target=target, xys=xys,
     target=target[0]
   ENDIF
   ind_fi=REFORM(WHERE(names_all EQ target[0]))
-  help, ind_fi
+  HELP, ind_fi
   PRINT, '['+PROG+']INFO:target scene:',target
   
   ;STOP
@@ -201,7 +201,7 @@ PRO SAR_S1_MANIFEST_OVERLAPPING, path=path, ofile=ofile, target=target, xys=xys,
   xys=xys_all[*,*,pos]
   names=names_all[pos]
   ind_fi=REFORM(WHERE(names EQ target[0]))
-  help, ind_fi
+  HELP, ind_fi
   ;
   np=N_ELEMENTS(pos)
   

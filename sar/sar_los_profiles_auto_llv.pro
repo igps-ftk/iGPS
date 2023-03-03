@@ -56,16 +56,21 @@ PRO SAR_LOS_PROFILES_AUTO_LLV, vfile, $  ;velocity file (in varied formats)
     
     ;GOTO, end_of_default_input_parameters
     
-    vfile='D:\gsar\interseismic\085-a-m3-0088_0093_0098-gaize_yzs5\f123.1\sbas.3.0.0400.9999.20150515.20190927.103.0320.01.___\vel_mask_ll3.xyz'
-    ffile='C:\GMT_pub\vector\profile\fa_dawaco_maiqiongco.psxy'
-    opath='D:\gsar\interseismic\085-a-m3-0088_0093_0098-gaize_yzs5\f123.1\sbas.3.0.0400.9999.20150515.20190927.103.0320.01.___\p.fa_dawaco_maiqiongco'
-    auto_strike=3
+;    vfile='D:\gsar\interseismic\085-a-m3-0088_0093_0098-gaize_yzs5\f123.1\sbas.3.0.0400.9999.20150515.20190927.103.0320.01.___\vel_mask_ll3.xyz'
+;    ffile='C:\GMT_pub\vector\profile\fa_dawaco_maiqiongco.psxy'
+;    opath='D:\gsar\interseismic\085-a-m3-0088_0093_0098-gaize_yzs5\f123.1\sbas.3.0.0400.9999.20150515.20190927.103.0320.01.___\p.fa_dawaco_maiqiongco'
+;    auto_strike=3
+;    
+;    
+;    vfile='D:\gsar\interseismic\026-a-m4-0087_0092_0097_0102-kangding1M3\f123\sbas.4.0.0367.9999.20170124.20210527.130.0866.01.___\vel_mask_ll3.xyze'
+;    ffile='C:\GMT_pub\vector\profile\fa_xsh_b.psxy'
+;    opath='D:\gsar\interseismic\026-a-m4-0087_0092_0097_0102-kangding1M3\f123\sbas.4.0.0367.9999.20150123.20210527.157.1388.01.___\p.fa_xsh_b\1'
+;    auto_strike=2
     
+    vfile='D:\gsar\interseismic\165-d-m6-0467_0472_0477_0482_0487_0492-woniuhu4M3\f123\sbas.4.0.0001.9999.20141029.20230208.062.0144.01.___\vel_mask_ll3.xyze'
+    ffile='C:\GMT_pub\vector\profile\fa_karakoram.psxy'
+    opath='D:\gsar\interseismic\165-d-m6-0467_0472_0477_0482_0487_0492-woniuhu4M3\f123\sbas.4.0.0001.9999.20141029.20230208.062.0144.01.___\p.fa_karakoram'
     
-    vfile='D:\gsar\interseismic\026-a-m4-0087_0092_0097_0102-kangding1M3\f123\sbas.4.0.0367.9999.20170124.20210527.130.0866.01.___\vel_mask_ll3.xyze'
-    ffile='C:\GMT_pub\vector\profile\fa_xsh_b.psxy'
-    opath='D:\gsar\interseismic\026-a-m4-0087_0092_0097_0102-kangding1M3\f123\sbas.4.0.0367.9999.20150123.20210527.157.1388.01.___\p.fa_xsh_b\1'
-    auto_strike=2
     
     out_plot=1
     is_debug=0

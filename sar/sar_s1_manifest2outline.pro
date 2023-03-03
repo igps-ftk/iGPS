@@ -3,15 +3,8 @@ PRO SAR_S1_MANIFEST2OUTLINE, path, opath
   PROG=(STRSPLIT(LAST(SCOPE_TRACEBACK()),/EXTRACT))[0]
   
   IF N_PARAMS() LT 1 THEN BEGIN
-  
-    path='C:\Downloads\esa.data\safe\all\'
-    ;    path='C:\Downloads\esa.data\safe\S1.2'
-    path='C:\Downloads\esa.data\safe\S1'
-    ;    path='C:\Downloads\esa.data\safe\9'
-    path='\\10.4.35.86\root\g4b\gsar\A000'
-    path='\\10.4.35.82\root\sar\esa.sentinel-1\in-progress\d001'
-    
-    
+    ;for test
+    path='C:\Downloads\esa.data\metainfo\manifest.safe\D018'
   ENDIF
   
   IF N_ELEMENTS(opath) EQ 0 THEN BEGIN
