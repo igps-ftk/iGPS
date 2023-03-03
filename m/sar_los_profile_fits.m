@@ -101,8 +101,11 @@ paths={'D:\gsar\interseismic\014-a-m2-0115_0120-turkey20230206\f123\sbas.4.0.000
 paths={'D:\gsar\interseismic\014-a-m2-0115_0120-turkey20230206\f123\sbas.4.0.0001.9999.20141006.20230128.019.0138.01.___\p.fa_east_anatolia'};
 paths={'D:\gsar\interseismic\014-a-m3-0110_0115_0120-turkey20230206\f123\sbas.4.0.0001.9999.20141018.20230128.021.0100.01.___\p.fa_east_anatolia'};
 paths={'D:\gsar\interseismic\021-d-m4-0455_0460_0465_070-turkey\f123\sbas.4.0.0001.9999.20141019.20220122.029.0051.01.___\p.fa_east_anatolia'};
+paths={'D:\gsar\interseismic\165-d-m3-0467_0472_0477-woniuhu4M3\f123\sbas.4.0.0367.9999.20141029.20210507.128.1546.01.___\p.fa_xiaoerkule1'};
+paths={'D:\gsar\interseismic\085-a-m4-0104_0109_0114_0119-woniuhu1M3\f123\sbas.4.0.0367.9999.20141116.20220303.182.1300.01.___\p.fa_xiaoerkule1'};
+paths={'D:\gsar\interseismic\085-a-m3-0109_0114_0119-woniuhu1M3\f123\sbas.4.0.0367.9999.20141116.20210212.153.1522.01.___\p.fa_atf_ext'};
 
-dmin=-250;
+dmin=-270;
 dmax=260;
 fts_min=-65;
 fts_max=35;
@@ -128,7 +131,7 @@ for pi=1:npath
   end
   disp(path);
   
-  files=dir([path,filesep,'profile_014*_vel.psxy']);
+  files=dir([path,filesep,'profile_001*_vel.psxy']);
   
   nf=size(files,1);
   for fi=1:nf
@@ -240,7 +243,7 @@ for pi=1:npath
       {'sr', 0, -10, 10}
       %{'ld', 10, .1, 50}
       %{'ld', 4, 0, 10}
-      {'ld', 10, .1, 15}
+      {'ld', 10, .1, 35}
 %       {'ld', 9, 8.9, 9.1}
       {'yshift', (ymin+ymax)/2, ymin,ymax}
       %     {'fts', 0, -30, 30}

@@ -1,4 +1,8 @@
 #!/bin/csh -f
+# (c) Copyright Disclaimer
+# This is was downloaded from the old GMTSAR forum: http://gmt.soest.hawaii.edu/boards/6/topics/3271
+# It is uploaded to the forum by Xiaohua(Eric).
+#
 #	try to subsample and find the look vector for the InSAR data
 #
   if ($#argv <1 || $#argv >4) then
