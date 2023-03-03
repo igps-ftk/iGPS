@@ -22,7 +22,12 @@ PROG=sh_mail
 
 subject=
 attatchment=
-mail_to='y.f.tian@163.com'
+
+mail_to=
+if [ "`whoami`" == "tianyf" ]; then
+  mail_to='y.f.tian@163.com'
+fi
+
 prog=
 text="none"
 file=
@@ -57,6 +62,11 @@ while [ "$1" != "" ]; do
     
     shift 2
 done
+
+if [ "$mail_to" == "" ]; then
+  echo "[$PROG]ERROR: no mail receipent!!"
+  exit 1
+fi
 
 if [ "$prog" != "" -a "$subject" = "" ]; then
     subject="Job $prog finished at $host on `date`"
