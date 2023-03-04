@@ -136,7 +136,7 @@ plot_intf_JY=1.3
 
 while [ "$1" != "" ]; do
     case $1 in
-    -path)
+    -p|-path)
         if [ ! -d $2 ]; then
             echo "[$PROG]ERROR: input directory not exist ($2) !!"
             exit 1
@@ -156,7 +156,7 @@ while [ "$1" != "" ]; do
         opath=`pwd`
         cd $path_old
         ;;
-    -profile)
+    -n|-profile)
         pis=`echo $2 | sed -e 's/,/ /g'`
         ;;
     -data_type)
@@ -368,9 +368,9 @@ gmt makecpt -C${colortable} -T-5500/1800/5 -Z > mytopo.cpt
 #for global overview map
 gmt makecpt -C${colortable} -T-7000/7800/10 -Z > mytopo2.cpt
 
-dem_file_overview=${GMT_pub}/dem.gmt/ETOPO1_Ice_g_gmt4_3min/ETOPO1_Ice_g_gmt4_3min.grd
+#dem_file_overview=${GMT_pub}/dem.gmt/ETOPO1_Ice_g_gmt4_3min/ETOPO1_Ice_g_gmt4_3min.grd
 dem_file_overview=${GMT_pub}/dem.gmt/ETOPO1_Ice_g_gmt4/ETOPO1_Ice_g_gmt4.grd
-dem_file_overview=${GMT_pub}/dem.gmt/envi.dem.min/envi.grd
+#dem_file_overview=${GMT_pub}/dem.gmt/envi.dem.min/envi.grd
 
 #search DEM files
 files_dem=`find $path_dem -name "*.grd"`
@@ -400,28 +400,34 @@ for n in $pis; do
 
 
     #first, plot DEM on the location map
-    fir=1
-    for file_dem in $files_dem; do
-      tfile=`basename $file_dem`-${fir}
-      if [ ! -s $tfile ]; then
-          gmt grdclip $file_dem  -G${tfile} $R -Sb-9999/NaN #
-          gmt grdgradient $tfile -A50  -Ne.316 -Gshaded.grd
-      fi
-      if [ $fir -eq 1 ]; then
-          zmin=`gmt grdinfo -C $tfile | awk '{print $6-6000}'`
-          zmax=`gmt grdinfo -C $tfile | awk '{print $7+10}'`
-          #echo "gmt makecpt -C${colortable} -T${zmin}/${zmax}/1 -Z"
-          gmt makecpt -C${colortable} -T${zmin}/${zmax}/1 -Z > mytopo3.cpt
-          echo "gmt grdimage $file_dem -Cmytopo3.cpt $R -JQ${plot_size_ax}i -Y8i -Ishaded.grd    ${B}::/10f5:::.${map_title_a}:WSEN -K -P   > ${ofile}"
-          gmt grdimage $file_dem -Cmytopo3.cpt $R -JQ${plot_size_ax}i -Y8i -Ishaded.grd    ${B}:"":/10f5:""::."${map_title_a}":WSEN -K -P   > ${ofile}
-          fir=0
-      else
-          gmt grdimage $file_dem -Cmytopo3.cpt -R -J    -K -O >> ${ofile}
-      fi
-    done
-
-    echo "[$PROG]INFO: adding bounaries to the location map"
-    gmt pscoast  -R -Dh -N1 -J -Swhite -Wwhite   -K -O  >> ${ofile}
+    if [ "$files_dem" != "" ]; then
+      fir=1
+      for file_dem in $files_dem; do
+        tfile=`basename $file_dem`-${fir}
+        if [ ! -s $tfile ]; then
+            gmt grdclip $file_dem  -G${tfile} $R -Sb-9999/NaN #
+            gmt grdgradient $tfile -A50  -Ne.316 -Gshaded.grd
+        fi
+        if [ $fir -eq 1 ]; then
+            zmin=`gmt grdinfo -C $tfile | awk '{print $6-6000}'`
+            zmax=`gmt grdinfo -C $tfile | awk '{print $7+10}'`
+            #echo "gmt makecpt -C${colortable} -T${zmin}/${zmax}/1 -Z"
+            gmt makecpt -C${colortable} -T${zmin}/${zmax}/1 -Z > mytopo3.cpt
+            echo "gmt grdimage $file_dem -Cmytopo3.cpt $R -JQ${plot_size_ax}i -Y8i -Ishaded.grd    ${B}::/10f5:::.${map_title_a}:WSEN -K -P   > ${ofile}"
+            gmt grdimage $file_dem -Cmytopo3.cpt $R -JQ${plot_size_ax}i -Y8i -Ishaded.grd    ${B}:"":/10f5:""::."${map_title_a}":WSEN -K -P   > ${ofile}
+            fir=0
+        else
+            gmt grdimage $file_dem -Cmytopo3.cpt -R -J    -K -O >> ${ofile}
+        fi
+      done
+    else #no DEM available
+      echo "gmt grdimage $file_dem -Cmytopo3.cpt $R -JQ${plot_size_ax}i -Y8i -Ishaded.grd    ${B}::/10f5:::.${map_title_a}:WSEN -K -P   > ${ofile}"
+      gmt pscoast $R -JQ${plot_size_ax}i -Y8i -Df -I1 -Glightgray ${B}:"":/10f5:""::."${map_title_a}":WSEN -K -P   > ${ofile}
+            
+    fi
+    
+    echo "[$PROG]INFO: adding rivers to the location map"
+    gmt pscoast  -R -Dh -I0 -J -Swhite -Wwhite   -K -O  >> ${ofile}
 
     #(4)
     echo "[$PROG]INFO: (4) adding insar los rate image to the location map"
@@ -940,10 +946,16 @@ fi
     gmt gmtset MAP_TICK_LENGTH_PRIMARY = 2p/1p
     gmt gmtset MAP_TITLE_OFFSET = .051c
 
-    #grdimage $Ro $Jo  -B10f5/10f5WSEN $dem_file_overview -Cmytopo2.cpt -A250 -K -V -O  >> $ofile
-    grdimage $dem_file_overview  -Cmytopo2.cpt $Ro -JQ${Jo}i    -B10f5:"":/10f5:""::."":EN -K -P   -O >> ${ofile}
-    #pscoast $R $J -Wthin -I1 -N1 -B10f5/10f5WSEN -Glightgray -Wthinnest,lightgray -A250 -K -V -O >> $ofile
-    #pscoast $R $J -Wthin -I1 -N1 -B10f5/10f5WSEN -Glightgray -Wthinnest,lightgray -A250 -K -V -O >> $ofile
+
+    #Plot overview inset
+    if [ -s $dem_file_overview ]; then
+      #grdimage $Ro $Jo  -B10f5/10f5WSEN $dem_file_overview -Cmytopo2.cpt -A250 -K -V -O  >> $ofile
+      grdimage $dem_file_overview  -Cmytopo2.cpt $Ro -JQ${Jo}i    -B10f5:"":/10f5:""::."":EN -K -O >> ${ofile}
+    else
+      pscoast $Ro -JQ${Jo}i -B10f5:"":/10f5:""::."":EN -K -O -Wthin -I1 -Swhite >> $ofile
+    fi
+    #pscoast $R $J -Wthin -I1 -B10f5/10f5WSEN -Glightgray -Wthinnest,lightgray -A250 -K -V -O >> $ofile
+    #pscoast $R $J -Wthin -I1 -B10f5/10f5WSEN -Glightgray -Wthinnest,lightgray -A250 -K -V -O >> $ofile
     psxy -R -J -O -K -L <<eob -Gblue@80 >> $ofile
     $X_MIN $Y_MAX
     $X_MAX $Y_MAX
