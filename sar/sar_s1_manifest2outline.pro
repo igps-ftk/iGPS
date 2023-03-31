@@ -4,7 +4,7 @@ PRO SAR_S1_MANIFEST2OUTLINE, path, opath
   
   IF N_PARAMS() LT 1 THEN BEGIN
     ;for test
-    path='C:\Downloads\esa.data\metainfo\manifest.safe\D018'
+    path='\\192.168.11.68\root\g17b\esa.data\S1.out'
   ENDIF
   
   IF N_ELEMENTS(opath) EQ 0 THEN BEGIN

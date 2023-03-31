@@ -4,9 +4,7 @@ PRO READ_NC_SBAS,FILE,DATA=DATA, $
     VAR_TYPE=VAR_TYPE
     
   IF N_PARAMS() LT 1 THEN BEGIN
-    file='C:\Downloads\gsartest\dangxiong2\des_F2\disp_002_ll.nc'
-    file='\\gpsac5\root\b1\gsar\m_manyi4\des_F2\unwraps\2017299_2016287-unwrap.grd'
-    file='\\10.4.134.32\root\g7e\gsar\m_tangrayumco_shenza-dingjie2\f123.1\SBAS5\r10\disp_2018305_ll_r10.nc'
+    file='\\10.4.134.30\root\g10c\gsar\136-d-m4-0481_0486_0491_0496-mht\f123\sbas.4.0.0367.9999.20141015.20200305.113.1400.01.___\r4_ref\disp_2014287_mask_ll_r4.nc.grd'
   ENDIF
   
   IF N_ELEMENTS(VAR_TYPE) EQ 0 THEN VAR_TYPE='z'

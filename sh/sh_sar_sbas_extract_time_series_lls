@@ -11,7 +11,9 @@
 #   
 
 # Modifications:
-#   
+#   + Mon Mar 27 12:31:29 CST 2023
+#     Fix a bug when data is NaN for some locations.
+#     Added -N option to grdtrack.
 
 # Algorigthm:
 #   
@@ -80,7 +82,7 @@ for disp_file in $disp_files; do
   dyr=`doy $year $doyr | tail -1 | awk '{print $3}'`
   disp_time="$dyr $year $doyr"
   echo "$disp_name $dyr $year $doyr" >> _disp_times
-  gmt grdtrack _ll -G$disp_file | awk '{print $1,$2,$3}' > _${disp_name}.lld
+  gmt grdtrack _ll -G$disp_file -N | awk '{print $1,$2,$3}' > _${disp_name}.lld
   cat _${disp_name}.lld | awk '{print dyr,year,doyr,$0}' dyr=$dyr year=$year doyr=$doyr > _${disp_name}.lldt
   paste _${disp_name}.lldt _lls > _${disp_name}.lldts
   #echo heh

@@ -490,24 +490,28 @@ PRO VEL_PROFILES, vfile, $  ;velocity file (in varied formats)
     IF TOTAL(ind_nan) EQ 0 THEN BEGIN
       CONTINUE
     ENDIF
-    PLOT,REFORM(lls_used[0,ind]),vel_along_all[ind],background='ffffff'x,color='0'x, $
+    ;PLOT,REFORM(lls_used[0,ind]),vel_along_all[ind],background='ffffff'x,color='0'x, $
+    PLOT,REFORM(dists_fault[pos[ind]]),vel_along_all[ind],background='ffffff'x,color='0'x, $
       title='Velocities Along Profile '+STRING(pi+1,format='(i2)'), $
       /ynozero,psym=2;,yrange=yrange
-    OPLOT,[xy3[0],xy3[0]],[-1d3,1d3],linestyle=2,color='ff0000'x,thick=2
+    ;OPLOT,[xy3[0],xy3[0]],[-1d3,1d3],linestyle=2,color='ff0000'x,thick=2
+    OPLOT,[0,0],[-1d3,1d3],linestyle=2,color='ff0000'x,thick=2
     FOR j=0,N_ELEMENTS(ind)-1 DO BEGIN
-      OPLOT,[lls_used[0,ind[j]], lls_used[0,ind[j]] ], $
+      OPLOT,[dists_fault[pos[ind[j]]], dists_fault[pos[ind[j]]] ], $
         [vel_along_all[ind[j]]+ABS(vele_along_all[ind[j]]),vel_along_all[ind[j]]-ABS(vele_along_all[ind[j]]) ], $
         color='0000ff'x,thick=2
     ENDFOR
     
-    PLOT,lls_used[0,ind],vel_tang_all[ind],background='ffffff'x,color='0'x, $
+    ;PLOT,lls_used[0,ind],vel_tang_all[ind],background='ffffff'x,color='0'x, $
+    PLOT,dists_fault[pos[ind]],vel_tang_all[ind],background='ffffff'x,color='0'x, $
       title='Velocities Tangent to Profile '+STRING(pi+1,format='(i2)'), $
       /ynozero,psym=5;,yrange=yrange
     ;    OPLOT,lls_used[0,ind],vel_tang_all[ind],color='0000ff'x, $
     ;      psym=5
-    OPLOT,[xy3[0],xy3[0]],[-1d3,1d3],linestyle=2,color='ff0000'x,thick=2
+    ;OPLOT,[xy3[0],xy3[0]],[-1d3,1d3],linestyle=2,color='ff0000'x,thick=2
+    OPLOT,[0,0],[-1d3,1d3],linestyle=2,color='ff0000'x,thick=2
     FOR j=0,N_ELEMENTS(ind)-1 DO BEGIN
-      OPLOT,[lls_used[0,ind[j]], lls_used[0,ind[j]] ], $
+      OPLOT,[ dists_fault[pos[ind[j]]], dists_fault[pos[ind[j]]] ], $
         [vel_tang_all[ind[j]]+ABS(vele_tang_all[ind[j]]),vel_tang_all[ind[j]]-ABS(vele_tang_all[ind[j]]) ], $
         color='0000ff'x,thick=2
     ENDFOR

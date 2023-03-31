@@ -39,8 +39,19 @@ linu=`grep -n "# Name:" $mfile | awk -F":" '{print $1}'`
 sed -n "1,${linu}p" $mfile > $ofile
 # insert function/subroutine name information to output file
 echo "#   $ofile" >> $ofile
-# append the second part to output file
+
 linu=`expr $linu + 1`
+
+#change modification time
+linm=`grep -n "# Modifications:" $mfile | awk -F":" '{print $1}'`
+# copy the first part to output file
+sed -n "${linu},${linm}p" $mfile >> $ofile
+# insert creation information to output file
+echo "#   + Created on `date` by `whoami`" >> $ofile
+
+linu=`expr $linm + 1`
+# append the second part to output file
+
 sed -n "${linu},$ p" $mfile >> $ofile
 
 echo "PROG=$ofile" >> $ofile

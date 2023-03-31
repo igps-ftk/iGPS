@@ -2,21 +2,26 @@
 PRO STAT_MODEL_FOR_PLOT, $
     FILE, $ ; INPUT FILE, CREATED BY MODEL (WITH "Output Statistics" CHECKED).
     OFILE, $  ;OUTPUT FILE, INPUT OF PSXY (GMT): LONGITUDE, LATITUDE, PHASE, AMPLITUDE
-    CFILE=CFILE
+    CFILE=CFILE,  $
+    scale_factor=sf,  $
+    neu=neustr
     
   IF N_ELEMENTS(FILE) EQ 0 THEN BEGIN
     FILE=FILEPATH(ROOT_DIR=!IGPS_ROOT,SUBDIRECTORY=['example','sio', $
       'cleanedNeuUnf.resid'],'STAT.MODEL')
-    ;FILE=DIALOG_PICKFILE(TITLE='Where is the STAT.MODEL file?',FILE='STAT.MODEL')
+   ; FILE=DIALOG_PICKFILE(TITLE='Where is the STAT.MODEL file?',FILTER='STAT.MODEL')
 
-    file='D:\gsar\des\buruo2\des_F2.c\SBAS5\x15\raw.flt.resid\STAT.MODEL'
-    cfile='D:\gsar\des\buruo2\des_F2.c\SBAS5\x15\raw\sites.net'
-    
-    file='D:\gsar\des\dangxiong2\des_F3\SBAS2\x3\raw.resid\STAT.MODEL'
-    cfile='D:\gsar\des\dangxiong2\des_F3\SBAS2\x3\raw\sites.net'
-    
-    file='D:\gsar\des\dangxiong2\des_F3\SBAS3\x1\raw\STAT.MODEL'
-    cfile='D:\gsar\des\dangxiong2\des_F3\SBAS3\x1\raw\sites.net'
+;    file='D:\gsar\des\buruo2\des_F2.c\SBAS5\x15\raw.flt.resid\STAT.MODEL'
+;    cfile='D:\gsar\des\buruo2\des_F2.c\SBAS5\x15\raw\sites.net'
+;    
+;    file='D:\gsar\des\dangxiong2\des_F3\SBAS2\x3\raw.resid\STAT.MODEL'
+;    cfile='D:\gsar\des\dangxiong2\des_F3\SBAS2\x3\raw\sites.net'
+;    
+;    file='D:\gsar\des\dangxiong2\des_F3\SBAS3\x1\raw\STAT.MODEL'
+;    cfile='D:\gsar\des\dangxiong2\des_F3\SBAS3\x1\raw\sites.net'
+;    
+    file='\\10.4.134.30\root\g6b\proc_gmtsar\interseismic\143-a-m3-0089_0095_0100-jiali_nujiang_yzs4\f123\sbas.4.0.0367.9999.20170108.20200808.107.1800.01.___\r4\x30\raw\STAT.MODEL'
+    cfile='\\10.4.134.30\root\g6b\proc_gmtsar\interseismic\143-a-m3-0089_0095_0100-jiali_nujiang_yzs4\f123\sbas.4.0.0367.9999.20170108.20200808.107.1800.01.___\r4\x30\raw\sites.net'
     ;
     ;
     neustr='N'
@@ -44,6 +49,8 @@ PRO STAT_MODEL_FOR_PLOT, $
       CD, GETPATHNAME(CFILE)
     ENDELSE
   ENDIF
+  
+  if n_elements(sf) eq 0 then sf=1d0
   
   
   LINES=READ_TXT(FILE)
@@ -79,8 +86,8 @@ PRO STAT_MODEL_FOR_PLOT, $
       LINE_S=STRSPLIT(LINE,/EXTRACT)
       IF LINE_S[1] NE NEUSTR[NEUI] THEN CONTINUE
       SITE=LINE_S[0]
-      ANN=DOUBLE(LINE_S[4])
-      EANN=DOUBLE(LINE_S[7])
+      ANN=DOUBLE(LINE_S[4])*sf
+      EANN=DOUBLE(LINE_S[9])*sf
       PHA=DOUBLE(LINE_S[5])
       IF PHA LT 0 THEN BEGIN
         PHA=PHA+2*!DPI
@@ -110,6 +117,7 @@ PRO STAT_MODEL_FOR_PLOT, $
   if pos[0] ne -1 then begin
   ;CONVERT TO PSVELO INPUT FORMAT
   ;  WILL APPEND .PSVELO SUFFIX TO OUTPUT FILES.
+  print,OFILES[pos]
   ANNSEMI2PSVELO, FILES=OFILES[pos]
   ;STAT_MODEL_VEL_2_PSVELO, FILE, OFILE+'.VEL', CFILE=CFILE
   

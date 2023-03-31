@@ -104,11 +104,16 @@ paths={'D:\gsar\interseismic\021-d-m4-0455_0460_0465_070-turkey\f123\sbas.4.0.00
 paths={'D:\gsar\interseismic\165-d-m3-0467_0472_0477-woniuhu4M3\f123\sbas.4.0.0367.9999.20141029.20210507.128.1546.01.___\p.fa_xiaoerkule1'};
 paths={'D:\gsar\interseismic\085-a-m4-0104_0109_0114_0119-woniuhu1M3\f123\sbas.4.0.0367.9999.20141116.20220303.182.1300.01.___\p.fa_xiaoerkule1'};
 paths={'D:\gsar\interseismic\085-a-m3-0109_0114_0119-woniuhu1M3\f123\sbas.4.0.0367.9999.20141116.20210212.153.1522.01.___\p.fa_atf_ext'};
+paths={'D:\gsar\interseismic\165-d-m6-0467_0472_0477_0482_0487_0492-woniuhu4M3\f123\sbas.4.0.0001.9999.20141029.20230208.063.0534.01.___\p.fa_xiaoerkule1'};
+paths={'D:\gsar\interseismic\158-a-m6-0093_0098_0103_0108_0113_0118-gozhaco\f123\sbas.4.0.0001.9999.20141016.20230219.059.0206.01.___\p.fa_gozhaco_woniuhu_ext2'};
+paths={'D:\gsar\interseismic\158-a-m6-0093_0098_0103_0108_0113_0118-gozhaco\f123\sbas.4.0.0001.9999.20141016.20230219.059.0206.01.___\p.fa_xiaoerkule1'};
+paths={'D:\gsar\interseismic\026-a-m1-0097-xsh\f123\sbas.3.0.0001.0735.20170301.20220323.027.0212.01.___\p.fa_xsh_b_gnss'};
+paths={'\\10.4.35.84\root\g9h\gsar\026-a-m1-0097-xsh\f123\sbas.3.4.0001.9999.20170301.20220323.027.0212.01.___\p.fa_xsh'};
 
-dmin=-270;
-dmax=260;
-fts_min=-65;
-fts_max=35;
+dmin=-1270;
+dmax=1260;
+fts_min=-5;
+fts_max=5;
 is_show_fig='on';
 is_show_fig='off';
 
@@ -131,7 +136,7 @@ for pi=1:npath
   end
   disp(path);
   
-  files=dir([path,filesep,'profile_001*_vel.psxy']);
+  files=dir([path,filesep,'profile_083*_vel.psxy']);
   
   nf=size(files,1);
   for fi=1:nf

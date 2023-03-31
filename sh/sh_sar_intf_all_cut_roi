@@ -28,7 +28,7 @@ path_old=`pwd`
 
 usage_of_it(){
   echo "[$PROG]HELP: ${PROG} "
-  echo "[$PROG]HELP:   [-f|-file ROI_KML_FILE]"
+  echo "[$PROG]HELP:   [-r|-roi|-f|-file ROI_KML_FILE]"
   echo "[$PROG]HELP:   [-p|-path INPUT_PATH]"
   echo "[$PROG]HELP:   [-o|-opath OUTPUT_PATH]"
 
@@ -88,8 +88,6 @@ ln -s ./topo/trans.dat .
 
 proj_ll2ra_ascii.csh trans.dat $file_tmp_llh $file_tmp_xyz
 cat $file_tmp_xyz
-#cat .roi.xy | awk '{print $2,$1}' > .roi.xy2
-
 #exit
 
 files=`find ${path} -name "corr_cut.grd"`

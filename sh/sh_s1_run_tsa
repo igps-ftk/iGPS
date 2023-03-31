@@ -99,7 +99,7 @@ is_esd=y
 proc_type=interseismic
 proc_type=landslide
 
-master= #use the first observation as the super-master by default
+master_date= #use the first observation as the super-master by default
 
 #to-be-excluded S1 scenes (file_exclude)
 file_exclude=../exclude_scene.txt
@@ -156,7 +156,7 @@ while [ "$1" != "" ]; do
             iw_typ=$2  
             ;;
         -master)
-            master=$2
+            master_date=$2
             ;;
         -proc_type)
             proc_type=$2
@@ -347,20 +347,20 @@ echo "[$PROG]INRO: prepare batch preprocessing input file (data.in)"
 # s1a-iw3-slc-vv-20141018t121353-20141018t121418-002884-00343c-003:S1A_OPER_AUX_POEORB_OPOD_20141108T123712_V20141017T225944_20141019T005944.EOF
 # s1a-iw3-slc-vv-20141111t121352-20141111t121418-003234-003bbb-003:S1A_OPER_AUX_POEORB_OPOD_20141202T123609_V20141110T225944_20141112T005944.EOF
 #
-if [ "$master" == "" ]; then
-  master=`grep -h '^ ' $file | head -1 | awk -F_ '{print substr($6,1,8)}'`
+if [ "$master_date" == "" ]; then
+  master_date=`grep -h '^ ' $file | head -1 | awk -F_ '{print substr($6,1,8)}'`
 fi
-echo master is $master
+echo master_date is $master_date
 #exit
-if [ "$master" != "" ]; then
-  tmp=`cat ../data.in | grep "\-${master}t"`
+if [ "$master_date" != "" ]; then
+  tmp=`cat ../data.in | grep "\-${master_date}t"`
   if [ "$tmp" == "" ]; then
     echo "[$PROG]ERROR: given super-master ($mater) no found!!"
     exit 1
   fi
   cat ../data.in > .tmp.data.in
-  grep "\-${master}t" .tmp.data.in > ../data.in
-  grep -v "\-${master}t" .tmp.data.in >> ../data.in
+  grep "\-${master_date}t" .tmp.data.in > ../data.in
+  grep -v "\-${master_date}t" .tmp.data.in >> ../data.in
   #\rm -rf .tmp.data.in
 fi
 cat ../data.in
@@ -495,7 +495,7 @@ if [ "$proc_type" == "landslide" ]; then
   sh_s1_prep_proc_baseline -file baseline_table.dat -min_interval 1 -max_interval 121 -update_config n
   \cp -fp intf.in intf.in.1
   ##cat intf.in.1|grep S1_2020 |sort > intf.in #for task-2020-07/08
-  sort intf.in.1 | head -1 > intf.in
+  sort intf.in.1 | grep $master_date | head -1 > intf.in
   cat intf.in.[1] | shuf | grep -v "`head -1 intf.in`">> intf.in
 fi
 
@@ -511,7 +511,7 @@ if [ "$proc_type" == "interseismic" ]; then
   \cp -fp intf.in intf.in.2
   shuf intf.in.2 > intf.in.2s
   #  
-  sort intf.in.1 | head -1 > intf.in
+  sort intf.in.1 | grep $master_date | head -1 > intf.in
   head -2000 intf.in.2s > intf.in.a
   cat intf.in.[1a] | shuf | grep -v "`head -1 intf.in`">> intf.in
 fi

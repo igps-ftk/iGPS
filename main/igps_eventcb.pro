@@ -5858,7 +5858,7 @@ PRO ON_IGPS_PANEL_MODEL_BTN_OK, EV
         ENDELSE
       ENDIF
       
-      PRINT,CMDSTR
+      ;PRINT,CMDSTR
       ;PRINT,'RAD_OPT:',RAD_OPT
       ;CONTINUE
       ;print,psdecay

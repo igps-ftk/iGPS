@@ -50,6 +50,8 @@ prog_sbas=sbas
 
 file_intf_tab=intf.tab
 file_scene_tab=scene.tab
+file_prm=topo/master.PRM
+file_led=
 
 
 while [ "$1" != "" ]; do
@@ -130,6 +132,11 @@ echo \cp -fp  $file_intf_tab $out_path/intf.tab
 echo \cp -fp  $file_intf_tab $out_path/intf.tab | sh
 echo \cp -fp  $file_scene_tab $out_path/scene.tab
 echo \cp -fp  $file_scene_tab $out_path/scene.tab | sh
+echo \cp -fp  $file_prm $out_path/
+echo \cp -fp  $file_prm $out_path/ | sh
+file_led=`cat $file_prm | grep led_file | awk -F= '{print $2}' | awk '{print $1}'`
+echo \cp -fp  $file_led $out_path/
+echo \cp -fp  $file_led $out_path/ | sh
 
 
 cd ${out_path}

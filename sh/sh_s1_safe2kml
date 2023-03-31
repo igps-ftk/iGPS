@@ -1,0 +1,84 @@
+#!/bin/sh
+
+# Name:
+#   sh_safe2kml
+#   
+
+# Purpose:
+#   Create frame outlines in KML polygon format from S1*.manifest.safe files
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+
+PROG=sh_safe2kml
+
+path_old=`pwd`
+
+usage_of_it(){
+  echo "[$PROG]Usage: ${PROG} [-p|-path PATH_MANIFEST_SAFE]"
+  echo "[$PROG]Usage: e.g.,"
+  echo "[$PROG]Usage:   ${PROG} -p `pwd` "
+}
+
+path=`pwd`
+ofname_a=outline_ascending
+ofname_d=outline_descending
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -p|-path)
+      path=$2
+      ;;
+    -h|-help|--help)
+      usage_of_it
+      exit 1
+      ;;
+    *)
+      echo "[$PROG]ERROR: invalid option ($1)!!"
+      usage_of_it
+      exit 1
+      ;;
+  esac
+  shift 2  
+done
+
+
+
+files=`find $path -maxdepth 1 -type f -name "S1*.manifest.safe"` 
+#files=safe.local/S1A_IW_SLC__1SDV_20160308T105908_20160308T105934_010277_00F326_44E6.manifest.safe
+
+echo "\rm -rf $path/${ofname_a}.psxy $path/${ofname_d}.psxy"
+
+for file in $files; do
+  echo $file
+  latlons=`cat $file | grep coordinate | awk -F\> '{print $2}' | awk -F\< '{print $1}' | awk '{for(i=1;i<=NF;i++){print $i}}'`
+  echo $latlons
+  #<gml:coordinates>27.557146,104.777145 27.964479,107.286476 26.391525,107.592644 25.981453,105.119797</gml:coordinates>
+  
+  ad=`cat $file | grep 's1:pass' | awk -F\> '{print $2}' | awk -F\< '{print $1}'`
+  echo ad $ad
+  if [ "$ad" == "ASCENDING" ]; then
+    echo "> -L\"$file\"" >> $path/${ofname_a}.psxy
+    echo $latlons | awk '{for(i=1;i<=NF;i++){print $i}; print $1}' | awk -F, '{print $2,$1}' >> $path/${ofname_a}.psxy
+  else
+    echo "> -L\"$file\"" >> $path/${ofname_d}.psxy
+    echo $latlons | awk '{for(i=1;i<=NF;i++){print $i} print $1}' | awk -F, '{print $2,$1}' >> $path/${ofname_d}.psxy
+  fi
+  #exit
+done
+
+gmt gmt2kml $path/${ofname_a}.psxy -Fp > $path/${ofname_a}.kml
+gmt gmt2kml $path/${ofname_d}.psxy -Fp > $path/${ofname_d}.kml
+
+
+echo "[$PROG]INFO: done."

@@ -29,7 +29,7 @@ fi
 #exit
 
 
-cmdstr="tar zcf ${out_path}.tar.gz vel_ll.kml vel_ll.png vel_ll_scalebar.jpg *.tab vel_mask_ll* rms_mask_ll3* look_mask_ll3* baseline* data.in f-baseline* incidence"
+cmdstr="tar zcf ${out_path}.tar.gz vel_ll.kml vel_ll.png vel_ll_scalebar.jpg *.tab vel_mask_ll* rms_mask_ll3* look_mask_ll3* baseline* data.in f-baseline* incidence master.PRM S1_20*.LED"
 
 if [ -s orb.psxy ];then
   cmdstr="$cmdstr orb.psxy orb.psxy.kml"

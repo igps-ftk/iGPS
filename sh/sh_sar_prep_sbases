@@ -116,3 +116,5 @@ for t1t2 in $t1t2s; do
   cd ..
   
 done
+
+echo "[$PROG]INFO: done."
