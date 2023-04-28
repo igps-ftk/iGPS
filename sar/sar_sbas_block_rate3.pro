@@ -28,6 +28,7 @@ PRO SAR_SBAS_BLOCK_RATE3, path,  $
     ;    IS_SEMIANNUAL=0
     ;
     path='\\10.4.134.30\root\g10c\gsar\136-d-m4-0481_0486_0491_0496-mht\f123\sbas.4.0.0367.9999.20141015.20200305.113.1400.01.___\r4_ref'
+    path='\\192.168.11.17\root\g17n\gsar\InSAR_dataset4linear_v20230414\sbas.3.5.0001.9999.20150113.20181211.120.1702.01.s1\nc'
     
     out_plot=1
     ;

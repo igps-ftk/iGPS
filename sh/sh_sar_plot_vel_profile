@@ -50,7 +50,7 @@ path_old=`pwd`
 
 data_type=Velocity  #Velocity or Displacement
 
-auto_scale=n #fix(y) or scale (n) the X/Y axis ranges of the profile plot
+auto_axis=n #fix(y) or scale (n) the X/Y axis ranges of the profile plot
 RP=
 grdref=n
 
@@ -135,7 +135,7 @@ plot_intf_JY=1.3
 Ri=
 BP=
 
-
+opath_cmt=
 
 while [ "$1" != "" ]; do
     case $1 in
@@ -149,15 +149,16 @@ while [ "$1" != "" ]; do
         cd $path_old
         ;;
     -o|-opath)
-        if [ ! -d $2 ]; then
-            echo "[$PROG]INFO: output directory not exist ($2) ! Created."
-            mkdir -p $2
-            #exit 1
-        fi
-        path_old=`pwd`
-        cd $2
-        opath=`pwd`
-        cd $path_old
+        #if [ ! -d $2 ]; then
+        #    echo "[$PROG]INFO: output directory not exist ($2) ! Created."
+        #    mkdir -p $2
+        #    #exit 1
+        #fi
+        #path_old=`pwd`
+        #cd $2
+        #opath=`pwd`
+        #cd $path_old
+        opath=$2
         ;;
     -n|-profile)
         pis=`echo $2 | sed -e 's/,/ /g'`
@@ -165,11 +166,17 @@ while [ "$1" != "" ]; do
     -data_type)
         data_type=$2
         ;;
-    -auto_scale)
-        auto_scale=$2
+    -auto_axis)
+        auto_axis=$2
+        opath_cmt='autoAxis'
         ;;
     -R|-Rp)
-        RP=$2
+        if [ "$2" == "u" ]; then
+          RP=-R-600/600/-20/20
+        else
+          RP=$2
+        fi
+        opath_cmt='userAxis'
         ;;
     #-r|-rt|-r_ts|-r_timeseries)
     #    Ri=$2
@@ -237,6 +244,9 @@ if [ "$opath" == "" ]; then
   tmp2=`dirname $tmp1`
   tmp3=`basename $tmp2`
   opath="p${tmp3}"
+fi
+if [ "$opath_cmt" != "" ]; then
+  opath="${opath}_${opath_cmt}"
 fi
 echo opath is $opath
 #exit
@@ -1025,7 +1035,7 @@ eob
     grep "^ " $file | awk '{print $11,$12,$4,$13}' >.tmp.los
     grep "^ " $file_mdl | awk '{print $1,$2}' >.tmp.los.mdl
 
-    if [ "$auto_scale" == "y" ]; then
+    if [ "$auto_axis" == "y" ]; then
         Rp=`gmtinfo -I50/5 .tmp.los`
         echo Rp is $Rp
         rx1=`echo $Rp | sed -e 's/-R//g' | awk -F/ '{print $1}'`

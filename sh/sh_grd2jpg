@@ -1,0 +1,145 @@
+#!/bin/sh
+
+# Name:
+#   sh_grd2jpg
+#   
+
+# Purpose:
+#   +
+
+# Input:
+#   +
+
+# Output:
+#   +
+
+# Example:
+#   +
+
+# Algorigthm:
+#   +
+
+# Modifications:
+#   + Created on Sat Mar 18 21:04:51 CST 2023 by tianyf
+#   +
+
+# Dependency:
+#   +
+#
+
+
+PROG=sh_grd2jpg
+
+timestamp=`date | sed -e "s/ /_/g" | sed -e "s/:/-/g"`
+
+path_old=`pwd`
+
+#usage_of_it(){
+#  echo "[$PROG]HELP: ${PROG} "
+#  echo "[$PROG]HELP: e.g.,"
+#  echo "[$PROG]HELP:   ${PROG} "
+#}
+#
+#if [ $# -lt 2 ]; then
+#  usage_of_it
+#  #exit 1
+#fi
+#
+#while [ "$1" != "" ]; do
+#  case $1 in
+#    -h|-help|--help)
+#      usage_of_it
+#      exit 1
+#      ;;
+#    *)
+#      echo "[$PROG]ERROR: invalid option ($1)!!"
+#      usage_of_it
+#      exit 1
+#      ;;
+#  esac
+#  shift 2  
+#done
+#
+#FILE_GRD2JPG_CPT=
+file_cpt=
+file_cpt=grd.cpt
+
+if [ "$1" != "" ]; then
+  files=
+  while [ "$1" != "" ]; do
+    files="$files $1"
+    shift 1
+  done
+else
+  files=`find . -maxdepth 1 -type f -name "*.grd" | sort`
+fi
+
+#echo files $files
+for file in $files; do
+  echo "[$PROG]INFO: processing $file"
+  fname_ext="${file##*.}"
+  fname_noext="${file%.*}"
+  ofile="${fname_noext}.ps"
+  
+  T=`gmt grdinfo -C $file | awk '{print "-T"$6"/"$7"/"($7-$6)/1000}'`
+  echo T $T
+  
+  
+  echo "FILE_GRD2JPG_CPT $FILE_GRD2JPG_CPT"
+  if [ "$FILE_GRD2JPG_CPT" == "" ]; then
+    gmt makecpt -Cjet $T -Z -I > grd.cpt
+  else
+    file_cpt=$FILE_GRD2JPG_CPT
+  fi
+  echo file_cpt $file_cpt
+  
+  gmt grdimage -R$file -JX5i -C$file_cpt -BWSen+t${file} -Bpxafg+lX  -Bpyafg+lY $file -P -K -Y2i > $ofile 
+  
+  echo "FILE_GRD2JPG_LBL $FILE_GRD2JPG_LBL"
+  if [ "$FILE_GRD2JPG_LBL" != "" ]; then
+    if [ -s $FILE_GRD2JPG_LBL ]; then
+      gmt psxy -R -J -O -K $FILE_GRD2JPG_LBL -Sc.1c -W.5p,white -Gpink >> $ofile
+      gmt pstext -R -J -O -K $FILE_GRD2JPG_LBL -F+f5+a0+jLR >> $ofile
+    fi
+  fi
+  
+  xoff=2.5
+  yoff=-.8
+  echo "FILE_GRD2JPG_HIST $FILE_GRD2JPG_HIST"
+  if [ "$FILE_GRD2JPG_HIST" != "" ]; then
+    if [ "$FILE_GRD2JPG_HIST" == "y" ]; then
+    
+      #gmt grd2xyz $file -s > _tmp_xyz
+      #T=`gmt gmtinfo _tmp_xyz -C | awk '{print ($6-$5)/10}'`
+      
+      T=`gmt grdinfo $file -C | awk '{print ($7-$6)/10}'`
+      echo T is $T
+      is_small=`echo $T | awk '{if($1<1){print 1}else{print 0}}'`
+      if [ $is_small -eq 1 ]; then
+        T1=$T
+        Tx=`echo $T | awk '{print 5*$1}'`
+      else
+        T1=`echo $T | awk '{print 1*5*int($1/5)}'`
+        Tx=`echo $T | awk '{print 5*5*int($1/5)}'`
+      fi
+      echo T1 is $T1
+      echo Tx is $Tx
+      #gmt pshistogram $file?z -T$T1 -JX1.1i -W0.5p,yellow -V -Bxaf   -Byaf+u" %" -Cgrd.cpt -BWS+w1p,red+xred -N -Z1 -F -X.5i -Y.5i -K -O >> $ofile
+      gmt grd2xyz $file -s -bo3 | gmt pshistogram -T$T1 -JX1.1i -W1p,orange -V -Bxa${Tx} -Cgrd.cpt  -Byaf+u" %"  -BWS -N -Z1 -i2 -bi3 -F -X.5i -Y.5i -K -O >> $ofile
+      #gmt grd2xyz $file -s | gmt pshistogram -T$T -JX1.1i -W0.5p,orange -V -Bxaf   -Byaf+u" %"  -BWS -N -Z1 -i2  -F -X.5i -Y.5i -K -O >> $ofile
+      
+      #gmt pshistogram _tmp_xyz -T$T -JX1.1i -W0.5p,yellow -V -Bxaf   -Byaf+u" %" -Cgrd.cpt -BWS -N -Z1 -i2 -F -X.5i -Y.5i -K -O >> $ofile
+      #gmt pshistogram -Bxaf -Byaf+u" %" -BWS $file -R-60/30/0/70 -JX1.1i/1.1i -Gorange -O -K	-X4.i -Y0.5i -L1p -Z1 -W10 >> $ofile
+      
+      xoff=`echo $xoff | awk '{print $1-.5}'`
+      yoff=`echo $yoff | awk '{print $1-.5}'`
+	    fi
+  fi
+	
+  gmt psscale -D${xoff}i/${yoff}i/2.i/0.12ih -C$file_cpt -Baf -O  >> $ofile
+  gmt psconvert -A -Tj $ofile
+
+  #exit
+done
+
+echo "[$PROG]INFO: done."

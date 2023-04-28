@@ -1,5 +1,5 @@
 ﻿CTITLE
-      program  profile_sar_los_auto
+      program  sar_los_profile_auto
 c     --PURPOSE--
 
 c     --ALGORITHM--
@@ -81,7 +81,7 @@ c     for point_perp_line
       character*50  prog,ver,user,os,hostname,date_time
 
 c     <<VAR_DEC
-      prog='profile_sar_los_auto'
+      prog='sar_los_profile_auto'
       write(*,'(3a)') '|> ',prog(1:nblen(prog)),' ...'
       ver='20220123'
 c      ioerr=system('whoami')

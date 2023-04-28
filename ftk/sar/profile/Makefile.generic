@@ -93,7 +93,7 @@ CFLAGS = -g -Aa    #hp
 # LABELS: run_cmonoc_reg:run_cmonoc_reg:NONE:run_cmonoc_reg
 #LABELS: sar_los_profile_fit:sar_los_profile_fit:NONE:sar_los_profile_fit
 #LABELS: profile_vector_auto:profile_vector_auto:sar_profile_lib:profile_vector_auto
-#LABELS: profile_sar_los_auto:profile_sar_los_auto:sar_profile_lib:profile_sar_los_auto
+#LABELS: sar_los_profile_auto:sar_los_profile_auto:sar_profile_lib:sar_los_profile_auto
 
 #SHARELIB: ../../data/read:cgps_data_read
 # SHARELIB: ../../data/write:cgps_data_write

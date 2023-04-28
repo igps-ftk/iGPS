@@ -1,0 +1,242 @@
+#!/bin/sh
+
+# Name:
+#   sh_gnss_psvelo2los
+#
+
+# Purpose:
+#   + Convert GNSS horizontal (2-d) displacement/velocity to SAR LOS direction.
+
+# Input:
+#   + master.PRM
+#   + master.LED
+#   + dem.grd
+#   + GNSS displacement/velocity file in GMT psvelo format (lon lat vE vN sigE sigN corrEU site)
+
+# Output:
+#   +
+
+# Example:
+#   +
+
+# Algorigthm:
+#   + Modified from GMTSAR's gnss_enu2los.csh script.
+#   + Only horizontal veloctiies used (ignore vertical rate).
+#   + Use sh_gnss_enu2los for 3d conversion.
+#   + Outside sites are discarded.
+
+# Modifications:
+#   + Created on Fri Mar 17 11:31:40 CST 2023 by tianyf
+#   +
+
+# Dependency:
+#   +
+#
+
+
+PROG=sh_gnss_psvelo2los
+
+timestamp=`date | sed -e "s/ /_/g" | sed -e "s/:/-/g"`
+
+path_old=`pwd`
+
+usage_of_it(){
+  echo "[$PROG]HELP: ${PROG} "
+  echo "[$PROG]HELP: e.g.,"
+  echo "[$PROG]HELP:   ${PROG} "
+}
+
+if [ $# -lt 2 ]; then
+  usage_of_it
+  #exit 1
+fi
+
+file_vel=vel_mask_ll.grd #for extracting geographical ranges
+
+file_prm=master.PRM
+file_led=
+file_dem=dem.grd
+file_gnss=gnss.psvelo
+file_gnss=$GMT_pub/gps/wang.min.jgr2020/Table.S4.psvelo
+ofile=
+is_verbose=n
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -d|-dem)
+      file_dem=$2
+      ;;
+    -g|-gnss)
+      file_gnss=$2
+      ;;
+    -l|-led)
+      file_led=$2
+      ;;
+    -m|-master|-prm)
+      file_prm=$2
+      ;;
+    -v|-vel)
+      file_vel=$2
+      ;;
+    -V|-ver|-verbose)
+      is_verbose=$2
+      shift 1
+      continue
+      ;;
+    -h|-help|--help)
+      usage_of_it
+      exit 1
+      ;;
+    *)
+      echo "[$PROG]ERROR: invalid option ($1)!!"
+      usage_of_it
+      exit 1
+      ;;
+  esac
+  shift 2
+done
+
+if [ ! -s $file_prm ]; then
+  echo "[$PROG]ERROR: master PRM file not exist ($file_prm)!!"
+  exit 1
+fi
+
+if [ "$file_dem" == "dem.grd" ]; then
+  if [ -s $file_dem ]; then
+    tmp=`gmt grdinfo $file_dem | grep 'Digital Elevation Model Error'`
+    if [ "$tmp" != "" ]; then
+      echo "\mv -f $file_dem dem_err.grd"
+      echo "\mv -f $file_dem dem_err.grd" | sh
+      #exit
+    fi
+  fi
+fi
+
+if [ ! -s $file_dem ]; then #try global ETOPO1 model
+  #if [ "`hostname`" == "t" ]; then
+    file_dem=$GMT_pub/dem.gmt/ETOPO1_Ice_g_gmt4/ETOPO1_Ice_g_gmt4.grd
+  #else
+    #file_dem=$esa_data/topo/srtm3/grid/china.grd #too large
+  #fi
+fi
+
+if [ ! -s $file_dem ]; then
+  echo "[$PROG]ERROR: DEM file not exist ($file_dem)!!"
+  exit 1
+fi
+
+if [ "$file_led" == "" ]; then
+  file_led=`cat $file_prm | grep led_file | awk -F= '{print $2}' | awk '{print $1}'`
+  #searching led file in various paths ...
+  paths_led='. ../raw ./raw ./topo ../F1/raw'
+  for path_led in $paths_led; do
+    file_led2=$path_led/$file_led
+    #echo file_led2 $file_led2
+    if [ -s $file_led2 ]; then
+      file_led=$file_led2
+      break
+    fi
+  done
+fi
+if [ ! -s $file_led ]; then
+  echo "[$PROG]ERROR: LED file not exist ($file_led)!!"
+  exit 1
+fi
+
+
+if [ "$file_gnss" == "" ]; then
+  echo "[$PROG]ERROR: no GNSS file given ($file_gnss)!!"
+  exit 1
+fi
+if [ ! -s $file_gnss ]; then
+  echo "[$PROG]ERROR: GNSS file not exist ($file_gnss)!!"
+  exit 1
+fi
+
+if [ ! -s $file_vel ]; then
+  echo "[$PROG]ERROR: InSAR velocity file not exist ($file_vel)!!"
+  exit 1
+fi
+
+
+if [ "$ofile" == "" ]; then
+  ofile="`pwd`/`basename ${file_gnss}`.los"
+  echo "[$PROG]INFO: output to $ofile"
+fi
+
+
+
+#if [ ! -s $file_vel ]; then
+#  echo "[$PROG]INFO: vel file ($file_vel) not exist. All GNSS sites used."
+#else
+#  # 
+#  margin=2 #degrees
+#  xmin=`grdinfo -C $file_vel | awk '{print $2-margin}' margin=$margin`
+#  xmax=`grdinfo -C $file_vel | awk '{print $3+margin}' margin=$margin`
+#  ymin=`grdinfo -C $file_vel | awk '{print $4-margin}' margin=$margin`
+#  ymax=`grdinfo -C $file_vel | awk '{print $5+margin}' margin=$margin`
+#  echo "[$PROG]INFO: GNSS sites range is $xmin $xmax $ymin $ymax"
+#  file_tmp_gnss_subset=_tmp_${PROG}_${timestamp}_gnss_subset
+#  cat $file_gnss | awk '{if($1>=xmin&&$1<=xmax&&$2>=$ymin&&$2<=ymax){print $0}}' xmin=$xmin xmax=$xmax ymin=$ymin ymax=$ymax > $file_tmp_gnss_subset
+#  file_gnss=$file_tmp_gnss_subset
+#  #exit
+#fi
+
+
+echo "[$PROG]INFO: file_prm $file_prm"
+echo "[$PROG]INFO: file_led $file_led"
+echo "[$PROG]INFO: file_dem $file_dem"
+echo "[$PROG]INFO: file_gnss $file_gnss"
+
+
+
+#temporary files
+file_tmp_llh=_tmp_${PROG}_${timestamp}_llh
+file_tmp_llh_all=_tmp_${PROG}_${timestamp}_llh_all
+file_tmp_llh_gnss=_tmp_${PROG}_${timestamp}_llh_gnss
+file_tmp_gnss=_tmp_${PROG}_${timestamp}_gnss
+file_tmp_look=_tmp_${PROG}_${timestamp}_look
+file_tmp_llhd=_tmp_${PROG}_${timestamp}_llhd
+file_tmp_rrhll=_tmp_${PROG}_${timestamp}_rrhll
+
+
+#extract height for gnss sites
+#cat $file_gnss | awk '{print $1,$2}' | gmt grdtrack -G$file_dem -N > $file_tmp_llh
+cat $file_gnss | awk '{print $1,$2}' | gmt grdtrack -G$file_vel -N > $file_tmp_llh
+paste $file_tmp_llh $file_gnss > $file_tmp_llh_all
+cat $file_tmp_llh_all | grep -iv nan | awk '{print $1,$2}' | gmt grdtrack -G$file_dem -N > $file_tmp_llh
+cat $file_tmp_llh_all | grep -iv nan | awk '{print $4,$5,$6,$7,$8,$9,$10,$11}' > $file_tmp_gnss
+#exit
+
+
+#remove outside sites
+#paste $file_tmp_llh $file_gnss > $file_tmp_llh_gnss
+#cat $file_tmp_llh_gnss | grep -iv nan | awk '{print $1,$2,$3}' > $file_tmp_llh
+#cat $file_tmp_llh_gnss | grep -iv nan | awk '{print $4,$5,$6,$7,$8,$9,$10,$11}' > $file_tmp_gnss
+
+#calculate look vectors for gnss sites
+#echo "SAT_look $PRM < $file_tmp_llh > $file_tmp_look"
+SAT_look $file_prm < $file_tmp_llh > $file_tmp_look
+
+# perform the dot product with enu displacements and enu look direction
+# This creates tmp.lltd which is lon | lat | dem height | LOS
+paste $file_tmp_gnss $file_tmp_look | awk '{if ($11 != nan) printf("%.9f %.9f %.9f %.12f\n",$1,$2,$11, ($3*$12)+($4*$13)+(0*$14))}' > $file_tmp_llhd
+
+#get radar coordiantes of gnss sites
+SAT_llt2rat $file_prm 1 < $file_tmp_llh > $file_tmp_rrhll
+
+#echo "" | awk '{printf("#%15s %15s %17s  %20s %20s %17s  %15s \n","lon","lat","elevation(m)","range","azimuth","elev_prm", "disp_los")}' > $ofile  
+echo "" | awk '{printf("#%s %s %s  %s %s %s  %s   %s %s %s %s %s %s\n","1_lon","2_lat","3_elevation_m","4_range","5_azimuth","6_elevation_prm", "7_disp_los","8_vE","9_vN","10_sigE","11_sigN","12_corrEN","13_site")}' > $ofile  
+paste $file_tmp_rrhll $file_tmp_llhd $file_tmp_gnss | awk '{print "",$4,$5,$8,$1,$2,$3,$9,$12,$13,$14,$15,$16,$17}' >> $ofile
+
+#clean temporary files
+if [ "$is_verbose" == "n" ]; then
+  \rm -rf _tmp_${PROG}_${timestamp}_*
+else
+  echo "[$PROG]DEBUG: please check information in _tmp_${PROG}_${timestamp}_* files."
+fi
+tail -1 $ofile
+
+echo "[$PROG]INFO: results written ($ofile)"
+
+echo "[$PROG]INFO: done."

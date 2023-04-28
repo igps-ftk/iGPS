@@ -94,6 +94,7 @@ paths={'D:\gsar\interseismic\033-d-m4-0458_0463_0468_0473-qinghai_lake_haiyuan\f
 paths={'D:\gsar\interseismic\114-a-m3-0115_0120_0125-altyntagh2_wulan6M3\f123\sbas.4.0.0367.9999.20141106.20200115.107.1324.01.___\p.fa_atf'};
 paths={'D:\gsar\interseismic\070-a-m3-0105_0110_0115-eastkunlun5M3\f123\sbas.4.0.0367.9999.20141022.20210211.146.0908.01.___\p.fa_Kunlun_Fault'};
 paths={'D:\gsar\interseismic\150-d-m3-0467_0472_0477-kunlun3_wulan2_qaidam4\f123.1\sbas.3.0.0500.9999.20141027.20191001.102.0323.01.___\p.fa_eklf'};
+paths={'D:\gsar\interseismic\150-d-m6-0462_0467_0472_0475_0482_0487-kunlun\f123\sbas.4.0.0001.9999.20141027.20230218.060.0399.01.___\p.fa_Kunlun_Fault_gnss'};
 dmin=-250;
 dmax=260;
 fts_min=-35;
@@ -119,7 +120,7 @@ for pi=1:npath
   end
   disp(path);
   
-  files=dir([path,filesep,'profile_112_vel.psxy']);
+  files=dir([path,filesep,'profile_014_vel.psxy']);
   
   nf=size(files,1);
   for fi=1:nf

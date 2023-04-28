@@ -68,8 +68,8 @@ if [ 1 -eq 1 ]; then
   
   #compile the sbas_parallel program
   cd gmtsar
-  echo "gcc -fopenmp -w sbas_parallel.c -I${path_gmt}/include/gmt -I${GMT5SAR}/gmtsar -I/usr/local/include -L${GMT5SAR}/gmtsar -lgmtsar -L/usr/local/lib -L${path_gmt}/lib64/ -lgmt -llapack -lblas -ltiff -lm -o sbas_parallel"
-  gcc -fopenmp -w sbas_parallel.c -I${path_gmt}/include/gmt -I${GMT5SAR}/gmtsar -I/usr/local/include -L${GMT5SAR}/gmtsar -lgmtsar -L/usr/local/lib -L${path_gmt}/lib64/ -lgmt -llapack -lblas -ltiff -lm -o sbas_parallel
+  echo "gcc -O2 -Wall -m64 -fPIC -std=c99 -Wl,-rpath,${path_gmt}/lib64 -fopenmp -w sbas_parallel.c -I${path_gmt}/include/gmt -I${GMT5SAR}/gmtsar -I/usr/local/include -L${GMT5SAR}/gmtsar -lgmtsar -L/usr/local/lib -L${path_gmt}/lib64/ -lgmt -llapack -lblas -ltiff -lm -o sbas_parallel"
+  gcc -O2 -Wall -m64 -fPIC -std=c99 -Wl,-rpath,${path_gmt}/lib64 -fopenmp -w sbas_parallel.c -I${path_gmt}/include/gmt -I${GMT5SAR}/gmtsar -I/usr/local/include -L${GMT5SAR}/gmtsar -lgmtsar -L/usr/local/lib -L${path_gmt}/lib64/ -lgmt -llapack -lblas -ltiff -lm -o sbas_parallel
   \cp -f sbas_parallel ../bin/
 
 fi  #end-of-if-re-make

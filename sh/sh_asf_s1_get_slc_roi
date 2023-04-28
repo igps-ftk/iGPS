@@ -1,0 +1,232 @@
+#!/bin/sh
+
+# Name:
+#   sh_asf_s1_get_slc_roi
+#   
+
+# Purpose:
+#   Download S1 SLC files for a given region
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+PROG=sh_asf_s1_get_slc_roi
+
+if [ -t 0 ]; then
+    interactive=1
+else
+    interactive=0
+    . ${HOME}/.bashrc  
+fi
+#echo "interactive $interactive"
+
+
+timestamp=`date | sed -e "s/ /_/g" | sed -e "s/:/-/g"`
+
+path_old=`pwd`
+
+usage_of_it(){
+  echo "[$PROG]HELP: ${PROG} "
+  echo "[$PROG]HELP:   [-ac|-aria2_conf ARIA2_CONF_FILE]"
+  echo "[$PROG]HELP:   [-u|-user EARTHDATA_USER_NAME (only for DIPP)]"
+  echo "[$PROG]HELP:   [-p|-path OUTPUT_PATH]"
+  echo "[$PROG]HELP:   [-r|-roi ROI_FILE]"
+  echo "[$PROG]HELP:   [-w1 WEEKS_AGO_TIME_START]"
+  echo "[$PROG]HELP:   [-w2 WEEKS_AGO_TIME_END]"
+
+  echo "[$PROG]HELP:   [-h|-help]"
+  echo "[$PROG]HELP: e.g.,"
+  echo "[$PROG]HELP:   ${PROG} "
+}
+
+if [ "$1" == "" ]; then
+    usage_of_it
+    #exit 1
+fi
+
+this_host=`hostname`
+
+w1=3 #download data backward three weeks
+w2=0
+
+roi_file=   #region of interest in KML polygon format
+user=   #EARTHDATA username (only for DIPP system; please specify your own aria2.conf file with -ac option)
+file_aria2_conf=null
+
+orb_types='ASCENDING DESCENDING'
+path=
+
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -ac|-aria2_conf)
+      file_aria2_conf=$2
+      ;;
+    -u|-user)
+      user=$2
+      ;;
+    -p|-path)
+      path=$2
+      ;;
+    -r|-roi)
+      roi_file=$2
+      ;;
+    -w1)
+      w1=$2
+      ;;
+    -w2)
+      w2=$2
+      ;;
+    -h|-help|--help)
+      usage_of_it
+      exit 1
+      ;;
+    *)
+      echo "[$PROG]ERROR: invalid option ($1)!!"
+      usage_of_it
+      exit 1
+      ;;
+  esac
+  shift 2
+done
+
+
+#hardwired parameters for DIPP system only
+###>>>DIPP
+if [ "$roi_file" == "" ]; then #DIPP defaults
+  #check the data root directory
+  if [ "$esa_data" == "" ]; then
+    ehco "[$PROG]ERROR: environment variable esa_data not set!!"
+    exit 1
+  fi
+  if [ ! -d $esa_data ]; then
+    ehco "[$PROG]ERROR: esa_data ($esa_data) not exist!!"
+    exit 1
+  fi
+  
+  roi_file=${esa_data}/vector/L_.roi_china_east.kml
+  roi_file=${esa_data}/vector/roi_china_20210216.kml
+  roi_file=${esa_data}/vector/L0.roi_tibet_20210327.kml
+  roi_file=${esa_data}/vector/L0.roi_tibet_20220325.kml
+  #roi_file=${esa_data}/vector/L0.roi_tibet.kml
+  #roi_file=${esa_data}/vector/L0.roi_tibet.arv.kml
+  #roi_file=${esa_data}/vector/L0.roi_tibet_20210327_chuandian.psxy
+  
+  case $this_host in
+    gpsac15)
+      #orb_types='ASCENDIGN'
+      path=/g15a/gsar/china_east/S1.3
+      ;;
+    gpsac12)
+      orb_types='ASCENDING'
+      path=/g14i/esa.data/china_east/S1.3
+      path=/g18h/gsar/tmp
+      path=/g19b/gsar/tmp/
+      path=/g8g/gsar/tmp/
+      ;;
+    gpsac17)
+      #orb_types='DESCENDING'
+      roi_file=${esa_data}/vector/L0.roi_tibet.arv.kml
+      path=/g17c/gsar/asf_tibet/S1
+      #path=/g17b/gsar/asf_tibet/S1/
+      ;;
+    SNOW1)
+      #orb_types='DESCENDING'
+      path=/cygdrive/d/esa.data/asf_tibet/S1
+      ;;
+    gpsac16|gpsac4)
+      orb_types='DESCENDING'
+      path=/g18h/gsar/tmp2/
+      path=/g19b/gsar/tmp2/
+      path=/g8g/gsar/tmp2/
+      ;; 
+    gpsac18)
+      #orb_types='DESCENDING'
+      path=/g18h/gsar/tmp/
+      ;;
+    node4)
+      orb_types='DESCENDING'
+      path=/sar/esa.sentinel-1/in-progress/d000/
+      roi_file=${esa_data}/vector/roi_northeast.kml
+      ;;
+    node5)
+      #orb_types='DESCENDING'
+      path=/sar/esa.sentinel-1/in-progress/d001/
+      roi_file=${esa_data}/vector/roi_northwest.kml
+      ;;
+    node6)
+      #orb_types='DESCENDING'
+      path=/sar/esa.sentinel-1/in-progress/d002/
+      roi_file=${esa_data}/vector/roi_whs_20221005.kml
+      ;;
+    *)
+      echo "[$PROG]ERROR: wrong host ($this_host)!!"
+      exit 1
+      ;;
+  esac
+  echo host $this_host orb_types $orb_types
+  #exit
+
+fi
+
+if [ "$user" == "" ];then
+  user=tianyunfeng
+fi
+echo user is $user
+
+
+###<<<DIPP
+
+if [ "$path" == "" ]; then
+  path=`pwd`
+fi
+
+opath=${path}
+echo $opath
+
+#exit
+if [ ! -d $opath ]; then
+  mkdir -p ${opath}
+fi
+#exit
+cd $opath
+pwd
+
+file_lock="${opath}/_tmp_${PROG}.lock"
+if [ -s $file_lock ]; then
+  echo "[$PROG]WARNING: locked by $file_lock!! Quit."
+  exit 1
+fi
+
+echo "[$PROG]INFO: downloading data for ROI ($roi_file) at $this_host ..." > $file_lock
+#exit
+
+for orb_type in $orb_types; do
+  echo orb_type is $orb_type
+  #sh_asf_s1_query -roi_file $roi_file -roi_type polygon -orb_type $orb_type -out_type KML -out_file ${orb_type}.kml -weeks $w1 -eweeks $w2
+  ##sh_asf_s1_query -roi_file $roi_file -roi_type polygon -out_type KML -out_file ${orb_type}.kml -weeks $w1 -eweeks $w2
+
+
+  sh_asf_s1_query -roi_file $roi_file -roi_type polygon -orb_type $orb_type -out_file ${orb_type}.py -weeks $w1 -eweeks $w2
+  ##sh_asf_s1_query -roi_file $roi_file -roi_type polygon -out_file ${orb_type}.py -weeks $w1 -eweeks $w2
+
+
+  #continue
+  #break
+  #sh_asf_s1_get_slc_py ${orb_type}.py $opath $user
+  sh_asf_s1_get_slc_py -file ${orb_type}.py -opath $opath -ac $file_aria2_conf
+done
+
+\rm -f $file_lock
+
+ 
+ 

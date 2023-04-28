@@ -109,11 +109,13 @@ paths={'D:\gsar\interseismic\158-a-m6-0093_0098_0103_0108_0113_0118-gozhaco\f123
 paths={'D:\gsar\interseismic\158-a-m6-0093_0098_0103_0108_0113_0118-gozhaco\f123\sbas.4.0.0001.9999.20141016.20230219.059.0206.01.___\p.fa_xiaoerkule1'};
 paths={'D:\gsar\interseismic\026-a-m1-0097-xsh\f123\sbas.3.0.0001.0735.20170301.20220323.027.0212.01.___\p.fa_xsh_b_gnss'};
 paths={'\\10.4.35.84\root\g9h\gsar\026-a-m1-0097-xsh\f123\sbas.3.4.0001.9999.20170301.20220323.027.0212.01.___\p.fa_xsh'};
+paths={'\\10.4.134.30\root\g13a\gsar\012-a-m7-0088_0093_0098_0103_0108_0113_0118-tibet\f123\sbas.4.0.0001.9999.20150627.20230317.056.0085.01.___\p.fa_atf_ext'};
+paths={'D:\gsar\interseismic\012-a-m7-0088_0093_0098_0103_0108_0113_0118-tibet\f123\sbas.4.9.0001.9999.20150627.20220930.053.0393.01.___\p.fa_atf_9r'};
 
-dmin=-1270;
-dmax=1260;
-fts_min=-5;
-fts_max=5;
+dmin=-70;
+dmax=200;
+fts_min=-35;
+fts_max=135;
 is_show_fig='on';
 is_show_fig='off';
 
@@ -136,7 +138,7 @@ for pi=1:npath
   end
   disp(path);
   
-  files=dir([path,filesep,'profile_083*_vel.psxy']);
+  files=dir([path,filesep,'profile_029*_vel.psxy']);
   
   nf=size(files,1);
   for fi=1:nf
@@ -245,17 +247,17 @@ for pi=1:npath
     % tcov = pinv(J'*J)*mse;
     
     params = {
-      {'sr', 0, -10, 10}
+      {'sr', 0, -20, 20}
       %{'ld', 10, .1, 50}
       %{'ld', 4, 0, 10}
-      {'ld', 10, .1, 35}
+      {'ld', 10, .1, 65}
 %       {'ld', 9, 8.9, 9.1}
       {'yshift', (ymin+ymax)/2, ymin,ymax}
       %     {'fts', 0, -30, 30}
       {'fts', 0, fts_min, fts_max}
       
-      {'rot', 0.001, -pi/3, pi/3}
-%       {'rot', 0.000011, 0.000010, 0.000012}
+%       {'rot', 0.001, -pi/3, pi/3}
+      {'rot', 0.000011, 0.000010, 0.000012}
       };
     
     model.ssfun  = ssfun;
