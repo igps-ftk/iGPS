@@ -13,7 +13,7 @@
 # Modifications:
 #   
 
-# Algorigthm:
+# Algorithm:
 #   
 
 # Dependency:
@@ -65,7 +65,7 @@ while [ "$1" != "" ]; do
       is_verbose=$2
       ;;
     *)
-      echo "[$PROG]ERROR: invalid option ($1)!!"
+      echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid option ($1)!!"
       echo "[$PROG]Usage: ${PROG} "
       echo "[$PROG]Usage: e.g.,"
       echo "[$PROG]Usage: ${PROG} "
@@ -78,7 +78,7 @@ done
 files=`find $path -maxdepth 1 -type f -name "overlapping.S1*.txt"`
 nf=`find $path -maxdepth 1 -type f -name "overlapping.S1*.txt" | wc -l`
 if [ "$files" == "" ]; then
-  echo "[$PROG]ERROR: no existing overlapping files exist!!"
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: no existing overlapping files exist!!"
   exit 1
 fi
 

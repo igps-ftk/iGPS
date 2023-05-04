@@ -13,7 +13,7 @@
 # Modifications:
 #   
 
-# Algorigthm:
+# Algorithm:
 #   
 
 # Dependency:
@@ -26,15 +26,27 @@ timestamp=`date | sed -e "s/ /_/g" | sed -e "s/:/-/g"`
 path_old=`pwd`
 
 usage_of_it(){
-  echo "[$PROG]HELP: ${PROG} "
-  echo "[$PROG]HELP:   [-f|-file PY_FILE]"
-  echo "[$PROG]HELP:   [-ac|-aria2_conf ARIA2_CONF_FILE]"
-  echo "[$PROG]HELP:   [-u|-user EARTHDATA_USER_NAME (only for DIPP)]"
-  echo "[$PROG]HELP:   [-o|-opath OUTPUT_PATH]"
 
-  echo "[$PROG]HELP:   [-h|-help]"
-  echo "[$PROG]HELP: e.g.,"
-  echo "[$PROG]HELP:   ${PROG} "
+cat <<eob
+$PROG
+|_Use aria2 to download S1 SLC zip files in ASF Python downloader (download*.py).
+  https://search.asf.alaska.edu/  (search and download Python script)
+|<
+  -f|-file PY_FILE
+  -ac|-aria2_conf ARIA2_CONF_FILE
+  [-p|-path OUTPUT_PATH]
+    default: \`pwd\`
+  [-h|-help]
+|e.g.,
+  $PROG -file download-all-2021-01-07_06-49-41.py
+    -ac /home/tianyf/earthdata_yftian.txt
+    -path /sar/s1/
+  Sample aria2 account file:
+    http-user=your_account
+    http-passwd=your_password
+(c)iGPS (https://github.com/igps-ftk/)
+eob
+
 }
 
 
@@ -48,7 +60,7 @@ file_aria2_conf=
 
 file_py=
 
-opath=`pwd`
+path=`pwd`
 
 
 if [ "`echo $1 | awk '{print substr($1,1,1)}'`" == "-" ]; then
@@ -63,8 +75,8 @@ if [ "`echo $1 | awk '{print substr($1,1,1)}'`" == "-" ]; then
       -u|-user)
         user=$2
         ;;
-      -o|-opath)
-        opath=$2
+      -p|-path)
+        path=$2
         ;;
       -w1)
         w1=$2
@@ -77,7 +89,7 @@ if [ "`echo $1 | awk '{print substr($1,1,1)}'`" == "-" ]; then
         exit 1
         ;;
       *)
-        echo "[$PROG]ERROR: invalid option ($1)!!"
+        echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid option ($1)!!"
         usage_of_it
         exit 1
         ;;
@@ -88,7 +100,7 @@ else
   file_py=$1
   
   if [ "$2" != "" ]; then
-    opath=$2
+    path=$2
   fi
   
   if [ "$3" != "" ]; then
@@ -100,18 +112,35 @@ if [ "$file_aria2_conf" == "" -o "$file_aria2_conf" == "null" ]; then
   file_aria2_conf=${HOME}/iGPS.addon/sh/aria2.conf.${user}
 fi
 
+
+if [ "$file_aria2_conf" == "" ]; then
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: no ASF login information file given!!"
+  exit 1
+fi
+
+if [ "$file_py" == "" ]; then
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: no ASF Python Downloader file given!!"
+  exit 1
+fi
+
 ext=${file_py##*.}
 echo $file_py $ext
 if [ "$ext" != "py" ]; then
-  echo "[$PROG]ERROR: wrong input file type (${file_py})!!"
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: wrong input file type (${file_py})!!"
   exit 1
 fi
 #exit
+
+if [ ! -s $file_py ]; then
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: ASF Python Downloader file not exist ($file_py)!!"
+  exit 1
+fi
+
 files=`cat $file_py | sed -e 's/https/https\n/g' | grep '.zip' | grep S1 | grep _IW_SLC__ | awk -F\" '{print $1}' | awk -F\/ '{print $6}' |sort `
 echo $files
 #exit
 
-cd $opath
+cd $path
 pwd
 
 
@@ -160,4 +189,4 @@ for file in $files; do
   #exit
 done
 
-
+echo "[$PROG]INFO: done."

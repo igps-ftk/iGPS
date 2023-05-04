@@ -13,64 +13,86 @@
 # Modifications:
 #
 
-# Algorigthm:
+# Algorithm:
 #
 
 # Dependency:
 #
 PROG=sh_s1_unzip_manifest
 
-#if [ -t 0 ]; then
-#    interactive=1
-#else
-#    interactive=0
-#fi
-##echo "interactive $interactive"
-#
-#if [ $interactive -eq 0 ]; then
-#  . ${HOME}/.bashrc  
-#fi
+path_old=`pwd`
 
-if [ "$esa_data" = "" ]; then
-    echo "[${PROG}]ERROR: ESA environment variable esa_data must be set first! Stopped."
+usage_of_it(){
+cat <<eob
+${PROG}
+|_Extract *.manifest.safe files from Sentinel-1 SLC *.zip file.
+|<
+  [-p|-path INPUT_SLC_PATH]
+    default: current
+  [-o|-opath OUTPUT_PATH]
+    default: current
+|>
+  OUTPUT_PATH/S1*.manifest.safe
+|e.g.,
+  $PROG  -p /sar/s1 -o /sar/manifest.safe/
+(c)iGPS (https://github.com/igps-ftk/)
+eob
+}
+
+
+#if not called by crontab
+if [ -t 0 ]; then
+  interactive=1
+  
+  path=`pwd`
+  opath=`pwd`
+  
+else
+  interactive=0
+  . ${HOME}/.bashrc
+  if [ "$esa_data" = "" ]; then
+      echo -e "[$PROG]\033[1;33;41mERROR\033[0m: ESA environment variable esa_data must be set first! Stopped."
+      exit 1
+  fi
+  if [ ! -d $esa_data ]; then
+    echo -e "[$PROG]\033[1;33;41mERROR\033[0m: esa_data ($esa_data) not exist!!"
     exit 1
-fi
-
-echo "[${PROG}]INFO: Usage: $PROG [out_path  [input_path] ]"
-echo "[${PROG}]INFO:   Default:"
-echo "[${PROG}]INFO:     out_path: ${esa_data}/safe/S1"
-echo "[${PROG}]INFO:     input_path: ${esa_data}/s1"
-
-#opath=${esa_data}/safe/safe
-if [ "$1" == "" ]; then
+  fi
+  
+  path="${esa_data}/s1"
   opath=${esa_data}/safe/S1
   opath=${esa_data}/metainfo/manifest.safe
-else
-  oldopath="`pwd`"
-  mkdir -p $1
-  cd "$1"
-  opath="`pwd`"
-  cd "$oldopath"
 fi
 
-path="${esa_data}/s1"
-if [ "$2" != "" ]; then
-    path_old="`pwd`"
-    cd "$2"
-    path="`pwd`"
-    cd "$path_old"
-fi
 
-echo "[${PROG}]INFO:   Currently:"
-echo "[${PROG}]INFO:     out_path: ${opath}"
-echo "[${PROG}]INFO:     input_path: ${path}"
+while [ "$1" != "" ]; do
+  case $1 in
+    -p|-path)
+      path=$2
+      ;;
+    -o|-opath)
+      opath=$2
+      ;;
+    -h|-help|--help)
+      usage_of_it
+      exit 1
+      ;;
+    *)
+      echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid option ($1)!!"
+      usage_of_it
+      exit 1
+      ;;
+  esac
+  shift 2  
+done
+
+echo "[${PROG}]INFO: input path: ${path}"
+echo "[${PROG}]INFO: out path: ${opath}"
 #exit
 
 mkdir -p $opath
-#mkdir -p $opath/all
 
-#files=`ls ${path}/*.zip`
-files=`find "$path" -maxdepth 1 -name "S1*.zip"`
+files=`find "$path" -maxdepth 1 -name "S1*.zip" | sort`
 np=0
 for file in $files; do
     #echo $file
@@ -86,25 +108,12 @@ for file in $files; do
     
     if [ ! -s "$ofile" ]; then
       echo "[${PROG}]WARNING: zero size output file! Deleted."
-      rm -f "$ofile"
+      \rm -f "$ofile"
       continue
-      #mv $file ${esa_data}/S1/tmp/
     fi
-    
-    #track=`grep relativeOrbitNumber $ofile | head -1 | awk -F\< '{print $2}' | awk -F\> '{print $2}'`
-    #ad=`grep pass $ofile | head -1 | awk -F\< '{print $2}' | awk -F\> '{print substr($2,1,1)}'`
-    #echo track $track ad $ad
-    #opath_i=${opath}/${ad}${track}
-    #echo mkdir -p $opath_i
-    #echo mkdir -p $opath_i | sh
-    #echo "\mv -f $ofile $opath_i"
-    #echo "\mv -f $ofile $opath_i" | sh
-    #echo "ln -s ${opath_i}/`basename $ofile` ${opath}/all/"
-    #echo "ln -s ${opath_i}/`basename $ofile` ${opath}/all/" | sh
-    #exit
 
     #exit
     np=`expr $np + 1`
 done
 echo "[${PROG}]INFO: # ${np} manifest.safe files added."
-
+echo "[$PROG]INFO: done."

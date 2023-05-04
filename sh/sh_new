@@ -27,7 +27,7 @@ fi
 # module file name
 mfile=${HOME}/iGPS/ftk/inc/mod_sh
 if [ ! -f ${mfile} ]; then
-    echo "ERROR: Module file NOT exist!"
+    echo -e "[$PROG]\033[1;33;41mERROR\033[0m: Module file NOT exist!"
     exit
 fi
 
@@ -86,7 +86,7 @@ while [ "\$1" != "" ]; do
       exit 1
       ;;
     *)
-      echo "[\$PROG]ERROR: invalid option (\$1)!!"
+      echo -e "[\$PROG]\033[1;33;41mERROR\033[0m: invalid option (\$1)!!"
       usage_of_it
       exit 1
       ;;

@@ -16,7 +16,7 @@
 # Modifications:
 #   
 
-# Algorigthm:
+# Algorithm:
 #  For each line in intf.in file, if phase/displcement preview file exists in 
 #  intf_all_png/ directory, then skip it.
 #  
@@ -39,7 +39,7 @@ while [ "$1" != "" ]; do
             image_type=$2
             ;;
         *)
-            echo "[$PROG]ERROR: invalid option $1"
+            echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid option $1"
             exit 1
             ;;
        esac
@@ -48,14 +48,14 @@ done
 
 
 if [ ! -s intf.in ]; then
-    echo "[${prog}]ERROR:intf.in not exist!!"
+    echo -e "[$PROG]\033[1;33;41mERROR\033[0m:intf.in not exist!!"
     exit 1
 else
     echo "#lines: `wc -l intf.in | awk '{print $1}'`"
 fi
 
 if [ ! -s baseline_table.dat ]; then
-    echo "[${prog}]ERROR:baseline_table.dat not exist!!"
+    echo -e "[$PROG]\033[1;33;41mERROR\033[0m:baseline_table.dat not exist!!"
     exit 1
 else
     echo "#lines: `wc -l baseline_table.dat | awk '{print $1}'`"

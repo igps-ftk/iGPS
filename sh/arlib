@@ -13,7 +13,7 @@
 # Modifications:
 #   +
 
-# Algorigthm:
+# Algorithm:
 #   +Output file is written to ~/gglib/.
 #   +Move the output file to ${iGPS}/ftk/gglib/ or create a symbolic link.
 
@@ -70,7 +70,7 @@ fi
 files=`find $path_gg -name "*.a"`
 #files=
 if [ "$files" = "" ]; then
-    echo "[$PROG]ERROR: no library files could be found in $path_gg."
+    echo -e "[$PROG]\033[1;33;41mERROR\033[0m: no library files could be found in $path_gg."
     echo "[$PROG]INFO: Please check your ~/gg link, and try again. "
     echo "[$PROG]INFO: Sometimes symbolic link does not work."
     echo "[$PROG]INFO: Try use original path: arlib GAMIT_PATH"

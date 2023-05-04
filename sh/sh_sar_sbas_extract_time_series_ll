@@ -13,7 +13,7 @@
 # Modifications:
 #   
 
-# Algorigthm:
+# Algorithm:
 #   
 
 # Dependency:
@@ -40,7 +40,7 @@ while [ "$1" != "" ]; do
       opath=$2
       ;; 
     *)
-      echo "[$PROG]ERROR: invalid option ($1)!!"
+      echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid option ($1)!!"
       echo "[$PROG]Usage: ${PROG} "
       echo "[$PROG]Usage: e.g.,"
       echo "[$PROG]Usage: ${PROG} "
@@ -51,13 +51,13 @@ while [ "$1" != "" ]; do
 done
 
 if [ "$file" == "" ]; then
-  echo "[]ERROR: no input file given!!"
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: no input file given!!"
   exit 1
 fi
 
 mkdir -p $opath
 if [ $? -ne 0 ]; then
-  echo "[]ERROR: cannot create output path ($opath)!!"
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: cannot create output path ($opath)!!"
   exit 1
 fi
 

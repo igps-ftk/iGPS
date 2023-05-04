@@ -13,7 +13,7 @@
 # Modifications:
 #   
 
-# Algorigthm:
+# Algorithm:
 #   Supposed to run in F? directory.
 
 # Dependency:
@@ -54,7 +54,7 @@ while [ "$1" != "" ]; do
       t2=$2
       ;;
     *)
-      echo "[$PROG]ERROR: invalid option ($1)!!"
+      echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid option ($1)!!"
       echo "[$PROG]Usage: ${PROG} "
       echo "[$PROG]Usage: e.g.,"
       echo "[$PROG]Usage: ${PROG} "
@@ -86,13 +86,13 @@ fi
 #exit
 
 if [ "$file" == "" ]; then
-  echo "[$PROG]ERROR: no orbit file (*.EOF) given!!"
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: no orbit file (*.EOF) given!!"
   exit 1
 fi
 
 
 if [ "$ofile" == "" ]; then
-  echo "[$PROG]ERROR: no output file!!"
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: no output file!!"
   exit 1
 fi
 

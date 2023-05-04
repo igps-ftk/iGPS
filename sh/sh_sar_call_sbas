@@ -2,78 +2,99 @@
 
 # Name:
 #   sh_sar_call_sbas
-#   
+#
 
 # Purpose:
-#   
+#
 
 # Example:
-#   
+#
 
 # Modifications:
-#   
+#
 
-# Algorigthm:
+# Algorithm:
 #SBAS: sbas.A.B.CCCC.DDDD.EEEEEEEE.FFFFFFFF.GGGG.HH.ZZZ
-#  A	-	resample level
-#		1 - full resolution (4:1; 25m)
-#		2 - 50m (8:2)
-#		3 - 100m (16:4)
-#		4 - 200m (32:8)
-#  B	-	atm code
-#		0 - no aps correction
-#		1 - with -atm 1	
-#		2 - with -atm 2
-#		3 - with -atm 3
-#		4 - with -atm 4	
-#		5 - with -atm 5	
-#		8 - GACOS only
-#		9 - with GACOS	
-#  CCCC	-	minimum time span (number of days)
-#  DDDD	-	maximum time span
-#  EEEEEEEE	-	starting date
-#  FFFFFFFF	-	starting date
-#  GGG	-	number of scenes
-#  HHHH	-	number of interferograms
-#  II	-	version number
-#  ZZZ	-	comment
-     
+#  A  - resample level
+#   1 - full resolution (4:1; 25m)
+#   2 - 50m (8:2)
+#   3 - 100m (16:4)
+#   4 - 200m (32:8)
+#  B  - atm code
+#   0 - no aps correction
+#   1 - with -atm 1
+#   2 - with -atm 2
+#   3 - with -atm 3
+#   4 - with -atm 4
+#   5 - with -atm 5
+#   8 - GACOS only
+#   9 - with GACOS
+#  CCCC - minimum time span (number of days)
+#  DDDD - maximum time span
+#  EEEEEEEE - starting date
+#  FFFFFFFF - starting date
+#  GGG  - number of scenes
+#  HHHH - number of interferograms
+#  II - version number
+#  ZZZ  - comment
+
 
 # Dependency:
-#   
+#
 
 
 PROG=sh_sar_call_sbas
 
 usage_of_it(){
-echo "[$PROG]INFO: [-r A] [-a B] [-t1 CCCC] [-t2 DDDD] [-c ZZZ] "
-echo "       [-i INTF_ALL] [-ow IS_OVERWRITE(y/)] [-p IS_PARALLEL(y/)]"
 cat <<eob
-  SBAS: sbas.A.B.CCCC.DDDD.EEEEEEEE.FFFFFFFF.GGGG.HH.ZZZ
-    A	-	resample level
-  		1 - full resolution (4:1; 25m)
-  		2 - 50m (8:2)
-  		3 - 100m (16:4)
-  		4 - 200m (32:8)
-    B	-	atm code
-  		0 - no aps correction
-  		1 - with -atm 1	
-  		2 - with -atm 2
-  		3 - with -atm 3
-  		4 - with -atm 4	
-  		5 - with -atm 5	
-  		8 - GACOS only
-  		9 - with GACOS	
-    CCCC	-	minimum time span (number of days)
-    DDDD	-	maximum time span
-    EEEEEEEE	-	starting date
-    FFFFFFFF	-	starting date
-    GGG	-	number of scenes
-    HHHH	-	number of interferograms
-    II	-	version number
-    ZZZ	-	comment
+$PROG
+|_Caller script for running sbas/sbas_parallel.
+  Output directory naming convenction:
+  sbas.A.B.CCCC.DDDD.EEEEEEEE.FFFFFFFF.GGGG.HH.ZZZ
+    where:
+      A - multi-looking factors (~resampling level)
+      B - atm code
+      CCCC  - minimum time span (length of temporal baseline; days)
+      DDDD  - maximum time span
+      EEEEEEEE  - starting date
+      FFFFFFFF  - starting date
+      GGG - number of scenes
+      HHHH  - number of interferograms
+      II  - version number
+      ZZZ - comment
+|+
+|<
+  [-m|-multilook|-r A]
+    multi-looking factors (~resampling level; A):
+      1 - 25m (4:1)
+      2 - 50m (8:2)
+      3 - 100m (16:4)
+      4 - 200m (32:8)
+  [-a B]
+    atm code (B):
+      0 - no aps correction
+      1 - with -atm 1
+      2 - with -atm 2
+      3 - with -atm 3
+      4 - with -atm 4
+      5 - with -atm 5
+      8 - GACOS only
+      9 - with GACOS
+  [-t1 CCCC]
+    minimum length of temporal baseline
+    default: 1
+  [-t2 DDDD]
+    maximum length of temporal baseline
+    default: 9999
+  [-c|-cmt|-comment ZZZ]
+    comments
+    default: ___
+  [-i|-ipath INTF_ALL_PATH]
+    default: intf_all
+  [-ow|-overwrite n|y]
+  [-p|-parallel n|y]
+  [-h|-help|--help]
 eob
-
 }
 
 
@@ -112,11 +133,14 @@ file_scene_tab=scene.tab
 
 while [ "$1" != "" ]; do
   case $1 in
-    -r) #code for resolution/ground pixel size
+    -m|-multilook|-r) #code for resolution/ground pixel size
       a_reso=$2
       ;;
     -a)
       b_atm=$2
+      ;;
+    -atm)
+      n_atm=$2
       ;;
     -t1)
       c_t1=$2
@@ -132,9 +156,6 @@ while [ "$1" != "" ]; do
       ;;
     -file_ll_grd)
       file_ll_grd=$2
-      ;;
-    -atm)
-      n_atm=$2
       ;;
     -i|-ipath)
       ipath=$2
@@ -168,21 +189,19 @@ while [ "$1" != "" ]; do
       exit
       ;;
     *)
-      echo "[$PROG]ERROR: invalid option ($1)!!"
       usage_of_it
+      echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid option ($1)!!"
       exit 1
       ;;
   esac
-  
   shift 2
-
 done
 
 prog_sbas=sbas
 echo is_parallel $is_parallel
 if [ "$is_parallel" == "y" ]; then
   if [ "$OMP_NUM_THREADS" == "" ]; then
-    echo "[$PROG]ERROR: OMP_NUM_THREADS variable must be set for paralleling sbas!!"
+    echo -e "[$PROG]\033[1;33;41mERROR\033[0m: OMP_NUM_THREADS variable must be set for paralleling sbas!!"
     exit 1
   fi
   prog_sbas=sbas_parallel

@@ -38,8 +38,8 @@
  muet_gps trnn ftprnx xstinfo
  novm_gps trnn ftprnx xstinfo
  oshk_gps trnn ftprnx xstinfo
- osn3_gps trnn ftprnx xstinfo
- osn4_gps trnn ftprnx xstinfo
+x osn3_gps trnn ftprnx xstinfo
+x osn4_gps trnn ftprnx xstinfo
  pbr2_gps trnn ftprnx xstinfo
  pbri_gps trnn ftprnx xstinfo
  pgen_gps trnn ftprnx xstinfo

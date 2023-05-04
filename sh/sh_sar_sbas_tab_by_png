@@ -13,7 +13,7 @@
 # Modifications:
 #   
 
-# Algorigthm:
+# Algorithm:
 #   
 
 # Dependency:
@@ -51,7 +51,7 @@ while [ "$1" != "" ]; do
       fi
       ;;
     *)
-      echo "[]ERROR: invalid option ($1)!!"
+      echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid option ($1)!!"
       exit 1
       ;;
   esac
@@ -62,7 +62,7 @@ done
 
 
 if [ ! -d intf_all_png ]; then
-  echo "[]ERROR: intf_all_png directory not exsit!!"
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: intf_all_png directory not exsit!!"
   exit 1  
 fi
 
@@ -72,7 +72,7 @@ nf=`ls intf_all_png/20?????_20?????-*.* | wc -l`
 nf=`echo $files | wc -w`
 echo "total files #: $nf"
 if [ $nf -le 0 ]; then
-  echo "[]ERROR: no files in intf_all_png directory!!"
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: no files in intf_all_png directory!!"
   exit 1  
 fi
 #echo $files > a

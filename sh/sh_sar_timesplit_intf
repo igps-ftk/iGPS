@@ -13,7 +13,7 @@
 # Modifications:
 #   
 
-# Algorigthm:
+# Algorithm:
 #   
 
 # Dependency:
@@ -25,17 +25,28 @@ PROG=sh_sar_timesplit_intf
 path_old=`pwd`
 
 usage_of_it(){
-  echo "[$PROG]Usage: ${PROG} -f|-file FILE"
-  echo "[$PROG]Usage:         -dt|-data_type LIST_TYPE"
-  echo "[$PROG]Usage:         -d|-date YYYYMMDD"
-  echo "[$PROG]Usage:         -m|-mode 1|2|3"
-  echo "[$PROG]Usage:    mode:"
-  echo "[$PROG]Usage:      1-left only;"
-  echo "[$PROG]Usage:      2-one left and one right;"
-  echo "[$PROG]Usage:      3; right only"
-
-  echo "[$PROG]Usage: e.g.,"
-  echo "[$PROG]Usage:  "
+cat <<eob
+${PROG}
+|_Extract interferograms by a given date.
+|+
+  -intf.in
+  -or intf.list (list of interferograms under intf_all/)
+|<
+  -d|-date YYYYMMDD
+  [-f|-file INTF_FILE_IN_OR_LIST]
+    default: intf.in
+  [-dt|-data_type LIST_TYPE]
+   default: in (in/list)
+  [-m|-mode 1|2|3]
+    mode:
+     1-left-side only
+     2-one left and one right (default)
+     3-right-side only
+|e.g.,
+  $PROG -d 20210521     (for 2021-05-21 Maduo earthquake)
+  $PROG -f intf.list -dt list -d 20150425 -m 1
+(c)iGPS (https://github.com/igps-ftk/)
+eob
 }
 
 file=intf.in
@@ -58,7 +69,7 @@ while [ "$1" != "" ]; do
       mode_split=$2
       ;;
     *)
-      echo "[$PROG]ERROR: invalid option ($1)!!"
+      echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid option ($1)!!"
       usage_of_it
       exit 1
       ;;
@@ -67,12 +78,12 @@ while [ "$1" != "" ]; do
 done
 
 if [ ! -s $file ]; then
-  echo "[$PROG]ERROR: file $file not exist!!"
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: file $file not exist!!"
   exit 1
 fi
 
 if [ "$data_type" != "in"  -a "$data_type" != "list" ]; then
-  echo "[$PROG]ERROR: wrong data type ($data_type vs. in/list)!!"
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: wrong data type ($data_type vs. in/list)!!"
   exit 1
 fi
 
@@ -88,7 +99,7 @@ elif [ $len_d -eq 8 ]; then
   day_split=`echo $date_split | awk '{print substr($1,7,2)}'`
   dyr_split=`doy $year_split $mon_split $day_split | tail -1 | awk '{print $3}'`
 else
-  echo "[$PROG]ERROR: wrong splitting date !!"
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: wrong splitting date !!"
   exit 1
 fi
 
@@ -131,7 +142,7 @@ while read line; do
       is_split=`echo $dyr1 $dyr_split $dyr2 | awk '{if($1>$2&&$2<$3){print 1}else{print 0}}'`
       ;;
     *)
-      echo "[]ERROR: wrong splitting mode ($mode_split)!!"
+      echo -e "[$PROG]\033[1;33;41mERROR\033[0m: wrong splitting mode ($mode_split)!!"
       exit 1
   esac
 

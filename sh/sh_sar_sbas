@@ -13,7 +13,7 @@
 # Modifications:
 #   
 
-# Algorigthm:
+# Algorithm:
 #   
 
 # Dependency:
@@ -21,6 +21,56 @@
 
 PROG=sh_sar_sbas
 
+timestamp=`date | sed -e "s/ /_/g" | sed -e "s/:/-/g"`
+
+path_old=`pwd`
+
+usage_of_it(){
+cat <<eob
+$PROG
+|_Call GMTSAR's SBAS
+|+
+  -intf_all/
+  -intf.tab
+  -scene.tab
+  -./topo/master.PRM
+  -dos2unix
+  -sh_sar_plot_intf_tab
+  -proj_ra2ll.csh (GMTSAR)
+  -sh_sar_cal_sat_incidence
+  -sbas
+  -sbas_parallel
+  -sh_grd2kml
+  -sh_sar_sbas_corr_mask
+  -sh_sar_sbas_tar
+  -sh_mail
+  -sh_sar_sbas_disp_mask_ll_resample
+|<
+  [-a|-atm num]
+  [-fix_incidence n|y]
+  [-fix_range n|y]
+  [-i|-ipath INTF_ALL_PATH]
+    default: intf_all/
+  [-m|-multilook 0|1|2|3|4|...]
+    0-guess from intf_all/x/gauss_*
+    1-gauss_100 (4:1 25m )
+    2-gauss_200 (8:2 50m )
+    3-gauss_400 (16:4 100m )
+    4-gauss_800 (32:8 200m )
+  [-o|-opath OUTPUT_PATH]
+    default: SBAS/
+  [-ow|-overwrite n|y]
+  [-prog sbas/sbas_parallel]
+      [-sat SAT|ENVI]
+  [-file_ll_grd grd_ll_filename]
+  [-h|-help|--help]
+e.g.,
+  ${PROG}
+  ${PROG} -a 3
+  ${PROG} -i intf_all_x2 -m 3
+(c)iGPS (https://github.com/igps-ftk/)
+eob
+}
 
 
 SAT=SAT #ENVI
@@ -56,29 +106,22 @@ file_led=
 
 while [ "$1" != "" ]; do
   case $1 in
-    -h|help)
-      echo "Usage: $PROG -sat SAT|ENVI -file_ll_grd grd_ll_filename  -atm num "
-      echo "                       -opath out_path -overwrite y|n"
-      echo "                       -fix_incidence y|n -fix_range y|n"
-      echo     To skip one parameter, use \'\' as its value.
-      exit 1
-      ;;
     -sat)
       SAT=$2
       ;;
     -file_ll_grd)
       file_ll_grd=$2
       ;;
-    -atm)
+    -a|-atm)
       n_atm=$2
       ;;
-    -ipath)
+    -i|-ipath)
       intf_path=$2
       ;;
-    -opath)
+    -o|-opath)
       out_path=`dirname "$2/test.txt"`
       ;;
-    -overwrite)
+    -ow|-overwrite)
       overwrite=$2
       ;;
     -prog)
@@ -99,8 +142,13 @@ while [ "$1" != "" ]; do
     -file_scene)
       file_scene_tab=$2
       ;;
+    -h|-help|--help|?)
+     usage_of_it
+     exit 1
+     ;;
     *)
-      echo "[$PROG]ERROR: invalid option ($1)!!"
+      echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid option ($1)!!"
+      usage_of_it
       exit 1
       ;;
   esac
@@ -114,13 +162,13 @@ file_log="log.`basename $out_path`"
 echo file_log $file_log
 #exit
 
-echo "[$PROG]INFO: cleaning existing output directory if overwrite is y (rm -rf $out_path && mkdir $out_path)"
+#echo "[$PROG]INFO: cleaning existing output directory if overwrite is y (rm -rf $out_path && mkdir $out_path)"
 if [ -d $out_path ]; then
   if [ "$overwrite" == "y" ]; then
-    echo "[$PROG]WARNING: output directory exist and will be overwritten!"
+    echo "[$PROG]WARNING: output directory exist and will be overwritten($out_path)!"
     #rm -rf $out_path
   else
-    echo "[$PROG]WARNING: output directory exist! Stopped."
+    echo -e "[$PROG]\033[1;33;41mERROR\033[0m: output directory exist ($out_path)!!"
     exit 1
   fi 
 fi
@@ -141,7 +189,7 @@ echo \cp -fp  $file_led $out_path/ | sh
 
 cd ${out_path}
 if [ $? -ne 0 ]; then
-  echo "[$PROG]ERROR: cannot enter SBAS path ($out_path)!!"
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: cannot enter SBAS path ($out_path)!!"
   exit 1
 fi
 #
@@ -186,7 +234,7 @@ if [ ! -s ../topo/master.PRM ]; then
   echo "\cp -fp ../intf_all/$pair/supermaster.PRM ../topo/master.PRM" | sh
 fi
 if [ ! -s ../topo/master.PRM ]; then
-  echo "[$PROG]ERROR: topo/master.PRM is missing ($1)!!"
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: topo/master.PRM is missing ($1)!!"
   exit 1
 fi
 \cp -fp ../topo/master.PRM .
@@ -194,7 +242,7 @@ fi
 
 files_prm=`ls ../topo/*.PRM | sort`
 if [ $? -ne 0 ]; then
-    echo "[]ERROR: error when searching PRM file!!"
+    echo -e "[$PROG]\033[1;33;41mERROR\033[0m: error when searching PRM file!!"
     exit 1
 fi
 file_prm=`echo $files_prm | head -1 | awk '{print $1}'`
@@ -212,7 +260,7 @@ if [ ! -s $led_name ]; then
   elif [ -s ../../F1/raw/$led_name ]; then
     \cp -f ../../F1/raw/$led_name .
   else
-    echo "[]ERROR:no LED file found($lef_name)!!"
+    echo -e "[$PROG]\033[1;33;41mERROR\033[0m:no LED file found($lef_name)!!"
     #exit 1
   fi
 
@@ -224,7 +272,7 @@ nscen=`cat scene.tab | wc -l`
 
 #fix wavelength to Sentinel-1's. Change it as necessary.
 #if [ ! -s "../topo/master.PRM" ]; then
-#    echo "[$PROG]ERROR: ../topo/master.PRM must exist!!"
+#    echo -e "[$PROG]\033[1;33;41mERROR\033[0m: ../topo/master.PRM must exist!!"
 #    exit 1
 #fi
 #
@@ -238,7 +286,7 @@ if [ "$fix_incidence" != "y" ]; then
   if [ -s ../incidence ]; then
     tmp=`grep ERROR ../incidence`
     if [ "$tmp" != "" ]; then
-        echo "$PROG[]ERROR: invalid incidence angle (incidence)!! Please remove it to obtain a new one automatically."
+        echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid incidence angle (incidence)!! Please remove it to obtain a new one automatically."
         exit 1
         #rm -f ../incidence
     fi
@@ -262,7 +310,7 @@ if [ "$fix_incidence" != "y" ]; then
       incidence=`sh_sar_cal_sat_incidence -sat $SAT -file $file_ll_grd | tail -1`
       tmp=`echo $incidence | grep -i error`
       if [ "$tmp" != "" ]; then
-          echo "ERROR: invalid incidence angle ($incidence)!!"
+          echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid incidence angle ($incidence)!!"
           exit 1
       fi
       echo $incidence > ../incidence
@@ -286,7 +334,7 @@ if [ "$tmp" = "" ]; then
     fi
     echo file_filter $file_filter
     if [ "$file_filter" = "" ]; then
-      echo "[]WARNING: using default filter width : 400"
+      echo "[$PROG]INFO: using default filter width : 400"
       touch gauss_400
     else
       \cp -fp $file_filter .
@@ -306,7 +354,7 @@ if [ "$tmp" = "" ]; then
         touch gauss_800
         ;;
       1)
-        echo "[$PROG]ERROR: invalid multilook optin ($multilook)!!"
+        echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid multilook optin ($multilook)!!"
         exit 1
         ;;
     esac
@@ -315,7 +363,7 @@ fi
 ls -l gauss_*
 ng=`ls gauss_* |wc -l`
 if [ $ng -gt 1 ]; then
-  echo "[$PROG]ERROR: more than 1 gauss_* files exist!!"
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: more than 1 gauss_* files exist!!"
   exit 1
 fi
 

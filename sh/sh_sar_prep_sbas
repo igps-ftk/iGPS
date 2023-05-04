@@ -13,7 +13,7 @@
 # Modifications:
 #   
 
-# Algorigthm:
+# Algorithm:
 #   
 
 # Dependency:
@@ -82,7 +82,7 @@ do
       time_span_max=$2
       ;;
   *)
-      echo "[$PROG]ERROR: wrong input option ($1)!!"
+      echo -e "[$PROG]\033[1;33;41mERROR\033[0m: wrong input option ($1)!!"
       usage_of_it
       exit 1
       ;;
@@ -92,13 +92,13 @@ done
 
 
 if [ ! -e "$file_baseline_tab" ]; then
-    echo "[$PROG]ERROR: input file $file_baseline_tab not exist! Stopped!!"
+    echo -e "[$PROG]\033[1;33;41mERROR\033[0m: input file $file_baseline_tab not exist! Stopped!!"
     exit 1
 fi
 #exit
 
 if [ ! -e "$file_intf_in" ]; then
-    echo "[$PROG]ERROR input file $file_intf_in not exist! Stopped!!"
+    echo -e "[$PROG]\033[1;33;41mERROR\033[0m input file $file_intf_in not exist! Stopped!!"
     exit 1
 fi
 

@@ -13,7 +13,7 @@
 # Modifications:
 #   
 
-# Algorigthm:
+# Algorithm:
 #   
 
 # Dependency:
@@ -41,7 +41,7 @@ while [ "$1" != "" ]; do
       ;;
     *)
       if [ "`echo $1 | awk '{print substr($1,1,1)}'`" == "-" ]; then
-        echo "[$PROG]ERROR: invalid option ($1)!!"
+        echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid option ($1)!!"
         echo "[$PROG]Usage: ${PROG} "
         echo "[$PROG]Usage: e.g.,"
         echo "[$PROG]Usage: ${PROG} "
@@ -105,7 +105,7 @@ echo grd2kml.csh $file_grd2 $file_cpt
 echo grd2kml.csh $file_grd2 $file_cpt | sh
 
 if [ ! -s ${file_grd2}.kml ]; then
-  echo "[]ERROR: cannot produce output KML file!!"
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: cannot produce output KML file!!"
   exit 1
 fi
 

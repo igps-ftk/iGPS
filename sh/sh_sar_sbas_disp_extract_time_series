@@ -13,7 +13,7 @@
 # Modifications:
 #   
 
-# Algorigthm:
+# Algorithm:
 #   
 
 # Dependency:
@@ -27,7 +27,7 @@ while [ "$1" != "" ]; do
 	    file_ll=$2
 	    ;;
 	*)
-	    echo "[]ERROR: invalid option ($1)!!"
+	    echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid option ($1)!!"
 	    exit 1
 	    ;;
     esac
@@ -41,7 +41,7 @@ file_out=${file_ll}.out
 echo "output to: $file_out"
 
 if [ ! -s trans.dat ]; then
-    echo "[]ERROR: trans.dat file not exist!!"
+    echo -e "[$PROG]\033[1;33;41mERROR\033[0m: trans.dat file not exist!!"
     exit 1
 fi
 

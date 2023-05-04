@@ -14,7 +14,7 @@
 # Modifications:
 #
 
-# Algorigthm:
+# Algorithm:
 #
 
 # Dependency:
@@ -72,7 +72,7 @@ while [ "$1" != "" ]; do
             exit 1
             ;;
         *)
-            echo "[$PROG]ERROR: invalid option ($1)!!"
+            echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid option ($1)!!"
             usage_of_it
             exit 1
             ;;
@@ -91,7 +91,7 @@ if [ ! -s master.PRM ]; then
 	  echo "\cp -fp ../intf_all/$pair/supermaster.PRM ../topo/master.PRM" | sh
 	fi
 	if [ ! -s ../topo/master.PRM ]; then
-	  echo "[$PROG]ERROR: topo/master.PRM is missing ($1)!!"
+	  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: topo/master.PRM is missing ($1)!!"
 	  exit 1
 	fi
 	\cp -fp ../topo/master.PRM .
@@ -104,7 +104,7 @@ fi
 #exit
 files_prm=`ls ../topo/*.PRM | sort`
 if [ $? -ne 0 ]; then
-    echo "[]ERROR: error when searching PRM file!!"
+    echo -e "[$PROG]\033[1;33;41mERROR\033[0m: error when searching PRM file!!"
     exit 1
 fi
 file_prm=`echo $files_prm | head -1 | awk '{print $1}'`
@@ -119,7 +119,7 @@ if [ ! -s ../topo/$led_name ]; then
   elif [ -s ../../F1/raw/$led_name ]; then
     \cp -f ../../F1/raw/$led_name ../topo/
   else
-    echo "[]ERROR:no LED file found($lef_name)!!"
+    echo -e "[$PROG]\033[1;33;41mERROR\033[0m:no LED file found($lef_name)!!"
     #exit 1
   fi
 
@@ -152,7 +152,7 @@ if [ ! -s ../topo/dem.grd ]; then
 	elif [ -s ../../F1/topo/dem.grd ]; then
 	  ln -s ../../F1/topo/dem.grd ../topo/
 	else
-	  echo "[$PROG]ERROR: no dem file (topo/dem.grd) !!"
+	  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: no dem file (topo/dem.grd) !!"
 	  exit 1
 	fi
 fi
@@ -160,7 +160,7 @@ fi
 
 file_prm=master.PRM
 if [ ! -s ../topo/master.PRM ]; then
-  echo "[$PROG]ERROR: topo/master.PRM is missing ($1)!!"
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: topo/master.PRM is missing ($1)!!"
   exit 1
 fi
 \cp -fp ../topo/master.PRM .

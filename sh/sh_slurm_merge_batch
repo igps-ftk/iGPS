@@ -1,25 +1,60 @@
 #!/bin/sh
 
 # Name:
-#   run_gamit_qsub
-#   
+#   sh_slurm_merge_batch
+#
 
 # Purpose:
 #   Queue gamit tasks to slurmd.
 
 # Example:
-#   
+#
 
 # Modifications:
-#   
+#
 
-# Algorigthm:
-#   
+# Algorithm:
+#
 
 # Dependency:
-#   
-. ${HOME}/.bashrc
+#
+PROG=sh_slurm_merge_batch
 
+timestamp=`date | sed -e "s/ /_/g" | sed -e "s/:/-/g"`
+
+usage_of_it(){
+cat <<eob
+$PROG
+|_Submit merging-and-unwrapping jobs to SLURM.
+|+
+  -files from sh_s1_prep_f123 (intf.in.f123.1)
+  -file from sh_s1_prep_f123_in (intf.in.f123.2)
+  -merge_batch2.csh
+|<
+  [-m|-master intf.in.f123.1]
+  [-f|-file intf.in.f123.2]
+  [-c|-config batch_tops.config]
+  [-d|-delay DELAY_BETWEEN_SUBMITTING_SECONDS]
+  [-o|-overwrite OVERWRITE_EXISTING_SUBMIT]
+  [-n|-nmax_job NUMBER_OF_MAXIMUM_JOBS_TO_SUBMIT]
+|e.g.,
+  ${PROG}
+  ${PROG} -d 90 -m intf.in.f123.1 -f intf.in.f123.2 -nmax_job 100
+(c)iGPS (https://github.com/igps-ftk/)
+eob
+}
+
+#if called by crontab
+if [ -t 0 ]; then
+    interactive=1
+else
+    interactive=0
+    . ${HOME}/.bashrc
+fi
+#echo "interactive $interactive"
+#if [ $interactive -eq 0 ]; then
+#  . ${HOME}/.bashrc
+#fi
 
 #the directory to hold the interferograms, e.g. f123.1
 COMB_DIR=`pwd`
@@ -38,7 +73,7 @@ ROOT_DIR=${COMB_DIR}/..
 # |  |-intf_all/
 # |  |-raw/
 # |
-# |-f123/ (running directory)
+# |-f123/ (merging directory)
 # |  |-batch_tops.config
 # |  |-dem.grd
 # |  |-intf.in.f123
@@ -47,7 +82,7 @@ ROOT_DIR=${COMB_DIR}/..
 # |  |-trans.dat
 
 if [ ! -s dem.grd ]; then
-  echo "[$PROG]ERROR: no/wrong dem.grd file!!"
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: no/wrong dem.grd file!!"
   exit 1
 fi
 
@@ -60,7 +95,7 @@ PROC_ID=`dirname ${tmp} | awk -F\/ '{print $NF}'`
 echo PROC_ID is $PROC_ID
 
 
-#gamit processing directory, e.g. 
+#gamit processing directory, e.g.
 PROC_DIR=/home/tianyf/gsar/
 echo "*Note: the daily processing will be in ${PROC_DIR}/temp/"
 
@@ -80,62 +115,64 @@ delay=30
 nmax_job=9999
 
 while [ "$1" != "" ]; do
-    case $1 in
-	-f|-file)
-	    file_intf_in=$2
-	    ;;
-	-m|-master)
-            file_master=$2
-	    ;;
-	-c|-config)
-	    batch_config=$2
-	    ;;
-	-d|-delay)
-	    delay=$2
-	    ;;
-	-ndays)
-	    ndays=$2
-	    ;;
-	-orbit)
-	    orbit=$2
-	    ;;
-	-overwrite)
-	    overwrite=$2
-	    ;;
-        -expt)
-            expts=$2
-            expts=`echo $expts | sed -e 's/,/ /g'`
-            ;;
-        -nmax_job)
-            nmax_job=$2
-            ;;
-	*)
-	    echo "[run_rapid]ERROR: invalid options ($1) !!!"
-	    exit 1
-	    ;;
-    esac
-    shift 2
+  case $1 in
+    -f|-file)
+      file_intf_in=$2
+      ;;
+    -m|-master)
+      file_master=$2
+      ;;
+    -c|-config)
+      batch_config=$2
+      ;;
+    -d|-delay)
+      delay=$2
+      ;;
+    -o|-overwrite)
+      overwrite=$2
+      ;;
+    -n|-nmax|-nmax_job)
+      nmax_job=$2
+      ;;
+    -h|-help|--help)
+      usage_of_it
+      exit 1
+      ;;
+    *)
+      echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid option ($1)!!"
+      usage_of_it
+      ;;
+  esac
+  shift 2
 done
 
-echo Year/Doy/Ndays/Orbit $year $doyr $ndays $orbit
 #exit
 
-#test ascending/descending
-orb_type=
-if [ -d ../asc_F1 ]; then
-    orb_type=asc
-elif [ -d ../des_F1 ]; then
-    orb_type=des
-else
-    echo "[$PROG]ERROR:no ascending/descending paths found!"
-    #exit 1
+#file_master=intf.in.f123.1
+if [ ! -s $file_master ]; then
+  usage_of_it
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: master file not exist ($file_master)!!"
+  echo "[$PROG]HELP: use sh_s1_prep_f123_in to create input files."
+  exit 1
 fi
 
-echo "orbit type: $orb_type"
+#file_intf_in=intf.in.f123.2
+if [ ! -s $file_intf_in ]; then
+  usage_of_it
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: input file not exist ($file_intf_in)!!"
+  echo "[$PROG]HELP: use sh_s1_prep_f123_in to create input files."
+  exit 1
+fi
 
-
+#batch_config=batch_tops.config
+if [ ! -s $batch_config ]; then
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: processing configuation file not exist ($batch_config)!!"
+  exit 1
+fi
 
 n_job=0
+n_skip=0
+n_new=0
 while read line; do
     if [ $n_job -gt $nmax_job ]; then
       echo "[$PROG]INFO: maximum number of job reached ($nmax_job)."
@@ -154,6 +191,7 @@ while read line; do
       echo overwrite $overwrite
       if [ "$overwrite" == "n" ]; then
         echo "[$PROG]INFO:output already exist (${dir_name})! Skipped."
+        n_skip=`expr $n_skip + 1`
         continue
       else
         echo "[$PROG]INFO: >$overwrite<"
@@ -161,13 +199,14 @@ while read line; do
     else
       if [ -s "$cmdfile" -a "$overwrite" == "n" ]; then
         echo "[$PROG]INFO:already queued(${date1}_${date2})! Skipped."
+        n_skip=`expr $n_skip + 1`
         continue
       fi
     fi
 
     logfile="slurm_merge_batch_"$date1"_"$date2".log"
     infile="slurm_merge_batch_"$date1"_"$date2".in"
-    
+
     echo $line > $infile
     #cmdfile=merge_batch_${date1}_${date2}.cmd
     echo "#!/bin/sh" > $cmdfile
@@ -183,7 +222,7 @@ while read line; do
     #
 
     tmp=`date | sed -e 's/ /_/g' | sed -e 's/:/-/g'`
- 
+
 
     echo "#!/bin/sh" > $file_t
     echo "#SBATCH --job-name=${dir_name}-${COMB_ID}-${PROC_ID}" >> $file_t
@@ -233,12 +272,18 @@ while read line; do
     pwd
     #sleep 1
     sbatch $file_t
+    n_new=`expr $n_new + 1`
+
+    echo "[$PROG]INFO:waiting $delay seconds to submit next job ..."
     sleep $delay
-    echo delay is $delay
+
     n_job=`expr $n_job + 1`
     #exit
 done < $file_intf_in
 
 
+#squeue
 sinfo
-squeue
+
+echo "[$PROG]INFO: $n_new jobs submitted and $n_skip skipped."
+echo "[$PROG]INFO: done."

@@ -13,7 +13,7 @@
 # Modifications:
 #   
 
-# Algorigthm:
+# Algorithm:
 #   
 
 # Dependency:
@@ -28,7 +28,7 @@ while [ "$1" != "" ]; do
       path=$2
       ;;
     *)
-      echo "[]ERROR: invalid option ($1)!!"
+      echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid option ($1)!!"
       exit 1
       ;;
   esac
@@ -37,7 +37,7 @@ done
 
 echo $path
 if [ ! -d $path ]; then
-  echo "[]ERROR: path not exist ($path)!!"
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: path not exist ($path)!!"
   exit 1
 fi
 

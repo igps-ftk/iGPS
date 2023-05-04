@@ -2,29 +2,29 @@
 
 # Name:
 #   sh_asf_s1_query
-#   
+#
 
 # Purpose:
-#   
+#
 
 # Example:
-#   
+#
 
 # Modifications:
-#   
+#
 
-# Algorigthm:
-#   
+# Algorithm:
+#
 
 # Dependency:
-#   
+#
 
 # Inputs:
 #  1). roi files (line, point, polygon)
 #  2). orbit type (ascending, descending)
 #  3). output type (csv, kml, metalink, download, ...)
- 
- 
+
+
 PROG=sh_asf_s1_query
 
 
@@ -33,17 +33,27 @@ timestamp=`date | sed -e "s/ /_/g" | sed -e "s/:/-/g"`
 path_old=`pwd`
 
 usage_of_it(){
-  echo "[$PROG]HELP: ${PROG} "
-  echo "[$PROG]HELP:   [-ac|-aria2_conf ARIA2_CONF_FILE]"
-  echo "[$PROG]HELP:   [-u|-user EARTHDATA_USER_NAME (only for DIPP)]"
-  echo "[$PROG]HELP:   [-p|-path OUTPUT_PATH]"
-  echo "[$PROG]HELP:   [-r|-roi ROI_FILE]"
-  echo "[$PROG]HELP:   [-w1 WEEKS_AGO_TIME_START]"
-  echo "[$PROG]HELP:   [-w2 WEEKS_AGO_TIME_END]"
+cat <<eob
+${PROG}
+|_Query S1 SLC files using ASF API.
+  https://docs.asf.alaska.edu/api/basics/
+|<
+  [-r|-roi ROI_FILE]
+  [-rt|-roi_type TYPE_OF_ROI:point/line/polygon]
+  [-s|-sat SATELLITE:S1/...]
+  [-orb|-orb_type ASCENDING/DESCENDING]
+  [-f|-format|-out_type OUT_FILE_FORMAT]
+  [-o|-out_file OUT_FILE_NAME]
+  [-t|-track RELATIVE_TRACK_NUMBER]
+  [-w1 FROM_w1_WEEKS_AGO]
+  [-w2 TO_w2_WEEKS_AGO]
+  [-h|-help]
+|>
 
-  echo "[$PROG]HELP:   [-h|-help]"
-  echo "[$PROG]HELP: e.g.,"
-  echo "[$PROG]HELP:   ${PROG} "
+|e.g.,
+  ${PROG} -r jiali.kml -roi_type polygon -t 77 -f CSV
+(c)iGPS (https://github.com/igps-ftk/)
+eob
 }
 
 
@@ -72,39 +82,39 @@ e_week=
 
 while [ "$1" != "" ]; do
   case $1 in
-    -roi_file)
+    -r|-roi_file)
       roi_file=$2
       ;;
     -roi_type)
       roi_type=`echo $2 | awk '{print tolower($1)}'`
       ;;
-    -sat)
+    -s|-sat)
       platform=$2
-      ;;   
+      ;;
     -orb_type)
       orb_type=$2
-      ;;   
+      ;;
     -out_type)
       out_type=$2
-      ;;   
+      ;;
     -out_file)
       out_file=$2
-      ;;  
+      ;;
     -track)
       track=$2
       ;;
-    -weeks)
+    -w1|-weeks)
       s_week=$2
       ;;
-    -eweeks)
+    -w2|-eweeks)
       e_week=$2
-      ;;  
+      ;;
     -h|-help|--help)
       usage_of_it
       exit 1
       ;;
     *)
-      echo "[$PROG]ERROR: invalid option ($1)!!"
+      echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid option ($1)!!"
       usage_of_it
       exit 1
       ;;
@@ -129,14 +139,14 @@ echo $xys
 #intersectsWith=point(-119.543,37.925)
 
 case $roi_type in
-  point)    
+  point)
     roi_str=`echo $xys | awk '{print "intersectsWith=point%28"$3"+"$4"%29"}'`
     ;;
   line) # > -L"line_t164" 104.946308041 27.6750344184 106.131330306 32.3621562347
     #cat $file_tmp_roi_gmt | awk '{print $1,$2}'|grep -v '^>' > .tmp
     #tmpstr=`awk BEGIN{RS=EOF}'{gsub(/\n/,",");print}' .tmp`
     #tmpstr=`echo $tmpstr | sed -e 's/ /+/g'`
-    
+
     tmpstr=`cat $file_tmp_roi_gmt | awk '{print $1,$2}'|grep -v '^>' | awk '{print $1,$2}'|grep -v '^>'| sed -e 's/ /+/g'`
     echo tmpstr $tmpstr
     roi_str="intersectsWith=linestring%28${tmpstr}%29"
@@ -148,10 +158,10 @@ case $roi_type in
     #
     tmpstr=`cat $file_tmp_roi_gmt | awk '{print $1,$2}'|grep -v '^>' | awk BEGIN{RS=EOF}'{gsub(/\n/,",");print}'  | sed -e 's/ /+/g'`
     echo tmpstr $tmpstr
-    roi_str="intersectsWith=polygon%28%28${tmpstr}%29%29"   
+    roi_str="intersectsWith=polygon%28%28${tmpstr}%29%29"
     ;;
   *)
-    echo "[$PROG]ERROR: wrong ROI tpye ($1)!! Must be one of ( point line polygon ). Case insensitive."
+    echo -e "[$PROG]\033[1;33;41mERROR\033[0m: wrong ROI tpye ($1)!! Must be one of ( point line polygon ). Case insensitive."
     exit 1
     ;;
 esac
@@ -166,7 +176,7 @@ qstr="curl https://api.daac.asf.alaska.edu/services/search/param?platform=${plat
 
 if [ "$platform" == "S1" ]; then
   qstr="${qstr}\&processingLevel=SLC\&beamMode=IW"
-  
+
   if [ "$orb_type" != "" ]; then
     qstr="${qstr}\&flightDirection=${orb_type}" #now
   fi

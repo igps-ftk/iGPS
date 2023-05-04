@@ -13,7 +13,7 @@
 # Modifications:
 #   
 
-# Algorigthm:
+# Algorithm:
 #   
 
 # Dependency:
@@ -22,7 +22,7 @@ PROG=sh_sar_gacos_ztd2ll
 
 path=./ztd
 if [ ! -d $path ]; then
-  echo "[]ERROR: no input path ($path)!!"
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: no input path ($path)!!"
   exit 1
 fi
 

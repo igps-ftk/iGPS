@@ -2,22 +2,22 @@
 
 # Name:
 #   sh_s1_run_tsa
-#   
+#
 
 # Purpose:
-#   
+#
 
 # Example:
-#   
+#
 
 # Modifications:
-#   
+#
 
-# Algorigthm:
-#   
+# Algorithm:
+#
 
 # Dependency:
-#   
+#
 
 #. ${HOME}/.bashrc
 
@@ -29,55 +29,73 @@ timestamp=`date | sed -e "s/ /_/g" | sed -e "s/:/-/g"`
 path_old=`pwd`
 
 usage_of_it(){
-  echo "[$PROG]INRO: syntax: $PROG [-file INPUT_FILE]"
-  echo "[$PROG]INRO:   [ -iw IW1/2/3 ]  [-roi ROI_FILE_KML]"
-  echo "[$PROG]INRO:   [-comb_method assemble/stitch] [-esd y/n]"
-  echo "[$PROG]INRO:   [-master YYYYMMDD]"
-  echo "[$PROG]INRO:   [-proc_type landslide/interseismic] [-stage n]"
-  echo "[$PROG]INRO:   [-dem_grid china/pbo/turkey/...]"
-  echo "[$PROG]INRO:"
-  echo "[$PROG]INFO: please run this script in the subswatch (iw1/iw2/iw3)"
-  echo "[$PROG]INFO:   directory (e.g., under F1/ F2/ F3/)." 
-  echo "[$PROG]INFO: a typical layout of the processing session:"
-  echo "[$PROG]INFO: PROC_ROOT/"
-  echo "[$PROG]INFO:          |-input.lst   (frames list to process)"
-  echo "[$PROG]INFO:          |-batch_tops.config   (configuration of processing parameters; default copy from ${esa_data}/config/batch_tops.config.interseismic, if not present)"
-  echo "[$PROG]INFO:          |-dem.grd    (dem file)"
-  echo "[$PROG]INFO:          |-*.kml   (optional, if dem file not present, *kml files will be used to generate one)"
-  echo "[$PROG]INFO:          |-F1/"
-  echo "[$PROG]INFO:          |-F2/"
-  echo "[$PROG]INFO:          |-F3/"
-  echo "[$PROG]INFO:          |-f123/"
-  echo "[$PROG]INFO: " 
-  echo "[$PROG]INRO:        default input file (file) is input.lst.ok"
-  echo "[$PROG]INRO:        default subswath (iw) is iw1"
-
-  echo "[$PROG]INFO:   stage = 9 - processing all steps"
-  echo "[$PROG]INFO:           0 - clip DEM (dem.grd)"
-  echo "[$PROG]INFO:           1 - cut/merge tiff"
-  echo "[$PROG]INFO:           2 - alignment"
-  echo "[$PROG]INFO:           3 - create coordinate conversion"
-  echo "[$PROG]INFO:           4 - intf"
-  echo "[$PROG]INFO:           5 - sbas "
-  echo "[$PROG]INFO:"          
-  echo "[$PROG]INFO: (c) iGPS 2020 Yunfeng Tian"            
+cat <<eob
+$PROG
+|_Batch processing of Sentinel-1 data.
+  please run this script in the subswatch (iw1/iw2/iw3) directory,
+    e.g., under F1/ F2/ F3/
+  A typical layout of the processing session:
+    PROC_ROOT/
+      |-input.lst.ok   (frames list to process)
+      |-batch_tops.config   (configuration of processing parameters)
+      |-dem.grd    (DEM file)
+      |-overlapping.*.kml   (optional; used to generate dem.grd from 
+      |                      exsiting mosaic grids if not present)
+      |-F1/
+      |-F2/
+      |-F3/
+      |-f123/
+|+
+  -sh_s1_assemble_snap/sh_s1_stitch_snap
+  -preproc_batch_tops.csh (GMTSAR)
+  -preproc_batch_tops_esd.csh (GMTSAR)
+  -get_baseline_table.csh (GMTSAR)
+  -sh_s1_prep_proc_baseline
+  -dem2topo_ra.csh (GMTSAR)
+  -sh_sar_cp_intf_png
+  -sar_sbas_tab_from_png
+  -sh_sar_prep_sbases
+  -sh_sar_sbas
+|<
+  [-f|-file INPUT_FILE]
+    default: ../input.lst.ok
+  [-i|-iw IW1/2/3 ]
+    default: iw1
+  [-r|-roi ROI_FILE_KML]
+  [-c|-comb_method assemble/stitch]
+    default: assemble    (recommended)
+  [-e|-esd y/n]
+    default: y
+  [-m|-master YYYYMMDD]
+  [-ty|-proc_type landslide/normal/interseismic] 
+    default: normal
+      \${iGPS}/tables/batch_tops.config.\${proc_type}
+  [-s|-stage n]
+    stage = 9 - processing all steps
+      0 - clip DEM (dem.grd)
+      1 - cut/merge tiff
+      2 - alignment
+      3 - create geocoding conversion
+      4 - intf
+      5 - sbas
+|e.g.,
+  ${PROG} -file ../input.lst -iw iw2 -proc_type interseismic -roi ../pins.kml
+(c)iGPS (https://github.com/igps-ftk/)
+eob
 }
 
 
-
 if [ "$esa_data" = "" ]; then
-    echo "[$PROG]ERROR: ESA environment variable esa_data must be set first! Stopped."
+    echo -e "[$PROG]\033[1;33;41mERROR\033[0m: ESA environment variable esa_data must be set first! Stopped."
     exit 1
 fi
-
-
 
 #temporary files used by this script
 file_tmp_proc=`pwd`/_tmp_${PROG}_${timestamp}_proc_list
 
 
 
-#default value for command-line parameters 
+#default value for command-line parameters
 path_sess=`dirname $path_old`
 sess=`basename $path_sess`
 echo "[$PROG]INFO: session $sess"
@@ -98,6 +116,7 @@ is_esd=y
 
 proc_type=interseismic
 proc_type=landslide
+proc_type=normal
 
 master_date= #use the first observation as the super-master by default
 
@@ -124,10 +143,10 @@ fi
 
 while [ "$1" != "" ]; do
     case $1 in
-        -comb_method)
-            comb_method=$2  
+        -c|-comb_method)
+            comb_method=$2
             ;;
-        -dem_grid)
+        -dg|-dem|-dem_grid)
             case $2 in
               china)
                 dem_grid_file=${esa_data}/topo/srtm3/grid/china.grd
@@ -139,60 +158,60 @@ while [ "$1" != "" ]; do
                 dem_grid_file=${esa_data}/topo/srtm3/turkey/turkey.grd
                 ;;
               *)
-                echo "[]ERROR: invalid DEM Grid ($2)!!"
+                echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid DEM Grid ($2)!!"
                 exit 1
                 ;;
             esac
             ;;
-        -esd)
+        -e|-esd)
             is_esd=$2
             ;;
-        -file)
+        -f|-file)
            if [ ! -s $2 ]; then
-             echo "[$PROG]ERROR: input file not exist ($2) !!"
+             echo -e "[$PROG]\033[1;33;41mERROR\033[0m: input file not exist ($2) !!"
              exit 1
             fi
             file=`pwd`/$2
             ;;
-        -iw)
-            iw_typ=$2  
+        -i|-iw)
+            iw_typ=$2
             ;;
-        -master)
+        -m|-master)
             master_date=$2
             ;;
         -ni|-nmax_intf)
             nmax_intf=$2
             ;;
-        -proc_type)
+        -ty|-proc_type)
             proc_type=$2
             ;;
-
-        -roi)
+        -r|-roi)
            if [ ! -s $2 ]; then
-             echo "[$PROG]ERROR: input file not exist ($2) !!"
+             echo -e "[$PROG]\033[1;33;41mERROR\033[0m: input file not exist ($2) !!"
              exit 1
             fi
             file_roi_kml=`pwd`/$2
             ;;
-        -stage)
+        -s|-stage)
            sess_stage=`echo $2 | awk '{print $1+0}'`
            ;;
-        -skip_align)
+        -sa|-skip_align)
            skip_align=$2
            ;;
-        -skip_intf)
+        -si|-skip_intf)
            skip_intf=$2
            ;;
-        -h|--help)
+        -h|-help|--help)
            usage_of_it
            exit 1
            ;;
         *)
-            echo "[$PROG]ERROR: invalid option ($1) !!"
+            usage_of_it
+            echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid option ($1) !!"
             exit 1
             ;;
     esac
-    
+
     shift 2
 done
 
@@ -214,7 +233,7 @@ if [ ! -s ../dem.grd ] ; then
         mkdir -p ${path_dem}/
         files_kml=`find $path_sess -maxdepth 1 -name "*.kml"`
         if [ "$files_kml" = "" ]; then
-            echo "[$PROG]ERROR: DEM file ../dem.grd is mondatory !! Stopped."
+            echo -e "[$PROG]\033[1;33;41mERROR\033[0m: DEM file ../dem.grd is mondatory !! Stopped."
             exit 1
         fi
         echo "[$PROG]WARNING: DEM file ../dem.grd is mondatory and missing!"
@@ -248,7 +267,7 @@ mkdir -p topo
 cd topo
 if [ ! -s dem.grd ]; then
     \rm -f dem.grd >& /dev/null
-    ln -s ../../dem.grd ./ 
+    ln -s ../../dem.grd ./
 fi
 cd ..
 #<<<SESSION_STAGE_0
@@ -269,7 +288,7 @@ echo "[$PROG]INRO: ROI file is $file_roi_kml"
 #prepare configuration file (batch_tops.config) in the parent directory, if not present
 file_config_esa_data=${iGPS}/tables/batch_tops.config.${proc_type}
 if [ ! -s $file_config_esa_data ]; then
-  echo "[$PROG]ERROR: configuation file not found ($file_config_esa_data)!!"
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: configuation file not found ($file_config_esa_data)!!"
   exit 1
 fi
 
@@ -300,7 +319,7 @@ if [ -s $file_exclude ]; then
       grep -v $fname $file_tmp_proc > .tmp_s1_proc
       \mv -f .tmp_s1_proc $file_tmp_proc
     done < .tmp_s1_exclude
-    
+
     grep '^ ' $file_exclude | wc -l
 fi
 
@@ -328,7 +347,7 @@ elif [ "$comb_method" == "stitch" ]; then
   echo "[$PROG]INRO: output log to log.stch "
   sh_s1_stitch_snap -file $file_tmp_proc -iw $iw_typ > log.stch
 else
-  echo "[$PROG]ERROR: wrong type ($comb_method) for merging frames!!"
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: wrong type ($comb_method) for merging frames!!"
   exit 1
 fi
 echo "[$PROG]INRO: return to `pwd`"
@@ -360,7 +379,7 @@ echo master_date is $master_date
 if [ "$master_date" != "" ]; then
   tmp=`cat ../data.in | grep "\-${master_date}t"`
   if [ "$tmp" == "" ]; then
-    echo "[$PROG]ERROR: given super-master ($mater) no found!!"
+    echo -e "[$PROG]\033[1;33;41mERROR\033[0m: given super-master ($mater) no found!!"
     exit 1
   fi
   cat ../data.in > .tmp.data.in
@@ -430,7 +449,7 @@ echo "get_baseline_table.csh prmlist `head -1 prmlist`" | sh
 
 cd ..
 echo "[$PROG]INRO: return to `pwd`"
-sh_mail -prog "${PROG}-alignment" -text "`pwd`" 
+sh_mail -prog "${PROG}-alignment" -text "`pwd`"
 #exit
 #<<<SESSION_STAGE_2
 
@@ -444,11 +463,11 @@ fi
 echo "[$PROG]INRO: (3) coordinate conversion"
 echo "[$PROG]INRO: creating input file (intf.in) for producing interferograms"
 #sh_s1_prep_proc $file $iw_typ
-sh_s1_prep_proc_baseline -file baseline_table.dat -min_interval 1 
+sh_s1_prep_proc_baseline -file baseline_table.dat -min_interval 1
 #sh_s1_prep_proc_baseline_sort -file baseline_table.dat
 #sh_s1_prep_proc_time_sort -file baseline_table.dat
 \cp -fp intf.in intf.in.0
-shuf intf.in.0 > intf.in.0s 
+shuf intf.in.0 > intf.in.0s
 
 echo "[$PROG]INRO: creating coordinate conversion files (trans.dat) ..."
 master=`grep master_image batch_tops.config | awk '{print $3}'`
@@ -492,10 +511,10 @@ if [ $sess_stage -lt 4 ]; then
 fi
 #processing step 4: interferometric analysis
 echo "[$PROG]INRO: (4) generating interferograms"
-  
+
 sort intf.in.0 | head -1 > intf.in
 wc -l intf.in
-  
+
 if [ "$proc_type" == "landslide" ]; then
   sh_s1_prep_proc_baseline -file baseline_table.dat -min_interval 1 -max_interval 121 -update_config n
   \cp -fp intf.in intf.in.1
@@ -515,7 +534,7 @@ if [ "$proc_type" == "interseismic" ]; then
   sh_s1_prep_proc_baseline -file baseline_table.dat -min_interval 121  -update_config n
   \cp -fp intf.in intf.in.2
   shuf intf.in.2 > intf.in.2s
-  #  
+  #
   sort intf.in.1 | grep $master_date | head -1 > intf.in.z
   head -2000 intf.in.2s > intf.in.a
   cat intf.in.[1a] | shuf | grep -v "`head -1 intf.in.z`">> intf.in.z
@@ -532,7 +551,7 @@ fi
 echo "[$PROG]INRO: generating interferograms (time-consuming) ... take a rest :)"
 intf_tops.csh intf.in batch_tops.config >& log.intf
 sh_sar_cp_intf_png
-sh_mail -prog "${PROG}-intf_tops" -text "`pwd`" 
+sh_mail -prog "${PROG}-intf_tops" -text "`pwd`"
 #<<<SESSION_STAGE_4
 
 
@@ -547,7 +566,7 @@ is_snaphu=`cat batch_tops.config | grep threshold_snaphu | awk '{if(index($0,"#"
 if [ $is_snaphu -eq 1 ]; then
     sar_sbas_tab_from_png
     sh_sar_sbas
-    sh_mail -prog "${PROG}-sbas" -text "`pwd`" 
+    sh_mail -prog "${PROG}-sbas" -text "`pwd`"
 fi
 
 #<<<SESSION_STAGE_5

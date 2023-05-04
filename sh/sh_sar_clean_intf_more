@@ -13,7 +13,7 @@
 # Modifications:
 #   
 
-# Algorigthm:
+# Algorithm:
 #   
 
 # Dependency:
@@ -24,7 +24,7 @@ path_old=`pwd`
 if [ "$1" != "" ]; then
   cd $1
   if [ $? -ne 0 ]; then
-    echo "[]ERROR: cannot enter $1!!"
+    echo -e "[$PROG]\033[1;33;41mERROR\033[0m: cannot enter $1!!"
     exit 1
   fi
   path=`pwd`

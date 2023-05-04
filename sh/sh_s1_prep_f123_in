@@ -14,7 +14,7 @@
 #   +Created by tyf on Thu Dec 28 16:20:53 CST 2017
 
 
-# Algorigthm:
+# Algorithm:
 #   +Convert intf.in to input filelist for merge_batch.csh
 #
 #   Inputs:
@@ -32,16 +32,19 @@ timestamp=`date | sed -e "s/ /_/g" | sed -e "s/:/-/g"`
 path_old=`pwd`
 
 usage_of_it(){
-    echo "[$PROG]HELP: $PROG   "
-    echo "  inputs:"
-    echo "    1) ../F1/intf_all/ or ../F2/intf_all"
-    echo "    2) *F2*"
-    echo "    3) *F3*"
-
-    echo "[$PROG]HELP:   [-h|-help]"
-    echo "[$PROG]HELP: e.g.,"
-    echo "[$PROG]HELP:   ${PROG} "
-    echo "(c)Copyright 2017 by Yunfeng Tian (tianyf@gmail.com)"
+cat <<eob
+$PROG
+|_Prepare inputfile (interferogram list) for merge_batch.csh
+|+
+  -../F1/intf_all/
+  -../F2/intf_all/
+  -../F3/intf_all/
+|<
+  [-h|-help|--help]
+e.g.,
+  ${PROG}
+(c)iGPS (https://github.com/igps-ftk/)
+eob
 }
 
 file_log=log1
@@ -54,39 +57,39 @@ ofile=intf.in.f123.1
 file_log=log1
 
 while [ "$1" != "" ]; do
-    case $1 in
-  -path)
+  case $1 in
+    -path)
       path_old=`pwd`
       cd $2
       path=`pwd`
       cd $path_old
       ;;
-  -file_intf_in)
+    -file_intf_in)
       file_intf_in=$2
       ;;
-  -Fn)
+    -Fn)
       Fn=$2
       ;;
-  -h|-help|--help|?)
+    -h|-help|--help|?)
      usage_of_it
      exit 1
      ;;
-  *)
-      echo "[$PROG]ERROR: invalid option ($1)!!"
+    *)
       usage_of_it
+      echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid option ($1)!!"
       exit 1
       ;;
   esac
-    shift 2
+  shift 2
 done
 
 if [ ! -e $file_intf_in ]; then
-    echo "[$PROG]ERROR: $file_intf_in file not exist!! Stopped."
+    echo -e "[$PROG]\033[1;33;41mERROR\033[0m: $file_intf_in file not exist!! Stopped."
     exit 1
 fi
 
 if [ -s intf.in.f123.1 ]; then
-  ofile='intf.in.f123.2'  
+  ofile='intf.in.f123.2'
   file_log=log2
 fi
 
@@ -112,7 +115,7 @@ while read line; do
     echo $n $np | awk '{if( ($1-int($1/$2)*$2)==0){printf(".")}}'
     #echo $n $np | awk '{if( ($1-int($1/$2)*$2)==0){printf("\b:>")}}'
     #sleep .5
-    
+
     echo " [$PROG]INFO: $line" >> $file_log
     ymd1=`echo $line | awk -F: '{print substr($1,4,8)}'`
     ymd2=`echo $line | awk -F: '{print substr($2,4,8)}'`
@@ -129,7 +132,7 @@ while read line; do
 
     #doyr1a=`echo  $doyr1 | awk '{printf("%03d", $1 - 1)}'`
     #doyr2a=`echo  $doyr2 | awk '{printf("%03d", $1 - 1)}'`
- 
+
     doyr1a=`cat baseline_table.dat | grep $ymd1 | awk '{print substr($2,5,3)}'`
     doyr2a=`cat baseline_table.dat | grep $ymd2 | awk '{print substr($2,5,3)}'`
 
@@ -185,4 +188,5 @@ fi
 echo "[$PROG]INFO: results written to $ofile"
 echo "[$PROG]INFO: check $file_log for more information."
 wc -l intf.in*
+
 echo "[$PROG]INFO: done."

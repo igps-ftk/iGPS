@@ -16,7 +16,7 @@
 # Example:
 #   +
 
-# Algorigthm:
+# Algorithm:
 #   +
 
 # Modifications:
@@ -52,7 +52,7 @@ path_old=`pwd`
 #      exit 1
 #      ;;
 #    *)
-#      echo "[$PROG]ERROR: invalid option ($1)!!"
+#      echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid option ($1)!!"
 #      usage_of_it
 #      exit 1
 #      ;;

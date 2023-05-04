@@ -13,7 +13,7 @@
 # Modifications:
 #   
 
-# Algorigthm:
+# Algorithm:
 #   
 
 # Dependency:
@@ -44,7 +44,7 @@ while read line; do
     echo $line
     dfile="`echo $line | awk -F. '{print $1}'`.SAFE"
     if [ ! -d ${esa_unzip}/${dfile} ]; then
-	echo "ERROR:data not found [${esa_unzip}/${dfile}]!!"
+	echo -e "[$PROG]\033[1;33;41mERROR\033[0m:data not found [${esa_unzip}/${dfile}]!!"
 	exit 1
     fi
     

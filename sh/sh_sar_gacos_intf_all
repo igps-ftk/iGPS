@@ -13,7 +13,7 @@
 # Modifications:
 #   
 
-# Algorigthm:
+# Algorithm:
 #   
 
 # Dependency:
@@ -45,11 +45,11 @@ for intf in $intfs; do
     ztd1=${path_ztd}/${ymd1}_ra.grd
     ztd2=${path_ztd}/${ymd2}_ra.grd
     if [ ! -s $ztd1 ]; then
-        echo "[]ERROR: no ztd1 file ($ztd1)!!"
+        echo -e "[$PROG]\033[1;33;41mERROR\033[0m: no ztd1 file ($ztd1)!!"
         continue
     fi
     if [ ! -s $ztd2 ]; then
-        echo "[]ERROR: no ztd2 file ($ztd2)!!"
+        echo -e "[$PROG]\033[1;33;41mERROR\033[0m: no ztd2 file ($ztd2)!!"
         continue
     fi
     

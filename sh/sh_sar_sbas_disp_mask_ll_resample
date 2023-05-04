@@ -13,7 +13,7 @@
 # Modifications:
 #   
 
-# Algorigthm:
+# Algorithm:
 #   
 
 # Dependency:
@@ -37,7 +37,7 @@ while [ "$1" != "" ]; do
             sf=$2
             ;;
         *)
-            echo "[$PROG]ERROR: invalid input $1 !!"
+            echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid input $1 !!"
             echo "Usage: $PROG [-sf SCALE_FACTOR]"
             exit 1
             ;;
@@ -47,7 +47,7 @@ done
 
 
 if [ ! -s mask_def.grd ]; then
-  echo "[$PROG]ERROR: the mask file (mask_def.grd) is missing!! Use sh_sar_sbas_corr_mask to create one."
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: the mask file (mask_def.grd) is missing!! Use sh_sar_sbas_corr_mask to create one."
   exit
 fi
 
@@ -60,7 +60,7 @@ mkdir -p r${sf}
 #masking
 files=`ls disp_???????.grd|sort`
 if [ "$files" == "" ]; then
-  echo "[]ERROR: no displacement files found!!"
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: no displacement files found!!"
   exit 1
 fi
 

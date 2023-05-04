@@ -13,7 +13,7 @@
 # Modifications:
 #   
 
-# Algorigthm:
+# Algorithm:
 #   
 
 # Dependency:
@@ -78,7 +78,7 @@ do
       exit 1
       ;;
     *)
-      echo "[$PROG]ERROR: wrong input option ($1)!!"
+      echo -e "[$PROG]\033[1;33;41mERROR\033[0m: wrong input option ($1)!!"
       usage_of_it
       exit 1
       ;;
@@ -88,7 +88,7 @@ done
 
 
 if [ ! -s $file ]; then
-  echo "[$PROG]ERROR: $file not exist!!"
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: $file not exist!!"
   exit 1
 fi
 echo $file

@@ -13,7 +13,7 @@
 # Modifications:
 #   
 
-# Algorigthm:
+# Algorithm:
 #   
 
 # Dependency:
@@ -32,7 +32,7 @@ while [ "$1" != "" ]; do
   		file_list=$2
   		;;
     *)
-      echo "[$PROG]ERROR: invalid option ($1)!!"
+      echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid option ($1)!!"
       echo "[$PROG]Usage: ${PROG} "
       echo "[$PROG]Usage: e.g.,"
       echo "[$PROG]Usage: ${PROG} "
@@ -43,7 +43,7 @@ while [ "$1" != "" ]; do
 done
 
 if [ ! -s $file_list ]; then
-  ehco "[$PROG]ERROR: $file_list not exist!!"
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: $file_list not exist!!"
   exit 1
 fi
 

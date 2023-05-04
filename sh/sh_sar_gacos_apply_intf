@@ -13,7 +13,7 @@
 # Modifications:
 #   
 
-# Algorigthm:
+# Algorithm:
 #   
 
 # Dependency:
@@ -42,7 +42,7 @@ for intf in $intfs; do
     if [ -s $file_corr ]; then
         ln -s ${file_corr} .
     else
-        echo "[]ERROR: no corr file ($file_corr)!!"
+        echo -e "[$PROG]\033[1;33;41mERROR\033[0m: no corr file ($file_corr)!!"
         continue
     fi
 
@@ -54,7 +54,7 @@ for intf in $intfs; do
              echo gmt grdmath ${file_unwrap} ${file_gacos} SUB = unwrap_mask.grd | sh
         fi
     else
-        echo "[]ERROR: no gacos ztd file ($file_unwrap)!!"
+        echo -e "[$PROG]\033[1;33;41mERROR\033[0m: no gacos ztd file ($file_unwrap)!!"
         continue
     fi
 

@@ -13,7 +13,7 @@
 # Modifications:
 #   +
 
-# Algorigthm:
+# Algorithm:
 #   +
 
 # Dependency:
@@ -44,7 +44,7 @@ while [ "$1" != "" ]; do
       exit 1
       ;;
     *)
-      echo "[$PROG]ERROR: invalid option ($1)!!"
+      echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid option ($1)!!"
       usage
       exit 1
       ;;
@@ -53,7 +53,7 @@ while [ "$1" != "" ]; do
 done
 
 if [ ! -s data.in ]; then
-  echo "[$PROG]ERROR: no data.in file!!"
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: no data.in file!!"
 fi
 
 \rm -f fp

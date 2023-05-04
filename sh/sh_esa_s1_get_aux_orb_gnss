@@ -13,7 +13,7 @@
 # Modifications:
 #   +
 
-# Algorigthm:
+# Algorithm:
 #   +
 
 # Dependency:
@@ -49,8 +49,7 @@ if [ -t 0 ]; then
 else
     interactive=0
 fi
-echo "interactive $interactive"
-
+#echo "interactive $interactive"
 if [ $interactive -eq 0 ]; then
   . ${HOME}/.bashrc  
 fi
@@ -60,11 +59,11 @@ PROG=sh_esa_s1_get_aux_orb_gnss
 
 #check the data root directory
 if [ "$esa_data" == "" ]; then
-  echo "[$PROG]ERROR: environment variable esa_data not set!!"
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: environment variable esa_data not set!!"
   exit 1
 fi
 if [ ! -d $esa_data ]; then
-  ehco "[$PROG]ERROR: esa_data ($esa_data) not exist!!"
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: esa_data ($esa_data) not exist!!"
   exit 1
 fi
 
@@ -74,12 +73,21 @@ timestamp=`date | sed -e "s/ /_/g" | sed -e "s/:/-/g"`
 path_old=`pwd`
 
 usage_of_it(){
-  echo "[$PROG]HELP: ${PROG} "
-  echo "[$PROG]HELP:   [-l|-load_bashrc y/...]"
-  echo "[$PROG]HELP:   [-n|-ndays N_DAYS_BACKWARD]"
-  echo "[$PROG]HELP:   [-o|-orb|-orbit poe/res]"
-  echo "[$PROG]HELP: e.g.,"
-  echo "[$PROG]HELP:   ${PROG} "
+cat <<eob
+${PROG}
+|_Query and download S1 orbit files from ESA.
+  https://scihub.copernicus.eu/gnss/#/home
+  login account: gnssguest/gnssguest (public access)
+|<
+  [-d|-date DATE_OF_ORBIT]
+  [-l|-load_bashrc y/...]
+  [-n|-ndays N_DAYS_BACKWARD]
+  [-o|-orb|-orbit poe/res]
+|e.g.,
+  ${PROG} -d 20220109 -orb res
+  ${PROG} -n 10 -orb poe
+(c)iGPS (https://github.com/igps-ftk/)
+eob
 }
 
 
@@ -112,7 +120,7 @@ while [ "$1" != "" ]; do
       exit 1
       ;;
     *)
-      echo "[$PROG]ERROR: invalid option ($1)!!"
+      echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid option ($1)!!"
       usage_of_it
       exit 1
       ;;
@@ -157,7 +165,7 @@ fi
 #  mkdir -p $opath
 #fi
 #if [ ! -e $opath ]; then
-#  echo "[$PROG]ERROR: output path not exist ($opath)!!"
+#  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: output path not exist ($opath)!!"
 #  exit 1
 #fi
 #year2=`echo $time2 | awk '{print substr($1,1,4)}'`
@@ -166,7 +174,7 @@ fi
 #  mkdir -p $opath
 #fi
 #if [ ! -e $opath ]; then
-#  echo "[$PROG]ERROR: output path not exist ($opath)!!"
+#  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: output path not exist ($opath)!!"
 #  exit 1
 #fi
 #
@@ -184,7 +192,8 @@ wget --no-check-certificate --content-disposition --continue  --user=gnssguest -
 nrec=`cat $path/_tmp_${PROG}_${timestamp}_query_count.txt`
 #echo "nrec $nrec"
 if [ "$nrec" == "" ]; then
-  echo "[$PROG]ERROR: cannot get count of orbit files!!"
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: cannot get count of orbit files!!"
+  \rm -f $file_lock
   exit 1
 fi
 #nrec=201
@@ -267,7 +276,7 @@ done
 
 #ls -lh *.EOF
 
-#clean temporary files
+echo "[$PROG]INFO: clean temporary files"
 \rm -f $path/_tmp_${PROG}_${timestamp}_query*
 
 \rm -f $file_lock

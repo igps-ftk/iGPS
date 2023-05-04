@@ -13,7 +13,7 @@
 # Modifications:
 #   
 
-# Algorigthm:
+# Algorithm:
 #   
 
 # Dependency:
@@ -34,13 +34,13 @@
 blen_ok=200 #meters
 
 if [ ! -s baseline_table.dat ]; then
-    echo "[]ERROR: baseline_table.dat not exist!!"
+    echo -e "[$PROG]\033[1;33;41mERROR\033[0m: baseline_table.dat not exist!!"
     echo "baseline_table.dat and data.in files are mondatory!"
     exit 1
 fi
 
 if [ ! -s data.in ]; then
-    echo "[]ERROR: data.in not exist!!"
+    echo -e "[$PROG]\033[1;33;41mERROR\033[0m: data.in not exist!!"
     echo "baseline_table.dat and data.in files are mondatory!"
     exit 1
 fi

@@ -20,7 +20,7 @@
 # Modifications:
 #   
 
-# Algorigthm:
+# Algorithm:
 #   
 
 # Dependency:
@@ -79,7 +79,7 @@ while [ "$1" != "" ]; do
             path_old=`pwd`
             cd $2
             if [ $? -ne 0 ]; then
-                echo "[$PROG]ERROR: invalid -raw0 value ($2) !!"
+                echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid -raw0 value ($2) !!"
                 cd $path_old
                 exit 1
             fi
@@ -90,7 +90,7 @@ while [ "$1" != "" ]; do
             path_old=`pwd`
             cd $2
             if [ $? -ne 0 ]; then
-                echo "[$PROG]ERROR: invalid -raw value ($2) !!"
+                echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid -raw value ($2) !!"
                 cd $path_old
                 exit 1
             fi
@@ -102,7 +102,7 @@ while [ "$1" != "" ]; do
             exit 1
             ;;
         *)
-            echo "[$PROG]ERROR: invalid option ($1) !!"
+            echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid option ($1) !!"
             usage_of_it
             exit 1
             ;;
@@ -113,12 +113,12 @@ done
 
 
 if [ "$file" == "" ]; then
-    echo "[$PROG]ERROR: no input file specified!!"
+    echo -e "[$PROG]\033[1;33;41mERROR\033[0m: no input file specified!!"
     exit 1
 fi
 
 if [ "$iw_typ" == "" ]; then
-    echo "[$PROG]ERROR: no subswath (iw1/iw2/iw3) specified!!"
+    echo -e "[$PROG]\033[1;33;41mERROR\033[0m: no subswath (iw1/iw2/iw3) specified!!"
     exit 1
 fi
 

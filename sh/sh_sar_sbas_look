@@ -13,7 +13,7 @@
 # Modifications:
 #   
 
-# Algorigthm:
+# Algorithm:
 #   
 
 # Dependency:
@@ -24,7 +24,7 @@ PROG=sh_sar_sbas_look
 
 files_prm=`ls ../../topo/*.PRM | sort`
 if [ $? -ne 0 ]; then
-    echo "[]ERROR: error when searching PRM file!!"
+    echo -e "[$PROG]\033[1;33;41mERROR\033[0m: error when searching PRM file!!"
     exit 1
 fi
 file_prm=`echo $files_prm | head -1 | awk '{print $1}'`

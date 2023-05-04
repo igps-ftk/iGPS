@@ -13,7 +13,7 @@
 # Modifications:
 #   
 
-# Algorigthm:
+# Algorithm:
 #   
 
 # Dependency:
@@ -53,7 +53,7 @@ echo copy file types: $types
 #exit
 
 #if [ ! -d intf ]; then
-#    echo "[$PROG]ERROR:directory intf not exist!!"
+#    echo -e "[$PROG]\033[1;33;41mERROR\033[0m:directory intf not exist!!"
 #    echo exit 1
 #fi
 

@@ -14,7 +14,7 @@
 # Modifications:
 #   
 
-# Algorigthm:
+# Algorithm:
 #   
 
 # Dependency:
@@ -28,7 +28,7 @@ else
     interactive=0
     . ${HOME}/.bashrc  
 fi
-which doy
+#which doy
 
 
 host=`hostname | awk '{print substr($1,1,4)}'`
@@ -52,16 +52,28 @@ timestamp=`date | sed -e "s/ /_/g" | sed -e "s/:/-/g"`
 path_old=`pwd`
 
 usage_of_it(){
-  echo "[$PROG]HELP: ${PROG} "
-  echo "[$PROG]HELP:   -file INPUT_FILE"
-  echo "[$PROG]INRO:     default input.lst.ok"
-  echo "[$PROG]HELP:   [-i|-iw iw1/iw2/iw3]"
-  echo "[$PROG]INRO:     default iw1"
-  echo "[$PROG]HELP:   [-r|-roi ROI_FILE_KML]"
+cat <<eob
+${PROG}
+|_Align new images for an existing sh_s1_run_tsa (TSA) session.
+|+
+  -sh_s1_assemble_snap/sh_s1_stitch_snap
+  -preproc_batch_tops_esd.csh (GMTSAR)
+  -get_baseline_table.csh (GMTSAR)
+  -sh_s1_prep_proc_baseline
+  -sh_sar_prep_sbases
+|<
+  -file INPUT_FILE
+    default: ../input.lst.ok
+  [-i|-iw iw1/iw2/iw3]
+    default: iw1
+  [-c|-comb_method assemble/stitch]
+    default: assemble    
+    the same as existing TSA session
+  [-r|-roi ROI_FILE_KML]
 
-  echo "[$PROG]HELP:   [-h|-help]"
-  echo "[$PROG]HELP: e.g.,"
-  echo "[$PROG]HELP:   ${PROG} "
+|e.g.,
+  ${PROG} 
+eob
 }
 
 if [ "$1" == "" ]; then
@@ -111,8 +123,8 @@ while [ "$1" != "" ]; do
             exit 1
             ;;
         *)
-            echo "[$PROG]ERROR: invalid option ($1)!!"
             usage_of_it
+            echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid option ($1)!!"
             exit 1
             ;;
     esac    
@@ -127,33 +139,33 @@ echo "[$PROG]INRO: Merge mode is $comb_method"
 
 
 if [ "$esa_data" = "" ]; then
-    echo "[$PROG]ERROR: ESA environment variable esa_data must be set first! Stopped."
+    echo -e "[$PROG]\033[1;33;41mERROR\033[0m: ESA environment variable esa_data must be set first! Stopped."
     exit 1
 fi
 
 if [ ! -s ../dem.grd ]; then
-    echo "[$PROG]ERROR: DEM file ../dem.grd is mondatory! Stopped."
+    echo -e "[$PROG]\033[1;33;41mERROR\033[0m: DEM file ../dem.grd is mondatory! Stopped."
     exit 1
 fi
 
 
 if [ "$comb_method" == "assemble" -a ! -d raw0 ]; then
-    echo "[$PROG]ERROR: raw0 directory not exist!!"
+    echo -e "[$PROG]\033[1;33;41mERROR\033[0m: raw0 directory not exist!!"
     exit 1
 fi
 
 if [ ! -d raw ]; then
-    echo "[$PROG]ERROR: raw directory not exist!!"
+    echo -e "[$PROG]\033[1;33;41mERROR\033[0m: raw directory not exist!!"
     exit 1
 fi
 
 if [ ! -s batch_tops.config ]; then
-    echo "[$PROG]ERROR: batch_tops.config file not exist!!"
+    echo -e "[$PROG]\033[1;33;41mERROR\033[0m: batch_tops.config file not exist!!"
     exit 1
 fi
 
 if [ ! -s data.in ]; then
-    echo "[$PROG]ERROR: data.in file not exist!!"
+    echo -e "[$PROG]\033[1;33;41mERROR\033[0m: data.in file not exist!!"
     exit 1
 fi
 
@@ -226,7 +238,7 @@ for id in $ids_new; do
     echo " $file_tiff1" >> $file_tmp_new
 done
 
-echo file_tmp_new $file_tmp_new
+#echo file_tmp_new $file_tmp_new
 
 #exit
 
@@ -248,7 +260,7 @@ elif [ "$comb_method" == "stitch" ]; then
   echo "[$PROG]INRO: output log to log.stch.upd"
   sh_s1_stitch_snap -file $file_tmp_new -iw $iw_typ  -raw `pwd`/raw.append  #> log.stch.upd
 else
-  echo "[$PROG]ERROR: wrong type ($comb_method) for merging frames!!"
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: wrong type ($comb_method) for merging frames!!"
   exit 1
 fi
 

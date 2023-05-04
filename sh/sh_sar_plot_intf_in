@@ -13,7 +13,7 @@
 # Modifications:
 #   
 
-# Algorigthm:
+# Algorithm:
 #   
 
 # Dependency:
@@ -28,13 +28,13 @@ gmtset MAP_TICK_LENGTH = .1c
 gmtset MAP_TITLE_OFFSET = .1051c
 
 if [ ! -s baseline_table.dat ]; then
-  echo "[]ERROR:baseline_table.dat file is missing!!"
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m:baseline_table.dat file is missing!!"
   exit 1
 fi
 #file baseline_table.dat
 
 if [ ! -s intf.in ]; then
-  echo "[]ERROR:intf.in file is missing!!"
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m:intf.in file is missing!!"
   exit 1
 fi
 #file intf.tab

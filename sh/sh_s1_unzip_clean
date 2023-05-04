@@ -14,7 +14,7 @@
 # Modifications:
 #
 
-# Algorigthm:
+# Algorithm:
 #
 
 # Dependency:
@@ -59,7 +59,7 @@ if [ "`echo $1 | awk '{print substr($1,1,1)}'`" == "-" ]; then
         is_only_test=$2
         ;;
       *)
-        echo "[$PROG]ERROR: invalid option ($1)!!"
+        echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid option ($1)!!"
         exit 1
         ;;
     esac
@@ -77,14 +77,14 @@ else  #mode 2
 fi  #end-of-mode-2
 
 if [ "$lines" == "" -a ! -s $file ]; then
-  echo "[$PROG]ERROR: file not exist($file)!!"
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: file not exist($file)!!"
   exit 1
 fi
 
 len_un=`echo $esa_unzip | awk '{print length($1)}'`
 if [ $len_un -lt 12 ]; then
-    echo '[]ERROR:possible problem with $esa_unzip varible!!'
-    echo "[]INFO:current is ($esa_unzip)."
+    echo -e "[$PROG]\033[1;33;41mERROR\033[0m:possible problem with $esa_unzip varible!!"
+    echo "[$PROG]INFO:current is ($esa_unzip)."
     exit 1
 fi
 

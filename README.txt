@@ -1,4 +1,4 @@
-Please download the latest release of iGPS.
+**Note: iGPS main repository has moved to GitHub. Please download the latest release of iGPS from https://github.com/igps-ftk/iGPS
 /_
   |__iGPS-2023feb20/        ;iGPS released on 20 February 2023
   |                         ;add support for InSAR processing with GMTSAR

@@ -19,7 +19,7 @@
 # Example:
 #   +
 
-# Algorigthm:
+# Algorithm:
 #   + Modified from GMTSAR's gnss_enu2los.csh script.
 #   + Only horizontal veloctiies used (ignore vertical rate).
 #   + Use sh_gnss_enu2los for 3d conversion.
@@ -41,15 +41,48 @@ timestamp=`date | sed -e "s/ /_/g" | sed -e "s/:/-/g"`
 path_old=`pwd`
 
 usage_of_it(){
-  echo "[$PROG]HELP: ${PROG} "
-  echo "[$PROG]HELP: e.g.,"
-  echo "[$PROG]HELP:   ${PROG} "
+cat <<eob
+${PROG}
+|_ Convert GNSS horizontal (2-d) displacement/velocity to SAR LOS direction.
+  Modified from GMTSAR's gnss_enu2los.csh script.
+  Outside sites are discarded.
+  Only horizontal veloctiies used (ignore vertical rate).
+    Use sh_gnss_enu2los for 3d conversion instead.
+  Run this script in SBAS output directory.
+|+
+  -master.PRM
+  -master.LED
+  -dem.grd
+  -GNSS displacement/velocity file in GMT psvelo format
+    (lon lat vE vN sigE sigN corrEU site)
+  -SAT_look (GMTSAR)
+  -SAT_llt2rat (GMTSAR)
+|<
+  [-d|-dem DEM_FILE]
+    default: dem.grd
+  [-g|-gnss GNSS_VELOCITY_FILE]
+    default: \$iGPS/tables/wang_shen_2019JB018774_Table.S4.psvelo
+  [-m|-master MASTER_PRM]
+    default: master.PRM
+  [-v|-vel SBAS_VEL_FILE]
+    default: vel_mask_ll.grd
+  [-o|-ofile OUTPUT_LOS_VEL_FILE]
+    default: \${GNSS_VELOCITY_FILE}.los
+  [-h|-help|--help]
+|>
+  GNSS velocities file (in LOS direction), e.g.
+  #1_lon 2_lat 3_elevation_m  4_range 5_azimuth 6_elevation_prm  7_disp_los   8_vE 9_vN 10_sigE 11_sigN 12_corrEN 13_site
+   85.456000000 37.387000000 729.162530000 30899.661136889 74913.825499366 795.985317792 -1.637628500000 0.5 12.0 1.2 1.1 0.029 AQIN_GPS
+|e.g.,
+  ${PROG} 
+  ${PROG} -g gnss_horizontal_velocity.psvelo
+eob
 }
 
-if [ $# -lt 2 ]; then
-  usage_of_it
-  #exit 1
-fi
+#if [ $# -lt 2 ]; then
+#  usage_of_it
+#  #exit 1
+#fi
 
 file_vel=vel_mask_ll.grd #for extracting geographical ranges
 
@@ -58,6 +91,7 @@ file_led=
 file_dem=dem.grd
 file_gnss=gnss.psvelo
 file_gnss=$GMT_pub/gps/wang.min.jgr2020/Table.S4.psvelo
+file_gnss=$iGPS/tables/wang_shen_2019JB018774_Table.S4.psvelo
 ofile=
 is_verbose=n
 
@@ -78,6 +112,9 @@ while [ "$1" != "" ]; do
     -v|-vel)
       file_vel=$2
       ;;
+    -o|-ofile)
+      ofile=$2
+      ;;
     -V|-ver|-verbose)
       is_verbose=$2
       shift 1
@@ -88,7 +125,7 @@ while [ "$1" != "" ]; do
       exit 1
       ;;
     *)
-      echo "[$PROG]ERROR: invalid option ($1)!!"
+      echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid option ($1)!!"
       usage_of_it
       exit 1
       ;;
@@ -97,7 +134,7 @@ while [ "$1" != "" ]; do
 done
 
 if [ ! -s $file_prm ]; then
-  echo "[$PROG]ERROR: master PRM file not exist ($file_prm)!!"
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: master PRM file not exist ($file_prm)!!"
   exit 1
 fi
 
@@ -121,7 +158,7 @@ if [ ! -s $file_dem ]; then #try global ETOPO1 model
 fi
 
 if [ ! -s $file_dem ]; then
-  echo "[$PROG]ERROR: DEM file not exist ($file_dem)!!"
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: DEM file not exist ($file_dem)!!"
   exit 1
 fi
 
@@ -139,22 +176,22 @@ if [ "$file_led" == "" ]; then
   done
 fi
 if [ ! -s $file_led ]; then
-  echo "[$PROG]ERROR: LED file not exist ($file_led)!!"
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: LED file not exist ($file_led)!!"
   exit 1
 fi
 
 
 if [ "$file_gnss" == "" ]; then
-  echo "[$PROG]ERROR: no GNSS file given ($file_gnss)!!"
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: no GNSS file given ($file_gnss)!!"
   exit 1
 fi
 if [ ! -s $file_gnss ]; then
-  echo "[$PROG]ERROR: GNSS file not exist ($file_gnss)!!"
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: GNSS file not exist ($file_gnss)!!"
   exit 1
 fi
 
 if [ ! -s $file_vel ]; then
-  echo "[$PROG]ERROR: InSAR velocity file not exist ($file_vel)!!"
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: InSAR velocity file not exist ($file_vel)!!"
   exit 1
 fi
 

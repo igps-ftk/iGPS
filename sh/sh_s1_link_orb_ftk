@@ -13,7 +13,7 @@
 # Modifications:
 #   +
 
-# Algorigthm:
+# Algorithm:
 #   +Search in three locations: ${esa_data}/aux_poeorb, ${esa_data}/aux_resorb, ${esa_data}/aux_preorb
 #   +Use ftk's esa_s1_tiff_EOFs utility to perform the search.
 
@@ -38,7 +38,7 @@ usage_of_it(){
 }
 
 if [ "$esa_data" = "" ]; then
-    echo "[$PROG]ERROR:environment variable esa_data must be set first!!"
+    echo -e "[$PROG]\033[1;33;41mERROR\033[0m:environment variable esa_data must be set first!!"
     exit 1
 fi
 
@@ -54,7 +54,7 @@ while [ "$1" != "" ]; do
             exit 1
             ;;
         *)
-            echo "[$PROG]ERROR: invalid option ($1)!!"
+            echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid option ($1)!!"
             usage_of_it
             exit 1
             ;;

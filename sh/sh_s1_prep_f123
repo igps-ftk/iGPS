@@ -2,11 +2,11 @@
 
 # Name:
 #   sh_s1_prep_f123
-#   
+#
 
 # Purpose:
 #   Prepare files for merging F1, F2, and F3 phase grids for running merge_batch.csh
-#   
+#
 #		experiment structure:
 #   EXPT/F1
 #       /F2
@@ -18,34 +18,65 @@
 #			sh_s1_prep_f123
 
 # Modifications:
-#   
+#
 
-# Algorigthm:
-#   
+# Algorithm:
+#
 
 # Dependency:
 #
 
 PROG=sh_s1_prep_f123
-         
-path_comb=`pwd`/f123
 
-#for old asc_F?/des_F? directory structure
-##test ascending/descending
-#orb_type=
-#if [ -d ./asc_F1 ]; then
-#    orb_type=asc
-#elif [ -d ./des_F1 ]; then
-#    orb_type=des
-#else
-#    echo "[]ERROR:no ascending/descending paths found!"
-#    echo exit 1
+timestamp=`date | sed -e "s/ /_/g" | sed -e "s/:/-/g"`
+
+path_old=`pwd`
+
+usage_of_it(){
+cat <<eob
+${PROG}
+|_Prepare files for merging F1,F2,F3 phases using merge_batch.csh.
+|+
+  -F1/...
+  -F2/...
+  -F2/...
+  -dem.grd
+  -sh_sar_eof2kml
+  -sh_s1_prep_f123_in
+|<
+  [-h|-help|--help]
+|>
+  f123/...
+|e.g., 
+  ${PROG}
+(c)iGPS (https://github.com/igps-ftk/)
+eob
+}
+
+#if [ $# -eq 0 ]; then
+#    usage_of_it
+#    exit 1
 #fi
-#
-#echo "orbit type: $orb_type"
 
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -h|-help|--help)
+      usage_of_it
+      exit 1
+      ;;
+    *)
+      usage_of_it
+      echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid option ($1)!!"
+      exit 1
+      ;;
+  esac
+  shift 2
+done
+
+#output path
+path_comb=`pwd`/f123
 echo "[$PROG]INFO: creating output path ($path_comb) ..."
-#echo "mkdir f123.1"
 mkdir -p $path_comb
 mkdir -p $path_comb/topo
 mkdir -p $path_comb/intf_all
@@ -56,7 +87,7 @@ pwd
 
 path_F1=../F1
 if [ ! -d $path_F1 ]; then
-  echo "[]ERROR: $path_F1 not exist!!"
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: $path_F1 not exist!!"
   exit 1
 fi
 
@@ -72,36 +103,35 @@ pwd
 
 
 echo "[$PROG]INFO: linking/copying files ..."
-cd topo 
-rm -rf dem.grd 
-ln -s ../../dem.grd ./ 
-ln -s ../trans.dat ./ 
+cd topo
+rm -rf dem.grd
+ln -s ../../dem.grd ./
+ln -s ../trans.dat ./
 cd ..
 pwd
 ln -s ../dem.grd .
 cp -fp ${path_F1}/intf.in .
 cp -fp ${path_F1}/baseline_table.dat .
 cp -fp ${path_F1}/batch_tops.config ./batch_tops.config.3
-#cp -fp ${path_F1}/3README_sbas1.txt .
 cp -fp ${path_F1}/*.tab1 .
 cp -fp ${path_F1}/data.in .
 cp -fp ${path_F1}/baseline.ps .
 cp -fp ${path_F1}/topo/master.PRM ./topo/
 file_led=`cat ./topo/master.PRM | grep led_file | tail -1 | awk '{print $3}'`
-echo file_led $file_led
+#echo file_led $file_led
 cp -fp ${path_F1}/raw/${file_led} ./topo/
 
 is_snaphu=`cat batch_tops.config.3 | sed '/^ *#/d' | sed '/^$/d' | grep threshold_snaphu | awk '{if($3>0){print 1}else{print 0}}'`
 
 if [ $is_snaphu -eq 0 ]; then
-  sed -e 's/threshold_snaphu \= 0/threshold_snaphu \= 0.01/g' batch_tops.config.3 >batch_tops.config 
+  sed -e 's/threshold_snaphu \= 0/threshold_snaphu \= 0.01/g' batch_tops.config.3 >batch_tops.config
 else
   cp -fp batch_tops.config.3 batch_tops.config
 fi
 pwd
- 
+
 echo "[$PROG]INFO: searching interferograms available for merging_batch ..."
-sh_s1_prep_f123_in 
+sh_s1_prep_f123_in
 
 head -1 baseline_table.dat
 head -1 intf.in.f123.1

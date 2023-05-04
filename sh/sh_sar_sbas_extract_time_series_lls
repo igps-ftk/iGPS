@@ -15,7 +15,7 @@
 #     Fix a bug when data is NaN for some locations.
 #     Added -N option to grdtrack.
 
-# Algorigthm:
+# Algorithm:
 #   
 
 # Dependency:
@@ -25,6 +25,27 @@
 PROG=sh_sar_sbas_extract_time_series_lls
 
 path_old=`pwd`
+
+
+usage_of_it(){
+cat <<eob
+${PROG}
+|_Extract displacement time series for specified locations.
+  Please run this script in SBAS output directory.
+|+
+  -disp_20?????_mask_ll.grd
+|<
+  [-f|-file LL_FILE]
+    format: site_name longitude latitude
+  [-p|-path SBAS_OUTPUT_PATH]
+    default: \`pwd\`
+  [-o|-opath OUTPUT_PATH]
+    default: neu
+  [-h|-help|--help]
+|e.g.,
+  ${PROG} 
+eob
+}
 
 file=
 path=$path_old
@@ -41,11 +62,13 @@ while [ "$1" != "" ]; do
     -o|-opath)
       opath=$2
       ;; 
+    -h|-help|--help)
+      usage_of_it
+      exit 1
+      ;;
     *)
-      echo "[$PROG]ERROR: invalid option ($1)!!"
-      echo "[$PROG]Usage: ${PROG} "
-      echo "[$PROG]Usage: e.g.,"
-      echo "[$PROG]Usage: ${PROG} "
+      echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid option ($1)!!"
+      usage_of_it
       exit 1
       ;;
   esac
@@ -53,13 +76,13 @@ while [ "$1" != "" ]; do
 done
 
 if [ "$file" == "" ]; then
-  echo "[]ERROR: no input file given!!"
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: no input file given!!"
   exit 1
 fi
 
 mkdir -p $opath
 if [ $? -ne 0 ]; then
-  echo "[]ERROR: cannot create output path ($opath)!!"
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: cannot create output path ($opath)!!"
   exit 1
 fi
 
@@ -105,4 +128,3 @@ while read sline; do
 done < $file
 
 \rm -f _disp*_mask_ll.grd.lld*
-

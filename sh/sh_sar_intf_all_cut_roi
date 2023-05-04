@@ -14,7 +14,7 @@
 # Modifications:
 #   
 
-# Algorigthm:
+# Algorithm:
 #   
 
 # Dependency:
@@ -24,17 +24,31 @@
 
 PROG=sh_sar_intf_all_cut_roi
 
+timestamp=`date | sed -e "s/ /_/g" | sed -e "s/:/-/g"`
+
 path_old=`pwd`
 
 usage_of_it(){
-  echo "[$PROG]HELP: ${PROG} "
-  echo "[$PROG]HELP:   [-r|-roi|-f|-file ROI_KML_FILE]"
-  echo "[$PROG]HELP:   [-p|-path INPUT_PATH]"
-  echo "[$PROG]HELP:   [-o|-opath OUTPUT_PATH]"
-
-  echo "[$PROG]HELP:   [-h|-help]"
-  echo "[$PROG]HELP: e.g., in F1 (F2/F3) run"
-  echo "[$PROG]HELP:   ${PROG} -file roi.kml -opath intf_all_roi"
+cat <<eob
+${PROG} 
+|_Clip area of interest from interferograms.
+  intf_all/: corr_cut.grd, unwarp_mask.grd
+|+
+  -intf_all/*
+  -GMT
+  -proj_ll2ra_ascii.csh (GMTSAR)
+  -
+|<  
+  [-r|-roi|-f|-file ROI_KML_FILE]
+  [-p|-path INPUT_PATH]
+    default: intf_all
+  [-o|-opath OUTPUT_PATH]
+    default: intf_all_roi
+  [-h|-help|--help]
+|e.g., in F1 (F2/F3)
+  ${PROG} -file roi_lasa.kml -opath intf_all_lasa
+(c)iGPS (https://github.com/igps-ftk/)
+eob
 }
 
 if [ $# -eq 0 ]; then
@@ -52,7 +66,7 @@ opath=./intf_all_roi/
 
 while [ "$1" != "" ]; do
   case $1 in
-    -f|-file)
+    -r|-roi|-roi_file|-f|-file)
         roi_file=$2
         ;;
     -p|-path)
@@ -66,17 +80,17 @@ while [ "$1" != "" ]; do
       exit 1
       ;;
     *)
-      echo "[$PROG]ERROR: invalid option ($1)!!"
       usage_of_it
+      echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid option ($1)!!"
       exit 1
       ;;
   esac
   shift 2
 done
 
-echo $roi_file
-echo $path 
-echo $opath
+echo "[$PROG]INFO: ROI KML is $roi_file"
+echo "[$PROG]INFO: $path"
+echo "[$PROG]INFO: $opath"
 
 file_tmp_llh=_tmp_$PROG_$timestamp_llh
 file_tmp_xyz=_tmp_$PROG_$timestamp_xyz
@@ -90,13 +104,13 @@ proj_ll2ra_ascii.csh trans.dat $file_tmp_llh $file_tmp_xyz
 cat $file_tmp_xyz
 #exit
 
-files=`find ${path} -name "corr_cut.grd"`
+files=`find ${path} -name "corr_cut.grd" | sort`
 
 file=`echo $files | awk '{print $1}'`
-pI=`grdinfo -I $file`
-echo $pI
+pI=`gmt grdinfo -I $file`
+#echo $pI
 pR=`gmt gmtinfo $pI $file_tmp_xyz`
-echo $pR
+#echo $pR
 #exit
 
 for file in $files; do
@@ -124,3 +138,4 @@ for file in $files; do
     #exit
 done
 
+echo "[$PROG]INFO: done."

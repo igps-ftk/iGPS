@@ -13,7 +13,7 @@
 # Modifications:
 #   
 
-# Algorigthm:
+# Algorithm:
 #   
 
 # Dependency:
@@ -28,7 +28,7 @@ path=/usr/local/gmt5sar20200529
 path=/usr/local/gmt5sar20210607i
 
 if [ "$GMT5SAR" == "" ]; then
-  echo "[$PROG]ERROR:environment variable GMT5SAR not set!!"
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m:environment variable GMT5SAR not set!!"
   exit 1
 fi
 path=$GMT5SAR
@@ -37,7 +37,7 @@ path=/usr/local/gmt5sar20220909
 
 cd $path
 if [ $? -ne 0 ]; then
-  echo "[$PROG]ERROR:cann not enter GMTSAR directory($path)!!"
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m:cann not enter GMTSAR directory($path)!!"
   exit 1
 fi
 pwd
@@ -58,8 +58,8 @@ if [ 1 -eq 1 ]; then
   
   tmp=`grep -i errro log.make.txt`
   if [ "$tmp" != ""  ]; then
-    echo "[]ERROR:error when compiling source code!!"
-    echo "[]ERROR:check the log file (log.make.txt)."
+    echo -e "[$PROG]\033[1;33;41mERROR\033[0m:error when compiling source code!!"
+    echo -e "[$PROG]\033[1;33;41mERROR\033[0m:check the log file (log.make.txt)."
     exit 1
   fi
   

@@ -13,7 +13,7 @@
 # Modifications:
 #   
 
-# Algorigthm:
+# Algorithm:
 #   
 
 # Dependency:
@@ -44,12 +44,12 @@ function usage_of_it(){
 
 
 if [ ! -s baseline_table.dat ]; then
-  echo "[$PROG]ERROR: no baseline_table.dat file!!"
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: no baseline_table.dat file!!"
   exit 1
 fi
 
 if [ ! -s intf.in ]; then
-  echo "[$PROG]ERROR: no intf.in file!!"
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: no intf.in file!!"
   exit 1
 fi
 
@@ -71,7 +71,7 @@ while [ "$1" != "" ]; do
       exit 1
       ;;
     *)
-      echo "[$PROG]ERROR:invalid option ($1)!!"
+      echo -e "[$PROG]\033[1;33;41mERROR\033[0m:invalid option ($1)!!"
       usage_of_it
       exit 1
       ;;

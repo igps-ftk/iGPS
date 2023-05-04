@@ -13,7 +13,7 @@
 # Modifications:
 #   
 
-# Algorigthm:
+# Algorithm:
 #   
 
 # Dependency:
@@ -35,7 +35,7 @@ while [ "$1" != "" ]; do
 	    file=$2
 	    ;;
 	*)
-	    echo "[$PROG]ERROR: invalid options $1 !!"
+	    echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid options $1 !!"
 	    exit
 	    ;;
     esac
@@ -45,7 +45,7 @@ echo Satellite sensor: ${SAT}
 
 
 if [ ! -s ../topo/dem.grd ]; then
-	echo "[$PROG]ERROR: dem.grd is missing (`pwd`/../topo/dem.grd)!!"
+	echo -e "[$PROG]\033[1;33;41mERROR\033[0m: dem.grd is missing (`pwd`/../topo/dem.grd)!!"
 	exit 1
 fi 
 
@@ -53,7 +53,7 @@ fi
 if [ ! -s ${file}.xyz ]; then
     echo "0. first convert ${file}.grd to XYZ format"
     if [ ! -s ${file}.grd ]; then
-	echo "[$PROG]ERROR: ${file}.grd is missing!!"
+	echo -e "[$PROG]\033[1;33;41mERROR\033[0m: ${file}.grd is missing!!"
 	exit 1
     fi
     gmt grd2xyz ${file}.grd | grep -v NaN | awk '{print "",$0}' > ${file}.xyz
@@ -63,7 +63,7 @@ cat ${file}.xyz | awk '{print $1,$2}' > _tmp_cal_sat_indicence.llde
 
 files_prm=`ls ../topo/*.PRM | sort`
 if [ $? -ne 0 ]; then
-    echo "[]ERROR: error when searching PRM file!!"
+    echo -e "[$PROG]\033[1;33;41mERROR\033[0m: error when searching PRM file!!"
     exit 1
 fi
 file_prm=`echo $files_prm | head -1 | awk '{print $1}'`
@@ -80,7 +80,7 @@ if [ ! -s $led_name ]; then
   elif [ -s ../../F1/raw/$led_name ]; then
     \cp -f ../../F1/raw/$led_name .
   else
-    echo "[]ERROR:no LED file found($lef_name)!!"
+    echo -e "[$PROG]\033[1;33;41mERROR\033[0m:no LED file found($lef_name)!!"
     exit 1
   fi
 

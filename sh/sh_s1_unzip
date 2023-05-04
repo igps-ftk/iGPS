@@ -13,7 +13,7 @@
 # Modifications:
 #   
 
-# Algorigthm:
+# Algorithm:
 #   
 
 # Dependency:
@@ -27,37 +27,45 @@ timestamp=`date | sed -e "s/ /_/g" | sed -e "s/:/-/g"`
 path_old=`pwd`
 
 usage_of_it(){
-  echo "[$PROG]HELP: ${PROG} "
-  echo "[$PROG]HELP:   [-f|-file FRAME_LIST_FILE]"
-  echo "[$PROG]HELP:   [-i|-iw SUBSWATH (default all: iw1,iw2,iw3)]"
-  echo "[$PROG]HELP:   [-p|-path S1_SLC_FILE_PATH]"
-  echo "[$PROG]HELP:   [-u|-update IN_UPDATE_MODE_y_n]"
-
-  echo "[$PROG]HELP:   [-h|-help]"
-  echo "[$PROG]HELP: e.g.,"
-  echo "[$PROG]HELP:   ${PROG} "
+cat <<eob
+${PROG}
+|_Unzip S1 data files to a temporary directory for processing.
+|<
+  -f|-file FRAME_LIST_FILE
+  [-i|-iw SUBSWATH]
+    default: iw1,iw2,iw3
+  [-p|-path S1_SLC_FILE_PATH]
+    default: \${esa_data}/s1/
+  [-o|-opath OUTPUT_PATH]
+    default: \${esa_unzip}/
+  [-u|-update IN_UPDATE_MODE_y_n]
+    Updating from existing processing session (for sh_s1_run_tsa_update)
+  [-h|-help]
+|>
+  OUTPUT_PATH/S1*.SAFE
+|e.g.,
+  ${PROG} -f input.lst.ok -iw iw1
+  ${PROG} -f input.lst.ok.seasonal -iw iw2,iw3
+(c)iGPS (https://github.com/igps-ftk/)
+eob
 }
-
 
 if [ "$1" == "" ]; then
     usage_of_it
     exit 1
 fi
 
-if [ "$esa_unzip" = "" ]; then
-    echo "[$PROG]ERROR: esa_unzip variable not set!!"
-    exit 1
-fi
-
-esa_data_s1=/sar/esa.sentinel-1/alll
-#esa_data_s1=/sar/esa.sentinel-1/links
-esa_data_s1=${esa_data}/s1
-
+path_s1=/sar/esa.sentinel-1/alll
+#path_s1=/sar/esa.sentinel-1/links
+path_s1=${esa_data}/s1
 
 iws="iw1,iw2,iw3"
 
 is_check_done=n
 is_test=n #no uncompressing; only tell whether data exists
+
+opath=`pwd`
+opath=${esa_unzip}
 
 #two modes of input parameters
 if [ "`echo $1 | awk '{print substr($1,1,1)}'`" == "-" ]; then
@@ -70,11 +78,11 @@ if [ "`echo $1 | awk '{print substr($1,1,1)}'`" == "-" ]; then
       -i|-iw)
         iws=$2
         ;;
-      -l|-local)
-        is_local=$2
-        ;;
       -p|-path)
-        esa_data_s1=$2
+        path_s1=$2
+        ;;
+      -o|-opath)
+        opath=$2
         ;;
       -t|-test)
         is_test=$2
@@ -87,8 +95,8 @@ if [ "`echo $1 | awk '{print substr($1,1,1)}'`" == "-" ]; then
         exit 1
         ;;
       *)
-        echo "[$PROG]ERROR: invalid option ($1)!!"
         usage_of_it
+        echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid option ($1)!!"
         exit 1
         ;;
     esac
@@ -101,12 +109,17 @@ else  #mode 2
   if [ "$2" != "" ]; then
     iws=$2
   fi
+  if [ "$esa_unzip" = "" ]; then
+      echo -e "[$PROG]\033[1;33;41mERROR\033[0m: esa_unzip variable not set!!"
+      exit 1
+  else 
+    opath=$esa_unzip
+  fi
   
 fi  #end-of-mode-2
 
 
+echo sh_s1_unzip_node -path $path_s1 -file $file -iw $iws -u $is_check_done -t $is_test -o $opath
+echo sh_s1_unzip_node -path $path_s1 -file $file -iw $iws -u $is_check_done -t $is_test -o $opath | sh
 
-echo sh_s1_unzip_node -path $esa_data_s1 -file $file -iw $iws -u $is_check_done -t $is_test
-echo sh_s1_unzip_node -path $esa_data_s1 -file $file -iw $iws -u $is_check_done -t $is_test | sh
-
-
+echo "[$PROG]INFO: done."

@@ -13,7 +13,7 @@
 # Modifications:
 #   +
 
-# Algorigthm:
+# Algorithm:
 #   +
 
 # Dependency:
@@ -37,11 +37,11 @@ fi
 
 #check the data root directory
 if [ "$esa_data" == "" ]; then
-  ehco "[$PROG]ERROR: environment variable esa_data not set!!"
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: environment variable esa_data not set!!"
   exit 1
 fi
 if [ ! -d $esa_data ]; then
-  ehco "[$PROG]ERROR: esa_data ($esa_data) not exist!!"
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: esa_data ($esa_data) not exist!!"
   exit 1
 fi
 
@@ -51,27 +51,44 @@ timestamp=`date | sed -e "s/ /_/g" | sed -e "s/:/-/g"`
 path_old=`pwd`
 
 usage_of_it(){
-  echo "[$PROG]HELP: ${PROG} "
-  echo "[$PROG]HELP:   [-l|-load_bashrc y/...]"
-  echo "[$PROG]HELP:   [-n|-ndays N_DAYS_BACKWARD]"
-  echo "[$PROG]HELP:   [-o|-orb|-orbit poe/res]"
-  echo "[$PROG]HELP:   [-wc|-wget_config FILE]"
 
-  echo "[$PROG]HELP:   [-h|-help]"
-  echo "[$PROG]HELP: e.g.,"
-  echo "[$PROG]HELP:   ${PROG} "
+cat <<eob
+${PROG}
+|_Download S1 orbit files from ASF web.
+  https://s1qc.asf.alaska.edu/
+|<
+  [-l|-load_bashrc y/...]
+  [-n|-ndays N_DAYS_BACKWARD]
+  [-o|-orb|-orbit poe/res]
+  [-wc|-wget_config FILE]
+  [-h|-help]
+|>
+  Sentinle-1 orbit files saving to the output path.
+|e.g.,
+  ${PROG} -n 1 -orb res -wc /tmp/your_wget.conf
+(c)iGPS (https://github.com/igps-ftk/)
+eob
 }
 
 
+#default settings for command-line options
+#whether load ${HOME}/.bashrc (only for crontab job)
 load_bashrc=n
 
+#number of days backward from now
 back_ndays=29
 
+#orbit type: poe/res
 orb_typ=poe
 #orb_typ=res
 
+#whether reload ASF orbit webpage directory listing
+#may set it to n if access the url in a short time period
 update_index=y
 
+#output path
+#default to local ESA data root directory (where $esa_data points)
+path=$esa_data/aux_${orb_typ}orb
 
 user_conf_asf=/home/tianyf/iGPS.addon/sh/wget.conf
 
@@ -86,6 +103,9 @@ while [ "$1" != "" ]; do
     -o|-orb|-orbit)
       orb_typ=$2
       ;;
+    -p|-path)
+      path=$2
+      ;;
     -u|-update_index)
       update_index=$2
       ;;
@@ -97,7 +117,7 @@ while [ "$1" != "" ]; do
       exit 1
       ;;
     *)
-      echo "[$PROG]ERROR: invalid option ($1)!!"
+      echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid option ($1)!!"
       usage_of_it
       exit 1
       ;;
@@ -110,17 +130,18 @@ if [ "$load_bashrc" == "y" ]; then
 fi
 
 if [ ! -s $user_conf_asf ]; then
-  echo "[$PROG]ERROR: user login file not found ($user_conf_asf)!!"
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: user login file not found ($user_conf_asf)!!"
   exit 1
 fi
+echo "[$PROG]INFO: use wget login info in $user_conf_asf"
 
-path=$esa_data/aux_${orb_typ}orb
 
 if [ ! -d $path ]; then
+  echo "[$PROG]INFO:creating output path $path ..."
   mkdir -p $path
 fi
 cd $path
-pwd
+echo "[$PROG]INFO: output result to `pwd`"
 
 file_lock=$path/asf.lock
 
@@ -133,9 +154,11 @@ date >> $file_lock
 #echo $file_lock
 #cat $file_lock
 #exit
-
+echo "[$PROG]INFO: session lock file create ($file_lock)"
 
 if [ "$update_index" == "y" ]; then
+  echo "[$PROG]INFO: updating ASF directory listing ..."
+  echo "[$PROG]INFO:   https://s1qc.asf.alaska.edu/aux_${orb_typ}orb/"
   curl https://s1qc.asf.alaska.edu/aux_${orb_typ}orb/ > ${path}/index.html.txt
   #wget -N https://s1qc.asf.alaska.edu/aux_${orb_typ}orb/files.txt #server-side file outdated
 fi

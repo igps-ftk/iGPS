@@ -13,7 +13,7 @@
 # Modifications:
 #   
 
-# Algorigthm:
+# Algorithm:
 #   
 
 # Dependency:
@@ -35,17 +35,27 @@ timestamp=`date | sed -e "s/ /_/g" | sed -e "s/:/-/g"`
 path_old=`pwd`
 
 usage_of_it(){
-  echo "[$PROG]HELP: ${PROG} "
-  echo "[$PROG]HELP:   [-ac|-aria2_conf ARIA2_CONF_FILE]"
-  echo "[$PROG]HELP:   [-u|-user EARTHDATA_USER_NAME (only for DIPP)]"
-  echo "[$PROG]HELP:   [-p|-path OUTPUT_PATH]"
-  echo "[$PROG]HELP:   [-r|-roi ROI_FILE]"
-  echo "[$PROG]HELP:   [-w1 WEEKS_AGO_TIME_START]"
-  echo "[$PROG]HELP:   [-w2 WEEKS_AGO_TIME_END]"
-
-  echo "[$PROG]HELP:   [-h|-help]"
-  echo "[$PROG]HELP: e.g.,"
-  echo "[$PROG]HELP:   ${PROG} "
+cat <<eob
+${PROG}
+|_Use aria2 to download S1 SLC zip files returned by ASF API search.
+  https://docs.asf.alaska.edu/api/basics/
+|+
+  -sh_asf_s1_query
+  -aria2
+|<
+  -r|-roi ROI_FILE_KML
+  -ac|-aria2_conf ARIA2_CONF_FILE
+  [-p|-path OUTPUT_PATH]
+    default: \`pwd\`
+  [-w1 FROM_w1_WEEKS_AGO]
+    default: 3
+  [-w2 TO_w2_WEEKS_AGO]
+    default: 0
+  [-h|-help|--help]
+|e.g.,
+  ${PROG} 
+(c)iGPS (https://github.com/igps-ftk/)
+eob
 }
 
 if [ "$1" == "" ]; then
@@ -58,13 +68,18 @@ this_host=`hostname`
 w1=3 #download data backward three weeks
 w2=0
 
-roi_file=   #region of interest in KML polygon format
+file_roi=   #region of interest in KML polygon format
 user=   #EARTHDATA username (only for DIPP system; please specify your own aria2.conf file with -ac option)
 file_aria2_conf=null
 
-orb_types='ASCENDING DESCENDING'
-path=
+orb_type='ASCENDING'
+orb_type=DESCENDING
+orb_type=
 
+path=`pwd`
+
+file_tmp_py=_tmp_${PROG}_${timestamp}_download.py
+#echo $file_tmp_py
 
 while [ "$1" != "" ]; do
   case $1 in
@@ -78,7 +93,7 @@ while [ "$1" != "" ]; do
       path=$2
       ;;
     -r|-roi)
-      roi_file=$2
+      file_roi=$2
       ;;
     -w1)
       w1=$2
@@ -91,8 +106,8 @@ while [ "$1" != "" ]; do
       exit 1
       ;;
     *)
-      echo "[$PROG]ERROR: invalid option ($1)!!"
       usage_of_it
+      echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid option ($1)!!"
       exit 1
       ;;
   esac
@@ -100,80 +115,83 @@ while [ "$1" != "" ]; do
 done
 
 
+
 #hardwired parameters for DIPP system only
 ###>>>DIPP
-if [ "$roi_file" == "" ]; then #DIPP defaults
+if [ "$file_roi" == "" ]; then #DIPP defaults
   #check the data root directory
   if [ "$esa_data" == "" ]; then
-    ehco "[$PROG]ERROR: environment variable esa_data not set!!"
+    echo -e "[$PROG]\033[1;33;41mERROR\033[0m: environment variable esa_data not set!!"
     exit 1
   fi
   if [ ! -d $esa_data ]; then
-    ehco "[$PROG]ERROR: esa_data ($esa_data) not exist!!"
+    echo -e "[$PROG]\033[1;33;41mERROR\033[0m: esa_data ($esa_data) not exist!!"
     exit 1
   fi
   
-  roi_file=${esa_data}/vector/L_.roi_china_east.kml
-  roi_file=${esa_data}/vector/roi_china_20210216.kml
-  roi_file=${esa_data}/vector/L0.roi_tibet_20210327.kml
-  roi_file=${esa_data}/vector/L0.roi_tibet_20220325.kml
-  #roi_file=${esa_data}/vector/L0.roi_tibet.kml
-  #roi_file=${esa_data}/vector/L0.roi_tibet.arv.kml
-  #roi_file=${esa_data}/vector/L0.roi_tibet_20210327_chuandian.psxy
+  file_roi=${esa_data}/vector/L_.roi_china_east.kml
+  file_roi=${esa_data}/vector/roi_china_20210216.kml
+  file_roi=${esa_data}/vector/L0.roi_tibet_20210327.kml
+  file_roi=${esa_data}/vector/L0.roi_tibet_20220325.kml
+  #file_roi=${esa_data}/vector/L0.roi_tibet.kml
+  #file_roi=${esa_data}/vector/L0.roi_tibet.arv.kml
+  #file_roi=${esa_data}/vector/L0.roi_tibet_20210327_chuandian.psxy
   
   case $this_host in
     gpsac15)
-      #orb_types='ASCENDIGN'
+      #orb_type='ASCENDIGN'
       path=/g15a/gsar/china_east/S1.3
       ;;
-    gpsac12)
-      orb_types='ASCENDING'
+    gpsac12|gpsac-4)
+      orb_type='ASCENDING'
       path=/g14i/esa.data/china_east/S1.3
       path=/g18h/gsar/tmp
       path=/g19b/gsar/tmp/
       path=/g8g/gsar/tmp/
       ;;
     gpsac17)
-      #orb_types='DESCENDING'
-      roi_file=${esa_data}/vector/L0.roi_tibet.arv.kml
+      #orb_type='DESCENDING'
+      file_roi=${esa_data}/vector/L0.roi_tibet.arv.kml
       path=/g17c/gsar/asf_tibet/S1
       #path=/g17b/gsar/asf_tibet/S1/
       ;;
     SNOW1)
-      #orb_types='DESCENDING'
+      #orb_type='DESCENDING'
       path=/cygdrive/d/esa.data/asf_tibet/S1
       ;;
-    gpsac16|gpsac4)
-      orb_types='DESCENDING'
+    gpsac16)
+      orb_type='DESCENDING'
       path=/g18h/gsar/tmp2/
       path=/g19b/gsar/tmp2/
       path=/g8g/gsar/tmp2/
       ;; 
     gpsac18)
-      #orb_types='DESCENDING'
+      #orb_type='DESCENDING'
       path=/g18h/gsar/tmp/
       ;;
     node4)
-      orb_types='DESCENDING'
+      orb_type='DESCENDING'
       path=/sar/esa.sentinel-1/in-progress/d000/
-      roi_file=${esa_data}/vector/roi_northeast.kml
+      file_roi=${esa_data}/vector/roi_northeast.kml
       ;;
     node5)
-      #orb_types='DESCENDING'
+      #orb_type='DESCENDING'
       path=/sar/esa.sentinel-1/in-progress/d001/
-      roi_file=${esa_data}/vector/roi_northwest.kml
+      file_roi=${esa_data}/vector/roi_northwest.kml
       ;;
     node6)
-      #orb_types='DESCENDING'
+      #orb_type='DESCENDING'
       path=/sar/esa.sentinel-1/in-progress/d002/
-      roi_file=${esa_data}/vector/roi_whs_20221005.kml
+      file_roi=${esa_data}/vector/roi_whs_20221005.kml
       ;;
     *)
-      echo "[$PROG]ERROR: wrong host ($this_host)!!"
+      echo -e "[$PROG]\033[1;33;41mERROR\033[0m: wrong DIPP host ($this_host)!!"
+      echo "[$PROG]INFO: for non-DIPP system, use"
+      usage_of_it
       exit 1
       ;;
   esac
-  echo host $this_host orb_types $orb_types
+  echo host $this_host orb_type $orb_type
   #exit
 
 fi
@@ -186,47 +204,49 @@ echo user is $user
 
 ###<<<DIPP
 
+
+if [ "$file_roi" == "" ]; then
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: no aoi KML file given!!"
+  exit 1
+fi
+if [ ! -s $file_roi ]; then
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: aoi KML file not exist ($file_roi)!!"
+  exit 1
+fi
+
 if [ "$path" == "" ]; then
   path=`pwd`
 fi
-
-opath=${path}
-echo $opath
-
-#exit
-if [ ! -d $opath ]; then
-  mkdir -p ${opath}
+if [ ! -d $path ]; then
+  ehco "mkdir -p ${path}"
+  echo "mkdir -p ${path}" | sh
 fi
-#exit
-cd $opath
+cd $path
 pwd
 
-file_lock="${opath}/_tmp_${PROG}.lock"
+file_lock="${path}/_tmp_${PROG}.lock"
 if [ -s $file_lock ]; then
   echo "[$PROG]WARNING: locked by $file_lock!! Quit."
   exit 1
 fi
 
-echo "[$PROG]INFO: downloading data for ROI ($roi_file) at $this_host ..." > $file_lock
+echo "[$PROG]INFO: downloading data for ROI ($file_roi) at $this_host ..." > $file_lock
 #exit
 
-for orb_type in $orb_types; do
+
+if [ "$orb_type" == "" ]; then
+  sh_asf_s1_query -r $file_roi -roi_type polygon -out_file ${file_tmp_py} -weeks $w1 -eweeks $w2
+else
+  sh_asf_s1_query -r $file_roi -roi_type polygon -out_file ${file_tmp_py} -weeks $w1 -eweeks $w2  -orb_type $orb_type
   echo orb_type is $orb_type
-  #sh_asf_s1_query -roi_file $roi_file -roi_type polygon -orb_type $orb_type -out_type KML -out_file ${orb_type}.kml -weeks $w1 -eweeks $w2
-  ##sh_asf_s1_query -roi_file $roi_file -roi_type polygon -out_type KML -out_file ${orb_type}.kml -weeks $w1 -eweeks $w2
+  #sh_asf_s1_query -r $file_roi -roi_type polygon -orb_type $orb_type -out_type KML -out_file ${orb_type}.kml -weeks $w1 -eweeks $w2
+  ##sh_asf_s1_query -r $file_roi -roi_type polygon -out_type KML -out_file ${orb_type}.kml -weeks $w1 -eweeks $w2
+  ##sh_asf_s1_query -r $file_roi -roi_type polygon -out_file ${orb_type}.py -weeks $w1 -eweeks $w2
+fi
 
-
-  sh_asf_s1_query -roi_file $roi_file -roi_type polygon -orb_type $orb_type -out_file ${orb_type}.py -weeks $w1 -eweeks $w2
-  ##sh_asf_s1_query -roi_file $roi_file -roi_type polygon -out_file ${orb_type}.py -weeks $w1 -eweeks $w2
-
-
-  #continue
-  #break
-  #sh_asf_s1_get_slc_py ${orb_type}.py $opath $user
-  sh_asf_s1_get_slc_py -file ${orb_type}.py -opath $opath -ac $file_aria2_conf
-done
+echo "sh_asf_s1_get_slc_py -file ${file_tmp_py} -path $path -ac $file_aria2_conf"
+echo "sh_asf_s1_get_slc_py -file ${file_tmp_py} -path $path -ac $file_aria2_conf" | sh
 
 \rm -f $file_lock
 
- 
- 
+echo "[$PROG]INFO: done."

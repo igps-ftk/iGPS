@@ -16,7 +16,7 @@
 # Example:
 #   +
 
-# Algorigthm:
+# Algorithm:
 #   + Modified from GMTSAR's correct_insar_with_gnss.csh script.
 
 # Modifications:
@@ -35,21 +35,38 @@ timestamp=`date | sed -e "s/ /_/g" | sed -e "s/:/-/g"`
 path_old=`pwd`
 
 usage_of_it(){
-  echo "[$PROG]HELP: ${PROG} "
-  echo "[$PROG]HELP: e.g.,"
-  echo "[$PROG]HELP:   ${PROG} "
+cat <<eob
+$PROG
+|_Rotate InSAR LOS velocities into GNSS LOS direction.
+|+
+  -output from sh_gnss_vel2los (-g)
+  -InSAR velocity grid (-v)
+|<
+  [-g|-gnss GNSS_VELOCITY_PSVELO]
+    default: wang_shen_2019JB018774_Table.S4.psvelo.los
+  [-v|-vel INSAR_VELOCITY_GRID]
+    default: vel_mask_ll.grd
+  [-N|-m|-model GRDTREND_n_model[+r]]
+    default: 3r
+|e.g.,
+  ${PROG}
+  ${PROG} -N 9r
+(c)iGPS (https://github.com/igps-ftk/)
+eob
 }
 
-if [ $# -lt 2 ]; then
-  usage_of_it
-  #exit 1
-fi
+#if [ $# -lt 2 ]; then
+#  usage_of_it
+#  #exit 1
+#fi
 
-file_vel=vel_mask_ll3.grd 
-file_vel=vel_mask.grd 
+file_vel=vel_mask_ll3.grd
+file_vel=vel_mask.grd
 file_vel=vel_mask_ll.grd
 
 file_gnss_los=Table.S4.psvelo.los
+file_gnss_los=Table.S4.psvelo.los
+file_gnss_los=wang_shen_2019JB018774_Table.S4.psvelo.los
 ofile=
 
 file_prm=master.PRM
@@ -71,7 +88,7 @@ while [ "$1" != "" ]; do
       exit 1
       ;;
     *)
-      echo "[$PROG]ERROR: invalid option ($1)!!"
+      echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid option ($1)!!"
       usage_of_it
       exit 1
       ;;
@@ -80,12 +97,12 @@ while [ "$1" != "" ]; do
 done
 
 if [ ! -s $file_vel ]; then
-  echo "[$PROG]ERROR: InSAR velocity file not exist ($file_vel)!!"
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: InSAR velocity file not exist ($file_vel)!!"
   exit 1
 fi
 
 if [ ! -s $file_gnss_los ]; then
-  echo "[$PROG]ERROR: GNSS (los) file not exist ($file_gnss_los)!!"
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: GNSS (los) file not exist ($file_gnss_los)!!"
   exit 1
 fi
 
@@ -167,7 +184,7 @@ file_tmp_insar_gnss_diff_grd="${tmp1%.*}_correction.grd"
 ##
 #  echo "Preparing grid characteristics..."
 ##  downsample the grd-file to make a template for blockmedian and surface
-##  make a sample size of the wavelength/16 
+##  make a sample size of the wavelength/16
 ##
 #   ndx=`echo  $filterw '/' $dx ' / 16' | bc`
 #   ndy=`echo  $filterw '/' $dy ' / 16' | bc`
@@ -178,14 +195,14 @@ file_tmp_insar_gnss_diff_grd="${tmp1%.*}_correction.grd"
 #   ndx2=`echo  $x_inc '*' $ndx | bc `
 #   ndy2=`echo  $y_inc '*' $ndy | bc `
 # echo  ndx2 ndy2 $ndx2, $ndy2
- 
- 
+
+
   echo "gmt grdsample $file_vel  -I$x_inc/$y_inc -Gtmp.grd"
   gmt grdsample $file_vel  -I$x_inc/$y_inc -Gtmp.grd
-  
-  
+
+
   #exit
-  
+
 grep '^ ' $file_gnss_los > $file_tmp_gnss_los
 #cat $file_tmp_gnss_los | awk '{print $4,$5,$7}' > $file_tmp_gnss_lld
 
@@ -194,7 +211,7 @@ cat $file_tmp_gnss_los | awk '{print $1,$2,$7}' > $file_tmp_gnss_lld
 
 #awk '{print $1, $2, $3*(4.0*3.141592653)/(-'$wave'*1000.0) }' < $file_tmp_gnss_lld > $file_tmp_gnss_llrad
 #awk '{print $1, $2, $3 }' < $file_tmp_gnss_lld > $file_tmp_gnss_llrad
-  
+
 cat $file_tmp_gnss_lld | gmt grdtrack -G$file_vel | awk '{print $1,$2,($4-$3)}' | grep -v 'nan' > $file_tmp_insar_gnss_diff
 cat $file_tmp_gnss_lld | gmt grdtrack -G$file_vel | awk '{print $1,$2,$4,$3}' | grep -v 'nan' > $file_tmp_insar_and_gnss
 
@@ -204,14 +221,14 @@ echo "#  now blockmedian and surface the data at this resolution"
 
   #echo "gmt blockmedian $file_tmp_insar_gnss_rad -Rtmp.grd > tmp.rad"
   #gmt blockmedian $file_tmp_insar_gnss_rad -Rtmp.grd > tmp.rad
-  
+
   echo "gmt surface  $file_tmp_insar_gnss_diff -Rtmp.grd -T0.1 -G${file_tmp_insar_gnss_diff}.grd "
-  gmt surface  $file_tmp_insar_gnss_diff -Rtmp.grd -T0.1 -G${file_tmp_insar_gnss_diff}.grd 
-  
-  gmt grdtrend ${file_tmp_insar_gnss_diff}.grd -N${N} -T${file_tmp_insar_gnss_diff_trend} 
-  
+  gmt surface  $file_tmp_insar_gnss_diff -Rtmp.grd -T0.1 -G${file_tmp_insar_gnss_diff}.grd
+
+  gmt grdtrend ${file_tmp_insar_gnss_diff}.grd -N${N} -T${file_tmp_insar_gnss_diff_trend}
+
   gmt grdfilter ${file_tmp_insar_gnss_diff_trend} -Dp -Fg17 -G${file_tmp_insar_gnss_diff_trend_flt}
-  
+
 echo "...using grdsample to upsample the correction grid..."
  incre=`  gmt grdinfo -Cn $file_vel | awk '{printf "%d+n/%d+n \n",$9,$10}' `
 echo "gmt grdsample ${file_tmp_insar_gnss_diff_trend_flt} -I$incre -G$file_tmp_insar_gnss_diff_grd"
@@ -222,11 +239,11 @@ gmt grdsample ${file_tmp_insar_gnss_diff_trend_flt} -I$incre -G$file_tmp_insar_g
 #gmt surface $file_tmp_insar_gnss_rad -R$file_vel -T0.1 -G$file_tmp_insar_gnss_rad_grd
 
 
-  
+
   echo "Correcting the interferogram..."
 #
   echo "gmt grdmath $file_vel $file_tmp_insar_gnss_diff_grd SUB = $ofile "
-  gmt grdmath $file_vel $file_tmp_insar_gnss_diff_grd SUB = $ofile 
+  gmt grdmath $file_vel $file_tmp_insar_gnss_diff_grd SUB = $ofile
 
 
 
@@ -246,7 +263,7 @@ sh_grd2jpg $ofile
 gmt makecpt -Cjet -T-20/20/.1 -I -Z > vel2.cpt
 sh_grd2kml $ofile vel2.cpt
 
-tar zcf gnss.tar.gz *gnss* Table.S4.psvelo.los vel_mask_ll_correction* vel_mask_ll.jpg
+tar zcf gnss.tar.gz *gnss* $file_gnss_los vel_mask_ll_correction* vel_mask_ll.jpg
 
 #clean temporary files
 \rm -rf _tmp_${PROG}_${timestamp}_*

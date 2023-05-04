@@ -1,0 +1,231 @@
+#!/bin/sh
+
+# Name:
+#   sh_s1_unzip_node
+#
+
+# Purpose:
+#   Unzip S1 data files to temporary directory for InSAR processing.
+
+# Example:
+#
+
+# Modifications:
+#
+
+# Algorithm:
+#
+
+# Dependency:
+#
+
+PROG=sh_s1_unzip_node
+
+timestamp=`date | sed -e "s/ /_/g" | sed -e "s/:/-/g"`
+
+path_old=`pwd`
+
+usage_of_it(){
+cat <<eob
+${PROG} 
+|_Unzip DIPP's S1 data files to a temporary directory for processing.
+|<
+  [-f|-file FRAME_LIST_FILE]
+  [-i|-iw SUBSWATH (default all: iw1,iw2,iw3)]
+  [-p|-path S1_SLC_FILE_PATH]
+  [-u|-update IN_UPDATE_MODE_y_n]
+  [-h|-help|--help]
+|>
+  OUTPUT_PATH/S1*.SAFE
+|e.g.,
+  ${PROG} -f input.lst.ok -iw iw1
+  ${PROG} -f input.lst.ok.seasonal -iw iw2,iw3
+(c)iGPS (https://github.com/igps-ftk/)
+eob
+}
+
+
+if [ "$1" == "" ]; then
+    usage_of_it
+    exit 1
+fi
+
+#path_s1=/sar/esa.sentinel-1/links
+path_s1=/sar/s1/links
+opath=$esa_unzip
+
+iw_typs=`echo "iw1,iw2,iw3" | sed -e 's/,/ /g'`
+
+is_local=n
+is_check_done=n
+is_test=n
+is_overwrite=n
+
+#two modes of input parameters
+if [ "`echo $1 | awk '{print substr($1,1,1)}'`" == "-" ]; then
+
+  while [ "$1" != "" ]; do
+    case $1 in
+      -f|-file)
+        file=$2
+        ;;
+      -i|-iw)
+        iw_typs=`echo $2 | sed -e 's/,/ /g'`
+        ;;
+      -l|-local)
+        is_local=$2
+        ;;
+      -p|-path)
+        path_s1=$2
+        ;;
+      -o|-opath)
+        opath=$2
+        ;;
+      -u|-update)
+        is_check_done=$2
+        ;;
+      -t|-test)
+        is_test=$2
+        ;;
+      -o|-overwrite)
+        is_overwrite=$2
+        ;;
+      -h|-help|--help)
+        usage_of_it
+        exit 1
+        ;;
+      *)
+        echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid option ($1)!!"
+        usage_of_it
+        exit 1
+        ;;
+    esac
+    shift 2
+  done
+
+else  #mode 2
+
+  file=$1  
+  if [ "$2" != "" ]; then
+      iw_typs=`echo $2 | sed -e 's/,/ /g'`
+  fi
+  
+  if [ "$esa_unzip" = "" ]; then
+      echo -e "[$PROG]\033[1;33;41mERROR\033[0m: esa_unzip variable not set!!"
+      exit 1
+  fi
+
+fi  #end-of-mode-2
+
+if [ ! -s $opath ]; then
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: output path not exist ($opath)!!"
+  exit 1
+fi
+
+if [ "$is_local" == "y" ]; then #for DIPP only
+  path_s1=/sar/esa.sentinel-1/links
+fi
+
+echo "[$PROG]INFO:iw to extract is $iw_typs"
+
+iws="iw1 iw2 iw3"
+iw_exclude_str=
+iw_rem=
+for iw_typ in $iws ; do
+  echo "iw_typ is $iw_typ"
+  tmp=`echo $iw_typs | grep $iw_typ`
+  echo "tmp is $tmp"
+  if [ "$tmp" != "" ]; then
+    iw_rem="$iw_rem $iw_typ"
+    continue
+  fi
+  iw_exclude_str="$iw_exclude_str *${iw_typ}*"
+done
+echo "[$PROG]INFO:iw to exclude is $iw_exclude_str"
+echo "[$PROG]INFO:iw remain is $iw_rem"
+n_iw_rem=`echo $iw_rem | awk '{print NF}'`
+#exit
+
+file_tmp=
+if [ "$is_check_done" == "y" ]; then
+
+  timestamp=`date | sed -e 's/ /_/g' | sed -e 's/:/-/g'`
+  file_tmp=_tmp_input_lst_${PROG}_${timestamp}
+  file2_tmp=_tmp_file_in_${PROG}_${timestamp}
+  grep '^ ' $file  > $file2_tmp
+  for iw in `echo $iw_typs | sed -e 's/,/ /g'`; do
+    ii=`echo $iw | awk '{print substr($1,3,1)}'`
+    file_blt="F${ii}/baseline_table.dat"
+    if [ -s $file_blt ]; then
+      file_data="F${ii}/data.in"
+      break
+    fi
+  done
+  echo baseline file $file_blt
+
+  #\rm -rf $file_tmp
+  sid=`head -1 $file_data | awk -F- '{print substr($5,1,8)}'`
+  cat $file2_tmp | grep $sid > $file_tmp
+  while read line; do
+    sid=`echo $line | awk -F_ '{print substr($6,1,8)}'`
+    #echo sid $sid
+    tmp=`cat $file_blt | grep $sid`
+    if [ "$tmp" == "" ]; then
+      echo " $line" >> $file_tmp
+    fi
+  done < $file2_tmp
+  wc -l $file_tmp
+  file=$file_tmp
+fi
+
+#echo file $file
+
+
+dos2unix $file
+
+lines=`grep '^ ' $file | awk '{print $1}'`
+ni=1
+ntot=`grep '^ ' $file | wc -l`
+for line in $lines; do
+    #echo $line
+    echo "[$PROG]INFO: $ni / $ntot `basename $line`"
+    ni=`expr $ni + 1`
+
+    dfile="`echo $line | awk -F. '{print $1}'`.zip"
+    ofile="`echo $line | awk -F. '{print $1}'`.SAFE"
+    
+    #echo ${opath_esa}/${ofile}
+    if [ "$is_overwrite" != "y" -a -d ${opath}/${ofile}/measurement ]; then
+      n_iw_out=0
+      for iw_i in $iw_rem; do
+        file_out=`find ${opath}/${ofile}/measurement -maxdepth 1 -type f -name "s1*${iw_i}*.tiff"`
+        if [ "$file_out" != "" ]; then
+          n_iw_out=`expr $n_iw_out + 1`
+        fi
+      done
+      #echo $n_iw_rem $n_iw_out
+      if [ $n_iw_rem -eq $n_iw_out ]; then
+        echo "INFO:already done (${opath}/$ofile). Skipped."
+        continue
+      fi
+    fi
+
+    #echo ${path_esa}/${dfile}
+    zipfile=${path_s1}/${dfile}
+    if [ ! -s ${zipfile} ]; then
+      echo -e "[$PROG]\033[1;33;41mERROR\033[0m:data not found (${zipfile})!!"
+      continue
+    fi
+
+    echo "[$PROG]INFO: extracting $dfile"
+    echo unzip -n ${zipfile} -x *-vh-*  $iw_exclude_str -d ${opath}
+    if [ "$is_test" != "y" ]; then
+      echo unzip -n ${zipfile} -x *-vh-*  $iw_exclude_str -d ${opath} | sh
+    fi
+done
+
+if [ "$file_tmp" != "" ]; then
+  \rm -f $file_tmp $file2_tmp
+fi
+
+echo "[$PROG]INFO: done."

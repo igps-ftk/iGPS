@@ -13,13 +13,35 @@
 # Modifications:
 #   
 
-# Algorigthm:
+# Algorithm:
 #   
 
 # Dependency:
 #   
 
 PROG=sh_slc_cut
+
+
+usage_of_it(){
+cat <<eob
+$PROG
+|_Clip area of interest from aligned SLC files.
+|+
+  -aligned SLC files (F?/raw/S1_*.*)
+  -trans.dat (for converstion between WGS-84 and radar coordiante)
+|<
+  -r|-f|-file POLYGON_KML
+  [-R RADAR_RANGES_IN_GMT_-R_FORM]
+  [-o|-opath OUTPUT_PATH]
+  [-ow|-overwrite WHETHER_OR_NOT_OVERWRITE_EXISTING]
+|>
+  OUTPUT_PATH/S1_*.SLC
+  OUTPUT_PATH/S1_*.LED
+|e.g.,
+  ${PROG} -r mine.kml
+(c)iGPS (https://github.com/igps-ftk/)
+eob
+}
 
 
 path_old=`pwd`
@@ -32,7 +54,7 @@ is_overwrite=n
 
 while [ "$1" != "" ]; do
   case $1 in
-    -file)
+    -r|-f|-roi|-file)
       cd `dirname $2`
       file_roi="`pwd`/`basename $2`"
       cd $path_old
@@ -40,14 +62,20 @@ while [ "$1" != "" ]; do
     -R)
       region_cut=$2
       ;;
-    -opath)
+    -o|-opath)
       opath=$2
       ;;
-    -overwrite)
+    -ow|-overwrite)
       is_overwrite=$2
       ;;
+    -h|-help|--help)
+      usage_of_it
+      exit 1
+      ;;
     *)
-      echo "[$PROG]ERROR: invalid option ($1)!!"
+      usage_of_it
+      echo ""
+      echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid option ($1)!!"
       exit 1
       ;;
   esac
@@ -55,7 +83,7 @@ while [ "$1" != "" ]; do
 done
 
 if [ "$file_roi" == "" -a "$region_cut" == "" ]; then
-  echo "[$PROG]ERROR: at least one type of range MUST be given!!"
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: at least one type of range MUST be given!!"
   echo "[$PROG]        1).ROI file (-file roi.kml)"
   echo "[$PROG]        2).rectangular ranges (XMIN/XMAX/YMIN/YMAX)"
   exit 1
@@ -125,3 +153,4 @@ for file in $files ; do
   #exit
 done
 
+echo "[$PROG]INFO: done."

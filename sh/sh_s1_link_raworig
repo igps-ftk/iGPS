@@ -13,7 +13,7 @@
 # Modifications:
 #   
 
-# Algorigthm:
+# Algorithm:
 #   
 
 # Dependency:
@@ -47,12 +47,12 @@ while read line; do
     echo $line
     dfile="`echo $line | awk -F. '{print $1}'`.SAFE"
     if [ ! -d ${esa_unzip}/${dfile} ]; then
-	echo "ERROR:data not found [${path_esa}/${dfile}]!!"
+	echo -e "[$PROG]\033[1;33;41mERROR\033[0m:data not found [${path_esa}/${dfile}]!!"
 	exit 1
     fi
     file_tiff=`find ${esa_unzip}/${dfile} -name "s1*-${iw_typ}-*-vv-*.tiff"`
     if [ "$file_tiff" == "" ]; then
-    	echo "[$PROG]ERROR: unzipped tiff file not found ($dfile)!!"
+    	echo -e "[$PROG]\033[1;33;41mERROR\033[0m: unzipped tiff file not found ($dfile)!!"
     	exit 1
     fi
     
