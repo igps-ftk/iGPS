@@ -1,5 +1,5 @@
 CTITLE
-      PROGRAM sar_s1_frame_match
+      PROGRAM s1_frame_match
 
       IMPLICIT NONE
       INCLUDE '../../inc/cgps.h'

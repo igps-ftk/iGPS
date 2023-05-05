@@ -1,5 +1,5 @@
 CTITLE
-      PROGRAM esa_s1_manifest_overlap
+      PROGRAM s1_manifest_overlap
 
       IMPLICIT NONE
 C      INCLUDE '../../inc/cgps.h'
@@ -14,10 +14,10 @@ c
 c     --EXAMPLE--
 
 c     --MODIFICATIONS--
-c     + 
+c     +
 c       format num: 811
 c       jump num: 907
-c 
+c
 c     + On Tue Oct 27 10:00:34 CST 2015 by tianyf
 c     .
 c
@@ -73,23 +73,54 @@ c     for calculating overlapping percentage
       real*8 dyra1,dyra2,dyrb1,dyrb2,jd,sec,jd1a,jd1b,jd2a,jd2b
       integer*4 i,j,di,nsiteday,sind
       integer*4 fid,ioerr,iostat
-      
+
 c     for ffind
       integer*4 t_nf
       character*1023 t_files(1000), t_filter
-      
+
 c     for dates excluded
       character*1023 de_file,dates_excluded(100),buf
-      integer*4 n_de   
-
+      integer*4 n_de
+      character*50  prog,ver
 
 c     <<VAR_DEC
+
+      prog='s1_manifest_overlap'
+      write(*,'(3a)') '-> ',prog(1:nblen(prog)),' ...'
+      ver='20200302'
+
       if (iargc().lt.3) then
-         write(*,'(3a)') 'Usage: esa_s1_manifest_overlap path target',
-     +        'opath [perc_min]'
+         write(*,'(3a)') '[',prog(1:nblen(prog)),
+     +     ']ERROR: no option given!!'
+         write(*,'(a)') 'Usage:'
+         write(*,'(4x,3a)') prog(1:nblen(prog)),' path target',
+     +        ' opath [perc_min]'
+         write(*,'(a)') prog(1:nblen(prog))
+         write(*,'(6a)') '  version ',ver(1:nblen(ver))
+         write(*,'(6a)') '|_Match Sentinel-1 frames with the same ',
+     +     'orbit/coverage.'
+         write(*,'(a)') '|+'
+         write(*,'(a)') '  -*.manifest.safe'
+         write(*,'(a)') '|<'
+         write(*,'(a)') '  SAFE_PATH'
+         write(*,'(a)') '  TARGET_SAFE'
+         write(*,'(a)') '  OUTPUT_PATH'
+         write(*,'(a)') '  [PERCENTAGE_OF_OVERLAPPING]'
+         write(*,'(a)') '    default: 0.8  (i.e., 80%)'
+         write(*,'(a)') '|>'
+         write(*,'(a)') '  OUTPUT_PATH/overlapping.TARGET_SAFE.txt'
+         write(*,'(a)') '  OUTPUT_PATH/overlapping.TARGET_SAFE.kml'
+         write(*,'(a)') '  OUTPUT_PATH/overlapping.TARGET_SAFE.psxy'
+         write(*,'(a)') '|e.g.,'
+         write(*,'(2x,6a)') prog(1:nblen(prog)),
+     +     ' /sar/s1/manifest.safe/A012'
+         write(*,'(4x,6a)') 'S1A_IW_SLC__1SDV_20200120T121407_',
+     +     '20200120T121435_030884_038B59_F678.manifest.safe'
+         write(*,'(4x,6a)') '/sar/proc/012-a-m7-0088...-tibet/ 0.56'
+         write(*,'(6a)') '(c)iGPS (https://github.com/igps-ftk/)'
          stop
       endif
-      
+
       perc_min=.8d0
       xstep=.1d0
       ystep=.1d0
@@ -109,10 +140,10 @@ c      write(*,'(a)') '[i]Starting ...________________'
          read (tmpstr,*) perc_min
       endif
       write(*,'(a,f9.2)') '[]perc_min:',perc_min
-      
+
 c     check dates excluded
-      de_file=opath(1:nblen(opath))//'/exclude_date.txt'   
-      de_file=opath(1:nblen(opath))//'/exclude_date_no_blank_line.txt'      
+      de_file=opath(1:nblen(opath))//'/exclude_date.txt'
+      de_file=opath(1:nblen(opath))//'/exclude_date_no_blank_line.txt'
       call getlun(fid)
       write(*,*) 'fid is ',fid, 'for ', de_file(1:nblen(de_file))
       dates_excluded(1)=''
@@ -131,7 +162,7 @@ c        write(*,*) 'line:',buf(1:nblen(buf))
         if (buf(1:1).ne.' ') then
 c         write(*,*) 'comment:',buf(1:nblen(buf))
          goto 810
-        endif   
+        endif
         n_de=n_de+1
         read(buf,*) tmpstr
         dates_excluded(n_de)=tmpstr(1:nblen(tmpstr))
@@ -141,13 +172,13 @@ c         write(*,*) 'comment:',buf(1:nblen(buf))
 907   continue
       close(fid)
 c      stop
-      
-      
+
+
 c     get information in target manifest.safe file
       file=path(1:nblen(path))//'/'//target(1:nblen(target))
       t_filter='*'//target(1:nblen(target))//'*'
       write(*,*) 't_filter', t_filter(1:nblen(t_filter))
-      call ffind (path,t_files,t_filter,t_nf,0) 
+      call ffind (path,t_files,t_filter,t_nf,0)
       write(*,*) "t_nf",t_nf
       if (t_nf.lt.1) then
         write(*,*) '[]ERROR: target ('//target(1:nblen(target))//
@@ -159,7 +190,7 @@ c     get information in target manifest.safe file
 c      stop
       call read_esa_s1_manifest_safe(file,orbtype_target,track_target,
      .     xys)
-      write(*,*) 'target orbtype is ', 
+      write(*,*) 'target orbtype is ',
      .     orbtype_target(1:nblen(orbtype_target))
       write(*,*) 'target track is ', track_target
       do j=1,4
@@ -258,7 +289,7 @@ c        skip dates excluded
  811     format("x ",a,1x,f20.8)
             goto 903
           endif
-         enddo         
+         enddo
          write(fid,801) tmpstr(1:nblen(tmpstr)),percs(i)
  801     format(1x,a,1x,f20.8)
 
@@ -290,29 +321,29 @@ c     output KML file
          stop
       endif
       write(fid,'(a)') '<?xml version="1.0" encoding="UTF-8"?>',
-     .     '<kml xmlns="http://earth.google.com/kml/2.0">', 
+     .     '<kml xmlns="http://earth.google.com/kml/2.0">',
      .     '<Document>'
-    
-  
-      write(fid,'(a)') '    <Style id="yellowLineGreenPoly">',  
-     .     '      <LineStyle>       ',  
-     .     '        <color>7f00ffff</color>',  
-     .     '        <width>2</width>     ',  
-     .     '      </LineStyle>     ',  
-     .     '      <PolyStyle>       ',  
-     .     '        <color>7f00ff00</color>',  
-     .     '      </PolyStyle>   ',  
+
+
+      write(fid,'(a)') '    <Style id="yellowLineGreenPoly">',
+     .     '      <LineStyle>       ',
+     .     '        <color>7f00ffff</color>',
+     .     '        <width>2</width>     ',
+     .     '      </LineStyle>     ',
+     .     '      <PolyStyle>       ',
+     .     '        <color>7f00ff00</color>',
+     .     '      </PolyStyle>   ',
      .     '    </Style>'
-  
-  
+
+
       do i=1, nf
          if (percs(i).lt.perc_min) then
             goto 904
          endif
          file=files(i)
          call getfilename(file,tmpstr)
-         
-         
+
+
 c        skip dates excluded
          do j=1, n_de
           buf=dates_excluded(j)
@@ -320,7 +351,7 @@ c        skip dates excluded
 c            write(*,*) '[]INFO:skipping ',tmpstr(1:nblen(tmpstr))
             goto 904
           endif
-         enddo         
+         enddo
 
          write(fid,'(a)') '    <Placemark>'
          write(fid,'(3a)') '      <name>',tmpstr(1:nblen(tmpstr)),
@@ -346,7 +377,7 @@ c            write(*,*) '[]INFO:skipping ',tmpstr(1:nblen(tmpstr))
      .           tmpstr3(1:nblen(tmpstr3))//','//
      .           tmpstr4(1:nblen(tmpstr4))//',0'
          enddo
-    
+
 c     ;link the last vertex to the first one
       j=1
       write(tmpstr1,803) xys_all(1,j,i)
@@ -362,10 +393,10 @@ c     ;link the last vertex to the first one
 
       write(fid,'(a)') '      </LineString>'
       write(fid,'(a)') '    </Placemark>'
-  
+
  904  continue
       enddo
-  
+
       write(fid,'(a)')'   </Document>'
       write(fid,'(a)') '</kml>'
 
@@ -391,7 +422,7 @@ c     output overlapping scenes
          endif
          file=files(i)
          call getfilename(file,tmpstr)
-         
+
 c        skip dates excluded
          do j=1, n_de
           buf=dates_excluded(j)
@@ -399,20 +430,20 @@ c        skip dates excluded
 c            write(*,*) '[]INFO:skipping ',tmpstr(1:nblen(tmpstr))
             goto 906
           endif
-         enddo         
-         
+         enddo
+
          write(fid,808) tmpstr(1:nblen(tmpstr))
  808     format(">",1x,a)
          do j=1,4
             write(fid,809) xys_all(1,j,i), xys_all(2,j,i)
  809        format(2(1x,f20.015))
          enddo
-         
+
  906     continue
       enddo
 
       close(fid)
-        
+
 
 
 

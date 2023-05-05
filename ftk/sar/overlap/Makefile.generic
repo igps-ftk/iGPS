@@ -91,11 +91,11 @@ CFLAGS = -g -Aa    #hp
 # Last changed by R. King 061229
 #
 # LABELS: run_cmonoc_reg:run_cmonoc_reg:NONE:run_cmonoc_reg
-#LABELS: esa_s1_manifest_overlap:esa_s1_manifest_overlap:NONE:esa_s1_manifest_overlap
-#LABELS: esa_s1_overlap_check3:esa_s1_overlap_check3:NONE:esa_s1_overlap_check3
+#LABELS: s1_manifest_overlap:s1_manifest_overlap:NONE:s1_manifest_overlap
+#LABELS: s1_overlap_check:s1_overlap_check:NONE:s1_overlap_check
 #LABELS: is_point_in_polygon:is_point_in_polygon:NONE:is_point_in_polygon
-#LABELS: sar_s1_frame_match:sar_s1_frame_match:NONE:sar_s1_frame_match
-#LABELS: esa_s1_frame_intersect:esa_s1_frame_intersect:NONE:esa_s1_frame_intersect
+#LABELS: s1_frame_match:s1_frame_match:NONE:s1_frame_match
+#LABELS: s1_frame_intersect:s1_frame_intersect:NONE:s1_frame_intersect
 
 #SHARELIB: ../../data/read:cgps_data_read
 # SHARELIB: ../../data/write:cgps_data_write

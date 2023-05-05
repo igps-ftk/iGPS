@@ -82,7 +82,7 @@ c     for point_perp_line
 
 c     <<VAR_DEC
       prog='sar_los_profile_auto'
-      write(*,'(3a)') '|> ',prog(1:nblen(prog)),' ...'
+      write(*,'(3a)') '->',prog(1:nblen(prog)),' ...'
       ver='20220123'
 c      ioerr=system('whoami')
       call getlog(user)
@@ -97,8 +97,33 @@ c      stop
 
 c      write(*,*) 'iargc():',iargc()
       if (iargc().le.0) then
-         write(*,*) 'Usage: profile_sar_los_auto --vfile=vfile_name'
-         write(*,*) '         --opath=out_dir'
+         write(*,'(3a)') '[',prog(1:nblen(prog)),
+     +     ']ERROR: no option given!!'
+         write(*,'(a)') 'Usage:'
+         write(*,'(a)') prog(1:nblen(prog))
+         write(*,'(a)') '|_Extract velocities along profiles for fault.'
+         write(*,'(a)') '|+'
+         write(*,'(a)') '  -fault trace (GMT psxy)'
+         write(*,'(a)') '  -profile lines (GMT psxy)'
+         write(*,'(a)') '  -velocity map (ASCII XYZ)'
+         write(*,'(a)') '|<'
+         write(*,'(a)') '  --ffile=FAULT_FILE.psxy'
+         write(*,'(a)') '  --vfile=VEL_FILE.xyz[e]'
+         write(*,'(a)') '  --opath=OUT_PATH'
+         write(*,'(a)') '  [--pfile=PROFILE_FILE]'
+         write(*,'(a)') '   default: OUT_PATH/profiles_auto.psxy'
+         write(*,'(a)') '  [--width=WIDTH_OF_PROFILE_KM]'
+         write(*,'(a)') '    default: 10 km'
+         write(*,'(a)') '|>'
+         write(*,'(a)') ' OUT_PATH/profile_???_vel.psxy'
+         write(*,'(a)') '|e.g.,'
+         write(*,'(2x,6a)') prog(1:nblen(prog)),
+     +     ' --vfile=fa_honghe.psxy'
+         write(*,'(4x,6a)') '--vfile=062-d-m6-0497...-honghe/sbas.../',
+     +     'vel_mask_ll_gnss3.xyze'
+         write(*,'(4x,6a)') '--pfile=p.fa_honghe/profiles_auto.psxy'
+         write(*,'(4x,6a)') '--opath=p.fa_honghe'
+         write(*,'(6a)') '(c)iGPS (https://github.com/igps-ftk/)'
          stop
       endif
 
@@ -138,8 +163,9 @@ c            read(tmpstr(pos+1:),*) ofile
          elseif (tmpstr(1:pos).eq.'--width=') then
             read(tmpstr(pos+1:),*) p_wid
          else
-            write(*,*) '[]ERROR: invlaid parameter(',
-     +    tmpstr(1:pos),')!!'
+            write(*,*) '[',prog(1:nblen(prog)),
+     +        ']ERROR: invlaid parameter(',
+     +        tmpstr(1:pos),')!!'
             stop
          endif
       enddo
@@ -154,13 +180,14 @@ c            read(tmpstr(pos+1:),*) ofile
         write(*,*) '[]ERROR: no input fault file!!'
         stop
       endif
-      if (nblen(pfile).lt.1) then
-        write(*,*) '[]ERROR: no input profile file!!'
-        stop
-      endif
       if (nblen(opath).lt.1) then
         write(*,*) '[]ERROR: no output directory!!'
         stop
+      endif      
+      if (nblen(pfile).lt.1) then
+        pfile=opath(1:nblen(opath))//'/profiles_auto.psxy'
+c        write(*,*) '[]ERROR: no input profile file!!'
+c        stop
       endif
 
 

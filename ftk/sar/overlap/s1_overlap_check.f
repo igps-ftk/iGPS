@@ -1,5 +1,5 @@
 CTITLE
-      PROGRAM esa_s1_overlap_check3
+      PROGRAM s1_overlap_check
 
       IMPLICIT NONE
 C      INCLUDE '../../inc/cgps.h'
@@ -54,7 +54,7 @@ c     for sorting times
       real*8 dyrs1(NMAX),sods1(NMAX),jds1(NMAX)
       integer*4 inds(NMAX)
       character*1023 scenes1(NMAX),scene
-      
+
       integer*4 is_out(NMAX), is_uniq(NMAX),inds1(NMAX),nj
       real*8 tmp_r8
 
@@ -63,16 +63,45 @@ c     for sorting times
       integer*4 npart
       integer*4 i,j,di,nsiteday,sind
       integer*4 fid,ioerr
-      
+      character*50  prog,ver
+
 
 
 c     <<VAR_DEC
+
+      prog='s1_overlap_check'
+      write(*,'(3a)') '-> ',prog(1:nblen(prog)),' ...'
+      ver='20200502'
+
       if (iargc().lt.2) then
-         write(*,'(3a)') 'Usage: esa_s1_overlap_check in out'
+         write(*,'(3a)') '[',prog(1:nblen(prog)),
+     +     ']ERROR: no option given!!'
+         write(*,'(a)') 'Usage:'
+         write(*,'(4x,3a)') prog(1:nblen(prog)),' INPUT_FILE',
+     +        ' OUTPUT_FILE [NUMBER_OF_FRAMES_TO_MERGE]'
+         write(*,'(a)') prog(1:nblen(prog))
+         write(*,'(6a)') '  version ',ver(1:nblen(ver))
+         write(*,'(6a)') '|_Check number of scenes of each day to ',
+     +     'merge.'
+         write(*,'(a)') '|+'
+         write(*,'(a)') '  -output from s1_manifest_overlap'
+         write(*,'(a)') '|<'
+         write(*,'(a)') '  INPUT_FILE'
+         write(*,'(a)') '  OUTPUT_FILE'
+         write(*,'(a)') '  [NUMBER_OF_FRAMES_TO_MERGE]'
+         write(*,'(a)') '    default: 3  (i.e., 3 frames per day)'
+         write(*,'(a)') '|>'
+         write(*,'(a)') '  OUTPUT_FILE.ok'
+         write(*,'(a)') '|e.g.,'
+         write(*,'(2x,6a)') prog(1:nblen(prog)),
+     +     ' input.lst input.lst.ok'
+         write(*,'(2x,6a)') prog(1:nblen(prog)),
+     +     ' input.lst input.lst.ok 7'
+         write(*,'(6a)') '(c)iGPS (https://github.com/igps-ftk/)'
          stop
       endif
-      
-    
+
+
 c      write(*,'(a)') '[i]Starting ...________________'
       call getarg(1,tmpstr)
       file=tmpstr(1:nblen(tmpstr))
@@ -80,7 +109,7 @@ c      write(*,'(a)') '[i]Starting ...________________'
       call getarg(2,tmpstr)
       ofile=tmpstr(1:nblen(tmpstr))
       write(*,'(3a)') '[]out:',ofile(1:nblen(ofile))
-c     optional input parameter (nfrm)      
+c     optional input parameter (nfrm)
       nfrm=3
       if (iargc().ge.3) then
           call getarg(3,tmpstr)
@@ -128,12 +157,12 @@ c         write(*,*) year,mon,day,hh,mm,ss
          call jd_to_decyrs(jd,dyr)
          dyrs(i)=dyr
 c         jds(i)=jd
-         
+
          date(4)=0d0
          date(5)=0d0
          call ymdhms_to_jd(date, 0d0, jd)
          jds(i)=jd
-         
+
 c         sods(i)=hh*3600d0+mm*60d0+ss
          sods(i)=hh*3600d0+mm*60d0+ss+(jds(i)-jds(1))*24d0*3600d0
 c         write(*,*) year,mon,day,hh,mm,ss,dyr,jd,sods(i)
@@ -152,7 +181,7 @@ c         write(*,*) i,inds(i),dyrs1(i),sods1(i),scenes1(i)
 c      stop
 
 c     get unique dates of acquisitions
-      do i=1,np 
+      do i=1,np
          is_out(i)=0
          is_uniq(i)=0
          inds(i)=0
@@ -180,12 +209,12 @@ c$$$     .        scene(1:nblen(scene))
 c$$$      enddo
 
 c     remove adundant acquisitions
-      do i=1,np 
+      do i=1,np
          is_out(i)=0
       enddo
       do i=1,np
          if (is_out(i).eq.1) goto 904
-         
+
          nj=0
          do j=1,np
             tmp_r8=abs(dyrs1(i)-dyrs1(j))*365.25d0
@@ -224,7 +253,7 @@ c     loop for each unique acquisiiton date
                inds1(nj)=j
             endif
          enddo
-c     
+c
          if (nj.ne.nfrm) then
             write(*,*) '[]WARNING: no enough scenes (',nj,') for '//
      .           scene(1:nblen(scene))//'!'
@@ -233,7 +262,7 @@ c
             enddo
             goto 905
          endif
- 905     continue  
+ 905     continue
       enddo
 
       do i=1,np
@@ -275,12 +304,12 @@ c     outpu BAD scenes
          write(fid,802) scene(1:nblen(scene))
  907     continue
       enddo
- 
-    
+
+
       close(FID)
 
 
 
       STOP
       END
- 
+

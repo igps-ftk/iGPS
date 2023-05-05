@@ -66,7 +66,7 @@ C     maximum length of profile (pixels)
  
 c     <<VAR_DEC
       prog='sar_los_profile_fit'
-      write(*,'(3a)') '|> ',prog(1:nblen(prog)),' ...'
+      write(*,'(3a)') '-> ',prog(1:nblen(prog)),' ...'
       ver='20220119'
 c      ioerr=system('whoami')
       call getlog(user)
@@ -81,21 +81,45 @@ c      stop
       
 c      write(*,*) 'iargc():',iargc()
       if (iargc().le.0) then
-         write(*,*) 'Purpose:'
-         write(*,*) '    Fault dislocation modeling using grid search.'
-         write(*,*) 'Usage:'
-         write(*,*) '    sar_los_profile_fit --file=file_name'
-         write(*,*) '        [--ofile=out_name]'
-         write(*,*) '        [--d1=dist_min --d2=dist_max]'
-         write(*,*) '        [--nr=number_of_roation]'         
-         write(*,*) '        [--nfs=number_of_fault_slip]'
-         write(*,*) '        [--nfts=number_of_fault_trace_shif]'
-         write(*,*) '        [--nld=number_of_locking_depth]'
-         write(*,*) '        [--step_rot=step_of_roation]'
-         write(*,*) '        [--step_fs=step_of_fault_slip]'
-         write(*,*) '        [--step_fts=step_of_fault_trace_shif]'
-         write(*,*) '        [--step_ld=step_of_locking_depth]'
-         write(*,*) ' (c) iGPS 2022 Beijing China'
+         write(*,'(a)') 'Usage:'
+         write(*,'(a)') prog(1:nblen(prog))
+         write(*,'(2a)') '|_Fault dislocation modeling using grid ',
+     +      'search.'
+         write(*,'(a)') '|+'
+         write(*,'(a)') '  -profile_???_vel.psxy'
+         write(*,'(a)') '|<'
+         write(*,'(a)') '  -file=VEL_PROFILE_FILE.psxy'
+         write(*,'(a)') '  [--ofile=VEL_PROFILE_FILE_mdl.txt]'
+         write(*,'(a)') '    default: VEL_PROFILE_FILE_mdl.txt'
+         write(*,'(a)') '  [--d1=DIST_MIN_KM]'
+         write(*,'(a)') '    default: -200 km'
+         write(*,'(a)') '  [--d2=DIST_MAX_KM]'
+         write(*,'(a)') '    default: 200 km'
+         write(*,'(a)') '  [--nr=NUMBER_OF_ROATION]'  
+         write(*,'(a)') '    default: 41'       
+         write(*,'(a)') '  [--nfs=NUMBER_OF_FAULT_SLIP]' 
+         write(*,'(a)') '    default: 121'       
+         write(*,'(a)') '  [--nfts=NUMBER_OF_FAULT_TRACE_SHIF]' 
+         write(*,'(a)') '    default: 21'       
+         write(*,'(a)') '  [--nld=NUMBER_OF_LOCKING_DEPTH]' 
+         write(*,'(a)') '    default: 51'       
+         write(*,'(a)') '  [--step_rot=STEP_OF_ROATION]' 
+         write(*,'(a)') '    default: 0.1 rad'       
+         write(*,'(a)') '  [--step_fs=STEP_OF_FAULT_SLIP]' 
+         write(*,'(a)') '    default: 0.1 mm/yr'       
+         write(*,'(a)') '  [--step_fts=STEP_OF_FAULT_TRACE_SHIF]' 
+         write(*,'(a)') '    default: 5 km'       
+         write(*,'(a)') '  [--step_ld=STEP_OF_LOCKING_DEPTH]' 
+         write(*,'(a)') '    default: 1 km'       
+         write(*,'(a)') '|>'
+         write(*,'(a)') '  VEL_PROFILE_FILE_mdl.txt'
+         write(*,'(a)') '|e.g.,'
+         write(*,'(2x,6a)') prog(1:nblen(prog)),
+     +     ' --file=profile_056_vel.psxy'
+         write(*,'(4x,6a)') '--ofile=profile_056_vel_mdl.txt'
+         write(*,'(4x,6a)') '--nfs=21 --step_fs=.3 --nld=21 --step_ld=2'
+         write(*,'(4x,6a)') '--nr=9 --step_rot=.3'
+         write(*,'(6a)') '(c)iGPS (https://github.com/igps-ftk/)'
          stop
       endif
 
@@ -160,7 +184,7 @@ c            read(tmpstr(pos+1:),*) ofile
             read(tmpstr(pos+1:),*) fs_step
          elseif (tmpstr(1:pos).eq.'--step_fts=') then
             read(tmpstr(pos+1:),*) fts_step
-         elseif (tmpstr(1:pos).eq.'--ls_ld=') then
+         elseif (tmpstr(1:pos).eq.'--step_ld=') then
             read(tmpstr(pos+1:),*) ld_step
          else
             write(*,*) '[]ERROR: invlaid parameter(',
@@ -169,6 +193,16 @@ c            read(tmpstr(pos+1:),*) ofile
          endif
       enddo
 
+      if (nblen(file).lt.1) then
+        write(*,*) '[]ERROR: no input profile file!!'
+        stop
+      endif
+      if (nblen(ofile).lt.1) then
+        call desuffix(file,tmpstr)
+        write(ofile,'(5a)') tmpstr(1:nblen(tmpstr)),'_mdl.txt'
+c        write(*,*) '[]ERROR: no output file!!'
+c        stop
+      endif
 
       write(*,*) 'file: ',file(1:nblen(file))
       write(*,*) 'ofile: ',ofile(1:nblen(ofile))

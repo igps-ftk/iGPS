@@ -1,5 +1,5 @@
 CTITLE
-      PROGRAM esa_s1_frame_intersect
+      PROGRAM s1_frame_intersect
 
       IMPLICIT NONE
 C      INCLUDE '../../inc/cgps.h'

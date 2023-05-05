@@ -61,8 +61,8 @@ c     for map_2points
       character*50  prog,ver,user,os,hostname,date_time
 
 c     <<VAR_DEC
-      prog='sar_los_profile_fit'
-      write(*,'(3a)') '|> ',prog(1:nblen(prog)),' ...'
+      prog='profile_vector_auto'
+      write(*,'(3a)') '-> ',prog(1:nblen(prog)),' ...'
       ver='20220122'
 c      ioerr=system('whoami')
       call getlog(user)
@@ -77,11 +77,35 @@ c      stop
       p_len=600d0
       p_wid=10d0
       auto_strike=1
+      ofile='profiles_auto.psxy'
 
 c      write(*,*) 'iargc():',iargc()
       if (iargc().le.0) then
-         write(*,*) 'Usage: profile_vector_auto --file=file_name'
-         write(*,*) '         --ofile=out_name'
+         write(*,'(3a)') '[',prog(1:nblen(prog)),
+     +     ']ERROR: no option given!!'
+         write(*,'(a)') 'Usage:'
+         write(*,'(a)') prog(1:nblen(prog))
+         write(*,'(a)') '|_Create profile lines along fault trace.'
+         write(*,'(a)') '|+'
+         write(*,'(a)') '  -fault trace (GMT psxy)'
+         write(*,'(a)') '|<'
+         write(*,'(a)') '  --file=FAULT_FILE.psxy'
+         write(*,'(a)') '  [--ofile=OUT_PROFILE_FILE.psxy]'
+         write(*,'(a)') '    default: profiles_auto.psxy'
+         write(*,'(a)') '  [--length=LENGTH_OF_PROFILE_KM]'
+         write(*,'(a)') '    default: 600 km'
+         write(*,'(a)') '  [--width=WIDTH_OF_PROFILE_KM]'
+         write(*,'(a)') '    default: 10 km'
+         write(*,'(a)') '  [--strike=1|2|3]'
+         write(*,'(a)') '    1 - individual strike for each segment'
+         write(*,'(a)') '    2 - average strike for all segments'
+         write(*,'(a)') '    3 - only using  first and last vertices'
+         write(*,'(a)') '|>'
+         write(*,'(a)') '  OUT_PROFILE_FILE in GMT psxy foramt'
+         write(*,'(a)') '|e.g.,'
+         write(*,'(2x,6a)') prog(1:nblen(prog)),' --file=fa_atf.psxy'
+         write(*,'(4x,6a)') '--ofile=profiles_auto.psxy'
+         write(*,'(6a)') '(c)iGPS (https://github.com/igps-ftk/)'
          stop
       endif
 

@@ -1,0 +1,1 @@
+gfortran -fopenmp sar_los_profile_fit_p.f ../../data/read/cgps_data_read.a.Linux_x86_64 ../../data/site/cgps_data_site.a.Linux_x86_64 ../../lib/cgps_lib.a.Linux_x86_64 ../../gglib/gglib.a.Linux_x86_64 ./sar_profile_lib.a.Linux_x86_64 -o sar_los_profile_fit_p.Linux_x86_64 -O2 -Wuninitialized -fno-f2c -ffast-math -fno-automatic -fno-backslash -m64 -mcmodel=large
