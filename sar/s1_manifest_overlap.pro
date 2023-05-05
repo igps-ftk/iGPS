@@ -1,7 +1,7 @@
 
 
-PRO SAR_S1_MANIFEST_OVERLAPPING, path=path,   $ ;where to search *.manifest.safe files 
-    files=files, $  ;filenames of *.manifest.safe files, if path is not given, 
+PRO S1_MANIFEST_OVERLAP, path=path,   $ ;where to search *.manifest.safe files
+    files=files, $  ;filenames of *.manifest.safe files, if path is not given,
     target=target,  $ ;frame name to match
     opath=opath,  $ ;output path
     ofile=ofile,  $ ;output file name. If not given, use "opath+target"
@@ -67,10 +67,6 @@ PRO SAR_S1_MANIFEST_OVERLAPPING, path=path,   $ ;where to search *.manifest.safe
   HELP,exclude_date
   ;stop
   
-  
-  
-  
-  ;stop
   ofile=opath+PATH_SEP()+'overlapping.'+target+'.txt'
   
   IF N_ELEMENTS(xys) EQ 0 THEN BEGIN  ;if no xys/names inputs, then read files
