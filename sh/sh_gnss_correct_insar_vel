@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Name:
-#   sh_gnss_correct_insar_vel_ll
+#   sh_gnss_correct_insar_vel
 #
 
 # Purpose:
@@ -28,7 +28,7 @@
 #
 
 
-PROG=sh_gnss_correct_insar_vel_ll
+PROG=sh_gnss_correct_insar_vel
 
 timestamp=`date | sed -e "s/ /_/g" | sed -e "s/:/-/g"`
 

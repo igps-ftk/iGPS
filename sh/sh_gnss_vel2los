@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Name:
-#   sh_gnss_psvelo2los
+#   sh_gnss_vel2los
 #
 
 # Purpose:
@@ -34,7 +34,7 @@
 #
 
 
-PROG=sh_gnss_psvelo2los
+PROG=sh_gnss_vel2los
 
 timestamp=`date | sed -e "s/ /_/g" | sed -e "s/:/-/g"`
 
