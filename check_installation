@@ -1,0 +1,3 @@
+
+echo "*OSID* for this system is `sh/sh_arch`"
+./sh/sh_igps_check

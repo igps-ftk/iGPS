@@ -1,0 +1,1576 @@
+
+START FORM A STACK OF INTERFEROGRAMS
+
+
+INTF.CSH, FILTER.CSH - START
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20190922_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20200120_ALL_F2.LED 
+intf.csh
+running phasediff...
+reading topo topo_ra.grd
+ xdim 25792, ydim 85992 
+filter.csh
+setting range_dec = 16, azimuth_dec = 4
+gauss_400 4 8 (1 2)
+making amplitudes...
+filtering interferogram...
+making amplitude...
+making correlation...
+making phase...
+filtering phase...
+INTF.CSH, FILTER.CSH - END
+
+SKIP UNWRAP PHASE
+
+GEOCODE.CSH - START
+rm: cannot remove 'trans.dat': No such file or directory
+threshold_geocode: .01
+grdmath [INFORMATION]: Enable all available threads (up to 12)
+grdmath [INFORMATION]: Perform reverse Polish notation calculations on grids
+grdmath [INFORMATION]: netCDF grid corr.grd has no default CPT.
+grdmath [INFORMATION]: Cartesian input grid
+grdmath [INFORMATION]: corr.grd grdmath [INFORMATION]: netCDF grid corr.grd has no default CPT.
+grdmath [INFORMATION]: Cartesian input grid
+grdmath [INFORMATION]: Reading grid from file corr.grd
+grdmath [INFORMATION]: Cartesian input grid
+grdmath [INFORMATION]: gmt_grd_BC_set: Set boundary condition for all edges: natural
+grdmath [INFORMATION]: gmt_grd_BC_set: Set boundary condition for left   edge: natural
+grdmath [INFORMATION]: gmt_grd_BC_set: Set boundary condition for right  edge: natural
+grdmath [INFORMATION]: gmt_grd_BC_set: Set boundary condition for bottom edge: natural
+grdmath [INFORMATION]: gmt_grd_BC_set: Set boundary condition for top    edge: natural
+0.01 GE 0 NAN mask.grd grdmath [INFORMATION]: netCDF grid mask.grd has no default CPT.
+grdmath [INFORMATION]: Cartesian input grid
+grdmath [INFORMATION]: Reading grid from file mask.grd
+grdmath [INFORMATION]: Cartesian input grid
+grdmath [INFORMATION]: gmt_grd_BC_set: Set boundary condition for all edges: natural
+grdmath [INFORMATION]: gmt_grd_BC_set: Set boundary condition for left   edge: natural
+grdmath [INFORMATION]: gmt_grd_BC_set: Set boundary condition for right  edge: natural
+grdmath [INFORMATION]: gmt_grd_BC_set: Set boundary condition for bottom edge: natural
+grdmath [INFORMATION]: gmt_grd_BC_set: Set boundary condition for top    edge: natural
+MUL = mask2.grdgrdmath [INFORMATION]: Writing grid to file mask2.grd
+
+Masked phase map: phase_mask.pdf
+Filtered masked phase map: phasefilt_mask.pdf
+geocode.csh
+project correlation, phase, unwrapped and amplitude back to lon lat coordinates
+remarked is by tianyf on Wed Apr 12 09:25:48 CST 2023 with geocode.csh
+proj_ra2ll.csh
+surface [INFORMATION]: Provides 5, expects 3-column binary data
+surface [INFORMATION]: Enable all available threads (up to 12)
+surface [INFORMATION]: Cartesian input grid
+surface [INFORMATION]: Cartesian input grid
+surface [INFORMATION]: Internally speed up convergence by using the larger region -R-272/25648/-192/86208 (go from 1564 x 2688 to optimal 1620 x 2700, with speedup-factor 15.77621)
+surface [INFORMATION]: Cartesian input grid
+surface [INFORMATION]: Cartesian input grid
+surface [INFORMATION]: Cartesian input grid
+surface [INFORMATION]: Cartesian input grid
+surface [INFORMATION]: Grid domain: W: 176 E: 25200 S: 0 N: 86016 n_columns: 1620 n_rows: 2700 [gridline registration]
+surface [INFORMATION]: Processing input table data
+surface [INFORMATION]: Input 5 columns via binary records using format ddddd
+surface [INFORMATION]: Reading Data Table from file trans.dat
+surface [INFORMATION]: Minimum value of your dataset x,y,z at: -1.82812952995 86006.421875 84.6800003052
+surface [INFORMATION]: Maximum value of your dataset x,y,z at: 25652.4707031 -16.5683612823 88.0175018311
+surface [INFORMATION]: Eliminate data points that are not nearest a node.
+surface [WARNING]: 11431038 unusable points were supplied; these will be ignored.
+surface [WARNING]: You should have pre-processed the data with block-mean, -median, or -mode.
+surface [WARNING]: Check that previous processing steps write results with enough decimals.
+surface [WARNING]: Possibly some data were half-way between nodes and subject to IEEE 754 rounding.
+surface [INFORMATION]: Plane fit z = 87.0831 + (0.000618733 * col) + (-0.000859481 * row)
+surface [INFORMATION]: Normalize detrended data constraints by z rms = 0.0233171
+surface [INFORMATION]: Select default convergence limit of 2.33171e-06 (100 ppm of L2 scale)
+surface [INFORMATION]: Recompute data index for next iteration [stride = 540]
+surface [INFORMATION]: ------------------------------------------
+surface [INFORMATION]: Memory for data array          :   97.9 Mb
+surface [INFORMATION]: Memory for final grid          :   16.8 Mb
+surface [INFORMATION]: Memory for Briggs coefficients :   97.9 Mb
+surface [INFORMATION]: Memory for node status         :    4.2 Mb
+surface [INFORMATION]: ------------------------------------------
+surface [INFORMATION]: Total memory use               :  216.7 Mb
+surface [INFORMATION]: ==========================================
+surface [INFORMATION]: Grid	Mode	Iteration	Max Change	Conv Limit	Total Iterations
+surface [INFORMATION]: Set finite-difference coefficients [stride = 540]
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 540]
+surface [INFORMATION]:  540	D	       1	-0.023317106936	4.31798276593e-09	         1
+surface [INFORMATION]: Recompute data index for next iteration [stride = 108]
+surface [INFORMATION]: Expand grid by factor of 5 when going from stride = 540 to 108
+surface [INFORMATION]: Fill in expanded grid by bilinear interpolation [stride = 108]
+surface [INFORMATION]:  108	I	     148	1.83223004849e-08	2.15899138297e-08	       149
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 108]
+surface [INFORMATION]:  108	D	      16	1.08928045068e-08	2.15899138297e-08	       165
+surface [INFORMATION]: Recompute data index for next iteration [stride = 36]
+surface [INFORMATION]: Expand grid by factor of 3 when going from stride = 108 to 36
+surface [INFORMATION]: Fill in expanded grid by bilinear interpolation [stride = 36]
+surface [INFORMATION]:   36	I	      37	6.12905273373e-08	6.4769741489e-08	       202
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 36]
+surface [INFORMATION]:   36	D	      17	4.20270616256e-08	6.4769741489e-08	       219
+surface [INFORMATION]: Recompute data index for next iteration [stride = 12]
+surface [INFORMATION]: Expand grid by factor of 3 when going from stride = 36 to 12
+surface [INFORMATION]: Fill in expanded grid by bilinear interpolation [stride = 12]
+surface [INFORMATION]:   12	I	      34	1.75095524359e-07	1.94309224467e-07	       253
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 12]
+surface [INFORMATION]:   12	D	      37	1.44754281164e-07	1.94309224467e-07	       290
+surface [INFORMATION]: Recompute data index for next iteration [stride = 4]
+surface [INFORMATION]: Expand grid by factor of 3 when going from stride = 12 to 4
+surface [INFORMATION]: Fill in expanded grid by bilinear interpolation [stride = 4]
+surface [INFORMATION]:    4	I	      27	4.44984632167e-07	5.82927673401e-07	       317
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 4]
+surface [INFORMATION]:    4	D	     225	5.68639892512e-07	5.82927673401e-07	       542
+surface [INFORMATION]: Recompute data index for next iteration [stride = 2]
+surface [INFORMATION]: Expand grid by factor of 2 when going from stride = 4 to 2
+surface [INFORMATION]: Fill in expanded grid by bilinear interpolation [stride = 2]
+surface [INFORMATION]:    2	I	      21	9.40436662843e-07	1.1658553468e-06	       563
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 2]
+surface [INFORMATION]:    2	D	     297	1.16387144238e-06	1.1658553468e-06	       860
+surface [INFORMATION]: Recompute data index for next iteration [stride = 1]
+surface [INFORMATION]: Expand grid by factor of 2 when going from stride = 2 to 1
+surface [INFORMATION]: Fill in expanded grid by bilinear interpolation [stride = 1]
+surface [INFORMATION]:    1	I	      17	2.09782233513e-06	2.3317106936e-06	       877
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 1]
+surface [INFORMATION]:    1	D	     266	2.32012210492e-06	2.3317106936e-06	      1143
+surface [INFORMATION]: Compute rms misfit and curvature.
+surface [INFORMATION]: Fit info: N data points  N nodes	mean error	rms error	curvature
+surface [INFORMATION]: 	 4276855	 4378321	5.58200871125e-06	0.004486529237	10391.6282447
+surface [INFORMATION]: Increase pad by 28 28 6 6
+surface [INFORMATION]: Writing grid to file raln.grd
+surface [INFORMATION]: Provides 5, expects 3-column binary data
+surface [INFORMATION]: Enable all available threads (up to 12)
+surface [INFORMATION]: Cartesian input grid
+surface [INFORMATION]: Cartesian input grid
+surface [INFORMATION]: Internally speed up convergence by using the larger region -R-272/25648/-192/86208 (go from 1564 x 2688 to optimal 1620 x 2700, with speedup-factor 15.77621)
+surface [INFORMATION]: Cartesian input grid
+surface [INFORMATION]: Cartesian input grid
+surface [INFORMATION]: Cartesian input grid
+surface [INFORMATION]: Cartesian input grid
+surface [INFORMATION]: Grid domain: W: 176 E: 25200 S: 0 N: 86016 n_columns: 1620 n_rows: 2700 [gridline registration]
+surface [INFORMATION]: Processing input table data
+surface [INFORMATION]: Input 5 columns via binary records using format ddddd
+surface [INFORMATION]: Reading Data Table from file trans.dat
+surface [INFORMATION]: Minimum value of your dataset x,y,z at: 27.4813480377 -15.1718816757 27.9466667175
+surface [INFORMATION]: Maximum value of your dataset x,y,z at: 25624.6015625 86011.40625 38.7283325195
+surface [INFORMATION]: Eliminate data points that are not nearest a node.
+surface [WARNING]: 11431038 unusable points were supplied; these will be ignored.
+surface [WARNING]: You should have pre-processed the data with block-mean, -median, or -mode.
+surface [WARNING]: Check that previous processing steps write results with enough decimals.
+surface [WARNING]: Possibly some data were half-way between nodes and subject to IEEE 754 rounding.
+surface [INFORMATION]: Plane fit z = 27.927 + (9.20001e-05 * col) + (0.00395781 * row)
+surface [INFORMATION]: Normalize detrended data constraints by z rms = 0.00299612
+surface [INFORMATION]: Select default convergence limit of 2.99612e-07 (100 ppm of L2 scale)
+surface [INFORMATION]: Recompute data index for next iteration [stride = 540]
+surface [INFORMATION]: ------------------------------------------
+surface [INFORMATION]: Memory for data array          :   97.9 Mb
+surface [INFORMATION]: Memory for final grid          :   16.8 Mb
+surface [INFORMATION]: Memory for Briggs coefficients :   97.9 Mb
+surface [INFORMATION]: Memory for node status         :    4.2 Mb
+surface [INFORMATION]: ------------------------------------------
+surface [INFORMATION]: Total memory use               :  216.7 Mb
+surface [INFORMATION]: ==========================================
+surface [INFORMATION]: Grid	Mode	Iteration	Max Change	Conv Limit	Total Iterations
+surface [INFORMATION]: Set finite-difference coefficients [stride = 540]
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 540]
+surface [INFORMATION]:  540	D	       1	-0.00299611904786	5.54836860715e-10	         1
+surface [INFORMATION]: Recompute data index for next iteration [stride = 108]
+surface [INFORMATION]: Expand grid by factor of 5 when going from stride = 540 to 108
+surface [INFORMATION]: Fill in expanded grid by bilinear interpolation [stride = 108]
+surface [INFORMATION]:  108	I	     176	2.54182584327e-09	2.77418430358e-09	       177
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 108]
+surface [INFORMATION]:  108	D	      17	2.46866474273e-09	2.77418430358e-09	       194
+surface [INFORMATION]: Recompute data index for next iteration [stride = 36]
+surface [INFORMATION]: Expand grid by factor of 3 when going from stride = 108 to 36
+surface [INFORMATION]: Fill in expanded grid by bilinear interpolation [stride = 36]
+surface [INFORMATION]:   36	I	      46	7.9360438361e-09	8.32255291073e-09	       240
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 36]
+surface [INFORMATION]:   36	D	      17	7.31028850184e-09	8.32255291073e-09	       257
+surface [INFORMATION]: Recompute data index for next iteration [stride = 12]
+surface [INFORMATION]: Expand grid by factor of 3 when going from stride = 36 to 12
+surface [INFORMATION]: Fill in expanded grid by bilinear interpolation [stride = 12]
+surface [INFORMATION]:   12	I	      37	2.10221497566e-08	2.49676587322e-08	       294
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 12]
+surface [INFORMATION]:   12	D	      37	2.19805431057e-08	2.49676587322e-08	       331
+surface [INFORMATION]: Recompute data index for next iteration [stride = 4]
+surface [INFORMATION]: Expand grid by factor of 3 when going from stride = 12 to 4
+surface [INFORMATION]: Fill in expanded grid by bilinear interpolation [stride = 4]
+surface [INFORMATION]:    4	I	      31	6.17747017131e-08	7.49029761966e-08	       362
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 4]
+surface [INFORMATION]:    4	D	     234	7.32337526213e-08	7.49029761966e-08	       596
+surface [INFORMATION]: Recompute data index for next iteration [stride = 2]
+surface [INFORMATION]: Expand grid by factor of 2 when going from stride = 4 to 2
+surface [INFORMATION]: Fill in expanded grid by bilinear interpolation [stride = 2]
+surface [INFORMATION]:    2	I	      21	1.3042483397e-07	1.49805952393e-07	       617
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 2]
+surface [INFORMATION]:    2	D	     342	1.48509299766e-07	1.49805952393e-07	       959
+surface [INFORMATION]: Recompute data index for next iteration [stride = 1]
+surface [INFORMATION]: Expand grid by factor of 2 when going from stride = 2 to 1
+surface [INFORMATION]: Fill in expanded grid by bilinear interpolation [stride = 1]
+surface [INFORMATION]:    1	I	      18	2.02095988741e-07	2.99611904786e-07	       977
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 1]
+surface [INFORMATION]:    1	D	     283	2.98956220871e-07	2.99611904786e-07	      1260
+surface [INFORMATION]: Compute rms misfit and curvature.
+surface [INFORMATION]: Fit info: N data points  N nodes	mean error	rms error	curvature
+surface [INFORMATION]: 	 4276855	 4378321	8.34045854417e-06	0.00562506779646	17365.7212973
+surface [INFORMATION]: Increase pad by 28 28 6 6
+surface [INFORMATION]: Writing grid to file ralt.grd
+Sampling in geocoordinates with 100 meter pixels ...
+blockmedian [INFORMATION]: Provides 3, expects 3-column binary data
+blockmedian [INFORMATION]: Processing input table data
+blockmedian [INFORMATION]: W: 84.7 E: 87.9888888889 S: 27.9416666667 N: 38.725 n_columns: 2960 n_rows: 12940
+blockmedian [INFORMATION]: Input 3 columns via binary records using format fff
+blockmedian [INFORMATION]: Output 3 columns via binary records using format fff
+blockmedian [INFORMATION]: Reading Data Table from file llp
+blockmedian [INFORMATION]: Writing Data Table to Standard Output stream
+blockmedian [INFORMATION]: Calculating block medians
+blockmedian [INFORMATION]: N read: 32972307 N used: 32972307 outside_area: 0 N cells filled: 11222780
+proj_ra2ll.csh
+Sampling in geocoordinates with 100 meter pixels ...
+blockmedian [INFORMATION]: Provides 3, expects 3-column binary data
+blockmedian [INFORMATION]: Processing input table data
+blockmedian [INFORMATION]: W: 84.7 E: 87.9888888889 S: 27.9416666667 N: 38.725 n_columns: 2960 n_rows: 12940
+blockmedian [INFORMATION]: Input 3 columns via binary records using format fff
+blockmedian [INFORMATION]: Output 3 columns via binary records using format fff
+blockmedian [INFORMATION]: Reading Data Table from file llp
+blockmedian [INFORMATION]: Writing Data Table to Standard Output stream
+blockmedian [INFORMATION]: Calculating block medians
+blockmedian [INFORMATION]: N read: 32925941 N used: 32925941 outside_area: 0 N cells filled: 11207326
+geocode.csh
+make the KML files for Google Earth
+grdimage [INFORMATION]: Read header from file phasefilt_mask_ll.grd
+grdimage [INFORMATION]: netCDF grid phasefilt_mask_ll.grd has no default CPT.
+grdimage [INFORMATION]: Round-off patrol changed geographic grid increment for longitude from 0.00111111111111485681 to 0.00111111111111111111
+grdimage [INFORMATION]: Round-off patrol changed geographic grid increment for latitude from 0.000833333333330757214 to 0.000833333333333333387
+grdimage [INFORMATION]: Round-off patrol changed grid limit for xmax from 87.98888888888889 to 87.98888888888889
+grdimage [INFORMATION]: Round-off patrol changed grid limit for ymin from 27.94166666666667 to 27.94166666666667
+grdimage [INFORMATION]: Map scale is 0.001 km per inch or 1:39.3701.
+grdimage [INFORMATION]: Allocate and read data from file phasefilt_mask_ll.grd
+grdimage [INFORMATION]: Reading grid from file phasefilt_mask_ll.grd
+grdimage [INFORMATION]: gmt_grd_BC_set: Set boundary condition for all edges: natural
+grdimage [INFORMATION]: gmt_grd_BC_set: Set boundary condition for left   edge: natural
+grdimage [INFORMATION]: gmt_grd_BC_set: Set boundary condition for right  edge: natural
+grdimage [INFORMATION]: gmt_grd_BC_set: Set boundary condition for bottom edge: natural
+grdimage [INFORMATION]: gmt_grd_BC_set: Set boundary condition for top    edge: natural
+grdimage [INFORMATION]: gmt_cpt_default: Use specific CPT: phase.cpt
+grdimage [INFORMATION]: Reading CPT from File phase.cpt
+grdimage [INFORMATION]: Evaluate image pixel colors
+grdimage [INFORMATION]: Basic z(x,y) -> color image with no illumination.
+grdimage [INFORMATION]: Plotting 24-bit color image
+PSL: Too many colors to make colormap - using 24-bit direct color instead.
+PSL: DEFLATE compressed 114907200 to 17149547 bytes (85.1% savings at compression level 5)
+Make phasefilt_mask_ll.kml and phasefilt_mask_ll.png
+psconvert [INFORMATION]: Processing phasefilt_mask_ll.ps...
+psconvert [INFORMATION]: Find HiResBoundingBox ...
+psconvert [INFORMATION]: Figure dimensions: Width: 236.82 points [3.28917 inch]  Height: 776.4 points [10.7833 inch]
+psconvert [INFORMATION]: [144 144 380.82 920.4]...
+psconvert [INFORMATION]: Convert to PNG...
+gs -q -dNOPAUSE -dBATCH -dNOSAFER -dSCANCONVERTERTYPE=2 -dMaxBitmap=2147483647 -dUseFastColor=true -dGraphicsAlphaBits=2 -dTextAlphaBits=4 -sDEVICE=pngalpha  -g2961x9705 -r900 -sOutputFile='phasefilt_mask_ll.png' './psconvert_1870855d.eps'
+psconvert [INFORMATION]: Wrote KML file phasefilt_mask_ll.kml
+grdimage [INFORMATION]: Read header from file phasefilt_mask_ll.grd
+grdimage [INFORMATION]: netCDF grid phasefilt_mask_ll.grd has no default CPT.
+grdimage [INFORMATION]: Round-off patrol changed geographic grid increment for longitude from 0.00111111111111485681 to 0.00111111111111111111
+grdimage [INFORMATION]: Round-off patrol changed geographic grid increment for latitude from 0.000833333333330757214 to 0.000833333333333333387
+grdimage [INFORMATION]: Round-off patrol changed grid limit for xmax from 87.98888888888889 to 87.98888888888889
+grdimage [INFORMATION]: Round-off patrol changed grid limit for ymin from 27.94166666666667 to 27.94166666666667
+grdimage [INFORMATION]: Map scale is 0.001 km per inch or 1:39.3701.
+grdimage [INFORMATION]: Allocate and read data from file phasefilt_mask_ll.grd
+grdimage [INFORMATION]: Reading grid from file phasefilt_mask_ll.grd
+grdimage [INFORMATION]: gmt_grd_BC_set: Set boundary condition for all edges: natural
+grdimage [INFORMATION]: gmt_grd_BC_set: Set boundary condition for left   edge: natural
+grdimage [INFORMATION]: gmt_grd_BC_set: Set boundary condition for right  edge: natural
+grdimage [INFORMATION]: gmt_grd_BC_set: Set boundary condition for bottom edge: natural
+grdimage [INFORMATION]: gmt_grd_BC_set: Set boundary condition for top    edge: natural
+grdimage [INFORMATION]: gmt_cpt_default: Use specific CPT: phase.cpt
+grdimage [INFORMATION]: Reading CPT from File phase.cpt
+grdimage [INFORMATION]: Evaluate image pixel colors
+grdimage [INFORMATION]: Basic z(x,y) -> color image with no illumination.
+grdimage [INFORMATION]: Plotting 24-bit color image
+PSL: Too many colors to make colormap - using 24-bit direct color instead.
+PSL: DEFLATE compressed 114907200 to 17149547 bytes (85.1% savings at compression level 5)
+Make phasefilt_mask_ll.kml and phasefilt_mask_ll.png
+psconvert [INFORMATION]: Processing phasefilt_mask_ll.ps...
+psconvert [INFORMATION]: Find HiResBoundingBox ...
+psconvert [INFORMATION]: Figure dimensions: Width: 236.82 points [3.28917 inch]  Height: 776.4 points [10.7833 inch]
+psconvert [INFORMATION]: [144 144 380.82 920.4]...
+psconvert [INFORMATION]: Convert to PNG...
+gs -q -dNOPAUSE -dBATCH -dNOSAFER -dSCANCONVERTERTYPE=2 -dMaxBitmap=2147483647 -dUseFastColor=true -dGraphicsAlphaBits=2 -dTextAlphaBits=4 -sDEVICE=pngalpha  -g2961x9705 -r900 -sOutputFile='phasefilt_mask_ll.png' './psconvert_1870871d.eps'
+psconvert [INFORMATION]: Wrote KML file phasefilt_mask_ll.kml
+/g13b/gsar/012-a-m7-0088_0093_0098_0103_0108_0113_0118-tibet/F2/intf/2020019_2019264
+removing files from /g13b/gsar/012-a-m7-0088_0093_0098_0103_0108_0113_0118-tibet/F2/intf/2020019_2019264
+2.2G	.
+removing *.pdf
+removing *.ps
+removing conncomp.grd
+removing [d-l]*.grd
+removing [r-t]*.grd
+removing [d-t]*_mask*.grd
+removing phase.grd
+removing mask[ 23]*.grd
+removing _ll.grd
+removing amp
+removing S1_20190922_ALL_F2.SLC S1_20200120_ALL_F2.SLC rap lap*
+removing unwrap.grd
+410M	.
+
+INTF.CSH, FILTER.CSH - START
+using command line
+......master LED file S1_20150603_ALL_F2.LED 
+.........aligned LED file S1_20180927_ALL_F2.LED 
+using command line
+......master LED file S1_20150603_ALL_F2.LED 
+.........aligned LED file S1_20150603_ALL_F2.LED 
+intf.csh
+running phasediff...
+reading topo topo_ra.grd
+ xdim 25792, ydim 85992 
+filter.csh
+setting range_dec = 16, azimuth_dec = 4
+gauss_400 4 8 (1 2)
+making amplitudes...
+filtering interferogram...
+making amplitude...
+making correlation...
+making phase...
+filtering phase...
+INTF.CSH, FILTER.CSH - END
+
+SKIP UNWRAP PHASE
+
+GEOCODE.CSH - START
+rm: cannot remove 'trans.dat': No such file or directory
+threshold_geocode: .01
+grdmath [INFORMATION]: Enable all available threads (up to 12)
+grdmath [INFORMATION]: Perform reverse Polish notation calculations on grids
+grdmath [INFORMATION]: netCDF grid corr.grd has no default CPT.
+grdmath [INFORMATION]: Cartesian input grid
+grdmath [INFORMATION]: corr.grd grdmath [INFORMATION]: netCDF grid corr.grd has no default CPT.
+grdmath [INFORMATION]: Cartesian input grid
+grdmath [INFORMATION]: Reading grid from file corr.grd
+grdmath [INFORMATION]: Cartesian input grid
+grdmath [INFORMATION]: gmt_grd_BC_set: Set boundary condition for all edges: natural
+grdmath [INFORMATION]: gmt_grd_BC_set: Set boundary condition for left   edge: natural
+grdmath [INFORMATION]: gmt_grd_BC_set: Set boundary condition for right  edge: natural
+grdmath [INFORMATION]: gmt_grd_BC_set: Set boundary condition for bottom edge: natural
+grdmath [INFORMATION]: gmt_grd_BC_set: Set boundary condition for top    edge: natural
+0.01 GE 0 NAN mask.grd grdmath [INFORMATION]: netCDF grid mask.grd has no default CPT.
+grdmath [INFORMATION]: Cartesian input grid
+grdmath [INFORMATION]: Reading grid from file mask.grd
+grdmath [INFORMATION]: Cartesian input grid
+grdmath [INFORMATION]: gmt_grd_BC_set: Set boundary condition for all edges: natural
+grdmath [INFORMATION]: gmt_grd_BC_set: Set boundary condition for left   edge: natural
+grdmath [INFORMATION]: gmt_grd_BC_set: Set boundary condition for right  edge: natural
+grdmath [INFORMATION]: gmt_grd_BC_set: Set boundary condition for bottom edge: natural
+grdmath [INFORMATION]: gmt_grd_BC_set: Set boundary condition for top    edge: natural
+MUL = mask2.grdgrdmath [INFORMATION]: Writing grid to file mask2.grd
+
+Masked phase map: phase_mask.pdf
+Filtered masked phase map: phasefilt_mask.pdf
+geocode.csh
+project correlation, phase, unwrapped and amplitude back to lon lat coordinates
+remarked is by tianyf on Wed Apr 12 09:44:45 CST 2023 with geocode.csh
+proj_ra2ll.csh
+surface [INFORMATION]: Provides 5, expects 3-column binary data
+surface [INFORMATION]: Enable all available threads (up to 12)
+surface [INFORMATION]: Cartesian input grid
+surface [INFORMATION]: Cartesian input grid
+surface [INFORMATION]: Internally speed up convergence by using the larger region -R-240/25680/-1536/84864 (go from 1565 x 2604 to optimal 1620 x 2700, with speedup-factor 894.8968)
+surface [INFORMATION]: Cartesian input grid
+surface [INFORMATION]: Cartesian input grid
+surface [INFORMATION]: Cartesian input grid
+surface [INFORMATION]: Cartesian input grid
+surface [INFORMATION]: Grid domain: W: 192 E: 25232 S: 0 N: 83328 n_columns: 1620 n_rows: 2700 [gridline registration]
+surface [INFORMATION]: Processing input table data
+surface [INFORMATION]: Input 5 columns via binary records using format ddddd
+surface [INFORMATION]: Reading Data Table from file trans.dat
+surface [INFORMATION]: Minimum value of your dataset x,y,z at: -7.64591789246 84873.6484375 84.7125015259
+surface [INFORMATION]: Maximum value of your dataset x,y,z at: 25682.484375 -11.0694112778 88.0183334351
+surface [INFORMATION]: Eliminate data points that are not nearest a node.
+surface [WARNING]: 11279840 unusable points were supplied; these will be ignored.
+surface [WARNING]: You should have pre-processed the data with block-mean, -median, or -mode.
+surface [WARNING]: Check that previous processing steps write results with enough decimals.
+surface [WARNING]: Possibly some data were half-way between nodes and subject to IEEE 754 rounding.
+surface [INFORMATION]: Plane fit z = 87.1195 + (0.000618041 * col) + (-0.000857935 * row)
+surface [INFORMATION]: Normalize detrended data constraints by z rms = 0.0225965
+surface [INFORMATION]: Select default convergence limit of 2.25965e-06 (100 ppm of L2 scale)
+surface [INFORMATION]: Recompute data index for next iteration [stride = 540]
+surface [INFORMATION]: ------------------------------------------
+surface [INFORMATION]: Memory for data array          :   96.7 Mb
+surface [INFORMATION]: Memory for final grid          :   16.8 Mb
+surface [INFORMATION]: Memory for Briggs coefficients :   96.7 Mb
+surface [INFORMATION]: Memory for node status         :    4.2 Mb
+surface [INFORMATION]: ------------------------------------------
+surface [INFORMATION]: Total memory use               :  214.3 Mb
+surface [INFORMATION]: ==========================================
+surface [INFORMATION]: Grid	Mode	Iteration	Max Change	Conv Limit	Total Iterations
+surface [INFORMATION]: Set finite-difference coefficients [stride = 540]
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 540]
+surface [INFORMATION]:  540	D	      16	3.45849617289e-09	4.18454030177e-09	        16
+surface [INFORMATION]: Recompute data index for next iteration [stride = 108]
+surface [INFORMATION]: Expand grid by factor of 5 when going from stride = 540 to 108
+surface [INFORMATION]: Fill in expanded grid by bilinear interpolation [stride = 108]
+surface [INFORMATION]:  108	I	     150	2.04273373381e-08	2.09227015088e-08	       166
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 108]
+surface [INFORMATION]:  108	D	      22	1.44468501842e-08	2.09227015088e-08	       188
+surface [INFORMATION]: Recompute data index for next iteration [stride = 36]
+surface [INFORMATION]: Expand grid by factor of 3 when going from stride = 108 to 36
+surface [INFORMATION]: Fill in expanded grid by bilinear interpolation [stride = 36]
+surface [INFORMATION]:   36	I	      41	5.1107626669e-08	6.27681045265e-08	       229
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 36]
+surface [INFORMATION]:   36	D	      32	3.95583244045e-08	6.27681045265e-08	       261
+surface [INFORMATION]: Recompute data index for next iteration [stride = 12]
+surface [INFORMATION]: Expand grid by factor of 3 when going from stride = 36 to 12
+surface [INFORMATION]: Fill in expanded grid by bilinear interpolation [stride = 12]
+surface [INFORMATION]:   12	I	      33	1.83767469301e-07	1.88304313579e-07	       294
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 12]
+surface [INFORMATION]:   12	D	     299	1.87460103362e-07	1.88304313579e-07	       593
+surface [INFORMATION]: Recompute data index for next iteration [stride = 4]
+surface [INFORMATION]: Expand grid by factor of 3 when going from stride = 12 to 4
+surface [INFORMATION]: Fill in expanded grid by bilinear interpolation [stride = 4]
+surface [INFORMATION]:    4	I	      27	4.60125773391e-07	5.64912940738e-07	       620
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 4]
+surface [INFORMATION]:    4	D	    1008	5.64894443893e-07	5.64912940738e-07	      1628
+surface [INFORMATION]: Recompute data index for next iteration [stride = 2]
+surface [INFORMATION]: Expand grid by factor of 2 when going from stride = 4 to 2
+surface [INFORMATION]: Fill in expanded grid by bilinear interpolation [stride = 2]
+surface [INFORMATION]:    2	I	      20	1.05444343971e-06	1.12982588148e-06	      1648
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 2]
+surface [INFORMATION]:    2	D	    1000	1.16113699393e-06	1.12982588148e-06	      2648
+surface [INFORMATION]: Recompute data index for next iteration [stride = 1]
+surface [INFORMATION]: Expand grid by factor of 2 when going from stride = 2 to 1
+surface [INFORMATION]: Fill in expanded grid by bilinear interpolation [stride = 1]
+surface [INFORMATION]:    1	I	      17	2.09568767684e-06	2.25965176295e-06	      2665
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 1]
+surface [INFORMATION]:    1	D	     435	2.25580657485e-06	2.25965176295e-06	      3100
+surface [INFORMATION]: Compute rms misfit and curvature.
+surface [INFORMATION]: Fit info: N data points  N nodes	mean error	rms error	curvature
+surface [INFORMATION]: 	 4224474	 4378321	5.93250937592e-06	0.00465843984488	11076.6776685
+surface [INFORMATION]: Increase pad by 27 28 48 48
+surface [INFORMATION]: Writing grid to file raln.grd
+surface [INFORMATION]: Provides 5, expects 3-column binary data
+surface [INFORMATION]: Enable all available threads (up to 12)
+surface [INFORMATION]: Cartesian input grid
+surface [INFORMATION]: Cartesian input grid
+surface [INFORMATION]: Internally speed up convergence by using the larger region -R-240/25680/-1536/84864 (go from 1565 x 2604 to optimal 1620 x 2700, with speedup-factor 894.8968)
+surface [INFORMATION]: Cartesian input grid
+surface [INFORMATION]: Cartesian input grid
+surface [INFORMATION]: Cartesian input grid
+surface [INFORMATION]: Cartesian input grid
+surface [INFORMATION]: Grid domain: W: 192 E: 25232 S: 0 N: 83328 n_columns: 1620 n_rows: 2700 [gridline registration]
+surface [INFORMATION]: Processing input table data
+surface [INFORMATION]: Input 5 columns via binary records using format ddddd
+surface [INFORMATION]: Reading Data Table from file trans.dat
+surface [INFORMATION]: Minimum value of your dataset x,y,z at: 27.4813480377 -15.1718816757 27.9466667175
+surface [INFORMATION]: Maximum value of your dataset x,y,z at: 25595.109375 84879.53125 38.5883331299
+surface [INFORMATION]: Eliminate data points that are not nearest a node.
+surface [WARNING]: 11279840 unusable points were supplied; these will be ignored.
+surface [WARNING]: You should have pre-processed the data with block-mean, -median, or -mode.
+surface [WARNING]: Check that previous processing steps write results with enough decimals.
+surface [WARNING]: Possibly some data were half-way between nodes and subject to IEEE 754 rounding.
+surface [INFORMATION]: Plane fit z = 27.7607 + (9.19962e-05 * col) + (0.00395802 * row)
+surface [INFORMATION]: Normalize detrended data constraints by z rms = 0.00290316
+surface [INFORMATION]: Select default convergence limit of 2.90316e-07 (100 ppm of L2 scale)
+surface [INFORMATION]: Recompute data index for next iteration [stride = 540]
+surface [INFORMATION]: ------------------------------------------
+surface [INFORMATION]: Memory for data array          :   96.7 Mb
+surface [INFORMATION]: Memory for final grid          :   16.8 Mb
+surface [INFORMATION]: Memory for Briggs coefficients :   96.7 Mb
+surface [INFORMATION]: Memory for node status         :    4.2 Mb
+surface [INFORMATION]: ------------------------------------------
+surface [INFORMATION]: Total memory use               :  214.3 Mb
+surface [INFORMATION]: ==========================================
+surface [INFORMATION]: Grid	Mode	Iteration	Max Change	Conv Limit	Total Iterations
+surface [INFORMATION]: Set finite-difference coefficients [stride = 540]
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 540]
+surface [INFORMATION]:  540	D	      18	2.35484895327e-10	5.37622938917e-10	        18
+surface [INFORMATION]: Recompute data index for next iteration [stride = 108]
+surface [INFORMATION]: Expand grid by factor of 5 when going from stride = 540 to 108
+surface [INFORMATION]: Fill in expanded grid by bilinear interpolation [stride = 108]
+surface [INFORMATION]:  108	I	     157	2.61437699111e-09	2.68811469459e-09	       175
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 108]
+surface [INFORMATION]:  108	D	      22	2.05671567037e-09	2.68811469459e-09	       197
+surface [INFORMATION]: Recompute data index for next iteration [stride = 36]
+surface [INFORMATION]: Expand grid by factor of 3 when going from stride = 108 to 36
+surface [INFORMATION]: Fill in expanded grid by bilinear interpolation [stride = 36]
+surface [INFORMATION]:   36	I	      41	7.49425296031e-09	8.06434408376e-09	       238
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 36]
+surface [INFORMATION]:   36	D	      33	5.39025989608e-09	8.06434408376e-09	       271
+surface [INFORMATION]: Recompute data index for next iteration [stride = 12]
+surface [INFORMATION]: Expand grid by factor of 3 when going from stride = 36 to 12
+surface [INFORMATION]: Fill in expanded grid by bilinear interpolation [stride = 12]
+surface [INFORMATION]:   12	I	      37	2.09150159218e-08	2.41930322513e-08	       308
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 12]
+surface [INFORMATION]:   12	D	     321	2.39432518179e-08	2.41930322513e-08	       629
+surface [INFORMATION]: Recompute data index for next iteration [stride = 4]
+surface [INFORMATION]: Expand grid by factor of 3 when going from stride = 12 to 4
+surface [INFORMATION]: Fill in expanded grid by bilinear interpolation [stride = 4]
+surface [INFORMATION]:    4	I	      31	6.78299605425e-08	7.25790967538e-08	       660
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 4]
+surface [INFORMATION]:    4	D	    1111	7.24354026338e-08	7.25790967538e-08	      1771
+surface [INFORMATION]: Recompute data index for next iteration [stride = 2]
+surface [INFORMATION]: Expand grid by factor of 2 when going from stride = 4 to 2
+surface [INFORMATION]: Fill in expanded grid by bilinear interpolation [stride = 2]
+surface [INFORMATION]:    2	I	      21	1.06805880055e-07	1.45158193508e-07	      1792
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 2]
+surface [INFORMATION]:    2	D	    1000	2.57198168773e-07	1.45158193508e-07	      2792
+surface [INFORMATION]: Recompute data index for next iteration [stride = 1]
+surface [INFORMATION]: Expand grid by factor of 2 when going from stride = 2 to 1
+surface [INFORMATION]: Fill in expanded grid by bilinear interpolation [stride = 1]
+surface [INFORMATION]:    1	I	      18	2.02447663774e-07	2.90316387015e-07	      2810
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 1]
+surface [INFORMATION]:    1	D	     500	3.06164743214e-07	2.90316387015e-07	      3310
+surface [INFORMATION]: Compute rms misfit and curvature.
+surface [INFORMATION]: Fit info: N data points  N nodes	mean error	rms error	curvature
+surface [INFORMATION]: 	 4224474	 4378321	8.75168852486e-06	0.00583804332373	18476.2047468
+surface [INFORMATION]: Increase pad by 27 28 48 48
+surface [INFORMATION]: Writing grid to file ralt.grd
+Sampling in geocoordinates with 100 meter pixels ...
+blockmedian [INFORMATION]: Provides 3, expects 3-column binary data
+blockmedian [INFORMATION]: Processing input table data
+blockmedian [INFORMATION]: W: 84.7777777778 E: 87.9888888889 S: 27.9416666667 N: 38.4 n_columns: 2890 n_rows: 12550
+blockmedian [INFORMATION]: Input 3 columns via binary records using format fff
+blockmedian [INFORMATION]: Output 3 columns via binary records using format fff
+blockmedian [INFORMATION]: Reading Data Table from file llp
+blockmedian [INFORMATION]: Writing Data Table to Standard Output stream
+blockmedian [INFORMATION]: Calculating block medians
+blockmedian [INFORMATION]: N read: 31950461 N used: 31950461 outside_area: 0 N cells filled: 10846951
+proj_ra2ll.csh
+Sampling in geocoordinates with 100 meter pixels ...
+blockmedian [INFORMATION]: Provides 3, expects 3-column binary data
+blockmedian [INFORMATION]: Processing input table data
+blockmedian [INFORMATION]: W: 84.7777777778 E: 87.9888888889 S: 27.9416666667 N: 38.4 n_columns: 2890 n_rows: 12550
+blockmedian [INFORMATION]: Input 3 columns via binary records using format fff
+blockmedian [INFORMATION]: Output 3 columns via binary records using format fff
+blockmedian [INFORMATION]: Reading Data Table from file llp
+blockmedian [INFORMATION]: Writing Data Table to Standard Output stream
+blockmedian [INFORMATION]: Calculating block medians
+blockmedian [INFORMATION]: N read: 31899000 N used: 31899000 outside_area: 0 N cells filled: 10831234
+geocode.csh
+make the KML files for Google Earth
+grdimage [INFORMATION]: Read header from file phasefilt_mask_ll.grd
+grdimage [INFORMATION]: netCDF grid phasefilt_mask_ll.grd has no default CPT.
+grdimage [INFORMATION]: Round-off patrol changed geographic grid increment for longitude from 0.00111111111110726718 to 0.00111111111111111111
+grdimage [INFORMATION]: Round-off patrol changed geographic grid increment for latitude from 0.000833333333330676875 to 0.000833333333333333387
+grdimage [INFORMATION]: Round-off patrol changed grid limit for xmin from 84.77777777777777 to 84.77777777777777
+grdimage [INFORMATION]: Round-off patrol changed grid limit for xmax from 87.98888888888889 to 87.98888888888889
+grdimage [INFORMATION]: Round-off patrol changed grid limit for ymin from 27.94166666666667 to 27.94166666666667
+grdimage [INFORMATION]: Round-off patrol changed grid limit for ymax from 38.40000000000001 to 38.40000000000001
+grdimage [INFORMATION]: Map scale is 0.001 km per inch or 1:39.3701.
+grdimage [INFORMATION]: Allocate and read data from file phasefilt_mask_ll.grd
+grdimage [INFORMATION]: Reading grid from file phasefilt_mask_ll.grd
+grdimage [INFORMATION]: gmt_grd_BC_set: Set boundary condition for all edges: natural
+grdimage [INFORMATION]: gmt_grd_BC_set: Set boundary condition for left   edge: natural
+grdimage [INFORMATION]: gmt_grd_BC_set: Set boundary condition for right  edge: natural
+grdimage [INFORMATION]: gmt_grd_BC_set: Set boundary condition for bottom edge: natural
+grdimage [INFORMATION]: gmt_grd_BC_set: Set boundary condition for top    edge: natural
+grdimage [INFORMATION]: gmt_cpt_default: Use specific CPT: phase.cpt
+grdimage [INFORMATION]: Reading CPT from File phase.cpt
+grdimage [INFORMATION]: Evaluate image pixel colors
+grdimage [INFORMATION]: Basic z(x,y) -> color image with no illumination.
+grdimage [INFORMATION]: Plotting 24-bit color image
+PSL: Too many colors to make colormap - using 24-bit direct color instead.
+PSL: DEFLATE compressed 108808500 to 17691308 bytes (83.7% savings at compression level 5)
+Make phasefilt_mask_ll.kml and phasefilt_mask_ll.png
+psconvert [INFORMATION]: Processing phasefilt_mask_ll.ps...
+psconvert [INFORMATION]: Find HiResBoundingBox ...
+psconvert [INFORMATION]: Figure dimensions: Width: 231.18 points [3.21083 inch]  Height: 753 points [10.4583 inch]
+psconvert [INFORMATION]: [144 144 375.18 897]...
+psconvert [INFORMATION]: Convert to PNG...
+gs -q -dNOPAUSE -dBATCH -dNOSAFER -dSCANCONVERTERTYPE=2 -dMaxBitmap=2147483647 -dUseFastColor=true -dGraphicsAlphaBits=2 -dTextAlphaBits=4 -sDEVICE=pngalpha  -g2890x9413 -r900 -sOutputFile='phasefilt_mask_ll.png' './psconvert_1965832d.eps'
+psconvert [INFORMATION]: Wrote KML file phasefilt_mask_ll.kml
+grdimage [INFORMATION]: Read header from file phasefilt_mask_ll.grd
+grdimage [INFORMATION]: netCDF grid phasefilt_mask_ll.grd has no default CPT.
+grdimage [INFORMATION]: Round-off patrol changed geographic grid increment for longitude from 0.00111111111110726718 to 0.00111111111111111111
+grdimage [INFORMATION]: Round-off patrol changed geographic grid increment for latitude from 0.000833333333330676875 to 0.000833333333333333387
+grdimage [INFORMATION]: Round-off patrol changed grid limit for xmin from 84.77777777777777 to 84.77777777777777
+grdimage [INFORMATION]: Round-off patrol changed grid limit for xmax from 87.98888888888889 to 87.98888888888889
+grdimage [INFORMATION]: Round-off patrol changed grid limit for ymin from 27.94166666666667 to 27.94166666666667
+grdimage [INFORMATION]: Round-off patrol changed grid limit for ymax from 38.40000000000001 to 38.40000000000001
+grdimage [INFORMATION]: Map scale is 0.001 km per inch or 1:39.3701.
+grdimage [INFORMATION]: Allocate and read data from file phasefilt_mask_ll.grd
+grdimage [INFORMATION]: Reading grid from file phasefilt_mask_ll.grd
+grdimage [INFORMATION]: gmt_grd_BC_set: Set boundary condition for all edges: natural
+grdimage [INFORMATION]: gmt_grd_BC_set: Set boundary condition for left   edge: natural
+grdimage [INFORMATION]: gmt_grd_BC_set: Set boundary condition for right  edge: natural
+grdimage [INFORMATION]: gmt_grd_BC_set: Set boundary condition for bottom edge: natural
+grdimage [INFORMATION]: gmt_grd_BC_set: Set boundary condition for top    edge: natural
+grdimage [INFORMATION]: gmt_cpt_default: Use specific CPT: phase.cpt
+grdimage [INFORMATION]: Reading CPT from File phase.cpt
+grdimage [INFORMATION]: Evaluate image pixel colors
+grdimage [INFORMATION]: Basic z(x,y) -> color image with no illumination.
+grdimage [INFORMATION]: Plotting 24-bit color image
+PSL: Too many colors to make colormap - using 24-bit direct color instead.
+PSL: DEFLATE compressed 108808500 to 17691308 bytes (83.7% savings at compression level 5)
+Make phasefilt_mask_ll.kml and phasefilt_mask_ll.png
+psconvert [INFORMATION]: Processing phasefilt_mask_ll.ps...
+psconvert [INFORMATION]: Find HiResBoundingBox ...
+psconvert [INFORMATION]: Figure dimensions: Width: 231.18 points [3.21083 inch]  Height: 753 points [10.4583 inch]
+psconvert [INFORMATION]: [144 144 375.18 897]...
+psconvert [INFORMATION]: Convert to PNG...
+gs -q -dNOPAUSE -dBATCH -dNOSAFER -dSCANCONVERTERTYPE=2 -dMaxBitmap=2147483647 -dUseFastColor=true -dGraphicsAlphaBits=2 -dTextAlphaBits=4 -sDEVICE=pngalpha  -g2890x9413 -r900 -sOutputFile='phasefilt_mask_ll.png' './psconvert_1965880d.eps'
+psconvert [INFORMATION]: Wrote KML file phasefilt_mask_ll.kml
+/g13b/gsar/012-a-m7-0088_0093_0098_0103_0108_0113_0118-tibet/F2/intf/2015153_2018269
+removing files from /g13b/gsar/012-a-m7-0088_0093_0098_0103_0108_0113_0118-tibet/F2/intf/2015153_2018269
+2.2G	.
+removing *.pdf
+removing *.ps
+removing conncomp.grd
+removing [d-l]*.grd
+removing [r-t]*.grd
+removing [d-t]*_mask*.grd
+removing phase.grd
+removing mask[ 23]*.grd
+removing _ll.grd
+removing amp
+removing S1_20150603_ALL_F2.SLC S1_20180927_ALL_F2.SLC rap lap*
+removing unwrap.grd
+411M	.
+
+INTF.CSH, FILTER.CSH - START
+using command line
+......master LED file S1_20210114_ALL_F2.LED 
+.........aligned LED file S1_20230128_ALL_F2.LED 
+using command line
+......master LED file S1_20210114_ALL_F2.LED 
+.........aligned LED file S1_20210114_ALL_F2.LED 
+intf.csh
+running phasediff...
+reading topo topo_ra.grd
+ xdim 25792, ydim 85992 
+filter.csh
+setting range_dec = 16, azimuth_dec = 4
+gauss_400 4 8 (1 2)
+making amplitudes...
+filtering interferogram...
+making amplitude...
+making correlation...
+making phase...
+filtering phase...
+INTF.CSH, FILTER.CSH - END
+
+SKIP UNWRAP PHASE
+
+GEOCODE.CSH - START
+rm: cannot remove 'trans.dat': No such file or directory
+threshold_geocode: .01
+grdmath [INFORMATION]: Enable all available threads (up to 12)
+grdmath [INFORMATION]: Perform reverse Polish notation calculations on grids
+grdmath [INFORMATION]: netCDF grid corr.grd has no default CPT.
+grdmath [INFORMATION]: Cartesian input grid
+grdmath [INFORMATION]: corr.grd grdmath [INFORMATION]: netCDF grid corr.grd has no default CPT.
+grdmath [INFORMATION]: Cartesian input grid
+grdmath [INFORMATION]: Reading grid from file corr.grd
+grdmath [INFORMATION]: Cartesian input grid
+grdmath [INFORMATION]: gmt_grd_BC_set: Set boundary condition for all edges: natural
+grdmath [INFORMATION]: gmt_grd_BC_set: Set boundary condition for left   edge: natural
+grdmath [INFORMATION]: gmt_grd_BC_set: Set boundary condition for right  edge: natural
+grdmath [INFORMATION]: gmt_grd_BC_set: Set boundary condition for bottom edge: natural
+grdmath [INFORMATION]: gmt_grd_BC_set: Set boundary condition for top    edge: natural
+0.01 GE 0 NAN mask.grd grdmath [INFORMATION]: netCDF grid mask.grd has no default CPT.
+grdmath [INFORMATION]: Cartesian input grid
+grdmath [INFORMATION]: Reading grid from file mask.grd
+grdmath [INFORMATION]: Cartesian input grid
+grdmath [INFORMATION]: gmt_grd_BC_set: Set boundary condition for all edges: natural
+grdmath [INFORMATION]: gmt_grd_BC_set: Set boundary condition for left   edge: natural
+grdmath [INFORMATION]: gmt_grd_BC_set: Set boundary condition for right  edge: natural
+grdmath [INFORMATION]: gmt_grd_BC_set: Set boundary condition for bottom edge: natural
+grdmath [INFORMATION]: gmt_grd_BC_set: Set boundary condition for top    edge: natural
+MUL = mask2.grdgrdmath [INFORMATION]: Writing grid to file mask2.grd
+
+Masked phase map: phase_mask.pdf
+Filtered masked phase map: phasefilt_mask.pdf
+geocode.csh
+project correlation, phase, unwrapped and amplitude back to lon lat coordinates
+remarked is by tianyf on Wed Apr 12 10:04:48 CST 2023 with geocode.csh
+proj_ra2ll.csh
+surface [INFORMATION]: Provides 5, expects 3-column binary data
+surface [INFORMATION]: Enable all available threads (up to 12)
+surface [INFORMATION]: Cartesian input grid
+surface [INFORMATION]: Cartesian input grid
+surface [INFORMATION]: Internally speed up convergence by using the larger region -R-272/25648/-192/86208 (go from 1564 x 2688 to optimal 1620 x 2700, with speedup-factor 15.77621)
+surface [INFORMATION]: Cartesian input grid
+surface [INFORMATION]: Cartesian input grid
+surface [INFORMATION]: Cartesian input grid
+surface [INFORMATION]: Cartesian input grid
+surface [INFORMATION]: Grid domain: W: 176 E: 25200 S: 0 N: 86016 n_columns: 1620 n_rows: 2700 [gridline registration]
+surface [INFORMATION]: Processing input table data
+surface [INFORMATION]: Input 5 columns via binary records using format ddddd
+surface [INFORMATION]: Reading Data Table from file trans.dat
+surface [INFORMATION]: Minimum value of your dataset x,y,z at: -1.82812952995 86006.421875 84.6800003052
+surface [INFORMATION]: Maximum value of your dataset x,y,z at: 25652.4707031 -16.5683612823 88.0175018311
+surface [INFORMATION]: Eliminate data points that are not nearest a node.
+surface [WARNING]: 11431038 unusable points were supplied; these will be ignored.
+surface [WARNING]: You should have pre-processed the data with block-mean, -median, or -mode.
+surface [WARNING]: Check that previous processing steps write results with enough decimals.
+surface [WARNING]: Possibly some data were half-way between nodes and subject to IEEE 754 rounding.
+surface [INFORMATION]: Plane fit z = 87.0831 + (0.000618733 * col) + (-0.000859481 * row)
+surface [INFORMATION]: Normalize detrended data constraints by z rms = 0.0233171
+surface [INFORMATION]: Select default convergence limit of 2.33171e-06 (100 ppm of L2 scale)
+surface [INFORMATION]: Recompute data index for next iteration [stride = 540]
+surface [INFORMATION]: ------------------------------------------
+surface [INFORMATION]: Memory for data array          :   97.9 Mb
+surface [INFORMATION]: Memory for final grid          :   16.8 Mb
+surface [INFORMATION]: Memory for Briggs coefficients :   97.9 Mb
+surface [INFORMATION]: Memory for node status         :    4.2 Mb
+surface [INFORMATION]: ------------------------------------------
+surface [INFORMATION]: Total memory use               :  216.7 Mb
+surface [INFORMATION]: ==========================================
+surface [INFORMATION]: Grid	Mode	Iteration	Max Change	Conv Limit	Total Iterations
+surface [INFORMATION]: Set finite-difference coefficients [stride = 540]
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 540]
+surface [INFORMATION]:  540	D	       1	-0.023317106936	4.31798276593e-09	         1
+surface [INFORMATION]: Recompute data index for next iteration [stride = 108]
+surface [INFORMATION]: Expand grid by factor of 5 when going from stride = 540 to 108
+surface [INFORMATION]: Fill in expanded grid by bilinear interpolation [stride = 108]
+surface [INFORMATION]:  108	I	     148	1.83223004849e-08	2.15899138297e-08	       149
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 108]
+surface [INFORMATION]:  108	D	      16	1.08928045068e-08	2.15899138297e-08	       165
+surface [INFORMATION]: Recompute data index for next iteration [stride = 36]
+surface [INFORMATION]: Expand grid by factor of 3 when going from stride = 108 to 36
+surface [INFORMATION]: Fill in expanded grid by bilinear interpolation [stride = 36]
+surface [INFORMATION]:   36	I	      37	6.12905273373e-08	6.4769741489e-08	       202
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 36]
+surface [INFORMATION]:   36	D	      17	4.20270616256e-08	6.4769741489e-08	       219
+surface [INFORMATION]: Recompute data index for next iteration [stride = 12]
+surface [INFORMATION]: Expand grid by factor of 3 when going from stride = 36 to 12
+surface [INFORMATION]: Fill in expanded grid by bilinear interpolation [stride = 12]
+surface [INFORMATION]:   12	I	      34	1.75095524359e-07	1.94309224467e-07	       253
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 12]
+surface [INFORMATION]:   12	D	      37	1.44754281164e-07	1.94309224467e-07	       290
+surface [INFORMATION]: Recompute data index for next iteration [stride = 4]
+surface [INFORMATION]: Expand grid by factor of 3 when going from stride = 12 to 4
+surface [INFORMATION]: Fill in expanded grid by bilinear interpolation [stride = 4]
+surface [INFORMATION]:    4	I	      27	4.44984632167e-07	5.82927673401e-07	       317
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 4]
+surface [INFORMATION]:    4	D	     225	5.68639892512e-07	5.82927673401e-07	       542
+surface [INFORMATION]: Recompute data index for next iteration [stride = 2]
+surface [INFORMATION]: Expand grid by factor of 2 when going from stride = 4 to 2
+surface [INFORMATION]: Fill in expanded grid by bilinear interpolation [stride = 2]
+surface [INFORMATION]:    2	I	      21	9.40436662843e-07	1.1658553468e-06	       563
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 2]
+surface [INFORMATION]:    2	D	     297	1.16387144238e-06	1.1658553468e-06	       860
+surface [INFORMATION]: Recompute data index for next iteration [stride = 1]
+surface [INFORMATION]: Expand grid by factor of 2 when going from stride = 2 to 1
+surface [INFORMATION]: Fill in expanded grid by bilinear interpolation [stride = 1]
+surface [INFORMATION]:    1	I	      17	2.09782233513e-06	2.3317106936e-06	       877
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 1]
+surface [INFORMATION]:    1	D	     266	2.32012210492e-06	2.3317106936e-06	      1143
+surface [INFORMATION]: Compute rms misfit and curvature.
+surface [INFORMATION]: Fit info: N data points  N nodes	mean error	rms error	curvature
+surface [INFORMATION]: 	 4276855	 4378321	5.58200871125e-06	0.004486529237	10391.6282447
+surface [INFORMATION]: Increase pad by 28 28 6 6
+surface [INFORMATION]: Writing grid to file raln.grd
+surface [INFORMATION]: Provides 5, expects 3-column binary data
+surface [INFORMATION]: Enable all available threads (up to 12)
+surface [INFORMATION]: Cartesian input grid
+surface [INFORMATION]: Cartesian input grid
+surface [INFORMATION]: Internally speed up convergence by using the larger region -R-272/25648/-192/86208 (go from 1564 x 2688 to optimal 1620 x 2700, with speedup-factor 15.77621)
+surface [INFORMATION]: Cartesian input grid
+surface [INFORMATION]: Cartesian input grid
+surface [INFORMATION]: Cartesian input grid
+surface [INFORMATION]: Cartesian input grid
+surface [INFORMATION]: Grid domain: W: 176 E: 25200 S: 0 N: 86016 n_columns: 1620 n_rows: 2700 [gridline registration]
+surface [INFORMATION]: Processing input table data
+surface [INFORMATION]: Input 5 columns via binary records using format ddddd
+surface [INFORMATION]: Reading Data Table from file trans.dat
+surface [INFORMATION]: Minimum value of your dataset x,y,z at: 27.4813480377 -15.1718816757 27.9466667175
+surface [INFORMATION]: Maximum value of your dataset x,y,z at: 25624.6015625 86011.40625 38.7283325195
+surface [INFORMATION]: Eliminate data points that are not nearest a node.
+surface [WARNING]: 11431038 unusable points were supplied; these will be ignored.
+surface [WARNING]: You should have pre-processed the data with block-mean, -median, or -mode.
+surface [WARNING]: Check that previous processing steps write results with enough decimals.
+surface [WARNING]: Possibly some data were half-way between nodes and subject to IEEE 754 rounding.
+surface [INFORMATION]: Plane fit z = 27.927 + (9.20001e-05 * col) + (0.00395781 * row)
+surface [INFORMATION]: Normalize detrended data constraints by z rms = 0.00299612
+surface [INFORMATION]: Select default convergence limit of 2.99612e-07 (100 ppm of L2 scale)
+surface [INFORMATION]: Recompute data index for next iteration [stride = 540]
+surface [INFORMATION]: ------------------------------------------
+surface [INFORMATION]: Memory for data array          :   97.9 Mb
+surface [INFORMATION]: Memory for final grid          :   16.8 Mb
+surface [INFORMATION]: Memory for Briggs coefficients :   97.9 Mb
+surface [INFORMATION]: Memory for node status         :    4.2 Mb
+surface [INFORMATION]: ------------------------------------------
+surface [INFORMATION]: Total memory use               :  216.7 Mb
+surface [INFORMATION]: ==========================================
+surface [INFORMATION]: Grid	Mode	Iteration	Max Change	Conv Limit	Total Iterations
+surface [INFORMATION]: Set finite-difference coefficients [stride = 540]
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 540]
+surface [INFORMATION]:  540	D	       1	-0.00299611904786	5.54836860715e-10	         1
+surface [INFORMATION]: Recompute data index for next iteration [stride = 108]
+surface [INFORMATION]: Expand grid by factor of 5 when going from stride = 540 to 108
+surface [INFORMATION]: Fill in expanded grid by bilinear interpolation [stride = 108]
+surface [INFORMATION]:  108	I	     176	2.54182584327e-09	2.77418430358e-09	       177
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 108]
+surface [INFORMATION]:  108	D	      17	2.46866474273e-09	2.77418430358e-09	       194
+surface [INFORMATION]: Recompute data index for next iteration [stride = 36]
+surface [INFORMATION]: Expand grid by factor of 3 when going from stride = 108 to 36
+surface [INFORMATION]: Fill in expanded grid by bilinear interpolation [stride = 36]
+surface [INFORMATION]:   36	I	      46	7.9360438361e-09	8.32255291073e-09	       240
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 36]
+surface [INFORMATION]:   36	D	      17	7.31028850184e-09	8.32255291073e-09	       257
+surface [INFORMATION]: Recompute data index for next iteration [stride = 12]
+surface [INFORMATION]: Expand grid by factor of 3 when going from stride = 36 to 12
+surface [INFORMATION]: Fill in expanded grid by bilinear interpolation [stride = 12]
+surface [INFORMATION]:   12	I	      37	2.10221497566e-08	2.49676587322e-08	       294
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 12]
+surface [INFORMATION]:   12	D	      37	2.19805431057e-08	2.49676587322e-08	       331
+surface [INFORMATION]: Recompute data index for next iteration [stride = 4]
+surface [INFORMATION]: Expand grid by factor of 3 when going from stride = 12 to 4
+surface [INFORMATION]: Fill in expanded grid by bilinear interpolation [stride = 4]
+surface [INFORMATION]:    4	I	      31	6.17747017131e-08	7.49029761966e-08	       362
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 4]
+surface [INFORMATION]:    4	D	     234	7.32337526213e-08	7.49029761966e-08	       596
+surface [INFORMATION]: Recompute data index for next iteration [stride = 2]
+surface [INFORMATION]: Expand grid by factor of 2 when going from stride = 4 to 2
+surface [INFORMATION]: Fill in expanded grid by bilinear interpolation [stride = 2]
+surface [INFORMATION]:    2	I	      21	1.3042483397e-07	1.49805952393e-07	       617
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 2]
+surface [INFORMATION]:    2	D	     342	1.48509299766e-07	1.49805952393e-07	       959
+surface [INFORMATION]: Recompute data index for next iteration [stride = 1]
+surface [INFORMATION]: Expand grid by factor of 2 when going from stride = 2 to 1
+surface [INFORMATION]: Fill in expanded grid by bilinear interpolation [stride = 1]
+surface [INFORMATION]:    1	I	      18	2.02095988741e-07	2.99611904786e-07	       977
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 1]
+surface [INFORMATION]:    1	D	     283	2.98956220871e-07	2.99611904786e-07	      1260
+surface [INFORMATION]: Compute rms misfit and curvature.
+surface [INFORMATION]: Fit info: N data points  N nodes	mean error	rms error	curvature
+surface [INFORMATION]: 	 4276855	 4378321	8.34045854417e-06	0.00562506779646	17365.7212973
+surface [INFORMATION]: Increase pad by 28 28 6 6
+surface [INFORMATION]: Writing grid to file ralt.grd
+Sampling in geocoordinates with 100 meter pixels ...
+blockmedian [INFORMATION]: Provides 3, expects 3-column binary data
+blockmedian [INFORMATION]: Processing input table data
+blockmedian [INFORMATION]: W: 84.7 E: 87.9888888889 S: 27.9416666667 N: 38.725 n_columns: 2960 n_rows: 12940
+blockmedian [INFORMATION]: Input 3 columns via binary records using format fff
+blockmedian [INFORMATION]: Output 3 columns via binary records using format fff
+blockmedian [INFORMATION]: Reading Data Table from file llp
+blockmedian [INFORMATION]: Writing Data Table to Standard Output stream
+blockmedian [INFORMATION]: Calculating block medians
+blockmedian [INFORMATION]: N read: 32963597 N used: 32963597 outside_area: 0 N cells filled: 11219779
+proj_ra2ll.csh
+Sampling in geocoordinates with 100 meter pixels ...
+blockmedian [INFORMATION]: Provides 3, expects 3-column binary data
+blockmedian [INFORMATION]: Processing input table data
+blockmedian [INFORMATION]: W: 84.7 E: 87.9888888889 S: 27.9416666667 N: 38.725 n_columns: 2960 n_rows: 12940
+blockmedian [INFORMATION]: Input 3 columns via binary records using format fff
+blockmedian [INFORMATION]: Output 3 columns via binary records using format fff
+blockmedian [INFORMATION]: Reading Data Table from file llp
+blockmedian [INFORMATION]: Writing Data Table to Standard Output stream
+blockmedian [INFORMATION]: Calculating block medians
+blockmedian [INFORMATION]: N read: 32917275 N used: 32917275 outside_area: 0 N cells filled: 11204556
+geocode.csh
+make the KML files for Google Earth
+grdimage [INFORMATION]: Read header from file phasefilt_mask_ll.grd
+grdimage [INFORMATION]: netCDF grid phasefilt_mask_ll.grd has no default CPT.
+grdimage [INFORMATION]: Round-off patrol changed geographic grid increment for longitude from 0.00111111111111485681 to 0.00111111111111111111
+grdimage [INFORMATION]: Round-off patrol changed geographic grid increment for latitude from 0.000833333333330757214 to 0.000833333333333333387
+grdimage [INFORMATION]: Round-off patrol changed grid limit for xmax from 87.98888888888889 to 87.98888888888889
+grdimage [INFORMATION]: Round-off patrol changed grid limit for ymin from 27.94166666666667 to 27.94166666666667
+grdimage [INFORMATION]: Map scale is 0.001 km per inch or 1:39.3701.
+grdimage [INFORMATION]: Allocate and read data from file phasefilt_mask_ll.grd
+grdimage [INFORMATION]: Reading grid from file phasefilt_mask_ll.grd
+grdimage [INFORMATION]: gmt_grd_BC_set: Set boundary condition for all edges: natural
+grdimage [INFORMATION]: gmt_grd_BC_set: Set boundary condition for left   edge: natural
+grdimage [INFORMATION]: gmt_grd_BC_set: Set boundary condition for right  edge: natural
+grdimage [INFORMATION]: gmt_grd_BC_set: Set boundary condition for bottom edge: natural
+grdimage [INFORMATION]: gmt_grd_BC_set: Set boundary condition for top    edge: natural
+grdimage [INFORMATION]: gmt_cpt_default: Use specific CPT: phase.cpt
+grdimage [INFORMATION]: Reading CPT from File phase.cpt
+grdimage [INFORMATION]: Evaluate image pixel colors
+grdimage [INFORMATION]: Basic z(x,y) -> color image with no illumination.
+grdimage [INFORMATION]: Plotting 24-bit color image
+PSL: Too many colors to make colormap - using 24-bit direct color instead.
+PSL: DEFLATE compressed 114907200 to 16920664 bytes (85.3% savings at compression level 5)
+Make phasefilt_mask_ll.kml and phasefilt_mask_ll.png
+psconvert [INFORMATION]: Processing phasefilt_mask_ll.ps...
+psconvert [INFORMATION]: Find HiResBoundingBox ...
+psconvert [INFORMATION]: Figure dimensions: Width: 236.82 points [3.28917 inch]  Height: 776.4 points [10.7833 inch]
+psconvert [INFORMATION]: [144 144 380.82 920.4]...
+psconvert [INFORMATION]: Convert to PNG...
+gs -q -dNOPAUSE -dBATCH -dNOSAFER -dSCANCONVERTERTYPE=2 -dMaxBitmap=2147483647 -dUseFastColor=true -dGraphicsAlphaBits=2 -dTextAlphaBits=4 -sDEVICE=pngalpha  -g2961x9705 -r900 -sOutputFile='phasefilt_mask_ll.png' './psconvert_1967217d.eps'
+psconvert [INFORMATION]: Wrote KML file phasefilt_mask_ll.kml
+grdimage [INFORMATION]: Read header from file phasefilt_mask_ll.grd
+grdimage [INFORMATION]: netCDF grid phasefilt_mask_ll.grd has no default CPT.
+grdimage [INFORMATION]: Round-off patrol changed geographic grid increment for longitude from 0.00111111111111485681 to 0.00111111111111111111
+grdimage [INFORMATION]: Round-off patrol changed geographic grid increment for latitude from 0.000833333333330757214 to 0.000833333333333333387
+grdimage [INFORMATION]: Round-off patrol changed grid limit for xmax from 87.98888888888889 to 87.98888888888889
+grdimage [INFORMATION]: Round-off patrol changed grid limit for ymin from 27.94166666666667 to 27.94166666666667
+grdimage [INFORMATION]: Map scale is 0.001 km per inch or 1:39.3701.
+grdimage [INFORMATION]: Allocate and read data from file phasefilt_mask_ll.grd
+grdimage [INFORMATION]: Reading grid from file phasefilt_mask_ll.grd
+grdimage [INFORMATION]: gmt_grd_BC_set: Set boundary condition for all edges: natural
+grdimage [INFORMATION]: gmt_grd_BC_set: Set boundary condition for left   edge: natural
+grdimage [INFORMATION]: gmt_grd_BC_set: Set boundary condition for right  edge: natural
+grdimage [INFORMATION]: gmt_grd_BC_set: Set boundary condition for bottom edge: natural
+grdimage [INFORMATION]: gmt_grd_BC_set: Set boundary condition for top    edge: natural
+grdimage [INFORMATION]: gmt_cpt_default: Use specific CPT: phase.cpt
+grdimage [INFORMATION]: Reading CPT from File phase.cpt
+grdimage [INFORMATION]: Evaluate image pixel colors
+grdimage [INFORMATION]: Basic z(x,y) -> color image with no illumination.
+grdimage [INFORMATION]: Plotting 24-bit color image
+PSL: Too many colors to make colormap - using 24-bit direct color instead.
+PSL: DEFLATE compressed 114907200 to 16920664 bytes (85.3% savings at compression level 5)
+Make phasefilt_mask_ll.kml and phasefilt_mask_ll.png
+psconvert [INFORMATION]: Processing phasefilt_mask_ll.ps...
+psconvert [INFORMATION]: Find HiResBoundingBox ...
+psconvert [INFORMATION]: Figure dimensions: Width: 236.82 points [3.28917 inch]  Height: 776.4 points [10.7833 inch]
+psconvert [INFORMATION]: [144 144 380.82 920.4]...
+psconvert [INFORMATION]: Convert to PNG...
+gs -q -dNOPAUSE -dBATCH -dNOSAFER -dSCANCONVERTERTYPE=2 -dMaxBitmap=2147483647 -dUseFastColor=true -dGraphicsAlphaBits=2 -dTextAlphaBits=4 -sDEVICE=pngalpha  -g2961x9705 -r900 -sOutputFile='phasefilt_mask_ll.png' './psconvert_1967262d.eps'
+psconvert [INFORMATION]: Wrote KML file phasefilt_mask_ll.kml
+/g13b/gsar/012-a-m7-0088_0093_0098_0103_0108_0113_0118-tibet/F2/intf/2021013_2023027
+removing files from /g13b/gsar/012-a-m7-0088_0093_0098_0103_0108_0113_0118-tibet/F2/intf/2021013_2023027
+2.2G	.
+removing *.pdf
+removing *.ps
+removing conncomp.grd
+removing [d-l]*.grd
+removing [r-t]*.grd
+removing [d-t]*_mask*.grd
+removing phase.grd
+removing mask[ 23]*.grd
+removing _ll.grd
+removing amp
+removing S1_20210114_ALL_F2.SLC S1_20230128_ALL_F2.SLC rap lap*
+removing unwrap.grd
+410M	.
+
+INTF.CSH, FILTER.CSH - START
+using command line
+......master LED file S1_20170920_ALL_F2.LED 
+.........aligned LED file S1_20190501_ALL_F2.LED 
+using command line
+......master LED file S1_20170920_ALL_F2.LED 
+.........aligned LED file S1_20170920_ALL_F2.LED 
+intf.csh
+running phasediff...
+reading topo topo_ra.grd
+ xdim 25792, ydim 85992 
+filter.csh
+setting range_dec = 16, azimuth_dec = 4
+gauss_400 4 8 (1 2)
+making amplitudes...
+filtering interferogram...
+making amplitude...
+making correlation...
+making phase...
+filtering phase...
+INTF.CSH, FILTER.CSH - END
+
+SKIP UNWRAP PHASE
+
+GEOCODE.CSH - START
+rm: cannot remove 'trans.dat': No such file or directory
+threshold_geocode: .01
+grdmath [INFORMATION]: Enable all available threads (up to 12)
+grdmath [INFORMATION]: Perform reverse Polish notation calculations on grids
+grdmath [INFORMATION]: netCDF grid corr.grd has no default CPT.
+grdmath [INFORMATION]: Cartesian input grid
+grdmath [INFORMATION]: corr.grd grdmath [INFORMATION]: netCDF grid corr.grd has no default CPT.
+grdmath [INFORMATION]: Cartesian input grid
+grdmath [INFORMATION]: Reading grid from file corr.grd
+grdmath [INFORMATION]: Cartesian input grid
+grdmath [INFORMATION]: gmt_grd_BC_set: Set boundary condition for all edges: natural
+grdmath [INFORMATION]: gmt_grd_BC_set: Set boundary condition for left   edge: natural
+grdmath [INFORMATION]: gmt_grd_BC_set: Set boundary condition for right  edge: natural
+grdmath [INFORMATION]: gmt_grd_BC_set: Set boundary condition for bottom edge: natural
+grdmath [INFORMATION]: gmt_grd_BC_set: Set boundary condition for top    edge: natural
+0.01 GE 0 NAN mask.grd grdmath [INFORMATION]: netCDF grid mask.grd has no default CPT.
+grdmath [INFORMATION]: Cartesian input grid
+grdmath [INFORMATION]: Reading grid from file mask.grd
+grdmath [INFORMATION]: Cartesian input grid
+grdmath [INFORMATION]: gmt_grd_BC_set: Set boundary condition for all edges: natural
+grdmath [INFORMATION]: gmt_grd_BC_set: Set boundary condition for left   edge: natural
+grdmath [INFORMATION]: gmt_grd_BC_set: Set boundary condition for right  edge: natural
+grdmath [INFORMATION]: gmt_grd_BC_set: Set boundary condition for bottom edge: natural
+grdmath [INFORMATION]: gmt_grd_BC_set: Set boundary condition for top    edge: natural
+MUL = mask2.grdgrdmath [INFORMATION]: Writing grid to file mask2.grd
+
+Masked phase map: phase_mask.pdf
+Filtered masked phase map: phasefilt_mask.pdf
+geocode.csh
+project correlation, phase, unwrapped and amplitude back to lon lat coordinates
+remarked is by tianyf on Wed Apr 12 10:23:14 CST 2023 with geocode.csh
+proj_ra2ll.csh
+surface [INFORMATION]: Provides 5, expects 3-column binary data
+surface [INFORMATION]: Enable all available threads (up to 12)
+surface [INFORMATION]: Cartesian input grid
+surface [INFORMATION]: Cartesian input grid
+surface [INFORMATION]: Internally speed up convergence by using the larger region -R-256/25664/-192/86208 (go from 1564 x 2688 to optimal 1620 x 2700, with speedup-factor 15.77621)
+surface [INFORMATION]: Cartesian input grid
+surface [INFORMATION]: Cartesian input grid
+surface [INFORMATION]: Cartesian input grid
+surface [INFORMATION]: Cartesian input grid
+surface [INFORMATION]: Grid domain: W: 192 E: 25216 S: 0 N: 86016 n_columns: 1620 n_rows: 2700 [gridline registration]
+surface [INFORMATION]: Processing input table data
+surface [INFORMATION]: Input 5 columns via binary records using format ddddd
+surface [INFORMATION]: Reading Data Table from file trans.dat
+surface [INFORMATION]: Minimum value of your dataset x,y,z at: -1.82812952995 86006.421875 84.6800003052
+surface [INFORMATION]: Maximum value of your dataset x,y,z at: 25666.6660156 -3.52497529984 88.0175018311
+surface [INFORMATION]: Eliminate data points that are not nearest a node.
+surface [WARNING]: 11437796 unusable points were supplied; these will be ignored.
+surface [WARNING]: You should have pre-processed the data with block-mean, -median, or -mode.
+surface [WARNING]: Check that previous processing steps write results with enough decimals.
+surface [WARNING]: Possibly some data were half-way between nodes and subject to IEEE 754 rounding.
+surface [INFORMATION]: Plane fit z = 87.0837 + (0.000618712 * col) + (-0.000859465 * row)
+surface [INFORMATION]: Normalize detrended data constraints by z rms = 0.0233202
+surface [INFORMATION]: Select default convergence limit of 2.33202e-06 (100 ppm of L2 scale)
+surface [INFORMATION]: Recompute data index for next iteration [stride = 540]
+surface [INFORMATION]: ------------------------------------------
+surface [INFORMATION]: Memory for data array          :   98.0 Mb
+surface [INFORMATION]: Memory for final grid          :   16.8 Mb
+surface [INFORMATION]: Memory for Briggs coefficients :   98.0 Mb
+surface [INFORMATION]: Memory for node status         :    4.2 Mb
+surface [INFORMATION]: ------------------------------------------
+surface [INFORMATION]: Total memory use               :  216.9 Mb
+surface [INFORMATION]: ==========================================
+surface [INFORMATION]: Grid	Mode	Iteration	Max Change	Conv Limit	Total Iterations
+surface [INFORMATION]: Set finite-difference coefficients [stride = 540]
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 540]
+surface [INFORMATION]:  540	D	       1	-0.0233202179181	4.31855887372e-09	         1
+surface [INFORMATION]: Recompute data index for next iteration [stride = 108]
+surface [INFORMATION]: Expand grid by factor of 5 when going from stride = 540 to 108
+surface [INFORMATION]: Fill in expanded grid by bilinear interpolation [stride = 108]
+surface [INFORMATION]:  108	I	     147	2.01085698061e-08	2.15927943686e-08	       148
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 108]
+surface [INFORMATION]:  108	D	      16	9.20354454853e-09	2.15927943686e-08	       164
+surface [INFORMATION]: Recompute data index for next iteration [stride = 36]
+surface [INFORMATION]: Expand grid by factor of 3 when going from stride = 108 to 36
+surface [INFORMATION]: Fill in expanded grid by bilinear interpolation [stride = 36]
+surface [INFORMATION]:   36	I	      37	5.97581288421e-08	6.47783831058e-08	       201
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 36]
+surface [INFORMATION]:   36	D	      16	6.08151229771e-08	6.47783831058e-08	       217
+surface [INFORMATION]: Recompute data index for next iteration [stride = 12]
+surface [INFORMATION]: Expand grid by factor of 3 when going from stride = 36 to 12
+surface [INFORMATION]: Fill in expanded grid by bilinear interpolation [stride = 12]
+surface [INFORMATION]:   12	I	      34	1.85882646361e-07	1.94335149317e-07	       251
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 12]
+surface [INFORMATION]:   12	D	      29	1.70112013985e-07	1.94335149317e-07	       280
+surface [INFORMATION]: Recompute data index for next iteration [stride = 4]
+surface [INFORMATION]: Expand grid by factor of 3 when going from stride = 12 to 4
+surface [INFORMATION]: Fill in expanded grid by bilinear interpolation [stride = 4]
+surface [INFORMATION]:    4	I	      27	5.00038508228e-07	5.83005447952e-07	       307
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 4]
+surface [INFORMATION]:    4	D	     192	5.79661958057e-07	5.83005447952e-07	       499
+surface [INFORMATION]: Recompute data index for next iteration [stride = 2]
+surface [INFORMATION]: Expand grid by factor of 2 when going from stride = 4 to 2
+surface [INFORMATION]: Fill in expanded grid by bilinear interpolation [stride = 2]
+surface [INFORMATION]:    2	I	      20	1.15940499906e-06	1.1660108959e-06	       519
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 2]
+surface [INFORMATION]:    2	D	     347	1.15936445758e-06	1.1660108959e-06	       866
+surface [INFORMATION]: Recompute data index for next iteration [stride = 1]
+surface [INFORMATION]: Expand grid by factor of 2 when going from stride = 2 to 1
+surface [INFORMATION]: Fill in expanded grid by bilinear interpolation [stride = 1]
+surface [INFORMATION]:    1	I	      18	1.6278211596e-06	2.33202179181e-06	       884
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 1]
+surface [INFORMATION]:    1	D	     457	2.32764803888e-06	2.33202179181e-06	      1341
+surface [INFORMATION]: Compute rms misfit and curvature.
+surface [INFORMATION]: Fit info: N data points  N nodes	mean error	rms error	curvature
+surface [INFORMATION]: 	 4279529	 4378321	5.61411466826e-06	0.00448521754019	10392.5665006
+surface [INFORMATION]: Increase pad by 28 28 6 6
+surface [INFORMATION]: Writing grid to file raln.grd
+surface [INFORMATION]: Provides 5, expects 3-column binary data
+surface [INFORMATION]: Enable all available threads (up to 12)
+surface [INFORMATION]: Cartesian input grid
+surface [INFORMATION]: Cartesian input grid
+surface [INFORMATION]: Internally speed up convergence by using the larger region -R-256/25664/-192/86208 (go from 1564 x 2688 to optimal 1620 x 2700, with speedup-factor 15.77621)
+surface [INFORMATION]: Cartesian input grid
+surface [INFORMATION]: Cartesian input grid
+surface [INFORMATION]: Cartesian input grid
+surface [INFORMATION]: Cartesian input grid
+surface [INFORMATION]: Grid domain: W: 192 E: 25216 S: 0 N: 86016 n_columns: 1620 n_rows: 2700 [gridline registration]
+surface [INFORMATION]: Processing input table data
+surface [INFORMATION]: Input 5 columns via binary records using format ddddd
+surface [INFORMATION]: Reading Data Table from file trans.dat
+surface [INFORMATION]: Minimum value of your dataset x,y,z at: 27.4813480377 -15.1718816757 27.9466667175
+surface [INFORMATION]: Maximum value of your dataset x,y,z at: 25624.6015625 86011.40625 38.7283325195
+surface [INFORMATION]: Eliminate data points that are not nearest a node.
+surface [WARNING]: 11437796 unusable points were supplied; these will be ignored.
+surface [WARNING]: You should have pre-processed the data with block-mean, -median, or -mode.
+surface [WARNING]: Check that previous processing steps write results with enough decimals.
+surface [WARNING]: Possibly some data were half-way between nodes and subject to IEEE 754 rounding.
+surface [INFORMATION]: Plane fit z = 27.9271 + (9.19953e-05 * col) + (0.00395781 * row)
+surface [INFORMATION]: Normalize detrended data constraints by z rms = 0.0029963
+surface [INFORMATION]: Select default convergence limit of 2.9963e-07 (100 ppm of L2 scale)
+surface [INFORMATION]: Recompute data index for next iteration [stride = 540]
+surface [INFORMATION]: ------------------------------------------
+surface [INFORMATION]: Memory for data array          :   98.0 Mb
+surface [INFORMATION]: Memory for final grid          :   16.8 Mb
+surface [INFORMATION]: Memory for Briggs coefficients :   98.0 Mb
+surface [INFORMATION]: Memory for node status         :    4.2 Mb
+surface [INFORMATION]: ------------------------------------------
+surface [INFORMATION]: Total memory use               :  216.9 Mb
+surface [INFORMATION]: ==========================================
+surface [INFORMATION]: Grid	Mode	Iteration	Max Change	Conv Limit	Total Iterations
+surface [INFORMATION]: Set finite-difference coefficients [stride = 540]
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 540]
+surface [INFORMATION]:  540	D	       1	-0.00299630472376	5.5487124514e-10	         1
+surface [INFORMATION]: Recompute data index for next iteration [stride = 108]
+surface [INFORMATION]: Expand grid by factor of 5 when going from stride = 540 to 108
+surface [INFORMATION]: Fill in expanded grid by bilinear interpolation [stride = 108]
+surface [INFORMATION]:  108	I	     173	2.04192106049e-09	2.7743562257e-09	       174
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 108]
+surface [INFORMATION]:  108	D	      18	1.1424386803e-09	2.7743562257e-09	       192
+surface [INFORMATION]: Recompute data index for next iteration [stride = 36]
+surface [INFORMATION]: Expand grid by factor of 3 when going from stride = 108 to 36
+surface [INFORMATION]: Fill in expanded grid by bilinear interpolation [stride = 36]
+surface [INFORMATION]:   36	I	      47	6.1516453102e-09	8.3230686771e-09	       239
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 36]
+surface [INFORMATION]:   36	D	      17	7.75173703878e-09	8.3230686771e-09	       256
+surface [INFORMATION]: Recompute data index for next iteration [stride = 12]
+surface [INFORMATION]: Expand grid by factor of 3 when going from stride = 36 to 12
+surface [INFORMATION]: Fill in expanded grid by bilinear interpolation [stride = 12]
+surface [INFORMATION]:   12	I	      37	2.19662783395e-08	2.49692060313e-08	       293
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 12]
+surface [INFORMATION]:   12	D	      30	2.13151555542e-08	2.49692060313e-08	       323
+surface [INFORMATION]: Recompute data index for next iteration [stride = 4]
+surface [INFORMATION]: Expand grid by factor of 3 when going from stride = 12 to 4
+surface [INFORMATION]: Fill in expanded grid by bilinear interpolation [stride = 4]
+surface [INFORMATION]:    4	I	      31	6.50914427626e-08	7.49076180939e-08	       354
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 4]
+surface [INFORMATION]:    4	D	     181	7.35404120458e-08	7.49076180939e-08	       535
+surface [INFORMATION]: Recompute data index for next iteration [stride = 2]
+surface [INFORMATION]: Expand grid by factor of 2 when going from stride = 4 to 2
+surface [INFORMATION]: Fill in expanded grid by bilinear interpolation [stride = 2]
+surface [INFORMATION]:    2	I	      21	1.09180268911e-07	1.49815236188e-07	       556
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 2]
+surface [INFORMATION]:    2	D	     414	1.48935221789e-07	1.49815236188e-07	       970
+surface [INFORMATION]: Recompute data index for next iteration [stride = 1]
+surface [INFORMATION]: Expand grid by factor of 2 when going from stride = 2 to 1
+surface [INFORMATION]: Fill in expanded grid by bilinear interpolation [stride = 1]
+surface [INFORMATION]:    1	I	      18	2.37717116031e-07	2.99630472376e-07	       988
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 1]
+surface [INFORMATION]:    1	D	     500	3.41596594334e-07	2.99630472376e-07	      1488
+surface [INFORMATION]: Compute rms misfit and curvature.
+surface [INFORMATION]: Fit info: N data points  N nodes	mean error	rms error	curvature
+surface [INFORMATION]: 	 4279529	 4378321	8.42717480215e-06	0.00562396058455	17369.434753
+surface [INFORMATION]: Increase pad by 28 28 6 6
+surface [INFORMATION]: Writing grid to file ralt.grd
+Sampling in geocoordinates with 100 meter pixels ...
+blockmedian [INFORMATION]: Provides 3, expects 3-column binary data
+blockmedian [INFORMATION]: Processing input table data
+blockmedian [INFORMATION]: W: 84.7 E: 87.9888888889 S: 27.9416666667 N: 38.725 n_columns: 2960 n_rows: 12940
+blockmedian [INFORMATION]: Input 3 columns via binary records using format fff
+blockmedian [INFORMATION]: Output 3 columns via binary records using format fff
+blockmedian [INFORMATION]: Reading Data Table from file llp
+blockmedian [INFORMATION]: Writing Data Table to Standard Output stream
+blockmedian [INFORMATION]: Calculating block medians
+blockmedian [INFORMATION]: N read: 32967761 N used: 32967761 outside_area: 0 N cells filled: 11220440
+proj_ra2ll.csh
+Sampling in geocoordinates with 100 meter pixels ...
+blockmedian [INFORMATION]: Provides 3, expects 3-column binary data
+blockmedian [INFORMATION]: Processing input table data
+blockmedian [INFORMATION]: W: 84.7111111111 E: 87.9888888889 S: 27.9416666667 N: 38.725 n_columns: 2950 n_rows: 12940
+blockmedian [INFORMATION]: Input 3 columns via binary records using format fff
+blockmedian [INFORMATION]: Output 3 columns via binary records using format fff
+blockmedian [INFORMATION]: Reading Data Table from file llp
+blockmedian [INFORMATION]: Writing Data Table to Standard Output stream
+blockmedian [INFORMATION]: Calculating block medians
+blockmedian [INFORMATION]: N read: 32920411 N used: 32920411 outside_area: 0 N cells filled: 11205159
+geocode.csh
+make the KML files for Google Earth
+grdimage [INFORMATION]: Read header from file phasefilt_mask_ll.grd
+grdimage [INFORMATION]: netCDF grid phasefilt_mask_ll.grd has no default CPT.
+grdimage [INFORMATION]: Round-off patrol changed geographic grid increment for longitude from 0.00111111111111863959 to 0.00111111111111111111
+grdimage [INFORMATION]: Round-off patrol changed geographic grid increment for latitude from 0.000833333333330757214 to 0.000833333333333333387
+grdimage [INFORMATION]: Round-off patrol changed grid limit for xmin from 84.71111111111111 to 84.71111111111111
+grdimage [INFORMATION]: Round-off patrol changed grid limit for xmax from 87.98888888888889 to 87.98888888888889
+grdimage [INFORMATION]: Round-off patrol changed grid limit for ymin from 27.94166666666667 to 27.94166666666667
+grdimage [INFORMATION]: Map scale is 0.001 km per inch or 1:39.3701.
+grdimage [INFORMATION]: Allocate and read data from file phasefilt_mask_ll.grd
+grdimage [INFORMATION]: Reading grid from file phasefilt_mask_ll.grd
+grdimage [INFORMATION]: gmt_grd_BC_set: Set boundary condition for all edges: natural
+grdimage [INFORMATION]: gmt_grd_BC_set: Set boundary condition for left   edge: natural
+grdimage [INFORMATION]: gmt_grd_BC_set: Set boundary condition for right  edge: natural
+grdimage [INFORMATION]: gmt_grd_BC_set: Set boundary condition for bottom edge: natural
+grdimage [INFORMATION]: gmt_grd_BC_set: Set boundary condition for top    edge: natural
+grdimage [INFORMATION]: gmt_cpt_default: Use specific CPT: phase.cpt
+grdimage [INFORMATION]: Reading CPT from File phase.cpt
+grdimage [INFORMATION]: Evaluate image pixel colors
+grdimage [INFORMATION]: Basic z(x,y) -> color image with no illumination.
+grdimage [INFORMATION]: Plotting 24-bit color image
+PSL: Too many colors to make colormap - using 24-bit direct color instead.
+PSL: DEFLATE compressed 114519000 to 17811708 bytes (84.4% savings at compression level 5)
+Make phasefilt_mask_ll.kml and phasefilt_mask_ll.png
+psconvert [INFORMATION]: Processing phasefilt_mask_ll.ps...
+psconvert [INFORMATION]: Find HiResBoundingBox ...
+psconvert [INFORMATION]: Figure dimensions: Width: 235.98 points [3.2775 inch]  Height: 776.4 points [10.7833 inch]
+psconvert [INFORMATION]: [144 144 379.98 920.4]...
+psconvert [INFORMATION]: Convert to PNG...
+gs -q -dNOPAUSE -dBATCH -dNOSAFER -dSCANCONVERTERTYPE=2 -dMaxBitmap=2147483647 -dUseFastColor=true -dGraphicsAlphaBits=2 -dTextAlphaBits=4 -sDEVICE=pngalpha  -g2950x9705 -r900 -sOutputFile='phasefilt_mask_ll.png' './psconvert_1968051d.eps'
+psconvert [INFORMATION]: Wrote KML file phasefilt_mask_ll.kml
+grdimage [INFORMATION]: Read header from file phasefilt_mask_ll.grd
+grdimage [INFORMATION]: netCDF grid phasefilt_mask_ll.grd has no default CPT.
+grdimage [INFORMATION]: Round-off patrol changed geographic grid increment for longitude from 0.00111111111111863959 to 0.00111111111111111111
+grdimage [INFORMATION]: Round-off patrol changed geographic grid increment for latitude from 0.000833333333330757214 to 0.000833333333333333387
+grdimage [INFORMATION]: Round-off patrol changed grid limit for xmin from 84.71111111111111 to 84.71111111111111
+grdimage [INFORMATION]: Round-off patrol changed grid limit for xmax from 87.98888888888889 to 87.98888888888889
+grdimage [INFORMATION]: Round-off patrol changed grid limit for ymin from 27.94166666666667 to 27.94166666666667
+grdimage [INFORMATION]: Map scale is 0.001 km per inch or 1:39.3701.
+grdimage [INFORMATION]: Allocate and read data from file phasefilt_mask_ll.grd
+grdimage [INFORMATION]: Reading grid from file phasefilt_mask_ll.grd
+grdimage [INFORMATION]: gmt_grd_BC_set: Set boundary condition for all edges: natural
+grdimage [INFORMATION]: gmt_grd_BC_set: Set boundary condition for left   edge: natural
+grdimage [INFORMATION]: gmt_grd_BC_set: Set boundary condition for right  edge: natural
+grdimage [INFORMATION]: gmt_grd_BC_set: Set boundary condition for bottom edge: natural
+grdimage [INFORMATION]: gmt_grd_BC_set: Set boundary condition for top    edge: natural
+grdimage [INFORMATION]: gmt_cpt_default: Use specific CPT: phase.cpt
+grdimage [INFORMATION]: Reading CPT from File phase.cpt
+grdimage [INFORMATION]: Evaluate image pixel colors
+grdimage [INFORMATION]: Basic z(x,y) -> color image with no illumination.
+grdimage [INFORMATION]: Plotting 24-bit color image
+PSL: Too many colors to make colormap - using 24-bit direct color instead.
+PSL: DEFLATE compressed 114519000 to 17811708 bytes (84.4% savings at compression level 5)
+Make phasefilt_mask_ll.kml and phasefilt_mask_ll.png
+psconvert [INFORMATION]: Processing phasefilt_mask_ll.ps...
+psconvert [INFORMATION]: Find HiResBoundingBox ...
+psconvert [INFORMATION]: Figure dimensions: Width: 235.98 points [3.2775 inch]  Height: 776.4 points [10.7833 inch]
+psconvert [INFORMATION]: [144 144 379.98 920.4]...
+psconvert [INFORMATION]: Convert to PNG...
+gs -q -dNOPAUSE -dBATCH -dNOSAFER -dSCANCONVERTERTYPE=2 -dMaxBitmap=2147483647 -dUseFastColor=true -dGraphicsAlphaBits=2 -dTextAlphaBits=4 -sDEVICE=pngalpha  -g2950x9705 -r900 -sOutputFile='phasefilt_mask_ll.png' './psconvert_1968068d.eps'
+psconvert [INFORMATION]: Wrote KML file phasefilt_mask_ll.kml
+/g13b/gsar/012-a-m7-0088_0093_0098_0103_0108_0113_0118-tibet/F2/intf/2017262_2019120
+removing files from /g13b/gsar/012-a-m7-0088_0093_0098_0103_0108_0113_0118-tibet/F2/intf/2017262_2019120
+2.2G	.
+removing *.pdf
+removing *.ps
+removing conncomp.grd
+removing [d-l]*.grd
+removing [r-t]*.grd
+removing [d-t]*_mask*.grd
+removing phase.grd
+removing mask[ 23]*.grd
+removing _ll.grd
+removing amp
+removing S1_20170920_ALL_F2.SLC S1_20190501_ALL_F2.SLC rap lap*
+removing unwrap.grd
+411M	.
+
+INTF.CSH, FILTER.CSH - START
+using command line
+......master LED file S1_20150603_ALL_F2.LED 
+.........aligned LED file S1_20230209_ALL_F2.LED 
+using command line
+......master LED file S1_20150603_ALL_F2.LED 
+.........aligned LED file S1_20150603_ALL_F2.LED 
+intf.csh
+running phasediff...
+reading topo topo_ra.grd
+ xdim 25792, ydim 85992 
+filter.csh
+setting range_dec = 16, azimuth_dec = 4
+gauss_400 4 8 (1 2)
+making amplitudes...
+filtering interferogram...
+making amplitude...
+making correlation...
+making phase...
+filtering phase...
+INTF.CSH, FILTER.CSH - END
+
+SKIP UNWRAP PHASE
+
+GEOCODE.CSH - START
+rm: cannot remove 'trans.dat': No such file or directory
+threshold_geocode: .01
+grdmath [INFORMATION]: Enable all available threads (up to 12)
+grdmath [INFORMATION]: Perform reverse Polish notation calculations on grids
+grdmath [INFORMATION]: netCDF grid corr.grd has no default CPT.
+grdmath [INFORMATION]: Cartesian input grid
+grdmath [INFORMATION]: corr.grd grdmath [INFORMATION]: netCDF grid corr.grd has no default CPT.
+grdmath [INFORMATION]: Cartesian input grid
+grdmath [INFORMATION]: Reading grid from file corr.grd
+grdmath [INFORMATION]: Cartesian input grid
+grdmath [INFORMATION]: gmt_grd_BC_set: Set boundary condition for all edges: natural
+grdmath [INFORMATION]: gmt_grd_BC_set: Set boundary condition for left   edge: natural
+grdmath [INFORMATION]: gmt_grd_BC_set: Set boundary condition for right  edge: natural
+grdmath [INFORMATION]: gmt_grd_BC_set: Set boundary condition for bottom edge: natural
+grdmath [INFORMATION]: gmt_grd_BC_set: Set boundary condition for top    edge: natural
+0.01 GE 0 NAN mask.grd grdmath [INFORMATION]: netCDF grid mask.grd has no default CPT.
+grdmath [INFORMATION]: Cartesian input grid
+grdmath [INFORMATION]: Reading grid from file mask.grd
+grdmath [INFORMATION]: Cartesian input grid
+grdmath [INFORMATION]: gmt_grd_BC_set: Set boundary condition for all edges: natural
+grdmath [INFORMATION]: gmt_grd_BC_set: Set boundary condition for left   edge: natural
+grdmath [INFORMATION]: gmt_grd_BC_set: Set boundary condition for right  edge: natural
+grdmath [INFORMATION]: gmt_grd_BC_set: Set boundary condition for bottom edge: natural
+grdmath [INFORMATION]: gmt_grd_BC_set: Set boundary condition for top    edge: natural
+MUL = mask2.grdgrdmath [INFORMATION]: Writing grid to file mask2.grd
+
+Masked phase map: phase_mask.pdf
+Filtered masked phase map: phasefilt_mask.pdf
+geocode.csh
+project correlation, phase, unwrapped and amplitude back to lon lat coordinates
+remarked is by tianyf on Wed Apr 12 10:42:23 CST 2023 with geocode.csh
+proj_ra2ll.csh
+surface [INFORMATION]: Provides 5, expects 3-column binary data
+surface [INFORMATION]: Enable all available threads (up to 12)
+surface [INFORMATION]: Cartesian input grid
+surface [INFORMATION]: Cartesian input grid
+surface [INFORMATION]: Internally speed up convergence by using the larger region -R-240/25680/-1536/84864 (go from 1565 x 2604 to optimal 1620 x 2700, with speedup-factor 894.8968)
+surface [INFORMATION]: Cartesian input grid
+surface [INFORMATION]: Cartesian input grid
+surface [INFORMATION]: Cartesian input grid
+surface [INFORMATION]: Cartesian input grid
+surface [INFORMATION]: Grid domain: W: 192 E: 25232 S: 0 N: 83328 n_columns: 1620 n_rows: 2700 [gridline registration]
+surface [INFORMATION]: Processing input table data
+surface [INFORMATION]: Input 5 columns via binary records using format ddddd
+surface [INFORMATION]: Reading Data Table from file trans.dat
+surface [INFORMATION]: Minimum value of your dataset x,y,z at: -7.64591789246 84873.6484375 84.7125015259
+surface [INFORMATION]: Maximum value of your dataset x,y,z at: 25682.484375 -11.0694112778 88.0183334351
+surface [INFORMATION]: Eliminate data points that are not nearest a node.
+surface [WARNING]: 11279840 unusable points were supplied; these will be ignored.
+surface [WARNING]: You should have pre-processed the data with block-mean, -median, or -mode.
+surface [WARNING]: Check that previous processing steps write results with enough decimals.
+surface [WARNING]: Possibly some data were half-way between nodes and subject to IEEE 754 rounding.
+surface [INFORMATION]: Plane fit z = 87.1195 + (0.000618041 * col) + (-0.000857935 * row)
+surface [INFORMATION]: Normalize detrended data constraints by z rms = 0.0225965
+surface [INFORMATION]: Select default convergence limit of 2.25965e-06 (100 ppm of L2 scale)
+surface [INFORMATION]: Recompute data index for next iteration [stride = 540]
+surface [INFORMATION]: ------------------------------------------
+surface [INFORMATION]: Memory for data array          :   96.7 Mb
+surface [INFORMATION]: Memory for final grid          :   16.8 Mb
+surface [INFORMATION]: Memory for Briggs coefficients :   96.7 Mb
+surface [INFORMATION]: Memory for node status         :    4.2 Mb
+surface [INFORMATION]: ------------------------------------------
+surface [INFORMATION]: Total memory use               :  214.3 Mb
+surface [INFORMATION]: ==========================================
+surface [INFORMATION]: Grid	Mode	Iteration	Max Change	Conv Limit	Total Iterations
+surface [INFORMATION]: Set finite-difference coefficients [stride = 540]
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 540]
+surface [INFORMATION]:  540	D	      16	3.45849617289e-09	4.18454030177e-09	        16
+surface [INFORMATION]: Recompute data index for next iteration [stride = 108]
+surface [INFORMATION]: Expand grid by factor of 5 when going from stride = 540 to 108
+surface [INFORMATION]: Fill in expanded grid by bilinear interpolation [stride = 108]
+surface [INFORMATION]:  108	I	     150	2.04273373381e-08	2.09227015088e-08	       166
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 108]
+surface [INFORMATION]:  108	D	      22	1.44468501842e-08	2.09227015088e-08	       188
+surface [INFORMATION]: Recompute data index for next iteration [stride = 36]
+surface [INFORMATION]: Expand grid by factor of 3 when going from stride = 108 to 36
+surface [INFORMATION]: Fill in expanded grid by bilinear interpolation [stride = 36]
+surface [INFORMATION]:   36	I	      41	5.1107626669e-08	6.27681045265e-08	       229
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 36]
+surface [INFORMATION]:   36	D	      32	3.95583244045e-08	6.27681045265e-08	       261
+surface [INFORMATION]: Recompute data index for next iteration [stride = 12]
+surface [INFORMATION]: Expand grid by factor of 3 when going from stride = 36 to 12
+surface [INFORMATION]: Fill in expanded grid by bilinear interpolation [stride = 12]
+surface [INFORMATION]:   12	I	      33	1.83767469301e-07	1.88304313579e-07	       294
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 12]
+surface [INFORMATION]:   12	D	     299	1.87460103362e-07	1.88304313579e-07	       593
+surface [INFORMATION]: Recompute data index for next iteration [stride = 4]
+surface [INFORMATION]: Expand grid by factor of 3 when going from stride = 12 to 4
+surface [INFORMATION]: Fill in expanded grid by bilinear interpolation [stride = 4]
+surface [INFORMATION]:    4	I	      27	4.60125773391e-07	5.64912940738e-07	       620
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 4]
+surface [INFORMATION]:    4	D	    1008	5.64894443893e-07	5.64912940738e-07	      1628
+surface [INFORMATION]: Recompute data index for next iteration [stride = 2]
+surface [INFORMATION]: Expand grid by factor of 2 when going from stride = 4 to 2
+surface [INFORMATION]: Fill in expanded grid by bilinear interpolation [stride = 2]
+surface [INFORMATION]:    2	I	      20	1.05444343971e-06	1.12982588148e-06	      1648
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 2]
+surface [INFORMATION]:    2	D	    1000	1.16113699393e-06	1.12982588148e-06	      2648
+surface [INFORMATION]: Recompute data index for next iteration [stride = 1]
+surface [INFORMATION]: Expand grid by factor of 2 when going from stride = 2 to 1
+surface [INFORMATION]: Fill in expanded grid by bilinear interpolation [stride = 1]
+surface [INFORMATION]:    1	I	      17	2.09568767684e-06	2.25965176295e-06	      2665
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 1]
+surface [INFORMATION]:    1	D	     435	2.25580657485e-06	2.25965176295e-06	      3100
+surface [INFORMATION]: Compute rms misfit and curvature.
+surface [INFORMATION]: Fit info: N data points  N nodes	mean error	rms error	curvature
+surface [INFORMATION]: 	 4224474	 4378321	5.93250937592e-06	0.00465843984488	11076.6776685
+surface [INFORMATION]: Increase pad by 27 28 48 48
+surface [INFORMATION]: Writing grid to file raln.grd
+surface [INFORMATION]: Provides 5, expects 3-column binary data
+surface [INFORMATION]: Enable all available threads (up to 12)
+surface [INFORMATION]: Cartesian input grid
+surface [INFORMATION]: Cartesian input grid
+surface [INFORMATION]: Internally speed up convergence by using the larger region -R-240/25680/-1536/84864 (go from 1565 x 2604 to optimal 1620 x 2700, with speedup-factor 894.8968)
+surface [INFORMATION]: Cartesian input grid
+surface [INFORMATION]: Cartesian input grid
+surface [INFORMATION]: Cartesian input grid
+surface [INFORMATION]: Cartesian input grid
+surface [INFORMATION]: Grid domain: W: 192 E: 25232 S: 0 N: 83328 n_columns: 1620 n_rows: 2700 [gridline registration]
+surface [INFORMATION]: Processing input table data
+surface [INFORMATION]: Input 5 columns via binary records using format ddddd
+surface [INFORMATION]: Reading Data Table from file trans.dat
+surface [INFORMATION]: Minimum value of your dataset x,y,z at: 27.4813480377 -15.1718816757 27.9466667175
+surface [INFORMATION]: Maximum value of your dataset x,y,z at: 25595.109375 84879.53125 38.5883331299
+surface [INFORMATION]: Eliminate data points that are not nearest a node.
+surface [WARNING]: 11279840 unusable points were supplied; these will be ignored.
+surface [WARNING]: You should have pre-processed the data with block-mean, -median, or -mode.
+surface [WARNING]: Check that previous processing steps write results with enough decimals.
+surface [WARNING]: Possibly some data were half-way between nodes and subject to IEEE 754 rounding.
+surface [INFORMATION]: Plane fit z = 27.7607 + (9.19962e-05 * col) + (0.00395802 * row)
+surface [INFORMATION]: Normalize detrended data constraints by z rms = 0.00290316
+surface [INFORMATION]: Select default convergence limit of 2.90316e-07 (100 ppm of L2 scale)
+surface [INFORMATION]: Recompute data index for next iteration [stride = 540]
+surface [INFORMATION]: ------------------------------------------
+surface [INFORMATION]: Memory for data array          :   96.7 Mb
+surface [INFORMATION]: Memory for final grid          :   16.8 Mb
+surface [INFORMATION]: Memory for Briggs coefficients :   96.7 Mb
+surface [INFORMATION]: Memory for node status         :    4.2 Mb
+surface [INFORMATION]: ------------------------------------------
+surface [INFORMATION]: Total memory use               :  214.3 Mb
+surface [INFORMATION]: ==========================================
+surface [INFORMATION]: Grid	Mode	Iteration	Max Change	Conv Limit	Total Iterations
+surface [INFORMATION]: Set finite-difference coefficients [stride = 540]
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 540]
+surface [INFORMATION]:  540	D	      18	2.35484895327e-10	5.37622938917e-10	        18
+surface [INFORMATION]: Recompute data index for next iteration [stride = 108]
+surface [INFORMATION]: Expand grid by factor of 5 when going from stride = 540 to 108
+surface [INFORMATION]: Fill in expanded grid by bilinear interpolation [stride = 108]
+surface [INFORMATION]:  108	I	     157	2.61437699111e-09	2.68811469459e-09	       175
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 108]
+surface [INFORMATION]:  108	D	      22	2.05671567037e-09	2.68811469459e-09	       197
+surface [INFORMATION]: Recompute data index for next iteration [stride = 36]
+surface [INFORMATION]: Expand grid by factor of 3 when going from stride = 108 to 36
+surface [INFORMATION]: Fill in expanded grid by bilinear interpolation [stride = 36]
+surface [INFORMATION]:   36	I	      41	7.49425296031e-09	8.06434408376e-09	       238
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 36]
+surface [INFORMATION]:   36	D	      33	5.39025989608e-09	8.06434408376e-09	       271
+surface [INFORMATION]: Recompute data index for next iteration [stride = 12]
+surface [INFORMATION]: Expand grid by factor of 3 when going from stride = 36 to 12
+surface [INFORMATION]: Fill in expanded grid by bilinear interpolation [stride = 12]
+surface [INFORMATION]:   12	I	      37	2.09150159218e-08	2.41930322513e-08	       308
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 12]
+surface [INFORMATION]:   12	D	     321	2.39432518179e-08	2.41930322513e-08	       629
+surface [INFORMATION]: Recompute data index for next iteration [stride = 4]
+surface [INFORMATION]: Expand grid by factor of 3 when going from stride = 12 to 4
+surface [INFORMATION]: Fill in expanded grid by bilinear interpolation [stride = 4]
+surface [INFORMATION]:    4	I	      31	6.78299605425e-08	7.25790967538e-08	       660
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 4]
+surface [INFORMATION]:    4	D	    1111	7.24354026338e-08	7.25790967538e-08	      1771
+surface [INFORMATION]: Recompute data index for next iteration [stride = 2]
+surface [INFORMATION]: Expand grid by factor of 2 when going from stride = 4 to 2
+surface [INFORMATION]: Fill in expanded grid by bilinear interpolation [stride = 2]
+surface [INFORMATION]:    2	I	      21	1.06805880055e-07	1.45158193508e-07	      1792
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 2]
+surface [INFORMATION]:    2	D	    1000	2.57198168773e-07	1.45158193508e-07	      2792
+surface [INFORMATION]: Recompute data index for next iteration [stride = 1]
+surface [INFORMATION]: Expand grid by factor of 2 when going from stride = 2 to 1
+surface [INFORMATION]: Fill in expanded grid by bilinear interpolation [stride = 1]
+surface [INFORMATION]:    1	I	      18	2.02447663774e-07	2.90316387015e-07	      2810
+surface [INFORMATION]: Determine nearest point and set Briggs coefficients [stride = 1]
+surface [INFORMATION]:    1	D	     500	3.06164743214e-07	2.90316387015e-07	      3310
+surface [INFORMATION]: Compute rms misfit and curvature.
+surface [INFORMATION]: Fit info: N data points  N nodes	mean error	rms error	curvature
+surface [INFORMATION]: 	 4224474	 4378321	8.75168852486e-06	0.00583804332373	18476.2047468
+surface [INFORMATION]: Increase pad by 27 28 48 48
+surface [INFORMATION]: Writing grid to file ralt.grd
+Sampling in geocoordinates with 100 meter pixels ...
+blockmedian [INFORMATION]: Provides 3, expects 3-column binary data
+blockmedian [INFORMATION]: Processing input table data
+blockmedian [INFORMATION]: W: 84.7777777778 E: 87.9888888889 S: 27.9416666667 N: 38.4 n_columns: 2890 n_rows: 12550
+blockmedian [INFORMATION]: Input 3 columns via binary records using format fff
+blockmedian [INFORMATION]: Output 3 columns via binary records using format fff
+blockmedian [INFORMATION]: Reading Data Table from file llp
+blockmedian [INFORMATION]: Writing Data Table to Standard Output stream
+blockmedian [INFORMATION]: Calculating block medians
+blockmedian [INFORMATION]: N read: 31952463 N used: 31952463 outside_area: 0 N cells filled: 10847694
+proj_ra2ll.csh
+Sampling in geocoordinates with 100 meter pixels ...
+blockmedian [INFORMATION]: Provides 3, expects 3-column binary data
+blockmedian [INFORMATION]: Processing input table data
+blockmedian [INFORMATION]: W: 84.7777777778 E: 87.9888888889 S: 27.9416666667 N: 38.4 n_columns: 2890 n_rows: 12550
+blockmedian [INFORMATION]: Input 3 columns via binary records using format fff
+blockmedian [INFORMATION]: Output 3 columns via binary records using format fff
+blockmedian [INFORMATION]: Reading Data Table from file llp
+blockmedian [INFORMATION]: Writing Data Table to Standard Output stream
+blockmedian [INFORMATION]: Calculating block medians
+blockmedian [INFORMATION]: N read: 31895376 N used: 31895376 outside_area: 0 N cells filled: 10831682
+geocode.csh
+make the KML files for Google Earth
+grdimage [INFORMATION]: Read header from file phasefilt_mask_ll.grd
+grdimage [INFORMATION]: netCDF grid phasefilt_mask_ll.grd has no default CPT.
+grdimage [INFORMATION]: Round-off patrol changed geographic grid increment for longitude from 0.00111111111110726718 to 0.00111111111111111111
+grdimage [INFORMATION]: Round-off patrol changed geographic grid increment for latitude from 0.000833333333330676875 to 0.000833333333333333387
+grdimage [INFORMATION]: Round-off patrol changed grid limit for xmin from 84.77777777777777 to 84.77777777777777
+grdimage [INFORMATION]: Round-off patrol changed grid limit for xmax from 87.98888888888889 to 87.98888888888889
+grdimage [INFORMATION]: Round-off patrol changed grid limit for ymin from 27.94166666666667 to 27.94166666666667
+grdimage [INFORMATION]: Round-off patrol changed grid limit for ymax from 38.40000000000001 to 38.40000000000001
+grdimage [INFORMATION]: Map scale is 0.001 km per inch or 1:39.3701.
+grdimage [INFORMATION]: Allocate and read data from file phasefilt_mask_ll.grd
+grdimage [INFORMATION]: Reading grid from file phasefilt_mask_ll.grd
+grdimage [INFORMATION]: gmt_grd_BC_set: Set boundary condition for all edges: natural
+grdimage [INFORMATION]: gmt_grd_BC_set: Set boundary condition for left   edge: natural
+grdimage [INFORMATION]: gmt_grd_BC_set: Set boundary condition for right  edge: natural
+grdimage [INFORMATION]: gmt_grd_BC_set: Set boundary condition for bottom edge: natural
+grdimage [INFORMATION]: gmt_grd_BC_set: Set boundary condition for top    edge: natural
+grdimage [INFORMATION]: gmt_cpt_default: Use specific CPT: phase.cpt
+grdimage [INFORMATION]: Reading CPT from File phase.cpt
+grdimage [INFORMATION]: Evaluate image pixel colors
+grdimage [INFORMATION]: Basic z(x,y) -> color image with no illumination.
+grdimage [INFORMATION]: Plotting 24-bit color image
+PSL: Too many colors to make colormap - using 24-bit direct color instead.
+PSL: DEFLATE compressed 108808500 to 18150243 bytes (83.3% savings at compression level 5)
+Make phasefilt_mask_ll.kml and phasefilt_mask_ll.png
+psconvert [INFORMATION]: Processing phasefilt_mask_ll.ps...
+psconvert [INFORMATION]: Find HiResBoundingBox ...
+psconvert [INFORMATION]: Figure dimensions: Width: 231.18 points [3.21083 inch]  Height: 753 points [10.4583 inch]
+psconvert [INFORMATION]: [144 144 375.18 897]...
+psconvert [INFORMATION]: Convert to PNG...
+gs -q -dNOPAUSE -dBATCH -dNOSAFER -dSCANCONVERTERTYPE=2 -dMaxBitmap=2147483647 -dUseFastColor=true -dGraphicsAlphaBits=2 -dTextAlphaBits=4 -sDEVICE=pngalpha  -g2890x9413 -r900 -sOutputFile='phasefilt_mask_ll.png' './psconvert_1968988d.eps'
+psconvert [INFORMATION]: Wrote KML file phasefilt_mask_ll.kml
+grdimage [INFORMATION]: Read header from file phasefilt_mask_ll.grd
+grdimage [INFORMATION]: netCDF grid phasefilt_mask_ll.grd has no default CPT.
+grdimage [INFORMATION]: Round-off patrol changed geographic grid increment for longitude from 0.00111111111110726718 to 0.00111111111111111111
+grdimage [INFORMATION]: Round-off patrol changed geographic grid increment for latitude from 0.000833333333330676875 to 0.000833333333333333387
+grdimage [INFORMATION]: Round-off patrol changed grid limit for xmin from 84.77777777777777 to 84.77777777777777
+grdimage [INFORMATION]: Round-off patrol changed grid limit for xmax from 87.98888888888889 to 87.98888888888889
+grdimage [INFORMATION]: Round-off patrol changed grid limit for ymin from 27.94166666666667 to 27.94166666666667
+grdimage [INFORMATION]: Round-off patrol changed grid limit for ymax from 38.40000000000001 to 38.40000000000001
+grdimage [INFORMATION]: Map scale is 0.001 km per inch or 1:39.3701.
+grdimage [INFORMATION]: Allocate and read data from file phasefilt_mask_ll.grd
+grdimage [INFORMATION]: Reading grid from file phasefilt_mask_ll.grd
+grdimage [INFORMATION]: gmt_grd_BC_set: Set boundary condition for all edges: natural
+grdimage [INFORMATION]: gmt_grd_BC_set: Set boundary condition for left   edge: natural
+grdimage [INFORMATION]: gmt_grd_BC_set: Set boundary condition for right  edge: natural
+grdimage [INFORMATION]: gmt_grd_BC_set: Set boundary condition for bottom edge: natural
+grdimage [INFORMATION]: gmt_grd_BC_set: Set boundary condition for top    edge: natural
+grdimage [INFORMATION]: gmt_cpt_default: Use specific CPT: phase.cpt
+grdimage [INFORMATION]: Reading CPT from File phase.cpt
+grdimage [INFORMATION]: Evaluate image pixel colors
+grdimage [INFORMATION]: Basic z(x,y) -> color image with no illumination.
+grdimage [INFORMATION]: Plotting 24-bit color image
+PSL: Too many colors to make colormap - using 24-bit direct color instead.
+PSL: DEFLATE compressed 108808500 to 18150243 bytes (83.3% savings at compression level 5)
+Make phasefilt_mask_ll.kml and phasefilt_mask_ll.png
+psconvert [INFORMATION]: Processing phasefilt_mask_ll.ps...
+psconvert [INFORMATION]: Find HiResBoundingBox ...
+psconvert [INFORMATION]: Figure dimensions: Width: 231.18 points [3.21083 inch]  Height: 753 points [10.4583 inch]
+psconvert [INFORMATION]: [144 144 375.18 897]...
+psconvert [INFORMATION]: Convert to PNG...
+gs -q -dNOPAUSE -dBATCH -dNOSAFER -dSCANCONVERTERTYPE=2 -dMaxBitmap=2147483647 -dUseFastColor=true -dGraphicsAlphaBits=2 -dTextAlphaBits=4 -sDEVICE=pngalpha  -g2890x9413 -r900 -sOutputFile='phasefilt_mask_ll.png' './psconvert_1969003d.eps'
+psconvert [INFORMATION]: Wrote KML file phasefilt_mask_ll.kml
+/g13b/gsar/012-a-m7-0088_0093_0098_0103_0108_0113_0118-tibet/F2/intf/2015153_2023039
+removing files from /g13b/gsar/012-a-m7-0088_0093_0098_0103_0108_0113_0118-tibet/F2/intf/2015153_2023039
+2.2G	.
+removing *.pdf
+removing *.ps
+removing conncomp.grd
+removing [d-l]*.grd
+removing [r-t]*.grd
+removing [d-t]*_mask*.grd
+removing phase.grd
+removing mask[ 23]*.grd
+removing _ll.grd
+removing amp
+removing S1_20150603_ALL_F2.SLC S1_20230209_ALL_F2.SLC rap lap*
+removing unwrap.grd
+412M	.
+
+INTF.CSH, FILTER.CSH - START
+using command line
+......master LED file S1_20190113_ALL_F2.LED 
+.........aligned LED file S1_20210923_ALL_F2.LED 
+using command line
+......master LED file S1_20190113_ALL_F2.LED 
+.........aligned LED file S1_20190113_ALL_F2.LED 
+intf.csh
+running phasediff...
+reading topo topo_ra.grd
+ xdim 25792, ydim 85992 
+filter.csh
+setting range_dec = 16, azimuth_dec = 4
+gauss_400 4 8 (1 2)
+making amplitudes...
+
+

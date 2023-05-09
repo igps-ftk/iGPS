@@ -19,7 +19,7 @@ if [ -f $ofile ]; then
     read yn
     #echo $yn
     if [ "${yn}" != "y" ]; then
-	exit
+  exit
     fi
     echo "WARNING: file [${ofile}] overwritten."
 fi
@@ -32,6 +32,7 @@ if [ ! -f ${mfile} ]; then
 fi
 
 #
+date_today=`date +%Y%m%d`
 
 # get the line number of "# Name:"
 linu=`grep -n "# Name:" $mfile | awk -F":" '{print $1}'`
@@ -64,14 +65,25 @@ echo 'timestamp=`date | sed -e "s/ /_/g" | sed -e "s/:/-/g"`' >> $ofile
 chmod +x $ofile
 
 
-cat <<eob >> $ofile
+cat <<EOF >> $ofile
 
 path_old=\`pwd\`
 
 usage_of_it(){
-  echo "[\$PROG]HELP: \${PROG} "
-  echo "[\$PROG]HELP: e.g.,"
-  echo "[\$PROG]HELP:   \${PROG} "
+cat <<eob
+\${PROG}
+  version $date_today
+|_ Description_of_this_program
+|+
+  -Dependencies_of_this_program
+|<
+  Inputs
+|>
+  Outputs
+|e.g.,
+  \${PROG}
+(c)iGPS (https://github.com/igps-ftk/)
+eob
 }
 
 if [ \$# -lt 2 ]; then
@@ -91,10 +103,10 @@ while [ "\$1" != "" ]; do
       exit 1
       ;;
   esac
-  shift 2  
+  shift 2
 done
 
 
 echo "[\$PROG]INFO: done."
-eob
+EOF
 # the END

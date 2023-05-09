@@ -1,0 +1,4 @@
+#!/bin/sh
+
+#change the login information (aria2_conf) as needed
+sh_asf_s1_get_slc_py -file download-all-2023-02-18_15-38-36.py -opath $esa_data/s1/ -aria2_conf ${HOME}/tmp/iGPS.addon/sh/aria2.conf

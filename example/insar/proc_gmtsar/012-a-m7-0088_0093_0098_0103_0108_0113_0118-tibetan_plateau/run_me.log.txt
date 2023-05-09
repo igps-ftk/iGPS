@@ -1,0 +1,23 @@
+nf 7
+[sh_s1_expt_safe]INFO:perc_min in config.txt is 
+[sh_s1_expt_safe]INFO:master date in config.txt is 20200120
+[sh_s1_expt_safe]INFO: use mininum overlapping percentage value from overlapping.*.txt files.
+[sh_s1_expt_safe]INFO:perc_min 0.75011099999999997
+nfd 5 for 012-a-m7-0088_0093_0098_0103_0108_0113_0118-tibetan_plateau
+s1_manifest_overlap ../../esa.data/metainfo/manifest.safe//A012 S1A_IW_SLC__1SDV_20200120T121433_20200120T121500_030884_038B59_BD24.manifest.safe /home/tianyf/iGPS/example/insar/proc_gmtsar/012-a-m7-0088_0093_0098_0103_0108_0113_0118-tibetan_plateau 0.75011099999999997 > /dev/null
+nfd 5 for 012-a-m7-0088_0093_0098_0103_0108_0113_0118-tibetan_plateau
+s1_manifest_overlap ../../esa.data/metainfo/manifest.safe//A012 S1A_IW_SLC__1SDV_20200120T121407_20200120T121435_030884_038B59_F678.manifest.safe /home/tianyf/iGPS/example/insar/proc_gmtsar/012-a-m7-0088_0093_0098_0103_0108_0113_0118-tibetan_plateau 0.75011099999999997 > /dev/null
+nfd 5 for 012-a-m7-0088_0093_0098_0103_0108_0113_0118-tibetan_plateau
+s1_manifest_overlap ../../esa.data/metainfo/manifest.safe//A012 S1A_IW_SLC__1SDV_20200120T121458_20200120T121525_030884_038B59_7219.manifest.safe /home/tianyf/iGPS/example/insar/proc_gmtsar/012-a-m7-0088_0093_0098_0103_0108_0113_0118-tibetan_plateau 0.75011099999999997 > /dev/null
+nfd 5 for 012-a-m7-0088_0093_0098_0103_0108_0113_0118-tibetan_plateau
+s1_manifest_overlap ../../esa.data/metainfo/manifest.safe//A012 S1A_IW_SLC__1SDV_20200120T121612_20200120T121639_030884_038B59_EB60.manifest.safe /home/tianyf/iGPS/example/insar/proc_gmtsar/012-a-m7-0088_0093_0098_0103_0108_0113_0118-tibetan_plateau 0.75011099999999997 > /dev/null
+nfd 5 for 012-a-m7-0088_0093_0098_0103_0108_0113_0118-tibetan_plateau
+s1_manifest_overlap ../../esa.data/metainfo/manifest.safe//A012 S1A_IW_SLC__1SDV_20200120T121522_20200120T121549_030884_038B59_0B3D.manifest.safe /home/tianyf/iGPS/example/insar/proc_gmtsar/012-a-m7-0088_0093_0098_0103_0108_0113_0118-tibetan_plateau 0.75011099999999997 > /dev/null
+nfd 5 for 012-a-m7-0088_0093_0098_0103_0108_0113_0118-tibetan_plateau
+s1_manifest_overlap ../../esa.data/metainfo/manifest.safe//A012 S1A_IW_SLC__1SDV_20200120T121637_20200120T121705_030884_038B59_D6F0.manifest.safe /home/tianyf/iGPS/example/insar/proc_gmtsar/012-a-m7-0088_0093_0098_0103_0108_0113_0118-tibetan_plateau 0.75011099999999997 > /dev/null
+nfd 5 for 012-a-m7-0088_0093_0098_0103_0108_0113_0118-tibetan_plateau
+s1_manifest_overlap ../../esa.data/metainfo/manifest.safe//A012 S1A_IW_SLC__1SDV_20200120T121547_20200120T121614_030884_038B59_87BB.manifest.safe /home/tianyf/iGPS/example/insar/proc_gmtsar/012-a-m7-0088_0093_0098_0103_0108_0113_0118-tibetan_plateau 0.75011099999999997 > /dev/null
+dates_excluded
+cmdstr grep '^ ' /tmp/_tmp_sh_s1_expt_safe_Tue_May__9_14-31-00_CST_2023 > input.lst
+s1_overlap_check input.lst input.lst.ok 7 > /dev/null
+[sh_s1_expt_safe]INFO: done.

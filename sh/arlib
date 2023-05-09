@@ -21,17 +21,27 @@
 #   +GAMIT/GLOBK installation (e.g., /usr/local/gmait-v10.71/)
 #
 
-PROG=sh_asf_s1_get_aux_orb
+PROG=arlib
+
+timestamp=`date | sed -e "s/ /_/g" | sed -e "s/:/-/g"`
 
 path_old=`pwd`
  
 usage_of_it(){
-  echo "[$PROG]HELP: ${PROG} [GAMIT_GLOBK_PATH  [OUTPUT_PATH]]"
-
-  echo "[$PROG]HELP:   [-h|-help]"
-  echo "[$PROG]HELP: e.g.,"
-  echo "[$PROG]HELP:   ${PROG}  /usr/local/gamit-v10.71"
-  echo "[$PROG]HELP:   ${PROG}  /usr/local/gamit-v10.71/  /home/tianyf/iGPS/ftk/gglib/"
+cat <<eob
+${PROG} [GAMIT_GLOBK_PATH  [OUTPUT_PATH]]
+|_Create library file from GAMIT/GLOBK.
+|<
+  [GAMIT_GLOBK_PATH]
+    default: \${HOME}/gg/
+  [[OUTPUT_PATH]]
+    default: \$iGPS/ftk/gglib/
+  [-h|-help]
+e.g.,
+  ${PROG}  /usr/local/gamit-v10.71
+  ${PROG}  /usr/local/gamit-v10.71/  /home/tianyf/iGPS/ftk/gglib/
+(c)iGPS (https://github.com/igps-ftk/)
+eob
 }
 
 arch=`sh_arch`
@@ -43,7 +53,7 @@ if [ "`echo $1 | awk '{print substr($1,1,2)}'`" == "-h" ]; then
 fi
 
 #input gg directory
-path_gg=${HOME}/gg
+path_gg=${HOME}/gg/
 #exit
 if [ $# -ge 1 ]; then
     cd $1
@@ -54,7 +64,8 @@ fi
 #output location
 path_lib=${iGPS}/ftk/gglib/
 if [ ! -d ${path_lib} ]; then
-    mkdir -p ${path_lib}
+    echo mkdir -p ${path_lib}
+    echo mkdir -p ${path_lib} | sh
 fi
 file_lib=${path_lib}/gglib.a.${arch}
 if [ $# -ge 2 ]; then
@@ -77,10 +88,14 @@ if [ "$files" = "" ]; then
     exit 1
 fi
 
+if [ -s $file_lib ]; then
+  echo -e "[$PROG]\033[1;33;46mWARNING\033[0m: output file exsits and will be overwritten ($file_lib)!"
+fi
+
 path_gg=`pwd`
 
 #create a temporary directory
-path_tmp=`pwd`/.tmp
+path_tmp=`pwd`/_tmp_${PROG}_${timestamp}
 mkdir -p $path_tmp
 cd $path_tmp
 
@@ -103,4 +118,5 @@ cd ..
 \rm -rf ${path_tmp}
 echo "[$PROG]INFO: gg path: ${path_gg}"
 echo "[$PROG]INFO: output: $file_lib"
+
 echo "[$PROG]INFO: Done."

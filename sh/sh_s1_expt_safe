@@ -22,8 +22,55 @@
 
 PROG=sh_s1_expt_safe
 
-
 timestamp=`date | sed -e 's/ /_/g' | sed -e 's/:/-/g'`
+
+path_old=`pwd`
+
+usage_of_it(){
+cat <<eob
+${PROG}
+|_Search Sentinel-1 frames covering the same area.
+|+
+  -overlapping.TARGETS.txt
+  [-config.txt]
+    searching settings, e.g.
+     perc_min=.55
+    ^ minumnum percentage of overlapping 
+     master_date =20200106
+    ^ master image
+  [-exclude_date.txt]
+    list of dates to exclude, e.g.
+     20141016
+    ^
+     20221017
+  -s1_manifest_overlap
+  -s1_overlap_check
+|<
+  [-p|-path PROC_PATH]
+    default: \`pwd\`
+  [-o|-opath OUTPUT_PATH]
+    default: \`pwd\`
+  [-s|-path_safe ROOT_SAFE_PATH]
+    default:\${esa_data}/metainfo/manifest.safe/
+  [-pm|-perc_min MINIMUM_PERCENTAGE_OF_OVERLAPPING]
+  [-M|-merge MERGE_FRAMES_Y_N]
+    default: y
+  [-m|-master MASTER_DATE]
+  [-h|-help|--help]
+|>
+  overlapping.TARGETS.txt  (for individual frame)
+  overlapping.TARGETS.kml
+  overlapping.TARGETS.psxy
+  ...
+  input.lst  (all frames)
+  input.lst.ok  (after checking the same number of frames)
+|e.g.,
+  ${PROG}
+(c)iGPS (https://github.com/igps-ftk/)
+eob
+}
+
+
 file_tmp=/tmp/_tmp_${PROG}_${timestamp}
 
 
@@ -49,26 +96,28 @@ while [ "$1" != "" ]; do
     -s|-path_safe)
       root_safe=$2
       ;;
-    -opath)
+    -o|-opath)
       opath=$2
       ;;
-    -p|-perc_min)
+    -pm|-perc_min)
       perc_min=$2
       ;;
-    -m|-merge)
+    -M|-merge)
       is_merge=$2
       ;;
-    -master)
+    -m|-master)
       master_date=$2
       ;;
     -v|-verbose)
       is_verbose=$2
       ;;
+    -h|-help|--help)
+      usage_of_it
+      exit 1
+      ;;
     *)
       echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid option ($1)!!"
-      echo "[$PROG]Usage: ${PROG} "
-      echo "[$PROG]Usage: e.g.,"
-      echo "[$PROG]Usage: ${PROG} "
+      usage_of_it
       exit 1
       ;;
   esac
@@ -150,8 +199,8 @@ for file in $files; do
   else  
     file_log='/dev/null'
   fi
-  echo "esa_s1_manifest_overlap $path_safe $target $opath $perc_min > $file_log"
-  echo "esa_s1_manifest_overlap $path_safe $target $opath $perc_min > $file_log" | sh
+  echo "s1_manifest_overlap $path_safe $target $opath $perc_min > $file_log"
+  echo "s1_manifest_overlap $path_safe $target $opath $perc_min > $file_log" | sh
 done
 
 if [ "$is_merge" != "y" ]; then
@@ -180,8 +229,8 @@ if [ "$is_verbose" == "y" ]; then
 else  
   file_log='/dev/null'
 fi
-echo "esa_s1_overlap_check3 input.lst input.lst.ok $nf > $file_log"
-echo "esa_s1_overlap_check3 input.lst input.lst.ok $nf > $file_log" | sh
+echo "s1_overlap_check input.lst input.lst.ok $nf > $file_log"
+echo "s1_overlap_check input.lst input.lst.ok $nf > $file_log" | sh
 
 if [ "$master_date" != "" ]; then
   tmp=`grep '^ ' input.lst.ok | grep $master_date`
@@ -194,3 +243,5 @@ if [ "$master_date" != "" ]; then
 fi
 
 \rm ${file_tmp}
+
+echo "[$PROG]INFO: done."

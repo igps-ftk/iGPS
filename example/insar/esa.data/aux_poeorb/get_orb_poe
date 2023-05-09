@@ -1,0 +1,11 @@
+#!/bin/sh
+
+path_old=`pwd`
+setenv esa_data `dirname $path_old`
+
+ymds=`find ../s1/ -name "S1*.zip" | sort | awk -F_ '{print substr($6,1,8)}' | sort | uniq`
+for ymd in $ymds; do
+  echo sh_esa_s1_get_aux_orb_gnss -d $ymd
+  echo sh_esa_s1_get_aux_orb_gnss -d $ymd | sh
+  #exit
+done

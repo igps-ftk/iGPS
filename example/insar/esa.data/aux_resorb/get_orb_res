@@ -1,0 +1,6 @@
+#!/bin/sh
+
+path_old=`pwd`
+setenv esa_data `dirname $path_old`
+
+echo sh_esa_s1_get_aux_orb_gnss -n 1 -orb res

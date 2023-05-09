@@ -118,7 +118,7 @@ c      write(*,*) 'iargc():',iargc()
          write(*,'(a)') ' OUT_PATH/profile_???_vel.psxy'
          write(*,'(a)') '|e.g.,'
          write(*,'(2x,6a)') prog(1:nblen(prog)),
-     +     ' --vfile=fa_honghe.psxy'
+     +     ' --ffile=fa_honghe.psxy'
          write(*,'(4x,6a)') '--vfile=062-d-m6-0497...-honghe/sbas.../',
      +     'vel_mask_ll_gnss3.xyze'
          write(*,'(4x,6a)') '--pfile=p.fa_honghe/profiles_auto.psxy'

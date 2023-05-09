@@ -1,0 +1,13 @@
+* date of master image
+ master_date=20200120
+.
+c minimum percentage of overlapping between images
+x perc_min =.7
+
+- to exclude problematic images
+! (not finished)
+x excludate_date = 20200106 20230127
+* use exclude_date.txt file instead.
+* e.g.,
+* 20200106
+* 20230127

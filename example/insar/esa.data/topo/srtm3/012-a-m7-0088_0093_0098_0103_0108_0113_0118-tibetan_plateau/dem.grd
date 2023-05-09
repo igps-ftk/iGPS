@@ -1,0 +1,1 @@
+dem.grd: Command: gmt grdcut /g4d/esa.data/topo/srtm3/grid/china.grd -Gdem.grd -R83.4162/89.2034/26.9525/39.2018

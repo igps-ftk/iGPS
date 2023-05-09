@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://earth.google.com/kml/2.1">
+<Document>
+	<name>dem</name>
+	<GroundOverlay>
+		<name>GMT Image Overlay</name>
+		<Icon>
+			<href>dem.png</href>
+		</Icon>
+		<altitudeMode>clampToGround</altitudeMode>
+		<LatLonBox>
+			<north>39.202500</north>
+			<south>26.952500</south>
+			<east>89.204167</east>
+			<west>83.415833</west>
+		</LatLonBox>
+		<Region>
+		<LatLonAltBox>
+			<north>39.202500</north>
+			<south>26.952500</south>
+			<east>89.204167</east>
+			<west>83.415833</west>
+		</LatLonAltBox>
+		</Region>
+	</GroundOverlay>
+</Document>
+</kml>

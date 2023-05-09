@@ -1,0 +1,856 @@
+rm: No match.
+rm: cannot remove 'baseline_table.dat': No such file or directory
+Reading in 24914 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw3-slc-vv-20200120t121408-20200120t121705-030884-038b59-006.tiff)
+2020019.509820365580  2020019.511866215151
+Reading 9361 lines from precise orbit...
+Writing 372 lines of precise orbit for the LED file...
+42292.000000,42282.000000
+Successfully opened junk1 
+Reading in 26203 lines of info from XML...
+Writing 182 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw3-slc-vv-20150603t121335-20150603t121629-006209-00819b-003.tiff)
+2015153.509434476262  2015153.511448255274
+Reading 9361 lines from precise orbit...
+Writing 365 lines of precise orbit for the LED file...
+42294.000000,42284.000000
+Successfully opened junk1 
+Reading in 26210 lines of info from XML...
+Writing 182 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw3-slc-vv-20150627t121336-20150627t121630-006559-008ba2-003.tiff)
+2015177.509453220526  2015177.511466809083
+Reading 9361 lines from precise orbit...
+Writing 365 lines of precise orbit for the LED file...
+42294.000000,42284.000000
+Successfully opened junk1 
+Reading in 26089 lines of info from XML...
+Writing 182 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw3-slc-vv-20150721t121337-20150721t121631-006909-009567-003.tiff)
+2015201.509457038715  2015201.511470817728
+Reading 9361 lines from precise orbit...
+Writing 365 lines of precise orbit for the LED file...
+42293.000000,42283.000000
+Successfully opened junk1 
+Reading in 26379 lines of info from XML...
+Writing 183 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw3-slc-vv-20150907t121342-20150907t121639-007609-00a89d-003.tiff)
+2015249.509516365593  2015249.511562310159
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42273.000000,42263.000000
+Successfully opened junk1 
+Reading in 24313 lines of info from XML...
+Writing 31 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw3-slc-vv-20160105t121338-20160105t121632-009359-00d897-003.tiff)
+2016004.509469278622  2016004.511483057635
+Reading 9361 lines from precise orbit...
+Writing 365 lines of precise orbit for the LED file...
+42293.000000,42283.000000
+Successfully opened junk1 
+Reading in 23999 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw3-slc-vv-20160129t121337-20160129t121631-009709-00e2c4-003.tiff)
+2016028.509458910441  2016028.511472784681
+Reading 9361 lines from precise orbit...
+Writing 365 lines of precise orbit for the LED file...
+42293.000000,42283.000000
+Successfully opened junk1 
+Reading in 24243 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw3-slc-vv-20160504t121339-20160504t121633-011109-010bd8-003.tiff)
+2016124.509481374873  2016124.511495249113
+Reading 9361 lines from precise orbit...
+Writing 366 lines of precise orbit for the LED file...
+42293.000000,42283.000000
+Successfully opened junk1 
+Reading in 24229 lines of info from XML...
+Writing 31 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw3-slc-vv-20160528t121343-20160528t121637-011459-01173c-003.tiff)
+2016148.509529905627  2016148.511543779867
+Reading 9361 lines from precise orbit...
+Writing 365 lines of precise orbit for the LED file...
+42303.000000,42293.000000
+Successfully opened junk1 
+Reading in 24326 lines of info from XML...
+Writing 31 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw3-slc-vv-20160901t121348-20160901t121642-012859-0144cd-003.tiff)
+2016244.509588041110  2016244.511602010345
+Reading 9361 lines from precise orbit...
+Writing 365 lines of precise orbit for the LED file...
+42303.000000,42293.000000
+Successfully opened junk1 
+Reading in 24534 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw3-slc-vv-20160925t121349-20160925t121643-013209-01503a-003.tiff)
+2016268.509600370424  2016268.511614244664
+Reading 9361 lines from precise orbit...
+Writing 366 lines of precise orbit for the LED file...
+42303.000000,42293.000000
+Successfully opened junk1 
+Reading in 24243 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw3-slc-vv-20170123t121346-20170123t121640-014959-0186b1-003.tiff)
+2017022.509560936131  2017022.511574905366
+Reading 9361 lines from precise orbit...
+Writing 365 lines of precise orbit for the LED file...
+42302.000000,42292.000000
+Successfully opened junk1 
+Reading in 24199 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw3-slc-vv-20170511t121350-20170511t121647-016534-01b681-006.tiff)
+2017130.509616138181  2017130.511661987752
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42282.000000,42272.000000
+Successfully opened junk1 
+Reading in 24292 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw3-slc-vv-20170523t121351-20170523t121648-016709-01bbea-006.tiff)
+2017142.509621602483  2017142.511667356826
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42282.000000,42272.000000
+Successfully opened junk1 
+Reading in 24368 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw3-slc-vv-20170908t121357-20170908t121654-018284-01ebf3-006.tiff)
+2017250.509689943166  2017250.511735697510
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42282.000000,42272.000000
+Successfully opened junk1 
+Reading in 24490 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw3-slc-vv-20170920t121357-20170920t121654-018459-01f155-006.tiff)
+2017262.509695572313  2017262.511741231428
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42282.000000,42272.000000
+Successfully opened junk1 
+Reading in 24368 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw3-slc-vv-20180106t121355-20180106t121652-020034-022226-006.tiff)
+2018005.509675049223  2018005.511720803566
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42282.000000,42272.000000
+Successfully opened junk1 
+Reading in 24389 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw3-slc-vv-20180118t121355-20180118t121652-020209-0227b2-006.tiff)
+2018017.509670848493  2018017.511716507608
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42282.000000,42272.000000
+Successfully opened junk1 
+Reading in 24196 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw3-slc-vv-20180130t121355-20180130t121652-020384-022d42-006.tiff)
+2018029.509666441008  2018029.511712290579
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42282.000000,42272.000000
+Successfully opened junk1 
+Reading in 24393 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw3-slc-vv-20180506t121356-20180506t121653-021784-02597f-006.tiff)
+2018125.509685043246  2018125.511730797589
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42282.000000,42272.000000
+Successfully opened junk1 
+Reading in 24282 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw3-slc-vv-20180518t121357-20180518t121654-021959-025f10-006.tiff)
+2018137.509692588123  2018137.511738247238
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42282.000000,42272.000000
+Successfully opened junk1 
+Reading in 24486 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw3-slc-vv-20180530t121357-20180530t121654-022134-0264b1-006.tiff)
+2018149.509699308779  2018149.511744967895
+Reading 9361 lines from precise orbit...
+Writing 372 lines of precise orbit for the LED file...
+42282.000000,42272.000000
+Successfully opened junk1 
+Reading in 25025 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw3-slc-vv-20180903t121403-20180903t121700-023534-02900c-006.tiff)
+2018245.509767009411  2018245.511812668527
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42292.000000,42282.000000
+Successfully opened junk1 
+Reading in 24945 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw3-slc-vv-20180915t121404-20180915t121701-023709-0295a8-006.tiff)
+2018257.509770731442  2018257.511816390557
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42292.000000,42282.000000
+Successfully opened junk1 
+Reading in 25022 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw3-slc-vv-20180927t121404-20180927t121701-023884-029b53-006.tiff)
+2018269.509774093283  2018269.511819942854
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42292.000000,42282.000000
+Successfully opened junk1 
+Reading in 24939 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw3-slc-vv-20190101t121402-20190101t121659-025284-02cbeb-006.tiff)
+2019000.509755439358  2019000.511801288929
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42292.000000,42282.000000
+Successfully opened junk1 
+Reading in 24925 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw3-slc-vv-20190113t121402-20190113t121659-025459-02d234-006.tiff)
+2019012.509749760618  2019012.511795514962
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42292.000000,42282.000000
+Successfully opened junk1 
+Reading in 24925 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw3-slc-vv-20190125t121402-20190125t121658-025634-02d899-006.tiff)
+2019024.509746097727  2019024.511791852070
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42292.000000,42282.000000
+Successfully opened junk1 
+Reading in 24838 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw3-slc-vv-20190501t121402-20190501t121659-027034-030b64-006.tiff)
+2019120.509756291285  2019120.511801950401
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42292.000000,42282.000000
+Successfully opened junk1 
+Reading in 25011 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw3-slc-vv-20190513t121403-20190513t121700-027209-031140-006.tiff)
+2019132.509760669433  2019132.511806328548
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42292.000000,42282.000000
+Successfully opened junk1 
+Reading in 25011 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw3-slc-vv-20190910t121410-20190910t121706-028959-0348b6-006.tiff)
+2019252.509839920094  2019252.511885484215
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42302.000000,42292.000000
+Successfully opened junk1 
+Reading in 24938 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw3-slc-vv-20190922t121410-20190922t121707-029134-034eab-006.tiff)
+2019264.509845986962  2019264.511891646078
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42302.000000,42292.000000
+Successfully opened junk1 
+Reading in 24924 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw3-slc-vv-20200108t121408-20200108t121705-030709-038533-006.tiff)
+2020007.509825659916  2020007.511871604482
+Reading 9361 lines from precise orbit...
+Writing 372 lines of precise orbit for the LED file...
+42292.000000,42282.000000
+Successfully opened junk1 
+Reading in 25011 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw3-slc-vv-20200507t121409-20200507t121706-032459-03c246-006.tiff)
+2020127.509830562631  2020127.511876316974
+Reading 9361 lines from precise orbit...
+Writing 372 lines of precise orbit for the LED file...
+42292.000000,42282.000000
+Successfully opened junk1 
+Reading in 24817 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw3-slc-vv-20200519t121410-20200519t121707-032634-03c797-006.tiff)
+2020139.509840050247  2020139.511885899818
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42302.000000,42292.000000
+Successfully opened junk1 
+Reading in 25011 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw3-slc-vv-20200531t121410-20200531t121707-032809-03cce0-006.tiff)
+2020151.509848921560  2020151.511894485680
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42302.000000,42292.000000
+Successfully opened junk1 
+Reading in 24914 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw3-slc-vv-20200904t121416-20200904t121713-034209-03f975-006.tiff)
+2020247.509912707144  2020247.511958366260
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42302.000000,42292.000000
+Successfully opened junk1 
+Reading in 24924 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw3-slc-vv-20200916t121416-20200916t121713-034384-03ff9d-006.tiff)
+2020259.509917652234  2020259.511963406578
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42302.000000,42292.000000
+Successfully opened junk1 
+Reading in 24914 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw3-slc-vv-20200928t121417-20200928t121714-034559-0405ce-006.tiff)
+2020271.509921964491  2020271.511967718834
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42302.000000,42292.000000
+Successfully opened junk1 
+Reading in 24914 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw3-slc-vv-20210102t121415-20210102t121712-035959-043653-006.tiff)
+2021001.509898703545  2021001.511944457889
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42302.000000,42292.000000
+Successfully opened junk1 
+Reading in 24914 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw3-slc-vv-20210114t121414-20210114t121711-036134-043c7e-006.tiff)
+2021013.509892192669  2021013.511937947012
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42302.000000,42292.000000
+Successfully opened junk1 
+Reading in 24817 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw3-slc-vv-20210126t121414-20210126t121711-036309-04428f-006.tiff)
+2021025.509887613589  2021025.511933463160
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42302.000000,42292.000000
+Successfully opened junk1 
+Reading in 24914 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw3-slc-vv-20210502t121415-20210502t121711-037709-047321-006.tiff)
+2021121.509896615054  2021121.511942274170
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42302.000000,42292.000000
+Successfully opened junk1 
+Reading in 24928 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw3-slc-vv-20210514t121415-20210514t121712-037884-047898-006.tiff)
+2021133.509904691018  2021133.511950445361
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42302.000000,42292.000000
+Successfully opened junk1 
+Reading in 24924 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw3-slc-vv-20210526t121416-20210526t121713-038059-047de5-006.tiff)
+2021145.509912857087  2021145.511958516203
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42302.000000,42292.000000
+Successfully opened junk1 
+Reading in 24934 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw3-slc-vv-20210911t121422-20210911t121719-039634-04af85-006.tiff)
+2021253.509983007098  2021253.512028761441
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42312.000000,42302.000000
+Successfully opened junk1 
+Reading in 24928 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw3-slc-vv-20210923t121422-20210923t121719-039809-04b566-006.tiff)
+2021265.509987450438  2021265.512033204781
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42312.000000,42302.000000
+Successfully opened junk1 
+Reading in 25643 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw3-slc-vv-20220109t121420-20220109t121717-041384-04eb9b-006.tiff)
+2022008.509960256750  2022008.512006011093
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42312.000000,42302.000000
+Successfully opened junk1 
+Reading in 25568 lines of info from XML...
+Writing 34 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw3-slc-vv-20220121t121419-20220121t121716-041559-04f156-006.tiff)
+2022020.509951890213  2022020.511997739784
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42312.000000,42302.000000
+Successfully opened junk1 
+Reading in 25536 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw3-slc-vv-20220509t121421-20220509t121717-043134-0526c4-006.tiff)
+2022128.509966638172  2022128.512012392515
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42312.000000,42302.000000
+Successfully opened junk1 
+Reading in 25332 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw3-slc-vv-20220521t121421-20220521t121718-043309-052c00-006.tiff)
+2022140.509975706693  2022140.512021651259
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42312.000000,42302.000000
+Successfully opened junk1 
+Reading in 25623 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw3-slc-vv-20220906t121428-20220906t121725-044884-055c70-006.tiff)
+2022248.510055842111  2022248.512101406232
+Reading 9361 lines from precise orbit...
+Writing 372 lines of precise orbit for the LED file...
+42312.000000,42302.000000
+Successfully opened junk1 
+Reading in 25526 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw3-slc-vv-20220918t121428-20220918t121725-045059-05624c-006.tiff)
+2022260.510052738246  2022260.512098397361
+Reading 9361 lines from precise orbit...
+Writing 372 lines of precise orbit for the LED file...
+42312.000000,42302.000000
+Successfully opened junk1 
+Reading in 25429 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw3-slc-vv-20220930t121429-20220930t121726-045234-056828-006.tiff)
+2022272.510060424218  2022272.512106178561
+Reading 9361 lines from precise orbit...
+Writing 372 lines of precise orbit for the LED file...
+42312.000000,42302.000000
+Successfully opened junk1 
+Reading in 25429 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw3-slc-vv-20230104t121426-20230104t121723-046634-0596df-006.tiff)
+2023003.510028405348  2023003.512074445141
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42312.000000,42302.000000
+Successfully opened junk1 
+Reading in 25536 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw3-slc-vv-20230116t121425-20230116t121722-046809-059cc0-006.tiff)
+2023015.510019994574  2023015.512065844145
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42312.000000,42302.000000
+Successfully opened junk1 
+Reading in 25443 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw3-slc-vv-20230128t121425-20230128t121722-046984-05a2a8-006.tiff)
+2023027.510020894464  2023027.512066744035
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42312.000000,42302.000000
+Successfully opened junk1 
+Reading in 25540 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw3-slc-vv-20230209t121424-20230209t121721-047159-05a87c-006.tiff)
+2023039.510009062476  2023039.512054816820
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42312.000000,42302.000000
+Successfully opened junk1 
+Reading in 25623 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw3-slc-vv-20230221t121424-20230221t121721-047334-05ae71-006.tiff)
+2023051.510007103672  2023051.512052858016
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42312.000000,42302.000000
+Successfully opened junk1 
+Reading in 25526 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw3-slc-vv-20230305t121425-20230305t121721-047509-05b45b-006.tiff)
+2023063.510012680897  2023063.512058530468
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42312.000000,42302.000000
+Successfully opened junk1 
+Reading in 25540 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw3-slc-vv-20230317t121424-20230317t121721-047684-05ba45-006.tiff)
+2023075.510008333484  2023075.512054087827
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42312.000000,42302.000000
+Successfully opened junk1 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20150603_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20150603_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20150627_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20150627_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20150721_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20150721_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20150907_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20150907_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20160105_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20160105_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20160129_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20160129_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20160504_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20160504_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20160528_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20160528_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20160901_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20160901_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20160925_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20160925_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20170123_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20170123_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20170511_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20170511_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20170523_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20170523_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20170908_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20170908_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20170920_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20170920_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20180106_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20180106_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20180118_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20180118_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20180130_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20180130_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20180506_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20180506_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20180518_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20180518_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20180530_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20180530_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20180903_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20180903_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20180915_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20180915_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20180927_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20180927_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20190101_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20190101_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20190113_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20190113_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20190125_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20190125_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20190501_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20190501_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20190513_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20190513_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20190910_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20190910_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20190922_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20190922_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20200108_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20200108_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20200120_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20200120_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20200507_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20200507_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20200519_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20200519_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20200531_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20200531_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20200904_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20200904_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20200916_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20200916_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20200928_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20200928_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20210102_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20210102_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20210114_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20210114_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20210126_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20210126_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20210502_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20210502_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20210514_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20210514_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20210526_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20210526_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20210911_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20210911_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20210923_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20210923_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20220109_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20220109_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20220121_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20220121_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20220509_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20220509_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20220521_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20220521_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20220906_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20220906_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20220918_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20220918_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20220930_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20220930_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20230104_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20230104_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20230116_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20230116_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20230128_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20230128_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20230209_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20230209_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20230221_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20230221_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20230305_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20230305_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20230317_ALL_F3.LED 
+using command line
+......master LED file S1_20200120_ALL_F3.LED 
+.........aligned LED file S1_20230317_ALL_F3.LED 

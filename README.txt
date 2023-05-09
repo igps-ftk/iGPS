@@ -1,4 +1,64 @@
-**Note: iGPS main repository has moved to GitHub. Please download the latest release of iGPS from https://github.com/igps-ftk/iGPS
+**Note: iGPS main repository has moved to GitHub. 
+  Please download the latest release of iGPS from 
+    https://github.com/igps-ftk/iGPS
+   
+-----------------------*COPYRIGHT*-------------------------
+Please note that somes codes included in iGPS release are from the internet. 
+  Although they are publicly available, we included those in iGPS for the 
+  convinience of the users. If you (author of the code) do not agree, please
+  contact us to remove it from iGPS release. Thank you!
+  Email: tianyf@gmail.com
+
+The copyright of the following programs belongs to the original authors.
+  + ftk/gglib/ (date conversion functions: from GAMIT/GLOBK; http://geoweb.mit.edu/gg/)
+  + ftk/bin/Linux_X86_64/doy (date conversion execuatble; from GAMIT/GLOBK)
+  + ftk/nr (spectral analysis functions; from Numerical Recipe; http://numerical.recipes/)
+  + sh/add_look.csh (from GMTSAR forum; Xiaohua Xu, http://gmt.soest.hawaii.edu/boards/6/topics/3271)
+  + sh/merge_batch2.csh (from GMTSAR; revised to accept super master)
+  + sh/merge_batch2_paralle.csh (from GMTSAR; revised to accept super master)
+
+We might have made a few modifications to them. Use them AT YOUR OWN RISK.
+                                                         ^^ ^^^^ ^^^ ^^^^
+
+---------------------*INSTALLATION*------------------------
+Obtain the compressed iGPS release from github, and extract 
+  it to a locaiton, e.g. /usr/local/iGPS
+
+Set the user environment varialbe iGPS to this location, e.g.,
+  setenv iGPS /usr/local/iGPS   (for tcsh)
+  export iGPS=/usr/local/iGPS   (for bash)
+  
+There are two methods to start iGPS GUI (GPS position time series analysis):
+
+1.Include the iGPS root path ($iGPS) and its sub-directories in 
+  IDL system variable !PATH. Type igps in IDL to start iGPS GUI.
+
+2.Run the ~/iGPS/main/start_igps.pro script directly in IDL.
+
+For more information, please refer to the iGPS Step-by-step Tutorial
+  in ${iGPS_ROOT}/doc directory:
+  iGPS_tutorial.pdf
+  
+InSAR functions are called in the terminal or batch scripts.
+  
+  
+------------------------*CONTENT*--------------------------
+iGPS--IDL tool package for GPS
+
+  +cme		  GPS common-mode component (CMC) analysis
+  +data		  read/write/outliers/modeling/offset/psdecay/...
+  +doc		  Userguide and tutorial
+  +example	Various examples
+  +ftk      Fortran programs
+  +libtian	Common IDL routines written by Tian
+  +m        Matlab code (fault slip rate inversion, etc.)
+  +main		  iGPS GUI
+  +sar      InSAR analysis routines
+  +sh       Shell scripts
+  +tables	  Files used in iGPS (apriori coordinates, sites files, ...)
+  +tools	  Userful utilities
+
+
 /_
   |__iGPS-2023feb20/        ;iGPS released on 20 February 2023
   |                         ;add support for InSAR processing with GMTSAR
@@ -35,6 +95,7 @@
 
 Cheers,
 Yunfeng Tian (tianyf@gmail.com)
+
 https://github.com/igps-ftk
 https://sourceforge.net/projects/igps/
 http://gps.xinbaibaihuo.com (offline temporary)
@@ -242,3 +303,31 @@ Major Update History
     The iGPS LLHXYZ file (*.llhxyz) is now obsolete.
   + Add Postscript output (*.ps) support for Quick Site Map tool.
   + More reasonable y-axis range when large position sigma (say, >100mm) exist.
+
+
+-----------------------*LICENSE*---------------------------
+License Agreement of iGPS
+
+Some date conversion routines are rewritten from FORTRAN 77 
+  source files in GAMIT/GLOBK software.
+
+Permissions had been obtained from MIT/Harvard/Scripps to 
+  use them in iGPS.
+
+iGPS source files (not including the above ones; referred 
+  to iGPS in the following paragraphs) are copyrighted by 
+  Tian, Y.F.
+  Luo, Y.
+  Feng, W.P.
+  Hu, Y.S.
+
+Users that agree with all the following items are qualified to
+  use/modify/distribute iGPS for free.
+  * Use iGPS only for non-commercial purposes.
+  * Use iGPS at your own risk.
+
+It is recommended to acknowledge iGPS when you find it useful.
+
+Tian Y F. 2011. iGPS: IDL tool package for GPS position time series analysis. GPS Solutions£¬15(3): 299-303.
+https://link.springer.com/article/10.1007/s10291-011-0219-7
+DOI https://doi.org/10.1007/s10291-011-0219-7

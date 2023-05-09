@@ -1,0 +1,8 @@
+# GMT 6 Session common arguments shelf
+BEGIN GMT 6.0.0
+B	1f.5:Time:/50f10:Perpendicular Distance (m)::.:/WSen
+J	X
+JX	X4i/3i
+R	2014/2024/-150/150
+@L	3
+END

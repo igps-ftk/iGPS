@@ -1,0 +1,103 @@
+#!/bin/sh
+
+path_old=`pwd`
+
+echo -e "\nset esa_data variable"
+echo export esa_data=../../esa.data/   for bash
+export esa_data=../../esa.data/
+
+echo -e "\nextract *.manifest.safe files"
+echo sh_s1_unzip_manifest -p ${esa_data}/s1/by.track/A012 -o ${esa_data}/metainfo/manifest.safe/A012
+#sh_s1_unzip_manifest -p ${esa_data}/s1/by.track/A012 -o ${esa_data}/metainfo/manifest.safe/A012
+
+echo -e "\nset esa_unzip variable"
+echo export esa_unzip=../../esa_unzip/   for bash
+export esa_unzip=../../esa_unzip/
+
+echo -e "\nget SLC files to process"
+echo sh_s1_expt_safe -s ../../esa.data/metainfo/manifest.safe/
+#sh_s1_expt_safe -s ../../esa.data/metainfo/manifest.safe/
+
+echo -e "\nextract SLC zip files to a temporary location (esa_unzip)"
+echo sh_s1_unzip -file input.lst.ok
+#sh_s1_unzip -file input.lst.ok
+
+mkdir -p F1 F2 F3
+
+echo -e "\nrun TSA for iw1 ..."
+cd F1
+pwd
+echo sh_s1_run_tsa -file ../input.lst.ok -proc_type interseismic -iw iw1
+#sh_s1_run_tsa -file ../input.lst.ok -proc_type interseismic -iw iw1
+
+cd $path_old
+echo -e "\nrun TSA for iw2 ..."
+cd F2
+pwd
+echo sh_s1_run_tsa -file ../input.lst.ok -proc_type interseismic -iw iw2
+#sh_s1_run_tsa -file ../input.lst.ok -proc_type interseismic -iw iw2
+
+cd $path_old
+echo -e "\nrun TSA for iw3 ..."
+cd F3
+pwd
+echo sh_s1_run_tsa -file ../input.lst.ok -proc_type interseismic -iw iw3
+#sh_s1_run_tsa -file ../input.lst.ok -proc_type interseismic -iw iw3
+
+cd $path_old
+echo -e "\nprepare files for merging iw1+iw2+iw3 ..."
+echo sh_s1_prep_f123
+#sh_s1_prep_f123
+cd f123
+pwd
+wc -l intf.in.f123* batch_tops.config
+
+echo -e "\nrun merging ..."
+echo merge_batch.csh intf.in.f123.1 batch_tops.config
+#merge_batch.csh intf.in.f123.1 batch_tops.config
+echo "*NOTE*: run this at least once to create the trans.dat file!!"
+
+echo -e "\get remaining interferograms to merge ..."
+echo sh_s1_prep_f123_in
+#sh_s1_prep_f123_in
+wc -l intf.in.f123*
+
+echo -e "\nrun merging for remaining interferograms ..."
+echo merge_batch2.csh intf.in.f123.1 intf.in.f123.2 batch_tops.config
+#merge_batch2.csh intf.in.f123.1 intf.in.f123.2 batch_tops.config
+
+echo -e "\nrun merging in parallel mode in single PC ..."
+echo merge_batch2_parallel.csh intf.in.f123.1 intf.in.f123.2 batch_tops.config 3
+#merge_batch2_parallel.csh intf.in.f123.1 intf.in.f123.2 batch_tops.config 3
+
+echo -e "\nrun merging with SLURM in a cluster ..."
+echo sh_slurm_merge -master intf.in.f123.1 -file intf.in.f123.2 -delay 60 -nmax_job 100
+#sh_slurm_merge
+
+echo -e "\nwhich interferograms had been processed?"
+echo sh_sar_cp_intf_png
+#sh_sar_cp_intf_png
+
+echo -e "\ngenerate interferograms collections using different temporal baselines"
+echo "sh_sar_prep_sbases -t '0 1,36 1,72  ,366  367, 730'"
+
+echo -e "\nprepare files (intf.tab, scene.tab) for SBAS"
+echo sar_sbas_tab_from_png
+#sar_sbas_tab_from_png
+#or,
+echo sh_sar_sbas_tab_by_png
+#sh_sar_sbas_tab_by_png
+wc -l intf.tab scene.tab
+
+echo -e "\nrun SBAS in parallel mode"
+echo sh_sar_call_sbas -r 3 -i intf_all -t1 0 -t2 9999 -p y
+echo sh_sar_call_sbas -r 4 -i intf_all_x2_gacos -p y
+#sh_sar_call_sbas -r 3 -p y
+echo e.g., output to sbas.4.9.0001.9999.20150627.20220930.053.0393.01.___
+
+echo -e "\nrun SBAS only using data during 2017-2022"
+echo sar_sbas_tab_from_png --y1=17 --y2=22
+echo -e "\nrun SBAS only using data after 2020-07-23"
+echo sar_sbas_tab_from_png --y1=20 --d1=206
+echo -e "\nrun SBAS only using data before 2020-07-23"
+echo sar_sbas_tab_from_png --y2=20 --d2=204

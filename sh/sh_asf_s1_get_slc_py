@@ -36,6 +36,11 @@ $PROG
   -ac|-aria2_conf ARIA2_CONF_FILE
   [-p|-path OUTPUT_PATH]
     default: \`pwd\`
+  [-t|-type INPUT_FILE_TYPE]
+    default: py
+      py - ASF Vertex Python Downloader script (download*.py)
+      list - slc list file
+      meta4 - ESA Copernicus meta4 file
   [-h|-help]
 |e.g.,
   $PROG -file download-all-2021-01-07_06-49-41.py
@@ -59,6 +64,8 @@ user=tianyunfeng
 file_aria2_conf=
 
 file_py=
+file_type=py
+is_force=n
 
 path=`pwd`
 
@@ -68,6 +75,9 @@ if [ "`echo $1 | awk '{print substr($1,1,1)}'`" == "-" ]; then
     case $1 in
       -f|-file)
         file_py=$2
+        ;;
+      -t|-type)
+        file_type=$2
         ;;
       -a|-ac|-aria2_conf)
         file_aria2_conf=$2
@@ -83,6 +93,9 @@ if [ "`echo $1 | awk '{print substr($1,1,1)}'`" == "-" ]; then
         ;;
       -w2)
         w2=$2
+        ;;
+      -force)
+        is_force=$2
         ;;
       -h|-help|--help)
         usage_of_it
@@ -119,25 +132,49 @@ if [ "$file_aria2_conf" == "" ]; then
 fi
 
 if [ "$file_py" == "" ]; then
-  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: no ASF Python Downloader file given!!"
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: no input SLC list file given!!"
   exit 1
 fi
 
-ext=${file_py##*.}
-echo $file_py $ext
-if [ "$ext" != "py" ]; then
-  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: wrong input file type (${file_py})!!"
-  exit 1
-fi
-#exit
+case $file_type in
+  py)
+    ext=${file_py##*.}
+    echo $file_py $ext
+    if [ "$ext" != "py" ]; then
+      echo -e "[$PROG]\033[1;33;41mERROR\033[0m: wrong input file type (${file_py};$file_type)!!"
+      exit 1
+    fi
+    #exit
+    
+    if [ ! -s $file_py ]; then
+      echo -e "[$PROG]\033[1;33;41mERROR\033[0m: ASF Python Downloader file not exist ($file_py)!!"
+      exit 1
+    fi
+    
+    files_slc=`cat $file_py | sed -e 's/https/https\n/g' | grep '.zip' | grep S1 | grep _IW_SLC__ | awk -F\" '{print $1}' | awk -F\/ '{print $6}' |sort `
+    #echo $files_slc
+    ;;
+  list)
+    files_slc=`grep '^ ' $file_py | grep S1 | grep _IW_`
+    ;;
+  meta4)
+    ext=${file_py##*.}
+    #echo $file_py $ext
+    if [ "$ext" != "meta4" ]; then
+      echo -e "[$PROG]\033[1;33;41mERROR\033[0m: wrong input file type (${file_py};$file_type)!!"
+      exit 1
+    fi
+    
+    files=`cat $file | awk -F\> '{for(i=1;i<=NF;i++){print $i}}' |grep '.zip' | grep S1 | grep _IW_SLC__ | awk -F\" '{print $2}'`
+    files=`cat $file | awk -F\> '{for(i=1;i<=NF;i++){print $i}}' |grep '.zip' | grep S | grep _ | awk -F\" '{print $2}'`
 
-if [ ! -s $file_py ]; then
-  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: ASF Python Downloader file not exist ($file_py)!!"
-  exit 1
-fi
-
-files=`cat $file_py | sed -e 's/https/https\n/g' | grep '.zip' | grep S1 | grep _IW_SLC__ | awk -F\" '{print $1}' | awk -F\/ '{print $6}' |sort `
-echo $files
+    ;;
+  *)
+    echo -e "[$PROG]\033[1;33;41mERROR\033[0m: wrong input file type (${file_py; $file_type})!!"
+    usage_of_it
+    exit 1
+    ;;
+esac
 #exit
 
 cd $path
@@ -145,47 +182,43 @@ pwd
 
 
 
-for file in $files; do
+for file_slc in $files_slc; do
 
-	#check if already in this server
-  #if [ -s $file  ]; then
-  if [ -s $file -a ! -s ${file}.aria2 ]; then
-    echo "$file already exist! skipped"
-    #echo ls -l $file
-    #echo ls -l $file | sh
-    file `pwd`/$file
-    continue
-  fi
-
-  if [ -s ${esa_data}/S1/$file -a ! -s ${esa_data}/S1/${file}.aria2 ]; then
-    echo "$file already exist! skipped"
-    #echo ls -l $file
-    #echo ls -l $file | sh
-    file ${esa_data}/S1/$file
-    continue
-  fi
+  if [ "$is_force" == "n" ]; then
+  	#check if already in this server
+    #if [ -s $file_slc  ]; then
+    if [ -s $file_slc -a ! -s ${file_slc}.aria2 ]; then
+      echo "$file already exist! skipped"
+      file `pwd`/$file_slc
+      continue
+    fi
   
+    if [ -s ${esa_data}/S1/$file_slc -a ! -s ${esa_data}/S1/${file_slc}.aria2 ]; then
+      echo "$file already exist! skipped"
+      file ${esa_data}/S1/$file_slc
+      continue
+    fi
+    
+    
+    #check if is already downloaded (but not in this server)
+    tmp=`cat ${esa_data}/s1.list |grep $file`
+  	if [ "$tmp" != "" ]; then
+  	  echo "[$PROG]INFO: already downloaded (maybe not in this sever)! skip $file_slc"
+  	  echo "[$PROG]INFO: available at $tmp "
+  	  continue
+  	fi
   
-  #check if is already downloaded (but not in this server)
-  tmp=`cat ${esa_data}/s1.list |grep $file`
-	if [ "$tmp" != "" ]; then
-	  echo "[$PROG]INFO: already downloaded (maybe not in this sever)! skipped $file"
-	  echo "[$PROG]INFO: available at $tmp "
-	  continue
-	fi
-
-  tmp=`cat ${esa_data}/s1.2.list |grep $file`
-	if [ "$tmp" != "" ]; then
-	  echo "[$PROG]INFO: already downloaded (maybe not in this server 2)! skipped $file"
-	  echo "[$PROG]INFO: available at $tmp "
-	  continue
-	fi
-			
+    tmp=`cat ${esa_data}/s1.2.list |grep $file_slc`
+  	if [ "$tmp" != "" ]; then
+  	  echo "[$PROG]INFO: already downloaded (maybe not in this server 2)! skip $file_slc"
+  	  echo "[$PROG]INFO: available at $tmp "
+  	  continue
+  	fi
+  fi
   #
   pwd
-  #exit
-  echo aria2c -c --conf-path=$file_aria2_conf --check-certificate=false  --http-auth-challenge=true  "https://datapool.asf.alaska.edu/SLC/SA/${file}"
-  aria2c -c --file-allocation=none --conf-path=$file_aria2_conf --check-certificate=false  --http-auth-challenge=true  "https://datapool.asf.alaska.edu/SLC/SA/${file}"
+  echo aria2c -c --conf-path=$file_aria2_conf --check-certificate=false  --http-auth-challenge=true  "https://datapool.asf.alaska.edu/SLC/SA/${file_slc}"
+  aria2c -c --file-allocation=none --conf-path=$file_aria2_conf --check-certificate=false  --http-auth-challenge=true  "https://datapool.asf.alaska.edu/SLC/SA/${file_slc}"
   #exit
 done
 

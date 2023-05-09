@@ -43,16 +43,16 @@
 ###    interactive=1
 ###fi
 ###echo "interactive $interactive"
-
-if [ -t 0 ]; then
-    interactive=1
-else
-    interactive=0
-fi
+#
+#if [ -t 0 ]; then
+#    interactive=1
+#else
+#    interactive=0
+#fi
 #echo "interactive $interactive"
-if [ $interactive -eq 0 ]; then
-  . ${HOME}/.bashrc  
-fi
+#if [ $interactive -eq 0 ]; then
+#  . ${HOME}/.bashrc  
+#fi
 
 PROG=sh_esa_s1_get_aux_orb_gnss
 
@@ -84,14 +84,14 @@ ${PROG}
   [-n|-ndays N_DAYS_BACKWARD]
   [-o|-orb|-orbit poe/res]
 |e.g.,
-  ${PROG} -d 20220109 -orb res
+  ${PROG} -d 2022-01-09 -orb res
   ${PROG} -n 10 -orb poe
 (c)iGPS (https://github.com/igps-ftk/)
 eob
 }
 
 
-load_bashrc=y
+load_bashrc=n
 
 back_ndays=29
 
@@ -128,7 +128,9 @@ while [ "$1" != "" ]; do
   shift 2  
 done
 
-
+if [ "$load_bashrc" == "y" ]; then
+  . ${HOME}/.bashrc  
+fi
 
 path=$esa_data/aux_${orb_typ}orb
 
@@ -154,6 +156,8 @@ time1=`date -u +%FT%T -d "today -${back_ndays} days"`
 time2=`date -u +%FT%T`
 
 if [ "$date_time" != "" ]; then
+  #convert YYYYMMDD to YYYY-MM-DD
+  date_time=`echo $date_time | awk '{if(length($1)==8){print substr($1,1,4)"-"substr($1,5,2)"-"substr($1,7,2)}else{print $1}}'`
   time1=`date -u +%FT%T -d "${date_time}T00:00:00 +24"`
   time2=`date -u +%FT%T -d "${date_time}T23:59:59 -24"`
 fi

@@ -1,0 +1,8 @@
+#download SLC files from file list
+sh_asf_s1_get_slc_py -file s1_a012_used.list -type list -ac ./earthdata.conf  -force y
+
+#download SLC files from ASF Vertex Python download script
+#sh_asf_s1_get_slc_py -file download-all-2023-05-09_03-45-55.py -ac ./earthdata.conf
+
+#download SLC files from EAS Copernicus cart meta4 file
+#sh_asf_s1_get_slc_py -file products.meta4 -type meta4 -ac ./earthdata.conf

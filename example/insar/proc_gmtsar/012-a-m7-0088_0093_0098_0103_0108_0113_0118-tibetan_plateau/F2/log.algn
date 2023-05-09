@@ -1,0 +1,3432 @@
+grdfilter [WARNING]: (x_max-x_min) must equal (NX + eps) * x_inc), where NX is an integer and |eps| <= 0.0001.
+grdfilter (gmtapi_init_grdheader): Please select compatible -R and -I values
+rm: No match.
+rm: No match.
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24859 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20200120t121407-20200120t121704-030884-038b59-005.tiff)
+Writing SLC..Image Size: 25792 X 85992...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24859 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20200120t121407-20200120t121704-030884-038b59-005.tiff)
+Writing SLCL & SLCH..
+2020019.509809302865  2020019.511855152436
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42292.000000,42282.000000
+2020019.509809302865  2020019.511855152436
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42292.000000,42282.000000
+Successfully opened junk1 
+rm: No match.
+Reading in 26585 lines of info from XML...
+Writing 182 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20150603t121334-20150603t121630-006209-00819b-002.tiff)
+2015153.509423365816  2015153.511469310382
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42264.000000,42254.000000
+Successfully opened junk1.PRM 
+Successfully opened junk2.PRM 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20150603_121334_F2.LED 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20150603_121334_F2.LED 
+Modifying master PRM by 2688 lines...
+Successfully opened junk1 
+Successfully opened junk1 
+[1] 1560929
+[2] 1560930
+[2]  + Done                          SAT_llt2rat S1_20150603_121334_F2.PRM 1 < topo.llt > tmp1.dat
+[1]  + Done                          SAT_llt2rat tmp.PRM 1 < topo.llt > tmpm.dat
+[1] 1561001
+[2] 1561002
+[2]  + Done                          gmt surface atmp.xyz -bi3d -R0/25568/0/85996 -I8/4 -Gatmp.grd -T0.5 -N1000 -r
+[1]  + Done                          gmt surface rtmp.xyz -bi3d -R0/25568/0/85996 -I8/4 -Grtmp.grd -T0.5 -N1000 -r
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 1 
+Reading in 26585 lines of info from XML...
+Writing 182 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20150603t121334-20150603t121630-006209-00819b-002.tiff)
+Writing SLCL & SLCH..
+Segmentation fault (core dumped)
+awk: cmd. line:1: {print $1/2.0/3.141592653/}
+awk: cmd. line:1:                           ^ syntax error
+Updating azimuth shift with a constant...(medain )
+grdmath [ERROR]: Operation "ADD" requires 2 operands
+mv: cannot stat 'tmp.grd': No such file or directory
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 1 
+Reading in 26585 lines of info from XML...
+Writing 182 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20150603t121334-20150603t121630-006209-00819b-002.tiff)
+Writing SLC..Image Size: 25568 X 85996...
+2015153.509423365816  2015153.511469310382
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42264.000000,42254.000000
+Restoring 2688 lines shift to the image...
+Successfully opened junk1 
+Reading in 26603 lines of info from XML...
+Writing 182 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20150627t121335-20150627t121632-006559-008ba2-002.tiff)
+2015177.509442086332  2015177.511487840675
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42264.000000,42254.000000
+Successfully opened junk1.PRM 
+Successfully opened junk2.PRM 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20150627_121335_F2.LED 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20150627_121335_F2.LED 
+Modifying master PRM by 2682 lines...
+Successfully opened junk1 
+Successfully opened junk1 
+[1] 1562262
+[2] 1562263
+[2]  + Done                          SAT_llt2rat S1_20150627_121335_F2.PRM 1 < topo.llt > tmp1.dat
+[1]  + Done                          SAT_llt2rat tmp.PRM 1 < topo.llt > tmpm.dat
+[1] 1562358
+[2] 1562359
+[2]  + Done                          gmt surface atmp.xyz -bi3d -R0/25568/0/85988 -I8/4 -Gatmp.grd -T0.5 -N1000 -r
+[1]  + Done                          gmt surface rtmp.xyz -bi3d -R0/25568/0/85988 -I8/4 -Grtmp.grd -T0.5 -N1000 -r
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 26603 lines of info from XML...
+Writing 182 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20150627t121335-20150627t121632-006559-008ba2-002.tiff)
+Writing SLCL & SLCH..
+Segmentation fault (core dumped)
+awk: cmd. line:1: {print $1/2.0/3.141592653/}
+awk: cmd. line:1:                           ^ syntax error
+Updating azimuth shift with a constant...(medain )
+grdmath [ERROR]: Operation "ADD" requires 2 operands
+mv: cannot stat 'tmp.grd': No such file or directory
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 26603 lines of info from XML...
+Writing 182 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20150627t121335-20150627t121632-006559-008ba2-002.tiff)
+Writing SLC..Image Size: 25568 X 85988...
+2015177.509442086332  2015177.511487840675
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42264.000000,42254.000000
+Restoring 2682 lines shift to the image...
+Successfully opened junk1 
+Reading in 26676 lines of info from XML...
+Writing 182 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20150721t121336-20150721t121632-006909-009567-002.tiff)
+2015201.509445928270  2015201.511491777841
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42263.000000,42253.000000
+Successfully opened junk1.PRM 
+Successfully opened junk2.PRM 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20150721_121336_F2.LED 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20150721_121336_F2.LED 
+Modifying master PRM by 2684 lines...
+Successfully opened junk1 
+Successfully opened junk1 
+[1] 1564010
+[2] 1564011
+[2]  + Done                          SAT_llt2rat S1_20150721_121336_F2.PRM 1 < topo.llt > tmp1.dat
+[1]  + Done                          SAT_llt2rat tmp.PRM 1 < topo.llt > tmpm.dat
+[1] 1564067
+[2] 1564068
+[2]  + Done                          gmt surface atmp.xyz -bi3d -R0/25568/0/85992 -I8/4 -Gatmp.grd -T0.5 -N1000 -r
+[1]  + Done                          gmt surface rtmp.xyz -bi3d -R0/25568/0/85992 -I8/4 -Grtmp.grd -T0.5 -N1000 -r
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 26676 lines of info from XML...
+Writing 182 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20150721t121336-20150721t121632-006909-009567-002.tiff)
+Writing SLCL & SLCH..
+Segmentation fault (core dumped)
+awk: cmd. line:1: {print $1/2.0/3.141592653/}
+awk: cmd. line:1:                           ^ syntax error
+Updating azimuth shift with a constant...(medain )
+grdmath [ERROR]: Operation "ADD" requires 2 operands
+mv: cannot stat 'tmp.grd': No such file or directory
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 26676 lines of info from XML...
+Writing 182 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20150721t121336-20150721t121632-006909-009567-002.tiff)
+Writing SLC..Image Size: 25568 X 85992...
+2015201.509445928270  2015201.511491777841
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42263.000000,42253.000000
+Restoring 2684 lines shift to the image...
+Successfully opened junk1 
+Reading in 26595 lines of info from XML...
+Writing 183 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20150907t121341-20150907t121638-007609-00a89d-002.tiff)
+2015249.509505326627  2015249.511551176198
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42273.000000,42263.000000
+Successfully opened junk1.PRM 
+Successfully opened junk2.PRM 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20150907_121341_F2.LED 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20150907_121341_F2.LED 
+Modifying master PRM by 1348 lines...
+Successfully opened junk1 
+Successfully opened junk1 
+[1] 1566060
+[2] 1566061
+[2]  + Done                          SAT_llt2rat S1_20150907_121341_F2.PRM 1 < topo.llt > tmp1.dat
+[1]  + Done                          SAT_llt2rat tmp.PRM 1 < topo.llt > tmpm.dat
+[1] 1566452
+[2] 1566453
+[2]  + Done                          gmt surface atmp.xyz -bi3d -R0/25472/0/85992 -I8/4 -Gatmp.grd -T0.5 -N1000 -r
+[1]  + Done                          gmt surface rtmp.xyz -bi3d -R0/25472/0/85992 -I8/4 -Grtmp.grd -T0.5 -N1000 -r
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 26595 lines of info from XML...
+Writing 183 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20150907t121341-20150907t121638-007609-00a89d-002.tiff)
+Writing SLCL & SLCH..
+Segmentation fault (core dumped)
+awk: cmd. line:1: {print $1/2.0/3.141592653/}
+awk: cmd. line:1:                           ^ syntax error
+Updating azimuth shift with a constant...(medain )
+grdmath [ERROR]: Operation "ADD" requires 2 operands
+mv: cannot stat 'tmp.grd': No such file or directory
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 26595 lines of info from XML...
+Writing 183 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20150907t121341-20150907t121638-007609-00a89d-002.tiff)
+Writing SLC..Image Size: 25472 X 85992...
+2015249.509505326627  2015249.511551176198
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42273.000000,42263.000000
+Restoring 1348 lines shift to the image...
+Successfully opened junk1 
+Reading in 24368 lines of info from XML...
+Writing 31 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20160105t121337-20160105t121633-009359-00d897-002.tiff)
+2016004.509458168410  2016004.511504017981
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42263.000000,42253.000000
+Successfully opened junk1.PRM 
+Successfully opened junk2.PRM 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20160105_121337_F2.LED 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20160105_121337_F2.LED 
+Modifying master PRM by 2682 lines...
+Successfully opened junk1 
+Successfully opened junk1 
+[1] 1598543
+[2] 1598544
+[2]  + Done                          SAT_llt2rat S1_20160105_121337_F2.PRM 1 < topo.llt > tmp1.dat
+[1]  + Done                          SAT_llt2rat tmp.PRM 1 < topo.llt > tmpm.dat
+[1] 1598710
+[2] 1598711
+[2]    Done                          gmt surface atmp.xyz -bi3d -R0/25656/0/85992 -I8/4 -Gatmp.grd -T0.5 -N1000 -r
+[1]  + Done                          gmt surface rtmp.xyz -bi3d -R0/25656/0/85992 -I8/4 -Grtmp.grd -T0.5 -N1000 -r
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24368 lines of info from XML...
+Writing 31 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20160105t121337-20160105t121633-009359-00d897-002.tiff)
+Writing SLCL & SLCH..
+Segmentation fault (core dumped)
+awk: cmd. line:1: {print $1/2.0/3.141592653/}
+awk: cmd. line:1:                           ^ syntax error
+Updating azimuth shift with a constant...(medain )
+grdmath [ERROR]: Operation "ADD" requires 2 operands
+mv: cannot stat 'tmp.grd': No such file or directory
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24368 lines of info from XML...
+Writing 31 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20160105t121337-20160105t121633-009359-00d897-002.tiff)
+Writing SLC..Image Size: 25656 X 85992...
+2016004.509458168410  2016004.511504017981
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42263.000000,42253.000000
+Restoring 2682 lines shift to the image...
+Successfully opened junk1 
+Reading in 24396 lines of info from XML...
+Writing 33 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20160129t121336-20160129t121633-009709-00e2c4-002.tiff)
+2016028.509447799996  2016028.511493744561
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42263.000000,42253.000000
+Successfully opened junk1.PRM 
+Successfully opened junk2.PRM 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20160129_121336_F2.LED 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20160129_121336_F2.LED 
+Modifying master PRM by 2684 lines...
+Successfully opened junk1 
+Successfully opened junk1 
+[1] 1601004
+[2] 1601005
+[2]  + Done                          SAT_llt2rat S1_20160129_121336_F2.PRM 1 < topo.llt > tmp1.dat
+[1]  + Done                          SAT_llt2rat tmp.PRM 1 < topo.llt > tmpm.dat
+[1] 1601164
+[2] 1601165
+[2]  + Done                          gmt surface atmp.xyz -bi3d -R0/25656/0/85996 -I8/4 -Gatmp.grd -T0.5 -N1000 -r
+[1]  + Done                          gmt surface rtmp.xyz -bi3d -R0/25656/0/85996 -I8/4 -Grtmp.grd -T0.5 -N1000 -r
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24396 lines of info from XML...
+Writing 33 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20160129t121336-20160129t121633-009709-00e2c4-002.tiff)
+Writing SLCL & SLCH..
+Segmentation fault (core dumped)
+awk: cmd. line:1: {print $1/2.0/3.141592653/}
+awk: cmd. line:1:                           ^ syntax error
+Updating azimuth shift with a constant...(medain )
+grdmath [ERROR]: Operation "ADD" requires 2 operands
+mv: cannot stat 'tmp.grd': No such file or directory
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24396 lines of info from XML...
+Writing 33 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20160129t121336-20160129t121633-009709-00e2c4-002.tiff)
+Writing SLC..Image Size: 25656 X 85996...
+2016028.509447799996  2016028.511493744561
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42263.000000,42253.000000
+Restoring 2684 lines shift to the image...
+Successfully opened junk1 
+Reading in 24492 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20160504t121338-20160504t121635-011109-010bd8-002.tiff)
+2016124.509470264427  2016124.511516208993
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42263.000000,42253.000000
+Successfully opened junk1.PRM 
+Successfully opened junk2.PRM 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20160504_121338_F2.LED 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20160504_121338_F2.LED 
+Modifying master PRM by 2692 lines...
+Successfully opened junk1 
+Successfully opened junk1 
+[1] 1608118
+[2] 1608119
+[2]    Done                          SAT_llt2rat S1_20160504_121338_F2.PRM 1 < topo.llt > tmp1.dat
+[1]  + Done                          SAT_llt2rat tmp.PRM 1 < topo.llt > tmpm.dat
+[1] 1610264
+[2] 1610265
+[2]  + Done                          gmt surface atmp.xyz -bi3d -R0/25656/0/85996 -I8/4 -Gatmp.grd -T0.5 -N1000 -r
+[1]  + Done                          gmt surface rtmp.xyz -bi3d -R0/25656/0/85996 -I8/4 -Grtmp.grd -T0.5 -N1000 -r
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24492 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20160504t121338-20160504t121635-011109-010bd8-002.tiff)
+Writing SLCL & SLCH..
+Segmentation fault (core dumped)
+awk: cmd. line:1: {print $1/2.0/3.141592653/}
+awk: cmd. line:1:                           ^ syntax error
+Updating azimuth shift with a constant...(medain )
+grdmath [ERROR]: Operation "ADD" requires 2 operands
+mv: cannot stat 'tmp.grd': No such file or directory
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24492 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20160504t121338-20160504t121635-011109-010bd8-002.tiff)
+Writing SLC..Image Size: 25656 X 85996...
+2016124.509470264427  2016124.511516208993
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42263.000000,42253.000000
+Restoring 2692 lines shift to the image...
+Successfully opened junk1 
+Reading in 24478 lines of info from XML...
+Writing 31 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20160528t121342-20160528t121639-011459-01173c-002.tiff)
+2016148.509518795414  2016148.511564644985
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42273.000000,42263.000000
+Successfully opened junk1.PRM 
+Successfully opened junk2.PRM 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20160528_121342_F2.LED 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20160528_121342_F2.LED 
+Modifying master PRM by 1346 lines...
+Successfully opened junk1 
+Successfully opened junk1 
+[1] 1613520
+[2] 1613521
+[2]    Done                          SAT_llt2rat S1_20160528_121342_F2.PRM 1 < topo.llt > tmp1.dat
+[1]  + Done                          SAT_llt2rat tmp.PRM 1 < topo.llt > tmpm.dat
+[1] 1613580
+[2] 1613581
+[2]  + Done                          gmt surface atmp.xyz -bi3d -R0/25656/0/85992 -I8/4 -Gatmp.grd -T0.5 -N1000 -r
+[1]  + Done                          gmt surface rtmp.xyz -bi3d -R0/25656/0/85992 -I8/4 -Grtmp.grd -T0.5 -N1000 -r
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24478 lines of info from XML...
+Writing 31 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20160528t121342-20160528t121639-011459-01173c-002.tiff)
+Writing SLCL & SLCH..
+Segmentation fault (core dumped)
+awk: cmd. line:1: {print $1/2.0/3.141592653/}
+awk: cmd. line:1:                           ^ syntax error
+Updating azimuth shift with a constant...(medain )
+grdmath [ERROR]: Operation "ADD" requires 2 operands
+mv: cannot stat 'tmp.grd': No such file or directory
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24478 lines of info from XML...
+Writing 31 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20160528t121342-20160528t121639-011459-01173c-002.tiff)
+Writing SLC..Image Size: 25656 X 85992...
+2016148.509518795414  2016148.511564644985
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42273.000000,42263.000000
+Restoring 1346 lines shift to the image...
+Successfully opened junk1 
+Reading in 24237 lines of info from XML...
+Writing 31 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20160901t121347-20160901t121644-012859-0144cd-002.tiff)
+2016244.509576954413  2016244.511622708756
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42273.000000,42263.000000
+Successfully opened junk1.PRM 
+Successfully opened junk2.PRM 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20160901_121347_F2.LED 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20160901_121347_F2.LED 
+Modifying master PRM by 1339 lines...
+Successfully opened junk1 
+Successfully opened junk1 
+[1] 1615141
+[2] 1615142
+[2]    Done                          SAT_llt2rat S1_20160901_121347_F2.PRM 1 < topo.llt > tmp1.dat
+[1]  + Done                          SAT_llt2rat tmp.PRM 1 < topo.llt > tmpm.dat
+[1] 1615352
+[2] 1615353
+[2]  + Done                          gmt surface atmp.xyz -bi3d -R0/25656/0/85988 -I8/4 -Gatmp.grd -T0.5 -N1000 -r
+[1]  + Done                          gmt surface rtmp.xyz -bi3d -R0/25656/0/85988 -I8/4 -Grtmp.grd -T0.5 -N1000 -r
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 1 
+Reading in 24237 lines of info from XML...
+Writing 31 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20160901t121347-20160901t121644-012859-0144cd-002.tiff)
+Writing SLCL & SLCH..
+Segmentation fault (core dumped)
+awk: cmd. line:1: {print $1/2.0/3.141592653/}
+awk: cmd. line:1:                           ^ syntax error
+Updating azimuth shift with a constant...(medain )
+grdmath [ERROR]: Operation "ADD" requires 2 operands
+mv: cannot stat 'tmp.grd': No such file or directory
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 1 
+Reading in 24237 lines of info from XML...
+Writing 31 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20160901t121347-20160901t121644-012859-0144cd-002.tiff)
+Writing SLC..Image Size: 25656 X 85988...
+2016244.509576954413  2016244.511622708756
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42273.000000,42263.000000
+Restoring 1339 lines shift to the image...
+Successfully opened junk1 
+Reading in 24475 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20160925t121348-20160925t121645-013209-01503a-002.tiff)
+2016268.509589260211  2016268.511634919327
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42273.000000,42263.000000
+Successfully opened junk1.PRM 
+Successfully opened junk2.PRM 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20160925_121348_F2.LED 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20160925_121348_F2.LED 
+Modifying master PRM by 1330 lines...
+Successfully opened junk1 
+Successfully opened junk1 
+[1] 1616911
+[2] 1616912
+[2]  + Done                          SAT_llt2rat S1_20160925_121348_F2.PRM 1 < topo.llt > tmp1.dat
+[1]  + Done                          SAT_llt2rat tmp.PRM 1 < topo.llt > tmpm.dat
+[1] 1617000
+[2] 1617001
+[2]  + Done                          gmt surface atmp.xyz -bi3d -R0/25656/0/85984 -I8/4 -Gatmp.grd -T0.5 -N1000 -r
+[1]  + Done                          gmt surface rtmp.xyz -bi3d -R0/25656/0/85984 -I8/4 -Grtmp.grd -T0.5 -N1000 -r
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 3 
+Reading in 24475 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20160925t121348-20160925t121645-013209-01503a-002.tiff)
+Writing SLCL & SLCH..
+Segmentation fault (core dumped)
+awk: cmd. line:1: {print $1/2.0/3.141592653/}
+awk: cmd. line:1:                           ^ syntax error
+Updating azimuth shift with a constant...(medain )
+grdmath [ERROR]: Operation "ADD" requires 2 operands
+mv: cannot stat 'tmp.grd': No such file or directory
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 3 
+Reading in 24475 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20160925t121348-20160925t121645-013209-01503a-002.tiff)
+Writing SLC..Image Size: 25656 X 85984...
+2016268.509589260211  2016268.511634919327
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42273.000000,42263.000000
+Restoring 1330 lines shift to the image...
+Successfully opened junk1 
+Reading in 24251 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20170123t121345-20170123t121641-014959-0186b1-002.tiff)
+2017022.509549849667  2017022.511595699238
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42272.000000,42262.000000
+Successfully opened junk1.PRM 
+Successfully opened junk2.PRM 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20170123_121345_F2.LED 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20170123_121345_F2.LED 
+Modifying master PRM by 1336 lines...
+Successfully opened junk1 
+Successfully opened junk1 
+[1] 1618895
+[2] 1618896
+[2]  + Done                          SAT_llt2rat S1_20170123_121345_F2.PRM 1 < topo.llt > tmp1.dat
+[1]  + Done                          SAT_llt2rat tmp.PRM 1 < topo.llt > tmpm.dat
+[1] 1618958
+[2] 1618959
+[2]  + Done                          gmt surface atmp.xyz -bi3d -R0/25656/0/85992 -I8/4 -Gatmp.grd -T0.5 -N1000 -r
+[1]  + Done                          gmt surface rtmp.xyz -bi3d -R0/25656/0/85992 -I8/4 -Grtmp.grd -T0.5 -N1000 -r
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24251 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20170123t121345-20170123t121641-014959-0186b1-002.tiff)
+Writing SLCL & SLCH..
+Segmentation fault (core dumped)
+awk: cmd. line:1: {print $1/2.0/3.141592653/}
+awk: cmd. line:1:                           ^ syntax error
+Updating azimuth shift with a constant...(medain )
+grdmath [ERROR]: Operation "ADD" requires 2 operands
+mv: cannot stat 'tmp.grd': No such file or directory
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24251 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20170123t121345-20170123t121641-014959-0186b1-002.tiff)
+Writing SLC..Image Size: 25656 X 85992...
+2017022.509549849667  2017022.511595699238
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42272.000000,42262.000000
+Restoring 1336 lines shift to the image...
+Successfully opened junk1 
+Reading in 24324 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20170511t121349-20170511t121646-016534-01b681-005.tiff)
+2017130.509605027735  2017130.511651067529
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42282.000000,42272.000000
+Successfully opened junk1.PRM 
+Successfully opened junk2.PRM 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20170511_121349_F2.LED 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20170511_121349_F2.LED 
+Successfully opened junk1 
+Successfully opened junk1 
+[1] 1620433
+[2] 1620434
+[2]  + Done                          SAT_llt2rat S1_20170511_121349_F2.PRM 1 < topo.llt > tmp1.dat
+[1]  + Done                          SAT_llt2rat tmp.PRM 1 < topo.llt > tmpm.dat
+[1] 1620532
+[2] 1620533
+[2]  + Done                          gmt surface atmp.xyz -bi3d -R0/25792/0/86000 -I8/4 -Gatmp.grd -T0.5 -N1000 -r
+[1]  + Done                          gmt surface rtmp.xyz -bi3d -R0/25792/0/86000 -I8/4 -Grtmp.grd -T0.5 -N1000 -r
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 1 
+Reading in 24324 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20170511t121349-20170511t121646-016534-01b681-005.tiff)
+Writing SLCL & SLCH..
+Segmentation fault (core dumped)
+awk: cmd. line:1: {print $1/2.0/3.141592653/}
+awk: cmd. line:1:                           ^ syntax error
+Updating azimuth shift with a constant...(medain )
+grdmath [ERROR]: Operation "ADD" requires 2 operands
+mv: cannot stat 'tmp.grd': No such file or directory
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 1 
+Reading in 24324 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20170511t121349-20170511t121646-016534-01b681-005.tiff)
+Writing SLC..Image Size: 25792 X 86000...
+2017130.509605027735  2017130.511651067529
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42282.000000,42272.000000
+Successfully opened junk1 
+Reading in 24421 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20170523t121350-20170523t121647-016709-01bbea-005.tiff)
+2017142.509610515786  2017142.511656365357
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42282.000000,42272.000000
+Successfully opened junk1.PRM 
+Successfully opened junk2.PRM 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20170523_121350_F2.LED 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20170523_121350_F2.LED 
+Successfully opened junk1 
+Successfully opened junk1 
+[1] 1622596
+[2] 1622597
+[2]  + Done                          SAT_llt2rat S1_20170523_121350_F2.PRM 1 < topo.llt > tmp1.dat
+[1]  + Done                          SAT_llt2rat tmp.PRM 1 < topo.llt > tmpm.dat
+[1] 1622683
+[2] 1622684
+[2]  + Done                          gmt surface atmp.xyz -bi3d -R0/25792/0/85992 -I8/4 -Gatmp.grd -T0.5 -N1000 -r
+[1]  + Done                          gmt surface rtmp.xyz -bi3d -R0/25792/0/85992 -I8/4 -Grtmp.grd -T0.5 -N1000 -r
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24421 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20170523t121350-20170523t121647-016709-01bbea-005.tiff)
+Writing SLCL & SLCH..
+Segmentation fault (core dumped)
+awk: cmd. line:1: {print $1/2.0/3.141592653/}
+awk: cmd. line:1:                           ^ syntax error
+Updating azimuth shift with a constant...(medain )
+grdmath [ERROR]: Operation "ADD" requires 2 operands
+mv: cannot stat 'tmp.grd': No such file or directory
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24421 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20170523t121350-20170523t121647-016709-01bbea-005.tiff)
+Writing SLC..Image Size: 25792 X 85992...
+2017142.509610515786  2017142.511656365357
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42282.000000,42272.000000
+Successfully opened junk1 
+Reading in 24507 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20170908t121356-20170908t121653-018284-01ebf3-005.tiff)
+2017250.509678832721  2017250.511724682292
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42282.000000,42272.000000
+Successfully opened junk1.PRM 
+Successfully opened junk2.PRM 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20170908_121356_F2.LED 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20170908_121356_F2.LED 
+Successfully opened junk1 
+Successfully opened junk1 
+[1] 1624046
+[2] 1624047
+[2]    Done                          SAT_llt2rat S1_20170908_121356_F2.PRM 1 < topo.llt > tmp1.dat
+[1]  + Done                          SAT_llt2rat tmp.PRM 1 < topo.llt > tmpm.dat
+[1] 1624121
+[2] 1624122
+[2]  + Done                          gmt surface atmp.xyz -bi3d -R0/25792/0/85992 -I8/4 -Gatmp.grd -T0.5 -N1000 -r
+[1]  + Done                          gmt surface rtmp.xyz -bi3d -R0/25792/0/85992 -I8/4 -Grtmp.grd -T0.5 -N1000 -r
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24507 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20170908t121356-20170908t121653-018284-01ebf3-005.tiff)
+Writing SLCL & SLCH..
+Segmentation fault (core dumped)
+awk: cmd. line:1: {print $1/2.0/3.141592653/}
+awk: cmd. line:1:                           ^ syntax error
+Updating azimuth shift with a constant...(medain )
+grdmath [ERROR]: Operation "ADD" requires 2 operands
+mv: cannot stat 'tmp.grd': No such file or directory
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24507 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20170908t121356-20170908t121653-018284-01ebf3-005.tiff)
+Writing SLC..Image Size: 25792 X 85992...
+2017250.509678832721  2017250.511724682292
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42282.000000,42272.000000
+Successfully opened junk1 
+Reading in 24527 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20170920t121356-20170920t121653-018459-01f155-005.tiff)
+2017262.509684438119  2017262.511730192462
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42282.000000,42272.000000
+Successfully opened junk1.PRM 
+Successfully opened junk2.PRM 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20170920_121356_F2.LED 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20170920_121356_F2.LED 
+Successfully opened junk1 
+Successfully opened junk1 
+[1] 1625275
+[2] 1625276
+[2]  + Done                          SAT_llt2rat S1_20170920_121356_F2.PRM 1 < topo.llt > tmp1.dat
+[1]  + Done                          SAT_llt2rat tmp.PRM 1 < topo.llt > tmpm.dat
+[1] 1625369
+[2] 1625370
+[2]  + Done                          gmt surface atmp.xyz -bi3d -R0/25792/0/85988 -I8/4 -Gatmp.grd -T0.5 -N1000 -r
+[1]  + Done                          gmt surface rtmp.xyz -bi3d -R0/25792/0/85988 -I8/4 -Grtmp.grd -T0.5 -N1000 -r
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24527 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20170920t121356-20170920t121653-018459-01f155-005.tiff)
+Writing SLCL & SLCH..
+Segmentation fault (core dumped)
+awk: cmd. line:1: {print $1/2.0/3.141592653/}
+awk: cmd. line:1:                           ^ syntax error
+Updating azimuth shift with a constant...(medain )
+grdmath [ERROR]: Operation "ADD" requires 2 operands
+mv: cannot stat 'tmp.grd': No such file or directory
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24527 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20170920t121356-20170920t121653-018459-01f155-005.tiff)
+Writing SLC..Image Size: 25792 X 85988...
+2017262.509684438119  2017262.511730192462
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42282.000000,42272.000000
+Successfully opened junk1 
+Reading in 24420 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20180106t121354-20180106t121651-020034-022226-005.tiff)
+2018005.509663938778  2018005.511709788349
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42282.000000,42272.000000
+Successfully opened junk1.PRM 
+Successfully opened junk2.PRM 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20180106_121354_F2.LED 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20180106_121354_F2.LED 
+Successfully opened junk1 
+Successfully opened junk1 
+[1] 1626194
+[2] 1626195
+[2]  + Done                          SAT_llt2rat S1_20180106_121354_F2.PRM 1 < topo.llt > tmp1.dat
+[1]  + Done                          SAT_llt2rat tmp.PRM 1 < topo.llt > tmpm.dat
+[1] 1626370
+[2] 1626371
+[2]  + Done                          gmt surface atmp.xyz -bi3d -R0/25792/0/85992 -I8/4 -Gatmp.grd -T0.5 -N1000 -r
+[1]  + Done                          gmt surface rtmp.xyz -bi3d -R0/25792/0/85992 -I8/4 -Grtmp.grd -T0.5 -N1000 -r
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24420 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20180106t121354-20180106t121651-020034-022226-005.tiff)
+Writing SLCL & SLCH..
+Segmentation fault (core dumped)
+awk: cmd. line:1: {print $1/2.0/3.141592653/}
+awk: cmd. line:1:                           ^ syntax error
+Updating azimuth shift with a constant...(medain )
+grdmath [ERROR]: Operation "ADD" requires 2 operands
+mv: cannot stat 'tmp.grd': No such file or directory
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24420 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20180106t121354-20180106t121651-020034-022226-005.tiff)
+Writing SLC..Image Size: 25792 X 85992...
+2018005.509663938778  2018005.511709788349
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42282.000000,42272.000000
+Successfully opened junk1 
+Reading in 24410 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20180118t121354-20180118t121651-020209-0227b2-005.tiff)
+2018017.509659738047  2018017.511705492390
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42282.000000,42272.000000
+Successfully opened junk1.PRM 
+Successfully opened junk2.PRM 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20180118_121354_F2.LED 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20180118_121354_F2.LED 
+Successfully opened junk1 
+Successfully opened junk1 
+[1] 1627613
+[2] 1627614
+[2]  + Done                          SAT_llt2rat S1_20180118_121354_F2.PRM 1 < topo.llt > tmp1.dat
+[1]  + Done                          SAT_llt2rat tmp.PRM 1 < topo.llt > tmpm.dat
+[1] 1627690
+[2] 1627691
+[2]    Done                          gmt surface atmp.xyz -bi3d -R0/25792/0/85988 -I8/4 -Gatmp.grd -T0.5 -N1000 -r
+[1]  + Done                          gmt surface rtmp.xyz -bi3d -R0/25792/0/85988 -I8/4 -Grtmp.grd -T0.5 -N1000 -r
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24410 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20180118t121354-20180118t121651-020209-0227b2-005.tiff)
+Writing SLCL & SLCH..
+Segmentation fault (core dumped)
+awk: cmd. line:1: {print $1/2.0/3.141592653/}
+awk: cmd. line:1:                           ^ syntax error
+Updating azimuth shift with a constant...(medain )
+grdmath [ERROR]: Operation "ADD" requires 2 operands
+mv: cannot stat 'tmp.grd': No such file or directory
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24410 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20180118t121354-20180118t121651-020209-0227b2-005.tiff)
+Writing SLC..Image Size: 25792 X 85988...
+2018017.509659738047  2018017.511705492390
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42282.000000,42272.000000
+Successfully opened junk1 
+Reading in 24216 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20180130t121354-20180130t121651-020384-022d42-005.tiff)
+2018029.509655354312  2018029.511701298878
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42282.000000,42272.000000
+Successfully opened junk1.PRM 
+Successfully opened junk2.PRM 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20180130_121354_F2.LED 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20180130_121354_F2.LED 
+Successfully opened junk1 
+Successfully opened junk1 
+[1] 1629227
+[2] 1629228
+[2]    Done                          SAT_llt2rat S1_20180130_121354_F2.PRM 1 < topo.llt > tmp1.dat
+[1]  + Done                          SAT_llt2rat tmp.PRM 1 < topo.llt > tmpm.dat
+[1] 1629302
+[2] 1629303
+[2]  + Done                          gmt surface atmp.xyz -bi3d -R0/25792/0/85996 -I8/4 -Gatmp.grd -T0.5 -N1000 -r
+[1]  + Done                          gmt surface rtmp.xyz -bi3d -R0/25792/0/85996 -I8/4 -Grtmp.grd -T0.5 -N1000 -r
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24216 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20180130t121354-20180130t121651-020384-022d42-005.tiff)
+Writing SLCL & SLCH..
+Segmentation fault (core dumped)
+awk: cmd. line:1: {print $1/2.0/3.141592653/}
+awk: cmd. line:1:                           ^ syntax error
+Updating azimuth shift with a constant...(medain )
+grdmath [ERROR]: Operation "ADD" requires 2 operands
+mv: cannot stat 'tmp.grd': No such file or directory
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24216 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20180130t121354-20180130t121651-020384-022d42-005.tiff)
+Writing SLC..Image Size: 25792 X 85996...
+2018029.509655354312  2018029.511701298878
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42282.000000,42272.000000
+Successfully opened junk1 
+Reading in 24420 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20180506t121355-20180506t121652-021784-02597f-005.tiff)
+2018125.509673956549  2018125.511719806120
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42282.000000,42272.000000
+Successfully opened junk1.PRM 
+Successfully opened junk2.PRM 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20180506_121355_F2.LED 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20180506_121355_F2.LED 
+Successfully opened junk1 
+Successfully opened junk1 
+[1] 1630313
+[2] 1630314
+[2]    Done                          SAT_llt2rat S1_20180506_121355_F2.PRM 1 < topo.llt > tmp1.dat
+[1]  + Done                          SAT_llt2rat tmp.PRM 1 < topo.llt > tmpm.dat
+[1] 1630371
+[2] 1630372
+[2]  + Done                          gmt surface atmp.xyz -bi3d -R0/25792/0/85992 -I8/4 -Gatmp.grd -T0.5 -N1000 -r
+[1]  + Done                          gmt surface rtmp.xyz -bi3d -R0/25792/0/85992 -I8/4 -Grtmp.grd -T0.5 -N1000 -r
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24420 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20180506t121355-20180506t121652-021784-02597f-005.tiff)
+Writing SLCL & SLCH..
+Segmentation fault (core dumped)
+awk: cmd. line:1: {print $1/2.0/3.141592653/}
+awk: cmd. line:1:                           ^ syntax error
+Updating azimuth shift with a constant...(medain )
+grdmath [ERROR]: Operation "ADD" requires 2 operands
+mv: cannot stat 'tmp.grd': No such file or directory
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24420 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20180506t121355-20180506t121652-021784-02597f-005.tiff)
+Writing SLC..Image Size: 25792 X 85992...
+2018125.509673956549  2018125.511719806120
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42282.000000,42272.000000
+Successfully opened junk1 
+Reading in 24323 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20180518t121356-20180518t121653-021959-025f10-005.tiff)
+2018137.509681477677  2018137.511727422243
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42282.000000,42272.000000
+Successfully opened junk1.PRM 
+Successfully opened junk2.PRM 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20180518_121356_F2.LED 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20180518_121356_F2.LED 
+Successfully opened junk1 
+Successfully opened junk1 
+[1] 1631762
+[2] 1631763
+[2]    Done                          SAT_llt2rat S1_20180518_121356_F2.PRM 1 < topo.llt > tmp1.dat
+[1]  + Done                          SAT_llt2rat tmp.PRM 1 < topo.llt > tmpm.dat
+[1] 1631815
+[2] 1631816
+[2]  + Done                          gmt surface atmp.xyz -bi3d -R0/25792/0/85996 -I8/4 -Gatmp.grd -T0.5 -N1000 -r
+[1]  + Done                          gmt surface rtmp.xyz -bi3d -R0/25792/0/85996 -I8/4 -Grtmp.grd -T0.5 -N1000 -r
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24323 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20180518t121356-20180518t121653-021959-025f10-005.tiff)
+Writing SLCL & SLCH..
+Segmentation fault (core dumped)
+awk: cmd. line:1: {print $1/2.0/3.141592653/}
+awk: cmd. line:1:                           ^ syntax error
+Updating azimuth shift with a constant...(medain )
+grdmath [ERROR]: Operation "ADD" requires 2 operands
+mv: cannot stat 'tmp.grd': No such file or directory
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24323 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20180518t121356-20180518t121653-021959-025f10-005.tiff)
+Writing SLC..Image Size: 25792 X 85996...
+2018137.509681477677  2018137.511727422243
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42282.000000,42272.000000
+Successfully opened junk1 
+Reading in 24431 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20180530t121357-20180530t121653-022134-0264b1-005.tiff)
+2018149.509688222082  2018149.511734071653
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42282.000000,42272.000000
+Successfully opened junk1.PRM 
+Successfully opened junk2.PRM 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20180530_121357_F2.LED 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20180530_121357_F2.LED 
+Successfully opened junk1 
+Successfully opened junk1 
+[1] 1632699
+[2] 1632700
+[2]    Done                          SAT_llt2rat S1_20180530_121357_F2.PRM 1 < topo.llt > tmp1.dat
+[1]  + Done                          SAT_llt2rat tmp.PRM 1 < topo.llt > tmpm.dat
+[1] 1632812
+[2] 1632813
+[2]  + Done                          gmt surface atmp.xyz -bi3d -R0/25792/0/85992 -I8/4 -Gatmp.grd -T0.5 -N1000 -r
+[1]  + Done                          gmt surface rtmp.xyz -bi3d -R0/25792/0/85992 -I8/4 -Grtmp.grd -T0.5 -N1000 -r
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24431 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20180530t121357-20180530t121653-022134-0264b1-005.tiff)
+Writing SLCL & SLCH..
+Segmentation fault (core dumped)
+awk: cmd. line:1: {print $1/2.0/3.141592653/}
+awk: cmd. line:1:                           ^ syntax error
+Updating azimuth shift with a constant...(medain )
+grdmath [ERROR]: Operation "ADD" requires 2 operands
+mv: cannot stat 'tmp.grd': No such file or directory
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24431 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20180530t121357-20180530t121653-022134-0264b1-005.tiff)
+Writing SLC..Image Size: 25792 X 85992...
+2018149.509688222082  2018149.511734071653
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42282.000000,42272.000000
+Successfully opened junk1 
+Reading in 25053 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20180903t121402-20180903t121659-023534-02900c-005.tiff)
+2018245.509755875217  2018245.511801724788
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42292.000000,42282.000000
+Successfully opened junk1.PRM 
+Successfully opened junk2.PRM 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20180903_121402_F2.LED 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20180903_121402_F2.LED 
+Successfully opened junk1 
+Successfully opened junk1 
+[1] 1633723
+[2] 1633724
+[2]  + Done                          SAT_llt2rat S1_20180903_121402_F2.PRM 1 < topo.llt > tmp1.dat
+[1]  + Done                          SAT_llt2rat tmp.PRM 1 < topo.llt > tmpm.dat
+[1] 1633831
+[2] 1633832
+[2]  + Done                          gmt surface atmp.xyz -bi3d -R0/25792/0/85992 -I8/4 -Gatmp.grd -T0.5 -N1000 -r
+[1]  + Done                          gmt surface rtmp.xyz -bi3d -R0/25792/0/85992 -I8/4 -Grtmp.grd -T0.5 -N1000 -r
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 25053 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20180903t121402-20180903t121659-023534-02900c-005.tiff)
+Writing SLCL & SLCH..
+Segmentation fault (core dumped)
+awk: cmd. line:1: {print $1/2.0/3.141592653/}
+awk: cmd. line:1:                           ^ syntax error
+Updating azimuth shift with a constant...(medain )
+grdmath [ERROR]: Operation "ADD" requires 2 operands
+mv: cannot stat 'tmp.grd': No such file or directory
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 25053 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20180903t121402-20180903t121659-023534-02900c-005.tiff)
+Writing SLC..Image Size: 25792 X 85992...
+2018245.509755875217  2018245.511801724788
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42292.000000,42282.000000
+Successfully opened junk1 
+Reading in 24859 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20180915t121403-20180915t121700-023709-0295a8-005.tiff)
+2018257.509759597247  2018257.511805446818
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42292.000000,42282.000000
+Successfully opened junk1.PRM 
+Successfully opened junk2.PRM 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20180915_121403_F2.LED 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20180915_121403_F2.LED 
+Successfully opened junk1 
+Successfully opened junk1 
+[1] 1635185
+[2] 1635186
+[2]    Done                          SAT_llt2rat S1_20180915_121403_F2.PRM 1 < topo.llt > tmp1.dat
+[1]  + Done                          SAT_llt2rat tmp.PRM 1 < topo.llt > tmpm.dat
+[1] 1635248
+[2] 1635249
+[2]  + Done                          gmt surface atmp.xyz -bi3d -R0/25792/0/85992 -I8/4 -Gatmp.grd -T0.5 -N1000 -r
+[1]  + Done                          gmt surface rtmp.xyz -bi3d -R0/25792/0/85992 -I8/4 -Grtmp.grd -T0.5 -N1000 -r
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24859 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20180915t121403-20180915t121700-023709-0295a8-005.tiff)
+Writing SLCL & SLCH..
+Segmentation fault (core dumped)
+awk: cmd. line:1: {print $1/2.0/3.141592653/}
+awk: cmd. line:1:                           ^ syntax error
+Updating azimuth shift with a constant...(medain )
+grdmath [ERROR]: Operation "ADD" requires 2 operands
+mv: cannot stat 'tmp.grd': No such file or directory
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24859 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20180915t121403-20180915t121700-023709-0295a8-005.tiff)
+Writing SLC..Image Size: 25792 X 85992...
+2018257.509759597247  2018257.511805446818
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42292.000000,42282.000000
+Successfully opened junk1 
+Reading in 24869 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20180927t121403-20180927t121700-023884-029b53-005.tiff)
+2018269.509762982838  2018269.511808927404
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42292.000000,42282.000000
+Successfully opened junk1.PRM 
+Successfully opened junk2.PRM 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20180927_121403_F2.LED 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20180927_121403_F2.LED 
+Successfully opened junk1 
+Successfully opened junk1 
+[1] 1636741
+[2] 1636742
+[2]    Done                          SAT_llt2rat S1_20180927_121403_F2.PRM 1 < topo.llt > tmp1.dat
+[1]  + Done                          SAT_llt2rat tmp.PRM 1 < topo.llt > tmpm.dat
+[1] 1638407
+[2] 1638408
+[2]  + Done                          gmt surface atmp.xyz -bi3d -R0/25792/0/85996 -I8/4 -Gatmp.grd -T0.5 -N1000 -r
+[1]  + Done                          gmt surface rtmp.xyz -bi3d -R0/25792/0/85996 -I8/4 -Grtmp.grd -T0.5 -N1000 -r
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 1 
+Reading in 24869 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20180927t121403-20180927t121700-023884-029b53-005.tiff)
+Writing SLCL & SLCH..
+Segmentation fault (core dumped)
+awk: cmd. line:1: {print $1/2.0/3.141592653/}
+awk: cmd. line:1:                           ^ syntax error
+Updating azimuth shift with a constant...(medain )
+grdmath [ERROR]: Operation "ADD" requires 2 operands
+mv: cannot stat 'tmp.grd': No such file or directory
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 1 
+Reading in 24869 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20180927t121403-20180927t121700-023884-029b53-005.tiff)
+Writing SLC..Image Size: 25792 X 85996...
+2018269.509762982838  2018269.511808927404
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42292.000000,42282.000000
+Successfully opened junk1 
+Reading in 24869 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20190101t121401-20190101t121658-025284-02cbeb-005.tiff)
+2019000.509744352894  2019000.511790297460
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42292.000000,42282.000000
+Successfully opened junk1.PRM 
+Successfully opened junk2.PRM 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20190101_121401_F2.LED 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20190101_121401_F2.LED 
+Successfully opened junk1 
+Successfully opened junk1 
+[1] 1639556
+[2] 1639557
+[2]    Done                          SAT_llt2rat S1_20190101_121401_F2.PRM 1 < topo.llt > tmp1.dat
+[1]  + Done                          SAT_llt2rat tmp.PRM 1 < topo.llt > tmpm.dat
+[1] 1639626
+[2] 1639627
+[2]  + Done                          gmt surface atmp.xyz -bi3d -R0/25792/0/85996 -I8/4 -Gatmp.grd -T0.5 -N1000 -r
+[1]  + Done                          gmt surface rtmp.xyz -bi3d -R0/25792/0/85996 -I8/4 -Grtmp.grd -T0.5 -N1000 -r
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24869 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20190101t121401-20190101t121658-025284-02cbeb-005.tiff)
+Writing SLCL & SLCH..
+Segmentation fault (core dumped)
+awk: cmd. line:1: {print $1/2.0/3.141592653/}
+awk: cmd. line:1:                           ^ syntax error
+Updating azimuth shift with a constant...(medain )
+grdmath [ERROR]: Operation "ADD" requires 2 operands
+mv: cannot stat 'tmp.grd': No such file or directory
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24869 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20190101t121401-20190101t121658-025284-02cbeb-005.tiff)
+Writing SLC..Image Size: 25792 X 85996...
+2019000.509744352894  2019000.511790297460
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42292.000000,42282.000000
+Successfully opened junk1 
+Reading in 24869 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20190113t121401-20190113t121658-025459-02d234-005.tiff)
+2019012.509738650173  2019012.511784499744
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42292.000000,42282.000000
+Successfully opened junk1.PRM 
+Successfully opened junk2.PRM 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20190113_121401_F2.LED 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20190113_121401_F2.LED 
+Successfully opened junk1 
+Successfully opened junk1 
+[1] 1640612
+[2] 1640613
+[2]    Done                          SAT_llt2rat S1_20190113_121401_F2.PRM 1 < topo.llt > tmp1.dat
+[1]  + Done                          SAT_llt2rat tmp.PRM 1 < topo.llt > tmpm.dat
+[1] 1640694
+[2] 1640695
+[2]  + Done                          gmt surface atmp.xyz -bi3d -R0/25792/0/85992 -I8/4 -Gatmp.grd -T0.5 -N1000 -r
+[1]  + Done                          gmt surface rtmp.xyz -bi3d -R0/25792/0/85992 -I8/4 -Grtmp.grd -T0.5 -N1000 -r
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24869 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20190113t121401-20190113t121658-025459-02d234-005.tiff)
+Writing SLCL & SLCH..
+Segmentation fault (core dumped)
+awk: cmd. line:1: {print $1/2.0/3.141592653/}
+awk: cmd. line:1:                           ^ syntax error
+Updating azimuth shift with a constant...(medain )
+grdmath [ERROR]: Operation "ADD" requires 2 operands
+mv: cannot stat 'tmp.grd': No such file or directory
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24869 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20190113t121401-20190113t121658-025459-02d234-005.tiff)
+Writing SLC..Image Size: 25792 X 85992...
+2019012.509738650173  2019012.511784499744
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42292.000000,42282.000000
+Successfully opened junk1 
+Reading in 24859 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20190125t121401-20190125t121657-025634-02d899-005.tiff)
+2019024.509735011263  2019024.511780860834
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42292.000000,42282.000000
+Successfully opened junk1.PRM 
+Successfully opened junk2.PRM 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20190125_121401_F2.LED 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20190125_121401_F2.LED 
+Successfully opened junk1 
+Successfully opened junk1 
+[1] 1641402
+[2] 1641403
+[2]  + Done                          SAT_llt2rat S1_20190125_121401_F2.PRM 1 < topo.llt > tmp1.dat
+[1]  + Done                          SAT_llt2rat tmp.PRM 1 < topo.llt > tmpm.dat
+[1] 1641729
+[2] 1641730
+[2]    Done                          gmt surface atmp.xyz -bi3d -R0/25792/0/85992 -I8/4 -Gatmp.grd -T0.5 -N1000 -r
+[1]  + Done                          gmt surface rtmp.xyz -bi3d -R0/25792/0/85992 -I8/4 -Grtmp.grd -T0.5 -N1000 -r
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24859 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20190125t121401-20190125t121657-025634-02d899-005.tiff)
+Writing SLCL & SLCH..
+Segmentation fault (core dumped)
+awk: cmd. line:1: {print $1/2.0/3.141592653/}
+awk: cmd. line:1:                           ^ syntax error
+Updating azimuth shift with a constant...(medain )
+grdmath [ERROR]: Operation "ADD" requires 2 operands
+mv: cannot stat 'tmp.grd': No such file or directory
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24859 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20190125t121401-20190125t121657-025634-02d899-005.tiff)
+Writing SLC..Image Size: 25792 X 85992...
+2019024.509735011263  2019024.511780860834
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42292.000000,42282.000000
+Successfully opened junk1 
+Reading in 24956 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20190501t121401-20190501t121658-027034-030b64-005.tiff)
+2019120.509745204588  2019120.511791054159
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42292.000000,42282.000000
+Successfully opened junk1.PRM 
+Successfully opened junk2.PRM 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20190501_121401_F2.LED 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20190501_121401_F2.LED 
+Successfully opened junk1 
+Successfully opened junk1 
+[1] 1642415
+[2] 1642416
+[2]  + Done                          SAT_llt2rat S1_20190501_121401_F2.PRM 1 < topo.llt > tmp1.dat
+[1]  + Done                          SAT_llt2rat tmp.PRM 1 < topo.llt > tmpm.dat
+[1] 1642488
+[2] 1642489
+[2]  + Done                          gmt surface atmp.xyz -bi3d -R0/25792/0/85992 -I8/4 -Gatmp.grd -T0.5 -N1000 -r
+[1]  + Done                          gmt surface rtmp.xyz -bi3d -R0/25792/0/85992 -I8/4 -Grtmp.grd -T0.5 -N1000 -r
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24956 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20190501t121401-20190501t121658-027034-030b64-005.tiff)
+Writing SLCL & SLCH..
+Segmentation fault (core dumped)
+awk: cmd. line:1: {print $1/2.0/3.141592653/}
+awk: cmd. line:1:                           ^ syntax error
+Updating azimuth shift with a constant...(medain )
+grdmath [ERROR]: Operation "ADD" requires 2 operands
+mv: cannot stat 'tmp.grd': No such file or directory
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24956 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20190501t121401-20190501t121658-027034-030b64-005.tiff)
+Writing SLC..Image Size: 25792 X 85992...
+2019120.509745204588  2019120.511791054159
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42292.000000,42282.000000
+Successfully opened junk1 
+Reading in 25053 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20190513t121402-20190513t121659-027209-031140-005.tiff)
+2019132.509749582736  2019132.511795432307
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42292.000000,42282.000000
+Successfully opened junk1.PRM 
+Successfully opened junk2.PRM 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20190513_121402_F2.LED 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20190513_121402_F2.LED 
+Successfully opened junk1 
+Successfully opened junk1 
+[1] 1643860
+[2] 1643861
+[2]  + Done                          SAT_llt2rat S1_20190513_121402_F2.PRM 1 < topo.llt > tmp1.dat
+[1]  + Done                          SAT_llt2rat tmp.PRM 1 < topo.llt > tmpm.dat
+[1] 1643916
+[2] 1643917
+[2]  + Done                          gmt surface atmp.xyz -bi3d -R0/25792/0/85992 -I8/4 -Gatmp.grd -T0.5 -N1000 -r
+[1]  + Done                          gmt surface rtmp.xyz -bi3d -R0/25792/0/85992 -I8/4 -Grtmp.grd -T0.5 -N1000 -r
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 25053 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20190513t121402-20190513t121659-027209-031140-005.tiff)
+Writing SLCL & SLCH..
+Segmentation fault (core dumped)
+awk: cmd. line:1: {print $1/2.0/3.141592653/}
+awk: cmd. line:1:                           ^ syntax error
+Updating azimuth shift with a constant...(medain )
+grdmath [ERROR]: Operation "ADD" requires 2 operands
+mv: cannot stat 'tmp.grd': No such file or directory
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 25053 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20190513t121402-20190513t121659-027209-031140-005.tiff)
+Writing SLC..Image Size: 25792 X 85992...
+2019132.509749582736  2019132.511795432307
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42292.000000,42282.000000
+Successfully opened junk1 
+Reading in 24966 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20190910t121409-20190910t121706-028959-0348b6-005.tiff)
+2019252.509828809882  2019252.511874564225
+Reading 9361 lines from precise orbit...
+Writing 372 lines of precise orbit for the LED file...
+42292.000000,42282.000000
+Successfully opened junk1.PRM 
+Successfully opened junk2.PRM 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20190910_121409_F2.LED 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20190910_121409_F2.LED 
+Successfully opened junk1 
+Successfully opened junk1 
+[1] 1644913
+[2] 1644914
+[2]    Done                          SAT_llt2rat S1_20190910_121409_F2.PRM 1 < topo.llt > tmp1.dat
+[1]  + Done                          SAT_llt2rat tmp.PRM 1 < topo.llt > tmpm.dat
+[1] 1645000
+[2] 1645001
+[2]  + Done                          gmt surface atmp.xyz -bi3d -R0/25792/0/85988 -I8/4 -Gatmp.grd -T0.5 -N1000 -r
+[1]  + Done                          gmt surface rtmp.xyz -bi3d -R0/25792/0/85988 -I8/4 -Grtmp.grd -T0.5 -N1000 -r
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24966 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20190910t121409-20190910t121706-028959-0348b6-005.tiff)
+Writing SLCL & SLCH..
+Segmentation fault (core dumped)
+awk: cmd. line:1: {print $1/2.0/3.141592653/}
+awk: cmd. line:1:                           ^ syntax error
+Updating azimuth shift with a constant...(medain )
+grdmath [ERROR]: Operation "ADD" requires 2 operands
+mv: cannot stat 'tmp.grd': No such file or directory
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24966 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20190910t121409-20190910t121706-028959-0348b6-005.tiff)
+Writing SLC..Image Size: 25792 X 85988...
+2019252.509828809882  2019252.511874564225
+Reading 9361 lines from precise orbit...
+Writing 372 lines of precise orbit for the LED file...
+42292.000000,42282.000000
+Successfully opened junk1 
+Reading in 24966 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20190922t121409-20190922t121706-029134-034eab-005.tiff)
+2019264.509834876750  2019264.511880631093
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42302.000000,42292.000000
+Successfully opened junk1.PRM 
+Successfully opened junk2.PRM 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20190922_121409_F2.LED 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20190922_121409_F2.LED 
+Successfully opened junk1 
+Successfully opened junk1 
+[1] 1646229
+[2] 1646230
+[2]    Done                          SAT_llt2rat S1_20190922_121409_F2.PRM 1 < topo.llt > tmp1.dat
+[1]  + Done                          SAT_llt2rat tmp.PRM 1 < topo.llt > tmpm.dat
+[1] 1646286
+[2] 1646287
+[2]  + Done                          gmt surface atmp.xyz -bi3d -R0/25792/0/85988 -I8/4 -Gatmp.grd -T0.5 -N1000 -r
+[1]  + Done                          gmt surface rtmp.xyz -bi3d -R0/25792/0/85988 -I8/4 -Grtmp.grd -T0.5 -N1000 -r
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24966 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20190922t121409-20190922t121706-029134-034eab-005.tiff)
+Writing SLCL & SLCH..
+Segmentation fault (core dumped)
+awk: cmd. line:1: {print $1/2.0/3.141592653/}
+awk: cmd. line:1:                           ^ syntax error
+Updating azimuth shift with a constant...(medain )
+grdmath [ERROR]: Operation "ADD" requires 2 operands
+mv: cannot stat 'tmp.grd': No such file or directory
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24966 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20190922t121409-20190922t121706-029134-034eab-005.tiff)
+Writing SLC..Image Size: 25792 X 85988...
+2019264.509834876750  2019264.511880631093
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42302.000000,42292.000000
+Successfully opened junk1 
+Reading in 24942 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20200108t121407-20200108t121704-030709-038533-005.tiff)
+2020007.509814597201  2020007.511860541767
+Reading 9361 lines from precise orbit...
+Writing 372 lines of precise orbit for the LED file...
+42292.000000,42282.000000
+Successfully opened junk1.PRM 
+Successfully opened junk2.PRM 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20200108_121407_F2.LED 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20200108_121407_F2.LED 
+Successfully opened junk1 
+Successfully opened junk1 
+[1] 1647272
+[2] 1647273
+[2]    Done                          SAT_llt2rat S1_20200108_121407_F2.PRM 1 < topo.llt > tmp1.dat
+[1]  + Done                          SAT_llt2rat tmp.PRM 1 < topo.llt > tmpm.dat
+[1] 1647336
+[2] 1647337
+[2]    Done                          gmt surface atmp.xyz -bi3d -R0/25792/0/85996 -I8/4 -Gatmp.grd -T0.5 -N1000 -r
+[1]  + Done                          gmt surface rtmp.xyz -bi3d -R0/25792/0/85996 -I8/4 -Grtmp.grd -T0.5 -N1000 -r
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24942 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20200108t121407-20200108t121704-030709-038533-005.tiff)
+Writing SLCL & SLCH..
+Segmentation fault (core dumped)
+awk: cmd. line:1: {print $1/2.0/3.141592653/}
+awk: cmd. line:1:                           ^ syntax error
+Updating azimuth shift with a constant...(medain )
+grdmath [ERROR]: Operation "ADD" requires 2 operands
+mv: cannot stat 'tmp.grd': No such file or directory
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24942 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20200108t121407-20200108t121704-030709-038533-005.tiff)
+Writing SLC..Image Size: 25792 X 85996...
+2020007.509814597201  2020007.511860541767
+Reading 9361 lines from precise orbit...
+Writing 372 lines of precise orbit for the LED file...
+42292.000000,42282.000000
+Successfully opened junk1 
+Reading in 24859 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20200507t121408-20200507t121705-032459-03c246-005.tiff)
+2020127.509819476167  2020127.511865325738
+Reading 9361 lines from precise orbit...
+Writing 372 lines of precise orbit for the LED file...
+42292.000000,42282.000000
+Successfully opened junk1.PRM 
+Successfully opened junk2.PRM 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20200507_121408_F2.LED 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20200507_121408_F2.LED 
+Successfully opened junk1 
+Successfully opened junk1 
+[1] 1648715
+[2] 1648716
+[2]  + Done                          SAT_llt2rat S1_20200507_121408_F2.PRM 1 < topo.llt > tmp1.dat
+[1]  + Done                          SAT_llt2rat tmp.PRM 1 < topo.llt > tmpm.dat
+[1] 1648800
+[2] 1648801
+[2]  + Done                          gmt surface atmp.xyz -bi3d -R0/25792/0/85992 -I8/4 -Gatmp.grd -T0.5 -N1000 -r
+[1]  + Done                          gmt surface rtmp.xyz -bi3d -R0/25792/0/85992 -I8/4 -Grtmp.grd -T0.5 -N1000 -r
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24859 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20200507t121408-20200507t121705-032459-03c246-005.tiff)
+Writing SLCL & SLCH..
+Segmentation fault (core dumped)
+awk: cmd. line:1: {print $1/2.0/3.141592653/}
+awk: cmd. line:1:                           ^ syntax error
+Updating azimuth shift with a constant...(medain )
+grdmath [ERROR]: Operation "ADD" requires 2 operands
+mv: cannot stat 'tmp.grd': No such file or directory
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24859 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20200507t121408-20200507t121705-032459-03c246-005.tiff)
+Writing SLC..Image Size: 25792 X 85992...
+2020127.509819476167  2020127.511865325738
+Reading 9361 lines from precise orbit...
+Writing 372 lines of precise orbit for the LED file...
+42292.000000,42282.000000
+Successfully opened junk1 
+Reading in 24762 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20200519t121409-20200519t121706-032634-03c797-005.tiff)
+2020139.509828987299  2020139.511874836870
+Reading 9361 lines from precise orbit...
+Writing 372 lines of precise orbit for the LED file...
+42292.000000,42282.000000
+Successfully opened junk1.PRM 
+Successfully opened junk2.PRM 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20200519_121409_F2.LED 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20200519_121409_F2.LED 
+Successfully opened junk1 
+Successfully opened junk1 
+[1] 1649555
+[2] 1649556
+[2]  + Done                          SAT_llt2rat S1_20200519_121409_F2.PRM 1 < topo.llt > tmp1.dat
+[1]  + Done                          SAT_llt2rat tmp.PRM 1 < topo.llt > tmpm.dat
+[1] 1649663
+[2] 1649664
+[2]  + Done                          gmt surface atmp.xyz -bi3d -R0/25792/0/85992 -I8/4 -Gatmp.grd -T0.5 -N1000 -r
+[1]  + Done                          gmt surface rtmp.xyz -bi3d -R0/25792/0/85992 -I8/4 -Grtmp.grd -T0.5 -N1000 -r
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24762 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20200519t121409-20200519t121706-032634-03c797-005.tiff)
+Writing SLCL & SLCH..
+Segmentation fault (core dumped)
+awk: cmd. line:1: {print $1/2.0/3.141592653/}
+awk: cmd. line:1:                           ^ syntax error
+Updating azimuth shift with a constant...(medain )
+grdmath [ERROR]: Operation "ADD" requires 2 operands
+mv: cannot stat 'tmp.grd': No such file or directory
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24762 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20200519t121409-20200519t121706-032634-03c797-005.tiff)
+Writing SLC..Image Size: 25792 X 85992...
+2020139.509828987299  2020139.511874836870
+Reading 9361 lines from precise orbit...
+Writing 372 lines of precise orbit for the LED file...
+42292.000000,42282.000000
+Successfully opened junk1 
+Reading in 25049 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20200531t121409-20200531t121706-032809-03cce0-005.tiff)
+2020151.509837835096  2020151.511883494211
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42302.000000,42292.000000
+Successfully opened junk1.PRM 
+Successfully opened junk2.PRM 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20200531_121409_F2.LED 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20200531_121409_F2.LED 
+Successfully opened junk1 
+Successfully opened junk1 
+[1] 1652513
+[2] 1652514
+[2]  + Done                          SAT_llt2rat S1_20200531_121409_F2.PRM 1 < topo.llt > tmp1.dat
+[1]  + Done                          SAT_llt2rat tmp.PRM 1 < topo.llt > tmpm.dat
+[1] 1652571
+[2] 1652572
+[2]  + Done                          gmt surface atmp.xyz -bi3d -R0/25792/0/85984 -I8/4 -Gatmp.grd -T0.5 -N1000 -r
+[1]  + Done                          gmt surface rtmp.xyz -bi3d -R0/25792/0/85984 -I8/4 -Grtmp.grd -T0.5 -N1000 -r
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 3 
+Reading in 25049 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20200531t121409-20200531t121706-032809-03cce0-005.tiff)
+Writing SLCL & SLCH..
+Segmentation fault (core dumped)
+awk: cmd. line:1: {print $1/2.0/3.141592653/}
+awk: cmd. line:1:                           ^ syntax error
+Updating azimuth shift with a constant...(medain )
+grdmath [ERROR]: Operation "ADD" requires 2 operands
+mv: cannot stat 'tmp.grd': No such file or directory
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 3 
+Reading in 25049 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20200531t121409-20200531t121706-032809-03cce0-005.tiff)
+Writing SLC..Image Size: 25792 X 85984...
+2020151.509837835096  2020151.511883494211
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42302.000000,42292.000000
+Successfully opened junk1 
+Reading in 24869 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20200904t121415-20200904t121712-034209-03f975-005.tiff)
+2020247.509901596699  2020247.511947446270
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42302.000000,42292.000000
+Successfully opened junk1.PRM 
+Successfully opened junk2.PRM 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20200904_121415_F2.LED 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20200904_121415_F2.LED 
+Successfully opened junk1 
+Successfully opened junk1 
+[1] 1653565
+[2] 1653566
+[2]  + Done                          SAT_llt2rat S1_20200904_121415_F2.PRM 1 < topo.llt > tmp1.dat
+[1]  + Done                          SAT_llt2rat tmp.PRM 1 < topo.llt > tmpm.dat
+[1] 1653639
+[2] 1653640
+[2]  + Done                          gmt surface atmp.xyz -bi3d -R0/25792/0/85992 -I8/4 -Gatmp.grd -T0.5 -N1000 -r
+[1]  + Done                          gmt surface rtmp.xyz -bi3d -R0/25792/0/85992 -I8/4 -Grtmp.grd -T0.5 -N1000 -r
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24869 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20200904t121415-20200904t121712-034209-03f975-005.tiff)
+Writing SLCL & SLCH..
+Segmentation fault (core dumped)
+awk: cmd. line:1: {print $1/2.0/3.141592653/}
+awk: cmd. line:1:                           ^ syntax error
+Updating azimuth shift with a constant...(medain )
+grdmath [ERROR]: Operation "ADD" requires 2 operands
+mv: cannot stat 'tmp.grd': No such file or directory
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24869 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20200904t121415-20200904t121712-034209-03f975-005.tiff)
+Writing SLC..Image Size: 25792 X 85992...
+2020247.509901596699  2020247.511947446270
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42302.000000,42292.000000
+Successfully opened junk1 
+Reading in 24869 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20200916t121415-20200916t121712-034384-03ff9d-005.tiff)
+2020259.509906541789  2020259.511952391360
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42302.000000,42292.000000
+Successfully opened junk1.PRM 
+Successfully opened junk2.PRM 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20200916_121415_F2.LED 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20200916_121415_F2.LED 
+Successfully opened junk1 
+Successfully opened junk1 
+[1] 1654415
+[2] 1654416
+[2]    Done                          SAT_llt2rat S1_20200916_121415_F2.PRM 1 < topo.llt > tmp1.dat
+[1]  + Done                          SAT_llt2rat tmp.PRM 1 < topo.llt > tmpm.dat
+[1] 1654475
+[2] 1654476
+[2]  + Done                          gmt surface atmp.xyz -bi3d -R0/25792/0/85992 -I8/4 -Gatmp.grd -T0.5 -N1000 -r
+[1]  + Done                          gmt surface rtmp.xyz -bi3d -R0/25792/0/85992 -I8/4 -Grtmp.grd -T0.5 -N1000 -r
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 1 
+Reading in 24869 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20200916t121415-20200916t121712-034384-03ff9d-005.tiff)
+Writing SLCL & SLCH..
+Segmentation fault (core dumped)
+awk: cmd. line:1: {print $1/2.0/3.141592653/}
+awk: cmd. line:1:                           ^ syntax error
+Updating azimuth shift with a constant...(medain )
+grdmath [ERROR]: Operation "ADD" requires 2 operands
+mv: cannot stat 'tmp.grd': No such file or directory
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 1 
+Reading in 24869 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20200916t121415-20200916t121712-034384-03ff9d-005.tiff)
+Writing SLC..Image Size: 25792 X 85992...
+2020259.509906541789  2020259.511952391360
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42302.000000,42292.000000
+Successfully opened junk1 
+Reading in 25053 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20200928t121416-20200928t121713-034559-0405ce-005.tiff)
+2020271.509910854278  2020271.511956703849
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42302.000000,42292.000000
+Successfully opened junk1.PRM 
+Successfully opened junk2.PRM 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20200928_121416_F2.LED 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20200928_121416_F2.LED 
+Successfully opened junk1 
+Successfully opened junk1 
+[1] 1655272
+[2] 1655273
+[2]    Done                          SAT_llt2rat S1_20200928_121416_F2.PRM 1 < topo.llt > tmp1.dat
+[1]  + Done                          SAT_llt2rat tmp.PRM 1 < topo.llt > tmpm.dat
+[1] 1655452
+[2] 1655453
+[2]  + Done                          gmt surface atmp.xyz -bi3d -R0/25792/0/85992 -I8/4 -Gatmp.grd -T0.5 -N1000 -r
+[1]  + Done                          gmt surface rtmp.xyz -bi3d -R0/25792/0/85992 -I8/4 -Grtmp.grd -T0.5 -N1000 -r
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 25053 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20200928t121416-20200928t121713-034559-0405ce-005.tiff)
+Writing SLCL & SLCH..
+Segmentation fault (core dumped)
+awk: cmd. line:1: {print $1/2.0/3.141592653/}
+awk: cmd. line:1:                           ^ syntax error
+Updating azimuth shift with a constant...(medain )
+grdmath [ERROR]: Operation "ADD" requires 2 operands
+mv: cannot stat 'tmp.grd': No such file or directory
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 25053 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20200928t121416-20200928t121713-034559-0405ce-005.tiff)
+Writing SLC..Image Size: 25792 X 85992...
+2020271.509910854278  2020271.511956703849
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42302.000000,42292.000000
+Successfully opened junk1 
+Reading in 24859 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20210102t121414-20210102t121711-035959-043653-005.tiff)
+2021001.509887617081  2021001.511933466652
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42302.000000,42292.000000
+Successfully opened junk1.PRM 
+Successfully opened junk2.PRM 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20210102_121414_F2.LED 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20210102_121414_F2.LED 
+Successfully opened junk1 
+Successfully opened junk1 
+[1] 1657070
+[2] 1657071
+[2]  + Done                          SAT_llt2rat S1_20210102_121414_F2.PRM 1 < topo.llt > tmp1.dat
+[1]  + Done                          SAT_llt2rat tmp.PRM 1 < topo.llt > tmpm.dat
+[1] 1657304
+[2] 1657305
+[2]    Done                          gmt surface atmp.xyz -bi3d -R0/25792/0/85992 -I8/4 -Gatmp.grd -T0.5 -N1000 -r
+[1]  + Done                          gmt surface rtmp.xyz -bi3d -R0/25792/0/85992 -I8/4 -Grtmp.grd -T0.5 -N1000 -r
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24859 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20210102t121414-20210102t121711-035959-043653-005.tiff)
+Writing SLCL & SLCH..
+Segmentation fault (core dumped)
+awk: cmd. line:1: {print $1/2.0/3.141592653/}
+awk: cmd. line:1:                           ^ syntax error
+Updating azimuth shift with a constant...(medain )
+grdmath [ERROR]: Operation "ADD" requires 2 operands
+mv: cannot stat 'tmp.grd': No such file or directory
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24859 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20210102t121414-20210102t121711-035959-043653-005.tiff)
+Writing SLC..Image Size: 25792 X 85992...
+2021001.509887617081  2021001.511933466652
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42302.000000,42292.000000
+Successfully opened junk1 
+Reading in 24956 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20210114t121413-20210114t121710-036134-043c7e-005.tiff)
+2021013.509881105972  2021013.511926955543
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42302.000000,42292.000000
+Successfully opened junk1.PRM 
+Successfully opened junk2.PRM 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20210114_121413_F2.LED 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20210114_121413_F2.LED 
+Successfully opened junk1 
+Successfully opened junk1 
+[1] 1658632
+[2] 1658633
+[2]    Done                          SAT_llt2rat S1_20210114_121413_F2.PRM 1 < topo.llt > tmp1.dat
+[1]  + Done                          SAT_llt2rat tmp.PRM 1 < topo.llt > tmpm.dat
+[1] 1658772
+[2] 1658773
+[2]    Done                          gmt surface atmp.xyz -bi3d -R0/25792/0/85992 -I8/4 -Gatmp.grd -T0.5 -N1000 -r
+[1]  + Done                          gmt surface rtmp.xyz -bi3d -R0/25792/0/85992 -I8/4 -Grtmp.grd -T0.5 -N1000 -r
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24956 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20210114t121413-20210114t121710-036134-043c7e-005.tiff)
+Writing SLCL & SLCH..
+Segmentation fault (core dumped)
+awk: cmd. line:1: {print $1/2.0/3.141592653/}
+awk: cmd. line:1:                           ^ syntax error
+Updating azimuth shift with a constant...(medain )
+grdmath [ERROR]: Operation "ADD" requires 2 operands
+mv: cannot stat 'tmp.grd': No such file or directory
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24956 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20210114t121413-20210114t121710-036134-043c7e-005.tiff)
+Writing SLC..Image Size: 25792 X 85992...
+2021013.509881105972  2021013.511926955543
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42302.000000,42292.000000
+Successfully opened junk1 
+Reading in 24879 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20210126t121413-20210126t121710-036309-04428f-005.tiff)
+2021025.509876550874  2021025.511922495440
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42302.000000,42292.000000
+Successfully opened junk1.PRM 
+Successfully opened junk2.PRM 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20210126_121413_F2.LED 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20210126_121413_F2.LED 
+Successfully opened junk1 
+Successfully opened junk1 
+[1] 1660043
+[2] 1660044
+[2]    Done                          SAT_llt2rat S1_20210126_121413_F2.PRM 1 < topo.llt > tmp1.dat
+[1]  + Done                          SAT_llt2rat tmp.PRM 1 < topo.llt > tmpm.dat
+[1] 1660106
+[2] 1660107
+[2]    Done                          gmt surface atmp.xyz -bi3d -R0/25792/0/85996 -I8/4 -Gatmp.grd -T0.5 -N1000 -r
+[1]  + Done                          gmt surface rtmp.xyz -bi3d -R0/25792/0/85996 -I8/4 -Grtmp.grd -T0.5 -N1000 -r
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24879 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20210126t121413-20210126t121710-036309-04428f-005.tiff)
+Writing SLCL & SLCH..
+Segmentation fault (core dumped)
+awk: cmd. line:1: {print $1/2.0/3.141592653/}
+awk: cmd. line:1:                           ^ syntax error
+Updating azimuth shift with a constant...(medain )
+grdmath [ERROR]: Operation "ADD" requires 2 operands
+mv: cannot stat 'tmp.grd': No such file or directory
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24879 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20210126t121413-20210126t121710-036309-04428f-005.tiff)
+Writing SLC..Image Size: 25792 X 85996...
+2021025.509876550874  2021025.511922495440
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42302.000000,42292.000000
+Successfully opened junk1 
+Reading in 24952 lines of info from XML...
+Writing 31 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20210502t121414-20210502t121710-037709-047321-005.tiff)
+2021121.509885528358  2021121.511931377929
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42302.000000,42292.000000
+Successfully opened junk1.PRM 
+Successfully opened junk2.PRM 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20210502_121414_F2.LED 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20210502_121414_F2.LED 
+Successfully opened junk1 
+Successfully opened junk1 
+[1] 1661190
+[2] 1661191
+[2]  + Done                          SAT_llt2rat S1_20210502_121414_F2.PRM 1 < topo.llt > tmp1.dat
+[1]  + Done                          SAT_llt2rat tmp.PRM 1 < topo.llt > tmpm.dat
+[1] 1661254
+[2] 1661255
+[2]  + Done                          gmt surface atmp.xyz -bi3d -R0/25792/0/85992 -I8/4 -Gatmp.grd -T0.5 -N1000 -r
+[1]  + Done                          gmt surface rtmp.xyz -bi3d -R0/25792/0/85992 -I8/4 -Grtmp.grd -T0.5 -N1000 -r
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24952 lines of info from XML...
+Writing 31 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20210502t121414-20210502t121710-037709-047321-005.tiff)
+Writing SLCL & SLCH..
+Segmentation fault (core dumped)
+awk: cmd. line:1: {print $1/2.0/3.141592653/}
+awk: cmd. line:1:                           ^ syntax error
+Updating azimuth shift with a constant...(medain )
+grdmath [ERROR]: Operation "ADD" requires 2 operands
+mv: cannot stat 'tmp.grd': No such file or directory
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24952 lines of info from XML...
+Writing 31 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20210502t121414-20210502t121710-037709-047321-005.tiff)
+Writing SLC..Image Size: 25792 X 85992...
+2021121.509885528358  2021121.511931377929
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42302.000000,42292.000000
+Successfully opened junk1 
+Reading in 24845 lines of info from XML...
+Writing 31 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20210514t121414-20210514t121711-037884-047898-005.tiff)
+2021133.509893628303  2021133.511939477874
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42302.000000,42292.000000
+Successfully opened junk1.PRM 
+Successfully opened junk2.PRM 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20210514_121414_F2.LED 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20210514_121414_F2.LED 
+Successfully opened junk1 
+Successfully opened junk1 
+[1] 1663047
+[2] 1663048
+[2]    Done                          SAT_llt2rat S1_20210514_121414_F2.PRM 1 < topo.llt > tmp1.dat
+[1]  + Done                          SAT_llt2rat tmp.PRM 1 < topo.llt > tmpm.dat
+[1] 1663119
+[2] 1663120
+[2]  + Done                          gmt surface atmp.xyz -bi3d -R0/25792/0/85992 -I8/4 -Gatmp.grd -T0.5 -N1000 -r
+[1]  + Done                          gmt surface rtmp.xyz -bi3d -R0/25792/0/85992 -I8/4 -Grtmp.grd -T0.5 -N1000 -r
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24845 lines of info from XML...
+Writing 31 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20210514t121414-20210514t121711-037884-047898-005.tiff)
+Writing SLCL & SLCH..
+Segmentation fault (core dumped)
+awk: cmd. line:1: {print $1/2.0/3.141592653/}
+awk: cmd. line:1:                           ^ syntax error
+Updating azimuth shift with a constant...(medain )
+grdmath [ERROR]: Operation "ADD" requires 2 operands
+mv: cannot stat 'tmp.grd': No such file or directory
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24845 lines of info from XML...
+Writing 31 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20210514t121414-20210514t121711-037884-047898-005.tiff)
+Writing SLC..Image Size: 25792 X 85992...
+2021133.509893628303  2021133.511939477874
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42302.000000,42292.000000
+Successfully opened junk1 
+Reading in 24966 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20210526t121415-20210526t121712-038059-047de5-005.tiff)
+2021145.509901770391  2021145.511947619962
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42302.000000,42292.000000
+Successfully opened junk1.PRM 
+Successfully opened junk2.PRM 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20210526_121415_F2.LED 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20210526_121415_F2.LED 
+Successfully opened junk1 
+Successfully opened junk1 
+[1] 1665924
+[2] 1665925
+[2]  + Done                          SAT_llt2rat S1_20210526_121415_F2.PRM 1 < topo.llt > tmp1.dat
+[1]  + Done                          SAT_llt2rat tmp.PRM 1 < topo.llt > tmpm.dat
+[1] 1666001
+[2] 1666002
+[2]  + Done                          gmt surface atmp.xyz -bi3d -R0/25792/0/85992 -I8/4 -Gatmp.grd -T0.5 -N1000 -r
+[1]  + Done                          gmt surface rtmp.xyz -bi3d -R0/25792/0/85992 -I8/4 -Grtmp.grd -T0.5 -N1000 -r
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 2 
+Reading in 24966 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20210526t121415-20210526t121712-038059-047de5-005.tiff)
+Writing SLCL & SLCH..
+Segmentation fault (core dumped)
+awk: cmd. line:1: {print $1/2.0/3.141592653/}
+awk: cmd. line:1:                           ^ syntax error
+Updating azimuth shift with a constant...(medain )
+grdmath [ERROR]: Operation "ADD" requires 2 operands
+mv: cannot stat 'tmp.grd': No such file or directory
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 2 
+Reading in 24966 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20210526t121415-20210526t121712-038059-047de5-005.tiff)
+Writing SLC..Image Size: 25792 X 85992...
+2021145.509901770391  2021145.511947619962
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42302.000000,42292.000000
+Successfully opened junk1 
+Reading in 24956 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20210911t121421-20210911t121718-039634-04af85-005.tiff)
+2021253.509971872903  2021253.512017627247
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42312.000000,42302.000000
+Successfully opened junk1.PRM 
+Successfully opened junk2.PRM 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20210911_121421_F2.LED 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20210911_121421_F2.LED 
+Successfully opened junk1 
+Successfully opened junk1 
+[1] 1667005
+[2] 1667006
+[2]  + Done                          SAT_llt2rat S1_20210911_121421_F2.PRM 1 < topo.llt > tmp1.dat
+[1]  + Done                          SAT_llt2rat tmp.PRM 1 < topo.llt > tmpm.dat
+[1] 1667068
+[2] 1667069
+[2]  + Done                          gmt surface atmp.xyz -bi3d -R0/25792/0/85988 -I8/4 -Gatmp.grd -T0.5 -N1000 -r
+[1]  + Done                          gmt surface rtmp.xyz -bi3d -R0/25792/0/85988 -I8/4 -Grtmp.grd -T0.5 -N1000 -r
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24956 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20210911t121421-20210911t121718-039634-04af85-005.tiff)
+Writing SLCL & SLCH..
+Segmentation fault (core dumped)
+awk: cmd. line:1: {print $1/2.0/3.141592653/}
+awk: cmd. line:1:                           ^ syntax error
+Updating azimuth shift with a constant...(medain )
+grdmath [ERROR]: Operation "ADD" requires 2 operands
+mv: cannot stat 'tmp.grd': No such file or directory
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24956 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20210911t121421-20210911t121718-039634-04af85-005.tiff)
+Writing SLC..Image Size: 25792 X 85988...
+2021253.509971872903  2021253.512017627247
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42312.000000,42302.000000
+Successfully opened junk1 
+Reading in 24948 lines of info from XML...
+Writing 31 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20210923t121421-20210923t121718-039809-04b566-005.tiff)
+2021265.509976340225  2021265.512022094568
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42312.000000,42302.000000
+Successfully opened junk1.PRM 
+Successfully opened junk2.PRM 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20210923_121421_F2.LED 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20210923_121421_F2.LED 
+Successfully opened junk1 
+Successfully opened junk1 
+[1] 1668553
+[2] 1668554
+[2]  + Done                          SAT_llt2rat S1_20210923_121421_F2.PRM 1 < topo.llt > tmp1.dat
+[1]  + Done                          SAT_llt2rat tmp.PRM 1 < topo.llt > tmpm.dat
+[1] 1668627
+[2] 1668628
+[2]  + Done                          gmt surface atmp.xyz -bi3d -R0/25792/0/85988 -I8/4 -Gatmp.grd -T0.5 -N1000 -r
+[1]  + Done                          gmt surface rtmp.xyz -bi3d -R0/25792/0/85988 -I8/4 -Grtmp.grd -T0.5 -N1000 -r
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24948 lines of info from XML...
+Writing 31 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20210923t121421-20210923t121718-039809-04b566-005.tiff)
+Writing SLCL & SLCH..
+Segmentation fault (core dumped)
+awk: cmd. line:1: {print $1/2.0/3.141592653/}
+awk: cmd. line:1:                           ^ syntax error
+Updating azimuth shift with a constant...(medain )
+grdmath [ERROR]: Operation "ADD" requires 2 operands
+mv: cannot stat 'tmp.grd': No such file or directory
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 24948 lines of info from XML...
+Writing 31 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20210923t121421-20210923t121718-039809-04b566-005.tiff)
+Writing SLC..Image Size: 25792 X 85988...
+2021265.509976340225  2021265.512022094568
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42312.000000,42302.000000
+Successfully opened junk1 
+Reading in 25623 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20220109t121419-20220109t121716-041384-04eb9b-005.tiff)
+2022008.509949146537  2022008.511994900880
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42312.000000,42302.000000
+Successfully opened junk1.PRM 
+Successfully opened junk2.PRM 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20220109_121419_F2.LED 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20220109_121419_F2.LED 
+Successfully opened junk1 
+Successfully opened junk1 
+[1] 1669461
+[2] 1669462
+[2]    Done                          SAT_llt2rat S1_20220109_121419_F2.PRM 1 < topo.llt > tmp1.dat
+[1]  + Done                          SAT_llt2rat tmp.PRM 1 < topo.llt > tmpm.dat
+blockmedian [WARNING]: (x_max-x_min) must equal (NX + eps) * x_inc), where NX is an integer and |eps| <= 0.0001.
+blockmedian (gmtapi_init_grdheader): Please select compatible -R and -I values
+blockmedian [WARNING]: (x_max-x_min) must equal (NX + eps) * x_inc), where NX is an integer and |eps| <= 0.0001.
+blockmedian (gmtapi_init_grdheader): Please select compatible -R and -I values
+[1] 1669522
+[2] 1669523
+surface [WARNING]: (x_max-x_min) must equal (NX + eps) * x_inc), where NX is an integer and |eps| <= 0.0001.
+surface [WARNING]: (x_max-x_min) must equal (NX + eps) * x_inc), where NX is an integer and |eps| <= 0.0001.
+surface (gmtapi_init_grdheader): Please select compatible -R and -I values
+surface (gmtapi_init_grdheader): Please select compatible -R and -I values
+surface [WARNING]: (x_max-x_min) must equal (NX + eps) * x_inc), where NX is an integer and |eps| <= 0.0001.
+surface [WARNING]: (x_max-x_min) must equal (NX + eps) * x_inc), where NX is an integer and |eps| <= 0.0001.
+surface (gmtapi_init_grdheader): Please select compatible -R and -I values
+surface (gmtapi_init_grdheader): Please select compatible -R and -I values
+surface [WARNING]: (x_max-x_min) must equal (NX + eps) * x_inc), where NX is an integer and |eps| <= 0.0001.
+surface [WARNING]: (x_max-x_min) must equal (NX + eps) * x_inc), where NX is an integer and |eps| <= 0.0001.
+surface (gmtapi_init_grdheader): Please select compatible -R and -I values
+surface (gmtapi_init_grdheader): Please select compatible -R and -I values
+surface [WARNING]: Your grid dimensions are mutually prime.  Convergence is very unlikely.
+surface [WARNING]: Your grid dimensions are mutually prime.  Convergence is very unlikely.
+[2]  + Done                          gmt surface atmp.xyz -bi3d -R0/25788/0/85988 -I8/4 -Gatmp.grd -T0.5 -N1000 -r
+[1]  + Done                          gmt surface rtmp.xyz -bi3d -R0/25788/0/85988 -I8/4 -Grtmp.grd -T0.5 -N1000 -r
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 25623 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20220109t121419-20220109t121716-041384-04eb9b-005.tiff)
+Writing SLCL & SLCH..
+Segmentation fault (core dumped)
+awk: cmd. line:1: {print $1/2.0/3.141592653/}
+awk: cmd. line:1:                           ^ syntax error
+Updating azimuth shift with a constant...(medain )
+grdmath [ERROR]: Operation "ADD" requires 2 operands
+mv: cannot stat 'tmp.grd': No such file or directory
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 25623 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20220109t121419-20220109t121716-041384-04eb9b-005.tiff)
+Writing SLC..Image Size: 25788 X 85988...
+2022008.509949146537  2022008.511994900880
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42312.000000,42302.000000
+Successfully opened junk1 
+Reading in 25509 lines of info from XML...
+Writing 34 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20220121t121418-20220121t121715-041559-04f156-005.tiff)
+2022020.509940779768  2022020.511986629339
+Reading 9361 lines from precise orbit...
+Writing 372 lines of precise orbit for the LED file...
+42302.000000,42292.000000
+Successfully opened junk1.PRM 
+Successfully opened junk2.PRM 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20220121_121418_F2.LED 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20220121_121418_F2.LED 
+Successfully opened junk1 
+Successfully opened junk1 
+[1] 1670799
+[2] 1670800
+[2]    Done                          SAT_llt2rat S1_20220121_121418_F2.PRM 1 < topo.llt > tmp1.dat
+[1]  + Done                          SAT_llt2rat tmp.PRM 1 < topo.llt > tmpm.dat
+[1] 1670865
+[2] 1670866
+[2]    Done                          gmt surface atmp.xyz -bi3d -R0/25792/0/85992 -I8/4 -Gatmp.grd -T0.5 -N1000 -r
+[1]  + Done                          gmt surface rtmp.xyz -bi3d -R0/25792/0/85992 -I8/4 -Grtmp.grd -T0.5 -N1000 -r
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 25509 lines of info from XML...
+Writing 34 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20220121t121418-20220121t121715-041559-04f156-005.tiff)
+Writing SLCL & SLCH..
+Segmentation fault (core dumped)
+awk: cmd. line:1: {print $1/2.0/3.141592653/}
+awk: cmd. line:1:                           ^ syntax error
+Updating azimuth shift with a constant...(medain )
+grdmath [ERROR]: Operation "ADD" requires 2 operands
+mv: cannot stat 'tmp.grd': No such file or directory
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 25509 lines of info from XML...
+Writing 34 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20220121t121418-20220121t121715-041559-04f156-005.tiff)
+Writing SLC..Image Size: 25792 X 85992...
+2022020.509940779768  2022020.511986629339
+Reading 9361 lines from precise orbit...
+Writing 372 lines of precise orbit for the LED file...
+42302.000000,42292.000000
+Successfully opened junk1 
+Reading in 25471 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20220509t121420-20220509t121716-043134-0526c4-005.tiff)
+2022128.509955527727  2022128.512001377298
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42312.000000,42302.000000
+Successfully opened junk1.PRM 
+Successfully opened junk2.PRM 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20220509_121420_F2.LED 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20220509_121420_F2.LED 
+Successfully opened junk1 
+Successfully opened junk1 
+[1] 1671958
+[2] 1671959
+[2]    Done                          SAT_llt2rat S1_20220509_121420_F2.PRM 1 < topo.llt > tmp1.dat
+[1]  + Done                          SAT_llt2rat tmp.PRM 1 < topo.llt > tmpm.dat
+[1] 1672021
+[2] 1672022
+[2]  + Done                          gmt surface atmp.xyz -bi3d -R0/25792/0/85992 -I8/4 -Gatmp.grd -T0.5 -N1000 -r
+[1]  + Done                          gmt surface rtmp.xyz -bi3d -R0/25792/0/85992 -I8/4 -Grtmp.grd -T0.5 -N1000 -r
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 25471 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20220509t121420-20220509t121716-043134-0526c4-005.tiff)
+Writing SLCL & SLCH..
+Segmentation fault (core dumped)
+awk: cmd. line:1: {print $1/2.0/3.141592653/}
+awk: cmd. line:1:                           ^ syntax error
+Updating azimuth shift with a constant...(medain )
+grdmath [ERROR]: Operation "ADD" requires 2 operands
+mv: cannot stat 'tmp.grd': No such file or directory
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 25471 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20220509t121420-20220509t121716-043134-0526c4-005.tiff)
+Writing SLC..Image Size: 25792 X 85992...
+2022128.509955527727  2022128.512001377298
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42312.000000,42302.000000
+Successfully opened junk1 
+Reading in 25471 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20220521t121420-20220521t121717-043309-052c00-005.tiff)
+2022140.509964596480  2022140.512010636274
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42312.000000,42302.000000
+Successfully opened junk1.PRM 
+Successfully opened junk2.PRM 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20220521_121420_F2.LED 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20220521_121420_F2.LED 
+Successfully opened junk1 
+Successfully opened junk1 
+[1] 1673066
+[2] 1673067
+[2]    Done                          SAT_llt2rat S1_20220521_121420_F2.PRM 1 < topo.llt > tmp1.dat
+[1]  + Done                          SAT_llt2rat tmp.PRM 1 < topo.llt > tmpm.dat
+[1] 1673136
+[2] 1673137
+[2]    Done                          gmt surface atmp.xyz -bi3d -R0/25792/0/86000 -I8/4 -Gatmp.grd -T0.5 -N1000 -r
+[1]  + Done                          gmt surface rtmp.xyz -bi3d -R0/25792/0/86000 -I8/4 -Grtmp.grd -T0.5 -N1000 -r
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 25471 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20220521t121420-20220521t121717-043309-052c00-005.tiff)
+Writing SLCL & SLCH..
+Segmentation fault (core dumped)
+awk: cmd. line:1: {print $1/2.0/3.141592653/}
+awk: cmd. line:1:                           ^ syntax error
+Updating azimuth shift with a constant...(medain )
+grdmath [ERROR]: Operation "ADD" requires 2 operands
+mv: cannot stat 'tmp.grd': No such file or directory
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 25471 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20220521t121420-20220521t121717-043309-052c00-005.tiff)
+Writing SLC..Image Size: 25792 X 86000...
+2022140.509964596480  2022140.512010636274
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42312.000000,42302.000000
+Successfully opened junk1 
+Reading in 25748 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20220906t121427-20220906t121724-044884-055c70-005.tiff)
+2022248.510044755414  2022248.512090509757
+Reading 9361 lines from precise orbit...
+Writing 372 lines of precise orbit for the LED file...
+42312.000000,42302.000000
+Successfully opened junk1.PRM 
+Successfully opened junk2.PRM 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20220906_121427_F2.LED 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20220906_121427_F2.LED 
+Successfully opened junk1 
+Successfully opened junk1 
+[1] 1674388
+[2] 1674389
+[2]  + Done                          SAT_llt2rat S1_20220906_121427_F2.PRM 1 < topo.llt > tmp1.dat
+[1]  + Done                          SAT_llt2rat tmp.PRM 1 < topo.llt > tmpm.dat
+[1] 1674449
+[2] 1674450
+[2]  + Done                          gmt surface atmp.xyz -bi3d -R0/25792/0/85988 -I8/4 -Gatmp.grd -T0.5 -N1000 -r
+[1]  + Done                          gmt surface rtmp.xyz -bi3d -R0/25792/0/85988 -I8/4 -Grtmp.grd -T0.5 -N1000 -r
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 25748 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20220906t121427-20220906t121724-044884-055c70-005.tiff)
+Writing SLCL & SLCH..
+Segmentation fault (core dumped)
+awk: cmd. line:1: {print $1/2.0/3.141592653/}
+awk: cmd. line:1:                           ^ syntax error
+Updating azimuth shift with a constant...(medain )
+grdmath [ERROR]: Operation "ADD" requires 2 operands
+mv: cannot stat 'tmp.grd': No such file or directory
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 25748 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20220906t121427-20220906t121724-044884-055c70-005.tiff)
+Writing SLC..Image Size: 25792 X 85988...
+2022248.510044755414  2022248.512090509757
+Reading 9361 lines from precise orbit...
+Writing 372 lines of precise orbit for the LED file...
+42312.000000,42302.000000
+Successfully opened junk1 
+Reading in 25471 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20220918t121427-20220918t121724-045059-05624c-005.tiff)
+2022260.510041627800  2022260.512087382143
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42312.000000,42302.000000
+Successfully opened junk1.PRM 
+Successfully opened junk2.PRM 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20220918_121427_F2.LED 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20220918_121427_F2.LED 
+Successfully opened junk1 
+Successfully opened junk1 
+[1] 1675513
+[2] 1675514
+[2]  + Done                          SAT_llt2rat S1_20220918_121427_F2.PRM 1 < topo.llt > tmp1.dat
+[1]  + Done                          SAT_llt2rat tmp.PRM 1 < topo.llt > tmpm.dat
+[1] 1675604
+[2] 1675605
+[2]  + Done                          gmt surface atmp.xyz -bi3d -R0/25792/0/85988 -I8/4 -Gatmp.grd -T0.5 -N1000 -r
+[1]  + Done                          gmt surface rtmp.xyz -bi3d -R0/25792/0/85988 -I8/4 -Grtmp.grd -T0.5 -N1000 -r
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 25471 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20220918t121427-20220918t121724-045059-05624c-005.tiff)
+Writing SLCL & SLCH..
+Segmentation fault (core dumped)
+awk: cmd. line:1: {print $1/2.0/3.141592653/}
+awk: cmd. line:1:                           ^ syntax error
+Updating azimuth shift with a constant...(medain )
+grdmath [ERROR]: Operation "ADD" requires 2 operands
+mv: cannot stat 'tmp.grd': No such file or directory
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 25471 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20220918t121427-20220918t121724-045059-05624c-005.tiff)
+Writing SLC..Image Size: 25792 X 85988...
+2022260.510041627800  2022260.512087382143
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42312.000000,42302.000000
+Successfully opened junk1 
+Reading in 25578 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20220930t121428-20220930t121725-045234-056828-005.tiff)
+2022272.510049337521  2022272.512095187092
+Reading 9361 lines from precise orbit...
+Writing 372 lines of precise orbit for the LED file...
+42312.000000,42302.000000
+Successfully opened junk1.PRM 
+Successfully opened junk2.PRM 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20220930_121428_F2.LED 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20220930_121428_F2.LED 
+Successfully opened junk1 
+Successfully opened junk1 
+[1] 1677061
+[2] 1677062
+[2]    Done                          SAT_llt2rat S1_20220930_121428_F2.PRM 1 < topo.llt > tmp1.dat
+[1]  + Done                          SAT_llt2rat tmp.PRM 1 < topo.llt > tmpm.dat
+[1] 1677146
+[2] 1677147
+[2]  + Done                          gmt surface atmp.xyz -bi3d -R0/25792/0/85992 -I8/4 -Gatmp.grd -T0.5 -N1000 -r
+[1]  + Done                          gmt surface rtmp.xyz -bi3d -R0/25792/0/85992 -I8/4 -Grtmp.grd -T0.5 -N1000 -r
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 25578 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20220930t121428-20220930t121725-045234-056828-005.tiff)
+Writing SLCL & SLCH..
+Segmentation fault (core dumped)
+awk: cmd. line:1: {print $1/2.0/3.141592653/}
+awk: cmd. line:1:                           ^ syntax error
+Updating azimuth shift with a constant...(medain )
+grdmath [ERROR]: Operation "ADD" requires 2 operands
+mv: cannot stat 'tmp.grd': No such file or directory
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 25578 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20220930t121428-20220930t121725-045234-056828-005.tiff)
+Writing SLC..Image Size: 25792 X 85992...
+2022272.510049337521  2022272.512095187092
+Reading 9361 lines from precise orbit...
+Writing 372 lines of precise orbit for the LED file...
+42312.000000,42302.000000
+Successfully opened junk1 
+Reading in 25471 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20230104t121425-20230104t121722-046634-0596df-005.tiff)
+2023003.510017342633  2023003.512063382426
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42312.000000,42302.000000
+Successfully opened junk1.PRM 
+Successfully opened junk2.PRM 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20230104_121425_F2.LED 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20230104_121425_F2.LED 
+Successfully opened junk1 
+Successfully opened junk1 
+[1] 1678429
+[2] 1678430
+[2]  + Done                          SAT_llt2rat S1_20230104_121425_F2.PRM 1 < topo.llt > tmp1.dat
+[1]  + Done                          SAT_llt2rat tmp.PRM 1 < topo.llt > tmpm.dat
+[1] 1678504
+[2] 1678505
+[2]  + Done                          gmt surface atmp.xyz -bi3d -R0/25792/0/86000 -I8/4 -Gatmp.grd -T0.5 -N1000 -r
+[1]  + Done                          gmt surface rtmp.xyz -bi3d -R0/25792/0/86000 -I8/4 -Grtmp.grd -T0.5 -N1000 -r
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 25471 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20230104t121425-20230104t121722-046634-0596df-005.tiff)
+Writing SLCL & SLCH..
+Segmentation fault (core dumped)
+awk: cmd. line:1: {print $1/2.0/3.141592653/}
+awk: cmd. line:1:                           ^ syntax error
+Updating azimuth shift with a constant...(medain )
+grdmath [ERROR]: Operation "ADD" requires 2 operands
+mv: cannot stat 'tmp.grd': No such file or directory
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 25471 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20230104t121425-20230104t121722-046634-0596df-005.tiff)
+Writing SLC..Image Size: 25792 X 86000...
+2023003.510017342633  2023003.512063382426
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42312.000000,42302.000000
+Successfully opened junk1 
+Reading in 25443 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20230116t121424-20230116t121721-046809-059cc0-005.tiff)
+2023015.510008907877  2023015.512054757448
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42312.000000,42302.000000
+Successfully opened junk1.PRM 
+Successfully opened junk2.PRM 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20230116_121424_F2.LED 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20230116_121424_F2.LED 
+Successfully opened junk1 
+Successfully opened junk1 
+[1] 1679548
+[2] 1679549
+[2]    Done                          SAT_llt2rat S1_20230116_121424_F2.PRM 1 < topo.llt > tmp1.dat
+[1]  + Done                          SAT_llt2rat tmp.PRM 1 < topo.llt > tmpm.dat
+[1] 1679619
+[2] 1679620
+[2]  + Done                          gmt surface atmp.xyz -bi3d -R0/25792/0/85992 -I8/4 -Gatmp.grd -T0.5 -N1000 -r
+[1]  + Done                          gmt surface rtmp.xyz -bi3d -R0/25792/0/85992 -I8/4 -Grtmp.grd -T0.5 -N1000 -r
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 25443 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20230116t121424-20230116t121721-046809-059cc0-005.tiff)
+Writing SLCL & SLCH..
+Segmentation fault (core dumped)
+awk: cmd. line:1: {print $1/2.0/3.141592653/}
+awk: cmd. line:1:                           ^ syntax error
+Updating azimuth shift with a constant...(medain )
+grdmath [ERROR]: Operation "ADD" requires 2 operands
+mv: cannot stat 'tmp.grd': No such file or directory
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 25443 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20230116t121424-20230116t121721-046809-059cc0-005.tiff)
+Writing SLC..Image Size: 25792 X 85992...
+2023015.510008907877  2023015.512054757448
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42312.000000,42302.000000
+Successfully opened junk1 
+Reading in 25651 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20230128t121424-20230128t121721-046984-05a2a8-005.tiff)
+2023027.510009807767  2023027.512055657338
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42312.000000,42302.000000
+Successfully opened junk1.PRM 
+Successfully opened junk2.PRM 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20230128_121424_F2.LED 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20230128_121424_F2.LED 
+Successfully opened junk1 
+Successfully opened junk1 
+[1] 1681080
+[2] 1681081
+[2]    Done                          SAT_llt2rat S1_20230128_121424_F2.PRM 1 < topo.llt > tmp1.dat
+[1]  + Done                          SAT_llt2rat tmp.PRM 1 < topo.llt > tmpm.dat
+[1] 1681244
+[2] 1681245
+[2]  + Done                          gmt surface atmp.xyz -bi3d -R0/25792/0/85992 -I8/4 -Gatmp.grd -T0.5 -N1000 -r
+[1]  + Done                          gmt surface rtmp.xyz -bi3d -R0/25792/0/85992 -I8/4 -Grtmp.grd -T0.5 -N1000 -r
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 25651 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20230128t121424-20230128t121721-046984-05a2a8-005.tiff)
+Writing SLCL & SLCH..
+Segmentation fault (core dumped)
+awk: cmd. line:1: {print $1/2.0/3.141592653/}
+awk: cmd. line:1:                           ^ syntax error
+Updating azimuth shift with a constant...(medain )
+grdmath [ERROR]: Operation "ADD" requires 2 operands
+mv: cannot stat 'tmp.grd': No such file or directory
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 25651 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20230128t121424-20230128t121721-046984-05a2a8-005.tiff)
+Writing SLC..Image Size: 25792 X 85992...
+2023027.510009807767  2023027.512055657338
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42312.000000,42302.000000
+Successfully opened junk1 
+Reading in 25536 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20230209t121423-20230209t121720-047159-05a87c-005.tiff)
+2023039.509997976013  2023039.512043825584
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42312.000000,42302.000000
+Successfully opened junk1.PRM 
+Successfully opened junk2.PRM 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20230209_121423_F2.LED 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20230209_121423_F2.LED 
+Successfully opened junk1 
+Successfully opened junk1 
+[1] 1682638
+[2] 1682639
+[2]    Done                          SAT_llt2rat S1_20230209_121423_F2.PRM 1 < topo.llt > tmp1.dat
+[1]  + Done                          SAT_llt2rat tmp.PRM 1 < topo.llt > tmpm.dat
+[1] 1682740
+[2] 1682741
+[2]  + Done                          gmt surface atmp.xyz -bi3d -R0/25792/0/85992 -I8/4 -Gatmp.grd -T0.5 -N1000 -r
+[1]  + Done                          gmt surface rtmp.xyz -bi3d -R0/25792/0/85992 -I8/4 -Grtmp.grd -T0.5 -N1000 -r
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 25536 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20230209t121423-20230209t121720-047159-05a87c-005.tiff)
+Writing SLCL & SLCH..
+Segmentation fault (core dumped)
+awk: cmd. line:1: {print $1/2.0/3.141592653/}
+awk: cmd. line:1:                           ^ syntax error
+Updating azimuth shift with a constant...(medain )
+grdmath [ERROR]: Operation "ADD" requires 2 operands
+mv: cannot stat 'tmp.grd': No such file or directory
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 25536 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20230209t121423-20230209t121720-047159-05a87c-005.tiff)
+Writing SLC..Image Size: 25792 X 85992...
+2023039.509997976013  2023039.512043825584
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42312.000000,42302.000000
+Successfully opened junk1 
+Reading in 25637 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20230221t121423-20230221t121720-047334-05ae71-005.tiff)
+2023051.509996016975  2023051.512041866546
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42312.000000,42302.000000
+Successfully opened junk1.PRM 
+Successfully opened junk2.PRM 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20230221_121423_F2.LED 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20230221_121423_F2.LED 
+Successfully opened junk1 
+Successfully opened junk1 
+[1] 1684296
+[2] 1684297
+[2]    Done                          SAT_llt2rat S1_20230221_121423_F2.PRM 1 < topo.llt > tmp1.dat
+[1]  + Done                          SAT_llt2rat tmp.PRM 1 < topo.llt > tmpm.dat
+[1] 1684477
+[2] 1684478
+[2]  + Done                          gmt surface atmp.xyz -bi3d -R0/25792/0/85992 -I8/4 -Gatmp.grd -T0.5 -N1000 -r
+[1]  + Done                          gmt surface rtmp.xyz -bi3d -R0/25792/0/85992 -I8/4 -Grtmp.grd -T0.5 -N1000 -r
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 25637 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20230221t121423-20230221t121720-047334-05ae71-005.tiff)
+Writing SLCL & SLCH..
+Segmentation fault (core dumped)
+awk: cmd. line:1: {print $1/2.0/3.141592653/}
+awk: cmd. line:1:                           ^ syntax error
+Updating azimuth shift with a constant...(medain )
+grdmath [ERROR]: Operation "ADD" requires 2 operands
+mv: cannot stat 'tmp.grd': No such file or directory
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 25637 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20230221t121423-20230221t121720-047334-05ae71-005.tiff)
+Writing SLC..Image Size: 25792 X 85992...
+2023051.509996016975  2023051.512041866546
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42312.000000,42302.000000
+Successfully opened junk1 
+Reading in 25588 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20230305t121424-20230305t121720-047509-05b45b-005.tiff)
+2023063.510001594434  2023063.512047444005
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42312.000000,42302.000000
+Successfully opened junk1.PRM 
+Successfully opened junk2.PRM 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20230305_121424_F2.LED 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20230305_121424_F2.LED 
+Successfully opened junk1 
+Successfully opened junk1 
+[1] 1685367
+[2] 1685368
+[2]    Done                          SAT_llt2rat S1_20230305_121424_F2.PRM 1 < topo.llt > tmp1.dat
+[1]  + Done                          SAT_llt2rat tmp.PRM 1 < topo.llt > tmpm.dat
+[1] 1685498
+[2] 1685499
+[2]  + Done                          gmt surface atmp.xyz -bi3d -R0/25792/0/85992 -I8/4 -Gatmp.grd -T0.5 -N1000 -r
+[1]  + Done                          gmt surface rtmp.xyz -bi3d -R0/25792/0/85992 -I8/4 -Grtmp.grd -T0.5 -N1000 -r
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 25588 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20230305t121424-20230305t121720-047509-05b45b-005.tiff)
+Writing SLCL & SLCH..
+Segmentation fault (core dumped)
+awk: cmd. line:1: {print $1/2.0/3.141592653/}
+awk: cmd. line:1:                           ^ syntax error
+Updating azimuth shift with a constant...(medain )
+grdmath [ERROR]: Operation "ADD" requires 2 operands
+mv: cannot stat 'tmp.grd': No such file or directory
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 25588 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20230305t121424-20230305t121720-047509-05b45b-005.tiff)
+Writing SLC..Image Size: 25792 X 85992...
+2023063.510001594434  2023063.512047444005
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42312.000000,42302.000000
+Successfully opened junk1 
+Reading in 25685 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20230317t121423-20230317t121720-047684-05ba45-005.tiff)
+2023075.509997247020  2023075.512043001363
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42312.000000,42302.000000
+Successfully opened junk1.PRM 
+Successfully opened junk2.PRM 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20230317_121423_F2.LED 
+using command line
+......master LED file S1_20200120_121407_F2.LED 
+.........aligned LED file S1_20230317_121423_F2.LED 
+Successfully opened junk1 
+Successfully opened junk1 
+[1] 1687575
+[2] 1687576
+[2]  + Done                          SAT_llt2rat S1_20230317_121423_F2.PRM 1 < topo.llt > tmp1.dat
+[1]  + Done                          SAT_llt2rat tmp.PRM 1 < topo.llt > tmpm.dat
+[1] 1687638
+[2] 1687639
+[2]  + Done                          gmt surface atmp.xyz -bi3d -R0/25792/0/85988 -I8/4 -Gatmp.grd -T0.5 -N1000 -r
+[1]  + Done                          gmt surface rtmp.xyz -bi3d -R0/25792/0/85988 -I8/4 -Grtmp.grd -T0.5 -N1000 -r
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 25685 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20230317t121423-20230317t121720-047684-05ba45-005.tiff)
+Writing SLCL & SLCH..
+Segmentation fault (core dumped)
+awk: cmd. line:1: {print $1/2.0/3.141592653/}
+awk: cmd. line:1:                           ^ syntax error
+Updating azimuth shift with a constant...(medain )
+grdmath [ERROR]: Operation "ADD" requires 2 operands
+mv: cannot stat 'tmp.grd': No such file or directory
+Reading in range and azimuth shifts table...
+Working on burst  #1 #2 #3 #4 #5 #6 #7 #8 #9 #10 #11 #12 #13 #14 #15 #16 #17 #18 #19 #20 #21 #22 #23 #24 #25 #26 #27 #28 #29 #30 #31 #32 #33 #34 #35 #36 #37 #38 #39 #40 #41 #42 #43 #44 #45 #46 #47 #48 #49 #50 #51 #52 #53 #54 #55 #56 #57 #58 #59 #60 #61 #62 #63 #64
+number of points clipped to short int 0 
+Reading in 25685 lines of info from XML...
+Writing 32 lines for orbit...
+[make_s1a_tops]Open tiff in BigTiff mode for reading (s1a-iw2-slc-vv-20230317t121423-20230317t121720-047684-05ba45-005.tiff)
+Writing SLC..Image Size: 25792 X 85988...
+2023075.509997247020  2023075.512043001363
+Reading 9361 lines from precise orbit...
+Writing 371 lines of precise orbit for the LED file...
+42312.000000,42302.000000
+Successfully opened junk1 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20150603_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20150603_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20150627_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20150627_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20150721_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20150721_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20150907_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20150907_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20160105_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20160105_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20160129_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20160129_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20160504_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20160504_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20160528_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20160528_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20160901_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20160901_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20160925_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20160925_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20170123_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20170123_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20170511_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20170511_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20170523_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20170523_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20170908_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20170908_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20170920_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20170920_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20180106_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20180106_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20180118_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20180118_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20180130_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20180130_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20180506_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20180506_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20180518_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20180518_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20180530_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20180530_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20180903_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20180903_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20180915_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20180915_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20180927_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20180927_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20190101_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20190101_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20190113_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20190113_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20190125_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20190125_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20190501_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20190501_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20190513_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20190513_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20190910_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20190910_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20190922_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20190922_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20200108_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20200108_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20200120_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20200120_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20200507_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20200507_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20200519_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20200519_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20200531_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20200531_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20200904_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20200904_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20200916_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20200916_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20200928_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20200928_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20210102_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20210102_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20210114_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20210114_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20210126_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20210126_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20210502_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20210502_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20210514_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20210514_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20210526_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20210526_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20210911_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20210911_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20210923_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20210923_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20220109_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20220109_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20220121_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20220121_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20220509_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20220509_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20220521_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20220521_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20220906_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20220906_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20220918_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20220918_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20220930_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20220930_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20230104_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20230104_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20230116_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20230116_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20230128_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20230128_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20230209_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20230209_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20230221_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20230221_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20230305_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20230305_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20230317_ALL_F2.LED 
+using command line
+......master LED file S1_20200120_ALL_F2.LED 
+.........aligned LED file S1_20230317_ALL_F2.LED 

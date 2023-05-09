@@ -1,0 +1,11 @@
+# GMT 6 Session common arguments shelf
+BEGIN GMT 6.4.0
+B	xaf+lmm/yr:
+J	x
+JX	X5i
+Jx	x1id
+R	vel_mask_ll_gnss.grd
+X	2i
+Y	2i
+@L	1
+END

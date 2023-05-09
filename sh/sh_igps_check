@@ -1,0 +1,347 @@
+#!/bin/sh
+
+# Name:
+#   sh_igps_check
+#   
+
+# Purpose:
+#   +
+
+# Input:
+#   +
+
+# Output:
+#   +
+
+# Example:
+#   +
+
+# Algorigthm:
+#   +
+
+# Modifications:
+#   + Created on Mon May  8 15:15:22 CST 2023 by tianyf
+#   +
+
+# Dependency:
+#   +
+#
+
+
+PROG=sh_igps_check
+
+timestamp=`date | sed -e "s/ /_/g" | sed -e "s/:/-/g"`
+
+path_old=`pwd`
+
+usage_of_it(){
+cat <<eob
+${PROG}
+  version 20230508
+|_Check the system environment for running iGPS+GMTSAR.
+|+
+  -Dependencies_of_this_program
+|<
+  Inputs
+|>
+  Outputs
+|e.g.,
+  ${PROG}
+(c)iGPS (https://github.com/igps-ftk/)
+eob
+}
+
+#if [ $# -lt 2 ]; then
+#  usage_of_it
+#  exit 1
+#fi
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -h|-help|--help)
+      usage_of_it
+      exit 1
+      ;;
+    *)
+      echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid option ($1)!!"
+      usage_of_it
+      exit 1
+      ;;
+  esac
+  shift 2
+done
+
+
+this_arch=`sh_arch`
+
+echo "[$PROG]INFO:"
+echo "[$PROG]INFO: ----------checking iGPS-----------------"
+if [ "$iGPS" == "" ]; then
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: environment variable iGPS not set!!"
+  cat <<eob
+  Please set iGPS to the path where iGPS is installed.
+  For C-shell (tcsh; ~/.cshrc): setenv iGPS where_iGPS_extracted ,e.g.,
+setenv iGPS `pwd`
+  For B-shell (bash; ~/.bashrc): export iGPS=where_iGPS_extracted ,e.g.,
+export iGPS=`pwd`
+eob
+  exit 1
+else
+  if [ ! -d $iGPS ]; then
+    echo -e "[$PROG]\033[1;33;41mERROR\033[0m: iGPS directory not exist ($iGPS)!!"
+    exit 1
+  fi
+  echo "[$PROG]INFO: found iGPS at $iGPS"
+fi
+
+tmp=`which sh_arch`
+if [ "$tmp" == "" ]; then
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: cannot find iGPS shell scripts!!"
+  cat <<eob
+  Add the iGPS shell path to searching path.
+  For C-shell (tcsh; ~/.cshrc):
+set path = (\$path \${iGPS}/sh)
+  For B-shell (bash; ~/.bashrc):
+export PATH=\$PATH:\${iGPS}/sh
+eob
+  exit 1
+else
+  echo "[$PROG]INFO: iGPS shell script OK (`which sh_arch`)"
+  path_iGPS_shell=${iGPS}/sh
+fi
+
+tmp=`which hello`
+if [ "$tmp" == "" ]; then
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: cannot find iGPS executable!!"
+  cat <<eob
+  Where is the iGPS's executables? e.g.,
+    /usr/local/iGPS/ftk/bin/${this_arch}/
+  For C-shell (tcsh; ~/.cshrc):
+set path = (\$path \${iGPS}/ftk/bin/${this_arch})
+  For B-shell (bash; ~/.bashrc):
+export PATH=\$PATH:\${iGPS}/ftk/bin/${this_arch}
+eob
+  exit 1
+else
+  echo "[$PROG]INFO: found iGPS executables in `dirname $tmp`"
+  path_iGPS_exec=`dirname $tmp`
+fi
+
+file_hello=${iGPS}/ftk/bin/${this_arch}/hello
+tmp=`$file_hello | head -1 | grep 'Usage: hello ofile.name'`
+#echo $tmp
+if [ "$tmp" == "" ]; then
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: iGPS seems not work!!"
+  cat <<eob
+  Where is the iGPS's executables? e.g.,
+    /usr/local/iGPS/ftk/bin/${this_arch}/
+  For C-shell (tcsh; ~/.cshrc):
+set path = (\$path \$iGPS/ftk/bin/${this_arch})
+  For B-shell (bash; ~/.bashrc):
+export PATH=\$PATH:\$iGPS/ftk/bin/${this_arch}
+eob
+  exit 1
+else
+  echo "[$PROG]INFO: hello from iGPS OK ($file_hello)"
+fi
+
+echo "[$PROG]INFO:"
+echo "[$PROG]INFO: -------------checking GMT---------------"
+tmp=`which gmt`
+if [ "$tmp" == "" ]; then
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: cannot find GMT installation!!"
+  cat <<eob
+  Where is the GMT's gmt program? e.g.,
+    /usr/local/GMT-6.4.0/bin/gmt
+  For C-shell (tcsh; ~/.cshrc):
+set path = (\$path /usr/local/GMT-6.4.0/bin/)
+  For B-shell (bash; ~/.bashrc):
+export PATH=\$PATH:/usr/local/GMT-6.4.0/bin/}
+eob
+  exit 1
+else
+  echo "[$PROG]INFO: found GMT in `dirname $tmp`"
+  path_GMT_bin=`dirname $tmp`
+fi
+
+echo "[$PROG]INFO:"
+echo "[$PROG]INFO: ------------checking GMTSAR-------------"
+tmp=`which sbas`
+if [ "$tmp" == "" ]; then
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: cannot find GMTSAR installation!!"
+  cat <<eob
+  Where is the GMTSAR's sbas program? e.g.,
+    /usr/local/GMTSAR-master/bin/sbas
+  For C-shell (tcsh; ~/.cshrc):
+set path = (\$path /usr/local/GMTSAR-master/bin)
+  For B-shell (bash; ~/.bashrc):
+export PATH=\$PATH:/usr/local/GMTSAR-master/bin}
+eob
+  exit 1
+else
+  echo "[$PROG]INFO: found GMTSAR in `dirname $tmp`"
+  path_GMTSAR_bin=`dirname $tmp`
+fi
+
+
+echo "[$PROG]INFO:"
+echo "[$PROG]INFO: ----------checking GAMIT/GLOBK----------"
+echo "[$PROG]INFO: checking doy ..."
+tmp=`which doy`
+path_gg=
+if [ "$tmp" == "" ]; then
+  echo -e "[$PROG]\033[1;33;46mWARNING\033[0m: cannot find GMTIT/GLOBK installation!"
+  cat <<eob
+  Where is the GMIT/GLOBK's doy program? e.g.,
+    /home/you/gg/kf/bin/doy
+  Will use the library (gglib.a.*) and executable (doy) bundled with iGPS.
+    \${iGPS}/ftk/bin/Linux_x86_64/doy (Centos 7 x64)
+    \${iGPS}/ftk/bin/CYGWIN_NT-10.0_unknown/doy (Cygwin in Windows 10 x64)
+    \${iGPS}/ftk/gglib/gglib.a.*
+eob
+  tmp=`which doy_gg`
+  if [ "$tmp" != "" ]; then
+    echo "  Create link for doy program:"
+    echo ln -rs $tmp `dirname $tmp`/doy
+    echo ln -rs $tmp `dirname $tmp`/doy | sh
+    file_doy=`dirname $tmp`/doy
+  else
+    echo -e "[$PROG]\033[1;33;41mERROR\033[0m: cannot find doy in GAMIT/GLOBK or iGPS!!"
+    exit 1
+  fi
+else
+  #echo $tmp
+  tmp1=`dirname $tmp`
+  tmp2=`dirname $tmp1`
+  tmp3=`dirname $tmp2`
+  #basename $tmp2
+  if [ "`basename $tmp3`" == "ftk" ]; then
+    echo "[$PROG]INFO: found GAMIT/GLOBK's doy bundled with iGPS in $tmp3"
+  else
+    echo "[$PROG]INFO: found GAMIT/GLOBK in $tmp3"
+    path_gg=$tmp3
+  fi
+  file_doy=$tmp
+fi
+
+echo "[$PROG]INFO: checking whether doy works..."
+tmp=`echo $file_doy 2023 1 1 | sh |head -1 | awk '{print $8}'`
+#echo $tmp
+#$ doy 23 1 1
+#Date 2023/01/01  0:00 hrs, DOY   1 JD  2459945.5000 MJD  59945.0000
+#GPS Week  2243 Day of week  0, GPS Seconds      0 Day of Week Sun
+#Decimal Year 2023.000000000 GRACE Seconds 725803200.0
+if [ "$tmp" != "2459945.5000" ]; then
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: doy seems not working ($file_doy)!!"
+  exit 1
+else
+  echo "[$PROG]INFO: doy OK ($file_doy)"
+fi
+#exit
+
+echo "[$PROG]INFO: checking libaray (gglib.a) ..."
+file_gglib=${iGPS}/ftk/gglib/gglib.a.${this_arch}
+if [ ! -s $file_gglib ]; then
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: cannot find GAMIT/GLOBK library ($file_gglib)!!"
+  cat <<eob
+  If you have GAMIT/GLOBK, use the below command to create one:
+    \${iGPS}/sh/arlib where_gamit_globk_installed
+  E.g.,
+    arlib /usr/local/gamit-v10.71
+eob
+  exit 1
+else
+  echo "[$PROG]INFO: found GAMIT/GLOBK libaray at $file_gglib"
+  cat <<eob
+  If it does not work when compiling the code, try creating a new one with arlib.
+eob
+fi
+#exit
+
+#
+echo "[$PROG]INFO:"
+echo "[$PROG]INFO: ---------checking \$esa_data-------------"
+if [ "$esa_data" == "" ]; then
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: environment variable esa_data not set!!"
+  cat <<eob
+  For C-shell (tcsh; ~/.cshrc):
+setenv esa_data root_directory_where_you_store_Sentinel-1_data_and_orbit
+  For B-shell (bash; ~/.bashrc):
+export esa_data=root_directory_where_you_store_Sentinel-1_data_and_orbit
+eob
+  exit 1
+fi
+if [ ! -d $esa_data ]; then
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: root data directory not exist ($esa_data)!!"
+  exit 1
+fi
+cat <<eob
+[OK]esa_data ($esa_data)
+  data structure:
+                  |2014/- S1?_OPER_AUX_POEORB_OPOD_*2014*.EOF
+  e |-aux_poeorb/-|2015/
+    |             |...
+  s |             |2023/
+    |-aux_resorb/
+  a | 
+    |-s1/- S1?_IW_SLC__1S?V_20*.zip
+  _ | 
+    |        aster1/        
+  d |-topo/- srtm1/
+    |        srtm3/-|grid/- china.grd 
+  a |               |expt1/- dem.grd
+    |               |...
+  t |  
+    |                           |A012/- S1?_IW_SLC__1S?V_20*.manifest.safe
+  a |-metainfo/- manifest.safe/-|D121/
+                                |...
+   
+eob
+
+echo "[$PROG]INFO: checking \$esa_unzip ..."
+if [ "$esa_unzip" == "" ]; then
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: environment variable esa_unzip not set!!"
+  cat <<eob
+  For C-shell (tcsh; ~/.cshrc): setenv esa_unzip somewhere ,e.g.,
+setenv esa_unzip ${iGPS}/example/insar/esa_unzip
+  For B-shell (bash; ~/.bashrc): export esa_unzip=somewhere ,e.g.,
+export esa_unzip=${iGPS}/example/insar/esa_unzip
+eob
+  exit 1
+fi
+if [ ! -d $esa_unzip ]; then
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: temporary unzip directory not exist ($esa_unzip)!!"
+  exit 1
+fi
+path_tmp_test="${esa_unzip}/test_igps"
+echo mkdir -p $path_tmp_test
+mkdir -p $path_tmp_test
+if [ $? -ne 0 ]; then
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: cannot write temporary unzip directory ($esa_unzip)!!"
+  exit 1
+else
+  echo rm -r $path_tmp_test
+  echo rm -r $path_tmp_test | sh
+fi
+
+cat <<eob
+[OK]esa_unzip ($esa_unzip)
+eob
+echo "[$PROG]INFO:"
+echo "[$PROG]INFO: iGPS OK"
+echo "[$PROG]INFO:   $path_iGPS_shell"
+echo "[$PROG]INFO:   $path_iGPS_exec"
+echo "[$PROG]INFO: GMT OK"
+echo "[$PROG]INFO:   $path_GMT_bin"
+echo "[$PROG]INFO: GMTSAR OK"
+echo "[$PROG]INFO:   $path_GMTSAR_bin"
+echo "[$PROG]INFO: GAMIT/GLOBK OK"
+echo "[$PROG]INFO:   $file_doy"
+echo "[$PROG]INFO:   $file_gglib"
+echo "[$PROG]INFO: \$esa_data OK"
+echo "[$PROG]INFO:   $esa_data"
+echo "[$PROG]INFO: \$esa_unzip OK"
+echo "[$PROG]INFO:   $esa_unzip"
+echo "[$PROG]INFO: -------installation seems OK------------"
+
+echo "[$PROG]INFO: done."
