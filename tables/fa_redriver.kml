@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+<Document>
+	<name>fa_redriver.kml</name>
+	<StyleMap id="m_ylw-pushpin00000">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#s_ylw-pushpin00000</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#s_ylw-pushpin_hl0000</styleUrl>
+		</Pair>
+	</StyleMap>
+	<Style id="s_ylw-pushpin00000">
+		<IconStyle>
+			<scale>1.1</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png</href>
+			</Icon>
+			<hotSpot x="20" y="2" xunits="pixels" yunits="pixels"/>
+		</IconStyle>
+		<LineStyle>
+			<color>ff00ffff</color>
+		</LineStyle>
+	</Style>
+	<Style id="s_ylw-pushpin_hl0000">
+		<IconStyle>
+			<scale>1.3</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png</href>
+			</Icon>
+			<hotSpot x="20" y="2" xunits="pixels" yunits="pixels"/>
+		</IconStyle>
+		<LineStyle>
+			<color>ff00ffff</color>
+		</LineStyle>
+	</Style>
+	<Placemark>
+		<name>Red River Fault</name>
+		<styleUrl>#m_ylw-pushpin00000</styleUrl>
+		<ExtendedData>
+			<SchemaData schemaUrl="#dextral">
+				<SimpleData name="Name">Red River Fault</SimpleData>
+				<SimpleData name="Id">0</SimpleData>
+				<SimpleData name="Type">strike-slip</SimpleData>
+				<SimpleData name="ltype">1311</SimpleData>
+				<SimpleData name="X">103.32427717900</SimpleData>
+				<SimpleData name="Y">22.97786536580</SimpleData>
+				<SimpleData name="Source">Wang, et al., 1998; Leloup, et al., 1995</SimpleData>
+			</SchemaData>
+		</ExtendedData>
+		<LineString>
+			<coordinates>
+				100.2065064421913,25.72542284623766,0 100.450033682371,25.35562222226108,0 100.8108147789336,25.01288018052667,0 101.1896349303242,24.52582570016727,0 101.6045331913711,23.99367358273754,0 101.9653142879337,23.59681437651876,0 102.2088415281134,23.45250193789375,0 102.6147202617462,23.25407233478436,0 102.9484427760665,23.15485753322966,0 103.2280481259025,23.01956462201871,0 103.4986339483244,22.90231076563589,0 103.6970635514338,22.73995927218276,0 104.3554890526604,22.18074857251084,0 104.7884263685354,21.85604558560457,0 105.1672465199261,21.46820590679985,0 105.726457219598,20.98115142644044,0 106.3307655563402,20.27762828814351,0 106.4840975223793,20.14233537693256,0 
+			</coordinates>
+		</LineString>
+	</Placemark>
+</Document>
+</kml>

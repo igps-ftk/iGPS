@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+<Document>
+	<name>fa_ganzi_yushu.kml</name>
+	<Style id="st-18544-0">
+		<IconStyle>
+			<color>ff80c0ff</color>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/pal4/icon57.png</href>
+			</Icon>
+		</IconStyle>
+		<LabelStyle>
+			<color>bfffffff</color>
+		</LabelStyle>
+		<LineStyle>
+			<color>ffff0000</color>
+			<width>2</width>
+		</LineStyle>
+		<PolyStyle>
+			<color>ff80c0ff</color>
+		</PolyStyle>
+	</Style>
+	<Style id="st-18544-00">
+		<IconStyle>
+			<color>ff80c0ff</color>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/pal4/icon57.png</href>
+			</Icon>
+		</IconStyle>
+		<LabelStyle>
+			<color>bfffffff</color>
+		</LabelStyle>
+		<LineStyle>
+			<color>ffff0000</color>
+			<width>2</width>
+		</LineStyle>
+		<PolyStyle>
+			<color>ff80c0ff</color>
+		</PolyStyle>
+	</Style>
+	<StyleMap id="st-18544-01">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#st-18544-00</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#st-18544-0</styleUrl>
+		</Pair>
+	</StyleMap>
+	<Placemark>
+		<name>fa_ganzi_yushu</name>
+		<styleUrl>#st-18544-01</styleUrl>
+		<LineString>
+			<tessellate>1</tessellate>
+			<coordinates>
+				100.2595956446161,31.63863972952762,0 100.1033129068008,31.56410226735116,0 99.86009878421258,31.62606123713713,0 99.52731715106228,31.75483118732569,0 99.23671719983847,31.90466068825016,0 98.92069863588618,32.06802710976969,0 98.57503443684132,32.2630986338153,0 98.12986488665335,32.42882622245105,0 97.74949168395756,32.53727071910862,0 97.58508535968234,32.59757328660957,0 97.32076984345139,32.76000040539842,0 97.02189036321987,32.96066611468257,0 96.62197899251878,33.18573904712723,0 96.21840898564915,33.40112181460592,0 95.7682331928618,33.65153891289848,0 95.54269012512881,33.71466548088693,0 95.19578787530433,33.86312915235026,0 94.94104388211554,34.04678943923016,0 94.60062896023021,34.32252641213308,0 94.30010244043488,34.41458742412358,0 93.69564145882173,34.53713452697343,0 93.21915105492967,34.64410160447143,0 92.48896808167609,34.89682112216237,0 91.81998671558368,35.08475387201779,0 
+			</coordinates>
+		</LineString>
+	</Placemark>
+</Document>
+</kml>

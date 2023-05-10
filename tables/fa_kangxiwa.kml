@@ -1,0 +1,473 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+<Document>
+	<name>fa_kangqiwa.kml</name>
+	<StyleMap id="LineStyle00">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#LineStyle000</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#LineStyle001</styleUrl>
+		</Pair>
+	</StyleMap>
+	<Style id="LineStyle000">
+		<LabelStyle>
+			<color>00000000</color>
+			<scale>0</scale>
+		</LabelStyle>
+		<LineStyle>
+			<color>ffffaaff</color>
+			<width>1.6</width>
+		</LineStyle>
+		<PolyStyle>
+			<color>00000000</color>
+			<outline>0</outline>
+		</PolyStyle>
+	</Style>
+	<Style id="LineStyle001">
+		<LabelStyle>
+			<color>00000000</color>
+			<scale>0</scale>
+		</LabelStyle>
+		<LineStyle>
+			<color>ffffaaff</color>
+			<width>1.6</width>
+		</LineStyle>
+		<PolyStyle>
+			<color>00000000</color>
+			<outline>0</outline>
+		</PolyStyle>
+	</Style>
+	<Placemark id="ID_01763">
+		<name>康西瓦</name>
+		<Snippet maxLines="0"></Snippet>
+		<description><![CDATA[<html xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
+
+<head>
+
+<META http-equiv="Content-Type" content="text/html">
+
+</head>
+
+<body style="margin:0px 0px 0px 0px;overflow:auto;background:#FFFFFF;">
+
+<table style="font-family:Arial,Verdana,Times;font-size:12px;text-align:left;width:100;border-collapse:collapse;padding:3px 3px 3px 3px">
+
+<tr style="text-align:center;font-weight:bold;background:#9CBCE2">
+
+<td>康西瓦</td>
+
+</tr>
+
+<tr>
+
+<td>
+
+<table style="font-family:Arial,Verdana,Times;font-size:12px;text-align:left;width:100;border-spacing:0px; padding:3px 3px 3px 3px">
+
+<tr>
+
+<td>FID</td>
+
+<td>1763</td>
+
+</tr>
+
+<tr bgcolor="#D4E4F3">
+
+<td>duan</td>
+
+<td></td>
+
+</tr>
+
+<tr>
+
+<td>Object_ID</td>
+
+<td>0</td>
+
+</tr>
+
+<tr bgcolor="#D4E4F3">
+
+<td>Shape_Leng</td>
+
+<td>0</td>
+
+</tr>
+
+<tr>
+
+<td>断层</td>
+
+<td>0</td>
+
+</tr>
+
+<tr bgcolor="#D4E4F3">
+
+<td>FID_1</td>
+
+<td>0</td>
+
+</tr>
+
+<tr>
+
+<td>ShowCode</td>
+
+<td>0</td>
+
+</tr>
+
+<tr bgcolor="#D4E4F3">
+
+<td>FaultName</td>
+
+<td>康西瓦</td>
+
+</tr>
+
+<tr>
+
+<td>nsb1</td>
+
+<td>3000～5000</td>
+
+</tr>
+
+<tr bgcolor="#D4E4F3">
+
+<td>nsb2</td>
+
+<td></td>
+
+</tr>
+
+<tr>
+
+<td>nsb3</td>
+
+<td></td>
+
+</tr>
+
+<tr bgcolor="#D4E4F3">
+
+<td>Feature</td>
+
+<td>0</td>
+
+</tr>
+
+<tr>
+
+<td>Strike</td>
+
+<td>0</td>
+
+</tr>
+
+<tr bgcolor="#D4E4F3">
+
+<td>DipDir</td>
+
+<td>0</td>
+
+</tr>
+
+<tr>
+
+<td>DipAngle</td>
+
+<td>0</td>
+
+</tr>
+
+<tr bgcolor="#D4E4F3">
+
+<td>FaultLengt</td>
+
+<td>0</td>
+
+</tr>
+
+<tr>
+
+<td>TopDepth</td>
+
+<td>0</td>
+
+</tr>
+
+<tr bgcolor="#D4E4F3">
+
+<td>Width</td>
+
+<td>0</td>
+
+</tr>
+
+<tr>
+
+<td>Age</td>
+
+<td>0</td>
+
+</tr>
+
+<tr bgcolor="#D4E4F3">
+
+<td>CommentInf</td>
+
+<td></td>
+
+</tr>
+
+<tr>
+
+<td>Shape_Le_1</td>
+
+<td>7.288296</td>
+
+</tr>
+
+<tr bgcolor="#D4E4F3">
+
+<td>newage</td>
+
+<td></td>
+
+</tr>
+
+<tr>
+
+<td>活动时代</td>
+
+<td>Qh</td>
+
+</tr>
+
+<tr bgcolor="#D4E4F3">
+
+<td>出露情况</td>
+
+<td></td>
+
+</tr>
+
+<tr>
+
+<td>断层名称</td>
+
+<td>康西瓦</td>
+
+</tr>
+
+<tr bgcolor="#D4E4F3">
+
+<td>断层性质</td>
+
+<td>左行逆走滑或正走滑</td>
+
+</tr>
+
+<tr>
+
+<td>断层走向</td>
+
+<td>NE</td>
+
+</tr>
+
+<tr bgcolor="#D4E4F3">
+
+<td>断层倾向</td>
+
+<td>SW</td>
+
+</tr>
+
+<tr>
+
+<td>断层倾角</td>
+
+<td>60°～75°</td>
+
+</tr>
+
+<tr bgcolor="#D4E4F3">
+
+<td>错断地层</td>
+
+<td></td>
+
+</tr>
+
+<tr>
+
+<td>切割深度</td>
+
+<td></td>
+
+</tr>
+
+<tr bgcolor="#D4E4F3">
+
+<td>活动段</td>
+
+<td></td>
+
+</tr>
+
+<tr>
+
+<td>控震</td>
+
+<td>1925年6级地震，1948年       级地震</td>
+
+</tr>
+
+<tr bgcolor="#D4E4F3">
+
+<td>分区</td>
+
+<td></td>
+
+</tr>
+
+<tr>
+
+<td>断裂描述</td>
+
+<td></td>
+
+</tr>
+
+<tr bgcolor="#D4E4F3">
+
+<td>可靠性等级</td>
+
+<td>Ⅰ</td>
+
+</tr>
+
+<tr>
+
+<td>水平速率</td>
+
+<td></td>
+
+</tr>
+
+<tr bgcolor="#D4E4F3">
+
+<td>垂直速率</td>
+
+<td></td>
+
+</tr>
+
+<tr>
+
+<td>时代判据</td>
+
+<td></td>
+
+</tr>
+
+<tr bgcolor="#D4E4F3">
+
+<td>断层长度</td>
+
+<td>725</td>
+
+</tr>
+
+<tr>
+
+<td>SHAPE_Le_2</td>
+
+<td>0</td>
+
+</tr>
+
+<tr bgcolor="#D4E4F3">
+
+<td>断层编号</td>
+
+<td></td>
+
+</tr>
+
+<tr>
+
+<td>代号</td>
+
+<td>0</td>
+
+</tr>
+
+<tr bgcolor="#D4E4F3">
+
+<td>参考文献</td>
+
+<td></td>
+
+</tr>
+
+</table>
+
+</td>
+
+</tr>
+
+</table>
+
+</body>
+
+</html>]]></description>
+		<styleUrl>#LineStyle00</styleUrl>
+		<MultiGeometry>
+			<LineString>
+				<coordinates>
+					73.740269,38.823056,0 73.755371,38.820908,0 73.770479,38.818757,0 73.81907200000001,38.811528,0 73.883843,38.802356,0 73.969903,38.78571,0 73.980625,38.78385,0 74.016319,38.776172,0 
+				</coordinates>
+			</LineString>
+			<LineString>
+				<coordinates>
+					74.189888,38.743464,0 74.19689,38.739123,0 74.210874,38.727957,0 74.243994,38.71135,0 74.330449,38.6753,0 74.351308,38.667891,0 74.367998,38.659504,0 
+				</coordinates>
+			</LineString>
+			<LineString>
+				<coordinates>
+					74.86938000000001,38.424932,0 74.89722,38.417766,0 74.957979,38.392824,0 74.99206599999999,38.37648,0 
+				</coordinates>
+			</LineString>
+			<LineString>
+				<coordinates>
+					75.24507800000001,37.89417,0 75.301016,37.881948,0 75.39270000000001,37.865342,0 75.441304,37.84769,0 75.45705599999999,37.842348,0 75.506787,37.823811,0 75.56822800000001,37.79706,0 75.615703,37.763923,0 75.64815900000001,37.734192,0 75.66798300000001,37.71323,0 75.68835900000001,37.683716,0 75.71257799999999,37.644382,0 75.729609,37.611076,0 
+				</coordinates>
+			</LineString>
+			<LineString>
+				<coordinates>
+					75.798146,37.525169,0 75.72780899999999,37.591357,0 75.711067,37.60579,0 75.702178,37.61411,0 75.683362,37.629717,0 75.66602500000001,37.644261,0 75.629271,37.678641,0 75.606318,37.702506,0 75.57762,37.732206,0 75.5365,37.770565,0 75.534413,37.77316,0 75.529541,37.780182,0 75.52510700000001,37.786915,0 75.51908,37.795114,0 75.505602,37.807794,0 
+				</coordinates>
+			</LineString>
+			<LineString>
+				<coordinates>
+					75.826928,37.483115,0 75.82765600000001,37.482004,0 75.83809100000001,37.45394,0 75.853931,37.415034,0 75.866528,37.389604,0 75.876318,37.365208,0 75.892901,37.329153,0 75.893428,37.328008,0 75.933179,37.266357,0 75.960669,37.228303,0 76.000366,37.185339,0 76.022437,37.157,0 76.053061,37.128801,0 76.120288,37.056389,0 76.194878,36.998415,0 76.200146,36.994773,0 76.301025,36.922366,0 76.342778,36.895364,0 76.345293,36.893962,0 76.383062,36.869465,0 76.426196,36.841316,0 76.497046,36.797756,0 76.529106,36.782947,0 76.58665000000001,36.754732,0 76.755366,36.657817,0 76.811806,36.631333,0 76.815669,36.630027,0 76.855113,36.610586,0 76.924932,36.580264,0 76.968403,36.564253,0 76.977231,36.560513,0 77.023696,36.541433,0 77.07272399999999,36.52063,0 77.135122,36.502678,0 77.23427700000001,36.483728,0 77.268247,36.479292,0 77.28524400000001,36.475933,0 77.334599,36.468132,0 77.370391,36.461575,0 77.38909700000001,36.458142,0 77.458994,36.44813,0 77.551919,36.436042,0 77.653496,36.414873,0 77.758843,36.402488,0 77.860815,36.386328,0 77.872168,36.38332,0 78.021709,36.350063,0 78.13681200000001,36.328747,0 78.242935,36.304378,0 78.273037,36.300144,0 78.285757,36.297791,0 78.322593,36.289304,0 78.36103,36.280691,0 78.479766,36.258503,0 78.558047,36.24311,0 78.622944,36.234502,0 78.676016,36.225762,0 78.711675,36.219888,0 78.762637,36.212917,0 78.777481,36.213062,0 
+				</coordinates>
+			</LineString>
+			<LineString>
+				<coordinates>
+					78.797515,36.22769,0 78.92579600000001,36.204219,0 79.06585,36.179082,0 79.19485400000001,36.161401,0 79.21769000000001,36.158545,0 79.290859,36.148267,0 79.292275,36.148245,0 79.365405,36.136763,0 79.445503,36.122827,0 79.51420899999999,36.106741,0 79.569468,36.084756,0 79.57961899999999,36.081143,0 79.613906,36.076062,0 79.71354,36.072078,0 79.782358,36.062676,0 79.828506,36.050286,0 79.853574,36.043508,0 79.877759,36.036123,0 79.89550300000001,36.029404,0 79.962412,36.007349,0 79.974976,36.003635,0 79.986172,36.001016,0 80.068574,35.977917,0 80.151494,35.958774,0 80.2329,35.945046,0 80.334756,35.937774,0 80.43147500000001,35.934321,0 80.473428,35.930925,0 80.50684099999999,35.927617,0 80.539453,35.921946,0 80.553213,35.917478,0 80.554219,35.917302,0 80.579097,35.908623,0 80.646587,35.880432,0 80.67421899999999,35.86782,0 80.71806100000001,35.843679,0 80.7773,35.818481,0 80.83602999999999,35.796055,0 80.84435600000001,35.792332,0 80.916709,35.764612,0 81.00103,35.732046,0 81.04869600000001,35.711999,0 
+				</coordinates>
+			</LineString>
+		</MultiGeometry>
+	</Placemark>
+</Document>
+</kml>

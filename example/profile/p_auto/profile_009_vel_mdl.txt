@@ -2,7 +2,7 @@
 *  PROG: VEL_PROFILE_FIT
 *RUN BY: tianyf @ T [Intel64 Family 6 Model 61 Stepping 4, GenuineIntel]
 *RUN AT: Microsoft Windows x86_64
-*RUN ON: Wed May 10 03:05:11 2023 [UTC]
+*RUN ON: Wed May 10 03:03:27 2023 [UTC]
 * original header:
 *   SRC: D:\iGPS\example\profile\Supp_Table_S1.psvelo &
 *   SRC: D:\iGPS\example\profile\p_auto\profiles_auto.psxy

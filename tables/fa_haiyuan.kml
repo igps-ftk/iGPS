@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+<Document>
+	<name>fa_haiyuan.kml</name>
+	<Style id="s_ylw-pushpin_hl0000">
+		<IconStyle>
+			<scale>1.3</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png</href>
+			</Icon>
+			<hotSpot x="20" y="2" xunits="pixels" yunits="pixels"/>
+		</IconStyle>
+		<LineStyle>
+			<color>ff00ffff</color>
+		</LineStyle>
+	</Style>
+	<Style id="s_ylw-pushpin00000">
+		<IconStyle>
+			<scale>1.1</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png</href>
+			</Icon>
+			<hotSpot x="20" y="2" xunits="pixels" yunits="pixels"/>
+		</IconStyle>
+		<LineStyle>
+			<color>ff00ffff</color>
+		</LineStyle>
+	</Style>
+	<StyleMap id="m_ylw-pushpin00000">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#s_ylw-pushpin00000</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#s_ylw-pushpin_hl0000</styleUrl>
+		</Pair>
+	</StyleMap>
+	<Placemark>
+		<name>Haiyuan Fault</name>
+		<styleUrl>#m_ylw-pushpin00000</styleUrl>
+		<ExtendedData>
+			<SchemaData schemaUrl="#dextral">
+				<SimpleData name="Name">Haiyuan Fault</SimpleData>
+				<SimpleData name="Id">0</SimpleData>
+				<SimpleData name="Type">strike-slip</SimpleData>
+				<SimpleData name="ltype">1311</SimpleData>
+				<SimpleData name="X">101.91488539900</SimpleData>
+				<SimpleData name="Y">37.45602889650</SimpleData>
+				<SimpleData name="Source">Burchfiel, et al., 1991; Lassere, et al., 2001, 2002</SimpleData>
+			</SchemaData>
+		</ExtendedData>
+		<LineString>
+			<coordinates>
+				97.52244309549405,38.60926985893106,0 97.65834905180356,38.4988462694296,0 97.82823149719042,38.39691680219747,0 98.10853753207877,38.30348145723469,0 98.43980830058318,38.23552847907994,0 98.74559670227956,38.2270343568106,0 99.03439685943724,38.21854023454125,0 99.30620877205625,38.21004611227191,0 99.47609121744313,38.21004611227191,0 99.73091488552345,38.1505872563865,0 100.1471268767213,38.02317542234635,0 100.758703680114,37.84479885469013,0 100.979550859117,37.8023282433434,0 101.0984685708878,37.8023282433434,0 101.251362771736,37.8023282433434,0 101.3447981166988,37.8023282433434,0 101.4722099507389,37.742869387458,0 101.8034807192433,37.51352808618572,0 102.066798509593,37.37762212987622,0 102.2791515663266,37.30117502945213,0 102.5764458457536,37.25021029583606,0 103.2474815050318,37.17376319541197,0 104.0968937319662,37.03785723910247,0 104.6405175572042,36.91893952733165,0 105.005764814786,36.81701006009953,0 105.4219768059838,36.64712761471265,0 105.7872240635656,36.4432686802484,0 105.9656006312218,36.29037447940021,0 106.0845183429926,36.16296264536005,0 106.1779536879554,36.06103317812793,0 106.1864478102248,36.01006844451187,0 
+			</coordinates>
+		</LineString>
+	</Placemark>
+</Document>
+</kml>

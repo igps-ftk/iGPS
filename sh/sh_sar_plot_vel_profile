@@ -504,7 +504,8 @@ for n in $pis; do
     #file=../quakes.in.China/global.cmt.catalog.mw5.psmeca
     #file=${GMT_pub}/quake/gcmt/tibet.M6+.psmeca
     #file=${GMT_pub}/quake/gcmt/china.psmeca
-    file=${GMT_pub}/quake/gcmt/psmeca/gcmt.psmeca
+    #file=${GMT_pub}/quake/gcmt/psmeca/gcmt.psmeca
+    file=${iGPS}/tables/gcmt.psmeca
     #file=${GMT_pub}/quake/gcmt/china.psmeca.m6
     #file=yigong.gcmt
     #file=${GMT_pub}/quake/gcmt/tianshan.psmeca
@@ -539,18 +540,18 @@ for n in $pis; do
     #file=../../faultline/mtab.mif.shp/yarlung-fixed.psxy
     ##gmt psxy -R -J -O -K -W.5p,black -Sf1i/.25+r+s+o.5i -m $file >> $ofile
 
-    if [ -d ${GMT_pub}/vector/HimaTibetMap-master/gmt/ ]; then
+    if [ -d ${iGPS}/tables/HimaTibetMap-master/gmt/ ]; then
       echo "[$PROG]INFO: dextral faults"
-      file=${GMT_pub}/vector/HimaTibetMap-master/gmt/dextral.gmt
+      file=${iGPS}/tables/HimaTibetMap-master/gmt/dextral.gmt
       gmt psxy -R -J -O -Sf1i/.25+r+s+o.5i -W.25p,blue -K  $file >> $ofile
       echo "[$PROG]INFO: sinistral faults"
-      file=${GMT_pub}/vector/HimaTibetMap-master/gmt/sinistral.gmt
+      file=${iGPS}/tables/HimaTibetMap-master/gmt/sinistral.gmt
       gmt psxy -R -J -O -Sf2i/.25+l+s+o.5i -W.25p,red -K  $file >> $ofile
       echo "[$PROG]INFO: normal faults"
-      file=${GMT_pub}/vector/HimaTibetMap-master/gmt/normal.gmt
+      file=${iGPS}/tables/HimaTibetMap-master/gmt/normal.gmt
       #gmt psxy -R -J -O -W.5p,black,- -K  $file >> $ofile
       gmt psxy -R -J -O -K -Sf.51/.0512+l+b -Gwhite -W.25p,black $file >> $ofile
-      file=${GMT_pub}/vector/HimaTibetMap-master/gmt/thrust.gmt
+      file=${iGPS}/tables/HimaTibetMap-master/gmt/thrust.gmt
       #gmt psxy -R -J -O -W.5p,black,- -K  $file >> $ofile
       gmt psxy -R -J -O -K -Sf.51/.0512+l+t -Gblack -W.25p,black $file >> $ofile
     fi
@@ -558,17 +559,18 @@ for n in $pis; do
     #cat $file | awk '{print $2,$3,$6,$10,$7,$11,$12,substr($1,1,4)}' > .tmp
 
     echo "[$PROG]INFO: adding gps velocity map"
-    file=vel.lhasa.2015oct
-    file=${GMT_pub}/gps/vel.lhasa.2016jul
+    #file=vel.lhasa.2015oct
+    #file=${GMT_pub}/gps/vel.lhasa.2016jul
+    file=${iGPS}/tables/wang_shen_2019JB018774_Table.S4.psvelo
     if [ -s $file ]; then
       #file=../../tibet.velrot/vel.tibet_cgps_sgps
       #*Station   Longitude   Latitude Ve_init Ve_incr    Ve     dVe   Vn_init Vn_incr    Vn     dVn   Cen
       # AIRA_GPS  130.5996   31.8241   -19.3    15.5   -34.8     0.2    23.2    27.6    -4.4     0.0
       ##grep "^ " $file | awk '{print $2,$3,$6,$10,$7,$7,0.0,tolower(substr($1,1,4))}' > .tmp.gps
-      grep "^ " $file | awk '{if($11<2&&$7<2){print $2,$3,$6,$10,$7,$11,$12,tolower(substr($1,1,4))}}' > .tmp.gps
+      #grep "^ " $file | awk '{if($11<2&&$7<2){print $2,$3,$6,$10,$7,$11,$12,tolower(substr($1,1,4))}}' > .tmp.gps
   
       #file=${GMT_pub}/gps/Supp_Table_S1.psvelo
-      #cat $file > .tmp.gps
+      cat $file > .tmp.gps
   
       #file=${GMT_pub}/gps/velo.psvelo
       #cat $file > .tmp.gps
@@ -1232,9 +1234,7 @@ ${x1} $y1 1 Anningzhuang Road, Haidian, Beijing, China  100085
 eob
 
     echo "[$PROG]INFO: add ICD icon"
-    #file_icd_icon=${GMT_pub}/vector/icd.gif
-    #gmt psimage $file_icd_icon -Dx-.1i/.3i+w1i  -O -K >> $ofile
-    file_icd_icon=${GMT_pub}/vector/logo.png
+    file_icd_icon=${iGPS}/tables/ninh.png
     if [ -s $file_icd_icon ]; then
       #gmt psimage $file_icd_icon -Dx.1i/.9i+w2i  -O -K >> $ofile
       gmt psimage $file_icd_icon -Dx.1i/${icon_Y}i+w${icon_w}i  -O -K >> $ofile

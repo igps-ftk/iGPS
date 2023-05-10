@@ -9,13 +9,18 @@ Please note that somes codes included in iGPS release are from the internet.
   contact us to remove it from iGPS release. Thank you!
   Email: tianyf@gmail.com
 
-The copyright of the following programs belongs to the original authors.
+The copyright of the following programs/data belongs to the original authors.
   + ftk/gglib/ (date conversion functions: from GAMIT/GLOBK; http://geoweb.mit.edu/gg/)
-  + ftk/bin/Linux_X86_64/doy (date conversion execuatble; from GAMIT/GLOBK)
-  + ftk/nr (spectral analysis functions; from Numerical Recipe; http://numerical.recipes/)
+  + ftk/bin/Linux_X86_64/doy (date conversion executable; also from GAMIT/GLOBK)
+  + ftk/nr/ (spectral analysis functions; from Numerical Recipe; http://numerical.recipes/)
   + sh/add_look.csh (from GMTSAR forum; Xiaohua Xu, http://gmt.soest.hawaii.edu/boards/6/topics/3271)
   + sh/merge_batch2.csh (from GMTSAR; revised to accept super master)
   + sh/merge_batch2_paralle.csh (from GMTSAR; revised to accept super master)
+  + sh/proj_ll2ra_full.csh (from GMTSAR; revised to accept reference grid)
+  + tables/HimaTibetMap/ (from https://github.com/HimaTibetMap/HimaTibetMap)
+  + tables/wang_shen_2019JB018774_Table.S4.psvelo (from https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2019JB018774)
+  + tables/gcmt.psmeca (from https://www.globalcmt.org/)
+
 
 We might have made a few modifications to them. Use them AT YOUR OWN RISK.
                                                          ^^ ^^^^ ^^^ ^^^^
@@ -50,7 +55,7 @@ InSAR functions are called in the terminal or batch scripts.
   
   The run_me script under $iGPS\example\insar\proc_gmtsar\012-a-m7-0088_0093_0098_0103_0108_0113_0118-tibetan_plateau
     shows an example of the processing flowchart of an ordinary 
-    InSAR time series for fault interseismic deformation study.
+    InSAR time series for studying interseismic fault slip.
 
 
 ------------------------*CONTENT*--------------------------
