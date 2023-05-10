@@ -1,0 +1,2 @@
+script for running InSAR processing in the automated batch mode
+

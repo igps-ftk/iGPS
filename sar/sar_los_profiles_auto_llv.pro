@@ -38,13 +38,13 @@ PRO SAR_LOS_PROFILES_AUTO_LLV, vfile, $  ;velocity file (in varied formats)
     inputfmt=3  ; xyz with one leading blank column (i.e., non-blank-first-column lines are comments)
     inputfmt=4  ; xyz
     
-    ;    vfile=FILEPATH('meanvel_01.txt',subdirectory=['example','sar','xyz_profiles','xyz'],$
-    ;      root=!igps_root)
-    ;    ffile=FILEPATH('fault_ydgl2.psxy',subdirectory=['example','sar','xyz_profiles','fault_trace'],$
-    ;      root=!igps_root)
-    ;    opath=FILEPATH('p',subdirectory=['example','sar','xyz_profiles'],$
-    ;      root=!igps_root)
-    
+    vfile=FILEPATH('meanvel_01.txt',subdirectory=['example','insar','xyz_profiles','xyz'],$
+      root=!igps_root)
+    ffile=FILEPATH('fault_ydgl2.psxy',subdirectory=['example','insar','xyz_profiles','fault_trace'],$
+      root=!igps_root)
+    opath=FILEPATH('p',subdirectory=['example','insar','xyz_profiles'],$
+      root=!igps_root)
+      
     ;    vfile='D:\tmp\file.xyz'
     ;    ffile='D:\data\vector\profile\fault_jiali.psxy'
     ;    opath='d:\tmp\p'
@@ -53,25 +53,25 @@ PRO SAR_LOS_PROFILES_AUTO_LLV, vfile, $  ;velocity file (in varied formats)
     ;    ffile='D:\tmp\gyaringco\fault_bc.psxy'
     ;    opath='D:\tmp\gyaringco\p'
     ;auto_strike=2
-    
+      
     ;GOTO, end_of_default_input_parameters
-    
-;    vfile='D:\gsar\interseismic\085-a-m3-0088_0093_0098-gaize_yzs5\f123.1\sbas.3.0.0400.9999.20150515.20190927.103.0320.01.___\vel_mask_ll3.xyz'
-;    ffile='C:\GMT_pub\vector\profile\fa_dawaco_maiqiongco.psxy'
-;    opath='D:\gsar\interseismic\085-a-m3-0088_0093_0098-gaize_yzs5\f123.1\sbas.3.0.0400.9999.20150515.20190927.103.0320.01.___\p.fa_dawaco_maiqiongco'
-;    auto_strike=3
-;    
-;    
-;    vfile='D:\gsar\interseismic\026-a-m4-0087_0092_0097_0102-kangding1M3\f123\sbas.4.0.0367.9999.20170124.20210527.130.0866.01.___\vel_mask_ll3.xyze'
-;    ffile='C:\GMT_pub\vector\profile\fa_xsh_b.psxy'
-;    opath='D:\gsar\interseismic\026-a-m4-0087_0092_0097_0102-kangding1M3\f123\sbas.4.0.0367.9999.20150123.20210527.157.1388.01.___\p.fa_xsh_b\1'
-;    auto_strike=2
-    
-    vfile='D:\gsar\interseismic\165-d-m6-0467_0472_0477_0482_0487_0492-woniuhu4M3\f123\sbas.4.0.0001.9999.20141029.20230208.062.0144.01.___\vel_mask_ll3.xyze'
-    ffile='C:\GMT_pub\vector\profile\fa_karakoram.psxy'
-    opath='D:\gsar\interseismic\165-d-m6-0467_0472_0477_0482_0487_0492-woniuhu4M3\f123\sbas.4.0.0001.9999.20141029.20230208.062.0144.01.___\p.fa_karakoram'
-    
-    
+      
+    ;    vfile='D:\gsar\interseismic\085-a-m3-0088_0093_0098-gaize_yzs5\f123.1\sbas.3.0.0400.9999.20150515.20190927.103.0320.01.___\vel_mask_ll3.xyz'
+    ;    ffile='C:\GMT_pub\vector\profile\fa_dawaco_maiqiongco.psxy'
+    ;    opath='D:\gsar\interseismic\085-a-m3-0088_0093_0098-gaize_yzs5\f123.1\sbas.3.0.0400.9999.20150515.20190927.103.0320.01.___\p.fa_dawaco_maiqiongco'
+    ;    auto_strike=3
+    ;
+    ;
+    ;    vfile='D:\gsar\interseismic\026-a-m4-0087_0092_0097_0102-kangding1M3\f123\sbas.4.0.0367.9999.20170124.20210527.130.0866.01.___\vel_mask_ll3.xyze'
+    ;    ffile='C:\GMT_pub\vector\profile\fa_xsh_b.psxy'
+    ;    opath='D:\gsar\interseismic\026-a-m4-0087_0092_0097_0102-kangding1M3\f123\sbas.4.0.0367.9999.20150123.20210527.157.1388.01.___\p.fa_xsh_b\1'
+    ;    auto_strike=2
+      
+    ;    vfile='D:\gsar\interseismic\165-d-m6-0467_0472_0477_0482_0487_0492-woniuhu4M3\f123\sbas.4.0.0001.9999.20141029.20230208.062.0144.01.___\vel_mask_ll3.xyze'
+    ;    ffile='C:\GMT_pub\vector\profile\fa_karakoram.psxy'
+    ;    opath='D:\gsar\interseismic\165-d-m6-0467_0472_0477_0482_0487_0492-woniuhu4M3\f123\sbas.4.0.0001.9999.20141029.20230208.062.0144.01.___\p.fa_karakoram'
+      
+      
     out_plot=1
     is_debug=0
     length_profile=660
@@ -374,7 +374,7 @@ PRO SAR_LOS_PROFILES_AUTO_LLV, vfile, $  ;velocity file (in varied formats)
         OPLOT,xys_fvec[0,*],xys_fvec[1,*],psym='-4',color='0000ff'x
       ;stop
       ENDIF
-      ;stop
+    ;stop
     ENDIF
     
     

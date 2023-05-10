@@ -6,6 +6,31 @@ echo -e "\nset esa_data variable"
 echo export esa_data=../../esa.data/   for bash
 export esa_data=../../esa.data/
 
+echo -e "\ndownload Sentinel-1 SLC files from ASF"
+cd $esa_data/s1/by.track/A012/
+pwd
+echo "  get files from ASF Vertex Python downloader"
+echo sh_asf_s1_get_slc_py -file download-all-2023-05-09_03-45-55.py -ac earthdata.conf
+echo "  get files from SLC list file"
+echo sh_asf_s1_get_slc_py -file s1_a012_used.list -type list -ac earthdata.conf
+echo "  get files from ESA meta4 file"
+echo sh_asf_s1_get_slc_py -file products.meta4 -type meta4 -ac erathdata.conf
+echo "  query and download files for a region using ASF API"
+echo sh_asf_s1_get_slc_roi -roi ${iGPS}/tables/roi_line_a12.kml -orbit ASCENDING -ac earthdata.conf
+cd $path_old
+
+
+echo -e "\nget orbit files"
+ymds=`find $esa_data/s1/ -maxdepth 1 -name "S1?_IW_SLC__1S?V_20*.zip" | sort | awk -F_ '{print substr($6,1,8)}' | sort | uniq`
+for ymd in $ymds; do
+  echo sh_esa_s1_get_aux_orb_gnss -d $ymd
+  #echo sh_esa_s1_get_aux_orb_gnss -d $ymd | sh
+  #exit
+done
+
+#exit
+
+
 echo -e "\nextract *.manifest.safe files"
 echo sh_s1_unzip_manifest -p ${esa_data}/s1/by.track/A012 -o ${esa_data}/metainfo/manifest.safe/A012
 #sh_s1_unzip_manifest -p ${esa_data}/s1/by.track/A012 -o ${esa_data}/metainfo/manifest.safe/A012
@@ -78,8 +103,47 @@ echo -e "\nwhich interferograms had been processed?"
 echo sh_sar_cp_intf_png
 #sh_sar_cp_intf_png
 
+#return to the root processing directory
+cd $path_old
+echo -e "\nperform GACOS correction to unwrapped interferograms"
+echo "1)get the list of dates to generate GACOS correction"
+echo "sh_sar_gacos_time" 
+sh_sar_gacos_time
+
+echo "2)download the binary file from GACOS webpage, saving into f123/tgz/"
+#manually download the GACOS files
+
+echo "3)unpack the downloaded compressed files"
+cd f123
+pwd
+echo sh_sar_gacos_tgz_unzip
+#sh_sar_gacos_tgz_unzip
+
+echo "4)convert binary ztd to NetCDF"
+echo sh_sar_gacos_ztd2ll
+#sh_sar_gacos_ztd2ll
+
+echo "5)convert ztd from wgs-84 to radar coordinate"
+echo sh_sar_gacos_ll2ra
+#sh_sar_gacos_ll2ra
+
+echo "6)calculate ztd difference for interferograms"
+echo sh_sar_gacos_intf_all
+#sh_sar_gacos_intf_all
+
+echo "7)apply gacos correction"
+echo sh_sar_gacos_apply_intf_add
+#sh_sar_gacos_apply_intf_add
+
+
+echo -e "\nresample interferograms to lower resolution"
+echo sh_sar_intf_all_resample
+#sh_sar_intf_all_resample #will create intf_all_x2
+
 echo -e "\ngenerate interferograms collections using different temporal baselines"
-echo "sh_sar_prep_sbases -t '0 1,36 1,72  ,366  367, 730'"
+echo "sh_sar_prep_sbases -t '0 1,36 1,72  ,366  367, 730'  #-min,max number of days"
+#sh_sar_prep_sbases -t '0 1,36 1,72  ,366  367, 730'
+# will create b0-/ b1-36/ b1-72/ b0-366/ b367-/ b730-/*.tab
 
 echo -e "\nprepare files (intf.tab, scene.tab) for SBAS"
 echo sar_sbas_tab_from_png
@@ -101,3 +165,19 @@ echo -e "\nrun SBAS only using data after 2020-07-23"
 echo sar_sbas_tab_from_png --y1=20 --d1=206
 echo -e "\nrun SBAS only using data before 2020-07-23"
 echo sar_sbas_tab_from_png --y2=20 --d2=204
+
+
+cd sbas.4.9.0001.9999.20150627.20220930.053.0393.01.___
+pwd 
+echo -e "\nConvert InSAR LOS velcoity to GNSS velocity (LOS) frame"
+echo "  first, convert GNSS horizontal velocity to InSAR LOS direction"
+echo "sh_gnss_vel2los"
+#sh_gnss_vel2los
+
+echo "  then, rotate InSAR velocity to GNSS-LOS velocity"
+echo sh_gnss_correct_insar_vel
+#sh_gnss_correct_insar_vel 
+
+echo -e "\ncreate profile lines"
+echo "mkdir -p p.fa_atf_2"
+echo profile_vector_auto --file=${iGPS}/tables/fa_atf.psxy --ofile=p.fa_atf_2/profiles_auto.psxy --length=1300 --strike=2

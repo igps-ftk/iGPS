@@ -45,6 +45,8 @@ ${PROG}
 |<
   -r|-roi ROI_FILE_KML
   -ac|-aria2_conf ARIA2_CONF_FILE
+  [-o|-orb|-orbit|-orb_type |ASCENDING|DESCENDING]
+    default: none (both)
   [-p|-path OUTPUT_PATH]
     default: \`pwd\`
   [-w1 FROM_w1_WEEKS_AGO]
@@ -88,6 +90,9 @@ while [ "$1" != "" ]; do
       ;;
     -u|-user)
       user=$2
+      ;;
+    -o|-orb|-orbit|-orb_type)
+      orb_type=$2
       ;;
     -p|-path)
       path=$2

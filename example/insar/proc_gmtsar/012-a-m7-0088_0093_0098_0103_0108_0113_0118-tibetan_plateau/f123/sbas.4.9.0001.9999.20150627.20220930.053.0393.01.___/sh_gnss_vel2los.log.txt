@@ -1,0 +1,9 @@
+[sh_gnss_vel2los]INFO: output to /home/tianyf/iGPS/example/insar/proc_gmtsar/012-a-m7-0088_0093_0098_0103_0108_0113_0118-tibetan_plateau/f123/sbas.4.9.0001.9999.20150627.20220930.053.0393.01.___/wang_shen_2019JB018774_Table.S4.psvelo.los
+[sh_gnss_vel2los]INFO: file_prm master.PRM
+[sh_gnss_vel2los]INFO: file_led ./S1_20200120_ALL_F1.LED
+[sh_gnss_vel2los]INFO: file_dem /g6f/tianyf/GMT_pub/dem.gmt/ETOPO1_Ice_g_gmt4/ETOPO1_Ice_g_gmt4.grd
+[sh_gnss_vel2los]INFO: file_gnss /home/tianyf/iGPS/tables/wang_shen_2019JB018774_Table.S4.psvelo
+grdtrack [WARNING]: Some input points were outside the grid domain(s).
+ 86.904000000 30.445000000 5588.085336000 28716.719243635 18869.113664708 5642.840943415 -11.074856700000 13.7 23.0 0.4 0.5 0.000 CUOM_GPS
+[sh_gnss_vel2los]INFO: results written (/home/tianyf/iGPS/example/insar/proc_gmtsar/012-a-m7-0088_0093_0098_0103_0108_0113_0118-tibetan_plateau/f123/sbas.4.9.0001.9999.20150627.20220930.053.0393.01.___/wang_shen_2019JB018774_Table.S4.psvelo.los)
+[sh_gnss_vel2los]INFO: done.

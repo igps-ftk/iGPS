@@ -1,0 +1,85 @@
+[sh_gnss_correct_insar_vel]INFO: output to vel_mask_ll_gnss.grd
+[sh_gnss_correct_insar_vel]INFO: file_vel vel_mask_ll.grd
+[sh_gnss_correct_insar_vel]INFO: file_gnss_los wang_shen_2019JB018774_Table.S4.psvelo.los
+[sh_gnss_correct_insar_vel]INFO: ofile vel_mask_ll_gnss.grd
+x_inc y_in 0.022222, 0.018056
+gmt grdsample vel_mask_ll.grd  -I0.022222/0.018056 -Gtmp.grd
+grdsample [WARNING]: (x_max-x_min) must equal (NX + eps) * x_inc), where NX is an integer and |eps| <= 0.0001.
+grdsample [WARNING]: (y_max-y_min) must equal (NY + eps) * y_inc), where NY is an integer and |eps| <= 0.0001.
+grdsample (gmtapi_init_grdheader): Please select compatible -R and -I values
+grdsample [WARNING]: Output sampling interval in x exceeds input interval and may lead to aliasing.
+grdsample [WARNING]: Output sampling interval in y exceeds input interval and may lead to aliasing.
+#  now blockmedian and surface the data at this resolution
+gmt surface  vel_mask_ll_insar-gnss.txt -Rtmp.grd -T0.1 -Gvel_mask_ll_insar-gnss.txt.grd 
+...using grdsample to upsample the correction grid...
+gmt grdsample _tmp_sh_gnss_correct_insar_vel_Tue_May__9_21-23-04_CST_2023_insar_gnss_diff_trend_flt.grd -I2180+n/5500+n  -Gvel_mask_ll_correction.grd
+Correcting the interferogram...
+gmt grdmath vel_mask_ll.grd vel_mask_ll_correction.grd SUB = vel_mask_ll_gnss.grd 
+grdsample [WARNING]: (x_max-x_min) must equal (NX + eps) * x_inc), where NX is an integer and |eps| <= 0.0001.
+grdsample [WARNING]: (y_max-y_min) must equal (NY + eps) * y_inc), where NY is an integer and |eps| <= 0.0001.
+grdsample (gmtapi_init_grdheader): Please select compatible -R and -I values
+grdsample [WARNING]: Output sampling interval in x exceeds input interval and may lead to aliasing.
+grdsample [WARNING]: Output sampling interval in y exceeds input interval and may lead to aliasing.
+paste: rms_mask_ll3.xyz: No such file or directory
+[sh_grd2jpg]INFO: processing vel_mask_ll.grd
+T -T-56.8031044006/15.1208572388/0.071924
+FILE_GRD2JPG_CPT 
+file_cpt grd.cpt
+FILE_GRD2JPG_LBL vel_mask_ll_insar_gnss.txt
+pstext [WARNING]: Vertical text justification not set, defaults to B(ottom)
+FILE_GRD2JPG_HIST 
+[sh_grd2jpg]INFO: done.
+[sh_grd2jpg]INFO: processing vel_mask_ll_correction.grd
+T -T0.799578547478/14.8529825211/0.0140534
+FILE_GRD2JPG_CPT 
+file_cpt grd.cpt
+FILE_GRD2JPG_LBL vel_mask_ll_insar-gnss.txt
+pstext [WARNING]: Vertical text justification not set, defaults to B(ottom)
+FILE_GRD2JPG_HIST 
+[sh_grd2jpg]INFO: done.
+[sh_grd2jpg]INFO: processing vel_mask_ll_gnss.grd
+T -T-65.2843933105/6.78134250641/0.0720657
+FILE_GRD2JPG_CPT 
+file_cpt grd.cpt
+FILE_GRD2JPG_LBL vel_mask_ll_insar-gnss.txt
+pstext [WARNING]: Vertical text justification not set, defaults to B(ottom)
+FILE_GRD2JPG_HIST 
+[sh_grd2jpg]INFO: done.
+file_grd vel_mask_ll_gnss.grd
+file_cpt vel2.cpt
+[]INFO: working in /home/tianyf/iGPS/example/insar/proc_gmtsar/012-a-m7-0088_0093_0098_0103_0108_0113_0118-tibetan_plateau/f123/sbas.4.9.0001.9999.20150627.20220930.053.0393.01.___ ...
+/home/tianyf/iGPS/example/insar/proc_gmtsar/012-a-m7-0088_0093_0098_0103_0108_0113_0118-tibetan_plateau/f123/sbas.4.9.0001.9999.20150627.20220930.053.0393.01.___
+file_grd2 vel_mask_ll_gnss
+grd2kml.csh vel_mask_ll_gnss vel2.cpt
+grdimage [INFORMATION]: Read header from file vel_mask_ll_gnss.grd
+grdimage [INFORMATION]: netCDF grid vel_mask_ll_gnss.grd has no default CPT.
+grdimage [INFORMATION]: Round-off patrol changed grid limit for ymin from 28.47361111123854 to 28.47361111123854
+grdimage [INFORMATION]: Round-off patrol changed grid limit for ymax from 38.40416666683854 to 38.40416666683854
+grdimage [INFORMATION]: Map scale is 0.000393701 km per cm or 1:39.3701.
+grdimage [INFORMATION]: Allocate and read data from file vel_mask_ll_gnss.grd
+grdimage [INFORMATION]: Reading grid from file vel_mask_ll_gnss.grd
+grdimage [INFORMATION]: gmt_grd_BC_set: Set boundary condition for all edges: natural
+grdimage [INFORMATION]: gmt_grd_BC_set: Set boundary condition for left   edge: natural
+grdimage [INFORMATION]: gmt_grd_BC_set: Set boundary condition for right  edge: natural
+grdimage [INFORMATION]: gmt_grd_BC_set: Set boundary condition for bottom edge: natural
+grdimage [INFORMATION]: gmt_grd_BC_set: Set boundary condition for top    edge: natural
+grdimage [INFORMATION]: gmt_cpt_default: Use specific CPT: vel2.cpt
+grdimage [INFORMATION]: Reading CPT from File vel2.cpt
+grdimage [INFORMATION]: Evaluate image pixel colors
+grdimage [INFORMATION]: Basic z(x,y) -> color image with no illumination.
+grdimage [INFORMATION]: Plotting 24-bit color image
+PSL: Too many colors to make colormap - using 24-bit direct color instead.
+PSL: DEFLATE compressed 35970000 to 6965761 bytes (80.6% savings at compression level 5)
+Make vel_mask_ll_gnss.kml and vel_mask_ll_gnss.png
+psconvert [INFORMATION]: Processing vel_mask_ll_gnss.ps...
+psconvert [INFORMATION]: Find HiResBoundingBox ...
+psconvert [INFORMATION]: Figure dimensions: Width: 348.78 points [12.3042 cm]  Height: 715.02 points [25.2243 cm]
+psconvert [INFORMATION]: [144 144 492.78 859.02]...
+psconvert [INFORMATION]: Convert to PNG...
+gs -q -dNOPAUSE -dBATCH -dNOSAFER -dSCANCONVERTERTYPE=2 -dMaxBitmap=2147483647 -dUseFastColor=true -dGraphicsAlphaBits=2 -dTextAlphaBits=4 -sDEVICE=pngalpha  -g2180x4469 -r450 -sOutputFile='vel_mask_ll_gnss.png' './psconvert_30186d.eps'
+psconvert [INFORMATION]: Wrote KML file vel_mask_ll_gnss.kml
+[]INFO: returned to /home/tianyf/iGPS/example/insar/proc_gmtsar/012-a-m7-0088_0093_0098_0103_0108_0113_0118-tibetan_plateau/f123/sbas.4.9.0001.9999.20150627.20220930.053.0393.01.___
+tar: gnss.tar.gz: File shrank by 38216461 bytes; padding with zeros
+[sh_gnss_correct_insar_vel]INFO: results written (vel_mask_ll_gnss.grd)
+/home/tianyf/iGPS/example/insar/proc_gmtsar/012-a-m7-0088_0093_0098_0103_0108_0113_0118-tibetan_plateau/f123/sbas.4.9.0001.9999.20150627.20220930.053.0393.01.___
+[sh_gnss_correct_insar_vel]INFO: done.

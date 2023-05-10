@@ -1,11 +1,11 @@
-*   SRC: D:\iGPS\example\sar\xyz_profiles\xyz\meanvel_01.txt &
-*   SRC: D:\iGPS\example\sar\xyz_profiles\p\profiles_auto.psxy
+*   SRC: D:\iGPS\example\insar\xyz_profiles\xyz\meanvel_01.txt &
+*   SRC: D:\iGPS\example\insar\xyz_profiles\p\profiles_auto.psxy
 *  PROG: SAR_LOS_PROFILES_AUTO_LLV
 *RUN BY: tianyf @ T [Intel64 Family 6 Model 61 Stepping 4, GenuineIntel]
 *RUN AT: Microsoft Windows x86_64
-*RUN ON: Wed Oct 24 06:11:53 2018 [UTC]
-# PSXY_PROFILE    90.948    31.912
-# PSXY_PROFILE    92.301    30.346
+*RUN ON: Wed May 10 02:24:10 2023 [UTC]
+# PSXY_PROFILE    89.391    33.714
+# PSXY_PROFILE    93.858    28.544
 # PSXY_FAULT_PROFILE_INTERSECT    91.625    31.129
 # PSXY_FAULT_TRACE    91.628    31.220
 # PSXY_FAULT_TRACE    91.618    30.960
