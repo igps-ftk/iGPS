@@ -3,24 +3,28 @@ PRO VEL_PROFILE_FIT, pfile, ofile
   PROG=(STRSPLIT(LAST(SCOPE_TRACEBACK()),/EXTRACT))[0]
   
   IF N_PARAMS() LT 2 THEN BEGIN
-    pfile='D:\Papers\yarlung.tsangpo\figure\gps.profiles\profiles\profile_04_vel.psxy'
-    ofile='D:\Papers\yarlung.tsangpo\figure\gps.profiles\profiles.fitting\profile_04_vel.model'
-    
-    
-    pfile='D:\ICD\projects\DirectorFund\Application.2012\Final\ppt\figure\gps.profile.jiali\p\profile_01_vel.psxy'
-    
-    pfiles='D:\ICD\Eighth\2019\20190613.Hezong.Zone2\report.2020\figure\gps.xiaojiang_ext\profiles\profile_077_vel.psxy'
-    pfiles='D:\ICD\Eighth\2019\20190613.Hezong.Zone2\report.2020\figure\gps.xiaojiang_ext\profiles\profile_057_vel.psxy'
-    pfiles='D:\ICD\Eighth\2019\20190613.Hezong.Zone2\report.2020\figure\gps.xiaojiang_ext\profiles\profile_055_vel.psxy'
-    ;pfiles='D:\ICD\Eighth\2019\20190613.Hezong.Zone2\report.2020\figure\gps.xiaojiang_ext\profiles\profile_068_vel.psxy'
-    ;pfiles='D:\ICD\Eighth\2019\20190613.Hezong.Zone2\report.2020\figure\jgrb52327\gps.xiaojiang_ext\profiles\profile_083_vel.psxy'
-    pfiles='D:\ICD\Eighth\2021\20210329.tanlu\figure\gps\p.fa_tanlu_gps\profile_106_vel.psxy'
-    pfiles='D:\ICD\Eighth\2019\20190613.Hezong.Zone2\report.2020\figure\gps.xiaojiang_ext\profiles\profile_095_vel.psxy'
-    pfiles='D:\ICD\projects\nsfc\2019\report\2021\figure\profile.gps.igps\pg.fa_jiali\profile_051_vel.psxy'
-    pfiles='D:\gsar\doc\eq.20220108.m6.9.menyuan\figure\profile.gps.wangmin\pg.fa_haiyuan\profile_026_vel.psxy'
-    pfiles='D:\gsar\doc\eq.20220108.m6.9.menyuan\figure\profile.gps.wangmin\pg.fa_haiyuan\profile_072_vel.psxy'
-    
-    ofile=desuffix(pfile)+'_mdl.txt'
+;    pfile='D:\Papers\yarlung.tsangpo\figure\gps.profiles\profiles\profile_04_vel.psxy'
+;    ofile='D:\Papers\yarlung.tsangpo\figure\gps.profiles\profiles.fitting\profile_04_vel.model'
+;    
+;    pfile='D:\ICD\projects\DirectorFund\Application.2012\Final\ppt\figure\gps.profile.jiali\p\profile_01_vel.psxy'
+;    ofile=desuffix(pfile)+'_mdl.txt'
+    ;
+    ;
+;    pfiles='D:\ICD\Eighth\2019\20190613.Hezong.Zone2\report.2020\figure\gps.xiaojiang_ext\profiles\profile_077_vel.psxy'
+;    pfiles='D:\ICD\Eighth\2019\20190613.Hezong.Zone2\report.2020\figure\gps.xiaojiang_ext\profiles\profile_057_vel.psxy'
+;    pfiles='D:\ICD\Eighth\2019\20190613.Hezong.Zone2\report.2020\figure\gps.xiaojiang_ext\profiles\profile_055_vel.psxy'
+;    ;pfiles='D:\ICD\Eighth\2019\20190613.Hezong.Zone2\report.2020\figure\gps.xiaojiang_ext\profiles\profile_068_vel.psxy'
+;    ;pfiles='D:\ICD\Eighth\2019\20190613.Hezong.Zone2\report.2020\figure\jgrb52327\gps.xiaojiang_ext\profiles\profile_083_vel.psxy'
+;    pfiles='D:\ICD\Eighth\2021\20210329.tanlu\figure\gps\p.fa_tanlu_gps\profile_106_vel.psxy'
+;    pfiles='D:\ICD\Eighth\2019\20190613.Hezong.Zone2\report.2020\figure\gps.xiaojiang_ext\profiles\profile_095_vel.psxy'
+;    pfiles='D:\ICD\projects\nsfc\2019\report\2021\figure\profile.gps.igps\pg.fa_jiali\profile_051_vel.psxy'
+;    pfiles='D:\gsar\doc\eq.20220108.m6.9.menyuan\figure\profile.gps.wangmin\pg.fa_haiyuan\profile_026_vel.psxy'
+;    pfiles='D:\gsar\doc\eq.20220108.m6.9.menyuan\figure\profile.gps.wangmin\pg.fa_haiyuan\profile_072_vel.psxy'
+;    
+  pfiles=FILEPATH('profile_009_vel.psxy',subdirectory=['example','profile','p_auto'],$
+      root=!igps_root)
+      
+    ;stop
     
     ;    ;icd solution
     ;    path='D:\Papers\yarlung.tsangpo\figure\gps.profiles\profiles'
@@ -150,6 +154,7 @@ PRO VEL_PROFILE_FIT, pfile, ofile
     out_theta=out_theta,  $ ;'angle of axis rotation (deg):'
     ;
     dummy=dummy)
+    
 ;  rchi2s=DBLARR(nxm,nfs,nld)
 ;  FOR xmi=0, nxm-1 DO BEGIN
 ;    xm=xms[xmi]
@@ -202,41 +207,41 @@ PRO VEL_PROFILE_FIT, pfile, ofile
   ERRPLOT,d,y0-ye,y0+ye,color='aaaaaa'x
   HELP, lines2
   
-  
-  tmp=FAULT_SLIP_INVERSION_ELASTIC_DISLOCATION_NORMAL( $
-    d,  $ ;profile X-axis (distance to fault in km)
-    y0,  $ ;velocities along the profile (in mm/yr)
-    pxys=pxys,  $ ;profile x/y
-    pxy3=pxy3,  $ ;intersection of profile and fault
-    ;
-    ;optional keywords
-    theta=thetas, $ ;rotation of axes
-    fts=ftss,  $ ;fault trace shifts
-    fs=fss,  $  ;far-field fault slip rates
-    ld=[0.001,.0001], $ ;fault locking depths
-    xms_all=yms_all,  $
-    ;
-    ;outputs
-    slip=slip,  $
-    locking_depath=locking_depth, $
-    d2s=d2, x2s=y2, $
-    d3s=d3, x3s=y3, $
-    d3_x_axis_x=d3_x_axis_x, d3_x_axis_y=d3_x_axis_y, $
-    d3_y_axis_x=d3_y_axis_x, d3_y_axis_y=d3_y_axis_x, $
-    ind2=ind2,  $
-    out_fss=out_fss_y,  $
-    out_ld=out_ld_y,  $
-    out_fts=out_fts_y,  $
-    out_xm=out_ym,  $ ;  'de-mean of velocity:'
-    out_theta=out_theta_y,  $ ;'angle of axis rotation (deg):'
-    ;
-    dummy=dummy)
-    
-  OPLOT,d3,y3, color='0000ff'x,psym=-4
-  OPLOT,[-1d3,1d3],[0,0],linestyle=2,color='0'x
-  OPLOT,[-1d3,1d3],[out_ym,out_ym],linestyle=2,color='00ff00'x
-  PRINT,'far-field slip rates:',out_fss_y,'    locking depth:',out_ld_y
-  PRINT,'ym:',out_ym
+;  
+;  tmp=FAULT_SLIP_INVERSION_ELASTIC_DISLOCATION_NORMAL( $
+;    d,  $ ;profile X-axis (distance to fault in km)
+;    y0,  $ ;velocities along the profile (in mm/yr)
+;    pxys=pxys,  $ ;profile x/y
+;    pxy3=pxy3,  $ ;intersection of profile and fault
+;    ;
+;    ;optional keywords
+;    theta=thetas, $ ;rotation of axes
+;    fts=ftss,  $ ;fault trace shifts
+;    fs=fss,  $  ;far-field fault slip rates
+;    ld=[0.001,.0001], $ ;fault locking depths
+;    xms_all=yms_all,  $
+;    ;
+;    ;outputs
+;    slip=slip,  $
+;    locking_depath=locking_depth, $
+;    d2s=d2, x2s=y2, $
+;    d3s=d3, x3s=y3, $
+;    d3_x_axis_x=d3_x_axis_x, d3_x_axis_y=d3_x_axis_y, $
+;    d3_y_axis_x=d3_y_axis_x, d3_y_axis_y=d3_y_axis_x, $
+;    ind2=ind2,  $
+;    out_fss=out_fss_y,  $
+;    out_ld=out_ld_y,  $
+;    out_fts=out_fts_y,  $
+;    out_xm=out_ym,  $ ;  'de-mean of velocity:'
+;    out_theta=out_theta_y,  $ ;'angle of axis rotation (deg):'
+;    ;
+;    dummy=dummy)
+;    
+;  OPLOT,d3,y3, color='0000ff'x,psym=-4
+;  OPLOT,[-1d3,1d3],[0,0],linestyle=2,color='0'x
+;  OPLOT,[-1d3,1d3],[out_ym,out_ym],linestyle=2,color='00ff00'x
+;  PRINT,'far-field slip rates:',out_fss_y,'    locking depth:',out_ld_y
+;  PRINT,'ym:',out_ym
     ;return
   
   ;FOR i=0, N_ELEMENTS(d2)-1 DO BEGIN
@@ -248,11 +253,12 @@ PRO VEL_PROFILE_FIT, pfile, ofile
   printf,fid,['* original header:',lines_header],format='(a)'
   PRINTF,fid,'far-field strike-slip rates:',out_fss,'    locking depth:',out_ld,  $
     format='("*",1x,a,1x,f,1x,a,1x,f)'
-  PRINTF,fid,'far-field extentional-compressional rates:',out_fss_y,'    locking depth:',out_ld_y,  $
-    format='("*",1x,a,1x,f,1x,a,1x,f)'
+  ;PRINTF,fid,'far-field extentional-compressional rates:',out_fss_y,'    locking depth:',out_ld_y,  $
+  ;  format='("*",1x,a,1x,f,1x,a,1x,f)'
   printf,fid,'distance','strik-slip','ext/comp',format='("*",a10,2(1x,a15),1x,2(1x,a9))'
   FOR i=0, N_ELEMENTS(d2)-1 DO BEGIN
-    PRINTF,fid, d2[i]-XSHIFT, x2[i], y2[i], lons2[i], lats2[i], format='(1x,f10.2,2(1x,f15.7),1x,2(1x,f9.3))'
+    ;PRINTF,fid, d2[i]-XSHIFT, x2[i], y2[i], lons2[i], lats2[i], format='(1x,f10.2,2(1x,f15.7),1x,2(1x,f9.3))'
+    PRINTF,fid, d2[i]-XSHIFT, x2[i], 0, lons2[i], lats2[i], format='(1x,f10.2,2(1x,f15.7),1x,2(1x,f9.3))'
   ENDFOR
   FREE_LUN,fid
   
