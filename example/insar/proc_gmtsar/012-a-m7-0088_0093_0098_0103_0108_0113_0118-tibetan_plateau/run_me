@@ -69,6 +69,10 @@ pwd
 echo sh_s1_run_tsa -file ../input.lst.ok -proc_type interseismic -iw iw3
 #sh_s1_run_tsa -file ../input.lst.ok -proc_type interseismic -iw iw3
 
+echo "\n **ONLY a random subset of interferograms processed for each subswath."
+echo "     Therefore, one should manually copy one case (e.g., F1/intf.in)"
+echo "     to the other two (e.g., F2/ and F3/)."
+
 cd $path_old
 echo -e "\nprepare files for merging iw1+iw2+iw3 ..."
 echo sh_s1_prep_f123
@@ -80,11 +84,12 @@ wc -l intf.in.f123* batch_tops.config
 echo -e "\nrun merging ..."
 echo merge_batch.csh intf.in.f123.1 batch_tops.config
 #merge_batch.csh intf.in.f123.1 batch_tops.config
-echo "*NOTE*: run this at least once to create the trans.dat file!!"
+echo "*NOTE*: run this at least once to create the trans.dat file!"
 
 echo -e "\get remaining interferograms to merge ..."
 echo sh_s1_prep_f123_in
 #sh_s1_prep_f123_in
+echo "  will create intf.in.f123.1"
 wc -l intf.in.f123*
 
 echo -e "\nrun merging for remaining interferograms ..."
