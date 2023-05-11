@@ -72,6 +72,7 @@ while [ "$1" != "" ]; do
 done
 
 
+echo -e "\n[$PROG]INFO: current user shell is $SHELL"
 
 echo "[$PROG]INFO:"
 echo "[$PROG]INFO: ----------checking iGPS-----------------"
@@ -110,8 +111,20 @@ else
   path_iGPS_shell=${iGPS}/sh
 fi
 
-
 this_arch=`sh_arch`
+
+file_hello="${iGPS}/ftk/bin/$this_arch/hello"
+#echo file_hello $file_hello
+if [[ -L "${file_hello}" ]] && [[ ! -a "${file_hello}" ]]; then 
+  file $file_hello  
+  echo -e "\n[$PROG]INFO: broken iGPS-ftk executable links found!"
+  echo -e "[$PROG]INFO:  try re-installing iGPS-ftk executables"
+  echo "cd ${iGPS}/ftk/"
+  cd ${iGPS}/ftk/
+  #pwd
+  echo "./install_igpsftk_links"
+  ./install_igpsftk_links
+fi
 
 tmp=`which hello`
 if [ "$tmp" == "" ]; then

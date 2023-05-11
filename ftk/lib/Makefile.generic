@@ -96,6 +96,7 @@
 #LABELS: interval:interval:NONE:interval
 # LABELS: test_map_2points:test_map_2points:NONE:test_map_2points
 # LABELS: test:test:NONE:test
+#LABELS: doy:doy:NONE:doy
 
 # SHARELIB: 
 #SHARELIB: ../gglib:gglib

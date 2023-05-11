@@ -114,7 +114,7 @@ c      write(*,*) 'DPI:',DPI
       is_radian=0
       is_meter=1
       is_mile=0
-      r_earth=0
+      r_earth=0d0
 
 
 
@@ -186,7 +186,10 @@ c     convert km to degree using the mean latitude
       x2=91
       y2=latmid
 
-      call map_2points(90d0,latmid,91d0,latmid,0,1,0,0,
+c      call map_2points(90d0,latmid,91d0,latmid,0,1,0,0,
+c     &  kpd)
+      call map_2points(90d0,latmid,91d0,latmid,
+     &  is_radian,is_meter,is_mile,r_earth,
      &  kpd)
 c       convert meter to km
       kpd=kpd*1d-3

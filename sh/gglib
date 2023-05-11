@@ -1,14 +1,14 @@
 #!/bin/bash
 
 # Name:
-#   arlib
+#   gglib
 #   
 
 # Purpose:
 #   +Merge gamit/globk functions into a *.a file, for using in ftk.
 
 # Example:
-#   arlib /usr/local/gamit-v10.71
+#   gglib /usr/local/gamit-v10.71
 
 # Modifications:
 #   +
@@ -21,7 +21,7 @@
 #   +GAMIT/GLOBK installation (e.g., /usr/local/gmait-v10.71/)
 #
 
-PROG=arlib
+PROG=gglib
 
 timestamp=`date | sed -e "s/ /_/g" | sed -e "s/:/-/g"`
 
@@ -43,6 +43,11 @@ e.g.,
 (c)iGPS (https://github.com/igps-ftk/)
 eob
 }
+
+file_func_list=${iGPS}/sh/gg_func.list
+funcs=`grep -h '^ ' $file_func_list | awk '{print $1}'`
+echo funcs $funcs
+#exit
 
 arch=`sh_arch`
 #echo $arch
@@ -78,13 +83,18 @@ fi
 
 #find gg library files
 #echo find -L $path_gg -name "*.a"
+#find $path_gg -name "*.a"
+if [ ! -d $path_gg ]; then
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: directory not exist ($path_gg)!!"
+  exit 1
+fi
 files=`find $path_gg -name "*.a"`
 #files=
 if [ "$files" = "" ]; then
     echo -e "[$PROG]\033[1;33;41mERROR\033[0m: no library files could be found in $path_gg."
     echo "[$PROG]INFO: Please check your ~/gg link, and try again. "
     echo "[$PROG]INFO: Sometimes symbolic link does not work."
-    echo "[$PROG]INFO: Try use original path: arlib GAMIT_PATH"
+    echo "[$PROG]INFO: Try use original path: gglib GAMIT_PATH"
     exit 1
 fi
 
@@ -110,12 +120,30 @@ done
 #delete existing lib file
 \rm -f  ${file_lib}
 
-ar rv ${file_lib} *.o
+#ar rv ${file_lib} *.o
+for func in $funcs; do
+  file_o=`find $path_tmp -type f -name "*${func}*.o"`
+  #echo $file_o
+  if [ "$file_o" == "" ]; then
+    echo "[$PROG]WARNING: cannot find library files for $func!"
+    continue
+  fi
+  #echo ar rv $file_lib $file_o
+  ar rv $file_lib $file_o
+done
+
+ar rv ${file_lib} *ymd*.o
+ar rv ${file_lib} *decyr*.o
+ar rv ${file_lib} *yds*.o
+ar rv ${file_lib} *jd*.o
+
 ranlib ${file_lib}
 #echo $file_lib
 cd ..
 #pwd
+echo \rm -rf ${path_tmp}
 \rm -rf ${path_tmp}
+
 echo "[$PROG]INFO: gg path: ${path_gg}"
 echo "[$PROG]INFO: output: $file_lib"
 

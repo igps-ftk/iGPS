@@ -105,7 +105,7 @@ c     &       RHUMB=rhumb
 C     ---
       IMPLICIT NONE
       real*8 lat0a,lat1a,lon0a,lon1a,radius,dist
-      integer radian,meter,mile
+      integer*4 radian,meter,mile
 c     ---
       real*8 pi2,dpi,k,r_earth
       real*8 lat0,lat1,lon0,lon1

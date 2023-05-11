@@ -11,7 +11,7 @@ Please note that somes codes included in iGPS release are from the internet.
 
 The copyright of the following programs/data belongs to the original authors.
   + ftk/gglib/ (date conversion functions: from GAMIT/GLOBK; http://geoweb.mit.edu/gg/)
-  + ftk/bin/Linux_X86_64/doy (date conversion executable; also from GAMIT/GLOBK)
+  + ftk/lib/doy (date conversion program: from GAMIT/GLOBK; http://geoweb.mit.edu/gg/)
   + ftk/nr/ (spectral analysis functions; from Numerical Recipe; http://numerical.recipes/)
   + sh/add_look.csh (from GMTSAR forum; Xiaohua Xu, http://gmt.soest.hawaii.edu/boards/6/topics/3271)
   + sh/merge_batch2.csh (from GMTSAR; revised to accept super master)
