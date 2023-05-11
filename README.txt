@@ -66,7 +66,7 @@ iGPS--IDL tool package for GPS
   +doc      Userguide and tutorial
   +example  Various examples
   +ftk      Fortran programs
-  +libtian  Common IDL routines written by Tian
+  +libtian  Common IDL routines
   +m        Matlab code (fault slip rate inversion, etc.)
   +main     iGPS GUI
   +sar      InSAR analysis routines
