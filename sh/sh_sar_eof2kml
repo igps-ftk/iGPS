@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Name:
 #   sh_sar_eof2kml

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Name:
 #   sh_esa_s1_get_aux_orb_gnss

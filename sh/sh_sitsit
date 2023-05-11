@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 #sh_sitsit
 #Create sites.defaults from site list file.

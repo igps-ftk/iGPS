@@ -38,7 +38,7 @@
 
 
 # set defaults
-set conf = ~/iGPS/ftk/Makefile.config
+set conf = ${iGPS}/ftk/Makefile.config
 
 set gnrc = Makefile.generic	# generic makefile name
 set lev = ""			# subdirectory name under module dir

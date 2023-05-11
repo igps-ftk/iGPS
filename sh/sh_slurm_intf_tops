@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Name:
 #   sh_slurm_intf_tops
@@ -230,7 +230,7 @@ while read line; do
     tmp=`date | sed -e 's/ /_/g' | sed -e 's/:/-/g'`
 
 
-    echo "#!/bin/sh" > $file_t
+    echo "#!/bin/bash" > $file_t
     echo "#SBATCH --job-name=${dir_name}-${COMB_ID}-${PROC_ID}" >> $file_t
     echo "#SBATCH --nodes=1" >> $file_t
     echo "#SBATCH --ntasks=1" >> $file_t
