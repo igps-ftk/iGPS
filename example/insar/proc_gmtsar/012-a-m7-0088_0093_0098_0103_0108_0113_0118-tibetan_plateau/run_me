@@ -22,6 +22,9 @@ echo "#  query and download files for a region using ASF API"
 echo sh_asf_s1_get_slc_roi -roi ${iGPS}/tables/roi_line_a12.kml -orbit ASCENDING -ac earthdata.conf
 
 
+echo cd $path_old
+cd $path_old
+
 echo -e "\n#get orbit files"
 ymds=`find $esa_data/s1/ -maxdepth 1 -name "S1?_IW_SLC__1S?V_20*.zip" | sort | awk -F_ '{print substr($6,1,8)}' | sort | uniq`
 for ymd in $ymds; do
@@ -29,9 +32,6 @@ for ymd in $ymds; do
   #echo sh_esa_s1_get_aux_orb_gnss -d $ymd | sh
   #exit
 done
-
-echo cd $path_old
-cd $path_old
 
 echo -e "\n#extract *.manifest.safe files"
 echo sh_s1_unzip_manifest -p ${esa_data}/s1/by.track/A012 -o ${esa_data}/metainfo/manifest.safe/A012
@@ -168,6 +168,9 @@ echo "sh_sar_prep_sbases -t '0 1,36 1,72  ,366  367, 730'  #-min,max number of d
 # will create b0-/ b1-36/ b1-72/ b0-366/ b367-/ b730-/*.tab
 
 echo -e "\n#prepare files (intf.tab, scene.tab) for SBAS"
+echo "cp b0-/*.tab ."
+echo "cp b1-72/*.tab .  #use temporal baselines <=72 days"
+echo "cp b367-/*.tab .  #use temporal baselines larger than one year (366 days)"
 echo sar_sbas_tab_from_png
 #sar_sbas_tab_from_png
 #or,
@@ -204,3 +207,17 @@ echo sh_gnss_correct_insar_vel
 echo -e "\n#create profile lines"
 echo "mkdir -p p.fa_atf_2"
 echo profile_vector_auto --file=${iGPS}/tables/fa_atf.psxy --ofile=p.fa_atf_2/profiles_auto.psxy --length=1300 --strike=2
+#profile_vector_auto --file=${iGPS}/tables/fa_atf.psxy --ofile=p.fa_atf_2/profiles_auto.psxy --length=1300 --strike=2
+
+
+echo -e "\n#create velocity profiles from InSAR XYZ file"
+echo sar_los_profile_auto --ffile=${iGPS}/tables/fa_atf.psxy --pfile=p.fa_atf_2/profiles_auto.psxy --vfile=vel_mask_ll_gnss3.xyze --opath=p.fa_atf_2
+#sar_los_profile_auto --ffile=${iGPS}/tables/fa_atf.psxy --pfile=p.fa_atf_2/profiles_auto.psxy --vfile=vel_mask_ll_gnss3.xyze --opath=p.fa_atf_2
+
+
+echo -e "\n#create profile plots "
+echo sh_sar_plot_vel_profile 
+#sh_sar_plot_vel_profile 
+echo "#  output to pp.fa_atf_2"
+echo sh_sar_plot_vel_profile -p p.fa_atf_2 -n 29,13 -R -R-200/1100/-20/20
+echo "#  output to pp.fa_atf_2_userAxis"

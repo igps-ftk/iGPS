@@ -172,7 +172,7 @@ if [ "$tmp" == "" ]; then
   For C-shell (tcsh; ~/.cshrc):
 set path = (\$path /usr/local/GMT-6.4.0/bin/)
   For B-shell (bash; ~/.bashrc):
-export PATH=\$PATH:/usr/local/GMT-6.4.0/bin/}
+export PATH=\$PATH:/usr/local/GMT-6.4.0/bin/
 eob
   exit 1
 else
@@ -191,7 +191,7 @@ if [ "$tmp" == "" ]; then
   For C-shell (tcsh; ~/.cshrc):
 set path = (\$path /usr/local/GMTSAR-master/bin)
   For B-shell (bash; ~/.bashrc):
-export PATH=\$PATH:/usr/local/GMTSAR-master/bin}
+export PATH=\$PATH:/usr/local/GMTSAR-master/bin
 eob
   exit 1
 else
@@ -281,9 +281,9 @@ if [ "$esa_data" == "" ]; then
   echo -e "[$PROG]\033[1;33;41mERROR\033[0m: environment variable esa_data not set!!"
   cat <<eob
   For C-shell (tcsh; ~/.cshrc): setenv esa_data somewhere ,e.g.,
-setenv esa_unzip ${iGPS}/example/insar/esa.data
+setenv esa_data ${iGPS}/example/insar/esa.data
   For B-shell (bash; ~/.bashrc): export esa_data=somewhere ,e.g.,
-export esa_unzip=${iGPS}/example/insar/esa.data
+export esa_data=${iGPS}/example/insar/esa.data
 eob
   exit 1
 fi
