@@ -280,10 +280,10 @@ echo "[$PROG]INFO: ---------checking \$esa_data-------------"
 if [ "$esa_data" == "" ]; then
   echo -e "[$PROG]\033[1;33;41mERROR\033[0m: environment variable esa_data not set!!"
   cat <<eob
-  For C-shell (tcsh; ~/.cshrc):
-setenv esa_data root_directory_where_you_store_Sentinel-1_data_and_orbit
-  For B-shell (bash; ~/.bashrc):
-export esa_data=root_directory_where_you_store_Sentinel-1_data_and_orbit
+  For C-shell (tcsh; ~/.cshrc): setenv esa_data somewhere ,e.g.,
+setenv esa_unzip ${iGPS}/example/insar/esa.data
+  For B-shell (bash; ~/.bashrc): export esa_data=somewhere ,e.g.,
+export esa_unzip=${iGPS}/example/insar/esa.data
 eob
   exit 1
 fi

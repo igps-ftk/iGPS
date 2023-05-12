@@ -8,3 +8,11 @@ cd $iGPS/ftk
 echo "  current path is `pwd`"
 echo "  ./install_ftk"
 #./install_ftk
+
+echo "Tested on:"
+echo "  CentOS Linux release 7"
+echo "  CentOS Linux release 8"
+echo "  Rocky Linux release 8 (Green Obsidian)"
+echo "  Ubuntu 22.04.2 LTS"
+echo "  Cygwin on Windows 10 x64"
+echo "  Cygwin on Windows 7 x64"
