@@ -54,6 +54,9 @@ PRO DEM_GRID_EXTRACT_PROFILE, demfile,  $  ;DEM file (ENVI raw image format; wit
     pfile='D:\gsar\interseismic\t158-f107-f117-a-m_gozhaco1M3\f123.1\SBAS13.b600-.with_gacos_add\p.fa_xiaoerkule1\profiles_auto.psxy'
     opath='D:\gsar\interseismic\t158-f107-f117-a-m_gozhaco1M3\f123.1\SBAS13.b600-.with_gacos_add\p.fa_xiaoerkule1\dem'
     
+    ffile='C:\GMT_pub\vector\profile\fa_atf.psxy'
+    pfile='D:\gsar\interseismic\012-a-m7-0088_0093_0098_0103_0108_0113_0118-tibet\f123\sbas.4.9.0001.9999.20150627.20220930.053.0393.01.___\p.fa_atf_9r\profiles_auto.psxy'
+    opath='D:\gsar\interseismic\012-a-m7-0088_0093_0098_0103_0108_0113_0118-tibet\f123\sbas.4.9.0001.9999.20150627.20220930.053.0393.01.___\p.fa_atf_9r\dem'
     
   ENDIF
   
@@ -173,8 +176,8 @@ PRO DEM_GRID_EXTRACT_PROFILE, demfile,  $  ;DEM file (ENVI raw image format; wit
       endif
       ENVI_CONVERT_FILE_COORDINATES, fid, xf, yf, xmap, ymap,/to_map
       odata[0:2,pxi]=[xmap,ymap,dem_grid[xf,yf]]
-      ;tmp=MAP_2POINTS(xy3[0],xy3[1],xmap,ymap,/meter)*1d-3
-      ;odata[3,pxi]=tmp*(xmap-xy3[0])/ABS(xmap-xy3[0])
+      tmp=MAP_2POINTS(xy3[0],xy3[1],xmap,ymap,/meter)*1d-3
+      odata[3,pxi]=tmp*(xmap-xy3[0])/ABS(xmap-xy3[0])
     ;stop
     ENDFOR
     

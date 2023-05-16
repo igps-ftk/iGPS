@@ -117,7 +117,7 @@ dmax=200;
 fts_min=-35;
 fts_max=135;
 is_show_fig='on';
-is_show_fig='off';
+%is_show_fig='off';
 
 %xianshuihe fault
 % path='D:\gsar\interseismic\135-d-m4-0476_0481_0486_0491-longriba2_kangding2\f123\sbas.4.0.0367.9999.20150106.20210522.101.1359.01.___\p.fa_xsh_b\';
@@ -270,8 +270,8 @@ for pi=1:npath
     options.nsimu = 30000;
     options.updatesigma = 1;
     % options.qcov = tcov; % covariance from the initial fit
-    options.verbosity = 0;
-    options.waitbar = 0;
+    options.verbosity = 1;
+    options.waitbar = 1;
     %   options.MaxFunEvals = 10000;
     
     [res,chain,s2chain] = mcmcrun(model,data,params,options);
