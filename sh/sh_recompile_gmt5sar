@@ -32,7 +32,7 @@ if [ "$GMT5SAR" == "" ]; then
   exit 1
 fi
 path=$GMT5SAR
-path=/usr/local/gmt5sar20220909
+#path=/usr/local/gmt5sar20220909
 
 
 cd $path

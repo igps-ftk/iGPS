@@ -261,15 +261,15 @@ if [ ! -s $file_gglib ]; then
   echo -e "[$PROG]\033[1;33;41mERROR\033[0m: cannot find GAMIT/GLOBK library ($file_gglib)!!"
   cat <<eob
   If you have GAMIT/GLOBK, use the below command to create one:
-    \${iGPS}/sh/arlib where_gamit_globk_installed
+    \${iGPS}/sh/gglib where_gamit_globk_installed
   E.g.,
-    arlib /usr/local/gamit-v10.71
+    gglib /usr/local/gamit-v10.71
 eob
   exit 1
 else
   echo "[$PROG]INFO: found GAMIT/GLOBK libaray at $file_gglib"
   cat <<eob
-  If it does not work when compiling the code, try creating a new one with arlib.
+  If it does not work when compiling the code, try creating a new one with gglib.
 eob
 fi
 #exit

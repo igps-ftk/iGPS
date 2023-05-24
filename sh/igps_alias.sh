@@ -119,7 +119,7 @@ alias es='sh_s1_expt_safe'
 #alias    sh_esa_s1_get_data_meta4_asf
 #alias    sh_esa_s1_get_data_py_asf
 #alias    sh_esa_s1_get_in_polygon_tibetan_plateau
-#alias    sh_esa_s1_get_metalink
+#alias    sh_asf_s1_get_metalink
 #alias    sh_esa_s1_get_orb
 #alias    sh_esa_s1_get_resorb
 #alias    sh_esa_s1_gsar_expt_safe

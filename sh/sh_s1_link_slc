@@ -1,0 +1,104 @@
+#!/bin/bash
+
+# Name:
+#   sh_s1_link_slc
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorithm:
+#   
+
+# Dependency:
+#   
+  
+
+PROG=sh_s1_link_slc
+
+timestamp=`date | sed -e "s/ /_/g" | sed -e "s/:/-/g"`
+
+path_old=`pwd`
+
+usage_of_it(){
+cat <<eob
+${PROG}
+|_Link a given list of S1 SLC files from \$esa_data/s1 to somewhere.
+|+
+|<
+  -f|-file S1_SLC_LIST_FILE
+  [-o|-opath OUTPUT_PATH]
+    default: \`pwd\`
+  [-h|-help|--help]
+|>
+  \${esa_data}/metainfo/csv/S1*.csv
+|e.g.,
+  ${PROG} 
+(c)iGPS (https://github.com/igps-ftk/)
+eob
+}
+
+if [ "$1" == "" ]; then
+    usage_of_it
+    #exit 1
+fi
+
+
+file=
+opath=`pwd`
+
+
+while [ "$1" != "" ]; do
+  case $1 in 
+	  -f|-file)
+	    file=$2
+	    ;;
+    -opath)
+      opath=$2
+      ;;
+    -h|-help|--help)
+      usage_of_it
+      exit
+      ;;
+	  *)
+	    echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid option $1!!"
+	    usage_of_it
+	    exit 1
+	    ;;
+  esac
+  shift 2
+done
+
+
+cd $path_old
+
+
+files_need=`grep '^ ' $file | awk '{print $1}'` 
+for file_need in $files_need; do
+  echo $file_need
+  file_slc=${esa_data}/s1/`basename ${file_need} | awk -F. '{print $1".zip"}'`
+  ofile="`echo $file_need | awk -F. '{print $1}'`.zip"
+  
+  if [ ! -s $file_slc ]; then
+	  echo "[$PROG]WARNING:data not exist ($file_slc)!"
+    continue
+  fi
+  
+  if [ -s ${opath}/${ofile} ]; then
+	  echo "[$PROG]WARNING:data already linked (${opath}/${ofile})!"
+	  file ${opath}/${ofile}
+    continue
+	  #exit 1
+  fi
+  
+  #echo scp $file  vmshare:/cloud1/ESA/S1/lys/
+  #echo scp $file  vmshare:/cloud1/ESA/S1/lys/ | sh
+  echo ln -s $file ${opath}/
+  echo ln -s $file ${opath}/ | sh
+done

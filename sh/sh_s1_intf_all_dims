@@ -1,0 +1,103 @@
+#!/bin/bash
+
+# Name:
+#   sh_s1_intf_all_dims
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorithm:
+#   
+
+# Dependency:
+#   
+
+PROG=sh_s1_link_slc
+
+timestamp=`date | sed -e "s/ /_/g" | sed -e "s/:/-/g"`
+
+path_old=`pwd`
+
+usage_of_it(){
+cat <<eob
+${PROG}
+|_Get dimension information for interferograms.
+|+
+  -intf_all/*/*.grd
+|<
+  [-f|-file GRID_FILE]
+    default: corr_cut.grd
+  [-p|-path INTF_ALL_PATH]
+    default: \`pwd\`
+  [-h|-help|--help]
+|>
+  Output of GMT's "grdinfo -C" command.
+|e.g.,
+  ${PROG} 
+(c)iGPS (https://github.com/igps-ftk/)
+eob
+}
+
+#if [ "$1" == "" ]; then
+#    usage_of_it
+#    #exit 1
+#fi
+#
+
+path=`pwd`
+
+file="corr_cut.grd"
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -f|-file)
+      file=$2
+      ;;
+    -p|-path)
+      path=$2
+      ;;
+    -h|-help|--help)
+      usage_of_it
+      exit
+      ;;
+	  *)
+	    echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid option $1!!"
+	    usage_of_it
+	    exit 1
+	    ;;
+  esac
+  shift 2
+done
+
+
+echo " path is $path"
+echo " file is $file"
+
+
+dirs=`ls ${path}/ | grep _`
+i=0
+for dir in $dirs; do
+  echo " dir is $dir"
+  files_i=`ls ${dir}/${file}`
+  #echo " files_i is $files_i"
+  for file_i in $files_i; do
+  	echo " $file_i"
+  	tmp1=`gmt grdinfo -C $file_i`
+  	echo $tmp1
+  done
+
+  #i=`expr $i + 1`
+  #echo " i is $i"
+  #if [ $i -gt 5 ]; then
+  #  exit
+  #fi
+  #exit
+done
+

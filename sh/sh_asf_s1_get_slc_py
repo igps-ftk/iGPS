@@ -41,7 +41,7 @@ $PROG
       py - ASF Vertex Python Downloader script (download*.py)
       list - slc list file
       meta4 - ESA Copernicus meta4 file
-  [-h|-help]
+  [-h|-help|--help]
 |e.g.,
   $PROG -file download-all-2021-01-07_06-49-41.py
     -ac /home/tianyf/earthdata_yftian.txt
@@ -165,8 +165,8 @@ case $file_type in
       exit 1
     fi
     
-    files=`cat $file | awk -F\> '{for(i=1;i<=NF;i++){print $i}}' |grep '.zip' | grep S1 | grep _IW_SLC__ | awk -F\" '{print $2}'`
-    files=`cat $file | awk -F\> '{for(i=1;i<=NF;i++){print $i}}' |grep '.zip' | grep S | grep _ | awk -F\" '{print $2}'`
+    #files=`cat $file | awk -F\> '{for(i=1;i<=NF;i++){print $i}}' |grep '.zip' | grep S1 | grep _IW_SLC__ | awk -F\" '{print $2}'`
+    files_slc=`cat $file | awk -F\> '{for(i=1;i<=NF;i++){print $i}}' |grep '.zip' | grep S | grep _ | awk -F\" '{print $2}'`
 
     ;;
   *)
@@ -201,7 +201,7 @@ for file_slc in $files_slc; do
     
     
     #check if is already downloaded (but not in this server)
-    tmp=`cat ${esa_data}/s1.list |grep $file`
+    tmp=`cat ${esa_data}/s1.list |grep $file_slc`
   	if [ "$tmp" != "" ]; then
   	  echo "[$PROG]INFO: already downloaded (maybe not in this sever)! skip $file_slc"
   	  echo "[$PROG]INFO: available at $tmp "

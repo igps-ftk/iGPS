@@ -1,0 +1,165 @@
+#!/bin/bash
+
+# Name:
+#   sh_asf_s1_get_csv
+#   
+
+# Purpose:
+#   Get meta data information for S1 files from ASF
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorithm:
+#   
+
+# Dependency:
+#   
+
+PROG=sh_asf_s1_get_csv
+
+if [ -t 0 ]; then
+  #interactive=1
+  load_bashrc=n
+else
+  #interactive=0
+  load_bashrc=y
+  #echo "interactive $interactive"
+  #. ${HOME}/.bashrc  
+fi
+#echo "interactive $interactive"
+
+timestamp=`date | sed -e "s/ /_/g" | sed -e "s/:/-/g"`
+
+path_old=`pwd`
+
+usage_of_it(){
+cat <<eob
+${PROG}
+|_Download CSV metainfo files for S1 SLC files.
+  https://docs.asf.alaska.edu/api/basics/
+|+
+  -curl
+|<
+  [-p|-path S1_SLC_PATH]
+    default: \${esa_data}/s1
+  [-h|-help|--help]
+|>
+  \${esa_data}/metainfo/csv/S1*.csv
+|e.g.,
+  ${PROG} 
+(c)iGPS (https://github.com/igps-ftk/)
+eob
+}
+
+if [ "$1" == "" ]; then
+    usage_of_it
+    #exit 1
+fi
+
+
+
+if [ "$esa_data" == "" ]; then
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: environtment variable esa_data NOT set!!"
+  exit 1
+fi
+
+if [ ! -d $esa_data ]; then
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: directory $esa_data NOT exist!!"
+  exit 1
+fi
+
+path=
+#path=`pwd` #default current path
+path=${esa_data}/s1
+if [ "`hostname`" == "node1" ]; then
+  path=/sar/s1/links
+fi
+
+
+opath=${esa_data}/metainfo/csv/ #default 
+
+
+while [ "$1" != "" ]; do
+  case $1 in 
+	  -p|-path)
+	    path=$2
+	    ;;
+    -o|-opath)
+      opath=$2
+      ;;
+    -lb|load_bashrc)
+      load_bashrc=$2
+      ;;
+    -h|-help|--help)
+      usage_of_it
+      exit
+      ;;
+	  *)
+	    echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid option $1!!"
+	    usage_of_it
+	    exit 1
+	    ;;
+  esac
+  shift 2
+done
+
+if [ "$load_bashrc" == "y" ]; then
+  . ${HOME}/.bashrc  
+fi
+
+file_lock=${opath}/_tmp_${PROG}.lock
+if [ -s $file_lock ]; then
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: already running!! Locked by $file_lock"
+  exit 1
+fi
+hostname > $file_lock
+date >> $file_lock
+
+#get files list
+if [ "$path" == "" ];then
+    files=`find ${esa_data}/S1/ -maxdepth 1 -name "S1*.zip"`
+    files=`find ${esa_data}/S1.2/ -maxdepth 1 -name "S1*.zip"`
+else
+    echo "searching files in $path"
+    files=`find $path -maxdepth 1 -name "S1*.zip"`
+fi
+
+nf=`echo $files | wc -w`
+echo nf $nf
+#exit
+
+fi=0
+
+for file in $files; do
+  fname=`basename $file | awk -F. '{print $1}'`
+  fi=`expr $fi + 1`
+  echo "$fi/$nf $fname"
+
+  #URL="https://api.daac.asf.alaska.edu/services/search/param?granule_list=${fname}&output=CSV&processingLevel=SLC"
+  URL="https://api.daac.asf.alaska.edu/services/search/param?granule_list=${fname}&output=CSV"
+  echo $URL
+
+  ofile=${opath}/${fname}.csv
+  
+  if [ -e $ofile ]; then
+    echo "[$PROG]INFO: already exist ($ofile). Skip it."
+    continue
+  fi
+
+  curl $URL > $ofile
+  #exit
+done
+
+#remove invalid files
+cd ${esa_data}/metainfo/csv
+\rm nl
+find . -name "*.csv" | xargs wc -l > nl
+cat nl | grep ' 1 ' 
+cat nl | grep ' 1 ' | awk '{print "rm -f",$2}' | sh
+
+\rm $file_lock
+

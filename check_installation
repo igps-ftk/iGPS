@@ -10,6 +10,7 @@ echo "  ./install_ftk"
 #./install_ftk
 
 echo "Tested on:"
+echo "  CentOS 6"
 echo "  CentOS 7"
 echo "  CentOS 8"
 echo "  Rocky 8"

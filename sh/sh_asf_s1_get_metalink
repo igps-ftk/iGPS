@@ -1,0 +1,167 @@
+#!/bin/bash
+
+# Name:
+#   sh_asf_s1_get_metalink
+#   
+
+# Purpose:
+#   Get meta data information for S1 files from ASF
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorithm:
+#   
+
+# Dependency:
+#   
+
+PROG=sh_asf_s1_get_metalink
+
+if [ -t 0 ]; then
+  #interactive=1
+  load_bashrc=n
+else
+  #interactive=0
+  load_bashrc=y
+  #echo "interactive $interactive"
+  #. ${HOME}/.bashrc  
+fi
+#echo "interactive $interactive"
+
+
+timestamp=`date | sed -e "s/ /_/g" | sed -e "s/:/-/g"`
+
+path_old=`pwd`
+
+usage_of_it(){
+cat <<eob
+${PROG}
+|_Download CSV metainfo files for S1 SLC files.
+  https://docs.asf.alaska.edu/api/basics/
+|+
+  -curl
+|<
+  [-p|-path S1_SLC_PATH]
+    default: \${esa_data}/s1
+  [-h|-help|--help]
+|>
+  \${esa_data}/metainfo/csv/S1*.csv
+|e.g.,
+  ${PROG} 
+(c)iGPS (https://github.com/igps-ftk/)
+eob
+}
+
+if [ "$1" == "" ]; then
+    usage_of_it
+    #exit 1
+fi
+
+
+
+if [ "$esa_data" == "" ]; then
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: environtment variable esa_data NOT set!!"
+  exit 1
+fi
+
+if [ ! -d $esa_data ]; then
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: directory $esa_data NOT exist!!"
+  exit 1
+fi
+
+path=
+path=`pwd` #default current path
+
+#opath=${esa_data}/metainfo/metalink/ #default esa.data/metalink
+#opath=`pwd`
+opath=
+is_overwrite=n
+is_checkmd5list=y
+
+
+while [ "$1" != "" ]; do
+  case $1 in 
+    -p|-path)
+      path=$2
+      ;;
+    -o|-opath)
+      opath=$2
+      ;;
+    -lb|load_bashrc)
+      load_bashrc=$2
+      ;;
+    -ow|-overwrite)
+      is_overwrite=$2
+      ;;
+    -m|-md5)
+      is_checkmd5list=$2
+      ;;
+    -h|-help|--help)
+      usage_of_it
+      exit
+      ;;
+    *)
+      echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid option $1!!"
+      usage_of_it
+      exit 1
+      ;;
+  esac
+  shift 2
+done
+
+if [ "$load_bashrc" == "y" ]; then
+  . ${HOME}/.bashrc  
+fi
+
+file_tmp_s1="_tmp_${PROG}_${timestamp}_s1"
+
+#get files list
+if [ "$path" == "" ];then
+    #find ${esa_data}/safe/all/ -maxdepth 1 -name "S1*.manifest.safe" > ${file_tmp_s1}
+    #find ${esa_data}/S1/ -maxdepth 1 -name "S1*.zip" >> ${file_tmp_s1}
+    #find ${esa_data}/S1.2/ -maxdepth 1 -name "S1*.zip" >> ${file_tmp_s1}
+    exit 1
+else
+    echo "searching files in $path"
+    find $path -maxdepth 1 -name "S1*.zip"  | sort > ${file_tmp_s1}
+fi
+
+if [ "$opath" == "" ]; then
+  opath=$path
+fi
+
+
+nf=`cat $file_tmp_s1 | wc -l`
+echo nf $nf
+
+fi=0
+while read line; do
+  fname=`basename $line | awk -F. '{print $1}'`
+  fi=`expr $fi + 1`
+  echo "$fi/$nf $fname"
+
+  tmp=`grep -h $fname ${esa_data}/metainfo/md5.txt`
+  if [ "$tmp" != "" -a "$is_checkmd5list" == "y" ]; then
+    echo "[$PROG]INFO: info already in ${esa_data}/metainfo/md5.txt file. Skip it."
+    continue
+  fi
+
+  URL="https://api.daac.asf.alaska.edu/services/search/param?granule_list=${fname}"
+  echo $URL
+
+  ofile=${opath}/${fname}.metalink
+  
+  if [ -e $ofile  -a "$is_overwrite" != "y" ]; then
+    echo "[$PROG]INFO: already exist ($ofile). Skip it."
+    continue
+  fi
+
+  curl $URL > $ofile
+  #exit
+done < ${file_tmp_s1}
+
+\rm -rf ${file_tmp_s1}

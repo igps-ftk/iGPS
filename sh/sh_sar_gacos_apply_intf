@@ -18,12 +18,52 @@
 
 # Dependency:
 #   
+
+
+PROG=sh_sar_apply_gacos_intf
+
 path_old=`pwd`
+
+usage_of_it(){
+cat <<eob
+$PROG
+|_Apply GACOS correction to unwrapped phase.
+|+
+|<
+  [-m|-mode ADD|SUB]
+  [-h|-help|--help]
+eob
+}
+
 
 
 path_intf_all=intf_all
 path_gacos_all=gacos_all
 opath=intf_all_gacos
+mode=ADD
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -m|-mode) 
+      mode=$2
+      ;;
+    -o|-opath) 
+      opath=$2
+      ;;
+    -h|--help|-help|-H)
+      usage_of_it
+      exit
+      ;;
+    *)
+      usage_of_it
+      echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid option ($1)!!"
+      exit 1
+      ;;
+  esac
+  shift 2
+done
+
+
 
 mkdir -p $opath
 
@@ -50,8 +90,8 @@ for intf in $intfs; do
     file_unwrap=../../${path_intf_all}/${intf_name}/unwrap_mask.grd
     if [ -s $file_unwrap ]; then
          if [ ! -s unwrap_mask.grd ]; then
-             echo gmt grdmath ${file_unwrap} ${file_gacos} SUB = unwrap_mask.grd
-             echo gmt grdmath ${file_unwrap} ${file_gacos} SUB = unwrap_mask.grd | sh
+             echo gmt grdmath ${file_unwrap} ${file_gacos} $mode = unwrap_mask.grd
+             echo gmt grdmath ${file_unwrap} ${file_gacos} $mode = unwrap_mask.grd | sh
         fi
     else
         echo -e "[$PROG]\033[1;33;41mERROR\033[0m: no gacos ztd file ($file_unwrap)!!"

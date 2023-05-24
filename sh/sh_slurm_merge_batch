@@ -223,6 +223,16 @@ while read line; do
 
     tmp=`date | sed -e 's/ /_/g' | sed -e 's/:/-/g'`
 
+    job_name=${dir_name}-${COMB_ID}-${PROC_ID}
+    #echo job_name $job_name
+    tmp=`squeue -o "%A %R %.158j %T" | grep "$job_name"`
+    #echo tmp $tmp
+    if [ "$tmp" != "" ]; then
+      echo "[$PROG]INFO: already runing/queued ($job_name)."
+      continue
+    fi
+    #echo "go"
+    #continue
 
     echo "#!/bin/bash" > $file_t
     echo "#SBATCH --job-name=${dir_name}-${COMB_ID}-${PROC_ID}" >> $file_t
