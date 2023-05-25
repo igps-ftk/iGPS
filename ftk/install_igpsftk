@@ -26,6 +26,7 @@ set TARGETDIR = `pwd`
 
 
 set MK_CMD = "make -f Makefile.${arch}"
+#set MK_CMD = "gmake -f Makefile.${arch}"  #use gmake (instead of make) in FreeBSD
 set UNIMAKE_CMD = ${TARGETDIR}/unimake_igpsftk
 #set FC_CMD = ifort #Fortran Compiler
 #set FC_CMD = gfortran

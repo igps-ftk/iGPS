@@ -57,6 +57,16 @@ InSAR functions are called in the terminal or batch scripts.
     shows an example of the processing flowchart of an ordinary 
     InSAR time series for studying interseismic fault slip.
 
+  If iGPS-ftk executables do not work in your system, try compiling
+    the source in $iGPS/ftk/ :
+    ./install_igpsftk
+  In FreeBSD, use gmake instead of make.
+  For GCC > v10, add the following to FLAGS option:
+    -fcommon -fallow-argument-mismatch
+    
+  If iGPS-ftk executables work but links to bin/ are corruptted, relink them by
+    ./install_igpsftk_links
+
 
 ------------------------*CONTENT*--------------------------
 iGPS--IDL tool package for GPS

@@ -265,10 +265,6 @@ switch($os[1])
  		set hard = "i86"
  		breaksw
 
-
-
-
-
 endsw
 
 # Set the flag indicating the version of system dependent files to be included in 
@@ -276,6 +272,8 @@ endsw
 # e.g., 'SunOS' => 'sun') unless overriden by the unimake argument compiler (-c switch) 
 # specification (e.g. 'g77').
 #   
+echo here sys_ver is $sys_ver
+#exit
 if ( $sys_ver == "" ) then
   set sys_ver = $hard
   if ( $hard == "i86" ) then

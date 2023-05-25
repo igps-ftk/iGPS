@@ -22,10 +22,12 @@
 
 #arch="`uname -s`_`uname -i`"
 arch="`uname -s`"
-if [ "$sys" = "SunOS" ]; then
+if [ "$arch" = "SunOS" ]; then
     arch="${arch}_`isainfo -b`"
-elif [ "$sys" = "Linux" ]; then
+elif [ "$arch" = "Linux" ]; then
     arch="${arch}_`uname -p`"    
+elif [ "$arch" == "Darwin" ]; then
+    arch="${arch}_`uname -p`"
 else
     arch="${arch}_`uname -i`"
 fi
