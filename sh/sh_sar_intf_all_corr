@@ -67,6 +67,8 @@ fi
 
 file_roi=
 R=
+is_mask=n
+file_mask=
 
 while [ "$1" != "" ]; do
   case $1 in
@@ -75,6 +77,9 @@ while [ "$1" != "" ]; do
       ;;
     -r|-roi)
       file_roi=$2
+      ;;
+    -m|-mask)
+      is_mask=$2
       ;;
     -R)
       R=$2
@@ -99,13 +104,20 @@ if [ "$file_roi" != "" ]; then
   gmt kml2gmt $file_roi | grep -v '>' | awk '{print $0,0}' > _tmp.llz
   ln -s $path/../topo/trans.dat .
   proj_ll2ra_ascii.csh trans.dat _tmp.llz _tmp.xyz
-  R=`gmt gmtinfo -I1/1 _tmp.xyz`
+  if [ "$is_mask" == "y" ]; then
+    echo "create a mask"
+    exit
+  else
+    R=`gmt gmtinfo -I1/1 _tmp.xyz`
+  fi  
 fi
 
 echo R $R
 echo path $path
 echo ofile $ofile
+echo mask $file_mask
 cd $path
+exit
 
 path_cur=`pwd`
 echo $path_cur

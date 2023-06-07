@@ -80,6 +80,8 @@ c     for point_perp_line
       integer*4 sec1,sec2,run_time_min,run_time_sec
       character*50  prog,ver,user,os,hostname,date_time
 
+      integer*4 time  
+      
 c     <<VAR_DEC
       prog='sar_los_profile_auto'
       write(*,'(3a)') '->',prog(1:nblen(prog)),' ...'
@@ -88,9 +90,11 @@ c      ioerr=system('whoami')
       call getlog(user)
 c      write(*,*) 'user:',user
       sec1=time()
-      date_time=ctime(sec1)
+      call ctime(sec1,date_time)
+c      date_time=ctime(sec1)
 c      write(*,*) 'time:',date_time,i
-      ioerr=hostnm(hostname)
+c      ioerr=hostnm(hostname)
+      call hostnm(hostname,ioerr)
 c      write(*,*) 'host:',hostname
 c      stop
 

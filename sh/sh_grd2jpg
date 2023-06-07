@@ -62,12 +62,20 @@ path_old=`pwd`
 #
 #FILE_GRD2JPG_CPT=
 file_cpt=
-file_cpt=grd.cpt
+#file_cpt=grd.cpt
 
 if [ "$1" != "" ]; then
   files=
   while [ "$1" != "" ]; do
-    files="$files $1"
+    case $1 in
+      -c|-cpt)
+        file_cpt=$2
+        shift 1
+        ;;
+      *)
+        files="$files $1"
+        ;;
+    esac
     shift 1
   done
 else
@@ -87,11 +95,17 @@ for file in $files; do
   
   echo "FILE_GRD2JPG_CPT $FILE_GRD2JPG_CPT"
   if [ "$FILE_GRD2JPG_CPT" == "" ]; then
-    gmt makecpt -Cjet $T -Z -I > grd.cpt
+    if [ "$file_cpt" == "" ]; then
+      file_cpt=grd.cpt
+    fi
+    if [ ! -s $file_cpt ]; then
+      gmt makecpt -Cjet $T -Z -I > $file_cpt
+    fi
   else
     file_cpt=$FILE_GRD2JPG_CPT
   fi
   echo file_cpt $file_cpt
+  
   
   gmt grdimage -R$file -JX5i -C$file_cpt -BWSen+t${file} -Bpxafg+lX  -Bpyafg+lY $file -P -K -Y2i > $ofile 
   

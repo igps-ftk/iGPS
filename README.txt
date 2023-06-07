@@ -61,7 +61,7 @@ InSAR functions are called in the terminal or batch scripts.
     the source in $iGPS/ftk/ :
     ./install_igpsftk
   In FreeBSD, use gmake instead of make.
-  For GCC > v10, add the following to FLAGS option:
+  For GCC > v10, add the following to compiler option:
     -fcommon -fallow-argument-mismatch
     
   If iGPS-ftk executables work but links to bin/ are corruptted, relink them by

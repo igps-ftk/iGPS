@@ -57,15 +57,6 @@
 PROG=sh_esa_s1_get_aux_orb_gnss
 
 
-#check the data root directory
-if [ "$esa_data" == "" ]; then
-  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: environment variable esa_data not set!!"
-  exit 1
-fi
-if [ ! -d $esa_data ]; then
-  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: esa_data ($esa_data) not exist!!"
-  exit 1
-fi
 
 
 timestamp=`date | sed -e "s/ /_/g" | sed -e "s/:/-/g"`
@@ -130,6 +121,17 @@ done
 
 if [ "$load_bashrc" == "y" ]; then
   . ${HOME}/.bashrc  
+fi
+
+
+#check the data root directory
+if [ "$esa_data" == "" ]; then
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: environment variable esa_data not set!!"
+  exit 1
+fi
+if [ ! -d $esa_data ]; then
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: esa_data ($esa_data) not exist!!"
+  exit 1
 fi
 
 path=$esa_data/aux_${orb_typ}orb

@@ -22,6 +22,7 @@
 
 #arch="`uname -s`_`uname -i`"
 arch="`uname -s`"
+
 if [ "$arch" = "SunOS" ]; then
     arch="${arch}_`isainfo -b`"
 elif [ "$arch" = "Linux" ]; then

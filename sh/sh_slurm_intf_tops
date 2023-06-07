@@ -100,7 +100,7 @@ file_intf_in=intf.in
 batch_config=batch_tops.config
 delay=10
 nmax_job=9999
-is_no_delay_when_alloc=y
+is_no_delay_when_alloc=n
 
 while [ "$1" != "" ]; do
   case $1 in
@@ -150,9 +150,8 @@ fi
 
 is_no_delay_when_alloc=`echo $delay | awk '{if($1<0){print "y"}else{print "n"}}'`
 delay=`echo $delay | awk '{if($1<0){print -1*$1}else{print $1}}'`
-#echo $is_no_delay_when_alloc $delay
+echo $is_no_delay_when_alloc $delay
 #exit
-
 
 n_job=0
 n_skip=0
@@ -283,8 +282,8 @@ while read line; do
     tmp="${tmp1}${tmp2}"
     #echo "tmp1|$tmp1|"
     #echo "tmp2|$tmp2|"
-    #echo "tmp|$tmp|"
-    if [ "$tmp" != "" -a "$is_no_delay_when_alloc" != "y" -a $delay -gt 0 ]; then
+    echo "tmp|$tmp|"
+    if [ "$tmp" != "" -o "$is_no_delay_when_alloc" != "y" -a $delay -gt 0 ]; then
       echo "[$PROG]INFO:waiting $delay seconds to submit next job ..."
       sleep $delay
     fi

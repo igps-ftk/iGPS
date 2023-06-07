@@ -1,0 +1,170 @@
+#!/bin/bash
+
+# Name:
+#   sh_roi2mask
+#   
+
+# Purpose:
+#   +
+
+# Input:
+#   +
+
+# Output:
+#   +
+
+# Example:
+#   +
+
+# Algorithm:
+#   +
+
+# Modifications:
+#   + Created on Fri May 26 23:33:54 CST 2023 by tianyf
+#   +
+
+# Dependency:
+#   +
+#
+
+
+PROG=sh_roi2mask
+
+timestamp=`date | sed -e "s/ /_/g" | sed -e "s/:/-/g"`
+
+path_old=`pwd`
+
+usage_of_it(){
+cat <<eob
+${PROG}
+  version 20230526
+|_ Create mask grid from XYZ polygon(s) (KML).
+|+
+  -GMT
+  -sh_grd2jpg
+  -sh_grd2kml
+|<
+  -f|-file|-file_grid REFERENCE_GRID_FILE
+    set X/Y ranges and increments for output mask
+  -r|-roi|-roi_file ROI_KML_FILE
+    areas of interest in KML file
+  [-o|-ofile|-out_file out_file]
+    default: \${ROI_KML_FILE}_mask.grd
+  [-h|-help|--help]
+|>
+  Mask grid file and previews.
+   \${ROI_KML_FILE}_mask.grd
+   \${ROI_KML_FILE}_mask.png
+   \${ROI_KML_FILE}_mask.kml
+|e.g.,
+  ${PROG}
+(c)iGPS (https://github.com/igps-ftk/)
+eob
+}
+
+if [ $# -lt 2 ]; then
+  usage_of_it
+  exit 1
+fi
+
+file_tmp_xyz=_tmp_${PROG}_${timestamp}_xyz
+file_tmp_mask=_tmp_${PROG}_${timestamp}_mask.grd
+
+file_grd=
+file_roi=
+ofile=
+is_clip=n
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -A|-c|-clip)
+      is_clip=$2
+      ;;
+    -f|-file|-file_grd)
+      file_grd=$2
+      ;;
+    -r|-roi|-roi_file)
+      file_roi=$2
+      ;;
+    -o|-ofile|-out_file)
+      ofile=$2
+      ;;
+    -h|-help|--help)
+      usage_of_it
+      exit 1
+      ;;
+    *)
+      echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid option ($1)!!"
+      usage_of_it
+      exit 1
+      ;;
+  esac
+  shift 2
+done
+
+if [ "$file_grd" == "" ]; then
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: grid file (*.grd) not given ($file_grd)!!"
+  exit 1
+fi
+if [ ! -s $file_grd ]; then
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: grid file (*.grd) not exist ($file_grd)!!"
+  exit 1
+fi
+
+if [ "$file_roi" == "" ]; then
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: ROI file (*.kml not given ($file_roi)!!"
+  exit 1
+fi
+if [ ! -s $file_roi ]; then
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: ROI file (*.kml) not exist ($file_roi)!!"
+  exit 1
+fi
+
+if [ "$ofile" == "" ]; then
+  bname=`basename $file_roi`
+  fname="${bname%.*}"
+  ofile="${fname}_mask.grd"
+fi
+
+echo "[$PROG]INFO: input grid file is $file_grd"
+echo "[$PROG]INFO: input roi file is $file_roi"
+echo "[$PROG]INFO: output mask file is $ofile"
+
+
+I=`gmt grdinfo -I ${file_grd}`
+echo I $I
+
+echo "[$PROG]INFO: create the mask from KML polygon file"
+gmt kml2gmt $file_roi > $file_tmp_xyz 
+if [ "$is_clip" == "y" ]; then
+  Ro=`gmt gmtinfo $I ${file_tmp_xyz}`
+else
+  Ro=`gmt grdinfo $I ${file_grd}`
+fi
+echo Ro $Ro
+gmt grdmask $file_tmp_xyz -R${file_grd}  -N0/1/1 -G$file_tmp_mask
+gmt grdmask $file_tmp_xyz $Ro $I  -N0/1/1 -G$file_tmp_mask
+#convert zero to NaN
+gmt grdmath $file_tmp_mask 0 NAN = $ofile
+
+
+gmt makecpt -Cjet -I -Z -T0/1/1  > mask.cpt
+
+is_geo=`gmt grdinfo -C $ofile | awk '{if($2<-180||$3>360||$4<-90||$5>90){print 0}else{print 1}}'`
+if [ $is_geo -eq 0 ]; then
+  echo "[$PROG]INFO: sh_grd2jpg $ofile -c mask.cpt"
+  sh_grd2jpg $ofile -c mask.cpt
+else
+  echo "[$PROG]INFO: sh_grd2kml  $ofile mask.cpt"
+  sh_grd2kml  $ofile mask.cpt
+fi
+
+gmt grdinfo -C ${file_grd}
+gmt grdinfo -C ${ofile}
+#exit
+
+\rm -f $file_tmp_xyz $file_tmp_mask
+#grdinfo $file_tmp_mask
+#grdinfo $file_grd
+
+echo "[$PROG]INFO: done."
