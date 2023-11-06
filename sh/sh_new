@@ -78,6 +78,7 @@ cat <<eob
   -Dependencies_of_this_program
 |<
   Inputs
+  [-h|-help|--help]
 |>
   Outputs
 |e.g.,

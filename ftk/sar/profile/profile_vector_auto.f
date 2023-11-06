@@ -166,7 +166,9 @@ c            read(tmpstr(pos+1:),*) ofile
       write(*,*) 'ofile: ',ofile(1:nblen(ofile))
 
 
+      write(*,*) 'read_psxy ...'
       call read_psxy(file,xys,npts,pnames,n)
+      write(*,*) 'read_psxy done.'
 
       j1=1
       do i=1,n
@@ -447,8 +449,12 @@ c     end-of-loop-i
 
 c      stop
       
+      write(*,*) 'output to:',ofile(1:nblen(ofile))
       call getlun(fid)
+c      fid=97
+      write(*,*) 'fid:',fid
       open(unit=fid,file=ofile,iostat=ioerr)
+      write(*,*) 'ioerr:',ioerr
       if (ioerr.ne.0) then
         write(*,*) '[]ERROR: cannot open output file!!'
         stop
@@ -463,8 +469,8 @@ c      write(fid,'(a)') '*model paramters:'
 c      write(fid,'(a)') '*'
 c
 c      write(fid,702) 'dist_to_fault','prediction','horiz_pred'
-702   format("*",a15,2(1x,a15))
-
+c702   format("*",a15,2(1x,a15))
+      write(*,*) 'npf:', npf
       do i=1,npf
         write(fid,703) i,(xys_pf(j,i),j=1,2)
         write(fid,704)(oxys(j,i),j=1,2)
@@ -475,6 +481,7 @@ c      write(fid,702) 'dist_to_fault','prediction','horiz_pred'
 
 
       close(fid)
+      write(*,*) 'finished writing file'
 
 
       sec2=time()

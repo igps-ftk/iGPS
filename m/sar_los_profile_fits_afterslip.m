@@ -7,6 +7,7 @@ user='tianyf';
 run_at='hostname';
 run_on=datestr(now);
 
+cmt='';
 dmin=-200;
 dmax=200;
 fts_min=-15;
@@ -95,10 +96,39 @@ paths={'D:\gsar\interseismic\114-a-m3-0115_0120_0125-altyntagh2_wulan6M3\f123\sb
 paths={'D:\gsar\interseismic\070-a-m3-0105_0110_0115-eastkunlun5M3\f123\sbas.4.0.0367.9999.20141022.20210211.146.0908.01.___\p.fa_Kunlun_Fault'};
 paths={'D:\gsar\interseismic\150-d-m3-0467_0472_0477-kunlun3_wulan2_qaidam4\f123.1\sbas.3.0.0500.9999.20141027.20191001.102.0323.01.___\p.fa_eklf'};
 paths={'D:\gsar\interseismic\150-d-m6-0462_0467_0472_0475_0482_0487-kunlun\f123\sbas.4.0.0001.9999.20141027.20230218.060.0399.01.___\p.fa_Kunlun_Fault_gnss'};
-dmin=-250;
-dmax=260;
+
+%postseismic klf
+paths={'Z:\g11j\D\gsar\interseismic\150-d-m6-0462_0467_0472_0475_0482_0487-kunlun\f123\sbas.4.0.0001.9999.20141027.20230218.060.0800.01.___\p.fa_Kunlun_Fault'};
+paths={'Z:\g11j\D\gsar\interseismic\048-d-m6-0462_0467_0472_0477_0482-0487-kunlun\f123\sbas.4.0.0001.9999.20141101.20230401.054.0733.01.___\p.fa_Kunlun_Fault'};
+paths={'Z:\g11j\D\gsar\interseismic\077-d-m7-0458_0463_0468_0473_0478_0483_0488-kunlun\f123\sbas.4.0.0001.9999.20141103.20230309.050.0670.01.___\p.fa_Kunlun_Fault'};
+paths={'Z:\g11j\D\gsar\interseismic\143-a-m6-0100_0105_0110_0115_0120_0125-kunlun\f123\sbas.4.0.0367.9999.20141015.20230302.058.0631.01.___\p.fa_Kunlun_Fault'};
+paths={'Z:\g11j\D\gsar\interseismic\070-a-m6-0100_0105_0110_0115_0120_0125-eastkunlun5M3\f123\sbas.4.0.0001.9999.20141022.20230225.056.0770.01.___\p.fa_Kunlun_Fault'};
+ptn='*'
+dmin=-50;
+dmax=150;
+% dmin=-100;
+% dmax=270;
+% d_exclude=[-240,10];
+
+cmt='klfPostseismic'
+
+%creep gozha co
+paths={'Z:\g13a\proc_gmtsar\interseismic\056-a-m4-0104_0109_0114_0119-gozhaco\f123\sbas.4.0.0367.9999.20150513.20220205.170.1300.01.___\p.fa_longmuco_gozhaco'};
+paths={'Z:\g13b\proc_gmtsar\interseismic\158-a-m3-0108_0113_0118-gozhaco1M3\f123\sbas.4.0.0367.9999.20141016.20210430.157.1458.01.___\p.fa_longmuco_gozhaco'};
+ptn='0*'
+dmin=-100;
+dmax=1050;
+d_exclude=[-80,0];
+cmt='postseismic'
+
+% dmin=-250;
+% dmax=260;
 fts_min=-35;
 fts_max=35;
+fts_min=-15;
+fts_max=15;
+fts_min=-1;
+fts_max=5;
 is_show_fig='on';
 
 %xianshuihe fault
@@ -120,7 +150,16 @@ for pi=1:npath
   end
   disp(path);
   
-  files=dir([path,filesep,'profile_014_vel.psxy']);
+  files=dir([path,filesep,'profile_',ptn,'*_vel.psxy']);
+   
+  if ( strcmp(cmt , '') == 1 )
+    opath=path
+  else
+    opath=[path,filesep,cmt]
+    if (isdir(opath) == 0)
+      mkdir (opath);
+    end
+  end
   
   nf=size(files,1);
   for fi=1:nf
@@ -136,9 +175,10 @@ for pi=1:npath
     str=sprintf('[%s]INFO: %d/%d processing %s ...',PROG,fi,nf,name);
     disp(str);
     
-    ofile=[path,filesep,name,'_mdl.txt'];
-    ofile_rot=[path,filesep,name,'_rot.txt'] ;
-    jfile=[path,filesep,name,'_mdl.jpg'];
+ 
+    ofile=[opath,filesep,name,'_mdl.txt'];
+    ofile_rot=[opath,filesep,name,'_rot.txt'] ;
+    jfile=[opath,filesep,name,'_mdl.jpg'];
     disp(['output to:',ofile]);
     % return
     
@@ -211,7 +251,7 @@ for pi=1:npath
     plot(x1,y1,'r.');
     hold on;
     plot(data.xdata,data.ydata,'.');
-    xlim([-400 400]);ylim([-6 6]);  xlabel('x [km]'); ylabel('y [mm/yr]');
+    xlim([-400 400]);ylim([-26 26]);  xlabel('x [km]'); ylabel('y [mm/yr]');
     
     
     % fun_2d_screw_dislocation_afterslip = @(x,param) param(1)/pi*atan((x-param(4))/param(2))+param(3);
@@ -241,8 +281,8 @@ for pi=1:npath
       %     {'fts', 0, -30, 30}
       {'fts', 0, fts_min, fts_max}
       
-      {'rot', 0.001, -pi/3, pi/3}
-%       {'rot', 0.000011, 0.000010, 0.000012}
+%       {'rot', 0.001, -pi/3, pi/3}
+      {'rot', 0.000011, 0.000010, 0.000012}
 
        % afterslip rate
       {'asr', -59.001, -120, 120}
@@ -389,14 +429,17 @@ for pi=1:npath
     tmpstr6=sprintf('postseismic slip rate: %7.2f +/- %7.2f\n', out_params(6), out_sigs(6));
     tmpstr7=sprintf('postseismic slip upper depth: %7.2f +/- %7.2f\n', out_params(7), out_sigs(7));
     tmpstr8=sprintf('postseismic slip lower depth: %7.2f +/- %7.2f\n', out_params(8), out_sigs(8));
-    text(-380,4,tmpstr1);
-    text(-380,3,tmpstr2);
-    text(-380,2,tmpstr3);
-    text(-380,1,tmpstr4);
+    
+    sf1=1;
+    sf1=5;
+    text(-380,4*sf1,tmpstr1);
+    text(-380,3*sf1,tmpstr2);
+    text(-380,2*sf1,tmpstr3);
+    text(-380,1*sf1,tmpstr4);
     text(-380,0,tmpstr5);
-    text(-380,-1,tmpstr6);
-    text(-380,-2,tmpstr7);
-    text(-380,-3,tmpstr8);
+    text(-380,-1*sf1,tmpstr6);
+    text(-380,-2*sf1,tmpstr7);
+    text(-380,-3*sf1,tmpstr8);
     
     
     

@@ -221,7 +221,7 @@ while read line; do
     #check whether already done
     #
 
-    tmp=`date | sed -e 's/ /_/g' | sed -e 's/:/-/g'`
+    timestamp=`date | sed -e 's/ /_/g' | sed -e 's/:/-/g'`
 
     job_name=${dir_name}-${COMB_ID}-${PROC_ID}
     #echo job_name $job_name
@@ -229,6 +229,7 @@ while read line; do
     #echo tmp $tmp
     if [ "$tmp" != "" ]; then
       echo "[$PROG]INFO: already runing/queued ($job_name)."
+      n_skip=`expr $n_skip + 1`
       continue
     fi
     #echo "go"
@@ -242,7 +243,7 @@ while read line; do
     echo "pwd; hostname; date" >> $file_t
 
 
-    path_t=${PROC_DIR}/temp/${tmp}-${PROC_ID}-${dir_name}
+    path_t=${PROC_DIR}/temp/${timestamp}-${PROC_ID}-${dir_name}
     echo "mkdir -p $path_t " >> $file_t
     # make links
     echo "cd ${path_t}" >> $file_t

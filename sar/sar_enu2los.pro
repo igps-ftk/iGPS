@@ -50,39 +50,57 @@ PRO SAR_ENU2LOS
 ;  ;dlos2=sar_enu2los(enu)
 ;  ;PRINT,enu,dlos2
 ;  
-;  npt=60
-;  theta_min=23d0
-;  theta_min=30d0
-;  theta_max=46d0
-;  theta_step=(1d0*theta_max-theta_min)/(npt-1)
-;  thetas=theta_min+theta_step*indgen(npt)
-;  loses_e_a=dblarr(npt)
-;  loses_e_d=dblarr(npt)
-;  loses_n_a=dblarr(npt)
-;  loses_n_d=dblarr(npt)
-;  loses_u_a=dblarr(npt)
-;  loses_u_d=dblarr(npt)
-;  for ti=0,npt-1 do begin
-;    theta_i=thetas[ti]
-;    loses_e_a[ti]=sar_enu2los(enu_e,theta=theta_i*!dpi/180d0, alpha=(-13+360d0)*!dpi/180d0) ; for ascending orbit
-;    loses_e_d[ti]=sar_enu2los(enu_e,theta=theta_i*!dpi/180d0, alpha=(193d0)*!dpi/180d0) ; for descending orbit
-;    loses_n_a[ti]=sar_enu2los(enu_n,theta=theta_i*!dpi/180d0, alpha=(-13+360d0)*!dpi/180d0) ; for ascending orbit
-;    loses_n_d[ti]=sar_enu2los(enu_n,theta=theta_i*!dpi/180d0, alpha=(193d0)*!dpi/180d0) ; for descending orbit
-;    loses_u_a[ti]=sar_enu2los(enu_u,theta=theta_i*!dpi/180d0, alpha=(-13+360d0)*!dpi/180d0) ; for ascending orbit
-;    loses_u_d[ti]=sar_enu2los(enu_u,theta=theta_i*!dpi/180d0, alpha=(193d0)*!dpi/180d0) ; for descending orbit
-;  endfor
-;  
-;  window,1
-;  plot ,thetas,loses_e_a,background='ffffff'x,color='0'x,xrange=[20,60],yrange=[-1,1],psym=0
-;  oplot,thetas,loses_e_d,color='0000ff'x
-;  ;
-;  oplot,thetas,loses_n_a,color='00ffff'x
-;  oplot,thetas,loses_n_d,color='00ff00'x
-;  ;
-;  oplot,thetas,loses_u_a,color='ff00ff'x,thick=2
-;  oplot,thetas,loses_u_d,color='ff0000'x
-;  
-;  
+  npt=91
+  theta_min=23d0
+  theta_min=30d0
+  theta_max=46d0
+  theta_min=0d0
+  theta_max=90d0
+  
+  npt=17
+  theta_min=30d0
+  theta_max=46d0
+  
+  theta_step=(1d0*theta_max-theta_min)/(npt-1)
+  thetas=theta_min+theta_step*indgen(npt)
+  loses_e_a=dblarr(npt)
+  loses_e_d=dblarr(npt)
+  loses_n_a=dblarr(npt)
+  loses_n_d=dblarr(npt)
+  loses_u_a=dblarr(npt)
+  loses_u_d=dblarr(npt)
+  for ti=0,npt-1 do begin
+    theta_i=thetas[ti]
+    loses_e_a[ti]=sar_enu2los(enu_e,theta=theta_i*!dpi/180d0, alpha=(-13+360d0)*!dpi/180d0) ; for ascending orbit
+    loses_e_d[ti]=sar_enu2los(enu_e,theta=theta_i*!dpi/180d0, alpha=(193d0)*!dpi/180d0) ; for descending orbit
+    loses_n_a[ti]=sar_enu2los(enu_n,theta=theta_i*!dpi/180d0, alpha=(-13+360d0)*!dpi/180d0) ; for ascending orbit
+    loses_n_d[ti]=sar_enu2los(enu_n,theta=theta_i*!dpi/180d0, alpha=(193d0)*!dpi/180d0) ; for descending orbit
+    loses_u_a[ti]=sar_enu2los(enu_u,theta=theta_i*!dpi/180d0, alpha=(-13+360d0)*!dpi/180d0) ; for ascending orbit
+    loses_u_d[ti]=sar_enu2los(enu_u,theta=theta_i*!dpi/180d0, alpha=(193d0)*!dpi/180d0) ; for descending orbit
+  endfor
+  
+  window,1
+  plot ,thetas*!dpi/180,loses_e_a,background='ffffff'x,color='0'x,psym=0 $
+    ,xrange=[0,360]*!dpi/180  $
+    ,yrange=[-1,1],/nodata
+    
+  xs=indgen(360)
+  ys=sin(xs*!dpi/180)
+  ys2=cos(xs*!dpi/180)
+  oplot,xs*!dpi/180,ys,color='ffff00'x,psym=1
+  oplot,xs*!dpi/180,-1*ys,color='ffff00'x,psym=2
+  oplot,xs*!dpi/180,1*ys2,color='ffff00'x,psym=3
+  oplot,xs*!dpi/180,-1*ys2,color='ffff00'x,psym=4
+  
+  oplot,thetas*!dpi/180,loses_e_a,color='000000'x
+  oplot,thetas*!dpi/180,loses_e_d,color='0000ff'x
+  ;
+  oplot,thetas*!dpi/180,loses_n_a,color='00ffff'x
+  oplot,thetas*!dpi/180,loses_n_d,color='00ff00'x
+  ;
+  oplot,thetas*!dpi/180,loses_u_a,color='ff00ff'x,thick=2
+  oplot,thetas*!dpi/180,loses_u_d,color='ff0000'x
+  
 ;  window,2
 ;  plot ,thetas,1/loses_e_a,background='ffffff'x,color='0'x,xrange=[20,60],yrange=[-10,10],psym=0
 ;  oplot,thetas,1/loses_e_d,color='0000ff'x
@@ -92,17 +110,19 @@ PRO SAR_ENU2LOS
 ;  ;
 ;  oplot,thetas,1/loses_u_a,color='ff00ff'x,thick=2
 ;  oplot,thetas,1/loses_u_d,color='ff0000'x
+  ;stop
 ;  
-;  ofile='D:\Papers\review.insar.active.fault\figure\sar.los.sensitivity\3d.vs.los.txt'
-;  openw,fid,ofile,/get_lun
-;  write_sys_info,fid,prog='SAR_ENU2LOS'
-;  printf,fid,'thetas','loses_e_a','loses_e_d','loses_n_a','loses_n_d','loses_u_a','loses_u_d',  $
-;  format='("*",a,6(1x,a))'
-;  for ti=0,npt-1 do begin
-;    printf,fid,thetas[ti],loses_e_a[ti],loses_e_d[ti],loses_n_a[ti],loses_n_d[ti],loses_u_a[ti],loses_u_d[ti],  $
-;    format='(1x,f,6(1x,f))'
-;  endfor
-;  free_lun,fid
+  ofile='D:\Papers\review.insar.active.fault\figure\sar.los.sensitivity\3d.vs.los2b.txt'
+  openw,fid,ofile,/get_lun
+  write_sys_info,fid,prog='SAR_ENU2LOS'
+  printf,fid,'thetas','loses_e_a','loses_e_d','loses_n_a','loses_n_d','loses_u_a','loses_u_d',  $
+  format='("*",a,6(1x,a))'
+  for ti=0,npt-1 do begin
+    printf,fid,thetas[ti],loses_e_a[ti],loses_e_d[ti],loses_n_a[ti],loses_n_d[ti],loses_u_a[ti],loses_u_d[ti],  $
+    format='(1x,f,6(1x,f))'
+  endfor
+  free_lun,fid
+  return
 ;  
 ;  
 ;  print,sar_enu2los(enu_e,theta=37*!dpi/180d0, alpha=(-13+360d0)*!dpi/180d0) ; for ascending orbit  

@@ -1,0 +1,181 @@
+#!/bin/sh
+
+# Name:
+#   sh_s1_get_baseline
+#   
+
+# Purpose:
+#   +
+
+# Input:
+#   +
+
+# Output:
+#   +
+
+# Example:
+#   +
+
+# Algorithm:
+#   +
+
+# Modifications:
+#   + Created on Mon Oct 30 14:39:10 CST 2023 by tianyf
+#   +
+
+# Dependency:
+#   +
+#
+
+
+PROG=sh_s1_get_baseline
+
+timestamp=`date | sed -e "s/ /_/g" | sed -e "s/:/-/g"`
+
+path_old=`pwd`
+
+usage_of_it(){
+cat <<eob
+${PROG}
+  version 20231030
+|_ Get baseline plot from alinged SLC files in raw/.
+|+
+  -baselin_table.csh
+  -baselin_table.data
+  -data.in
+|<
+  [-b|-baseline|-skip_baseline n_y]
+    y - skip generating baseline_table.data/table.gmt files
+    n - do not skip (default)
+  [-l|-lbl|-label|-lebel_type LABEL_TYPE]
+    f - full (e.g., S1_20141010_ALL_F2) (default)
+    d - date string (e.g., 20141010)
+    n - none (no text label)
+  [-h|-help|--help]
+|>
+  Outputs
+|e.g.,
+  ${PROG}
+(c)iGPS (https://github.com/igps-ftk/)
+eob
+}
+
+if [ $# -lt 2 ]; then
+  usage_of_it
+  #exit 1
+fi
+
+is_baseline=y
+lbl_tpye=f
+while [ "$1" != "" ]; do
+  case $1 in
+    -b|-baseline|-skip_baseline)
+      is_baseline=$2
+      ;;
+    -l|-lbl|-label|-lebel_type)
+      lbl_tpye=$2
+      ;;
+    -h|-help|--help)
+      usage_of_it
+      exit 1
+      ;;
+    *)
+      echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid option ($1)!!"
+      usage_of_it
+      exit 1
+      ;;
+  esac
+  shift 2
+done
+
+
+file_data_in=./data.in
+if [ ! -s $file_data_in ]; then
+  file_data_in=../data.in
+fi
+if [ ! -s $file_data_in ]; then
+  echo "[$PROG]ERROR: data.in file not exist ($file_data_in)!!"
+  exit 1
+fi
+
+if [ "$is_baseline" != "n" ]; then
+  if [ -s baseline_table.dat ]; then
+    echo "[$PROG]INRO: deleting old baseline_table.dat file."
+    \rm -f baseline_table.dat
+  fi
+  
+  if [ -s table.gmt ]; then
+    echo "[$PROG]INRO: deleting old table.gmt file."
+    \rm -f table.gmt
+  fi
+  
+  master_date=`head -1 $file_data_in | awk -F- '{print substr($5,1,8)}'`
+  echo "[$PROG]INRO: master date is $master_date"
+  
+  master_prm=`ls S1_*ALL*.PRM | grep $master_date`
+  if [ "$master_prm" == "" ]; then
+    echo "[$PROG]ERROR: master files NOT found!!"
+    exit 1
+  fi
+  echo $master_prm > fp
+  
+  ls S1_*ALL*.PRM | grep $master_date -v | sort >> fp
+  wc -l fp
+  while read line; do
+    echo "[$PROG]INFO: processing $line ..."
+    baseline_table.csh $master_prm $line >> baseline_table.dat
+    baseline_table.csh $master_prm $line GMT >> table.gmt
+  done < fp
+
+else #baseline_table.data and table.gmt exist, only create the plot
+
+  if [ ! -s baseline_table.dat ]; then
+    echo "[$PROG]ERROR: no baseline_table.dat file!!"
+    exit 1
+  fi
+  
+  if [ ! -s table.gmt ]; then
+    echo "[$PROG]ERROR: no table.gmt file!!"
+    exit 1
+  fi
+
+
+fi  #end-of-if-skip-baseline
+  
+case $lbl_tpye in
+  f)
+    awk '{print 2014+$1/365.25,$2,$7}' < table.gmt > _text
+    ;;
+  d) #S1_20141010_ALL_F2
+    awk '{print 2014+$1/365.25,$2,substr($7,4,8)}' < table.gmt > _text
+    ;;
+  n) #S1_20141010_ALL_F2
+    awk '{print 2014+$1/365.25,$2}' < table.gmt > _text
+    ;;
+  *)
+    awk '{print 2014+$1/365.25,$2,$7}' < table.gmt > _text
+    ;;
+esac
+
+xmin=`gmt gmtinfo _text -C | awk '{print $1-0.5}'`
+xmax=`gmt gmtinfo _text -C | awk '{print $2+0.5}'`
+ymin=`gmt gmtinfo _text -C | awk '{print $3-50}'`
+ymax=`gmt gmtinfo _text -C | awk '{print $4+50}'`
+
+gmt gmtset PS_MEDIA = a0
+gmt psxy _text -JX8.8i/6.6i -R$xmin/$xmax/$ymin/$ymax  -X1.5i -Y1i -K -Sc0.2c -W1p,blue -Gred@50 -P  -Ba:"year":/a50g00f25:"baseline (m)":WSen > baseline.ps
+  
+
+if [ "$lbl_tpye" != "n" ]; then
+  gmt pstext _text -R -J -D0.2/0.2 -N -F+f8,Helvetica+j5 -O >> baseline.ps
+else
+  gmt pstext <<eob -R -J   -F+f8,Helvetica+j5 -O >> baseline.ps
+-9999 -9999 dummy
+eob
+  
+fi
+
+gmt psconvert -Tj -A baseline.ps
+gmt psconvert -Tf -A baseline.ps
+
+echo "[$PROG]INFO: done."

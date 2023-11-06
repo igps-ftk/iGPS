@@ -26,7 +26,7 @@ c     --EXTERNAL--
 c     --Local Parameters--
       integer*4 ny_max,nf_max
       parameter(ny_max=20)
-      parameter(nf_max=20000)
+      parameter(nf_max=50000)
       character*1023 path_png, files(nf_max), filter,tmpstr,file
       character*1023 strs(ny_max)
       integer*4 nf,ysIn(ny_max),nyIn,yi,yj

@@ -23,14 +23,22 @@ c     --EXTERNAL--
       integer*4 nblen
 
 c     --Local Parameters--
-      integer*4 fid
+      integer*4 fid,ioerr
       character*10230 line
 
 c     <<VAR_DEC
 
 c      call getlun(fid)
       fid=98
-      open(unit=fid,file=file,status='old')
+      write(*,*) 'reading ',file(1:nblen(file))
+c      write(*,*) 'fid:',fid
+      open(unit=fid,file=file,status='old',iostat=ioerr)
+      if (ioerr.ne.0) then
+        write(*,*) '[]ERROR: cannot open file ',
+     +    file(1:nblen(file)),'!!'
+        stop
+      endif
+c      write(*,*) 'fid:',fid
       nline=0
  801  read(fid,'(a10230)',end=999) line
 c      write(*,'(a)') line(1:nblen(line))
@@ -39,6 +47,7 @@ c      write(*,'(a)') line(1:nblen(line))
       goto 801
  999  continue
       close(fid)
+      write(*,*) 'read_txt done'
 
       RETURN
       END

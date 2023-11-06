@@ -132,6 +132,14 @@ if [ ! -d $path_F_new ]; then
   echo mkdir -p $path_F_new | sh
 fi
 
+
+#path_raw_new=$pathF/raw.${roi_id}
+path_raw_new=$path_F_new/raw
+if [ ! -d $path_raw_new ]; then
+  echo mkdir -p $path_raw_new
+  echo mkdir -p $path_raw_new | sh
+fi
+
 cd $path_F_new
 pwd
 #exit

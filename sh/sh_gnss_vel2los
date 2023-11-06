@@ -61,7 +61,7 @@ ${PROG}
   [-d|-dem DEM_FILE]
     default: dem.grd
   [-g|-gnss GNSS_VELOCITY_FILE]
-    default: \$iGPS/tables/wang_shen_2019JB018774_Table.S4.psvelo
+    default: \$iGPS/tables/wang_shen_2019JB018774_Table.S4S5.psvelo
   [-m|-master MASTER_PRM]
     default: master.PRM
   [-v|-vel SBAS_VEL_FILE]
@@ -91,7 +91,7 @@ file_led=
 file_dem=dem.grd
 file_gnss=gnss.psvelo
 file_gnss=$GMT_pub/gps/wang.min.jgr2020/Table.S4.psvelo
-file_gnss=$iGPS/tables/wang_shen_2019JB018774_Table.S4.psvelo
+file_gnss=$iGPS/tables/wang_shen_2019JB018774_Table.S4S5.psvelo
 ofile=
 is_verbose=n
 

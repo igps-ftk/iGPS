@@ -139,6 +139,11 @@ echo "file_ids : $file_ids"
 
 ntim=`echo $times | wc -w`
 echo "# days: $ntim"
+
+if [ $ntim -eq 1 ]; then #if only one line
+  cat $file > $ofile
+else
+  
 dyrs=
 for time_i in $times; do
   year=`echo $time_i | awk '{print substr($1,1,4)}'`
@@ -181,12 +186,14 @@ while [ $i -lt $ntim ]; do
   #ni=0 #??
 done
 
+echo ni $ni i $i
 if [ $ni -eq 0 ]; then
     file_ids_i=`echo $file_ids | awk '{print $I}' I=$i`
 fi
 echo $file_ids_i  >> $ofile
 #echo $dyrs
 #exit
+fi #<if 2 or more lines in input file
 
 echo "[$PROG]INFO: cleaning temporary files ..."
 \rm -f $file_tmp_files

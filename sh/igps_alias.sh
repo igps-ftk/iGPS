@@ -88,6 +88,8 @@ alias sag='sh_sar_auto_grid_batch' #cron_sar_node_auto_grid_batch
 #alias    sh_alos_unzip_workreport
 #alias    sh_arch
 #alias    sh_asf_csv_all_to_ones
+alias  slp='sh_call_sar_los_profiles'
+
 #alias    sh_casefolds
 #alias    sh_check_los_ll_png
 #alias    sh_chk_rinex
@@ -310,6 +312,7 @@ alias smf='sh_slurm_merge_batch_F'
 #alias    sh_touch_zips
 #alias    sh_tsplot_sio
 #alias    sh_txtfile_minus
+alias  vlf='sh_vec_list_fault'
 #alias    sh_vel2sdm
 #alias    sh_wget_highrate
 #alias    sh_wget_ion

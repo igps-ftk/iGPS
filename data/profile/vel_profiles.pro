@@ -52,25 +52,30 @@ PRO VEL_PROFILES, vfile, $  ;velocity file (in varied formats)
     ;
     ;
     ffile='D:\iGPS\example\profile\fa_honghe1.psxy'
-  ;pfile='D:\iGPS\example\profile\pf_honghe1.psxy'
+    ;pfile='D:\iGPS\example\profile\pf_honghe1.psxy'
     
-  ;
-  ;    fa='pf_longmenshan1'
-  ;    IF N_ELEMENTS(ffile) EQ 0 THEN BEGIN
-  ;      PROFILE_NAME2VECTORFILE,   $
-  ;        fa,   $ ;input, fault name
-  ;        ffile=ffile,  $ ;output, fault file
-  ;        pfile=pfile ;output, profile file
-  ;    ENDIF
-  ;
-  ;    ;for Prof. Zhang S. M.
-  ;    ;ffile='D:\tmp\gps.profile\in.fault.line\fa_lijiang_xiaojinhe.psxy'
-  ;    vfile='D:\tmp\gps.profile\in.gps.velocity\jgrb52327-sup-00012-017JB014465-Data%20Set%20SI-S01.txt'
-  ;    ;opath='D:\tmp\gps.profile\out.fault.velocity.profiles'
-  ;    inputfmt=3
-  ;  ;stop
-  ;  ;pfile='D:\ICD\projects\DirectorFund\Application.2012\Final\figure\vector\profiles.psxy'
+    ;
+    ;    fa='pf_longmenshan1'
+    ;    IF N_ELEMENTS(ffile) EQ 0 THEN BEGIN
+    ;      PROFILE_NAME2VECTORFILE,   $
+    ;        fa,   $ ;input, fault name
+    ;        ffile=ffile,  $ ;output, fault file
+    ;        pfile=pfile ;output, profile file
+    ;    ENDIF
+    ;
+    ;    ;for Prof. Zhang S. M.
+    ;    ;ffile='D:\tmp\gps.profile\in.fault.line\fa_lijiang_xiaojinhe.psxy'
+    ;    vfile='D:\tmp\gps.profile\in.gps.velocity\jgrb52327-sup-00012-017JB014465-Data%20Set%20SI-S01.txt'
+    ;    ;opath='D:\tmp\gps.profile\out.fault.velocity.profiles'
+    ;    inputfmt=3
+    ;  ;stop
+    ;  ;pfile='D:\ICD\projects\DirectorFund\Application.2012\Final\figure\vector\profiles.psxy'
     
+    
+    vfile='D:\iGPS\tables\wang_shen_2019JB018774_Table.S4S5.psvelo'
+    inputfmt=1
+    ffile='D:\iGPS\tables\fa_ganzi.psxy'
+    opath='D:\gsar\interseismic\004-d-m5-0476_0481_0486_0491_0496-jiali8\f123\sbas.4.0.0001.9999.20170311.20230831.060.0410.01.___\pg.fa_ganzi'
     
   ENDIF
   
@@ -100,7 +105,8 @@ PRO VEL_PROFILES, vfile, $  ;velocity file (in varied formats)
       ;pos=WHERE(strmids(lines,0,1) EQ ' ')
       ;lines1=lines[pos]
       lines1=str_lines2arr(lines1)
-      sites=strmids(lines1[0,*],0,4)
+      ;sites=strmids(lines1[0,*],0,4)
+      sites=REFORM(lines1[0,*])
       lls=DOUBLE(lines1[1:2,*])
       vels=DOUBLE(lines1[1:*,*])  ;stop
       nsit=N_ELEMENTS(sites)
@@ -113,7 +119,8 @@ PRO VEL_PROFILES, vfile, $  ;velocity file (in varied formats)
       lines1=REFORM(lines[pos])
       ;stop
       lines1=str_lines2arr(lines1)
-      sites=strmids(lines1[7,*],0,4)
+      ;sites=strmids(lines1[7,*],0,4)
+      sites=REFORM(lines1[7,*])
       lls=DOUBLE(lines1[0:1,*])
       vels=DOUBLE(lines1[[0,1,3,5,2,4,6],*])
       ;stop
@@ -128,7 +135,8 @@ PRO VEL_PROFILES, vfile, $  ;velocity file (in varied formats)
       pos=WHERE(strmids(lines,0,1) EQ ' ')
       lines1=lines[pos]
       lines1=str_lines2arr(lines1)
-      sites=strmids(lines1[0,*],0,4)
+      ;sites=strmids(lines1[0,*],0,4)
+      sites=REFORM(lines1[0,*])
       lls=DOUBLE(lines1[1:2,*])
       vels=DOUBLE(lines1[[1,2,9,10,5,6,11],*])
       ;stop
@@ -144,7 +152,8 @@ PRO VEL_PROFILES, vfile, $  ;velocity file (in varied formats)
         line_p=STRSPLIT(lines[li],/extract)
         lines1[*,li]=line_p[0:7]
       ENDFOR
-      sites=strmids(lines1[7,*],0,4)
+      ;sites=strmids(lines1[7,*],0,4)
+      sites=REFORM(lines1[7,*])
       lls=DOUBLE(lines1[0:1,*])
       vels=DOUBLE(lines1[[0,1,3,5,2,4,6],*])
       ;stop
@@ -237,7 +246,7 @@ PRO VEL_PROFILES, vfile, $  ;velocity file (in varied formats)
   
   FOR pi=0,np-1 DO BEGIN  ;loop for each profile
   
-    WINDOW,1,xsize=1500,ysize=900,title='Profile '+STRING(pi+1,format='(i2)');,/pixmap
+    WINDOW,1,xsize=1500,ysize=900,title='Profile '+STRING(pi+1,format='(i03)'),/pixmap
     DEVICE,decomposed=1
     !p.MULTI=[0,2,2]
     PLOT,vels[0,*],vels[1,*],psym=1,background='ffffff'x,color='0'x, $
@@ -378,6 +387,11 @@ PRO VEL_PROFILES, vfile, $  ;velocity file (in varied formats)
     vele_tang_all=DBLARR(N_ELEMENTS(pos))
     vel_up_all=DBLARR(N_ELEMENTS(pos))
     vele_up_all=DBLARR(N_ELEMENTS(pos))
+    
+    vel_along_all[*]=-999.99d0
+    vel_tang_all[*]=-999.99d0
+    vel_up_all[*]=-999.99d0
+    
     FOR vi=0, N_ELEMENTS(pos)-1 DO BEGIN
       vel=REFORM(vels[*,pos[vi]])
       ;      vel_ss_e=vel[4]*sin(alpha)
@@ -444,42 +458,75 @@ PRO VEL_PROFILES, vfile, $  ;velocity file (in varied formats)
     ind=SORT(lls_used[0,*])
     
     ofile=opath+PATH_SEP()+'profile_'+STRING(pi+1,format='(i03)')+'_vel.psxy'
-    OPENW,fid,ofile,/get_lun
-    WRITE_SYS_INFO,fid,prog=prog,src=[vfile,pfile],user=user
-    ;output profile vertex
-    PRINTF,fid,a1,format='("# PSXY_PROFILE",2f10.3)'
-    PRINTF,fid,b1,format='("# PSXY_PROFILE",2f10.3)'
-    PRINTF,fid,XY3,format='("# PSXY_FAULT_PROFILE_INTERSECT",2f10.3)'
-    FOR j=0,N_ELEMENTS(xys_fvec[0,*])-1 DO BEGIN
-      PRINTF,fid,xys_fvec[*,j],format='("# PSXY_FAULT_TRACE",2f10.3)'
-    ENDFOR
-    ;output stations
-    PRINTF,fid,'site','p_long','p_lati','p_dist','v_along','ve_along','v_tang','ve_tang',$
-      'v_up','ve_up','long','lati','dist_to_fault', $
-      've','vn','ve_sig','vn_sig',  $
-      'vlos_d','vlos_d_sig','vlos_a','vlos_a_sig',  $
-      format='("*",a4,1x,2a10,1x,a10,1x,2a10,1x,2a10,1x,2a10,1x,2a10,1x,a13, 1x,4(1x,a10),1x,4(1x,a10))'
+    
+    odata=DBLARR(21,N_ELEMENTS(ind))
+    odata[[3,5,7,14,15],*]=-999.99d0
     FOR j=0, N_ELEMENTS(ind)-1 DO BEGIN
-      ;convert gps velocity to insar los direction
-      ;descending
-      enu_j=[vels[[4,2],pos[ind[j]]], 0d0]
-      enu_sig_j=[vels[[5,3],pos[ind[j]]], 0d0]
-      vlos_des=sar_enu2los(enu_j)
-      vlos_asc=sar_enu2los(enu_j, alpha=(-13+360d0)*!dpi/180d0 )
-      vlos_sig_des=sar_enu2los(enu_sig_j)
-      vlos_sig_asc=sar_enu2los(enu_sig_j, alpha=(-13+360d0)*!dpi/180d0 )
-      
-      
-      PRINTF,fid,sites[pos[ind[j]]],p_lls[*,pos[ind[j]]],dists[pos[ind[j]]],vel_along_all[ind[j]],$
-        vele_along_all[ind[j]],vel_tang_all[ind[j]],vele_tang_all[ind[j]], $
+      ;      ;convert gps velocity to insar los direction
+      ;      ;descending
+      ;      enu_j=[vels[[4,2],pos[ind[j]]], 0d0]
+      ;      enu_sig_j=[vels[[5,3],pos[ind[j]]], 0d0]
+      ;      vlos_des=sar_enu2los(enu_j)
+      ;      vlos_asc=sar_enu2los(enu_j, alpha=(-13+360d0)*!dpi/180d0 )
+      ;      vlos_sig_des=sar_enu2los(enu_sig_j)
+      ;      vlos_sig_asc=sar_enu2los(enu_sig_j, alpha=(-13+360d0)*!dpi/180d0 )
+    
+    
+      odata[*,j]=[p_lls[*,pos[ind[j]]],dists[pos[ind[j]]],  $
+        vel_along_all[ind[j]],vele_along_all[ind[j]],vel_tang_all[ind[j]],vele_tang_all[ind[j]], $
         vel_up_all[ind[j]],vele_up_all[ind[j]], lls[*,pos[ind[j]]], $
         dists_fault[pos[ind[j]]], $
-        vels[[4,2,5,3],pos[ind[j]]], $
-        vlos_des,vlos_sig_des,vlos_asc,vlos_sig_asc,$
-        format='(1x,a4,1x,2f10.3,1x,f10.2,1x,2f10.2,1x,2f10.2,1x,2f10.2,1x,2f10.3,1x,f13.6,1x,4(1x,f10.3),1x,4(1x,f10.3))'
+        -999.99d0,0,  $
+        vels[[4,2,5,3],pos[ind[j]]] $
+        , 0,0,0 ]
     ENDFOR
-    FREE_LUN,fid
     
+    WRITE_VEL_PROFILE, ofile $
+      , odata $
+      , sites=sites[pos[ind]] $
+      , fa_xys=xys_fvec  $
+      , pf_xys=[[a1],[b1]]  $
+      , fa_pf_xy=xy3 $
+      , headers=[vfile,ffile,pfile]
+      
+    return
+      
+    ;    OPENW,fid,ofile,/get_lun
+    ;    WRITE_SYS_INFO,fid,prog=prog,src=[vfile,pfile],user=user
+    ;    ;output profile vertex
+    ;    PRINTF,fid,a1,format='("# PSXY_PROFILE",2f10.3)'
+    ;    PRINTF,fid,b1,format='("# PSXY_PROFILE",2f10.3)'
+    ;    PRINTF,fid,XY3,format='("# PSXY_FAULT_PROFILE_INTERSECT",2f10.3)'
+    ;    FOR j=0,N_ELEMENTS(xys_fvec[0,*])-1 DO BEGIN
+    ;      PRINTF,fid,xys_fvec[*,j],format='("# PSXY_FAULT_TRACE",2f10.3)'
+    ;    ENDFOR
+    ;    ;output stations
+    ;    PRINTF,fid,'site','p_long','p_lati','p_dist','v_along','ve_along','v_tang','ve_tang',$
+    ;      'v_up','ve_up','long','lati','dist_to_fault', $
+    ;      've','vn','ve_sig','vn_sig',  $
+    ;      'vlos_d','vlos_d_sig','vlos_a','vlos_a_sig',  $
+    ;      format='("*",a4,1x,2a10,1x,a10,1x,2a10,1x,2a10,1x,2a10,1x,2a10,1x,a13, 1x,4(1x,a10),1x,4(1x,a10))'
+    ;    FOR j=0, N_ELEMENTS(ind)-1 DO BEGIN
+    ;      ;convert gps velocity to insar los direction
+    ;      ;descending
+    ;      enu_j=[vels[[4,2],pos[ind[j]]], 0d0]
+    ;      enu_sig_j=[vels[[5,3],pos[ind[j]]], 0d0]
+    ;      vlos_des=sar_enu2los(enu_j)
+    ;      vlos_asc=sar_enu2los(enu_j, alpha=(-13+360d0)*!dpi/180d0 )
+    ;      vlos_sig_des=sar_enu2los(enu_sig_j)
+    ;      vlos_sig_asc=sar_enu2los(enu_sig_j, alpha=(-13+360d0)*!dpi/180d0 )
+    ;
+    ;
+    ;      PRINTF,fid,sites[pos[ind[j]]],p_lls[*,pos[ind[j]]],dists[pos[ind[j]]],vel_along_all[ind[j]],$
+    ;        vele_along_all[ind[j]],vel_tang_all[ind[j]],vele_tang_all[ind[j]], $
+    ;        vel_up_all[ind[j]],vele_up_all[ind[j]], lls[*,pos[ind[j]]], $
+    ;        dists_fault[pos[ind[j]]], $
+    ;        vels[[4,2,5,3],pos[ind[j]]], $
+    ;        vlos_des,vlos_sig_des,vlos_asc,vlos_sig_asc,$
+    ;        format='(1x,a4,1x,2f10.3,1x,f10.2,1x,2f10.2,1x,2f10.2,1x,2f10.2,1x,2f10.3,1x,f13.6,1x,4(1x,f10.3),1x,4(1x,f10.3))'
+    ;    ENDFOR
+    ;    FREE_LUN,fid
+      
     ;STOP
     ;WINDOW,4
     WSET,1
@@ -523,7 +570,7 @@ PRO VEL_PROFILES, vfile, $  ;velocity file (in varied formats)
     
   ;PRINT,'a1:',a1
   ;PRINT,'b1:',b1
-  ;return
+  ;BREAK
   ENDFOR
   
 END

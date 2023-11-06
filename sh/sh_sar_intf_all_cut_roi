@@ -56,6 +56,8 @@ if [ $# -eq 0 ]; then
     exit 1
 fi
 
+file_tmp_grd=_tmp_${PROG}_${timestamp}_grd
+
 roi_file=
 
 types='corr_cut.grd unwrap_mask.grd'
@@ -63,6 +65,7 @@ types='corr_cut.grd unwrap_mask.grd'
 
 path=./intf_all/
 opath=./intf_all_roi/
+is_detrend=n
 
 while [ "$1" != "" ]; do
   case $1 in
@@ -74,6 +77,9 @@ while [ "$1" != "" ]; do
         ;;
     -o|-opath)
         opath=$2
+        ;;
+    -d|-detrend)
+        is_detrend=$2
         ;;
     -h|-help|--help)
       usage_of_it
@@ -131,8 +137,19 @@ for file in $files; do
           echo "[$PROG]INFO: already exist ($file_out). Skipped."
           continue
       fi
-      echo gmt grdcut $file_in $pR -G${file_out}
-      echo gmt grdcut $file_in $pR -G${file_out} | sh
+ 
+      if [ "$is_detrend" != "y" ]; then
+        echo gmt grdcut $file_in $pR -G${file_out}
+        echo gmt grdcut $file_in $pR -G${file_out} | sh
+      else
+        echo gmt grdcut $file_in $pR -G${file_tmp_grd}
+        echo gmt grdcut $file_in $pR -G${file_tmp_grd} | sh
+
+        echo gmt grdtrend ${file_tmp_grd} -N3r -D${file_out}
+        echo gmt grdtrend ${file_tmp_grd} -N3r -D${file_out} | sh
+
+        \rm -f ${file_tmp_grd}
+      fi
     done
 
     #exit

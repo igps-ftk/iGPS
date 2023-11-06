@@ -41,10 +41,10 @@ c     <<VAR_DEC
       do i=1,nline
         line=lines(i)
         call strtrim(line,line1)
+c        write(*,*) 'line1:',line1(1:nblen(line1))
         if (line1(1:1).eq.'>') then
           n=n+1
           names(n)=line1(2:)
-c          write(*,*) 'line1:',line1(1:nblen(line1))
           if (n.gt.1) then
             npts(n-1)=npt
           endif

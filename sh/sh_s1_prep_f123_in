@@ -181,7 +181,7 @@ done < $file_intf_in
 echo 1 | awk '{printf("\n")}'
 
 if [ "$file_log" == "log1" ]; then
-  grep -v '^ ' -a $file_log | sort > $ofile
+  grep -v '^ ' -a $file_log > $ofile
 else
   grep -v '^ ' -a $file_log | shuf > $ofile
 fi

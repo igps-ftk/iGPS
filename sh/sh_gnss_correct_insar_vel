@@ -43,7 +43,7 @@ $PROG
   -InSAR velocity grid (-v)
 |<
   [-g|-gnss GNSS_VELOCITY_PSVELO]
-    default: wang_shen_2019JB018774_Table.S4.psvelo.los
+    default: wang_shen_2019JB018774_Table.S4S5.psvelo.los
   [-v|-vel INSAR_VELOCITY_GRID]
     default: vel_mask_ll.grd
   [-N|-m|-model GRDTREND_n_model[+r]]
@@ -66,7 +66,7 @@ file_vel=vel_mask_ll.grd
 
 file_gnss_los=Table.S4.psvelo.los
 file_gnss_los=Table.S4.psvelo.los
-file_gnss_los=wang_shen_2019JB018774_Table.S4.psvelo.los
+file_gnss_los=wang_shen_2019JB018774_Table.S4S5.psvelo.los
 ofile=
 
 file_prm=master.PRM

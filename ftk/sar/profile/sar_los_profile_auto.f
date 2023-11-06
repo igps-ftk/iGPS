@@ -41,6 +41,7 @@ c      maximum number of profiles
       real*8 d_v2p,d_v2ps(NMAX),d_v2f,d_v2fs(NMAX)
       real*8 d_v2fs1(NMAX),d_v2fs2(NMAX),d_v2f_min,d_v2f_max
       real*8 lons(NMAX),lats(NMAX),vels(NMAX),plons(NMAX),plats(NMAX)
+c      character*1023 headers(1000)
 
 
       integer*4 npt,i,j,k,l,m,n,pos,ii,jj
@@ -51,7 +52,7 @@ c     for fault/profile vectors
       character*1023 pnames(nmax_row),fnames(nmax_row),pname
       real*8 pxys(2,nmax_row),fxys(2,nmax_row),pxys2(4,nmax_row)
       real*8 plonmin,plonmax,platmin,platmax
-c     intersecting point between profile and fault      
+c     intersecting point between profile and fault
       real*8 pf_xys(2,nmax_row)
       integer*4 pnpts(nmax_row),pn,fnpts(nmax_row),fn
 
@@ -80,8 +81,8 @@ c     for point_perp_line
       integer*4 sec1,sec2,run_time_min,run_time_sec
       character*50  prog,ver,user,os,hostname,date_time
 
-      integer*4 time  
-      
+      integer*4 time
+
 c     <<VAR_DEC
       prog='sar_los_profile_auto'
       write(*,'(3a)') '->',prog(1:nblen(prog)),' ...'
@@ -187,7 +188,7 @@ c            read(tmpstr(pos+1:),*) ofile
       if (nblen(opath).lt.1) then
         write(*,*) '[]ERROR: no output directory!!'
         stop
-      endif      
+      endif
       if (nblen(pfile).lt.1) then
         pfile=opath(1:nblen(opath))//'/profiles_auto.psxy'
 c        write(*,*) '[]ERROR: no input profile file!!'
@@ -199,7 +200,7 @@ c        stop
       write(*,*) 'ffile: ',ffile(1:nblen(ffile))
       write(*,*) 'pfile: ',pfile(1:nblen(pfile))
       write(*,*) 'opath: ',opath(1:nblen(opath))
-      
+
 c     test funcitons
 c      call point_cross_line(a1,b1,c2,rate2,d2)
 c      write(*,*) 'd2:',d2
@@ -236,7 +237,7 @@ c     convert km to degree using the mean latitude
 c       convert meter to km
       kpd=kpd*1d-3
       write(*,*) 'k.p.d:',kpd,' at',latmid,'N'
-      
+
 c      x1=91.670426448900002d0
 c      y1=31.080217392000002d0
 c      x2=91.670426448900002d0
@@ -268,7 +269,7 @@ c      enddo
 
 c     read profile
       call read_psxy(pfile,pxys,pnpts,pnames,pn)
-  
+
       if (pn.gt.NMAX_P) then
         write(*,*) '[]ERROR:too many profiles(',pn,'>',NMAX_P,')!!'
         stop
@@ -288,7 +289,7 @@ c     read profile
         pf_xys(1,i)=loni
         pf_xys(2,i)=lati
         pf_nums(i)=j
-        
+
         j2=j1+pnpts(i)-1
         write(*,*) 'j1,j2:',j1,j2
         if ((j2-j1).ne.1) then
@@ -368,7 +369,7 @@ c            write(*,*) plons(i),plats(i)
      +          (b1(1)-pf_xys(1,j)) )
             endif
             d_v2f_max=d_v2f
-           
+
             if (d_v2f_max.lt.d_v2f_min) then
               d_v2f=d_v2f_max
               d_v2f_max=d_v2f_min
@@ -414,7 +415,7 @@ c          write(*,*) a1,b1,c1,d1
 
           call map_2points(c1(1),c1(2),d1(1),d1(2),0,1,0,0,
      +      d_v2p)
-          d_v2p=d_v2p*1d-3*( ABS(c1(1)-d1(1)) / 
+          d_v2p=d_v2p*1d-3*( ABS(c1(1)-d1(1)) /
      +      (c1(1)-d1(1)) )
           d_v2ps(i)=d_v2p
 c          write(*,*) 'd_v2p,p_wid:',d_v2p,p_wid
@@ -446,7 +447,7 @@ c            vInps(i,j)=j
             plons(i)=d1(1)
             plats(i)=d1(2)
             vpCounts(j)=vpCounts(j)+1
-                     
+
 c            rate2=(d1(2)-c1(2))/(d1(1)-c1(1))
 c            call point_cross_line(a1,b1,c1,rate2,i1)
 c            write(*,*) 'd1,i1:',d1,i1
@@ -470,7 +471,7 @@ c      do i=1,pn
            write(*,*) 'no data for profile',j
            goto 601
         endif
-        
+
 c        sort results by distance to fault
         nv_p=0
         do k=1,nv
@@ -493,8 +494,9 @@ c          write(*,*) d_v2fs1(oinds(j)),pinds(k),oinds(j),nv_p,k
 c        enddo
 c        write(*,*) 'inds(1):',pinds(1)
 c        stop
-    
-        
+
+
+
         write(ofile,701) opath(1:nblen(opath)),path_sep(),pf_nums(j)
         write(*,*) ofile(1:nblen(ofile))
 701     format(2a,"profile_",i3.3,"_vel.psxy")
@@ -524,17 +526,99 @@ c        write(fid,'(a)') '*model paramters:'
      +      fxys(1,k),fxys(2,k)
         enddo
 
-        write(fid,702) 'site','p_long','p_lati','p_dist','v_along',
-     +    've_along','v_tang','ve_tang','long','lati',
-     +    'dist_to_fault','v_los','ve_los'
-702     format("*",13(1x,a15))
+
+        write(fid,704) '* 01site          : name of location'
+        write(fid,704) '* 02pLon          : longitude of point ',
+     +      'projected onto the profile line (deg)'
+        write(fid,704) '* 03pLat          : latitude of point ',
+     +      'projected onto the profile line (deg)'
+        write(fid,704) '* 04pDist         : distance from ',
+     +      'location to profile (km)'
+        write(fid,704) '* 05VNor          : velocity along the ',
+     +      'profile (normal to the fault trace); ',
+     +      'positive-north (mm/yr)'
+        write(fid,704) '* 06VeNor         : velocity uncertainty',
+     +      ' along the profile (mm/yr)'
+        write(fid,704) '* 07VPar          : velocity tangent to ',
+     +      'the profile (parallel to the fault trace); positive-',
+     +      '90deg-clockwise from v_along direction (mm/yr)'
+        write(fid,704) '* 08VePar         : velocity uncertainty ',
+     +      'tangent to the profile (mm/yr)'
+        write(fid,704) '* 09VUp           : vertical velocity; ',
+     +      'positive-up (mm/yr)'
+        write(fid,704) '* 10VeUp          : vertical velocity ',
+     +      'uncertainty'
+        write(fid,704) '* 11lon           : longitude of location',
+     +      ' (deg)'
+        write(fid,704) '* 12lat           : latitude of location',
+     +      ' (deg)'
+        write(fid,704) '* 13distFa        : distance from location',
+     +      ' to fault; positive-east (km)'
+        write(fid,704) '* 14VLOS          : InSAR LOS velocity ',
+     +      '(mm/yr)'
+        write(fid,704) '* 15VeLOS         : InSAR velocity ',
+     +      'uncertainty (mm/yr)'
+        write(fid,704) '* 16VE            : east velocity of ',
+     +      'location; positive-east (mm/yr)'
+        write(fid,704) '* 17VN            : north velocity of ',
+     +      'location; positive-north (mm/yr)'
+        write(fid,704) '* 18VEe           : east velocity ',
+     +      'uncertainty (mm/yr)'
+        write(fid,704) '* 19VNe           : north velocity ',
+     +      'uncertainty (mm/yr)'
+        write(fid,704) '* 20CEN           : correlation ',
+     +      'coefficient between east and north'
+        write(fid,704) '* 21CEU           : correlation ',
+     +      'coefficient between east and up'
+        write(fid,704) '* 22CNU           : correlation ',
+     +      'coefficient between north and up'
+704     format(9(a))
+
+        write(fid,'(a)') '* Value NOT exist: -999.99'
+
+c        write(fid,702) 'site','p_long','p_lati','p_dist','v_along',
+c     +    've_along','v_tang','ve_tang','long','lati',
+c     +    'dist_to_fault','v_los','ve_los'
+c702     format("*",13(1x,a15))
+
+c*  01_site      02_p_long     03_p_lati     04_p_dist     05_v_along   06_ve_along      07_v_tang    08_ve_tang        09_v_up      10_ve_up        11_long       12_lati 13_dist_to_fault        14_vlos   15_vlos_sig          16_ve         17_vn     18_ve_sig     19_vn_sig        20_Cen        21_Ceu        22_Cnu
+        write(fid,705)
+     +    '01site',
+     +    '02pLon',
+     +    '03pLat',
+     +    '04pDist',
+     +    '05VNor',
+     +    '06VeNor',
+     +    '07VPar',
+     +    '08VePar',
+     +    '09VUp',
+     +    '10VeUp',
+     +    '11lon',
+     +    '12lat',
+     +    '13distFa',
+     +    '14VLOS',
+     +    '15VeLOS',
+     +    '16VE',
+     +    '17VN',
+     +    '18VEe',
+     +    '19VNe',
+     +    '20CEN',
+     +    '21CEU',
+     +    '22CNU'
+705     format("*",a9,(1x,a8),(1x,a7),1x,a7,2(1x,a7),2(1x,a7),
+     +    2(1x,a7),(1x,a8),(1x,a7),1x,a9, 2(1x,a7),6(1x,a7),1x,a6)
 
         do k=1,nv_p
           jj=pinds(oinds(k))
-          write(fid,703) k,plons(jj),plats(jj),d_v2ps(jj),0.,0.,0.,0.,
-     +      lons(jj),lats(jj),d_v2fs(jj),vels(jj),0.
+          write(fid,703) k,plons(jj),plats(jj),d_v2ps(jj),
+     +      -999.99,0.,-999.99,0.,-999.99,0.,
+     +      lons(jj),lats(jj),d_v2fs(jj),vels(jj),0.,
+     +      -999.99,-999.99,0.,0., 0.,0.,0.
         enddo
-703     format(1x,1x,i15,12(1x,f15.6))
+703     format(1x,i9,(1x,f8.3),(1x,f7.3), 1x,f7.2, 
+     +    2(1x,f7.2),2(1x,f7.2),2(1x,f7.2), 
+     +    (1x,f8.3),(1x,f7.3), 1x,f9.3,2(1x,f7.2),
+     +    6(1x,f7.2),1x,f6.3)
 
         close(fid)
 c        stop
@@ -552,7 +636,7 @@ c       next profile
       write(*,'(3a)') '|< done for ',vfile(1:nblen(vfile)),'   :)'
       stop
       END
-      
+
 c*       site  -  location label
 c*     p_long  -  longitude (degrees) of the shadow point
 c*     p_lati  -  latitude of the shadow point
@@ -561,12 +645,21 @@ c*    v_along  -  velocity along the profile
 c*   ve_along  -  uncertainity along the profile
 c*     v_tang  -  velocity tangent to the profile
 c*    ve_tang  -  uncertainity tangent to the profile
+c*     v_up    -  vertical velocity
+c*     ve_up   -  vertical velocity uncertainity
 c*       long  -  longitude of data point
 c*       lati  -  latitude of data point
 c* dist_to_fa  -  distance from data point to the fault trace
 c*      v_los  -  velocity along the los direction
 c*     ve_los  -  velocity uncertainity along the los orientation
-c*            site     p_long    p_lati     p_dist    v_along  ve_along     v_tang   ve_tang       long      lati dist_to_fault       v_los     ve_los
-c            68507    123.786    44.016      -3.90       0.00      0.00       0.00      0.00    123.753    44.042   -153.125138        1.47       0.00
+c*         ve  - east velocity of location; positive-east (mm/yr)
+c*         vn  - north velocity of location; positive-north (mm/yr)
+c*     ve_sig  - east velocity uncertainty (mm/yr)
+c*     vn_sig  - north velocity uncertainty (mm/yr)
+c*        Cen  - correlation coefficient between east and north
+c*        Ceu  - correlation coefficient between east and up
+c*        Cnu  - correlation coefficient between north and up
+c*  01_site      02_p_long     03_p_lati     04_p_dist     05_v_along   06_ve_along      07_v_tang    08_ve_tang        09_v_up      10_ve_up        11_long       12_lati 13_dist_to_fault        14_vlos   15_vlos_sig          16_ve         17_vn     18_ve_sig     19_vn_sig        20_Cen        21_Ceu        22_Cnu
+c      I087       79.70797      37.06209         22.78           0.00          0.00           0.00          0.00           0.80          1.00       79.96000      37.10000      -247.404148          0.000         0.000          0.000         0.000         0.000         0.000         0.000         0.000         0.000
 c
 

@@ -115,10 +115,11 @@ echo merge_batch2.csh intf.in.f123.1 intf.in.f123.2 batch_tops.config
 echo -e "\n#run merging in parallel mode in single PC ..."
 echo merge_batch2_parallel.csh intf.in.f123.1 intf.in.f123.2 batch_tops.config 3
 #merge_batch2_parallel.csh intf.in.f123.1 intf.in.f123.2 batch_tops.config 3
+#3 is the number of parallel jobs
 
 echo -e "\n#run merging with SLURM in a cluster ..."
-echo sh_slurm_merge -master intf.in.f123.1 -file intf.in.f123.2 -delay 60 -nmax_job 100
-#sh_slurm_merge
+echo sh_slurm_merge_batch -master intf.in.f123.1 -file intf.in.f123.2 -delay 60 -nmax_job 100
+#sh_slurm_merge_batch -master intf.in.f123.1 -file intf.in.f123.2 -delay 60 -nmax_job 100
 
 echo -e "\n#which interferograms had been processed?"
 echo sh_sar_cp_intf_png
@@ -145,7 +146,7 @@ echo "#  4)convert binary ztd to NetCDF"
 echo sh_sar_gacos_ztd2ll
 #sh_sar_gacos_ztd2ll
 
-echo "#  5)convert ztd from wgs-84 to radar coordinate"
+echo "#  5)convert NetCDF ztd file from wgs-84 to radar coordinate"
 echo sh_sar_gacos_ll2ra
 #sh_sar_gacos_ll2ra
 
@@ -160,7 +161,7 @@ echo sh_sar_gacos_apply_intf_add
 
 echo -e "\n#resample interferograms to lower resolution"
 echo sh_sar_intf_all_resample
-#sh_sar_intf_all_resample #will create intf_all_x2
+#sh_sar_intf_all_resample  #will create intf_all_x2
 
 echo -e "\n#generate interferograms collections using different temporal baselines"
 echo "sh_sar_prep_sbases -t '0 1,36 1,72  ,366  367, 730'  #-min,max number of days"
@@ -173,7 +174,7 @@ echo "cp b1-72/*.tab .  #use temporal baselines <=72 days"
 echo "cp b367-/*.tab .  #use temporal baselines larger than one year (366 days)"
 echo sar_sbas_tab_from_png
 #sar_sbas_tab_from_png
-#or,
+echo "#or,"
 echo sh_sar_sbas_tab_by_png
 #sh_sar_sbas_tab_by_png
 wc -l intf.tab scene.tab
@@ -210,7 +211,7 @@ echo profile_vector_auto --file=${iGPS}/tables/fa_atf.psxy --ofile=p.fa_atf_2/pr
 #profile_vector_auto --file=${iGPS}/tables/fa_atf.psxy --ofile=p.fa_atf_2/profiles_auto.psxy --length=1300 --strike=2
 
 
-echo -e "\n#create velocity profiles from InSAR XYZ file"
+echo -e "\n#create velocity profiles from InSAR XYZ velocity file"
 echo sar_los_profile_auto --ffile=${iGPS}/tables/fa_atf.psxy --pfile=p.fa_atf_2/profiles_auto.psxy --vfile=vel_mask_ll_gnss3.xyze --opath=p.fa_atf_2
 #sar_los_profile_auto --ffile=${iGPS}/tables/fa_atf.psxy --pfile=p.fa_atf_2/profiles_auto.psxy --vfile=vel_mask_ll_gnss3.xyze --opath=p.fa_atf_2
 

@@ -232,6 +232,10 @@ echo "[$PROG]id_master is $id_master"
 
 \rm -rf $file_tmp_new
 file_tiff1=`grep '^ ' $file | grep $id_master`
+if [ "$file_tiff1" == "" ]; then
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: master ($id_master) not found in input files ($file)!!"
+  exit 1
+fi
 echo " $file_tiff1" >> $file_tmp_new
 for id in $ids_new; do
     file_tiff1=`grep '^ ' $file | grep $id`
@@ -252,12 +256,15 @@ echo "[$PROG]INRO: (1) prepare the data (link & assemble/stitch ...)"
 if [ "$comb_method" == "assemble" ]; then
   echo "[$PROG]INRO: output log to log.asmb.upd"
   if [ "$file_roi_kml" != "" ]; then
+      echo "sh_s1_assemble_snap -file $file_tmp_new -iw $iw_typ -raw0 `pwd`/raw0.append -raw `pwd`/raw.append -roi $file_roi_kml"
       sh_s1_assemble_snap -file $file_tmp_new -iw $iw_typ -raw0 `pwd`/raw0.append -raw `pwd`/raw.append -roi $file_roi_kml > log.asmb.upd
   else
+      echo "sh_s1_assemble_snap -file $file_tmp_new -iw $iw_typ -raw0 `pwd`/raw0.append -raw `pwd`/raw.append"
       sh_s1_assemble_snap -file $file_tmp_new -iw $iw_typ -raw0 `pwd`/raw0.append -raw `pwd`/raw.append > log.asmb.upd
   fi
 elif [ "$comb_method" == "stitch" ]; then
   echo "[$PROG]INRO: output log to log.stch.upd"
+  echo "sh_s1_stitch_snap -file $file_tmp_new -iw $iw_typ  -raw `pwd`/raw.append "
   sh_s1_stitch_snap -file $file_tmp_new -iw $iw_typ  -raw `pwd`/raw.append  #> log.stch.upd
 else
   echo -e "[$PROG]\033[1;33;41mERROR\033[0m: wrong type ($comb_method) for merging frames!!"

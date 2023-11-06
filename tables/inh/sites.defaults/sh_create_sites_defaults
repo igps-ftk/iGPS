@@ -1,0 +1,51 @@
+#!/bin/sh
+
+# Name:
+#   sh_create_sites_defaults
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorigthm:
+#   
+
+# Dependency:
+#   
+
+bsfile=/home/tianyf/gpsf/proctab/rerun.lutai/gmf.v3ii/stinfo/2013b/tie_ltnn.sit
+spath=/home/tianyf/gpsf/proctab/rerun.lutai/gmf.v3ii/stinfo/2013b
+
+bsfile=/home/tianyf/gpsf/proctab/rerun.lutai/gmf.v3ii/stinfo/2015jun/tie_ltnn.sit
+spath=/home/tianyf/gpsf/proctab/rerun.lutai/gmf.v3ii/stinfo/2015jun
+
+bsfile=../sit/pv_tie.sit
+spath=../sit
+
+
+bsfile=../../whu-tie.sit
+spath=../sit
+
+#sfiles=`find $spath -name "lt??.sit" | sort`
+#sfiles=`find $spath -name "clt?.sit" | sort`
+#sfiles=`find $spath -name "tn0?.sit" | sort`
+sfiles=`find $spath -name "inh?.sit" | sort`
+opath=`pwd`
+for sfile in $sfiles; do
+    echo $sfile
+    expt=`basename $sfile | awk '{print substr($1,1,4)}'`
+    opath_expt=${opath}/${expt}
+    mkdir -p $opath_expt
+    ofile=${opath_expt}/sites.defaults
+    echo $expt
+    sh_sitsit $bsfile $expt > $ofile
+    sh_sitsit $sfile $expt >> $ofile
+    #exit
+done
+

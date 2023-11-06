@@ -171,6 +171,8 @@ plot_intf_JY=1.3
 Ri=
 BP=
 
+mdl_type= #far-field/fault_name/near-field/...
+
 opath_cmt=
 
 while [ "$1" != "" ]; do
@@ -251,6 +253,10 @@ while [ "$1" != "" ]; do
         icon_Y=`echo $2 $icon_Y | awk '{print $2*$1/7}'`
         icon_w=`echo $2 $icon_w | awk '{print $2*$1/7}'`
         ;;
+    -mt|-mdl_type)
+      mdl_type=$2
+      ;;
+
     -h|-help|--help)
       usage_of_it
       exit 1
@@ -277,7 +283,8 @@ if [ "$profiles_path" == "" ]; then
   fi
 fi
 echo "profiles path: $profiles_path"
-#exit
+
+
 
 if [ "$opath" == "" ]; then
   tmp1="${profiles_path}/1.txt"
@@ -288,13 +295,33 @@ fi
 if [ "$opath_cmt" != "" ]; then
   opath="${opath}_${opath_cmt}"
 fi
-echo opath is $opath
+#echo opath is $opath
 #exit
+echo "[$PROG]INFO: output to $opath"
+mkdir -p $opath
 
 if [ ! -d $profiles_path ]; then
     echo -e "[$PROG]\033[1;33;41mERROR\033[0m: profile path not exist ($profiles_path)!!"
     exit 1
 fi
+
+file_profile_gnss_merge=_tmp_gnss_los
+path_profiles_gnss="`dirname $profiles_path`/pg.`basename $profiles_path | awk '{print substr($1,3)}'`"
+if [ -d $path_profiles_gnss ]; then
+  files_profiles_gnss=`find $path_profiles_gnss -maxdepth 1 -type f -name "profile_???_vel.psxy" | sort`
+  if [ "$files_profiles_gnss" != "" ]; then
+    grep -h '^ ' $files_profiles_gnss | sort | uniq | awk '{print $11,$12,$13}' > $opath/$file_profile_gnss_merge
+    grep -h '^ ' $files_profiles_gnss | sort | uniq | awk '{print $9,$10}' > $opath/_tmp_gnss_ll
+    wc -l $opath/$file_profile_gnss_merge $opath/_tmp_gnss_ll
+  else
+    echo "[$PROG]INFO: NO GNSS profile files in $path_profiles_gnss."
+  fi
+else
+  echo "[$PROG]INFO: GNSS profile path ($path_profiles_gnss) NOT exist."
+fi
+#exit
+
+
 #pis=51
 pwd
 if [ "$pis" = "0" ]; then
@@ -343,7 +370,7 @@ profile_title_y="@%2%`echo $data_type | awk '{print substr($1,1,1)}'`@%%@-LOS@- 
 tmp=`dirname $profiles_path/test.txt`
 tmp2=`basename $tmp`
 fa_name=`echo $tmp2 | awk -F. '{print $2}'`
-profiles_path_gps=${profiles_path}/../../pg.${fa_name}
+profiles_path_gps=${profiles_path}/../pg.${fa_name}
 echo profiles_path_gps $profiles_path_gps
 #exit
 
@@ -376,8 +403,6 @@ echo "Geographical range from displacement grid & profile files ($grdfile, $file
 echo "[$PROG]INFO:  $xmin $xmax $ymin $ymax"
 xspan=`echo $xmin $xmax $ymin $ymax| awk '{if( (($4-$3)/($2-$1)) > 5/6 ){ print ($4-$3)*6/5}else{print $2-$1}}'`
 echo xspan $xspan
-echo "[$PROG]INFO: output to $opath"
-mkdir -p $opath
 cd $opath
 #exit
 
@@ -436,7 +461,11 @@ for n in $pis; do
     nold=$n
     n=`echo $n | awk '{printf("%03d",$1)}'`
 
-    ofile=vel_profile_${n}.ps
+    if [ "$mdl_type" == "" ]; then
+      ofile=vel_profile_${n}.ps
+    else
+      ofile=vel_profile_${n}_${mdl_type}.ps
+    fi
     echo "[$PROG]INFO: output to $ofile"
     gmt gmtset PS_MEDIA = a0
     gmt gmtset FONT_TITLE = ${map_title_font_size}p
@@ -561,7 +590,7 @@ for n in $pis; do
     echo "[$PROG]INFO: adding gps velocity map"
     #file=vel.lhasa.2015oct
     #file=${GMT_pub}/gps/vel.lhasa.2016jul
-    file=${iGPS}/tables/wang_shen_2019JB018774_Table.S4.psvelo
+    file=${iGPS}/tables/wang_shen_2019JB018774_Table.S4S5.psvelo
     if [ -s $file ]; then
       #file=../../tibet.velrot/vel.tibet_cgps_sgps
       #*Station   Longitude   Latitude Ve_init Ve_incr    Ve     dVe   Vn_init Vn_incr    Vn     dVn   Cen
@@ -606,10 +635,16 @@ eob
 
     echo "[$PROG]INFO: plot profile information on the rate map"
     file=${profiles_path}/profile_${n}_vel.psxy
-    file_mdl=${profiles_path}/profile_${n}_vel_mdl.txt
-    #file_mdl=${profiles_path}/profile_${n}_vel_mdl_raw.txt
-    file_rot=${profiles_path}/profile_${n}_vel_rot.txt
-    file_gps=${profiles_path_gps}/profile_${n}_vel_los.psxy
+    if [ "$mdl_type" == "" ]; then
+      file_mdl=${profiles_path}/profile_${n}_vel_mdl.txt
+      #file_mdl=${profiles_path}/profile_${n}_vel_mdl_raw.txt
+      file_rot=${profiles_path}/profile_${n}_vel_rot.txt
+    else
+      file_mdl=${profiles_path}/${mdl_type}/profile_${n}_vel_mdl.txt
+      #file_mdl=${profiles_path}/profile_${n}_vel_mdl_raw.txt
+      file_rot=${profiles_path}/${mdl_type}/profile_${n}_vel_rot.txt
+    fi
+    file_gps=${profiles_path_gps}/profile_${n}_vel.psxy
 
     if [ ! -s $file ]; then
         echo -e "[$PROG]\033[1;33;41mERROR\033[0m: profile file ($file) not exist!! Skipped."
@@ -995,7 +1030,14 @@ eob
 $x1 $y8 $lbl_profile
 eob
 fi
+#    if [ -s _tmp_gnss_ll ]; then
+#      gmt psxy -R -J -O -K _tmp_gnss_ll -Ss.3c -W.5p,red -Gyellow >> $ofile
+#    fi
     
+   if [ -s $file_gps ]; then
+      grep -h '^ ' $file_gps | sort | uniq | awk '{print $11,$12}' | gmt psxy -R -J -O -K -Ss.3c -W.5p,red -Gyellow >> $ofile
+    fi
+
     lat_fp=0
     #echo "**lat of intersect of fault and profile: $lat_fp "
 
@@ -1073,7 +1115,7 @@ eob
     echo "[$PROG]INFO: plot (b). velocity profile"
 
 
-    grep "^ " $file | awk '{print $11,$12,$4,$13}' >.tmp.los
+    grep "^ " $file | awk '{print $13,$14,$4,$15}' >.tmp.los
     grep "^ " $file_mdl | awk '{print $1,$2}' >.tmp.los.mdl
 
     if [ "$auto_axis" == "y" ]; then
@@ -1128,15 +1170,28 @@ eob
     echo Bx By $Bx $By
     echo Rp $Rp
     gmt psxy $Rp -JX${plot_size_ax}i/${plot_size_by}i -X${Xshift}i -Y${Yshift}i -Sc0.05c   -B${Bx}:"${profile_title_x}":/${By}:"${profile_title_y}"::."${profile_title}":/SWen -O -K   .tmp.los -Cdist.cpt >>$ofile
-    gmt psxy -R -J -O -K .tmp.los.mdl -W1p,red >> $ofile
+    if [ -s .tmp.los.mdl ]; then
+      gmt psxy -R -J -O -K .tmp.los.mdl -W1p,red >> $ofile
+    fi
+
+    if [ -s $file_gps ]; then
+      grep -h '^ ' $file_gps | sort | uniq | awk '{print $13,$14,$15}' | gmt psxy -R -J -O -K -Ss.3c -W.5p,red -Gyellow >> $ofile
+    else
+      echo "No GPS file ($file_gps)!"
+    fi
+
+#    if [ -s $file_profile_gnss_merge ]; then
+#      gmt psxy -R -J -O -K $file_profile_gnss_merge -Ss.3c -W.5p,red -Gyellow >> $ofile
+#    fi
+    
+   if [ -s $file_mdl ]; then
+      echo "[$PROG]INFO: plot rorated axis"
+      grep PSXY_AXIS_MDL_RAW $file_mdl | awk '{print $3,$4}' > .tmp.mdl.rot.axis
+      gmt psxy -R -J -O .tmp.mdl.rot.axis -W.5p,blue -K >> $ofile
+    fi
 
     echo "disp_scale_x $disp_scale_x $disp_scale_length $disp_scale_height"
     gmt psscale -D${disp_scale_x}i/.4i/${disp_scale_length}i/${disp_scale_height}ih    -O -Cdist.cpt -K  -B2f1::/:"${profile_title_s}":  >> $ofile
-
-
-    echo "[$PROG]INFO: plot rorated axis"
-    grep PSXY_AXIS_MDL_RAW $file_mdl | awk '{print $3,$4}' > .tmp.mdl.rot.axis
-    gmt psxy -R -J -O .tmp.mdl.rot.axis -W.5p,blue -K >> $ofile
 
 
 

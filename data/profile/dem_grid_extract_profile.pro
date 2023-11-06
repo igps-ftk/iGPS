@@ -58,6 +58,29 @@ PRO DEM_GRID_EXTRACT_PROFILE, demfile,  $  ;DEM file (ENVI raw image format; wit
     pfile='D:\gsar\interseismic\012-a-m7-0088_0093_0098_0103_0108_0113_0118-tibet\f123\sbas.4.9.0001.9999.20150627.20220930.053.0393.01.___\p.fa_atf_9r\profiles_auto.psxy'
     opath='D:\gsar\interseismic\012-a-m7-0088_0093_0098_0103_0108_0113_0118-tibet\f123\sbas.4.9.0001.9999.20150627.20220930.053.0393.01.___\p.fa_atf_9r\dem'
     
+    
+    ffile='C:\GMT_pub\vector\profile\fa_Kunlun_Fault.psxy'
+    pfile='D:\gsar\interseismic\033-d-m7-0463_0468_0473_0478_0483_0487_0493-kunlun\f123\sbas.4.0.0001.9999.20141031.20210515.039.0231.01.___\p.fa_Kunlun_Fault\profiles_auto.psxy'
+    opath='D:\ICD\meeting\cugs2023\abstract\kunlun\figure\profiles\dem'
+    
+    ffile='C:\GMT_pub\vector\profile\fa_redriver.psxy'
+    pfile='D:\gsar\interseismic\164-d-m3-0510_0515_0520-honghe8M3\f123\sbas.4.0.0367.9999.20150625.20210524.136.1524.01.___\p.fa_redriver\profiles_auto.psxy'
+    opath='D:\ICD\Eighth\2019\20190613.Hezong.Zone2\Final\report\figure\1.profiles.des\dem'
+    
+    
+    ffile='C:\GMT_pub\vector\profile\fa_xiaojiang_ext.psxy'
+    pfile='D:\gsar\interseismic\099-a-m4-1245_1250_1255_1260-honghe\f123\sbas.4.0.0367.9999.20170318.20210707.127.1346.01.___\p.fa_xiaojiang_ext\profiles_auto.psxy'
+    opath='D:\ICD\Eighth\2019\20190613.Hezong.Zone2\Final\report\figure\2.profiles.asc.xiaojiang\dem.fa_xiaojiang_ext'
+    
+     ffile='C:\GMT_pub\vector\profile\fa_yuanjiang_puer_proposed.psxy'
+    pfile='D:\gsar\interseismic\099-a-m4-1245_1250_1255_1260-honghe\f123\sbas.4.0.0367.9999.20170318.20210707.127.1346.01.___\p.fa_yuanjiang_puer_proposed\profiles_auto.psxy'
+    opath='D:\ICD\Eighth\2019\20190613.Hezong.Zone2\Final\report\figure\2.profiles.asc.xiaojiang\dem.fa_yuanjiang_puer_proposed'
+    
+         ffile='C:\GMT_pub\vector\profile\fa_nantinghe_east.psxy'
+    pfile='D:\gsar\interseismic\099-a-m4-1245_1250_1255_1260-honghe\f123\sbas.4.0.0367.9999.20170318.20210707.127.1346.01.___\p.fa_nantinghe_east\profiles_auto.psxy'
+    opath='D:\ICD\Eighth\2019\20190613.Hezong.Zone2\Final\report\figure\2.profiles.asc.xiaojiang\dem.fa_nantinghe_east'
+    
+    
   ENDIF
   
   IF N_ELEMENTS(ffile) EQ 0 THEN ffile=''
