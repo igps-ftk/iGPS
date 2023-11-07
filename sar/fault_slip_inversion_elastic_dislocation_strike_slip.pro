@@ -26,6 +26,9 @@ FUNCTION FAULT_SLIP_INVERSION_ELASTIC_DISLOCATION_STRIKE_SLIP,  $
     out_xm=out_xm,  $ ;  'de-mean of velocity:'
     out_theta=out_theta,  $ ;'angle of axis rotation (deg):'
     ;
+    d4=d4,  $
+    x4=x4,  $
+    ;
     dummy=dummy
     
     
@@ -43,12 +46,12 @@ FUNCTION FAULT_SLIP_INVERSION_ELASTIC_DISLOCATION_STRIKE_SLIP,  $
   IF N_ELEMENTS(fss) EQ 0 THEN BEGIN
     nfs=61
     fss=INDGEN(400)/10d0-20 ;fault-slip-s, [-20,20] with step of 0.1 mm/a
-    fss=1d0*(INDGEN(nfs)/1d0-nfs/2)
-    ;fss=1*(INDGEN(21)/1d0-10)
-    ;  fss=fss*3
-    fss=fss*.5d0
+;    fss=1d0*(INDGEN(nfs)/1d0-nfs/2)
+;    ;fss=1*(INDGEN(21)/1d0-10)
+;    ;  fss=fss*3
+;    fss=fss*.5d0
   ENDIF
-  print,'fss:',fss
+  ;print,'fss:',fss
   IF N_ELEMENTS(lds) EQ 0 THEN BEGIN
     lds=INDGEN(50)+1d0  ;locking-depth-s, [1, 50] with step of 1 km
   ENDIF
@@ -58,7 +61,7 @@ FUNCTION FAULT_SLIP_INVERSION_ELASTIC_DISLOCATION_STRIKE_SLIP,  $
   ;distmin=-90
   ;stop
   
-  IF N_ELEMENTS(sig_max) EQ 0 THEN sig_max=1.6 ;
+  IF N_ELEMENTS(sig_max) EQ 0 THEN sig_max=16 ;
   ;C) MEANS (demean the velocity profile)
   ;the xm (mean of x) ranges between the means of profile segment on the two sides of fault trace (xm1, xm2)
   IF N_ELEMENTS(nxm) EQ 0 THEN nxm=17
@@ -67,7 +70,7 @@ FUNCTION FAULT_SLIP_INVERSION_ELASTIC_DISLOCATION_STRIKE_SLIP,  $
   nfts=N_ELEMENTS(ftss)
   nfs=N_ELEMENTS(fss)
   nld=N_ELEMENTS(lds)
-  help, ntheta, nfts, nfs, nld
+  ;help, ntheta, nfts, nfs, nld
   
   rchi2s=DBLARR(nfts,nxm,ntheta,nfs,nld)
   xms_all=DBLARR(nxm,ntheta)
@@ -98,7 +101,7 @@ FUNCTION FAULT_SLIP_INVERSION_ELASTIC_DISLOCATION_STRIKE_SLIP,  $
     ;xms=MEAN(x1)
     ;nxm=1
     xms_all[*,thetai]=xms
-    PRINT,'velocities means for rotation angle '+STRTRIM(theta*180/!dpi,2)+':',xms
+    ;PRINT,'velocities means for rotation angle '+STRTRIM(theta*180/!dpi,2)+':',xms
     ;stop
     
     FOR ftsi=0, nfts-1 DO BEGIN ;loop for fault trace shift
@@ -142,8 +145,10 @@ FUNCTION FAULT_SLIP_INVERSION_ELASTIC_DISLOCATION_STRIKE_SLIP,  $
   d2=d1
   ;d2=FINDGEN(1000)-500d0
   d2=d2[SORT(d2)]
-  d2=d2[UNIQ(d2)]
+  ;d2=d2[UNIQ(d2)]
   x2=xms_all[ind2[1],ind2[2]]+(fss[ind2[3]]/!dpi)*ATAN((d2-ftss[ind2[0]])/lds[ind2[4]])
+  
+  
   
   theta=thetas[ind2[2]]
   d1=d*COS(theta)-x0*SIN(theta)
@@ -197,6 +202,14 @@ FUNCTION FAULT_SLIP_INVERSION_ELASTIC_DISLOCATION_STRIKE_SLIP,  $
   d3_x_axis_x=a2;+out_fts
   d3_x_axis_y=b2;+out_xm
   OPLOT,d3_x_axis_x,d3_x_axis_y,color='0'x,linestyle=1
+  
+  
+  d4=indgen(241)*5-600d0
+  x4=xms_all[ind2[1],ind2[2]]+(fss[ind2[3]]/!dpi)*ATAN((d4-ftss[ind2[0]])/lds[ind2[4]])
+  d4_rot=d4*COS(-1*out_theta)-x4*SIN(-1*out_theta)
+  x4_rot=d4*SIN(-1*out_theta)+x4*COS(-1*out_theta)
+  d4_rot_fts=d4_rot+out_fts
+  x4_rot_xm=x4_rot+out_xm
   
   RETURN, [slip, locking_depth]
   

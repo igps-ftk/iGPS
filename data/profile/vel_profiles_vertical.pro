@@ -321,7 +321,7 @@ PRO VEL_PROFILES_VERTICAL, vfile, ffile, pfile, opath
         vel_up_all[ind[j]],vele_up_all[ind[j]], lls[*,pos[ind[j]]], $
         dists_fault[pos[ind[j]]], $
         -999.99d0,0,  $
-        -999.99d0,0,-999.99d0,0 $
+        -999.99d0,-999.99d0,0,0 $
         , 0,0,0 ]
         
 ;      PRINTF,fid,sites[pos[ind[j]]],p_lls[*,pos[ind[j]]],dists[pos[ind[j]]],vel_up_all[ind[j]],$
@@ -403,7 +403,7 @@ PRO VEL_PROFILES_VERTICAL, vfile, ffile, pfile, opath
     PRINT,'a1:',a1
     PRINT,'b1:',b1
     ;STOP
-    break
+    ;break
   ENDFOR
   
 END

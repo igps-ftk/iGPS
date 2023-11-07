@@ -182,16 +182,16 @@ Major Update History
           09VUp 10VeUp    11lon   12lat  13distFa  14VLOS 15VeLOS    
           16VE    17VN   18VEe   19VNe   20CEN   21CEU  22CNU
     Changes also made for affected programs.
-  + Added more fault in the Qinghai-Tibetan plateau area to tables/ directory.
+  + Added more faults in the Qinghai-Tibetan plateau area to tables/ directory.
     GMT vector files for the Altyn Tagh, Dari, Ganzi, Gozha Co, Karakax, Kegang, 
       Maduo-Gande, Tianshen-Daban, Tikelike, Wudaoliang-Qumalai, Xiaoerkule, Zepu, etc.
-  + Also include GNSS velocities in Tables S5 of Wang and Shen (2020, JGR-SE).
+  + Also included GNSS velocities in Tables S5 of Wang and Shen (2020, JGR-SE).
     The new default GNSS velocity file is 
       iGPS\tables\wang_shen_2019JB018774_Table.S4S5.psvelo
     Old file deleted (wang_shen_2019JB018774_Table.S4.psvelo).
   + Added a new shell script sh_s1_get_baseline to get baseline_table.dat file from
       aligned SLC files. Similar to the GMTSAR's script get_baseline_table.csh, but
-      also can create time-baseline plot.
+      can also create time-baseline plot.
   
 2023FEB20
   A major release which contains cumulative updates since the last version, e.g.,

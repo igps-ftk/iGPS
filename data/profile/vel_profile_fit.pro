@@ -53,7 +53,7 @@ PRO VEL_PROFILE_FIT, pfile, ofile
       pfile=pfiles[fi]
       ofile=desuffix(pfile)+'_mdl.txt'
       VEL_PROFILE_FIT, pfile, ofile
-    return
+      RETURN
     ENDFOR
     RETURN
   ENDIF
@@ -73,16 +73,26 @@ PRO VEL_PROFILE_FIT, pfile, ofile
   lines3=str_lines2arr(lines2)
   
   
-  dists=DOUBLE(REFORM(lines3[12,*]))
   distmax=200 ;in km
   distmin=-200
   ;distmin=-90
   
   
-  vels_along=DOUBLE(REFORM(lines3[4,*]))
-  veles_along=DOUBLE(REFORM(lines3[5,*]))
-  vels_tang=DOUBLE(REFORM(lines3[6,*]))
-  veles_tang=DOUBLE(REFORM(lines3[7,*]))
+  sites=REFORM(lines3[0,*])
+  data=DOUBLE(lines3[1:*,*])
+  
+  vels_along=REFORM(lines3[4,*])
+  veles_along=REFORM(lines3[5,*])
+  vels_tang=REFORM(lines3[6,*])
+  veles_tang=REFORM(lines3[7,*])
+  vels_up=REFORM(lines3[8,*])
+  veles_up=REFORM(lines3[9,*])
+  lons=REFORM(lines3[10,*])
+  lats=REFORM(lines3[11,*])
+  dists=REFORM(lines3[12,*])
+  vels_los=REFORM(lines3[13,*])
+  veles_los=REFORM(lines3[14,*])
+  STOP
   
   pos=WHERE(dists GE distmin AND dists LE distmax)
   IF N_ELEMENTS(pos) LE 3 THEN BEGIN
@@ -93,7 +103,7 @@ PRO VEL_PROFILE_FIT, pfile, ofile
   
   lls=DOUBLE(lines3[1:2,pos])
   
-  XSHIFT=20
+  XSHIFT=0
   d=dists[pos];+XSHIFT
   
   PRINT,';for strike-slip component'
@@ -128,7 +138,7 @@ PRO VEL_PROFILE_FIT, pfile, ofile
   nym=N_ELEMENTS(yms)
   ;stop
   
-  WINDOW,0,xsize=1800
+  WINDOW,0,xsize=1100,ysize=800
   DEVICE,decomposed=1
   !p.MULTI=[0,1,2]
   
@@ -138,7 +148,7 @@ PRO VEL_PROFILE_FIT, pfile, ofile
   PLOT,d,y0,background='ffffff'x,color='0'x,psym=2
   ERRPLOT,d,y0-ye,y0+ye,color='aaaaaa'x
   HELP, lines2
-  
+  ;stop
   
   tmp=FAULT_SLIP_INVERSION_ELASTIC_DISLOCATION_STRIKE_SLIP( $
     d,  $ ;profile X-axis (distance to fault in km)
@@ -147,10 +157,10 @@ PRO VEL_PROFILE_FIT, pfile, ofile
     pxy3=pxy3,  $ ;intersection of profile and fault
     ;
     ;optional keywords
-    theta=thetas, $ ;rotation of axes
-    fts=ftss,  $ ;fault trace shifts
+    ;theta=[-1d-7,1d-7], $ ;rotation of axes
+    fts=0,  $ ;fault trace shifts
     fs=fss,  $  ;far-field fault slip rates
-    ld=[0.001,.0001], $ ;fault locking depths
+    ld=[-1d-6,1d-6], $ ;fault locking depths
     xms_all=yms_all,  $
     ;
     ;outputs
@@ -167,42 +177,49 @@ PRO VEL_PROFILE_FIT, pfile, ofile
     out_xm=out_ym,  $ ;  'de-mean of velocity:'
     out_theta=out_theta_y,  $ ;'angle of axis rotation (deg):'
     ;
+    d4=d4,  $
+    x4=y4,  $
     dummy=dummy)
+    
+  ;    tmp=FAULT_SLIP_INVERSION_ELASTIC_DISLOCATION_NORMAL( $
+  ;      d,  $ ;profile X-axis (distance to fault in km)
+  ;      y0,  $ ;velocities along the profile (in mm/yr)
+  ;      pxys=pxys,  $ ;profile x/y
+  ;      pxy3=pxy3,  $ ;intersection of profile and fault
+  ;      ;
+  ;      ;optional keywords
+  ;      theta=thetas, $ ;rotation of axes
+  ;      fts=ftss,  $ ;fault trace shifts
+  ;      fs=fss,  $  ;far-field fault slip rates
+  ;      ld=[0.001,.0001], $ ;fault locking depths
+  ;      xms_all=yms_all,  $
+  ;      ;
+  ;      ;outputs
+  ;      slip=slip,  $
+  ;      locking_depath=locking_depth, $
+  ;      d2s=d2, x2s=y2, $
+  ;      d3s=d3, x3s=y3, $
+  ;      d3_x_axis_x=d3_x_axis_x, d3_x_axis_y=d3_x_axis_y, $
+  ;      d3_y_axis_x=d3_y_axis_x, d3_y_axis_y=d3_y_axis_x, $
+  ;      ind2=ind2,  $
+  ;      out_fss=out_fss_y,  $
+  ;      out_ld=out_ld_y,  $
+  ;      out_fts=out_fts_y,  $
+  ;      out_xm=out_ym,  $ ;  'de-mean of velocity:'
+  ;      out_theta=out_theta_y,  $ ;'angle of axis rotation (deg):'
+  ;      ;
+  ;      dummy=dummy)
+  ;
+  OPLOT,d4,y4, color='0000ff'x,psym=-4
+  ;stop
+  OPLOT,d3,y3, color='ff0000'x,psym=1
+  ;OPLOT,[-1d3,1d3],[0,0],linestyle=2,color='0'x
+  OPLOT,[out_fts_y,out_fts_y],[-1000,1000],color='00ff00'x,linestyle=2
+  OPLOT,[-1d3,1d3],[out_ym,out_ym],linestyle=2,color='00ff00'x
+  PRINT,'far-field slip rates:',out_fss_y,'    locking depth:',out_ld_y
+  PRINT,'ym:',out_ym
+  ;stop
   
-;    tmp=FAULT_SLIP_INVERSION_ELASTIC_DISLOCATION_NORMAL( $
-;      d,  $ ;profile X-axis (distance to fault in km)
-;      y0,  $ ;velocities along the profile (in mm/yr)
-;      pxys=pxys,  $ ;profile x/y
-;      pxy3=pxy3,  $ ;intersection of profile and fault
-;      ;
-;      ;optional keywords
-;      theta=thetas, $ ;rotation of axes
-;      fts=ftss,  $ ;fault trace shifts
-;      fs=fss,  $  ;far-field fault slip rates
-;      ld=[0.001,.0001], $ ;fault locking depths
-;      xms_all=yms_all,  $
-;      ;
-;      ;outputs
-;      slip=slip,  $
-;      locking_depath=locking_depth, $
-;      d2s=d2, x2s=y2, $
-;      d3s=d3, x3s=y3, $
-;      d3_x_axis_x=d3_x_axis_x, d3_x_axis_y=d3_x_axis_y, $
-;      d3_y_axis_x=d3_y_axis_x, d3_y_axis_y=d3_y_axis_x, $
-;      ind2=ind2,  $
-;      out_fss=out_fss_y,  $
-;      out_ld=out_ld_y,  $
-;      out_fts=out_fts_y,  $
-;      out_xm=out_ym,  $ ;  'de-mean of velocity:'
-;      out_theta=out_theta_y,  $ ;'angle of axis rotation (deg):'
-;      ;
-;      dummy=dummy)
-;  
-    OPLOT,d3,y3, color='0000ff'x,psym=-4
-    OPLOT,[-1d3,1d3],[0,0],linestyle=2,color='0'x
-    OPLOT,[-1d3,1d3],[out_ym,out_ym],linestyle=2,color='00ff00'x
-    PRINT,'far-field slip rates:',out_fss_y,'    locking depth:',out_ld_y
-    PRINT,'ym:',out_ym
   ;return
   
   ;FOR i=0, N_ELEMENTS(d2)-1 DO BEGIN
@@ -220,10 +237,10 @@ PRO VEL_PROFILE_FIT, pfile, ofile
     pxy3=pxy3,  $ ;intersection of profile and fault
     ;
     ;optional keywords
-    theta=thetas, $ ;rotation of axes
-    fts=ftss,  $ ;fault trace shifts
+    theta=0, $ ;rotation of axes
+    fts=0,  $ ;fault trace shifts
     fs=fss,  $  ;far-field fault slip rates
-    ld=lds, $ ;fault locking depths
+    ld=[-1d-6,1d-6], $ ;fault locking depths
     xms_all=xms_all,  $
     ;
     ;outputs
@@ -240,6 +257,8 @@ PRO VEL_PROFILE_FIT, pfile, ofile
     out_xm=out_xm,  $ ;  'de-mean of velocity:'
     out_theta=out_theta,  $ ;'angle of axis rotation (deg):'
     ;
+    d4=d4,  $
+    x4=x4,  $
     dummy=dummy)
     
   ;  rchi2s=DBLARR(nxm,nfs,nld)
@@ -272,9 +291,11 @@ PRO VEL_PROFILE_FIT, pfile, ofile
   ;  d2=d2[SORT(d2)]
   ;  d2=d2[UNIQ(d2)]
   ;  x2=xms[ind2[0]]+(fss[ind2[1]]/!dpi)*ATAN(d2/lds[ind2[2]])
-  OPLOT,d3,x3, color='0000ff'x,psym=-4
+  OPLOT,d4,x4, color='0000ff'x,psym=-4
+  OPLOT,d3,x3, color='ff0000'x,psym=1
   OPLOT,[-1d3,1d3],[0,0],linestyle=2,color='0'x
   OPLOT,[-1d3,1d3],[out_xm,out_xm],linestyle=2,color='00ff00'x
+  OPLOT,[out_fts,out_fts],[-1000,1000],color='00ff00'x,linestyle=2
   PRINT,'far-field shorterning rates:',out_fss_y,'    locking depth:',out_ld_y
   PRINT,'ym:',out_ym
   ;PRINT,'fault trace shift (km):',out_fts
@@ -295,7 +316,7 @@ PRO VEL_PROFILE_FIT, pfile, ofile
   
   
   
-  print,ofile
+  PRINT,ofile
   OPENW,fid,ofile,/get_lun
   WRITE_SYS_INFO,fid,prog=prog,src=pfile,user=user
   PRINTF,fid,['* original header:',lines_header],format='(a)'
@@ -308,12 +329,13 @@ PRO VEL_PROFILE_FIT, pfile, ofile
   PRINTF,fid,'distance','strik-slip','ext/comp',format='("*",a10,2(1x,a15),1x,2(1x,a9))'
   FOR i=0, N_ELEMENTS(d2)-1 DO BEGIN
     ;PRINTF,fid, d2[i]-XSHIFT, x2[i], y2[i], lons2[i], lats2[i], format='(1x,f10.2,2(1x,f15.7),1x,2(1x,f9.3))'
-    PRINTF,fid, d2[i]-XSHIFT, x2[i], 0, lons2[i], lats2[i], format='(1x,f10.2,2(1x,f15.7),1x,2(1x,f9.3))'
+    ;PRINTF,fid, d2[i]-XSHIFT, x2[i], y2[i], lons2[i], lats2[i], format='(1x,f10.2,2(1x,f15.7),1x,2(1x,f9.3))'
+    PRINTF,fid, d3[i], x3[i], y3[i], lons2[i], lats2[i], format='(1x,f10.2,2(1x,f15.7),1x,2(1x,f9.3))'
   ENDFOR
   FREE_LUN,fid
   
   jfile=desuffix(ofile)+'.jpg'
   WRITE_JPEG, jfile, TVRD(true=2), true=2, quality=100
-;return
+  RETURN
 ;STOP
 END

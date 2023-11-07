@@ -93,7 +93,7 @@ c     ??? JUN-10-2007 Tian
 c      write(*,*) '#parts:',n
 c      do i=1, n
 c         tmpstr=strs(i)
-c         write(*,'(a,i)') tmpstr(1:nblen(tmpstr)),i
+c         write(*,'(a,i9)') tmpstr(1:nblen(tmpstr)),i
 c      enddo
       
       return

@@ -41,6 +41,9 @@ c      maximum number of profiles
       real*8 d_v2p,d_v2ps(NMAX),d_v2f,d_v2fs(NMAX)
       real*8 d_v2fs1(NMAX),d_v2fs2(NMAX),d_v2f_min,d_v2f_max
       real*8 lons(NMAX),lats(NMAX),vels(NMAX),plons(NMAX),plats(NMAX)
+      real*8 veles(NMAX),velei
+      integer*4 nCol
+      character*1023 tmpstrs(10)
 c      character*1023 headers(1000)
 
 
@@ -214,13 +217,38 @@ c        vline=vlines(i)
 c        write(*,*) i,vline(1:nblen(vline))
 c      enddo
 c      stop
+c     get the number of columns in velocity file
+c      write(*,*) vlines(1)
+      call strsplit(vlines(1),' ',nCol,tmpstrs)
+      if (nCol.eq.1) then
+        call strsplit(vlines(1),'       ',nCol,tmpstrs)
+      endif
+c      write(*,*)  vlines(1)
+      write(*,*) 'number of columns in velocity file:', nCol
+c      stop
+c      nCol=4
+c      read(vlines(1),*, err=801)loni,lati,veli,velei 
+c      goto 802
+c801   nCol=3
+c802   continue
+c      write(*,*) 'number of columns in velocity file:', nCol
+c      stop
 
 
 c     convert km to degree using the mean latitude
       r8sum=0
       do i=1,nv
         vline=vlines(i)
-        read(vline,*) loni,lati,veli
+c        if (nCol.eq.3) then
+          read(vline,*) loni,lati,veli
+c        elseif (nCol.eq.4) then
+c          read(vline,*) loni,lati,veli,velei
+c          veles(i)=velei
+c        else
+c          write(*,*) '[]ERROR: wrong velocity file!!'
+c          write(*,*) '[]ERROR: number of columns should be 3 or 4.'
+c          stop
+c        endif
         lons(i)=loni
         lats(i)=lati
         vels(i)=veli
@@ -390,6 +418,7 @@ c        read(vline,*) loni,lati,veli
         loni=lons(i)
         lati=lats(i)
         veli=vels(i)
+        velei=veles(i)
 
         c1(1)=loni
         c1(2)=lati
@@ -605,20 +634,20 @@ c*  01_site      02_p_long     03_p_lati     04_p_dist     05_v_along   06_ve_al
      +    '20CEN',
      +    '21CEU',
      +    '22CNU'
-705     format("*",a9,(1x,a8),(1x,a7),1x,a7,2(1x,a7),2(1x,a7),
-     +    2(1x,a7),(1x,a8),(1x,a7),1x,a9, 2(1x,a7),6(1x,a7),1x,a6)
+705     format("*",a9,(1x,a8,1x,a7),1x,a7,3(1x,a8,1x,a7),
+     +    (1x,a8,1x,a7),1x,a9,(1x,a8,1x,a7),2(1x,a8),4(1x,a7),1x,a6)
 
         do k=1,nv_p
           jj=pinds(oinds(k))
           write(fid,703) k,plons(jj),plats(jj),d_v2ps(jj),
      +      -999.99,0.,-999.99,0.,-999.99,0.,
-     +      lons(jj),lats(jj),d_v2fs(jj),vels(jj),0.,
+     +      lons(jj),lats(jj),d_v2fs(jj),vels(jj),veles(jj),
      +      -999.99,-999.99,0.,0., 0.,0.,0.
         enddo
-703     format(1x,i9,(1x,f8.3),(1x,f7.3), 1x,f7.2, 
-     +    2(1x,f7.2),2(1x,f7.2),2(1x,f7.2), 
-     +    (1x,f8.3),(1x,f7.3), 1x,f9.3,2(1x,f7.2),
-     +    6(1x,f7.2),1x,f6.3)
+703     format(1x,i9,(1x,f8.3,1x,f7.3), 1x,f7.2, 
+     +    3(1x,f8.2,1x,f7.2), 
+     +    (1x,f8.3,1x,f7.3), 1x,f9.3,(1x,f8.2,1x,f7.2),2(1x,f8.2),
+     +    4(1x,f7.2),1x,f6.3)
 
         close(fid)
 c        stop

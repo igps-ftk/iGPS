@@ -1305,7 +1305,7 @@ eob
 eob
 
     echo "[$PROG]INFO: converting JPEG (`pwd`/$ofile)..."
-    gmt psconvert -A -Tj -Z $ofile
+    gmt psconvert -A -Tj -E200 -Z $ofile
     #echo "converting PDF ..."
     #psconvert -A -Tf $ofile
 

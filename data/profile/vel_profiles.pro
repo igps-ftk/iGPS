@@ -489,7 +489,7 @@ PRO VEL_PROFILES, vfile, $  ;velocity file (in varied formats)
       , fa_pf_xy=xy3 $
       , headers=[vfile,ffile,pfile]
       
-    return
+    ;return
       
     ;    OPENW,fid,ofile,/get_lun
     ;    WRITE_SYS_INFO,fid,prog=prog,src=[vfile,pfile],user=user
