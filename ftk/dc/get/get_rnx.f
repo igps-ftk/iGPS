@@ -330,6 +330,8 @@ c         host='132.239.152.113'
       else if (archive.eq.'whu') then
 c     igs.gnsswhu.cn (ip changes)
          host='123.57.234.5'
+      else if (archive.eq.'esa') then
+         host='gssc.esa.int'
       else
          write(*,*) 'Error: wrong archive [',
      &        archive(1:nblen(archive)),']'
@@ -470,6 +472,9 @@ c     ftp://olggps.oeaw.ac.at/pub/
          else if (archive.eq.'whu') then   
             write(dir_remote,723) year,doy,yr
  723        format("/pub/gps/data/daily/",I4.4,"/",I3.3,"/",I2.2,"d")
+         else if (archive.eq.'esa') then   
+            write(dir_remote,724) year,doy
+ 724        format("/cddis/gnss/data/daily/",I4.4,"/",I3.3)
          endif
 
          if (ftp_prog(1:nblen(ftp_prog)).ne.'wget') then

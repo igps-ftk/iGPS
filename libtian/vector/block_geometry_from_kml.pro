@@ -13,6 +13,7 @@ PRO BLOCK_GEOMETRY_FROM_KML, file,  $
     file='D:\gpse\eq.sc08\block\defnode\jiali_20230109\model4\block_fault_model.txt'
     file='D:\Papers\jiali\vector\block_model\model6\bloack_model.txt'
     file='D:\Papers\eq1950motuo\vector\block_model\mdla\block_model.txt'
+    file='D:\gpse\eq.sc08\block\defnode\mht\vector\block_fault_model.txt'
   ENDIF
   
   ext=getfilesuffix(file)

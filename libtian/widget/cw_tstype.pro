@@ -96,6 +96,7 @@ FUNCTION CW_TSTYPE, PARENT, $
       'ITRF05 RESIDUAL', $
       ;'PANGA LAT/LON/RAD', $
       ;'POWER SPECTRUM', $
+      'NGL TENV3',  $
       'QOCA ATML LOAD', $
       'QOCA OTL LOAD', $
       'QOCA SNOW LOAD', $

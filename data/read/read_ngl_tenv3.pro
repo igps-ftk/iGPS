@@ -1,0 +1,22 @@
+PRO READ_NGL_TENV3, FILE, DATA=DATA
+  IF N_PARAMS() LT 1 THEN BEGIN
+    FILE=FILEPATH(ROOT_DIR=!IGPS_ROOT,SUBDIRECTORY=['example','ngl' $
+      ],'IRKJ.tenv3')
+  ENDIF
+  READ_COLS_ASCII, FILE, data=lines1
+  lines2=lines1[2:*,1:*]
+  
+  DATA=(DOUBLE(LINES2))[[0,0,0,8,6,10,13,12,14],*]
+  DATA[1,*]=FIX(DATA[0,*])
+  
+  DECYRS=REFORM(DATA[0,*])
+  DECYRS_TO_JDS, DECYRS, JDS
+  JD_TO_YMDHMSS , JDS, dates, seconds, mjd=mjds
+  YMDS=DATES[0:2,*]
+  YMD_TO_DOYS, ymds, doys
+  DATA[2,*]=DOYS
+  IF N_PARAMS() LT 1 THEN BEGIN
+    HELP, DATA
+  ENDIF
+  ;STOP
+END

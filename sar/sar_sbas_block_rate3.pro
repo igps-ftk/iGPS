@@ -227,8 +227,8 @@ PRO SAR_SBAS_BLOCK_RATE3, path,  $
   oRMSs=DBLARR(onx,ony)
   
   IF N_ELEMENTS(time_offset) EQ 0 THEN time_offset=2010
-  IF N_ELEMENTS(is_annual) EQ 0 THEN is_annual=1
-  IF N_ELEMENTS(is_semiannual) EQ 0 THEN is_semiannual=1
+  IF N_ELEMENTS(is_annual) EQ 0 THEN is_annual=0
+  IF N_ELEMENTS(is_semiannual) EQ 0 THEN is_semiannual=0
   
   nOff=N_ELEMENTS(time_offset)
   oOffs=DBLARR(2,onx*ony,nOff)

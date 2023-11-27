@@ -41,6 +41,17 @@ ${PROG}
   [-n|-profile PROFILE_IDS]
     default: 0 (all)
   [-dt|-data_type Velocity|Dislacement]
+  [-di|-data_index DI]
+    DI Variable
+     5 VNor           : velocity along the profile (normal to the fault trace); 
+                        positive-north (mm/yr)
+     7 VPar           : velocity tangent to the profile (parallel to the fault 
+                        trace); positive-90deg-clockwise from v_along direction
+                        (mm/yr)
+     9 VUp            : vertical velocity; positive-up (mm/yr)
+    14 VLOS           : InSAR LOS velocity (mm/yr)
+    16 VE             : east velocity of location; positive-east (mm/yr)
+    17 VN             : north velocity of location; positive-north (mm/yr)
   [-aa|-auto_axis n|y]
   [-R|-Rp R_OF_TIME_SERIES_PLOT]
     u - -R-600/600/-20/20
@@ -85,6 +96,7 @@ opath=  #change it with command option "-opath output_path". If not exist, it wi
 path_old=`pwd`
 
 data_type=Velocity  #Velocity or Displacement
+data_index=14 #InSAR LOS 
 
 auto_axis=n #fix(y) or scale (n) the X/Y axis ranges of the profile plot
 RP=
@@ -203,6 +215,9 @@ while [ "$1" != "" ]; do
         ;;
     -dt|-data_type)
         data_type=$2
+        ;;
+    -di|-data_index|-data_column)
+        data_index=$2
         ;;
     -aa|-auto_axis)
         auto_axis=$2
@@ -1113,10 +1128,37 @@ eob
 
 
     echo "[$PROG]INFO: plot (b). velocity profile"
-
-
-    grep "^ " $file | awk '{print $13,$14,$4,$15}' >.tmp.los
-    grep "^ " $file_mdl | awk '{print $1,$2}' >.tmp.los.mdl
+    #* 01site           : name of location
+    #* 02pLon           : longitude of point projected onto the profile line (deg)
+    #* 03pLat           : latitude of point projected onto the profile line (deg)
+    #* 04pDist          : distance from location to profile (km)
+    #* 05VNor           : velocity along the profile (normal to the fault trace); positive-north (mm/yr)
+    #* 06VeNor          : velocity uncertainty along the profile (mm/yr)
+    #* 07VPar           : velocity tangent to the profile (parallel to the fault trace); positive-90deg-clockwise from v_along direction (mm/yr)
+    #* 08VePar          : velocity uncertainty tangent to the profile (mm/yr)
+    #* 09VUp            : vertical velocity; positive-up (mm/yr)
+    #* 10VeUp           : vertical velocity uncertainty
+    #* 11lon            : longitude of location (deg)
+    #* 12lat            : latitude of location (deg)
+    #* 13distFa         : distance from location to fault; positive-east (km)
+    #* 14VLOS           : InSAR LOS velocity (mm/yr)
+    #* 15VeLOS          : InSAR velocity uncertainty (mm/yr)
+    #* 16VE             : east velocity of location; positive-east (mm/yr)
+    #* 17VN             : north velocity of location; positive-north (mm/yr)
+    #* 18VEe            : east velocity uncertainty (mm/yr)
+    #* 19VNe            : north velocity uncertainty (mm/yr)
+    #* 20CEN            : correlation coefficient between east and north
+    #* 21CEU            : correlation coefficient between east and up
+    #* 22CNU            : correlation coefficient between north and up
+    if [ $di -lt 16 ]; then
+      sigma_index=`expr $di + 1`
+    else
+      sigma_index=`expr $di + 1`
+    fi
+    grep "^ " $file | awk '{print $13,$di,$4,$ei}' di=$data_index ei=sigma_index >.tmp.los
+    if [ -s $file_mdl ]; then
+      grep "^ " $file_mdl | awk '{print $1,$2}' >.tmp.los.mdl
+    fi
 
     if [ "$auto_axis" == "y" ]; then
         Rp=`gmtinfo -I50/5 .tmp.los`

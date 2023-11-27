@@ -243,32 +243,12 @@ is_show_fig='off';
 
 paths={'Z:\g11j\D\gsar\interseismic\056-a-m7-0088_0093_0098_0103_0108_0113_0118-tibet\comb\p.fa_karakoram'};
 paths={'Z:\g11j\D\gsar\interseismic\063-d-m5-0462_0467_0472_0478_0483-aksaichin2_karakoram\comb\p.fa_karakoram'};
-ptn='036*'
-dmin=-100;
-dmax=100;
+paths={'D:\gsar\interseismic\056-a-m7-0088_0093_0098_0103_0108_0113_0118-tibet\comb\p.fa_longmuco_dulishihu'};
+paths={'D:\gsar\interseismic\063-d-m5-0462_0467_0472_0478_0483-aksaichin2_karakoram\comb\p.fa_longmuco_dulishihu'};
+ptn='020*'
+dmin=-200;
+dmax=200;
 
-ptn='*';
-path_root='/g17b/gsar/D/gsar/interseismic/056-a-m7-0088_0093_0098_0103_0108_0113_0118-tibet/comb';
-path_root='/g17b/gsar/D/gsar/interseismic/063-d-m5-0462_0467_0472_0478_0483-aksaichin2_karakoram/comb';
-paths_fa=dir([path_root,filesep,'p.fa_',ptn,'*']);
-
-nfa=size(paths_fa,1);
-paths=cell(nfa,1)
-for fi=1:nfa
-    
-    file=[path_root,filesep,paths_fa(fi).name]
-    [pathstr, name, ext] = fileparts(file);
-    
-    str=sprintf('[%s]INFO: %d/%d processing %s %s ...',PROG,fi,nfa,name,ext);
-    disp(str);
-    
-%     if fi == 1 
-%         paths={file};
-%     else
-%         paths={paths;file};
-%     end
-paths{fi}={file};
-end
 
 % cmt='far'
 % cmt='klfCreep'
@@ -295,7 +275,6 @@ dmax_fts=dmax%+fts_max;
 
 for pi=1:npath
   path=paths{pi};
-  path=path{1};
   if isempty(path)
     continue
   end
@@ -644,10 +623,9 @@ for pi=1:npath
     %   imwrite(im,jfile,'jpg');
     saveas(h1,jfile);
     
-%     return
+    % return
     
   end
-%   return
 end
 
 disp(['[',PROG,']INFO: Normal end.']);
