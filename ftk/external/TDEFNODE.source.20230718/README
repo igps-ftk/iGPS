@@ -1,0 +1,63 @@
+README for TDEFNODE 2015.07.30
+
+TDEFNODE is the time-dependent version of DEFNODE and has many changes. DEFNODE control files will not work in TDEFNODE.
+
+You may use TDEFNODE but do not make changes or redistribute. It has enough bugs already.
+
+This version supersedes any previous versions that are floating around. If you are using a previous version, upgrade before asking me any questions.
+
+The citation is:
+McCaffrey, R., Time-dependent inversion of three-component continuous GPS for steady and transient sources in northern Cascadia, Geophysical Research Letters, 
+36, L07304, doi:10.1029/2008GL036784, 2009.
+
+
+INSTALLATION:
+
+1. Uncompress the contents of the compressed file TDEFNODE.tar.gz in a TDEFNODE directory ( ~/TDEFNODE recommended).
+If you will use the supplied plotting scripts, make an alias (syntax depends on shell):
+
+set TD_HOME = ~/TDEFNODE 
+(or whatever your directory is) and add this to your PATH.
+
+2. Set array dimensions within 'tdefcom1.h'. The dimensions are set in a fortran PARAMETER statement and all start with MAX_ . 
+(don't set them to 0). Be sure to keep the structure of the PARAMETER statement intact. Exceeding array dimensions is not always checked 
+explicitly and can cause strange behavior. Where dimensions are checked and exceeded, the program will quit and give a message.
+
+3. {Optional} Set paths to the volcanoes (votw.gmt; needed if +vtw flag set) and 
+earthquakes (ehb.gmt; needed if +eqk flag set) files in the file 'tdeffiles.h' (see instructions in 'tdeffiles.h' file) if
+you want to include these in the profile files. 
+For example:
+
+c- Smithsonian volcanoes file (optional, see code for format)
+c- path of volcanoes file
+      volcfile = '/home/mcc/TDEFNODE/votw.gmt'
+
+c- Engdahl et al. earthquakes file (optional, see code for format)
+c- path of earthquake file(s)
+      num_quakefiles = 1
+      quakefile(1) = '/home/mcc/TDEFNODE/ehb.gmt'
+
+
+4. Edit the Makefile to your specifications.
+
+5. Run 'make' to compile. Success depends on your compiler.
+
+RUNNING:
+
+If you type 
+
+% tdefnode
+
+the program will ask for the control file name and the model name. Or type the control file name as a command line argument:
+
+% tdefnode control_file_name
+
+Or also type model name as second command line argument:
+
+% tdefnode control_file_name model_name
+
+Runtime messages are all output to the screen. Many files are generated in the directory named the 4-character model name as discussed in the manual.
+
+The manual is a group of .html files. The main one is tdefnode.html which links to the others.
+
+

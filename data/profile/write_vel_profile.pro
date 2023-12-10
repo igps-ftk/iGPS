@@ -4,6 +4,7 @@ PRO  WRITE_VEL_PROFILE, ofile $
     , fa_xys=fa_xys  $
     , pf_xys=pf_xys  $
     , fa_pf_xy=fa_pf_xy $
+    , odata_2nd=odata_2nd $
     , headers=headers
     
   PROG=(STRSPLIT(LAST(SCOPE_TRACEBACK()),/EXTRACT))[0]
@@ -11,7 +12,7 @@ PRO  WRITE_VEL_PROFILE, ofile $
   IF N_PARAMS()LT 2 THEN BEGIN
     ;test only
     ofile='D:\gsar\interseismic\004-d-m5-0476_0481_0486_0491_0496-jiali8\f123\sbas.4.0.0001.9999.20170311.20230831.060.0410.01.___\pg.fa_ganzi\profile_001_vel.psxy'
-    print,ofile
+    PRINT,ofile
     odata=DBLARR(21,3)
     odata=RANDOMU(5L,21,5)
   ENDIF
@@ -67,6 +68,8 @@ PRO  WRITE_VEL_PROFILE, ofile $
     ,['20CEN       ', 'correlation coefficient between east and north'] $
     ,['21CEU       ', 'correlation coefficient between east and up'] $
     ,['22CNU       ', 'correlation coefficient between north and up'] $
+    ,['23distFa2    ', 'distance from location to 2nd fault; positive-east (km)'] $
+    ,['24StrkDif       ', 'angle of strikes of two faults (degree)'] $
     ]
     
   labels_description[0,*]=STRTRIM(REFORM(labels_description[0,*]),2)
@@ -95,31 +98,25 @@ PRO  WRITE_VEL_PROFILE, ofile $
   ENDFOR
   PRINTF,fid,'*',format='(a)'
   
-  PRINTF,fid,labels_description[0,*],  $
-    format='("*",a9,(1x,a8,1x,a7),1x,a7,3(1x,a8,1x,a7),(1x,a8,1x,a7),1x,a9, (1x,a8,1x,a7),2(1x,a8),4(1x,a7),1x,a6)'
-    
-  ;printf,fid,'*',format='(a)'
-  FOR j=0, N_ELEMENTS(odata[0,*])-1 DO BEGIN
-    ;convert gps velocity to insar los direction
-    ;descending
-    ;    enu_j=[odata[4,2,j], 0d0]
-    ;    enu_sig_j=[odata[5,3,j], 0d0]
-    ;    vlos_des=sar_enu2los(enu_j, alpha=(193)*!dpi/180d0 )
-    ;    vlos_asc=sar_enu2los(enu_j, alpha=(-13+360d0)*!dpi/180d0 )
-    ;    vlos_sig_des=sar_enu2los(enu_sig_j, alpha=193*!dpi/180d0 )
-    ;    vlos_sig_asc=sar_enu2los(enu_sig_j, alpha=(-13+360d0)*!dpi/180d0 )
+  IF N_ELEMENTS(odata_2nd) lt 2 THEN BEGIN  ;if no 2nd fault
+    PRINTF,fid,labels_description[0,0:21],  $
+      format='("*",a9,(1x,a8,1x,a7),1x,a7,3(1x,a8,1x,a7),(1x,a8,1x,a7),1x,a9, (1x,a8,1x,a7),2(1x,a8),4(1x,a7),1x,a6)'      
+    ;printf,fid,'*',format='(a)'
+    FOR j=0, N_ELEMENTS(odata[0,*])-1 DO BEGIN
+      PRINTF,fid,sites[j],odata[*,j],$
+        format='(1x,a9, (1x,f8.3,1x,f7.3), 1x,f7.2, 3(1x,f8.2,1x,f7.2),(1x,f8.2,1x,f7.2), 1x,f9.3,(1x,f8.2,1x,f7.2),2(1x,f8.2),4(1x,f7.2),1x,f6.3)'
+    ENDFOR
+  ENDIF ELSE BEGIN ; if with 2nd fault
+    PRINTF,fid,labels_description[0,*],  $
+      format='("*",a9,(1x,a8,1x,a7),1x,a7,3(1x,a8,1x,a7),(1x,a8,1x,a7),1x,a9, (1x,a8,1x,a7),2(1x,a8),4(1x,a7),1x,a6,2(1x,a9))'      
+    ;printf,fid,'*',format='(a)'
+    ;stop
+    FOR j=0, N_ELEMENTS(odata[0,*])-1 DO BEGIN
+      PRINTF,fid,sites[j],odata[*,j],odata_2nd[*,j],  $
+        format='(1x,a9, (1x,f8.3,1x,f7.3), 1x,f7.2, 3(1x,f8.2,1x,f7.2),(1x,f8.2,1x,f7.2), 1x,f9.3,(1x,f8.2,1x,f7.2),2(1x,f8.2),4(1x,f7.2),1x,f6.3,2(1x,f9.3))'
+    ENDFOR
+  ENDELSE
   
-    ;        PRINTF,fid,sites[pos[ind[j]]],p_lls[*,pos[ind[j]]],dists[pos[ind[j]]],vel_along_all[ind[j]],$
-    ;      vele_along_all[ind[j]],vel_tang_all[ind[j]],vele_tang_all[ind[j]], $
-    ;      vel_up_all[ind[j]],vele_up_all[ind[j]], lls[*,pos[ind[j]]], $
-    ;      dists_fault[pos[ind[j]]], $
-    ;      vels[[4,2,5,3],pos[ind[j]]], $
-    ;      vlos_des,vlos_sig_des,vlos_asc,vlos_sig_asc,$
-    ;      format='(1x,a4,1x,2f10.3,1x,f10.2,1x,2f10.2,1x,2f10.2,1x,2f10.2,1x,2f10.3,1x,f13.6,1x,4(1x,f10.3),1x,4(1x,f10.3))'
-  
-    PRINTF,fid,sites[j],odata[*,j],$
-      format='(1x,a9, (1x,f8.3,1x,f7.3), 1x,f7.2, 3(1x,f8.2,1x,f7.2),(1x,f8.2,1x,f7.2), 1x,f9.3,(1x,f8.2,1x,f7.2),2(1x,f8.2),4(1x,f7.2),1x,f6.3)'
-  ENDFOR
   FREE_LUN,fid
 ;stop
 END

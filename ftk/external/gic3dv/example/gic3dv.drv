@@ -1,0 +1,28 @@
+v_gps_h.dat                                ! Station coordinate and horizontal velocity solution file
+v_gps_v.dat                                ! Station coordinate and vertical velocity solution file
+ 1  200.0                                  ! 1=use, 0=not to use default GPS vertical velocity uncertainty, and the uncertainty value (in mm/yr)
+ 1000.0  100.0                             ! a priori uncertainties for orbital offset (in mm) and ramp (in mm/deg) corrections of SAR data
+ 17.0 17.0                                 ! default smoothing distance for estimation of interpolated GPS velocity uncertainties (in km)
+ -122.51 -114.01 32.01 37.01               ! input interpolation region (lonmin0, lonmax0, latmin0, latmax0) for GPS data 
+ 4                                         ! # of InSAR data input files
+d170.avg                                   ! InSAR data input file #1 (data averaged in 0.02 x 0.02 degree grid)
+a120.avg                                   ! InSAR data input file #2 (data averaged in 0.02 x 0.02 degree grid)
+a349.avg                                   ! InSAR data input file #3 (data averaged in 0.02 x 0.02 degree grid)
+d399.avg                                   ! InSAR data input file #4 (data averaged in 0.02 x 0.02 degree grid)
+ 4.58 1.26 4.87 1.53                       ! scaling factors of the InSAR LOS data input
+ 0  2.0  1.0                               ! 1=use, 0=not to use InSAR default LOS rate uncertainty, default LOS uncertainty, minimum uncertainty (in mm)
+ -118.91 -115.01 32.35 36.45 0.02 0.02     ! input search region (lon_min, lon_max, lat_min, lat_max in degree) and increments (dlon, dlat in degree)
+ 0.20 0.20                                 ! input InSAR data grid increment (dlon_g, dlat_g in degree) for InSAR frame ramp estimation
+gic3dv.orb                                 ! InSAR orbital ramp parameter output file
+gic3dv.out                                 ! Velocity solution output file
+gic3dv.res                                 ! InSAR data Postfit residual output file
+gps_h_out                                  ! Interpolated horizontal velocities at GPS sites 
+gps_v_out                                  ! Interpolated vertical velocities at GPS sites 
+gps_prd                                    ! Interpolated 3D regional GPS velocities 
+1                                          ! GPS data distance weighting scheme: 1=gaussian, 2=quadratic
+2                                          ! GPS data spatial weighting scheme: 1=azimuth, 2=voronoi area
+1 100 1                                    ! minimum, maximum, and incremental spatial smoothing constants for GPS data (in km)
+ 3.0                                       ! weighting thresholds W for GPS data interpolation 
+0.6 1.0                                    ! minimum uncertainty thresholds for GPS horizontal and vertical data (in mm/yr)
+ 0                                         ! number of creep faults
+crp.dat                                    ! creep fault data file

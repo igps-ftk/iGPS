@@ -111,9 +111,7 @@ else
   path_iGPS_shell=${iGPS}/sh
 fi
 
-this_arch=`sh_arch`
-
-file_hello="${iGPS}/ftk/bin/$this_arch/hello"
+file_hello="${iGPS}/ftk/bin/hello"
 #echo file_hello $file_hello
 if [[ -L "${file_hello}" ]] && [[ ! -a "${file_hello}" ]]; then 
   file $file_hello  
@@ -122,8 +120,8 @@ if [[ -L "${file_hello}" ]] && [[ ! -a "${file_hello}" ]]; then
   echo "cd ${iGPS}/ftk/"
   cd ${iGPS}/ftk/
   #pwd
-  echo "./install_igpsftk_links"
-  ./install_igpsftk_links
+  echo "make install"
+  #make install
 fi
 
 tmp=`which hello`
@@ -131,11 +129,11 @@ if [ "$tmp" == "" ]; then
   echo -e "[$PROG]\033[1;33;41mERROR\033[0m: cannot find iGPS executable!!"
   cat <<eob
   Where is the iGPS's executables? e.g.,
-    /usr/local/iGPS/ftk/bin/${this_arch}/
+    /usr/local/iGPS/ftk/bin/
   For C-shell (tcsh; ~/.cshrc):
-set path = (\$path \${iGPS}/ftk/bin/${this_arch})
+set path = (\$path \${iGPS}/ftk/bin/)
   For B-shell (bash; ~/.bashrc):
-export PATH=\$PATH:\${iGPS}/ftk/bin/${this_arch}
+export PATH=\$PATH:\${iGPS}/ftk/bin/
 eob
   exit 1
 else
@@ -143,18 +141,18 @@ else
   path_iGPS_exec=`dirname $tmp`
 fi
 
-file_hello=${iGPS}/ftk/bin/${this_arch}/hello
+file_hello=${iGPS}/ftk/bin/hello
 tmp=`$file_hello | head -1 | grep 'Usage: hello ofile.name'`
 #echo $tmp
 if [ "$tmp" == "" ]; then
   echo -e "[$PROG]\033[1;33;41mERROR\033[0m: iGPS seems not work!!"
   cat <<eob
   Where is the iGPS's executables? e.g.,
-    /usr/local/iGPS/ftk/bin/${this_arch}/
+    /usr/local/iGPS/ftk/bin/
   For C-shell (tcsh; ~/.cshrc):
-set path = (\$path \$iGPS/ftk/bin/${this_arch})
+set path = (\$path \$iGPS/ftk/bin/)
   For B-shell (bash; ~/.bashrc):
-export PATH=\$PATH:\$iGPS/ftk/bin/${this_arch}
+export PATH=\$PATH:\$iGPS/ftk/bin/
 eob
   exit 1
 else
@@ -200,79 +198,78 @@ else
 fi
 
 
-echo "[$PROG]INFO:"
-echo "[$PROG]INFO: ----------checking GAMIT/GLOBK----------"
-echo "[$PROG]INFO: checking doy ..."
-tmp=`which doy`
-path_gg=
-if [ "$tmp" == "" ]; then
-  echo -e "[$PROG]\033[1;33;46mWARNING\033[0m: cannot find GMTIT/GLOBK installation!"
-  cat <<eob
-  Where is the GMIT/GLOBK's doy program? e.g.,
-    /home/you/gg/kf/bin/doy
-  Will use the library (gglib.a.*) and executable (doy) bundled with iGPS.
-    \${iGPS}/ftk/bin/Linux_x86_64/doy (Centos 7 x64)
-    \${iGPS}/ftk/bin/CYGWIN_NT-10.0_unknown/doy (Cygwin in Windows 10 x64)
-    \${iGPS}/ftk/gglib/gglib.a.*
-eob
-  tmp=`which doy_gg`
-  if [ "$tmp" != "" ]; then
-    echo "  Create link for doy program:"
-    echo ln -rs $tmp `dirname $tmp`/doy
-    echo ln -rs $tmp `dirname $tmp`/doy | sh
-    file_doy=`dirname $tmp`/doy
-  else
-    echo -e "[$PROG]\033[1;33;41mERROR\033[0m: cannot find doy in GAMIT/GLOBK or iGPS!!"
-    exit 1
-  fi
-else
-  #echo $tmp
-  tmp1=`dirname $tmp`
-  tmp2=`dirname $tmp1`
-  tmp3=`dirname $tmp2`
-  #basename $tmp2
-  if [ "`basename $tmp3`" == "ftk" ]; then
-    echo "[$PROG]INFO: found GAMIT/GLOBK's doy bundled with iGPS in $tmp3"
-  else
-    echo "[$PROG]INFO: found GAMIT/GLOBK in $tmp3"
-    path_gg=$tmp3
-  fi
-  file_doy=$tmp
-fi
-
-echo "[$PROG]INFO: checking whether doy works..."
-tmp=`echo $file_doy 2023 1 1 | sh |head -1 | awk '{print $8}'`
-#echo $tmp
-#$ doy 23 1 1
-#Date 2023/01/01  0:00 hrs, DOY   1 JD  2459945.5000 MJD  59945.0000
-#GPS Week  2243 Day of week  0, GPS Seconds      0 Day of Week Sun
-#Decimal Year 2023.000000000 GRACE Seconds 725803200.0
-if [ "$tmp" != "2459945.5000" ]; then
-  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: doy seems not working ($file_doy)!!"
-  exit 1
-else
-  echo "[$PROG]INFO: doy OK ($file_doy)"
-fi
-#exit
-
-echo "[$PROG]INFO: checking libaray (gglib.a) ..."
-file_gglib=${iGPS}/ftk/gglib/gglib.a.${this_arch}
-if [ ! -s $file_gglib ]; then
-  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: cannot find GAMIT/GLOBK library ($file_gglib)!!"
-  cat <<eob
-  If you have GAMIT/GLOBK, use the below command to create one:
-    \${iGPS}/sh/gglib where_gamit_globk_installed
-  E.g.,
-    gglib /usr/local/gamit-v10.71
-eob
-  exit 1
-else
-  echo "[$PROG]INFO: found GAMIT/GLOBK libaray at $file_gglib"
-  cat <<eob
-  If it does not work when compiling the code, try creating a new one with gglib.
-eob
-fi
-#exit
+###echo "[$PROG]INFO:"
+###echo "[$PROG]INFO: ----------checking GAMIT/GLOBK----------"
+###echo "[$PROG]INFO: checking doy ..."
+###tmp=`which doy`
+###path_gg=
+###if [ "$tmp" == "" ]; then
+###  echo -e "[$PROG]\033[1;33;46mWARNING\033[0m: cannot find GMTIT/GLOBK installation!"
+###  cat <<eob
+###  Where is the GMIT/GLOBK's doy program? e.g.,
+###    /home/you/gg/kf/bin/doy
+###  Will use the library (gg_lib.a.*) and executable (doy) bundled with iGPS.
+###    \${iGPS}/ftk/bin/doy
+###    \${iGPS}/ftk/external/gamit_globk/gg_lib
+###eob
+###  tmp=`which doy_gg`
+###  if [ "$tmp" != "" ]; then
+###    echo "  Create link for doy program:"
+###    echo ln -rs $tmp `dirname $tmp`/doy
+###    echo ln -rs $tmp `dirname $tmp`/doy | sh
+###    file_doy=`dirname $tmp`/doy
+###  else
+###    echo -e "[$PROG]\033[1;33;41mERROR\033[0m: cannot find doy in GAMIT/GLOBK or iGPS!!"
+###    exit 1
+###  fi
+###else
+###  #echo $tmp
+###  tmp1=`dirname $tmp`
+###  tmp2=`dirname $tmp1`
+###  tmp3=`dirname $tmp2`
+###  #basename $tmp2
+###  if [ "`basename $tmp3`" == "ftk" ]; then
+###    echo "[$PROG]INFO: found GAMIT/GLOBK's doy bundled with iGPS in $tmp3"
+###  else
+###    echo "[$PROG]INFO: found GAMIT/GLOBK in $tmp3"
+###    path_gg=$tmp3
+###  fi
+###  file_doy=$tmp
+###fi
+###
+###echo "[$PROG]INFO: checking whether doy works..."
+###tmp=`echo $file_doy 2023 1 1 | sh |head -1 | awk '{print $8}'`
+####echo $tmp
+####$ doy 23 1 1
+####Date 2023/01/01  0:00 hrs, DOY   1 JD  2459945.5000 MJD  59945.0000
+####GPS Week  2243 Day of week  0, GPS Seconds      0 Day of Week Sun
+####Decimal Year 2023.000000000 GRACE Seconds 725803200.0
+###if [ "$tmp" != "2459945.5000" ]; then
+###  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: doy seems not working ($file_doy)!!"
+###  exit 1
+###else
+###  echo "[$PROG]INFO: doy OK ($file_doy)"
+###fi
+####exit
+###
+###echo "[$PROG]INFO: checking libaray (gglib.a) ..."
+###file_gglib=${iGPS}/ftk/external/gamit_globk/gg_lib.a
+###if [ ! -s $file_gglib ]; then
+###  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: cannot find GAMIT/GLOBK library ($file_gglib)!!"
+###  cat <<eob
+###  If you have GAMIT/GLOBK, use the below command to create one:
+###    \${iGPS}/sh/gglib where_gamit_globk_installed
+###  E.g.,
+###    gglib /usr/local/gamit-v10.71
+###eob
+###  exit 1
+###else
+###  echo "[$PROG]INFO: found GAMIT/GLOBK libaray at $file_gglib"
+###  cat <<eob
+###  If it does not work when compiling the code, try creating a new one with gglib.
+###eob
+###fi
+####exit
 
 #
 echo "[$PROG]INFO:"
@@ -351,9 +348,9 @@ echo "[$PROG]INFO: GMT OK"
 echo "[$PROG]INFO:   $path_GMT_bin"
 echo "[$PROG]INFO: GMTSAR OK"
 echo "[$PROG]INFO:   $path_GMTSAR_bin"
-echo "[$PROG]INFO: GAMIT/GLOBK OK"
-echo "[$PROG]INFO:   $file_doy"
-echo "[$PROG]INFO:   $file_gglib"
+#echo "[$PROG]INFO: GAMIT/GLOBK OK"
+#echo "[$PROG]INFO:   $file_doy"
+#echo "[$PROG]INFO:   $file_gglib"
 echo "[$PROG]INFO: \$esa_data OK"
 echo "[$PROG]INFO:   $esa_data"
 echo "[$PROG]INFO: \$esa_unzip OK"

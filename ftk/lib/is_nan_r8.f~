@@ -1,6 +1,0 @@
-      integer*4 function is_nan_r8(val)
-      real*8 val
-
-      is_nan_r8=1
-      return
-      end

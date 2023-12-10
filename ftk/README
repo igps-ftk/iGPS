@@ -1,71 +1,21 @@
-ac          For works at analysis center.
-bin         Links in various system to executables.
-cme         Remove common-mode errors.
-data        Data interface: reading, writing, etc.
-dc          For works done at data center.
-inc         Global variables for GPSF.
-lib         Common libraries for GPSF.
-nr          Programs from Numerical Recipe in F77
-spectral    Spetral analysis.
-tools       Various tool.
+FTK -- Fortran ToolKit
 
+bin         executables.
+gnss        GNSS utilities 
+sar         InSAR utilities
+lib         FTK common library
+external    Tools by others
+  ***Copyrights of programs in external belong to other authors!!***
+compiler.config  Configuration for path and fortran/c compilers
 
-times in msec
- clock   self+sourced   self:  sourced script
- clock   elapsed:              other lines
-
-000.000  000.000: --- VIM STARTING ---
-000.000  000.000: Allocated generic buffers
-000.000  000.000: locale set
-000.000  000.000: clipboard setup
-000.000  000.000: window checked
-001.000  001.000: inits 1
-001.000  000.000: parsing arguments
-001.000  000.000: expanding arguments
-001.000  000.000: shell init
-002.000  001.000: Termcap init
-002.000  000.000: inits 2
-002.000  000.000: init highlight
-007.001  002.001  002.001: sourcing /usr/share/vim/vim82/syntax/syncolor.vim
-008.001  004.001  002.000: sourcing /usr/share/vim/vim82/syntax/synload.vim
-024.002  016.001  016.001: sourcing /usr/share/vim/vim82/filetype.vim
-024.002  020.002  000.000: sourcing /usr/share/vim/vim82/syntax/syntax.vim
-025.002  001.000  001.000: sourcing /usr/share/vim/vim82/filetype.vim
-025.002  000.000  000.000: sourcing /usr/share/vim/vim82/ftplugin.vim
-026.002  024.002  003.000: sourcing /etc/vimrc
-029.002  000.000  000.000: sourcing /usr/share/vim/vim82/syntax/nosyntax.vim
-031.002  001.000  001.000: sourcing /usr/share/vim/vim82/syntax/syncolor.vim
-031.002  001.000  000.000: sourcing /usr/share/vim/vim82/syntax/synload.vim
-031.002  003.000  002.000: sourcing /usr/share/vim/vim82/syntax/syntax.vim
-032.002  000.000  000.000: sourcing /usr/share/vim/vim82/filetype.vim
-033.002  000.000  000.000: sourcing /usr/share/vim/vim82/ftplugin.vim
-034.002  001.000  001.000: sourcing /usr/share/vim/vim82/indent.vim
-034.002  007.000  003.000: sourcing $VIMRUNTIME/defaults.vim
-034.002  001.000: sourcing vimrc file(s)
-038.002  000.000  000.000: sourcing /usr/share/vim/vim82/plugin/getscriptPlugin.vim
-039.002  001.000  001.000: sourcing /usr/share/vim/vim82/plugin/gzip.vim
-040.002  001.000  001.000: sourcing /usr/share/vim/vim82/plugin/logiPat.vim
-041.003  000.000  000.000: sourcing /usr/share/vim/vim82/plugin/manpager.vim
-042.003  001.000  001.000: sourcing /usr/share/vim/vim82/plugin/matchparen.vim
-043.003  001.000  001.000: sourcing /usr/share/vim/vim82/plugin/netrwPlugin.vim
-044.003  000.000  000.000: sourcing /usr/share/vim/vim82/plugin/rrhelper.vim
-044.003  000.000  000.000: sourcing /usr/share/vim/vim82/plugin/spellfile.vim
-045.003  001.000  001.000: sourcing /usr/share/vim/vim82/plugin/tarPlugin.vim
-046.003  001.000  001.000: sourcing /usr/share/vim/vim82/plugin/tohtml.vim
-046.003  000.000  000.000: sourcing /usr/share/vim/vim82/plugin/vimballPlugin.vim
-047.003  000.000  000.000: sourcing /usr/share/vim/vim82/plugin/zipPlugin.vim
-047.003  007.001: loading plugins
-048.003  001.000: loading packages
-048.003  000.000: loading after plugins
-048.003  000.000: inits 3
-255.204  207.201: reading viminfo
-255.204  000.000: setting raw mode
-255.204  000.000: start termcap
-255.204  000.000: clearing screen
-270.804  015.600: opening buffers
-270.804  000.000: BufEnter autocommands
-270.804  000.000: editing files in windows
-270.804  000.000: VimEnter autocommands
-270.804  000.000: before starting main loop
-270.804  000.000: first screen update
-270.804  000.000: --- VIM STARTED ---
+To compile and install FTK:
+  make
+Use
+  make install
+to copy executables to $iGPS/ftk/bin directory.
+Add this directory to you shell's searching path, e.g., 
+for bash in ~/.bashrc:
+  PATH=${PATH}:${iGPS}/ftk/bin
+for csh in ~/.cshrc:
+  set path = ($path ${iGPS}/ftk/bin
+where $iGPS is the iGPS's root directory.

@@ -89,9 +89,9 @@ file_vel=vel_mask_ll.grd #for extracting geographical ranges
 file_prm=master.PRM
 file_led=
 file_dem=dem.grd
-file_gnss=gnss.psvelo
-file_gnss=$GMT_pub/gps/wang.min.jgr2020/Table.S4.psvelo
-file_gnss=$iGPS/tables/wang_shen_2019JB018774_Table.S4S5.psvelo
+#file_gnss=gnss.psvelo
+#file_gnss=$GMT_pub/gps/wang.min.jgr2020/Table.S4.psvelo
+file_gnss=${iGPS}/tables/wang_shen_2019JB018774_Table.S4S5.psvelo
 ofile=
 is_verbose=n
 

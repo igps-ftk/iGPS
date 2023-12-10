@@ -2,7 +2,7 @@ CTITLE
       PROGRAM sar_sbas_tab_from_png
 
       IMPLICIT NONE
-C      INCLUDE '../../inc/cgps.h'
+C      INCLUDE '../../../inc/ftk.h'
 
 c     --PURPOSE--
 

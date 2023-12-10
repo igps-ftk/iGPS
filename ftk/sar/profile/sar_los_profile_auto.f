@@ -10,7 +10,7 @@ c
 c     --MODIFICATIONS--
 
       IMPLICIT NONE
-      INCLUDE '../../inc/cgps.h'
+      INCLUDE '../../inc/ftk.h'
 
 c     >>VAR_DEC
 c     --INPUT--

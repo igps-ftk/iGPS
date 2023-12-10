@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://earth.google.com/kml/2.0">
+<Document>
+
+ <Style id="RedStyle">
+   <IconStyle id="RedIconStyle">
+   <Icon><href>http://earthquake.usgs.gov/eqcenter/catalogs/images/circle-red.png</href></Icon>
+   <LabelStyle><scale>0</scale></LabelStyle>
+   </IconStyle>
+ </Style>
+
+ <Style id="PBOStyle">
+   <IconStyle id="PBOIconStyle">
+   <Icon><href>http://earthquake.usgs.gov/eqcenter/catalogs/images/circle-blue.png</href></Icon>
+   <LabelStyle><scale>0</scale></LabelStyle>
+   </IconStyle>
+ </Style>
+
+ <Style id="PangaStyle">
+   <IconStyle id="PangaIconStyle">
+   <Icon><href>http://earthquake.usgs.gov/eqcenter/catalogs/images/circle-green.png</href></Icon>
+   <LabelStyle><scale>0</scale></LabelStyle>
+   </IconStyle>
+ </Style>
+
+ <Style id="OrangeStyle">
+   <IconStyle id="OrangeIconStyle">
+   <Icon><href>http://earthquake.usgs.gov/eqcenter/catalogs/images/circle-orange.png</href></Icon>
+   <LabelStyle><scale>0</scale></LabelStyle>
+   </IconStyle>
+ </Style>
+
+ <Style id="YellowStyle">
+   <IconStyle id="YellowIconStyle">
+   <Icon><href>http://earthquake.usgs.gov/eqcenter/catalogs/images/circle-yellow.png</href></Icon>
+   <LabelStyle><scale>0</scale></LabelStyle>
+   </IconStyle>
+ </Style>
+
+ <Style id="RLine"> 
+   <LineStyle> <width>1.5</width> </LineStyle>
+   <color>ff0000ff</color> 
+ </Style>
+

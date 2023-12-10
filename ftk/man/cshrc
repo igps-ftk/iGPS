@@ -1,3 +1,0 @@
-#For Csh/Tcsh users, append the below line to your ~/.cshrc file.
-set path = (~/iGPS/sh ~/iGPS/ftk/bin/Linux_x86_64/ $path)
-#Use "source ~/.cshrc" to make it work.

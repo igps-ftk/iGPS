@@ -2,7 +2,7 @@ CTITLE
       subroutine uniq(arr,n,np,indx,nindx)
 
       IMPLICIT NONE
-C      INCLUDE '../../inc/cgps.h'
+C      INCLUDE '.../inc/ftk.h'
 
 c     --PURPOSE--
 

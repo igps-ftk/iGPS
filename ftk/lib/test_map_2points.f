@@ -2,7 +2,7 @@ CTITLE
       PROGRAM test_map_2points
 
       IMPLICIT NONE
-C      INCLUDE '../../inc/cgps.h'
+C      INCLUDE '.../inc/ftk.h'
 
 c     --PURPOSE--
 

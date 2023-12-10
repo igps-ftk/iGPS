@@ -217,7 +217,7 @@ PRO VEL_PROFILES_VERTICAL, vfile, ffile, pfile, opath
       ENDIF
       d1=[x0,y0]
       ;LINT, a1, b1, c1, d1, i1, i2
-      POINT_CROSS_LINE, a1, b1, c1, (d1[1]-c1[1])/(d1[0]-c1[0]),i1
+      LINE_INTERSECT_LINE, a1, b1, c1, (d1[1]-c1[1])/(d1[0]-c1[0]),i1
       
       IF N_ELEMENTS(out_plot) NE 0 && Out_Plot EQ 1 THEN BEGIN
         WINDOW,1,xsize=800,ysize=600,title='Map',/pixmap

@@ -69,6 +69,9 @@ FUNCTION CW_TSTYPE, PARENT, $
       'SIO RAW XYZ',  $
       'PBO XYZ',  $
       'PBO NEU',  $
+      'NGL TENV3',  $
+      'NGL TENV',  $
+      'JPL SERIES',  $
       'JPL LAT/LON/RAD', $
       'APLO LOAD COMB', $
       'Caltech Nepal', $
@@ -96,7 +99,6 @@ FUNCTION CW_TSTYPE, PARENT, $
       'ITRF05 RESIDUAL', $
       ;'PANGA LAT/LON/RAD', $
       ;'POWER SPECTRUM', $
-      'NGL TENV3',  $
       'QOCA ATML LOAD', $
       'QOCA OTL LOAD', $
       'QOCA SNOW LOAD', $

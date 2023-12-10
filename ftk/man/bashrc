@@ -1,4 +1,0 @@
-#Append the below line to your ~/.bashrc file.
-PATH=${PATH}:${HOME}/iGPS/sh:${HOME}/iGPS/ftk/bin/Linux_x86_64; export PATH
-#Under sh/bash, use ". ~/.bashrc" to reload.
-

@@ -11,7 +11,7 @@ c     --EXAMPLE--
 c     --MODIFICATIONS--
 
       IMPLICIT NONE
-C      INCLUDE '../../inc/cgps.h'
+C      INCLUDE '.../inc/ftk.h'
 
 c     >>VAR_DEC
 c     --INPUT--

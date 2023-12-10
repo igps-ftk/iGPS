@@ -1,7 +1,7 @@
       subroutine moment(x0,nx0,mom)
 C     ---
       implicit none
-      include '../inc/cgps.h'
+      include '../inc/ftk.h'
       real*8 x0(nmax_row),mom(4)
       integer*4 nx0
 c     ---

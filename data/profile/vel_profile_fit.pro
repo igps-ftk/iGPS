@@ -46,9 +46,11 @@ PRO VEL_PROFILE_FIT, pfile, ofile
     ;
     pfiles=FILE_SEARCH(path+PATH_SEP()+'profile_???_vel.psxy', count=nf)
     
+    pfiles='C:\tmp\gic3dv\kunlun\asc_des\sbas.4.0.0367.9999.20150808.20210520.147.1355.01.___\p.fa_kunlun_Fault_gic3dv_out_horizontal\profile_012_vel.psxy'
+    nf=1
     
     nf=N_ELEMENTS(pfiles)
-    FOR fi=2, nf-1 DO BEGIN
+    FOR fi=0, nf-1 DO BEGIN
       ;    FOR fi=20, 21 DO BEGIN
       pfile=pfiles[fi]
       ofile=desuffix(pfile)+'_mdl.txt'
@@ -74,25 +76,25 @@ PRO VEL_PROFILE_FIT, pfile, ofile
   
   
   distmax=200 ;in km
-  distmin=-200
+  distmin=-120
   ;distmin=-90
   
   
   sites=REFORM(lines3[0,*])
   data=DOUBLE(lines3[1:*,*])
   
-  vels_along=REFORM(lines3[4,*])
-  veles_along=REFORM(lines3[5,*])
-  vels_tang=REFORM(lines3[6,*])
-  veles_tang=REFORM(lines3[7,*])
-  vels_up=REFORM(lines3[8,*])
-  veles_up=REFORM(lines3[9,*])
-  lons=REFORM(lines3[10,*])
-  lats=REFORM(lines3[11,*])
-  dists=REFORM(lines3[12,*])
-  vels_los=REFORM(lines3[13,*])
-  veles_los=REFORM(lines3[14,*])
-  STOP
+  vels_along=REFORM(data[4-1,*])
+  veles_along=REFORM(data[5-1,*])
+  vels_tang=REFORM(data[6-1,*])
+  veles_tang=REFORM(data[7-1,*])
+  vels_up=REFORM(data[8-1,*])
+  veles_up=REFORM(data[9-1,*])
+  lons=REFORM(data[10-1,*])
+  lats=REFORM(data[11-1,*])
+  dists=REFORM(data[12-1,*])
+  vels_los=REFORM(data[13-1,*])
+  veles_los=REFORM(data[14-1,*])
+  ;STOP
   
   pos=WHERE(dists GE distmin AND dists LE distmax)
   IF N_ELEMENTS(pos) LE 3 THEN BEGIN
@@ -157,10 +159,10 @@ PRO VEL_PROFILE_FIT, pfile, ofile
     pxy3=pxy3,  $ ;intersection of profile and fault
     ;
     ;optional keywords
-    ;theta=[-1d-7,1d-7], $ ;rotation of axes
+    theta=[-1d-7,1d-7], $ ;rotation of axes
     fts=0,  $ ;fault trace shifts
-    fs=fss,  $  ;far-field fault slip rates
-    ld=[-1d-6,1d-6], $ ;fault locking depths
+    ;fs=fss,  $  ;far-field fault slip rates
+    ;ld=[-1d-6,1d-6], $ ;fault locking depths
     xms_all=yms_all,  $
     ;
     ;outputs
@@ -237,10 +239,12 @@ PRO VEL_PROFILE_FIT, pfile, ofile
     pxy3=pxy3,  $ ;intersection of profile and fault
     ;
     ;optional keywords
-    theta=0, $ ;rotation of axes
-    fts=0,  $ ;fault trace shifts
-    fs=fss,  $  ;far-field fault slip rates
-    ld=[-1d-6,1d-6], $ ;fault locking depths
+    ;theta=0, $ ;rotation of axes
+    ;fts=0,  $ ;fault trace shifts
+    theta=[-1d-6,1d-6], $ ;rotation of axes
+    ;fts=[-1d-6,1d-6],  $ ;fault trace shifts
+    ;fs=fss,  $  ;far-field fault slip rates
+    ;ld=[1d-6,1d-5], $ ;fault locking depths
     xms_all=xms_all,  $
     ;
     ;outputs

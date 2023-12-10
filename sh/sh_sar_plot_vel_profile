@@ -56,6 +56,8 @@ ${PROG}
   [-R|-Rp R_OF_TIME_SERIES_PLOT]
     u - -R-600/600/-20/20
     ...
+  [-g|-gnss|-gps|-gnss_file|-gnss_vel] GNSS_HORIZONTAL_VELICITY_PSVELO
+    default: \${iGPS}/tables/wang_shen_2019JB018774_Table.S4S5.psvelo
 |>
   -pp.xxx/profile_???_vel.jpg
 |e.g.,
@@ -185,6 +187,8 @@ BP=
 
 mdl_type= #far-field/fault_name/near-field/...
 
+file_gnss=${iGPS}/tables/wang_shen_2019JB018774_Table.S4S5.psvelo
+
 opath_cmt=
 
 while [ "$1" != "" ]; do
@@ -271,6 +275,9 @@ while [ "$1" != "" ]; do
     -mt|-mdl_type)
       mdl_type=$2
       ;;
+    -g|-gnss|-gnss_file|-gnss_vel)
+      file_gnss=$2
+      ;;
 
     -h|-help|--help)
       usage_of_it
@@ -283,9 +290,9 @@ while [ "$1" != "" ]; do
         echo "[$PROG]Usage: ${PROG} -path p.jiali -opath pp.jiali "
         exit 1
         ;;
-    esac
+  esac
 
-    shift 2
+  shift 2
 done
 
 
@@ -605,16 +612,16 @@ for n in $pis; do
     echo "[$PROG]INFO: adding gps velocity map"
     #file=vel.lhasa.2015oct
     #file=${GMT_pub}/gps/vel.lhasa.2016jul
-    file=${iGPS}/tables/wang_shen_2019JB018774_Table.S4S5.psvelo
-    if [ -s $file ]; then
+    #file_gnss=${iGPS}/tables/wang_shen_2019JB018774_Table.S4S5.psvelo
+    if [ -s $file_gnss ]; then
       #file=../../tibet.velrot/vel.tibet_cgps_sgps
       #*Station   Longitude   Latitude Ve_init Ve_incr    Ve     dVe   Vn_init Vn_incr    Vn     dVn   Cen
       # AIRA_GPS  130.5996   31.8241   -19.3    15.5   -34.8     0.2    23.2    27.6    -4.4     0.0
       ##grep "^ " $file | awk '{print $2,$3,$6,$10,$7,$7,0.0,tolower(substr($1,1,4))}' > .tmp.gps
-      #grep "^ " $file | awk '{if($11<2&&$7<2){print $2,$3,$6,$10,$7,$11,$12,tolower(substr($1,1,4))}}' > .tmp.gps
+      #grep "^ " $file_gnss | awk '{if($11<2&&$7<2){print $2,$3,$6,$10,$7,$11,$12,tolower(substr($1,1,4))}}' > .tmp.gps
   
       #file=${GMT_pub}/gps/Supp_Table_S1.psvelo
-      cat $file > .tmp.gps
+      cat $file_gnss > .tmp.gps
   
       #file=${GMT_pub}/gps/velo.psvelo
       #cat $file > .tmp.gps
@@ -1150,10 +1157,10 @@ eob
     #* 20CEN            : correlation coefficient between east and north
     #* 21CEU            : correlation coefficient between east and up
     #* 22CNU            : correlation coefficient between north and up
-    if [ $di -lt 16 ]; then
-      sigma_index=`expr $di + 1`
+    if [ $data_index -lt 16 ]; then
+      sigma_index=`expr $data_index + 1`
     else
-      sigma_index=`expr $di + 1`
+      sigma_index=`expr $data_index + 1`
     fi
     grep "^ " $file | awk '{print $13,$di,$4,$ei}' di=$data_index ei=sigma_index >.tmp.los
     if [ -s $file_mdl ]; then
@@ -1238,10 +1245,10 @@ eob
 
 
 
-    if [ -s $file_gps ]; then      
-      grep "^ " $file_gps | awk '{print $11,$20}' >.tmp.gps.los
-      gmt psxy -R -J -O -K .tmp.gps.los -Ss0.15c  -W.5p,black -Ggreen >> $ofile
-    fi
+    #if [ -s $file_gps ]; then      
+    #  grep "^ " $file_gps | awk '{print $11,$20}' >.tmp.gps.los
+    #  gmt psxy -R -J -O -K .tmp.gps.los -Ss0.15c  -W.5p,black -Ggreen >> $ofile
+    #fi
 
 
 

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+	<Document>
+		<Style id="st-1756-0">
+			<IconStyle>
+				<Icon>
+					<href>http://maps.google.com/mapfiles/kml/pal4/icon57.png</href>
+				</Icon>
+				<scale>1</scale>
+				<color>ff80c0ff</color>
+			</IconStyle>
+			<LineStyle>
+				<color>ff000000</color>
+				<width>1</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>ff80c0ff</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+			<LabelStyle>
+				<scale>1</scale>
+				<color>bfffffff</color>
+			</LabelStyle>
+		</Style>
+		<Folder>
+			<name>20220628.txt</name>
+			<Folder>
+				<name>Point Set 0</name>
+				<Placemark>
+					<name>Point 0</name>
+					<styleUrl>#st-1756-0</styleUrl>
+					<Point>
+						<coordinates>
+						112.255532,31.455466,0
+						</coordinates>
+					</Point>
+				</Placemark>
+				<Placemark>
+					<name>Point 1</name>
+					<styleUrl>#st-1756-0</styleUrl>
+					<Point>
+						<coordinates>
+						112.246145,31.421359,0
+						</coordinates>
+					</Point>
+				</Placemark>
+				<Placemark>
+					<name>Point 2</name>
+					<styleUrl>#st-1756-0</styleUrl>
+					<Point>
+						<coordinates>
+						120.305339,42.000743,0
+						</coordinates>
+					</Point>
+				</Placemark>
+				<Placemark>
+					<name>Point 3</name>
+					<styleUrl>#st-1756-0</styleUrl>
+					<Point>
+						<coordinates>
+						120.408294,42.091953,0
+						</coordinates>
+					</Point>
+				</Placemark>
+				<Placemark>
+					<name>Point 4</name>
+					<styleUrl>#st-1756-0</styleUrl>
+					<Point>
+						<coordinates>
+						120.417176,42.040224,0
+						</coordinates>
+					</Point>
+				</Placemark>
+				<Placemark>
+					<name>Point 5</name>
+					<styleUrl>#st-1756-0</styleUrl>
+					<Point>
+						<coordinates>
+						120.425944,42.041603,0
+						</coordinates>
+					</Point>
+				</Placemark>
+				<Placemark>
+					<name>Point 6</name>
+					<styleUrl>#st-1756-0</styleUrl>
+					<Point>
+						<coordinates>
+						120.085965,41.808058,0
+						</coordinates>
+					</Point>
+				</Placemark>
+				<Placemark>
+					<name>Point 7</name>
+					<styleUrl>#st-1756-0</styleUrl>
+					<Point>
+						<coordinates>
+						114.55795,31.82049,0
+						</coordinates>
+					</Point>
+				</Placemark>
+			</Folder>
+		</Folder>
+	</Document>
+</kml>

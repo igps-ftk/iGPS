@@ -2,7 +2,7 @@ CTITLE
       PROGRAM s1_frame_match
 
       IMPLICIT NONE
-      INCLUDE '../../inc/cgps.h'
+      INCLUDE '../../inc/ftk.h'
 
 c     --PURPOSE--
 

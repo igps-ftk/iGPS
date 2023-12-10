@@ -2,7 +2,7 @@ CTITLE
       PROGRAM esa_s1_tiff_EOFs
 
       IMPLICIT NONE
-C      INCLUDE '../../inc/cgps.h'
+C      INCLUDE '../../../inc/ftk.h'
 
 c     --PURPOSE--
 

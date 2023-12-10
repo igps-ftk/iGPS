@@ -1,0 +1,11 @@
+velh.cmm4                                  ! Station coordinate and velocity data file
+vel_intrp.out                              ! Velocity interpolation output file
+ 1                                         ! Distance weighting scheme: 1=gaussian, 2=quadratic
+ 2                                         ! Spatial density weightting scheme: 1=azimuth, 2=voronoi area
+10 100 1                                   ! minimum, maximum, and incremental spatial smoothing constants (km)
+ 12.0                                      ! weighting threshold
+0.5                                        ! uncertainty threshold for reset
+2                                          ! 1=velocity compatibility checking;2=velocity interpolation;3=strain rates calculation
+v_intrp.dat                                ! input file for interpolated site locations
+ 1                                         ! number of creep faults
+crp.dat                                    ! creep fault data file

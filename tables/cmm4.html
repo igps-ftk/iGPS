@@ -1,0 +1,382 @@
+<html>
+<title>Zheng-kang Shen</title>
+<body bgcolor=#FFFFFF>
+<ul>
+<h1>Southern California Crustal Motion Map Version 4.0 </h1>
+<h2>by Z.-K. Shen, R. W. King, D. C. Agnew, M. Wang, T. A. Herring, D. Dong, and P. Fang </h2>
+<hr>
+
+<P>
+<h3>
+		   ============Introduction============
+</h3>
+We provide a set of files for the SCEC Crustal Motion Model,
+Version 4.0 (CMM), which describes the motion of a large number of geodetic
+monuments in Southern California. These motions were estimated from a 
+combination of EDM, GPS, and VLBI data. The procedure followed is described
+in more detail in a paper: "A Unified Analysis of Crustal Motion in California, 1970-2004: 
+The SCEC Crustal Motion Map", a draft of which is included in this release as a 
+<A HREF = "SCEC_cmm4.pdf">PDF file</A>, and to be submitted to BSSA.  
+
+<P>
+<h3>
+		============Horizontal Velocities============
+</h3>
+The files: 
+
+<P>
+<A HREF ="velh.cmm4"> velh.cmm4 </A>
+<br>
+<A HREF ="velh.largeerr.cmm4"> velh.largeerr.cmm4 </A>
+<br>
+<A HREF ="velh.nontect.cmm4"> velh.nontect.cmm4 </A>
+<br>
+<A HREF ="velh.reject.cmm4"> velh.reject.cmm4 </A>
+<P>
+
+contain horizontal velocities for those sites for which such velocities
+could be estimated. The first file provides these for sites that we believe
+are reliable. The next three files are: (1) sites for which the errors are
+very large; (2) sites for which the motion is real but probably affected
+by nontectonic sources (geothermal areas and a large reservoir); (3) sites
+which we believe are otherwise unreliable.
+
+<P>
+The format of these files is: 
+
+<br>
+Column 1: Site name and type. The names are 4-character codes; the type is
+	either _GPS (continuous or survey-mode GPS), _EDM (US Geological
+	Survey trilateration) or _VLB (fixed or mobile VLBI). If a point
+	was used by more than one technique, the name will appear more than
+	once; for example, site PINY was observed both by mobile VLBI and by
+	survey-mode GPS, and REDH served first as a trilateration point and
+	than as a point for survey-mode GPS.
+<br>
+Column 2: Site latitude.
+<br>
+Column 3: Site longitude, positive for East.
+<br>
+Column 4: East velocity (in a local East-North-Up framework), relative to the
+	North American plate, in mm/yr.
+<br>
+Column 5: Standard error of the East velocity.
+<br>
+Column 6: North velocity (in a local East-North-Up framework), relative to the
+	North American plate, in mm/yr.
+<br>
+Column 7: Standard error of the North velocity.
+<br>
+Column 8: Correlation between the East and North velocities.
+<br>
+Column 9: Number of epochs used in estimate. For most of the time covered,
+	GPS data were combined into monthly files; after large earthquakes, a
+	smaller temporal spacing was used. (See the file  epochplot.pdf).
+	The number of epochs is therefore not equivalent to the number of
+	days of occupation, but should give a useful sense of how many data
+	went into the final velocity estimate.  For the EDM and VLBI data,
+	the number of epochs corresponds more closely to the number of
+	occupations.
+<br>
+Column 10: The time span, in years, from the first to the last epoch.
+<br>
+Column 11: The average of the epoch times.
+<P>
+
+After column 11, there may be additional entries to indicate ties between
+sites. These ties are assigned a letter I if the tie was "hard", forcing the
+velocities at tied sites to be identical, or a letter s if the tie was "soft",
+allowing some variation. For example,
+
+<br>
+CHAF_GPS  34.3006 -119.3310 -29.13 0.36  28.23 0.32  0.020    5  8.6 1991.5 I034
+<br>
+SOLI_GPS  34.2983 -119.3427 -29.13 0.36  28.24 0.32  0.020   12 16.2 1993.6 I034
+<br>
+
+means that these two nearby sites have been forced to have the same horizontal
+velocity, and
+<br>
+
+REDH_EDM  35.6050 -120.2606 -22.16 0.47  26.04 0.40  0.096   56 19.0 1980.6 s055
+<br>
+REDH_GPS  35.6050 -120.2606 -23.23 0.40  26.11 0.38 -0.008   15 11.5 1995.2 s055
+<br>
+
+that these two sites, which are the same mark observed with different methods
+(largely used over different times) have been constrained to have similar
+velocities. These ties have been used both to tie the VLBI and GPS reference
+frames, and to set the rigid-body rotation for the trilateration networks.
+
+<P>
+<h3>
+		============Vertical Velocities============
+</h3>
+
+The files: 
+<P>
+<A HREF ="velu.cmm4"> velu.cmm4 </A>
+<br>
+<A HREF ="velu.largeerr.cmm4"> velu.largeerr.cmm4 </A>
+<br>
+<A HREF ="velu.nontect.cmm4"> velu.nontect.cmm4 </A>
+<br>
+<A HREF ="velu.reject.cmm4"> velu.reject.cmm4 </A>
+<P>
+
+contain vertical velocities for those sites for which such velocities
+could be estimated. The first file provides these for sites that we believe
+are reliable. The next three files are: (1) sites for which the errors are
+very large; (2) sites for which the motion is real but probably affected
+by nontectonic sources (geothermal areas and a large reservoir); (3) sites
+which we believe are otherwise unreliable.
+
+<P>
+The format of these files is: 
+
+<br>
+Column 1: Site name and type. The names are 4-character codes; the type is
+	either _GPS (continuous or survey-mode GPS), or _VLB (fixed or mobile
+	VLBI); vertical velocities cannot be reliably estimated from the
+	trilateration data. If a point was used by more than one technique,
+	the name will appear more than once; for example, site PINY was
+	observed both by mobile VLBI and by survey-mode GPS.
+<br>
+Column 2: Site latitude.
+<br>
+Column 3: Site longitude, positive for East.
+<br>
+Column 4: Vertical velocity (in a local East-North-Up framework), in mm/yr,
+	positive up. Because of possible systematic errors, the zero level
+	should not be assumed to be zero velocity relative to the geoid, the
+	ellipsoid, or sea level.
+<br>
+Column 5: Standard error of the vertical velocity.
+<br>
+Column 6: Correlation between the East and vertical velocities.
+<br>
+Column 7: Correlation between the North and vertical velocities.
+<br>
+Column 8: Number of epochs used in estimate. For most of the time covered,
+	GPS data were combined into monthly files; after large earthquakes, a
+	smaller temporal spacing was used. (See the file  epochplot.pdf).
+	The number of epochs is therefore not equivalent to the number of
+	days of occupation, but should give a useful sense of how many data
+	went into the final velocity estimate.  For the EDM and VLBI data,
+	the number of epochs corresponds more closely to the number of
+	occupations.
+<br>
+Column 9: The time span, in years, from the first to the last epoch.
+<br>
+Column 10: The average of the epoch times.
+<P>
+<h3>
+		============Coseismic Offsets============
+</h3>
+The file: 
+<P>
+<A HREF ="coseismic.cmm4"> coseismic.cmm4 </A>
+<P>
+
+contains estimates of offsets of sites at the times of large earthquakes.
+<P>
+
+The format of the file is:
+
+<br>
+Column 1: Site name (4 character code). All offsets are from GPS data. Note
+	that there are sites included that are not in the velocity file:
+	in these cases there was enough data to estimate an offset, but not
+	a velocity.
+<br>
+Column 2: Site latitude.
+<br>
+Column 3: Site longitude, positive for East.
+<br>
+Column 4: Time of the offset, in decimal years. The correspondence between
+	times and earthquakes is:
+<br>
+         1992.3200   1992/04/23 04:50 33.960 -116.317 6.1 Joshua Tree
+<br>
+         1992.4918   1992/06/28 11:57 34.200 -116.437 7.3 Landers  
+<br>
+&        1992/06/28 15:05 34.203 -116.827 6.3 Big Bear (combined)
+<br>
+         1994.0466   1994/01/17 12:30 34.213 -118.537 6.7 Northridge
+<br>
+         1994.1300   1994/02/25 12:59 34.357 -118.480 4.0   aftershock
+<br>
+         1999.7918   1999/10/16 09:46 34.594 -116.271 7.1 Hector Mine
+<br>
+         2003.9808   2003/12/22 19:15 35.709 -121.104 6.5 San Simeon
+<br>
+Column 5: East offset, in mm.
+<br>
+Column 6: Standard error of the East offset.
+<br>
+Column 7: North offset, in mm.
+<br>
+Column 8: Standard error of the North offset.
+<br>
+Column 9: Vertical offset, in mm, positive up.
+<br>
+Column 10: Standard error of the vertical offset.
+<br>
+Column 11: Correlation between the East and North offsets.
+<P>
+<h3>
+		============Postseismic Motions============
+</h3>
+
+The file: 
+<P>
+<A HREF ="postseismic.cmm4"> postseismic.cmm4 </A>
+<P>
+
+contains estimates of postseismic motions of sites after large earthquakes.
+All postseismic motions are modeled as
+<P>
+	
+	u(t) = D*log(1+t/10)
+<P>
+
+where
+	D is the amplitude,
+	the log function is the common logarithm, and
+	t is the time in days from the time of the earthquake.
+<P>
+
+The format of the file is:
+<br>
+Column 1: Site name (4 character code). All estimates are from GPS data. Note
+	that there are sites included that are not in the velocity or
+	offset files: in these cases there was enough data to estimate
+	postseismic motions only.
+<br>
+Column 2: Site latitude.
+<br>
+Column 3: Site longitude, positive for East.
+<br>
+Column 4: Time of the earthquake, in decimal years. The correspondence between
+	times and earthquakes is:
+<br>
+         1992.4918   1992/06/28 11:57 34.200 -116.437 7.3 Landers  &
+<br>
+                     1992/06/28 15:05 34.203 -116.827 6.3 Big Bear (combined)
+<br>
+         1994.0466   1994/01/17 12:30 34.213 -118.537 6.7 Northridge
+<br>
+         1999.7918   1999/10/16 09:46 34.594 -116.271 7.1 Hector Mine
+<br>
+         2003.9808   2003/12/22 19:15 35.709 -121.104 6.5 San Simeon
+<br>
+Column 5: East amplitude, in mm.
+<br>
+Column 6: Standard error of the East amplitude.
+<br>
+Column 7: North amplitude, in mm.
+<br>
+Column 8: Standard error of the North amplitude.
+<br>
+Column 9: Vertical amplitude, in mm, positive up.
+<br>
+Column 10: Standard error of the vertical amplitude.
+<br>
+Column 11: Correlation between the East and North amplitudes.
+<P>
+<h3>
+		============Site Information============
+</h3>
+The file: 
+<P>
+<A HREF ="stationlist.cmm4"> stationlist.cmm4 </A>
+<P>
+
+contains coordinates and a brief description of the sites.
+<P>
+
+The format of the file is:
+<br>
+
+Column 1: Site name (4 character code).
+<br>
+Column 2: Site latitude.
+<br>
+Column 3: Site longitude, positive for East.
+<br>
+Column 4: The elevation above the ellipsoid, in meters.
+<P>
+
+The remainder of each line gives some station information. If this is ALL CAPS
+it is either the stamping of the monument, or else (if it contains underscore
+characters) the PBO designation for a continuous GPS site. Lowercase
+information is either a description of an unstamped monument, or the name of a
+continuous GPS or VLBI site; note that mobile VLBI sites have convntional
+monuments.
+<P>
+
+Examples:
+<P>
+
+	Monuments
+<br>
+LACU   34.494410  -119.713897 1164.83 divot in shank of broken-off mark
+<br>
+REFU   34.534795  -120.052095  757.09 REFU 1993
+<P>
+
+	Continuous GPS
+<br>
+BILL   33.578243  -117.064601  470.05 BILL_SCGN_CS1997
+<br>
+ROCH   33.611024  -116.609772 1393.74 Pinemeadow
+<P>
+
+        Fixed VLBI
+<P>
+HAYS   42.623297   -71.488161  116.69 Haystack 37-m radiotelescope
+<P>
+<h3>
+		============Time Series============
+</h3>
+The file: 
+<P>
+<A HREF ="timeseries.cmm4"> timeseries.cmm4 </A>
+<P>
+
+gives the residual timeseries for each site, after the quantities estimated
+above (velocities, offsets, and postseismic signals) have been removed.
+<P>
+
+The format of the file is: 
+<br>
+
+Column 1: Site name; all timeseries are from GPS data.
+<br>
+Column 2: Time of value.
+<br>
+Column 3: East residual displacement, in mm.
+<br>
+Column 4: Standard eror of the East displacement. Very large values indicate
+	either very poor data, or that this component was downweighted for this
+	epoch.
+<br>
+Column 5: North residual displacement, in mm.
+<br>
+Column 6: Standard eror of the North displacement. Very large values indicate
+	either very poor data, or that this component was downweighted for this
+	epoch.
+<br>
+Column 7: Vertical residual displacement, in mm; positive up.
+<br>
+Column 8: Standard eror of the vertical displacement. Very large values indicate
+	either very poor data, or that this component was downweighted for this
+	epoch.
+<br>
+Column 9: Correlation between the East and North displacements.
+<br>
+Column 10: Correlation between the East and vertical displacements.
+<br>
+Column 11: Correlation between the North and vertical displacements.
+<P>
+

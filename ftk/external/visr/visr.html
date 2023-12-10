@@ -1,0 +1,179 @@
+<html>
+<title>Zheng-kang Shen</title>
+<body bgcolor=#FFFFFF>
+<u2>
+<h2> OPTIMAL INTERPOLATION OF SPATIALLY DISCRETIZED GEODETIC DATA </h1>
+<h2>by Z.-K. Shen, M. Wang, Y. Zheng, and F. Wang </h2>
+<hr>
+
+<P>
+This code works for interpolation of horizontal velocities (or displacements).  
+It inputs a discretized velocity (or displacement) dataset, and has the options to 
+do the following:
+<br>
+1. check velocity data compatibility
+<br>
+2. interpolate velocity data and estimate velocities at given locations
+<br>
+3. interpolate velocity data and estimate translation, rotation, and strain rates
+<br>
+
+<br>
+To run the program:
+% visr < driver.file
+<br>
+ 
+<br>
+Example 1: checking velocity compatibility  
+<br>
+driver file content:                    
+<br>
+input file: velmap.dat .........! station coordinate and velocity data
+<br>
+output file: velmap.out ........! checking result 
+<br>
+Parameters:
+<br>
+is_wght ...............! distance weighting scheme: 1=gaussian, 2=quadratic
+<br>
+id_wght ...............! density weightting scheme: 1=azimuth, 2=voronoi area
+<br>
+min_tau,max_tau,in_tau ! minimum, maximum, and incremental spatial smoothing constants (km)
+<br>
+wt0 ............................! weighting threshold
+<br>
+1 ..............................! for checking velocity compatibility
+<br>
+lonmin,lonmax,latmin,latmax ....! checking range (in degree) 
+<br>
+ncrp ...........................! number of creep faults
+<br>
+crpf ...........................! creep fault data file
+<br>
+
+<br>
+Example 2: velocity interpolation for velocities at given locations
+<br>
+driver file content (visr_vel.drv) : 
+<br>
+input file: velh.cmm4 ..........! station coordinate and velocity data
+<br>
+output file: vel_intrp.out .....! interpolation result
+<br>
+is_wght ...............! distance weighting scheme: 1=gaussian, 2=quadratic
+<br>
+id_wght ...............! density weightting scheme: 1=azimuth, 2=voronoi area
+<br>
+min_tau,max_tau,in_tau ! minimum, maximum, and incremental spatial smoothing constants (km)
+<br>
+wt0 ............................! weighting threshold
+<br>
+2 ..............................! for velocity interpolation at sites                              
+<br>
+vel_intrp.dat ..................! site list for interpolation, format(a8,2f10.4) for sitename,longitude and latitude (in degree)
+<br>
+ncrp ...........................! number of creep faults
+<br>
+crpf ...........................! creep fault data file
+<br>
+Output Parameters:
+<br>
+Longitude, Latitude ............! location coordinates
+<br>
+vx, svx, vy, svy, cxy ..........! Vx, Vx_sig, Vy, Vy_sig, Corr_xy
+<br>
+dis ............................! smoothing distance
+<br>
+weight .........................! total data weighting
+<br>
+chisq ..........................! postfit residual chisquare
+<br>
+nsite ..........................! # of sites used
+<br>
+index = 1 ......................! not enough sites found within range
+<br>
+index = 2 ......................! site located outside of network
+<br>
+
+<br>
+Example 3: velocity interpolation for rotation and strain rates 
+<br>
+driver file content (visr.drv): 
+<br>
+input file: velh.cmm4 ..........! station coordinate and velocity data
+<br>
+output file: visr.out ..........! interpolation result
+<br>
+is_wght ...............! distance weighting scheme: 1=gaussian, 2=quadratic
+<br>
+id_wght ...............! density weightting scheme: 1=azimuth, 2=voronoi area
+<br>
+min_tau,max_tau,in_tau ! minimum, maximum, and incremental spatial smoothing constants (km)
+<br>
+wt0 ............................! weighting threshold
+<br>
+unc_min ........................! cutoff uncertainty for velocity data input
+<br>
+3 ..............................! option for solution of rotation and strain rates                              
+<br>
+lonmin,lonmax,latmin,latmax,dlon,dlat ..! interpolation range and step (degree) 
+<br>
+ncrp ...........................! number of creep faults
+<br>
+crpf ...........................! creep fault data file
+<br>
+Output Parameters: 
+<br>
+Longitude, Latitude ............! location coordinates
+<br>
+vx+svx, vy+svy, cxy ............! Vx, Vx_sig, Vy, Vy_sig, Corr_xy
+<br>
+w+dw ...........................! rotation rate, clockwise positive
+<br>
+exx+dexx, exy+dexy, eyy+deyy ...! strain rates of Exx, Exy, Eyy and their uncertainties
+<br>
+emax+demax, emin+demin .........! Maximum and minimum principal strain rates and their uncertainties
+<br>
+shr+dshr, azi+dazi .............! maximum shear strain rate, its (dexmal) azimuthal direction measured clockwise from north, and their uncertainties; the azimuthal directions of the maximum and minimum principal strain rates are 45 degree counter-clockwise and clockwise from azi respectively
+<br>
+dilat+ddilat ...................! dilatation rate and its uncertainty
+<br>
+dis ............................! smoothing distance
+<br>
+weight .........................! total data weighting
+<br>
+chisq ..........................! postfit residual chisquare
+<br>
+nsite ..........................! # of sites used
+<br>
+index = 1 ......................! not enough sites found within range
+<br>
+index = 2 ......................! site located outside of network
+<br>
+
+<br>
+The files: 
+
+<P>
+<A HREF ="visr.f"> visr.f </A> : main Fortran program of visr
+<br>
+<A HREF ="voron.f90"> : voron.f90 </A> : Fortran subroutine for Voronoi cell area calculation
+<br>
+<A HREF ="visr.drv"> visr.drv </A> : driver file for strain and rotation interpolation
+<br>
+<A HREF ="velh.cmm4"> velh.cmm4 </A> : CMM4 GPS velocity data for southern California
+<br>
+<A HREF ="visr.out"> visr.out </A> : output file of strain and rotation interpolation
+<br>
+<A HREF ="crp.dat"> crp.dat </A> : creep fault segment data file 
+<br>
+<A HREF ="visr_vel.drv"> visr_vel.drv </A> : driver file for velocity interpolation at given locations
+<br>
+<A HREF ="vel_intrp.dat"> vel_intrp.dat </A> : input data file of interpolation site locations
+<br>
+<A HREF ="vel_intrp.out"> vel_intrp.out </A> : output file of velocity interpolation result
+<br>
+<A HREF ="">  </A>
+<P>
+<P>
+

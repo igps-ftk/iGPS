@@ -2,7 +2,7 @@ CTITLE
       PROGRAM s1_overlap_check
 
       IMPLICIT NONE
-C      INCLUDE '../../inc/cgps.h'
+C      INCLUDE '../../../inc/ftk.h'
 
 c     --PURPOSE--
 

@@ -1,7 +1,7 @@
 PRO READ_NGL_TENV3, FILE, DATA=DATA
   IF N_PARAMS() LT 1 THEN BEGIN
-    FILE=FILEPATH(ROOT_DIR=!IGPS_ROOT,SUBDIRECTORY=['example','ngl' $
-      ],'IRKJ.tenv3')
+    FILE=FILEPATH(ROOT_DIR=!IGPS_ROOT,SUBDIRECTORY=['example','formats','NGL.tenv3' $
+      ],'LHAS.tenv3')
   ENDIF
   READ_COLS_ASCII, FILE, data=lines1
   lines2=lines1[2:*,1:*]

@@ -2,7 +2,7 @@ CTITLE
       PROGRAM is_point_in_polygon
 
       IMPLICIT NONE
-C      INCLUDE '../../inc/cgps.h'
+C      INCLUDE '../../../inc/ftk.h'
 
 c     --PURPOSE--
 

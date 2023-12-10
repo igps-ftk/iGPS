@@ -3,25 +3,24 @@
     https://github.com/igps-ftk/iGPS
 
 -----------------------*COPYRIGHT*-------------------------
-Please note that somes codes included in iGPS release are from the internet.
-  Although they are publicly available, we included those in iGPS for the
-  convinience of the users. If you (author of the code) do not agree, please
-  contact us to remove it from iGPS release. Thank you!
+Please note that somes codes (e.g. ftk/external/) included in iGPS release 
+  are acquired from the internet. Although they are publicly available, we 
+  included those in iGPS for the convinience of the users. If you (authors 
+  of the code) do not agree, please contact us to remove it from iGPS release. 
+  Thank you!
   Email: tianyf@gmail.com
-
 The copyright of the following programs/data belongs to the original authors.
-  + ftk/gglib/ (date conversion functions: from GAMIT/GLOBK; http://geoweb.mit.edu/gg/)
-  + ftk/lib/doy (date conversion program: from GAMIT/GLOBK; http://geoweb.mit.edu/gg/)
-  + ftk/nr/ (spectral analysis functions; from Numerical Recipe; http://numerical.recipes/)
-  + sh/add_look.csh (from GMTSAR forum; Xiaohua Xu, http://gmt.soest.hawaii.edu/boards/6/topics/3271)
+  + ftk/external/gamit_globk/   (date conversion functions: from GAMIT/GLOBK; http://geoweb.mit.edu/gg/)
+  + ftk/external/nr/    (spectral analysis functions; from Numerical Recipe; http://numerical.recipes/)
+  + sh/add_look.csh     (from GMTSAR forum; Xiaohua Xu, http://gmt.soest.hawaii.edu/boards/6/topics/3271)
   + sh/merge_batch2.csh (from GMTSAR; revised to accept super master)
   + sh/merge_batch2_paralle.csh (from GMTSAR; revised to accept super master)
-  + sh/proj_ll2ra_full.csh (from GMTSAR; revised to accept reference grid)
-  + tables/HimaTibetMap/ (from https://github.com/HimaTibetMap/HimaTibetMap)
-  + tables/wang_shen_2019JB018774_Table.S4.psvelo (from https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2019JB018774)
-  + tables/gcmt.psmeca (from https://www.globalcmt.org/)
-
-
+  + sh/proj_ll2ra_full.csh      (from GMTSAR; revised to accept reference grid)
+  + tables/HimaTibetMap/        (from https://github.com/HimaTibetMap/HimaTibetMap)
+  + tables/wang_shen_2019JB018774_Table.S4.psvelo   (from https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2019JB018774)
+  + tables/gcmt.psmeca  (from https://www.globalcmt.org/)
+  + tables/velh.cmm4 (Southern California Crustal Motion Map Version 4.0; from http://scec.ess.ucla.edu/~zshen/cmm4/cmm4.html)
+  + tables/zheng.et.al.2017.jgrb52327.tx    (India-Eurasia Collision Zone GPS velocity;  https://doi.org/10.1002/2017JB014465)
 We might have made a few modifications to them. Use them AT YOUR OWN RISK.
                                                          ^^ ^^^^ ^^^ ^^^^
 
@@ -44,7 +43,7 @@ For more information, please refer to the iGPS Step-by-step Tutorial
   in ${iGPS_ROOT}/doc directory:
   iGPS_tutorial.pdf
 
-InSAR functions are called in the terminal or batch scripts.
+iGPS's InSAR functions are command-line programs and called in the terminal or batch scripts.
 
 
 *Please note: 
@@ -59,33 +58,33 @@ InSAR functions are called in the terminal or batch scripts.
 
   If iGPS-ftk executables do not work in your system, try compiling
     the source in $iGPS/ftk/ :
-    ./install_igpsftk
-  In FreeBSD, use gmake instead of make.
+    make install
+  In FreeBSD, use gmake instead of make (edit the compiler.config file).
   For GCC > v10, add the following to compiler option:
     -fcommon -fallow-argument-mismatch
     
-  If iGPS-ftk executables work but links to bin/ are corruptted, relink them by
-    ./install_igpsftk_links
 
 
 ------------------------*CONTENT*--------------------------
 iGPS--IDL tool package for GPS
 
-  +cme      GPS common-mode component (CMC) analysis
-  +data     read/write/outliers/modeling/offset/psdecay/...
+  +cmc      GPS common-mode component (CMC) analysis
+  +data     read/write/outliers/modeling/plot/profiling/...
   +doc      Userguide and tutorial
   +example  Various examples
-  +ftk      Fortran programs
+  +ftk      Fortran TookKit for geodetic studies
   +libtian  Common IDL routines
   +m        Matlab code (fault slip rate inversion, etc.)
   +main     iGPS GUI
   +sar      InSAR analysis routines
   +sh       Shell scripts
   +tables   Files used in iGPS (apriori coordinates, sites files, ...)
-  +tools    Userful utilities
 
 
 /_
+  |__iGPS-2023dec09/        ;iGPS released on 09 December 2023
+  |                         ;Switched to a simple installation method for FTK.
+  |                         ;
   |__iGPS-2023feb20/        ;iGPS released on 20 February 2023
   |                         ;add support for InSAR processing with GMTSAR
   |                         ;
@@ -153,7 +152,6 @@ ${iGPS}/
         main/ *iGPS GUI and event handler
         sh/ *various Unix-like shell script for GNSS and InSAR data processing
         tables/ *site coordiantes, etc.
-        tools/ *auxiliary routines
 
 
 Known Issues
@@ -175,6 +173,13 @@ knowledge to resolve these. I will try to fix these issues when possible.
 
 Major Update History
 ----------------------
+2023DEC09
+  + Changed FTK's installation method.
+    From GAMIT/GLOBK's style to classic Makefile style.
+    Only make and make install to install FTK programs.
+    The new executable path is $iGPS/ftk/bin.
+  + Changed names/paths of some codes.
+  
 2023NOV05
   + Changed velocity profile file format.
     Now GNSS/InSAR horizontal/vertical velocity profiles share the SAME format.

@@ -3,11 +3,11 @@ echo "*OSID* for this system is `sh/sh_arch`"
 ./sh/sh_igps_check
 
 echo -e "\nTo compile iGPS-ftk,"
-echo "  cd $iGPS/ftk"
+echo "  cd ${iGPS}/ftk"
 cd $iGPS/ftk
 echo "  current path is `pwd`"
-echo "  ./install_ftk"
-#./install_ftk
+echo "  make install"
+#make install
 
 echo "Tested on:"
 echo "  CentOS 6"

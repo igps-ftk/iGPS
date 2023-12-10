@@ -2,7 +2,7 @@ CTITLE
       PROGRAM dyr_2_yrdoyr
 
       IMPLICIT NONE
-C      INCLUDE '../../inc/cgps.h'
+C      INCLUDE '.../inc/ftk.h'
 
 c     --PURPOSE--
 

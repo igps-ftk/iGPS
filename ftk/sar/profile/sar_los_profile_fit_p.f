@@ -10,7 +10,7 @@ c
 c     --MODIFICATIONS--
 
       IMPLICIT NONE
-C      INCLUDE '../../inc/cgps.h'
+C      INCLUDE '../../inc/ftk.h'
       include 'omp_lib.h'
 
 c     >>VAR_DEC

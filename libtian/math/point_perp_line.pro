@@ -33,6 +33,16 @@ PRO POINT_PERP_LINE, a1, b1, c1, d1
 ;    b1=[100.320,    25.841]*1d0
 ;    c1=[104.769,    27.037]*1d0
 ;    a1=[105.687,    25.841]*1d0
+
+    a1=[99.681348d0, 31.679209d0]
+    b1=[   99.681348d0, 31.679201d0]
+    c1=[97,35d0]
+    
+    a1=    [    94.448996 ,      28.960672]
+b1 =    [  97.930796   ,    37.866384]
+c1 =    [  96.406000  ,     31.495000]
+;d2       96.392930       31.498156
+;return 95.567923       31.822656
   ENDIF
   
   ;if vertical line
@@ -74,9 +84,13 @@ PRO POINT_PERP_LINE, a1, b1, c1, d1
   ;stop
   IF N_PARAMS() LT 3 THEN BEGIN
     WINDOW,1
-    PLOT,[a1[0],b1[0]],[a1[1],b1[1]],color='0'x,background='ffffff'x,/ynozero, $
-      /iso,yrange=[23,30],xrange=[98,110],thick=3
-    PLOTS,[a1[0],b1[0]],[a1[1],b1[1]],color='0'x,psym=5
+    PLOT,[a1[0],b1[0],c1[0]],[a1[1],b1[1],c1[1]],color='0'x,background='ffffff'x,/ynozero, $
+      /iso, $
+      /nod, $
+      ;yrange=[23,30], $
+      ;xrange=[98,110],  $
+      thick=3
+    PLOTS,[a1[0],b1[0]],[a1[1],b1[1]],color='0'x,psym=-5
     PLOTS,c1[0],c1[1],psym=2,color='0'x
     ;OPLOT,[c1[0],x1],[c1[1],y1],color='0'x,thick=3
     

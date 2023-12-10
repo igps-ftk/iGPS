@@ -464,7 +464,7 @@ PRO SAR_LOS_PROFILES_AUTO_LLV, vfile, $  ;velocity file (in varied formats)
       ENDIF
       d1=[x0,y0]
       ;LINT, a1, b1, c1, d1, i1, i2
-      POINT_CROSS_LINE, a1, b1, c1, (d1[1]-c1[1])/(d1[0]-c1[0]),i1
+      LINE_INTERSECT_LINE, a1, b1, c1, (d1[1]-c1[1])/(d1[0]-c1[0]),i1
       
       ;stop
       IF is_debug EQ 1 THEN BEGIN

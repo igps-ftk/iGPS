@@ -1,0 +1,4 @@
+#gfortran -O2 -Wuninitialized -fno-f2c -ffast-math -fno-automatic -fno-backslash -m64 -mcmodel=large *.f *.f90 -o gic3dv_shen #not working
+gfortran -m64 -mcmodel=large *.f *.f90 -o gic3dv
+
+

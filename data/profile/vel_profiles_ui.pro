@@ -1,3 +1,16 @@
+
+PRO ON_IGPS_LBL_TXT_FA_TRACK, EV
+  LBL_ID = WIDGET_INFO(EV.TOP, FIND_BY_UNAME='LBL_STATUS')
+  CASE EV.ENTER OF
+    0: BEGIN
+      WIDGET_CONTROL,LBL_ID,SET_VALUE='Ready'
+    END
+    1: BEGIN
+      WIDGET_CONTROL,LBL_ID,SET_VALUE='fault trace file in GMT psxy format'
+    END
+  ENDCASE
+END
+
 PRO ON_IGPS_PROFILES_INIT, WWIDGET
 
   ID = WIDGET_INFO(WWIDGET, FIND_BY_UNAME='RAD_PROFILE_SRC_PROGRAM_AUTO')
@@ -110,6 +123,9 @@ PRO ON_VEL_PROFILES_UI_BTN_OK,ev
   
   HELP, file_gps, file_fault, file_profile,txt_profile_length, txt_profile_width, txt_search_radius, opath, is_overwrite
   
+  
+  LBl_ID=WIDGET_INFO(EV.TOP,FIND_BY_UNAME='LBL_STATUS')
+  
   IF rad_profile_src_program_auto EQ 1 THEN BEGIN
   
     VEL_PROFILES, file_gps, $
@@ -119,7 +135,8 @@ PRO ON_VEL_PROFILES_UI_BTN_OK,ev
       auto_strike=auto_strike,  $
       spacing_profile=txt_profile_width,  $
       length_profile=txt_profile_length,  $
-      search_radius=txt_search_radius
+      search_radius=txt_search_radius,  $
+      LBl_ID=LBl_ID
       
   ENDIF ELSE BEGIN
   
@@ -129,7 +146,8 @@ PRO ON_VEL_PROFILES_UI_BTN_OK,ev
       opath, $
       ffile=file_fault,  $
       inputfmt=1 , $
-      search_radius=txt_search_radius
+      search_radius=txt_search_radius,  $
+      LBl_ID=LBl_ID
       
       
   ENDELSE
@@ -164,8 +182,18 @@ PRO VEL_PROFILES_UI_EVENT,ev
     
   WWIDGET =  EV.TOP
   
-  CASE WTARGET OF
+  ;  HELP, WTARGET,WIDGET_INFO(WWIDGET, FIND_BY_UNAME='LBL_TXT_FA')
+  ;  HELP,TAG_NAMES(EV, /STRUCTURE_NAME)
   
+  CASE WTARGET OF
+    WIDGET_INFO(WWIDGET, FIND_BY_UNAME='LBL_TXT_FA'): BEGIN
+      ;HELP,TAG_NAMES(EV, /STRUCTURE_NAME)
+      IF (TAG_NAMES(EV, /STRUCTURE_NAME) EQ 'WIDGET_TRACKING') THEN BEGIN
+        ON_IGPS_LBL_TXT_FA_TRACK, EV
+      ENDIF
+    END
+    
+    
     WIDGET_INFO(WWIDGET, FIND_BY_UNAME='RAD_PROFILE_SRC_USER_INPUT'): BEGIN
       IF (TAG_NAMES(EV, /STRUCTURE_NAME) EQ 'WIDGET_BUTTON') THEN BEGIN
         ON_IGPS_RAD_PROFILE_SRC_USER_INPUT, EV
@@ -196,21 +224,23 @@ PRO VEL_PROFILES_UI,group_leader=group_leader
   ;frame1
   BASE_1=WIDGET_BASE(BASE,FRAME=0,space=1,xpad=1,ypad=1,/column)
   
-  LBL=WIDGET_LABEL(base_1,VALUE='(1) Input GPS Velocity File:',/ALIGN_left)
+  LBL=WIDGET_LABEL(base_1,VALUE='(1) Input GPS Velocity File:',/ALIGN_left ) ;,/SUNKEN_FRAME
   TXT_IN = CW_DIRFILE(BASE_1, TITLE = '', UNAME='TXT_IN', $
     value=!igps_root+PATH_SEP()+'example'+PATH_SEP()+'profile'+PATH_SEP()+'wang.min.jgr2020.Table.S4.psvelo', $
     FILTER=[['*.psvelo','*.txt','*'],['GMT psvelo input format (*.psvelo)','Text Files (*.txt)', 'All files (*)']], $
     XSIZE=120,FRAME=0,/ALIGN_RIGHT,STYLE='FILE')
     
   strs=['GPS velocity file in GMT psvelo input format :', $
-    '  longitude   latitude   velocity_east   velocity_north   uncertainity_east   uncertainity_north   correlation   site_name ',  $
+    '  longitude   latitude   velocity_east   velocity_north   uncertainity_east   uncertainity_north   correlation_en   site_name ',  $
     'e.g.,',  $
-    '81.71   28.66   6.7   32.4   0.53   0.53   -0.0108 BMCL',  $
-    '85.31   28.21   8.4   29.0   0.52   0.52    0.0518 CHLM',  $
-    '86.90   30.45  12.6   21.6   0.53   0.52    0.0427 CUOM',  $
-    '']
+    '  81.71   28.66   6.7   32.4   0.53   0.53   -0.0108 BMCL',  $
+    '  85.31   28.21   8.4   29.0   0.52   0.52    0.0518 CHLM',  $
+    '  86.90   30.45  12.6   21.6   0.53   0.52    0.0427 CUOM',  $
+    '  ...']
   LBL=WIDGET_TEXT(base_1,VALUE=strs,  $
     ysize=7, xsize=120,  $
+    /TRACKING_EVENTS, $
+    UNAME='LBL_TXT_IN', $
     /ALIGN_CENTER)
     
     
@@ -226,15 +256,15 @@ PRO VEL_PROFILES_UI,group_leader=group_leader
     
   strs=['GMT psxy input format :', $
     '  longitude1   latitude1  ',  $
-    '  longitude2   latitude2  ',  $
-    '  ...     ',  $
     'e.g.,',  $
-    '81.71   28.66  ',  $
-    '85.31   28.21   ',  $
-    '86.90   30.45  ',  $
-    '']
+    '> -L"Kunlun_Fault"', $
+    '90.4862004572  36.2108493543',  $
+    '102.690253055  33.8288732363',  $
+    '...']
   LBL=WIDGET_TEXT(base_2,VALUE=strs,  $
     ysize=9, xsize=120,  $
+    /TRACKING_EVENTS, $
+    UNAME='LBL_TXT_FA', $
     /ALIGN_CENTER)
     
     
@@ -295,6 +325,9 @@ PRO VEL_PROFILES_UI,group_leader=group_leader
   btn_ok=WIDGET_BUTTON(base_btn,value=' O K ',EVENT_PRO='ON_VEL_PROFILES_UI_BTN_OK',/ALIGN_LEFT)
   btn_exit=WIDGET_BUTTON(base_btn,value='Quit',EVENT_PRO='ON_VEL_PROFILES_UI_BTN_EXIT',/ALIGN_CENTER)
   btn_help=WIDGET_BUTTON(base_btn,value='About',EVENT_PRO='ON_VEL_PROFILES_UI_BTN_HELP',/ALIGN_CENTER)
+  
+  lbl_staus=WIDGET_LABEL(base,/align_center,value='Ready',uname='LBL_STATUS',/DYNAMIC_RESIZE )
+  
   WIDGET_CONTROL,base,/realize
   CENTERBASE,base
   WIDGET_CONTROL,base,map=1
