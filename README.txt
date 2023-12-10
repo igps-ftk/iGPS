@@ -10,13 +10,18 @@ Please note that somes codes (e.g. ftk/external/) included in iGPS release
   Thank you!
   Email: tianyf@gmail.com
 The copyright of the following programs/data belongs to the original authors.
-  + ftk/external/gamit_globk/   (date conversion functions: from GAMIT/GLOBK; http://geoweb.mit.edu/gg/)
-  + ftk/external/nr/    (spectral analysis functions; from Numerical Recipe; http://numerical.recipes/)
+  + ftk/external/gamit_globk   (date conversion functions: from GAMIT/GLOBK; http://geoweb.mit.edu/gg/)
+  + ftk/external/nr            (spectral analysis functions; from Numerical Recipe; http://numerical.recipes/)
+  + ftk/external/HimaTibetMap  (from https://github.com/HimaTibetMap/HimaTibetMap)
+  + ftk/external/gic3dv        (Zheng©\Kang Shen and Zhen Liu; https://doi.org/10.1029/2019EA001036)
+  + ftk/external/visr          (Zheng©\Kang Shen et al.; http://scec.ess.ucla.edu/~zshen/visr/visr.html)
+  + ftk/external/mcmcstat-master            (Haario H. et al., MCMC toolbox for Matlab; https://mjlaine.github.io/mcmcstat/)
+  + ftk/external/TDEFNODE.source.20230718   (McCaffrey, R.; https://robmccaffrey.github.io/TDEFNODE/TDEFNODE.html)
+  + ftk/external/channel_velocity           (Phoebe M. R. DeVries, Brendan J. Meade, Three-layer earthquake cycle model;  https://doi.org/10.1002/jgrb.50209)
   + sh/add_look.csh     (from GMTSAR forum; Xiaohua Xu, http://gmt.soest.hawaii.edu/boards/6/topics/3271)
   + sh/merge_batch2.csh (from GMTSAR; revised to accept super master)
   + sh/merge_batch2_paralle.csh (from GMTSAR; revised to accept super master)
   + sh/proj_ll2ra_full.csh      (from GMTSAR; revised to accept reference grid)
-  + tables/HimaTibetMap/        (from https://github.com/HimaTibetMap/HimaTibetMap)
   + tables/wang_shen_2019JB018774_Table.S4.psvelo   (from https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2019JB018774)
   + tables/gcmt.psmeca  (from https://www.globalcmt.org/)
   + tables/velh.cmm4 (Southern California Crustal Motion Map Version 4.0; from http://scec.ess.ucla.edu/~zshen/cmm4/cmm4.html)
