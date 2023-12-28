@@ -1,0 +1,250 @@
+#!/bin/bash
+
+# Name:
+#   sh_esa_s1_get_aux_orb_step
+#   
+
+# Purpose:
+#   +
+
+# Example:
+#   
+
+# Modifications:
+#   +
+
+# Algorithm:
+#   +
+
+# Dependency:
+#   +
+#
+
+#check whether the script is called by crond service, or run interactively.
+
+###echo "\$0 is $0"
+####https://www.gnu.org/software/bash/manual/html_node/Special-Parameters.html
+###echo "\$- is $-"
+###case "$-" in
+###    *i*)
+###        interactive=1
+###        ;;
+###    *)
+###        interactive=0
+###        ;;
+###esac
+###echo "interactive $interactive"
+###
+####https://www.gnu.org/software/bash/manual/html_node/Is-this-Shell-Interactive_003f.html
+###echo "PS1 $PS1"
+###if [ -z "$PS1" ]; then
+###    interactive=0 
+###else
+###    interactive=1
+###fi
+###echo "interactive $interactive"
+#
+#if [ -t 0 ]; then
+#    interactive=1
+#else
+#    interactive=0
+#fi
+#echo "interactive $interactive"
+#if [ $interactive -eq 0 ]; then
+#  . ${HOME}/.bashrc  
+#fi
+
+PROG=sh_esa_s1_get_aux_orb_step
+
+
+
+
+timestamp=`date | sed -e "s/ /_/g" | sed -e "s/:/-/g"`
+
+path_old=`pwd`
+
+usage_of_it(){
+cat <<eob
+${PROG}
+|_Query and download S1 orbit files from ESA.
+  https://scihub.copernicus.eu/gnss/#/home
+  login account: gnssguest/gnssguest (public access)
+|<
+  [-d|-date DATE_OF_ORBIT]
+  [-l|-load_bashrc y/...]
+  [-n|-ndays N_DAYS_BACKWARD]
+  [-o|-orb|-orbit poe/res]
+|e.g.,
+  ${PROG} -d 2022-01-09 -orb res
+  ${PROG} -n 10 -orb poe
+(c)iGPS (https://github.com/igps-ftk/)
+eob
+}
+
+
+load_bashrc=n
+
+year=`date -u +%Y`
+month=`date -u +%m`
+
+orb_typ=poe
+#orb_typ=res
+
+date_time=
+
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -y|-yr|-year)
+      year=$2
+      ;;
+    -m|-mon|-month)
+      month=$2
+      ;;
+    -l|-load_bashrc)
+      load_bashrc=$2
+      ;;
+    -o|-orb|-orbit)
+      orb_typ=$2
+      ;;
+    -h|-help|--help)
+      usage_of_it
+      exit 1
+      ;;
+    *)
+      echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid option ($1)!!"
+      usage_of_it
+      exit 1
+      ;;
+  esac
+  shift 2  
+done
+
+if [ "$load_bashrc" == "y" ]; then
+  . ${HOME}/.bashrc  
+fi
+
+
+#check the data root directory
+if [ "$esa_data" == "" ]; then
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: environment variable esa_data not set!!"
+  exit 1
+fi
+if [ ! -d $esa_data ]; then
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: esa_data ($esa_data) not exist!!"
+  exit 1
+fi
+
+path=$esa_data/aux_${orb_typ}orb
+
+if [ ! -d $path ]; then
+  mkdir -p $path
+fi
+cd $path
+pwd
+
+file_lock=$path/esa.lock
+
+if [ -s $file_lock ]; then
+  echo "[$PROG]INFO:locked by $file_lock!!"
+  exit 1
+fi
+hostname > $file_lock
+date >> $file_lock
+
+ORB_TYP=`echo $orb_typ | awk '{print toupper($1)}'`
+
+#time1=`date -u +%FT%T -d last-month`
+time1=`date -u +%FT%T -d "today -${back_ndays} days"`
+time2=`date -u +%FT%T`
+
+if [ "$date_time" != "" ]; then
+  #convert YYYYMMDD to YYYY-MM-DD
+  date_time=`echo $date_time | awk '{if(length($1)==8){print substr($1,1,4)"-"substr($1,5,2)"-"substr($1,7,2)}else{print $1}}'`
+  time1=`date -u +%FT%T -d "${date_time}T00:00:00 +24"`
+  time2=`date -u +%FT%T -d "${date_time}T23:59:59 -24"`
+fi
+
+##create output directory
+#year1=`echo $time1 | awk '{print substr($1,1,4)}'`
+#opath=${esa_data}/aux_${orb_typ}orb/$year1
+#if [ ! -e $opath ]; then
+#  mkdir -p $opath
+#fi
+#if [ ! -e $opath ]; then
+#  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: output path not exist ($opath)!!"
+#  exit 1
+#fi
+#year2=`echo $time2 | awk '{print substr($1,1,4)}'`
+#opath=${esa_data}/aux_${orb_typ}orb/$year2
+#if [ ! -e $opath ]; then
+#  mkdir -p $opath
+#fi
+#if [ ! -e $opath ]; then
+#  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: output path not exist ($opath)!!"
+#  exit 1
+#fi
+#
+##cd $opath
+##pwd
+#
+  pwd
+\rm -f ${path}/index.list
+  echo "[$PROG]INFO: updating ESA directory listing ..."
+  echo "[$PROG]INFO:   https://step.esa.int/auxdata/orbits/Sentinel-1/"
+  curl https://step.esa.int/auxdata/orbits/Sentinel-1/${ORB_TYP}ORB/S1A/${year}/${month}/ > ${path}/index.html.txt
+  cat ${path}/index.html.txt |grep EOF | awk -F\" '{print $2}' | grep '^S1'  >> ${path}/index.list
+  curl https://step.esa.int/auxdata/orbits/Sentinel-1/${ORB_TYP}ORB/S1B/${year}/${month}/ > ${path}/index.html.txt
+  cat ${path}/index.html.txt |grep EOF | awk -F\" '{print $2}' | grep '^S1'  >> ${path}/index.list
+  
+while read file; do
+  echo file $file
+  ofile=`echo $file | sed -e 's/.zip//g'`
+  
+  #S1A_OPER_AUX_RESORB_OPOD_20230116T061712_V20230116T021424_20230116T053154.EOF
+  year1=`echo $file | awk -F_ '{print substr($7,2,4)}'`
+  year2=`echo $file | awk -F_ '{print substr($8,1,4)}'`
+  
+  opath1=$esa_data/aux_${orb_typ}orb/$year1
+  opath2=$esa_data/aux_${orb_typ}orb/$year2
+  echo opath1 $opath1
+  echo opath2 $opath2
+ 
+  #exit
+  if [ -s ${opath1}/${ofile} -a -s $opath2/$ofile ] ; then
+    echo "[$PROG]INFO: already exist($ofile)."
+    continue
+  fi
+  if [ ! -d $opath1 ]; then
+    mkdir -p $opath1
+  fi
+  if [ ! -d $opath2 ]; then
+    mkdir -p $opath2
+  fi
+  cd $opath2
+  pwd
+  if [ ! -s $opath2/$ofile ]; then
+    echo "wget -c https://step.esa.int/auxdata/orbits/Sentinel-1/${ORB_TYP}ORB/S1A/${year}/${month}/${file}"
+    echo "wget -c https://step.esa.int/auxdata/orbits/Sentinel-1/${ORB_TYP}ORB/S1A/${year}/${month}/${file}" | sh
+    unzip -o $file
+  fi
+  #exit
+  if [ "$year1" != "$year2" ]; then
+    if [ -s $opath1/$ofile ]; then
+      echo "[$PROG]INFO: already exist($opath1/$ofile)."
+      continue
+    fi
+    \cp -f ${opath2}/$ofile $opath1/
+  fi
+done < ${path}/index.list
+
+  
+#ls -lh *.EOF
+
+echo "[$PROG]INFO: clean temporary files"
+\rm -f $path/_tmp_${PROG}_${timestamp}_query*
+
+\rm -f $file_lock
+
+
+echo "[$PROG]INFO: done."

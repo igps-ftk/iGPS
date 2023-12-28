@@ -57,6 +57,9 @@
 PROG=sh_esa_s1_get_aux_orb_gnss
 
 
+echo "!!Orbit auxiliary files from Copernicus Sentinels POD Data Hub are now unavailable!!"
+echo "  Please use sh_esa_s1_get_aux_orb_step to get files from https://step.esa.int/auxdata/orbits/Sentinel-1/"
+exit
 
 
 timestamp=`date | sed -e "s/ /_/g" | sed -e "s/:/-/g"`

@@ -51,5 +51,5 @@ echo "paste _tmp_cal_sat_indicence.lltnde _tmp_incidences _tmp_azimuth > look_ll
 
 echo "convert incidence xyz to grid ..."
 cat look_ll.xyz | awk '{print $1,$2,$7}' > incidence_ll.xyz
-echo "gmt xyz2grd incidence_ll.xyz `gmt grdinfo -I- ${fname}.grd` `gmt grdinfo -I ${fname}.grd` -Gincidence_ll.grd -r"
-gmt xyz2grd incidence_ll.xyz `gmt grdinfo -I- ${fname}.grd` `gmt grdinfo -I ${fname}.grd` -Gincidence_ll.grd -V -r
+echo "gmt xyz2grd incidence_ll.xyz `gmt grdinfo -I- ${fname}.grd` `gmt grdinfo -I ${fname}.grd` -Gincidence_ll.grd=cf -r"
+gmt xyz2grd incidence_ll.xyz `gmt grdinfo -I- ${fname}.grd` `gmt grdinfo -I ${fname}.grd` -Gincidence_ll.grd=cf -V -r

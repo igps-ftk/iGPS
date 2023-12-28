@@ -108,6 +108,7 @@ while [ "$1" != "" ]; do
 done
 
 if [ "$load_bashrc" == "y" ]; then
+  ehco "sourcing ~/.bashrc"
   . ${HOME}/.bashrc  
 fi
 

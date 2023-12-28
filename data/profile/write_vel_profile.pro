@@ -5,6 +5,7 @@ PRO  WRITE_VEL_PROFILE, ofile $
     , pf_xys=pf_xys  $
     , fa_pf_xy=fa_pf_xy $
     , odata_2nd=odata_2nd $
+    , src=src $
     , headers=headers
     
   PROG=(STRSPLIT(LAST(SCOPE_TRACEBACK()),/EXTRACT))[0]
@@ -69,7 +70,7 @@ PRO  WRITE_VEL_PROFILE, ofile $
     ,['21CEU       ', 'correlation coefficient between east and up'] $
     ,['22CNU       ', 'correlation coefficient between north and up'] $
     ,['23distFa2    ', 'distance from location to 2nd fault; positive-east (km)'] $
-    ,['24StrkDif       ', 'angle of strikes of two faults (degree)'] $
+  ,['24StrkDif       ', 'angle of strikes of two faults (degree)'] $
     ]
     
   labels_description[0,*]=STRTRIM(REFORM(labels_description[0,*]),2)
@@ -77,7 +78,10 @@ PRO  WRITE_VEL_PROFILE, ofile $
   
   OPENW,fid,ofile,/get_lun
   WRITE_SYS_INFO,fid,prog=prog,user=user
-  PRINTF,fid,headers,format='(a)'
+  IF N_ELEMENTS(src) GT 0 THEN BEGIN
+    PRINTF,FID,'*   SRC: '+SRC,FORMAT='(A)'
+  ENDIF
+  IF headers[0] NE '' THEN PRINTF,fid,headers,format='(a)'
   ;output profile vertex
   IF pf_xys[0,0] NE -9999d0 THEN BEGIN
     PRINTF,fid,pf_xys[*,0],format='("# PSXY_PROFILE",2(1x,f20.8))'
@@ -98,9 +102,9 @@ PRO  WRITE_VEL_PROFILE, ofile $
   ENDFOR
   PRINTF,fid,'*',format='(a)'
   
-  IF N_ELEMENTS(odata_2nd) lt 2 THEN BEGIN  ;if no 2nd fault
+  IF N_ELEMENTS(odata_2nd) LT 2 THEN BEGIN  ;if no 2nd fault
     PRINTF,fid,labels_description[0,0:21],  $
-      format='("*",a9,(1x,a8,1x,a7),1x,a7,3(1x,a8,1x,a7),(1x,a8,1x,a7),1x,a9, (1x,a8,1x,a7),2(1x,a8),4(1x,a7),1x,a6)'      
+      format='("*",a9,(1x,a8,1x,a7),1x,a7,3(1x,a8,1x,a7),(1x,a8,1x,a7),1x,a9, (1x,a8,1x,a7),2(1x,a8),4(1x,a7),1x,a6)'
     ;printf,fid,'*',format='(a)'
     FOR j=0, N_ELEMENTS(odata[0,*])-1 DO BEGIN
       PRINTF,fid,sites[j],odata[*,j],$
@@ -108,12 +112,12 @@ PRO  WRITE_VEL_PROFILE, ofile $
     ENDFOR
   ENDIF ELSE BEGIN ; if with 2nd fault
     PRINTF,fid,labels_description[0,*],  $
-      format='("*",a9,(1x,a8,1x,a7),1x,a7,3(1x,a8,1x,a7),(1x,a8,1x,a7),1x,a9, (1x,a8,1x,a7),2(1x,a8),4(1x,a7),1x,a6,2(1x,a9))'      
+      format='("*",a9,(1x,a8,1x,a7),1x,a7,3(1x,a8,1x,a7),(1x,a8,1x,a7),1x,a9, (1x,a8,1x,a7),2(1x,a8),4(1x,a7),1x,a6,20(1x,a9))'
     ;printf,fid,'*',format='(a)'
     ;stop
     FOR j=0, N_ELEMENTS(odata[0,*])-1 DO BEGIN
       PRINTF,fid,sites[j],odata[*,j],odata_2nd[*,j],  $
-        format='(1x,a9, (1x,f8.3,1x,f7.3), 1x,f7.2, 3(1x,f8.2,1x,f7.2),(1x,f8.2,1x,f7.2), 1x,f9.3,(1x,f8.2,1x,f7.2),2(1x,f8.2),4(1x,f7.2),1x,f6.3,2(1x,f9.3))'
+        format='(1x,a9, (1x,f8.3,1x,f7.3), 1x,f7.2, 3(1x,f8.2,1x,f7.2),(1x,f8.2,1x,f7.2), 1x,f9.3,(1x,f8.2,1x,f7.2),2(1x,f8.2),4(1x,f7.2),1x,f6.3,20(1x,f9.3))'
     ENDFOR
   ENDELSE
   

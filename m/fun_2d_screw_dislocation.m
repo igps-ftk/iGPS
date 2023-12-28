@@ -6,7 +6,11 @@ function y=fun_2d_screw_dislocation(x1, param)
 % % size(param)
 % 
 % y= param(1)/pi*atan((x-param(4))/param(2))+param(3);
-y1= param(1)/pi*atan((x1-param(4))/param(2))+param(3);
+
+% y1= param(1)/pi*atan((x1-param(4))/param(2))+param(3);
+y1= param(1)/pi*atan((x1-param(4))/param(2))*cos(pi/6)+param(3);
+% y1= (param(1)/pi*atan((x1-param(4))/param(2))+param(3))*sin(35.6*pi/180);
+% y1= (param(1)/pi*atan((x1-param(4))/param(2))+param(3))* sin(35.6*pi/180)/sin((35.6+28)*pi/180);
 
 x=x1*cos(param(5))-y1*sin(param(5));
 % x1=x;

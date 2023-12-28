@@ -411,7 +411,7 @@ ymax=`gmt grdinfo -C -I.5 $grdfile | awk '{print $5}'`
 if [ "$is_update_rect_by_profile" == "y" ]; then
   gmt grdinfo -C -I.5 $grdfile | awk '{print $2,$4,"\n",$3,$5}' > _tmp_rect
   file_profile="${profiles_path}/profile_`echo $pis | awk '{printf("%03d",$1)}'`_vel.psxy"
-  grep ' PSXY_PROFILE' $file_profile | awk '{print $3,$4}'>> _tmp_rect
+  grep ' PSXY_PROFILE' $file_profile | awk '{print $3,$4}' | awk '{if($1<0){print $1+360,$2}else{print $1,$2}}'>> _tmp_rect
   cat _tmp_rect
   
   xmin=`gmt gmtinfo -C -I.5 _tmp_rect | awk '{print $1}'`

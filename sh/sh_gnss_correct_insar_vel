@@ -242,12 +242,12 @@ gmt grdsample ${file_tmp_insar_gnss_diff_trend_flt} -I$incre -G$file_tmp_insar_g
 
   echo "Correcting the interferogram..."
 #
-  echo "gmt grdmath $file_vel $file_tmp_insar_gnss_diff_grd SUB = $ofile "
-  gmt grdmath $file_vel $file_tmp_insar_gnss_diff_grd SUB = $ofile
+  echo "gmt grdmath $file_vel $file_tmp_insar_gnss_diff_grd SUB = $ofile=cf "
+  gmt grdmath $file_vel $file_tmp_insar_gnss_diff_grd SUB = $ofile=cf
 
 
 
-gmt grdsample $ofile -I.009 -G${ofile3_name}.grd
+gmt grdsample $ofile -I.009 -G${ofile3_name}.grd=cf
 gmt grd2xyz ${ofile3_name}.grd -s > ${ofile3_name}.xyz
 paste ${ofile3_name}.xyz rms_mask_ll3.xyz | awk '{print $1,$2,$3,$6}' > ${ofile3_name}.xyze
 

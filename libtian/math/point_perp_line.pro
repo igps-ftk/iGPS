@@ -15,6 +15,7 @@
 ; :Author: tianyf
 ;-
 PRO POINT_PERP_LINE, a1, b1, c1, d1
+
   IF N_PARAMS() LT 3 THEN BEGIN
     b1=[100.320,    25.841]*1d0
     c1=[104.769,    27.037]*1d0

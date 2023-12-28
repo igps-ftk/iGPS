@@ -241,14 +241,44 @@ is_show_fig='off';
 % dmin=-200;
 % dmax=80;
 
-paths={'Z:\g11j\D\gsar\interseismic\056-a-m7-0088_0093_0098_0103_0108_0113_0118-tibet\comb\p.fa_karakoram'};
-paths={'Z:\g11j\D\gsar\interseismic\063-d-m5-0462_0467_0472_0478_0483-aksaichin2_karakoram\comb\p.fa_karakoram'};
-paths={'D:\gsar\interseismic\056-a-m7-0088_0093_0098_0103_0108_0113_0118-tibet\comb\p.fa_longmuco_dulishihu'};
-paths={'D:\gsar\interseismic\063-d-m5-0462_0467_0472_0478_0483-aksaichin2_karakoram\comb\p.fa_longmuco_dulishihu'};
-ptn='020*'
+% paths={'Z:\g11j\D\gsar\interseismic\056-a-m7-0088_0093_0098_0103_0108_0113_0118-tibet\comb\p.fa_karakoram'};
+% paths={'Z:\g11j\D\gsar\interseismic\063-d-m5-0462_0467_0472_0478_0483-aksaichin2_karakoram\comb\p.fa_karakoram'};
+% paths={'D:\gsar\interseismic\056-a-m7-0088_0093_0098_0103_0108_0113_0118-tibet\comb\p.fa_longmuco_dulishihu'};
+% paths={'D:\gsar\interseismic\063-d-m5-0462_0467_0472_0478_0483-aksaichin2_karakoram\comb\p.fa_longmuco_dulishihu'};
+% ptn='020*'
+% dmin=-200;
+% dmax=200;
+% 
+% paths={'C:\tmp\gic3dv\kunlun\asc_des\sbas.4.0.0367.9999.20150808.20210520.147.1355.01.___\p.fa_ganzi_yushu_xianshuihe_gic3dv_out_horizontal'};
+% paths={'C:\tmp\gic3dv\kunlun\asc_des\sbas.4.0.0367.9999.20150808.20210520.147.1355.01.___\p.fa_ganzi_yushu_xianshuihe_gic3dv_out_horizontal_to_Kunlun_Fault'};
+% ptn='111*'
+% dmin=-200;
+% dmax=200;
+
+% paths={'C:\tmp\gic3dv\kunlun\asc_des\sbas.4.0.0367.9999.20150808.20210520.147.1355.01.___\p.fa_kunlun_Fault_gic3dv_out_horizontal_twofaults'};
+
+% ptn='016*'
+% dmin=-400;
+% dmax=200;
+% ptn='103*'
+% dmin=-600;
+% dmax=-200;
+
+paths={'/g17b/gsar/D/gsar/interseismic/070-a-m6-0100_0105_0110_0115_0120_0125-eastkunlun5M3/f123/sbas.4.0.0001.9999.20141022.20230225.056.0770.01.___/p.fa_Kunlun_Fault_dec3d_byN_all_2km'};
+
+ptn='042*'
+% ptn='102*'
 dmin=-200;
+dmin=-30;
 dmax=200;
 
+ptn='029*'
+% ptn='102*'
+dmin=-300;
+% dmin=-30;
+dmax=300;
+
+% d_exclude=[-400,100];
 
 % cmt='far'
 % cmt='klfCreep'
@@ -258,8 +288,13 @@ npath=size(paths,1);
 
 % dmin=-120;
 % dmax=160;
+% 
+% fts_min=-350;
+% fts_max=-250;
 % fts_min=-100;
 % fts_max=25;
+% fts_min=-55;
+% fts_max=55;
 % fts_min=-35;
 % fts_max=35;
 % fts_min=-15;
@@ -273,8 +308,8 @@ is_show_fig='on';
 dmin_fts=dmin%+fts_min;
 dmax_fts=dmax%+fts_max;
 
-for pi=1:npath
-  path=paths{pi};
+for ii=1:npath
+  path=paths{ii};
   if isempty(path)
     continue
   end
@@ -321,11 +356,12 @@ for pi=1:npath
         
         %disp(tline);
         nl=nl+1;
-        if nl == 1
-          dlines=sscanf(tline,'%f');
-        else
-          dlines(:,nl)=sscanf(tline,'%f');
-        end
+%         if nl == 1
+%           dlines=sscanf(tline,'%f');
+%         else
+%           dlines(:,nl)=sscanf(tline,'%f');
+%         end
+        dlines(:,nl)=sscanf(tline,'%*s %f %f %f %f %f       %f %f %f %f %f       %f %f %f %f %f       %f %f %f %f %f       %f %f %f %f %f ');
         %break
       end
       tline = fgetl(fid);
@@ -334,8 +370,8 @@ for pi=1:npath
     
     fclose(fid);
     
-    x1=dlines(13,:);
-    y1=dlines(14,:);
+    x1=dlines(13-1,:);
+    y1=dlines(7-1,:);
     min(y1);
     max(y1);
     
@@ -397,10 +433,10 @@ for pi=1:npath
     plot(x1,y1,'r.');
     hold on;
     plot(data.xdata,data.ydata,'.');
-    xlim([-400 400]);ylim([-6 6]);  xlabel('x [km]'); ylabel('y [mm/yr]');
+    xlim([-600 600]);ylim([-20 20]);  xlabel('x [km]'); ylabel('y [mm/yr]');
     
     
-    % fun_2d_screw_dislocation = @(x,param) param(1)/pi*atan((x-param(4))/param(2))+param(3);
+    % fun_2d_screw_dislocation = @(x,param) param(1)/ii*atan((x-param(4))/param(2))+param(3);
     ssfun    = @(param,data) sum((data.ydata-fun_2d_screw_dislocation(data.xdata,param)).^2);
     
     [tmin,ssmin]=fminsearch(ssfun,[3;4;(ymin+ymax)/2;0;.01],[],data);
@@ -415,17 +451,18 @@ for pi=1:npath
     % tcov = pinv(J'*J)*mse;
     
     params = {
-      {'sr', 0, -20, 20}
-%       {'ld', 10, .1, 50}
+      {'sr', 0, -30, 30}
+      {'ld', 10, .1, 90}
 %       {'ld', 10, .1, 25}
-      {'ld', 4, 0, 10}
+%       {'ld', 1, 0, 50}
+%       {'ld', 1, 0, 20}
 %       {'ld', 10, .1, 15}
 %       {'ld', .1, .01, .2}
 %       {'ld', 9, 8.9, 9.1}
       {'yshift', (ymin+ymax)/2, ymin,ymax}
       %     {'fts', 0, -30, 30}
 %           {'fts', 0, -1, 1}
-      {'fts', 0, fts_min, fts_max}
+      {'fts', 00, fts_min, fts_max}
       
       {'rot', 0.001, -pi/3, pi/3}
 %       {'rot', 0.000011, 0.000010, 0.000012}
@@ -438,7 +475,7 @@ for pi=1:npath
     model.S20 = model.sigma2;      % prior mean for sigma2
     model.N0  = 4;                 % prior a
     
-    options.nsimu = 5000;
+    options.nsimu = 9000;
     options.updatesigma = 1;
     % options.qcov = tcov; % covariance from the initial fit
     options.verbosity = 1;
@@ -510,7 +547,7 @@ for pi=1:npath
     plot(xor,yor,'-k');
     hold off;
     legend({'data','model'},'Location','BestOutside')
-    xlim([-400 400]); xlabel('x [km]'); ylabel('y [mm/yr]');
+    xlim([-600 600]); ylim([-20 20]); xlabel('x [km]'); ylabel('y [mm/yr]');
     
     np = size(out.predlims{1}{1},1);
     nn = (np+1)/2; % median
@@ -566,10 +603,10 @@ for pi=1:npath
     tmpstr3=sprintf('fault trace shift (km): %7.2f +/- %7.2f\n', out_params(4), out_sigs(4));
     tmpstr4=sprintf('rotation (deg): %9.6f +/- %9.6f\n', out_params(5), out_sigs(5));
     tmpstr5=sprintf('velocity offset: %7.2f +/- %7.2f\n', out_params(3), out_sigs(3));
-    text(-380,4,tmpstr1);
-    text(-380,3,tmpstr2);
-    text(-380,2,tmpstr3);
-    text(-380,1,tmpstr4);
+    text(-380,16,tmpstr1);
+    text(-380,12,tmpstr2);
+    text(-380,8,tmpstr3);
+    text(-380,4,tmpstr4);
     text(-380,0,tmpstr5);
     
     

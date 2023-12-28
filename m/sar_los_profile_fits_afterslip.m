@@ -110,25 +110,33 @@ dmax=150;
 % dmax=270;
 % d_exclude=[-240,10];
 
+
+paths={'/g17b/gsar/D/gsar/interseismic/070-a-m6-0100_0105_0110_0115_0120_0125-eastkunlun5M3/f123/sbas.4.0.0001.9999.20141022.20230225.056.0770.01.___/p.fa_Kunlun_Fault_dec3d_byN_all_2km'};
+ptn='029*'
+% ptn='102*'
+dmin=-300;
+% dmin=-30;
+dmax=300;
+
 cmt='klfPostseismic'
 
-%creep gozha co
-paths={'Z:\g13a\proc_gmtsar\interseismic\056-a-m4-0104_0109_0114_0119-gozhaco\f123\sbas.4.0.0367.9999.20150513.20220205.170.1300.01.___\p.fa_longmuco_gozhaco'};
-paths={'Z:\g13b\proc_gmtsar\interseismic\158-a-m3-0108_0113_0118-gozhaco1M3\f123\sbas.4.0.0367.9999.20141016.20210430.157.1458.01.___\p.fa_longmuco_gozhaco'};
-ptn='0*'
-dmin=-100;
-dmax=1050;
-d_exclude=[-80,0];
-cmt='postseismic'
+% %creep gozha co
+% paths={'Z:\g13a\proc_gmtsar\interseismic\056-a-m4-0104_0109_0114_0119-gozhaco\f123\sbas.4.0.0367.9999.20150513.20220205.170.1300.01.___\p.fa_longmuco_gozhaco'};
+% paths={'Z:\g13b\proc_gmtsar\interseismic\158-a-m3-0108_0113_0118-gozhaco1M3\f123\sbas.4.0.0367.9999.20141016.20210430.157.1458.01.___\p.fa_longmuco_gozhaco'};
+% ptn='0*'
+% dmin=-100;
+% dmax=1050;
+% d_exclude=[-80,0];
+% cmt='postseismic'
 
 % dmin=-250;
 % dmax=260;
-fts_min=-35;
-fts_max=35;
+% fts_min=-35;
+% fts_max=35;
 fts_min=-15;
 fts_max=15;
-fts_min=-1;
-fts_max=5;
+% fts_min=-1;
+% fts_max=5;
 is_show_fig='on';
 
 %xianshuihe fault
@@ -191,11 +199,13 @@ for pi=1:npath
         
         %disp(tline);
         nl=nl+1;
-        if nl == 1
-          dlines=sscanf(tline,'%f');
-        else
-          dlines(:,nl)=sscanf(tline,'%f');
-        end
+%         if nl == 1
+%           dlines=sscanf(tline,'%f');
+%         else
+%           dlines(:,nl)=sscanf(tline,'%f');
+%         end
+dlines(:,nl)=sscanf(tline,'%*s %f %f %f %f %f       %f %f %f %f %f       %f %f %f %f %f       %f %f %f %f %f       %f %f %f %f %f ');
+        
         %break
       end
       tline = fgetl(fid);
@@ -204,8 +214,8 @@ for pi=1:npath
     
     fclose(fid);
     
-    x1=dlines(11,:);
-    y1=dlines(12,:);
+    x1=dlines(13-1,:);
+    y1=dlines(7-1,:);
     min(y1);
     max(y1);
     
@@ -272,7 +282,7 @@ for pi=1:npath
 %     tcov = pinv(J'*J)*mse;
     
     params = {
-      {'sr', 0, -10, 10}
+      {'sr', 0, -30, 30}
       %{'ld', 10, .1, 50}
       %{'ld', 4, 0, 10}
       {'ld', 10, .1, 20}
@@ -281,8 +291,8 @@ for pi=1:npath
       %     {'fts', 0, -30, 30}
       {'fts', 0, fts_min, fts_max}
       
-%       {'rot', 0.001, -pi/3, pi/3}
-      {'rot', 0.000011, 0.000010, 0.000012}
+      {'rot', 0.001, -pi/3, pi/3}
+%       {'rot', 0.000011, 0.000010, 0.000012}
 
        % afterslip rate
       {'asr', -59.001, -120, 120}

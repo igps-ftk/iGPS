@@ -17,7 +17,7 @@ function y=fun_2d_screw_dislocation_afterslip(x1, param)
 % y12=y1+0;
 
 % y3=param(1)/pi*atan((x1-param(4))/param(2))+param(3)+param(5)*(x1-param(4))  + param(6)/pi*atan((x1-param(4))/param(7)) - param(6)/pi*atan((x1-param(4))/param(8));
-y3=param(1)/pi*atan((x1-param(4))/param(2))+param(3)+param(5)*(x1-param(4))  + param(6)/pi*atan((x1-param(4))/param(7)) - param(6)/pi*atan((x1-param(4))/param(8));
+  y3=param(1)/pi*atan((x1-param(4))/param(2))+param(3)+param(5)*(x1-param(4))  + param(6)/pi*atan((x1-param(4))/param(7)) - param(6)/pi*atan((x1-param(4))/param(8));
 
 % y12=y1;
 
