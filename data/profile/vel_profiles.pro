@@ -85,38 +85,48 @@ PRO VEL_PROFILES, vfile, $  ;velocity file (in varied formats)
     ;;    ffile='C:\GMT_pub\vector\profile\fa_ganzi_xianshuihe.psxy'
     ;    f2file='C:\GMT_pub\vector\profile\fa_ganzi_xianshuihe.psxy';
     ;;
-        vfile='C:\tmp\gic3dv\kunlun\asc_des\gps_prd.psvelo'
-;        ffile='D:\iGPS\tables\fa_Kunlun_Fault.psxy'
-;        f2files='C:\GMT_pub\vector\profile\fa_ganzi_xianshuihe.psxy'
-;        opath='D:\gsar\interseismic\070-a-m6-0100_0105_0110_0115_0120_0125-eastkunlun5M3\f123\asc_des\sbas.4.0.0367.9999.20150808.20210520.147.1355.01.___\p.fa_kunlun_Fault_gic3dv_prd_toGYXSH'
-
+    ;        vfile='C:\tmp\gic3dv\kunlun\asc_des\gps_prd.psvelo'
+    ;        ffile='D:\iGPS\tables\fa_Kunlun_Fault.psxy'
+    ;        f2files='C:\GMT_pub\vector\profile\fa_ganzi_xianshuihe.psxy'
+    ;        opath='D:\gsar\interseismic\070-a-m6-0100_0105_0110_0115_0120_0125-eastkunlun5M3\f123\asc_des\sbas.4.0.0367.9999.20150808.20210520.147.1355.01.___\p.fa_kunlun_Fault_gic3dv_prd_toGYXSH'
     
-;    vfile='Z:\g11j\D\gsar\interseismic\070-a-m6-0100_0105_0110_0115_0120_0125-eastkunlun5M3\f123\sbas.4.0.0001.9999.20141022.20230225.056.0770.01.___\insar_los_2_3d_all_2km.psvelo'
-;    
-;    ;master: ganzi-yushu-xianshui
-;    ;slaves: others
+    
+    vfile='D:\gsar\interseismic\070-a-m6-0100_0105_0110_0115_0120_0125-eastkunlun5M3\f123\sbas.4.0.0001.9999.20141022.20230225.056.0770.01.___\insar_los_2_3d_all_2km.psvelo'
+    ;   vfile='Z:\g11j\D\gsar\interseismic\070-a-m6-0100_0105_0110_0115_0120_0125-eastkunlun5M3\f123\sbas.4.0.0001.9999.20141022.20230225.056.0770.01.___\insar_los_2_3d_all_2km.psvelo'
+    
+;    ;    ;master: ganzi-yushu-xianshui
+;    ;    ;slaves: others
 ;    ffile='C:\GMT_pub\vector\profile\fa_ganzi_xianshuihe.psxy'
 ;    f2files=['C:\GMT_pub\vector\profile\fa_wudaoliang_changshagongma.psxy' $
 ;      ,'C:\GMT_pub\vector\profile\fa_dari.psxy'  $
 ;      ,'C:\GMT_pub\vector\profile\fa_maduo_gande.psxy'  $
 ;      ,'C:\GMT_pub\vector\profile\fa_Kunlun_Fault.psxy' $
 ;      ]
-;    opath='Z:\g11j\D\gsar\interseismic\070-a-m6-0100_0105_0110_0115_0120_0125-eastkunlun5M3\f123\sbas.4.0.0001.9999.20141022.20230225.056.0770.01.___\p.fa_ganzi_xianshuihe_dec3d_byN_all_2km_toKLF'
-;    
-;    
-;    ;master: Kunlun
-;    ;slaves: others 
-    ffile='C:\GMT_pub\vector\profile\fa_Kunlun_Fault.psxy'
-    f2files=[ $
-      'C:\GMT_pub\vector\profile\fa_maduo_gande.psxy'  $
-      ,'C:\GMT_pub\vector\profile\fa_dari.psxy'  $
-      ,'C:\GMT_pub\vector\profile\fa_wudaoliang_changshagongma.psxy' $
-      ,'C:\GMT_pub\vector\profile\fa_ganzi_xianshuihe.psxy' $
-      ]    
-;    opath='Z:\g11j\D\gsar\interseismic\070-a-m6-0100_0105_0110_0115_0120_0125-eastkunlun5M3\f123\sbas.4.0.0001.9999.20141022.20230225.056.0770.01.___\p.fa_Kunlun_Fault_dec3d_byN_all_2km_toGYXSH'
-;      
-
-    opath='D:\gsar\interseismic\070-a-m6-0100_0105_0110_0115_0120_0125-eastkunlun5M3\f123\asc_des\sbas.4.0.0367.9999.20150808.20210520.147.1355.01.___\p.fa_kunlun_Fault_gic3dv_prd_toGYXSH_etal'
+;    ;    is_fault_trace_downsample=1
+;    ;    auto_strike=1
+;    ;      opath='D:\gsar\interseismic\070-a-m6-0100_0105_0110_0115_0120_0125-eastkunlun5M3\f123\sbas.4.0.0001.9999.20141022.20230225.056.0770.01.___\p.fa_ganzi_xianshuihe_dec3d_byN_all_2km_toKLF_a1'
+;    ;
+;    is_fault_trace_downsample=1
+;    auto_strike=2
+;    opath='D:\gsar\interseismic\070-a-m6-0100_0105_0110_0115_0120_0125-eastkunlun5M3\f123\sbas.4.0.0001.9999.20141022.20230225.056.0770.01.___\p.fa_ganzi_xianshuihe_dec3d_byN_all_2km_toKLF'
+;    ;    opath='Z:\g11j\D\gsar\interseismic\070-a-m6-0100_0105_0110_0115_0120_0125-eastkunlun5M3\f123\sbas.4.0.0001.9999.20141022.20230225.056.0770.01.___\p.fa_ganzi_xianshuihe_dec3d_byN_all_2km_toKLF'
+    ;
+    ;
+        ;master: Kunlun
+        ;slaves: others
+        ffile='C:\GMT_pub\vector\profile\fa_Kunlun_Fault.psxy'
+;        opath='D:\gsar\interseismic\070-a-m6-0100_0105_0110_0115_0120_0125-eastkunlun5M3\f123\sbas.4.0.0001.9999.20141022.20230225.056.0770.01.___\p.fa_Kunlun_Fault_dec3d_byN_all_2km'
+    
+        f2files=[ $
+          'C:\GMT_pub\vector\profile\fa_maduo_gande.psxy'  $
+          ,'C:\GMT_pub\vector\profile\fa_dari.psxy'  $
+          ,'C:\GMT_pub\vector\profile\fa_wudaoliang_changshagongma.psxy' $
+          ,'C:\GMT_pub\vector\profile\fa_ganzi_xianshuihe.psxy' $
+          ]
+        opath='D:\gsar\interseismic\070-a-m6-0100_0105_0110_0115_0120_0125-eastkunlun5M3\f123\sbas.4.0.0001.9999.20141022.20230225.056.0770.01.___\p.fa_Kunlun_Fault_dec3d_byN_all_2km_toGYXSH'
+    ;
+    
+;        opath='D:\gsar\interseismic\070-a-m6-0100_0105_0110_0115_0120_0125-eastkunlun5M3\f123\asc_des\sbas.4.0.0367.9999.20150808.20210520.147.1355.01.___\p.fa_kunlun_Fault_gic3dv_prd_toGYXSH_etal'
     
     
     is_fault_trace_downsample=0
@@ -124,9 +134,9 @@ PRO VEL_PROFILES, vfile, $  ;velocity file (in varied formats)
     auto_strike_2nd=2
     length_profile=1200
     spacing_profile=10
-    ;
-;    spacing_profile=200
-;    search_radius=5
+  ;
+  ;    spacing_profile=200
+  ;    search_radius=5
   ENDIF
   
   IF FILE_TEST(opath,/directory) NE 1 THEN FILE_MKDIR,opath
@@ -497,6 +507,10 @@ PRO VEL_PROFILES, vfile, $  ;velocity file (in varied formats)
           ENDFOR
           
           tmp=MIN(dists_c1_to_profiles,ind_min)
+          IF tmp GT search_radius THEN BEGIN
+            dists_fault_2nd[f2i,si]=!values.D_NAN
+            CONTINUE
+          ENDIF
           a2=REFORM((*p_oxys_2nds[f2i])[*,0,ind_min])
           b2=REFORM((*p_oxys_2nds[f2i])[*,1,ind_min])
           d2=REFORM(xys_c1_cross_profiles[*,ind_min])
@@ -815,7 +829,7 @@ PRO VEL_PROFILES, vfile, $  ;velocity file (in varied formats)
     
   ;PRINT,'a1:',a1
   ;PRINT,'b1:',b1
-  ;    BREAK
+  ;      BREAK
   ENDFOR
   
   lbl_str='Ready'

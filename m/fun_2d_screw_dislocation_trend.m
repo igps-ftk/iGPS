@@ -1,4 +1,4 @@
-function y=fun_2d_screw_dislocation(x1, param)
+function y=fun_2d_screw_dislocation_trend(x1, param)
 % 2-D dislocation model function
 
 % params = {
@@ -17,22 +17,21 @@ function y=fun_2d_screw_dislocation(x1, param)
 %     S        x-fts
 %  v=--- arctan(---) + vs
 %     pi         D
-
-y1= param(1)/pi*atan((x1-param(3))/param(2))+param(4);
-
-%use rotation of coordinate system to account for the tilting of profile
-
+% 
+% y=  slip_rate/pi*atan(x/locking_depth)+yshift;
+% 
+% 
+%use extra linear trend (B) to account for the tilting of profile (Segall, 2010)
 %theoretical profile:                  real case:
 %-----------                            -----_____          |
 %           \                                      |        v
 %            ----------                   ^         -----
 %                                         |              -----
 %
-%Rotate (x1,y1) counter-clockwisely by theta degress to get (x,y):
-%  |x|   |cos(theta)     -sin(theta)|   |x1|
-%  | | = |                          | X |  |
-%  |y|   |sin(theta)      cos(theta)|   |y1|
+%     S        x-fts
+%  v=--- arctan(---) + vs +B*(x-fts)
+%     pi         D
 
-x=x1*cos(param(5))-y1*sin(param(5));
-y=x1*sin(param(5))+y1*cos(param(5));
+y= param(1)/pi*atan((x1-param(3))/param(2))+param(4)+param(5)*(x1-param(3));
+
     

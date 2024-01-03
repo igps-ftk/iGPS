@@ -1,4 +1,4 @@
-function [vfinal] = ChannelVelocity(xfinal, slipRate, t, h, D, H, mu, eta, T)
+function [vfinal] = channel_velocity(xfinal, slipRate, t, h, D, H, mu, eta, T)
 % This function calculates the velocity at points x at time t from the 3-layer
 % viscoelastic earthquake cycle model.
 %
@@ -88,5 +88,11 @@ v                     = T/slip*vc;
 x                     = x-xoffset;
 
 % Interpolate onto specified x-coordinates
-vfinal                = spline(x, v, xfinal);
+% vfinal                = spline(x, v, xfinal);
+% whos x v xfinal
+pos=find(isnan(xfinal) == 1);
+if isempty(pos) ~= 1 
+    pos
+end
+vfinal                = spline(x, v, xfinal)*slipRate*siay*1000;
 

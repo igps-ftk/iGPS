@@ -92,7 +92,7 @@ profiles_path= #default search the first profile path (p.*) in current directory
 pis=0
 
 #default output path
-opath=  #change it with command option "-opath output_path". If not exist, it will be crated.
+opath=  #change it with command option "-opath output_path". If not exist, it will be created if not exist.
 
 
 path_old=`pwd`
