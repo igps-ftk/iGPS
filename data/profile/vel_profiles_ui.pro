@@ -128,7 +128,7 @@ PRO ON_VEL_PROFILES_UI_BTN_OK,ev
   
   IF rad_profile_src_program_auto EQ 1 THEN BEGIN
   
-    VEL_PROFILES, file_gps, $
+    SAR_LOS_PROFILE_AUTO, file_gps, $
       opath, $
       ffile=file_fault,  $
       inputfmt=1, $
@@ -141,7 +141,7 @@ PRO ON_VEL_PROFILES_UI_BTN_OK,ev
   ENDIF ELSE BEGIN
   
     ;stop
-    VEL_PROFILES, file_gps, $
+    SAR_LOS_PROFILE_AUTO, file_gps, $
       pfile=file_profile,  $
       opath, $
       ffile=file_fault,  $

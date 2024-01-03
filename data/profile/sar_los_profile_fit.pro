@@ -1,60 +1,18 @@
-PRO VEL_PROFILE_FIT, pfile, ofile
+PRO SAR_LOS_PROFILE_FIT, pfile, ofile
 
   PROG=(STRSPLIT(LAST(SCOPE_TRACEBACK()),/EXTRACT))[0]
   
   IF N_PARAMS() LT 2 THEN BEGIN
-    ;    pfile='D:\Papers\yarlung.tsangpo\figure\gps.profiles\profiles\profile_04_vel.psxy'
-    ;    ofile='D:\Papers\yarlung.tsangpo\figure\gps.profiles\profiles.fitting\profile_04_vel.model'
-    ;
-    ;    pfile='D:\ICD\projects\DirectorFund\Application.2012\Final\ppt\figure\gps.profile.jiali\p\profile_01_vel.psxy'
-    ;    ofile=desuffix(pfile)+'_mdl.txt'
-    ;
-    ;
-    ;    pfiles='D:\ICD\Eighth\2019\20190613.Hezong.Zone2\report.2020\figure\gps.xiaojiang_ext\profiles\profile_077_vel.psxy'
-    ;    pfiles='D:\ICD\Eighth\2019\20190613.Hezong.Zone2\report.2020\figure\gps.xiaojiang_ext\profiles\profile_057_vel.psxy'
-    ;    pfiles='D:\ICD\Eighth\2019\20190613.Hezong.Zone2\report.2020\figure\gps.xiaojiang_ext\profiles\profile_055_vel.psxy'
-    ;    ;pfiles='D:\ICD\Eighth\2019\20190613.Hezong.Zone2\report.2020\figure\gps.xiaojiang_ext\profiles\profile_068_vel.psxy'
-    ;    ;pfiles='D:\ICD\Eighth\2019\20190613.Hezong.Zone2\report.2020\figure\jgrb52327\gps.xiaojiang_ext\profiles\profile_083_vel.psxy'
-    ;    pfiles='D:\ICD\Eighth\2021\20210329.tanlu\figure\gps\p.fa_tanlu_gps\profile_106_vel.psxy'
-    ;    pfiles='D:\ICD\Eighth\2019\20190613.Hezong.Zone2\report.2020\figure\gps.xiaojiang_ext\profiles\profile_095_vel.psxy'
-    ;    pfiles='D:\ICD\projects\nsfc\2019\report\2021\figure\profile.gps.igps\pg.fa_jiali\profile_051_vel.psxy'
-    ;    pfiles='D:\gsar\doc\eq.20220108.m6.9.menyuan\figure\profile.gps.wangmin\pg.fa_haiyuan\profile_026_vel.psxy'
-    ;    pfiles='D:\gsar\doc\eq.20220108.m6.9.menyuan\figure\profile.gps.wangmin\pg.fa_haiyuan\profile_072_vel.psxy'
     ;
     pfiles=FILEPATH('profile_009_vel.psxy',subdirectory=['example','profile','p_auto'],$
       root=!igps_root)
-      
-    ;stop
-      
-    ;    ;icd solution
-    ;    path='D:\Papers\yarlung.tsangpo\figure\gps.profiles\profiles'
-    ;    opath='D:\Papers\yarlung.tsangpo\figure\gps.profiles\profiles.fitting'
-    ;
-    ;;    ;gan2013 solution
-    ;;    path='D:\Papers\yarlung.tsangpo\figure\gps.profiles.gan\profiles'
-    ;;    opath='D:\Papers\yarlung.tsangpo\figure\gps.profiles.gan\profiles.fitting'
-    ;
-    ;    path='D:\ICD\projects\DirectorFund\Application.2012\Final\ppt\figure\gps.profile.jiali\p'
-    ;    path='D:\gsar\des\m_dayi2\f12\SBAS1\pg.xj'
-    ;    path='D:\ICD\Eighth\2021\20210329.tanlu\figure\gps\p.fa_tanlu_gps\'
-    ;
-      
-    ;    path='D:\gsar\doc\eq.20220108.m6.9.menyuan\figure\profile.gps.wangmin\pg.fa_haiyuan\'
-    pfiles='D:\ICD\Eighth\2023\20230508.G219\figure\gps.profiles\pg.fa_atf\profile_009_vel.psxy'
-    
-    path='D:\ICD\Eighth\2023\20230508.G219\figure\gps.profiles\pg.fa_atf\'
-    ;
-    pfiles=FILE_SEARCH(path+PATH_SEP()+'profile_???_vel.psxy', count=nf)
-    
-    pfiles='C:\tmp\gic3dv\kunlun\asc_des\sbas.4.0.0367.9999.20150808.20210520.147.1355.01.___\p.fa_kunlun_Fault_gic3dv_out_horizontal\profile_012_vel.psxy'
-    nf=1
     
     nf=N_ELEMENTS(pfiles)
     FOR fi=0, nf-1 DO BEGIN
       ;    FOR fi=20, 21 DO BEGIN
       pfile=pfiles[fi]
       ofile=desuffix(pfile)+'_mdl.txt'
-      VEL_PROFILE_FIT, pfile, ofile
+      SAR_LOS_PROFILE_FIT, pfile, ofile
       RETURN
     ENDFOR
     RETURN
@@ -67,7 +25,7 @@ PRO VEL_PROFILE_FIT, pfile, ofile
   ;  nfs=N_ELEMENTS(fss)
   ;  nld=N_ELEMENTS(lds)
   ;stop
-  
+  print,'[]INFO:processing'+pfile
   lines=read_txt(pfile)
   lines2=grepi(lines,'^ ', LINES_NOT=LINES_HEADER)
   ;help, lines_header
@@ -91,7 +49,10 @@ PRO VEL_PROFILE_FIT, pfile, ofile
   veles_up=REFORM(data[9-1,*])
   lons=REFORM(data[10-1,*])
   lats=REFORM(data[11-1,*])
+  
   dists=REFORM(data[12-1,*])
+  ;dists=REFORM(data[10-1,*])
+  
   vels_los=REFORM(data[13-1,*])
   veles_los=REFORM(data[14-1,*])
   ;STOP

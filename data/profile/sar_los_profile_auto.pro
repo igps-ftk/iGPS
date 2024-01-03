@@ -1,6 +1,6 @@
 
 
-PRO VEL_PROFILES, vfile, $  ;velocity file (in varied formats)
+PRO SAR_LOS_PROFILE_AUTO, vfile, $  ;velocity file (in varied formats)
     opath, $   ;output path
     ffile=ffile,  $ ;(if exist) fault trace (only one polyline in GMT format)
     f2file=f2file,  $ ;(if exist) fault trace (only one polyline in GMT format)

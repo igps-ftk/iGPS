@@ -1,0 +1,58 @@
+*  PROG: WRITE_VEL_PROFILE
+*RUN BY: tianyf @ T [Intel64 Family 6 Model 61 Stepping 4, GenuineIntel]
+*RUN AT: Microsoft Windows x86_64
+*RUN ON: Wed Jan 03 06:59:09 2024 [UTC]
+*   SRC: D:\iGPS\example\profile\wang.min.jgr2020.Table.S4.psvelo
+*   SRC: D:\iGPS\example\profile\fa_redriver.psxy
+*   SRC: D:\iGPS\example\profile\p_auto\profiles_auto.psxy
+# PSXY_PROFILE         103.79771525          21.38052533
+# PSXY_PROFILE         105.03448530          22.89005498
+# PSXY_FAULT_PROFILE_INTERSECT         104.41610028          22.13529015
+# PSXY_FAULT_TRACE         100.20650644          25.72542285
+# PSXY_FAULT_TRACE         100.45003368          25.35562222
+# PSXY_FAULT_TRACE         100.81081478          25.01288018
+# PSXY_FAULT_TRACE         101.18963493          24.52582570
+# PSXY_FAULT_TRACE         101.60453319          23.99367358
+# PSXY_FAULT_TRACE         101.96531429          23.59681438
+# PSXY_FAULT_TRACE         102.20884153          23.45250194
+# PSXY_FAULT_TRACE         102.61472026          23.25407233
+# PSXY_FAULT_TRACE         102.94844278          23.15485753
+# PSXY_FAULT_TRACE         103.22804813          23.01956462
+# PSXY_FAULT_TRACE         103.49863395          22.90231077
+# PSXY_FAULT_TRACE         103.69706355          22.73995927
+# PSXY_FAULT_TRACE         104.35548905          22.18074857
+# PSXY_FAULT_TRACE         104.78842637          21.85604559
+# PSXY_FAULT_TRACE         105.16724652          21.46820591
+# PSXY_FAULT_TRACE         105.72645722          20.98115143
+# PSXY_FAULT_TRACE         106.33076556          20.27762829
+# PSXY_FAULT_TRACE         106.48409752          20.14233538
+*
+* 01site           : name of location
+* 02pLon           : longitude of point projected onto the profile line (deg)
+* 03pLat           : latitude of point projected onto the profile line (deg)
+* 04pDist          : distance from location to profile (km)
+* 05VNor           : velocity along the profile (normal to the fault trace); positive-north (mm/yr)
+* 06VeNor          : velocity uncertainty along the profile (mm/yr)
+* 07VPar           : velocity tangent to the profile (parallel to the fault trace); positive-90deg-clockwise from v_along direction (mm/yr)
+* 08VePar          : velocity uncertainty tangent to the profile (mm/yr)
+* 09VUp            : vertical velocity; positive-up (mm/yr)
+* 10VeUp           : vertical velocity uncertainty
+* 11lon            : longitude of location (deg)
+* 12lat            : latitude of location (deg)
+* 13distFa         : distance from location to fault; positive-east (km)
+* 14VLOS           : InSAR LOS velocity (mm/yr)
+* 15VeLOS          : InSAR velocity uncertainty (mm/yr)
+* 16VE             : east velocity of location; positive-east (mm/yr)
+* 17VN             : north velocity of location; positive-north (mm/yr)
+* 18VEe            : east velocity uncertainty (mm/yr)
+* 19VNe            : north velocity uncertainty (mm/yr)
+* 20CEN            : correlation coefficient between east and north
+* 21CEU            : correlation coefficient between east and up
+* 22CNU            : correlation coefficient between north and up
+* 23distFa2        : distance from location to 2nd fault; positive-east (km)
+* 24StrkDif        : angle of strikes of two faults (degree)
+*
+*   01site   02pLon  03pLat 04pDist   05VNor 06VeNor   07VPar 08VePar    09VUp  10VeUp    11lon   12lat  13distFa   14VLOS 15VeLOS     16VE     17VN   18VEe   19VNe   20CEN   21CEU  22CNU
+  HB11_GPS  104.430  22.152   63.80     1.56    0.46     6.48    0.44  -999.99    0.00   103.97   22.53     2.336  -999.99    0.00     6.00    -2.90    0.50    0.40    0.00    0.00  0.000
+  F081_GPS  104.955  22.793   93.69     2.73    0.56     6.17    0.55  -999.99    0.00   104.27   23.35    91.872  -999.99    0.00     6.50    -1.80    0.60    0.50    0.00    0.00  0.000
+  F361_GPS  104.980  22.823   21.39     2.70    0.56     6.45    0.54  -999.99    0.00   104.82   22.95    96.067  -999.99    0.00     6.70    -2.00    0.60    0.50    0.00    0.00  0.000
