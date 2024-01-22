@@ -1,6 +1,6 @@
 
 
-PRO SAR_LOS_PROFILE_AUTO, vfile, $  ;velocity file (in varied formats)
+PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
     opath, $   ;output path
     ffile=ffile,  $ ;(if exist) fault trace (only one polyline in GMT format)
     f2file=f2file,  $ ;(if exist) fault trace (only one polyline in GMT format)
@@ -17,7 +17,8 @@ PRO SAR_LOS_PROFILE_AUTO, vfile, $  ;velocity file (in varied formats)
     ;3 (free format 1): Long.    Lat.      Ve       Vn     Se     Sn    Cne  Sta.      Source
     ;  e.g.,
     ; 74.336  39.842   0.170   13.790  0.560  0.503  0.000  I089  This_study
-    ;
+    ;4 xyz or xyze:
+    
     auto_strike=auto_strike,  $
     ;  1: calculate strikes for individual segments
     ;  2: use the average strike for all segments
@@ -31,8 +32,8 @@ PRO SAR_LOS_PROFILE_AUTO, vfile, $  ;velocity file (in varied formats)
   
   IF N_PARAMS() LT 2 THEN BEGIN
     ;
-    inputfmt=1
-    
+    ;inputfmt=1
+  
     ;
     ;    vfile='D:\iGPS\example\profile\Supp_Table_S1.psvelo'
     ;    opath='D:\iGPS\example\profile\p_auto'
@@ -58,9 +59,9 @@ PRO SAR_LOS_PROFILE_AUTO, vfile, $  ;velocity file (in varied formats)
     ;    inputfmt=3
     ;  ;stop
     ;  ;pfile='D:\ICD\projects\DirectorFund\Application.2012\Final\figure\vector\profiles.psxy'
-    
-    
-    ;    vfile='D:\iGPS\tables\wang_shen_2019JB018774_Table.S4S5.psvelo'
+  
+  
+    ;        vfile='D:\iGPS\tables\wang_shen_2019JB018774_Table.S4S5.psvelo'
     ;    inputfmt=1
     ;    ffile='D:\iGPS\tables\fa_ganzi.psxy'
     ;    opath='D:\gsar\interseismic\004-d-m5-0476_0481_0486_0491_0496-jiali8\f123\sbas.4.0.0001.9999.20170311.20230831.060.0410.01.___\pg.fa_ganzi'
@@ -89,45 +90,68 @@ PRO SAR_LOS_PROFILE_AUTO, vfile, $  ;velocity file (in varied formats)
     ;        ffile='D:\iGPS\tables\fa_Kunlun_Fault.psxy'
     ;        f2files='C:\GMT_pub\vector\profile\fa_ganzi_xianshuihe.psxy'
     ;        opath='D:\gsar\interseismic\070-a-m6-0100_0105_0110_0115_0120_0125-eastkunlun5M3\f123\asc_des\sbas.4.0.0367.9999.20150808.20210520.147.1355.01.___\p.fa_kunlun_Fault_gic3dv_prd_toGYXSH'
-    
-    
-    vfile='D:\gsar\interseismic\070-a-m6-0100_0105_0110_0115_0120_0125-eastkunlun5M3\f123\sbas.4.0.0001.9999.20141022.20230225.056.0770.01.___\insar_los_2_3d_all_2km.psvelo'
+  
+  
+    ;    vfile='D:\gsar\interseismic\070-a-m6-0100_0105_0110_0115_0120_0125-eastkunlun5M3\f123\asc_des\gic3dv.out.psvelo'
+    ;    ffile='C:\GMT_pub\vector\profile\fa_ganzi_xianshuihe.psxy'
+    ;    opath='D:\gsar\interseismic\070-a-m6-0100_0105_0110_0115_0120_0125-eastkunlun5M3\f123\asc_des\sbas.4.0.0367.9999.20150808.20210520.147.1355.01.___\p.fa_ganzi_yushu_xianshuihe_gic3dv_out_horizontal_a1'
+    ;    is_fault_trace_downsample=1
+    ;    auto_strike=1
+  
+    ;    vfile='D:\gsar\interseismic\070-a-m6-0100_0105_0110_0115_0120_0125-eastkunlun5M3\f123\sbas.4.0.0001.9999.20141022.20230225.056.0770.01.___\insar_los_2_3d_all_2km.psvelo'
     ;   vfile='Z:\g11j\D\gsar\interseismic\070-a-m6-0100_0105_0110_0115_0120_0125-eastkunlun5M3\f123\sbas.4.0.0001.9999.20141022.20230225.056.0770.01.___\insar_los_2_3d_all_2km.psvelo'
-    
-;    ;    ;master: ganzi-yushu-xianshui
-;    ;    ;slaves: others
-;    ffile='C:\GMT_pub\vector\profile\fa_ganzi_xianshuihe.psxy'
-;    f2files=['C:\GMT_pub\vector\profile\fa_wudaoliang_changshagongma.psxy' $
-;      ,'C:\GMT_pub\vector\profile\fa_dari.psxy'  $
-;      ,'C:\GMT_pub\vector\profile\fa_maduo_gande.psxy'  $
-;      ,'C:\GMT_pub\vector\profile\fa_Kunlun_Fault.psxy' $
-;      ]
-;    ;    is_fault_trace_downsample=1
-;    ;    auto_strike=1
-;    ;      opath='D:\gsar\interseismic\070-a-m6-0100_0105_0110_0115_0120_0125-eastkunlun5M3\f123\sbas.4.0.0001.9999.20141022.20230225.056.0770.01.___\p.fa_ganzi_xianshuihe_dec3d_byN_all_2km_toKLF_a1'
-;    ;
-;    is_fault_trace_downsample=1
-;    auto_strike=2
-;    opath='D:\gsar\interseismic\070-a-m6-0100_0105_0110_0115_0120_0125-eastkunlun5M3\f123\sbas.4.0.0001.9999.20141022.20230225.056.0770.01.___\p.fa_ganzi_xianshuihe_dec3d_byN_all_2km_toKLF'
-;    ;    opath='Z:\g11j\D\gsar\interseismic\070-a-m6-0100_0105_0110_0115_0120_0125-eastkunlun5M3\f123\sbas.4.0.0001.9999.20141022.20230225.056.0770.01.___\p.fa_ganzi_xianshuihe_dec3d_byN_all_2km_toKLF'
+    ;    vfile='Z:\g11j\D\gsar\interseismic\070-a-m6-0100_0105_0110_0115_0120_0125-eastkunlun5M3\f123\sbas.4.0.0001.9999.20141022.20230225.056.0770.01.___\insar_los_2_3d_all_1km.psvelo'
+  
+    ;    ;    ;master: ganzi-yushu-xianshui
+    ;    ;    ;slaves: others
+    ;    ffile='C:\GMT_pub\vector\profile\fa_ganzi_xianshuihe.psxy'
+    ;    f2files=['C:\GMT_pub\vector\profile\fa_wudaoliang_changshagongma.psxy' $
+    ;      ,'C:\GMT_pub\vector\profile\fa_dari.psxy'  $
+    ;      ,'C:\GMT_pub\vector\profile\fa_maduo_gande.psxy'  $
+    ;      ,'C:\GMT_pub\vector\profile\fa_Kunlun_Fault.psxy' $
+    ;      ]
+    ;    ;    is_fault_trace_downsample=1
+    ;    ;    auto_strike=1
+    ;    ;      opath='D:\gsar\interseismic\070-a-m6-0100_0105_0110_0115_0120_0125-eastkunlun5M3\f123\sbas.4.0.0001.9999.20141022.20230225.056.0770.01.___\p.fa_ganzi_xianshuihe_dec3d_byN_all_2km_toKLF_a1'
+    ;    ;
+    ;    is_fault_trace_downsample=1
+    ;    auto_strike=2
+    ;    opath='D:\gsar\interseismic\070-a-m6-0100_0105_0110_0115_0120_0125-eastkunlun5M3\f123\sbas.4.0.0001.9999.20141022.20230225.056.0770.01.___\p.fa_ganzi_xianshuihe_dec3d_byN_all_2km_toKLF'
+    ;    ;    opath='Z:\g11j\D\gsar\interseismic\070-a-m6-0100_0105_0110_0115_0120_0125-eastkunlun5M3\f123\sbas.4.0.0001.9999.20141022.20230225.056.0770.01.___\p.fa_ganzi_xianshuihe_dec3d_byN_all_2km_toKLF'
     ;
     ;
-        ;master: Kunlun
-        ;slaves: others
-        ffile='C:\GMT_pub\vector\profile\fa_Kunlun_Fault.psxy'
-;        opath='D:\gsar\interseismic\070-a-m6-0100_0105_0110_0115_0120_0125-eastkunlun5M3\f123\sbas.4.0.0001.9999.20141022.20230225.056.0770.01.___\p.fa_Kunlun_Fault_dec3d_byN_all_2km'
-    
-        f2files=[ $
-          'C:\GMT_pub\vector\profile\fa_maduo_gande.psxy'  $
-          ,'C:\GMT_pub\vector\profile\fa_dari.psxy'  $
-          ,'C:\GMT_pub\vector\profile\fa_wudaoliang_changshagongma.psxy' $
-          ,'C:\GMT_pub\vector\profile\fa_ganzi_xianshuihe.psxy' $
-          ]
-        opath='D:\gsar\interseismic\070-a-m6-0100_0105_0110_0115_0120_0125-eastkunlun5M3\f123\sbas.4.0.0001.9999.20141022.20230225.056.0770.01.___\p.fa_Kunlun_Fault_dec3d_byN_all_2km_toGYXSH'
+    ;        ;master: Kunlun
+    ;        ;slaves: others
+    ;        ffile='C:\GMT_pub\vector\profile\fa_Kunlun_Fault.psxy'
+    ;;        opath='D:\gsar\interseismic\070-a-m6-0100_0105_0110_0115_0120_0125-eastkunlun5M3\f123\sbas.4.0.0001.9999.20141022.20230225.056.0770.01.___\p.fa_Kunlun_Fault_dec3d_byN_all_2km'
+    ;
+    ;        f2files=[ $
+    ;          'C:\GMT_pub\vector\profile\fa_maduo_gande.psxy'  $
+    ;          ,'C:\GMT_pub\vector\profile\fa_dari.psxy'  $
+    ;          ,'C:\GMT_pub\vector\profile\fa_wudaoliang_changshagongma.psxy' $
+    ;          ,'C:\GMT_pub\vector\profile\fa_ganzi_xianshuihe.psxy' $
+    ;          ]
+    ;        opath='D:\gsar\interseismic\070-a-m6-0100_0105_0110_0115_0120_0125-eastkunlun5M3\f123\sbas.4.0.0001.9999.20141022.20230225.056.0770.01.___\p.fa_Kunlun_Fault_dec3d_byN_all_2km_toGYXSH'
+    ;
+  
+    ;        opath='D:\gsar\interseismic\070-a-m6-0100_0105_0110_0115_0120_0125-eastkunlun5M3\f123\asc_des\sbas.4.0.0367.9999.20150808.20210520.147.1355.01.___\p.fa_kunlun_Fault_gic3dv_prd_toGYXSH_etal'
+  
+    ;    ffile='C:\GMT_pub\vector\profile\fa_wudaoliang_changshagongma.psxy'
+    ;    opath='Z:\g11j\D\gsar\interseismic\070-a-m6-0100_0105_0110_0115_0120_0125-eastkunlun5M3\f123\sbas.4.0.0001.9999.20141022.20230225.056.0770.01.___\p.fa_wudaoliang_changshagongma_dec3d_byN_all_1km'
+    ;    ffile='C:\GMT_pub\vector\profile\fa_dari.psxy'
+    ;    opath='Z:\g11j\D\gsar\interseismic\070-a-m6-0100_0105_0110_0115_0120_0125-eastkunlun5M3\f123\sbas.4.0.0001.9999.20141022.20230225.056.0770.01.___\p.fa_dari_dec3d_byN_all_1km'
+  
+    fa='fa_haiyuan'
+    ;     vfile='D:\gsar\interseismic\033-d-m2-0463_0468-menyuan\f123\sbas.4.0.0001.9999.20220110.20231219.058.0795.01.___\vel_mask_ll3.xyze'
+    cmt='3d_1920'
+    ; vfile='D:\gsar\interseismic\005-d-m3-0460_0466_0471-karakul_lake_south\f123.1\sbas.3.0.0720.9999.20141018.20200320.121.0340.01.___\vel_mask_ll3.xyz'
+    vfile='D:\gsar\gic3dv\hyf\asc_des\insar_los_2_3d_1920.psvelo'
     ;
     
-;        opath='D:\gsar\interseismic\070-a-m6-0100_0105_0110_0115_0120_0125-eastkunlun5M3\f123\asc_des\sbas.4.0.0367.9999.20150808.20210520.147.1355.01.___\p.fa_kunlun_Fault_gic3dv_prd_toGYXSH_etal'
-    
+    ;fa='fa_eklf'
+    ;vfile='D:\gsar\gic3dv\kunlun\asc_des\gps_prd'
+    ;vfile='D:\gsar\gic3dv\kunlun\asc_des\gic3dv.out'
+    ;cmt='gicout'
     
     is_fault_trace_downsample=0
     auto_strike=2
@@ -136,17 +160,39 @@ PRO SAR_LOS_PROFILE_AUTO, vfile, $  ;velocity file (in varied formats)
     spacing_profile=10
   ;
   ;    spacing_profile=200
-  ;    search_radius=5
+  ;      search_radius=5
+  ENDIF
+  
+  IF N_ELEMENTS(cmt) EQ 0 THEN BEGIN
+    cmt=''
+  ENDIF
+  
+  IF N_ELEMENTS(opath) EQ 0 THEN BEGIN
+    opath=getpathname(vfile)+PATH_SEP()+'p.'+fa
+    IF cmt NE '' THEN BEGIN
+      opath=opath+'_'+cmt
+    ENDIF
   ENDIF
   
   IF FILE_TEST(opath,/directory) NE 1 THEN FILE_MKDIR,opath
   
   IF N_ELEMENTS(out_plot) EQ 0 THEN out_plot=0
-  IF N_ELEMENTS(inputfmt) EQ 0 THEN inputfmt=0
+  ;IF N_ELEMENTS(inputfmt) EQ 0 THEN inputfmt=0
   IF N_ELEMENTS(auto_strike) EQ 0 THEN auto_strike=2
   IF N_ELEMENTS(spacing_profile) EQ 0 THEN spacing_profile=30  ;in km (distance between two neighboring profiles)
   IF N_ELEMENTS(length_profile) EQ 0 THEN length_profile=600  ;in km (the total length of the profile generated automatically by iGPS)
   IF N_ELEMENTS(is_fault_trace_downsample) EQ 0 THEN is_fault_trace_downsample=0
+  
+  IF N_ELEMENTS(ffile) EQ 0 THEN BEGIN
+    ;      PROFILE_NAME2VECTORFILE,   $
+    ;        fa,   $ ;input, fault name
+    ;        ffile=ffile   ;output, fault file
+    ;
+  
+    path_profile='C:\GMT_pub\vector\profile'
+    ;      path_profile=!igps_root+path_sep()+'tables'
+    ffile=path_profile+PATH_SEP()+fa+'.psxy'
+  ENDIF
   
   np=0
   pxys=-9999d0
@@ -156,54 +202,21 @@ PRO SAR_LOS_PROFILE_AUTO, vfile, $  ;velocity file (in varied formats)
   ENDIF
   ;search_radius=100d0
   
+  PRINT,'['+prog+']INFO:reading velocity ('+vfile+')...'
+  READ_DEFO_VELOCITY, vfile,   $
+    data=data,  $
+    sites=sites,  $
+    fmt=inputfmt, $
+    dummy=dummy
+  lls=data[0:1,*]
+  nsit=N_ELEMENTS(sites)
+  ;stop
   
-  ;read velocity field into vels variable
-  ;  vels:
-  ;    Long  Lat Vn  Sn  Ve  Se  Cne
-  CASE inputfmt OF
-    0: BEGIN
-      ;Site Long  Lat Vn  Sn  Ve  Se  Cne
-      ;H095  102.232 27.8745 -10.8 1.3 10.5  1.3 0.0064
-      READ_GNSS_VELH_SLLNE, vfile,   $
-        sites=sites,  $
-        lls=lls,  $
-        vels=vels,  $
-        nsit=nsit
-    END
-    1: BEGIN  ;
-      ;read psvelo velocity field
-      ;lon lat Ve Vn Se Sn Cen Site
-      READ_PSVELO, vfile,   $
-        sites=sites,  $
-        lls=lls,  $
-        vels=vels,  $
-        nsit=nsit
-    END
-    2: BEGIN  ;
-      ;read qoca map velocity field
-      ;*Station   Longitude   Latitude Ve_init Ve_incr    Ve     dVe   Vn_init Vn_incr    Vn     dVn   Cen
-      ; ARTU_GPS   58.5583   56.4278     0.0     0.0    24.9     0.0     0.0     0.0     6.1     0.0   0.0000
-      READ_GNSS_VELH_QOCA_MAP, vfile,   $
-        sites=sites,  $
-        lls=lls,  $
-        vels=vels,  $
-        nsit=nsit
-    END
-    3: BEGIN  ;
-      ;  Long.    Lat.      Ve       Vn     Se     Sn    Cne  Sta.      Source
-      ; 74.336  39.842   0.170   13.790  0.560  0.503  0.000  I089  This_study
-      ; 78.680  29.848  10.840   32.656  1.550  1.450 -0.002  LAN2  Kreemer et al. [2014] from Banerjee et al. [2008]
-      READ_PSVELO_EXT, vfile,   $
-        sites=sites,  $
-        lls=lls,  $
-        vels=vels,  $
-        nsit=nsit
-    END
-    ELSE: BEGIN
-      PRINT,'['+prog+']ERROR: invalid input velocity format!!'
-      RETURN
-    END
-  ENDCASE
+  ;    ELSE: BEGIN
+  ;      PRINT,'['+prog+']ERROR: invalid input velocity format!!'
+  ;      RETURN
+  ;    END
+  ;  ENDCASE
   
   xmin=MIN(lls[0,*],max=xmax)
   ymin=MIN(lls[1,*],max=ymax)
@@ -211,6 +224,7 @@ PRO SAR_LOS_PROFILE_AUTO, vfile, $  ;velocity file (in varied formats)
   ;  rect=[Xmin-1, Ymin-1, Xmax+1, Ymax+1] ;enlarge the rect range
   
   
+  PRINT,'['+prog+']INFO:reading fault ('+ffile+')...'
   ;read fault vector (if specified)
   IF N_ELEMENTS(ffile) GT 0 && ffile NE '' THEN BEGIN
     lines_fvec=read_txt(ffile)
@@ -340,14 +354,16 @@ PRO SAR_LOS_PROFILE_AUTO, vfile, $  ;velocity file (in varied formats)
   
   ;stop
   ;loop for each profile
+  PRINT,'['+prog+']INFO:loop for each profile ...'
   
-  FOR pi=0,np-1 DO BEGIN  ;loop for each profile
+  ;  FOR pi=0,np-1 DO BEGIN  ;loop for each profile
+  FOR pi=51,51 DO BEGIN  ;test
   
     WINDOW,1,xsize=1500,ysize=900,title='Profile '+STRING(pi+1,format='(i03)'),/pixmap
     DEVICE,decomposed=1
     !p.MULTI=[0,2,2]
     ;!p.MULTI=-1
-    PLOT,vels[0,*],vels[1,*],psym=1,background='ffffff'x,color='0'x, $
+    PLOT,lls[0,*],lls[1,*],psym=1,background='ffffff'x,color='0'x, $
       title='Sites Overview Map', $
       xrange=[90,110], $
       yrange=[25,44], $
@@ -454,7 +470,7 @@ PRO SAR_LOS_PROFILE_AUTO, vfile, $  ;velocity file (in varied formats)
       ;        WINDOW,2,xsize=800,ysize=600,title='Map',/pixmap
       ;        ;stop
       ;        DEVICE,decomposed=1
-      ;        PLOT,vels[0,*],vels[1,*],psym=1,background='ffffff'x,color='0'x, $
+      ;        PLOT,lls[0,*],lls[1,*],psym=1,background='ffffff'x,color='0'x, $
       ;          title=sites[si], $
       ;          /ynozero,/iso
       ;        OPLOT,[a1[0],b1[0]], [a1[1],b1[1]], color='ff0000'x
@@ -596,6 +612,7 @@ PRO SAR_LOS_PROFILE_AUTO, vfile, $  ;velocity file (in varied formats)
     ;help,pos
     ;stop
     IF pos[0] EQ -1 THEN BEGIN  ;no velocity
+      PRINT,'no data'
       CONTINUE
     ENDIF
     
@@ -604,7 +621,7 @@ PRO SAR_LOS_PROFILE_AUTO, vfile, $  ;velocity file (in varied formats)
     ;DEVICE,decomposed=1
     lonmin=MIN([ a1[0],b1[0],REFORM(xys_fvec[0,*]) ],max=lonmax)
     latmin=MIN([ a1[1],b1[1],REFORM(xys_fvec[1,*]) ],max=latmax)
-    PLOT,vels[0,*],vels[1,*],psym=1,background='ffffff'x,color='0'x, $
+    PLOT,lls[0,*],lls[1,*],psym=1,background='ffffff'x,color='0'x, $
       title='Site Map for Profile '+STRING(pi+1,format='(i2)'), $
       xrange=[lonmin,lonmax], $
       yrange=[latmin,latmax], $
@@ -633,87 +650,127 @@ PRO SAR_LOS_PROFILE_AUTO, vfile, $  ;velocity file (in varied formats)
     vele_tang_all=DBLARR(N_ELEMENTS(pos))
     vel_up_all=DBLARR(N_ELEMENTS(pos))
     vele_up_all=DBLARR(N_ELEMENTS(pos))
+    vel_los_all=DBLARR(N_ELEMENTS(pos))
+    vele_los_all=DBLARR(N_ELEMENTS(pos))
     
     vel_along_all[*]=-999.99d0
     vel_tang_all[*]=-999.99d0
     vel_up_all[*]=-999.99d0
+    vel_los_all[*]=-999.99d0
     
-    FOR vi=0, N_ELEMENTS(pos)-1 DO BEGIN
-      IF sites[pos[vi]] EQ '2hom' THEN STOP
+    FOR posi=0, N_ELEMENTS(pos)-1 DO BEGIN
+      ;      IF sites[pos[posi]] EQ '2hom' THEN STOP ;test
       ;vel:
       ;   0     1  2   3   4   5   6
       ;  Long  Lat Vn  Sn  Ve  Se  Cne
-      vel=REFORM(vels[*,pos[vi]])
-      vel_amp=SQRT(vel[4]^2+vel[2]^2)
-      vel_azi=ATAN(vel[2],vel[4])
-      ;PRINT,'angle of velocity vector is:',vel_azi*180/!dpi
-      ;PRINT,vel_azi*180/!dpi
-      
-      
-      ;calculate the angle (phi) between the profile and velocity vector
-      ;            /profile
-      ;           /
-      ;          /  alpha
-      ;---------------------
-      ;         |\ ~
-      ;         | \    ~
-      ;         | _\|     ~fault strike
-      ;         |  GPS
+      ;      vel=REFORM(vels[*,pos[posi]])
+      ;      vel_amp=SQRT(vel[4]^2+vel[2]^2)
+      ;      vel_azi=ATAN(vel[2],vel[4])
       ;
-      ;      phi=alpha-vel_azi
-      ;      ;PRINT,'angle between the profile and velocity vector is:',phi*180/!dpi
-      ;      phi=vel_azi-strike_fa
-      ;      PRINT,'angle between fault and velocity vector is:',phi*180/!dpi
-      
-      vel_azi_rot=vel_azi-strike_fa
-      ;PRINT,'angle between fault and velocity vector is:',vel_azi_rot*180/!dpi
-      
-      IF N_ELEMENTS(f2files) NE 0 && f2files[0] NE '' THEN BEGIN ;for the 2nd fault
-        ;stop
-        FOR f2i=0, n_2nd_fault-1 DO BEGIN
-          alpha_2nd=cross_angles_2nd[f2i,pos[vi]] ;profile direction
-          strike_fa_2nd=alpha_2nd-!dpi/2
-          ;phi_2nd=vel_azi-strike_fa_2nd
-          vel_azi_rot_2nd=vel_azi-strike_fa_2nd
-          ;PRINT,'angle between the 2nd fault and velocity vector is:',vel_azi_rot_2nd*180/!dpi
-          velocity_Scale_Factors[f2i,pos[vi]]=ABS(COS(vel_azi_rot)/COS(vel_azi_rot_2nd))
-        ENDFOR
-      ;stop
+      ;      ;data array (data)
+      ;   0  1   2   3  4   5  6   7  8    9  10  11   12
+      ;[ lon lat Ve dVe Vn dVn Vu dVu Cen Ceu Cnu Los dLos ]
+    
+    
+      vel=REFORM(data[*,pos[posi]])
+      ;STOP
+      ;if has los velocity
+      IF FINITE(vel[11]) EQ 1 THEN BEGIN
+        vel_los_all[posi]=vel[11]
+        vele_los_all[posi]=vel[12]
       ENDIF
       
       
-      ;      vel_normal=vel_amp*COS(phi)
-      ;      vel_parallel=vel_amp*SIN(phi)
-      ;      vel_along_all[vi]=vel_normal
-      ;      vel_tang_all[vi]=vel_parallel
-      ;      ;print,vel_ss,vel_stc ; signs need further operation
+      ;if has vertical velocity
+      IF FINITE(vel[6]) EQ 1 THEN BEGIN
+        vel_up_all[posi]=vel[6]
+        vele_up_all[posi]=vel[7]
+      ENDIF
       
-      ;another way, the matrix transformation
-      vel_en=[vel[4],vel[2]]  ;velocities in the east and north directions
-      vel_en_rot=vel_en#rmat  ;velocities in the along-profile and tangent-profile (counter-clockwise 90 degrees from the along-profile) directions
-      ;print,vel_at[*]
-      ;PRINT,'e , n velocities:', vel_en
-      ;PRINT,'e , n velocities in new coordiante system:',vel_en_rot
-      vel_amp_rot=SQRT(vel_en_rot[0]^2+vel_en_rot[1]^2)
-      
-      vel_normal2=vel_amp_rot*SIN(vel_azi_rot)
-      vel_parallel2=vel_amp_rot*COS(vel_azi_rot)
-      
-      ;PRINT,'velocity of fault-normal:',vel_normal,'  fault-parallel:',vel_parallel
-      ;PRINT,'velocity of fault-normal:',vel_normal2,'  fault-parallel:',vel_parallel2, ' (2nd Method)
-      
-      vel_along_all[vi]=vel_normal2
-      vel_tang_all[vi]=vel_parallel2
-      ;STOP
-      
-      ;
-      ;transform uncertainty
-      vele_en=[[vel[5]^2,vel[6]*vel[5]*vel[3]], $
-        [vel[6]*vel[5]*vel[3], vel[3]^2] ]
-      ;print,vel[[5,3]]
-      vele_at=rmat#vele_en#TRANSPOSE(rmat)
-      vele_along_all[vi]=SQRT(vele_at[0,0])
-      vele_tang_all[vi]=SQRT(vele_at[1,1])
+      ;if has horizontal velocity
+      IF FINITE(vel[2]) EQ 1 && FINITE(vel[4]) EQ 1 THEN BEGIN
+        vel_amp=SQRT(vel[2]^2+vel[4]^2)
+        vel_azi=ATAN(vel[4],vel[2])
+        ;PRINT,'angle of velocity vector is:',vel_azi*180/!dpi
+        ;PRINT,vel_azi*180/!dpi
+        
+        
+        ;calculate the angle (phi) between the profile and velocity vector
+        ;            /profile
+        ;           /
+        ;          /  alpha
+        ;---------------------
+        ;         |\ ~
+        ;         | \    ~
+        ;         | _\|     ~fault strike
+        ;         |  GPS
+        ;
+        ;      phi=alpha-vel_azi
+        ;      ;PRINT,'angle between the profile and velocity vector is:',phi*180/!dpi
+        ;      phi=vel_azi-strike_fa
+        ;      PRINT,'angle between fault and velocity vector is:',phi*180/!dpi
+        
+        vel_azi_rot=vel_azi-strike_fa
+        ;PRINT,'angle between fault and velocity vector is:',vel_azi_rot*180/!dpi
+        
+        IF N_ELEMENTS(f2files) NE 0 && f2files[0] NE '' THEN BEGIN ;for the 2nd fault
+          ;stop
+          FOR f2i=0, n_2nd_fault-1 DO BEGIN
+            alpha_2nd=cross_angles_2nd[f2i,pos[posi]] ;profile direction
+            strike_fa_2nd=alpha_2nd-!dpi/2
+            ;phi_2nd=vel_azi-strike_fa_2nd
+            vel_azi_rot_2nd=vel_azi-strike_fa_2nd
+            ;PRINT,'angle between the 2nd fault and velocity vector is:',vel_azi_rot_2nd*180/!dpi
+            velocity_Scale_Factors[f2i,pos[posi]]=ABS(COS(vel_azi_rot)/COS(vel_azi_rot_2nd))
+          ENDFOR
+        ;stop
+        ENDIF
+        
+        
+        ;      vel_normal=vel_amp*COS(phi)
+        ;      vel_parallel=vel_amp*SIN(phi)
+        ;      vel_along_all[posi]=vel_normal
+        ;      vel_tang_all[posi]=vel_parallel
+        ;      ;print,vel_ss,vel_stc ; signs need further operation
+        
+        ;another way, the matrix transformation
+        ;        vel_en=[vel[4],vel[2]]  ;velocities in the east and north directions (old indices)
+        ;        vele_en=[[vel[5]^2,vel[6]*vel[5]*vel[3]], $   ;(old)
+        ;          [vel[6]*vel[5]*vel[3], vel[3]^2] ]
+        ;
+        ;      ;vel (old):
+        ;      ;   0     1  2   3   4   5   6
+        ;      ;  Long  Lat Vn  Sn  Ve  Se  Cne
+        ;      ;new:
+        ;   0  1   2   3  4   5  6   7  8    9  10  11   12
+        ;[ lon lat Ve dVe Vn dVn Vu dVu Cen Ceu Cnu Los dLos ]
+        vel_en=[vel[2],vel[4]]
+        vele_en=[[vel[3]^2,vel[8]*vel[3]*vel[5]], $ ;new
+          [vel[8]*vel[3]*vel[5], vel[5]^2] ]
+          
+        vel_en_rot=vel_en#rmat  ;velocities in the along-profile and tangent-profile (counter-clockwise 90 degrees from the along-profile) directions
+        ;print,vel_at[*]
+        ;PRINT,'e , n velocities:', vel_en
+        ;PRINT,'e , n velocities in new coordiante system:',vel_en_rot
+        vel_amp_rot=SQRT(vel_en_rot[0]^2+vel_en_rot[1]^2)
+        
+        vel_normal2=vel_amp_rot*SIN(vel_azi_rot)
+        vel_parallel2=vel_amp_rot*COS(vel_azi_rot)
+        
+        ;PRINT,'velocity of fault-normal:',vel_normal,'  fault-parallel:',vel_parallel
+        ;PRINT,'velocity of fault-normal:',vel_normal2,'  fault-parallel:',vel_parallel2, ' (2nd Method)
+        
+        vel_along_all[posi]=vel_normal2
+        vel_tang_all[posi]=vel_parallel2
+        ;STOP
+        
+        ;
+        ;transform uncertainty
+        ;print,vel[[5,3]]
+        vele_at=rmat#vele_en#TRANSPOSE(rmat)
+        vele_along_all[posi]=SQRT(vele_at[0,0])
+        vele_tang_all[posi]=SQRT(vele_at[1,1])
+      ENDIF
       
     ;stop
       
@@ -722,7 +779,7 @@ PRO SAR_LOS_PROFILE_AUTO, vfile, $  ;velocity file (in varied formats)
     ;        DEVICE,decomposed=1
     ;        PLOT,vels[0,*],vels[1,*],psym=1,background='ffffff'x,color='0'x, $
     ;          /nodata, xrange=[-20,20],yrange=[-20,20], $
-    ;          title=sites[pos[vi]],$
+    ;          title=sites[pos[posi]],$
     ;          /ynozero,/iso
     ;        OPLOT,[0,vel[4]],[0,0],color='0'x
     ;        OPLOT,[0,0],[0,vel[3]],color='0'x
@@ -731,7 +788,7 @@ PRO SAR_LOS_PROFILE_AUTO, vfile, $  ;velocity file (in varied formats)
     ;        y=x*TAN(alpha)
     ;        OPLOT,x,y,color='0'x,linestyle=2
     ;        OPLOT,[0,vel_ss],[0,vel_st],color='ff0000'x,thick=2,linestyle=3
-    ;        ofile=opath+PATH_SEP()+sites[pos[vi]]+'_vel_components.jpg'
+    ;        ofile=opath+PATH_SEP()+sites[pos[posi]]+'_vel_components.jpg'
     ;        WRITE_JPEG, ofile, TVRD(true=1),true=1,quality=100
     ;      ENDIF
     ;STOP
@@ -749,11 +806,12 @@ PRO SAR_LOS_PROFILE_AUTO, vfile, $  ;velocity file (in varied formats)
         vel_along_all[ind[j]],vele_along_all[ind[j]],vel_tang_all[ind[j]],vele_tang_all[ind[j]], $
         vel_up_all[ind[j]],vele_up_all[ind[j]], lls[*,pos[ind[j]]], $
         dists_fault[pos[ind[j]]], $
-        -999.99d0,0,  $
-        vels[[4,2,5,3],pos[ind[j]]] $
-        , 0,0,0 ]
+        vel_los_all[ind[j]],vele_los_all[ind[j]],  $
+        data[[2,4,3,5,8,9,10],pos[ind[j]]] $
+        ]
+    ;stop
     ENDFOR
-    
+    ;stop
     IF N_ELEMENTS(f2files) NE 0 && f2files[0] NE '' THEN BEGIN ;with 2nd fault(s)
       odata_2nd=DBLARR(2*n_2nd_fault,N_ELEMENTS(ind))
       odata_2nd[*]=!values.D_NAN

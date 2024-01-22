@@ -1,0 +1,94 @@
+#!/bin/sh
+
+# Name:
+#   sh_gnss_vel_qmap2psvelo
+#   
+
+# Purpose:
+#   +
+
+# Input:
+#   +
+
+# Output:
+#   +
+
+# Example:
+#   +
+
+# Algorithm:
+#   +
+
+# Modifications:
+#   + Created on Sun Jan 14 21:18:10 EST 2024 by tianyf
+#   +
+
+# Dependency:
+#   +
+#
+
+
+PROG=sh_gnss_vel_qmap2psvelo
+
+timestamp=`date | sed -e "s/ /_/g" | sed -e "s/:/-/g"`
+
+path_old=`pwd`
+
+usage_of_it(){
+cat <<eob
+${PROG}
+  version 20240114
+|_ Convert QOCA Map velocity to GMT's psvelo foramt.
+|+
+  -NONE
+|<
+  [-f|-file FILE_IN]
+    default: resf
+  [-o|-ofile FILE_OUT]
+    default: resf.psvelo
+  [-h|-help|--help]
+|>
+  Outputs
+|e.g.,
+  ${PROG}
+  ${PROG} -f vel.qmap
+  ${PROG} -f vel.qmap -o vel.psvelo
+(c)iGPS (https://github.com/igps-ftk/)
+eob
+}
+
+if [ $# -lt 2 ]; then
+  usage_of_it
+  #exit 1
+fi
+
+file=resf
+ofile=
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -f|-file)
+      file=$2
+      ;;
+    -o|-ofile)
+      ofile=$2
+      ;;
+    -h|-help|--help)
+      usage_of_it
+      exit 1
+      ;;
+    *)
+      echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid option ($1)!!"
+      usage_of_it
+      exit 1
+      ;;
+  esac
+  shift 2
+done
+
+if [ "$ofile" = "" ]; then
+  ofile="${file}.psvelo"
+fi
+
+grep '^ ' -ha $file | awk '{print $2,$3,$6,$10,$7,$11,$12,$1}' > $ofile
+echo "[$PROG]INFO: done."

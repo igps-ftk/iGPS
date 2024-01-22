@@ -56,8 +56,8 @@ PRO READ_GNSS_VELH_CMM4, file, $
   lines1=lines[0:*]
   lines1=str_lines2arr(lines1)
   sites=REFORM(lines1[0,*])
-  lls=DOUBLE(lines1[1:2,*])
-  vels=DOUBLE(lines1[1:*,*])  ;stop
+  lls=DOUBLE(lines1[[2,1],*])
+  vels=DOUBLE(lines1[[2,1,3,5,4,6,7],*])  ;stop
   nsit=N_ELEMENTS(sites)
   
   IF N_PARAMS() LT 1 THEN BEGIN

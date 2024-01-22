@@ -1,4 +1,4 @@
-PRO SAR_LOS_PROFILE_FIT, pfile, ofile
+PRO VEL_PROFILE_FIT, pfile, ofile
 
   PROG=(STRSPLIT(LAST(SCOPE_TRACEBACK()),/EXTRACT))[0]
   
@@ -6,13 +6,16 @@ PRO SAR_LOS_PROFILE_FIT, pfile, ofile
     ;
     pfiles=FILEPATH('profile_009_vel.psxy',subdirectory=['example','profile','p_auto'],$
       root=!igps_root)
+      
+    pfiles='D:\Papers\kunlun\figure\gps.profile\pg.klf.zhang.pz03\profile_002_vel.psxy'
+    pfiles='D:\gsar\interseismic\070-a-m6-0100_0105_0110_0115_0120_0125-eastkunlun5M3\f123\asc_des\sbas.4.0.0367.9999.20150808.20210520.147.1355.01.___\p.fa_kunlun_Fault_gic3dv_out_horizontal\profile_025_vel.psxy'
     
     nf=N_ELEMENTS(pfiles)
     FOR fi=0, nf-1 DO BEGIN
       ;    FOR fi=20, 21 DO BEGIN
       pfile=pfiles[fi]
       ofile=desuffix(pfile)+'_mdl.txt'
-      SAR_LOS_PROFILE_FIT, pfile, ofile
+      VEL_PROFILE_FIT, pfile, ofile
       RETURN
     ENDFOR
     RETURN
@@ -25,7 +28,7 @@ PRO SAR_LOS_PROFILE_FIT, pfile, ofile
   ;  nfs=N_ELEMENTS(fss)
   ;  nld=N_ELEMENTS(lds)
   ;stop
-  print,'[]INFO:processing'+pfile
+  PRINT,'[]INFO:processing'+pfile
   lines=read_txt(pfile)
   lines2=grepi(lines,'^ ', LINES_NOT=LINES_HEADER)
   ;help, lines_header
@@ -34,7 +37,7 @@ PRO SAR_LOS_PROFILE_FIT, pfile, ofile
   
   
   distmax=200 ;in km
-  distmin=-120
+  distmin=-170
   ;distmin=-90
   
   

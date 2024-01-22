@@ -51,8 +51,8 @@ tilt_correction=2; %linear trend (Segall, 2010)
 nsimu=5000; %number of simulations
 % npar=5 ;
 
-% paths={'C:\tmp\gic3dv\kunlun\asc_des\sbas.4.0.0367.9999.20150808.20210520.147.1355.01.___\p.fa_kunlun_Fault_gic3dv_out_horizontal_twofaults'};
 
+% paths={'C:\tmp\gic3dv\kunlun\asc_des\sbas.4.0.0367.9999.20150808.20210520.147.1355.01.___\p.fa_kunlun_Fault_gic3dv_out_horizontal_twofaults'};
 % ptn='016*'
 % dmin=-400;
 % dmax=200;
@@ -69,18 +69,61 @@ nsimu=5000; %number of simulations
 % dmax=150;
 % cmt='farLock'
 %
-paths={'D:\gsar\interseismic\070-a-m6-0100_0105_0110_0115_0120_0125-eastkunlun5M3\f123\sbas.4.0.0001.9999.20141022.20230225.056.0770.01.___\p.fa_Kunlun_Fault_dec3d_byN_all_2km'};
-ptn='039*';
-dmin=-300;
-dmax=300;
+% paths={'D:\gsar\interseismic\070-a-m6-0100_0105_0110_0115_0120_0125-eastkunlun5M3\f123\sbas.4.0.0001.9999.20141022.20230225.056.0770.01.___\p.fa_Kunlun_Fault_dec3d_byN_all_2km'};
+% ptn='039*';
+% dmin=-300;
+% dmax=300;
+% 
+% paths={'D:\gsar\interseismic\077-d-m3-0468_0473_0478-eastkunlun6M3\f123\sbas.4.0.0367.9999.20141103.20210506.149.1127.01.___\p.fa_Kunlun_Fault'};
+% 
+% paths={'D:\gsar\interseismic\070-a-m6-0100_0105_0110_0115_0120_0125-eastkunlun5M3\f123\asc_des\sbas.4.0.0367.9999.20150808.20210520.147.1355.01.___\p.fa_kunlun_Fault_gic3dv_out_horizontal'};
+% % paths={'D:\gsar\interseismic\070-a-m6-0100_0105_0110_0115_0120_0125-eastkunlun5M3\f123\asc_des\sbas.4.0.0367.9999.20150808.20210520.147.1355.01.___\p.fa_ganzi_yushu_xianshuihe_gic3dv_out_horizontal_a1'};
+% % % paths={'D:\Papers\kunlun\figure\gps.profile\pg.klf.zhang.pz03'};
+% % paths={'D:\gsar\interseismic\070-a-m6-0100_0105_0110_0115_0120_0125-eastkunlun5M3\f123\sbas.4.0.0001.9999.20141022.20230225.056.0770.01.___\p.fa_ganzi_xianshuihe_dec3d_byN_all_2km'};
+% paths={'D:\gsar\interseismic\070-a-m6-0100_0105_0110_0115_0120_0125-eastkunlun5M3\f123\sbas.4.0.0001.9999.20141022.20230225.056.0770.01.___\p.fa_wudaoliang_changshagongma_dec3d_byN_all_1km'};
+% ptn='029*';
+% % di=11;
+% % vi=12;
+% % ptn='*';
+% dmin=-90;
+% dmax=90;
+% tilt_correction=2;
 
-paths={'D:\gsar\interseismic\077-d-m3-0468_0473_0478-eastkunlun6M3\f123\sbas.4.0.0367.9999.20141103.20210506.149.1127.01.___\p.fa_Kunlun_Fault'};
-di=11;
-vi=12;
-ptn='033*';
-dmin=-300;
-dmax=100;
-tilt_correction=1;
+paths={'\\10.4.134.30\root\g6h\gsar\gic3dv\iys\asc_des\sbas.4.0.0001.9999.20150506.20231108.217.0639.01.___\p.fa_iys_insar3d'};
+paths={'D:\gsar\interseismic\121-d-m4-0486_0492_0497_0502-dingjie_gyaringco2\f123\sbas.4.0.0001.9999.20150506.20231108.217.0639.01.___\p.fa_iys'};
+ptn='167*';
+vi=14;
+% di=11;
+% vi=12;
+% ptn='*';
+dmin=-50;
+dmax=60;
+tilt_correction=2;
+
+%menyuan
+paths={'D:\gsar\interseismic\033-d-m4-0458_0463_0468_0473-qinghai_lake_haiyuan\f123\sbas.4.0.0367.9999.20141031.20210421.147.1280.01.___\p.fa_haiyuan'};
+% paths={'D:\gsar\interseismic\128-a-m3-0115_0120_0125-haiyuan\f123\sbas.4.9.0367.9999.20141014.20201006.136.1451.01.___\p.fa_haiyuan'};
+paths={'/g17b/gsar/D/gsar/interseismic/033-d-m4-0458_0463_0468_0473-qinghai_lake_haiyuan/f123/sbas.4.0.0367.9999.20141031.20210421.147.1280.01.___/p.fa_haiyuan'; ...
+    '/g17b/gsar/D/gsar/interseismic/128-a-m3-0115_0120_0125-haiyuan/f123/sbas.4.9.0367.9999.20141014.20201006.136.1451.01.___/p.fa_haiyuan'; ...
+    '/g17b/gsar/D/gsar/interseismic/026-a-m4-0117_0122_0127_0132-qilian/f123/sbas.4.0.0367.9999.20141019.20210208.140.1329.01.___/p.fa_haiyuan'};
+paths={'C:\tmp\gic3dv\hyf\asc_des\p.fa_haiyuan_insar3d2'};
+paths={'D:\gsar\interseismic\062-d-m6-0447_0452_0457_0462_0467_0472-haiyuan4M3\f123\sbas.4.0.0001.9999.20150206.20210517.053.0561.01.___\p.fa_haiyuan_insar3d_1920'};
+% paths={'D:\gsar\interseismic\055-a-m3-0112_0117_0122-haiyuan1M3\f123\sbas.4.0.0367.9999.20141021.20210423.122.1215.01.___\p.fa_haiyuan'};
+
+vi=7; %fault-parallel
+ptn='061*';
+% vi=14;
+% di=11;
+% vi=12;
+% ptn='*';
+dmin=-200;
+dmax=200;
+% dmin=-100;
+% dmax=200;
+
+d_exclude=[-120,20];
+tilt_correction=2;
+
 %
 % paths={'D:\gsar\interseismic\048-d-m5-0478_0483_0488_0493_0498-sewa3_wulan1_gyaringco3_ranwu2_iys\f123\sbas.4.0.0001.9999.20150113.20230131.065.0698.01.___\p.fa_bengco'};
 % paths={'D:\gsar\interseismic\048-d-m5-0478_0483_0488_0493_0498-sewa3_wulan1_gyaringco3_ranwu2_iys\f123\sbas.4.0.0001.9999.20150113.20230131.065.0698.01.___\p.fa_gyaringco'};
@@ -100,9 +143,9 @@ tilt_correction=1;
 % % dmin=-30;
 % dmax=300;
 
-% d_exclude=[-400,100];
+% d_exclude=[-1,400];
 
-% cmt='far'
+% cmt='farCreep'
 % cmt='klfCreep'
 % cmt='farLock'
 
@@ -115,14 +158,14 @@ npath=size(paths,1);
 % fts_max=-250;
 % fts_min=-100;
 % fts_max=100;
-fts_min=-55;
-fts_max=55;
-% fts_min=-35;
-% fts_max=35;
+% fts_min=-55;
+% fts_max=55;
+fts_min=-35;
+fts_max=35;
 % fts_min=-15;
 % fts_max=15;
-% fts_min=-3;
-% fts_max=3;
+fts_min=-3;
+fts_max=3;
 is_show_fig='on';
 %is_show_fig='off';
 
@@ -145,6 +188,7 @@ for ii=1:npath
         continue
     end
     disp(path);
+%     continue
     
     files=dir([path,filesep,'profile_',ptn,'*_vel.psxy']);
     
@@ -155,13 +199,11 @@ for ii=1:npath
         if (isdir(opath) == 0)
             mkdir (opath);
         end
-    end
-    
+    end    
     
     nf=size(files,1);
     
-    for fi=1:nf
-        
+    for fi=1:nf        
         
         file=[path,filesep,files(fi).name];
         [pathstr, name, ext] = fileparts(file);
@@ -190,9 +232,9 @@ for ii=1:npath
         end
         fclose(fid);
         
-        x1=dlines(di-1,:);  %di 13-distance to fault column
-        y1=dlines(vi-1,:);  %vi 7-fault-parallel (default)
-        %     y1=dlines(14-1,:);
+        x1=dlines(di-1,1:nl);  %di 13-distance to fault column
+        y1=dlines(vi-1,1:nl);  %vi 7-fault-parallel (default)
+        %     y1=dlines(14-1,1:nl);
         
         min(y1);
         max(y1);
@@ -245,13 +287,13 @@ for ii=1:npath
         
         
         params = {
-            {'sr', 0, -30, 30}
-            {'ld', 5, .1, 50}
+            {'sr', 0, -20, 20}
+%             {'ld', 5, .1, 50}
             %       {'ld', 10, .1, 25}
-            %       {'ld', 1, 0, 50}
-            %       {'ld', 1, 0, 20}
+                  {'ld', 1, 0, 50}
+%                   {'ld', 1, 0, 20}
             %       {'ld', 10, .1, 15}
-            %       {'ld', .1, .01, .2}
+%                   {'ld', .1, .01, .2}
             %       {'ld', 9, 8.9, 9.1}
             %     {'fts', 0, -30, 30}
             %           {'fts', 0, -1, 1}
@@ -259,7 +301,7 @@ for ii=1:npath
             {'yshift', (ymin+ymax)/2, ymin,ymax}
             
             {'rot', 0.001, -pi/3, pi/3}
-            %       {'rot', 0.000011, 0.000010, 0.000012}
+%                   {'rot', 0.000011, 0.000010, 0.000012}
             };
         npar=size(params,1);
         
@@ -283,18 +325,15 @@ for ii=1:npath
                 ssfun    = @(param,data) sum((data.ydata-fun_2d_screw_dislocation_trend(data.xdata,param)).^2);
         end
         
-        [tmin,ssmin]=fminsearch(ssfun,[3;4;(ymin+ymax)/2;0;.01],[],data);
+        [tmin,ssmin]=fminsearch(ssfun,[3;4;0;(ymin+ymax)/2;.01],[],data);
         n = length(data.xdata);
         p =  size(params,1);
-        mse = ssmin/(n-p); % estimate for the error variance
-         
+        mse = ssmin/(n-p); % estimate for the error variance         
         model.ssfun  = ssfun;
-        model.sigma2 = mse; % (initial) error variance from residuals of the lsq fit
-        
+        model.sigma2 = mse; % (initial) error variance from residuals of the lsq fit        
         model.N = length(data.ydata);  % total number of observations
         model.S20 = model.sigma2;      % prior mean for sigma2
-        model.N0  = 4;                 % prior a
-        
+        model.N0  = 4;                 % prior a        
         options.nsimu = nsimu;
         options.updatesigma = 1;
 %         options.qcov     = eye(npar)/npar*2.4^2.;
@@ -371,12 +410,13 @@ for ii=1:npath
                 
                 %remove linear trend (B*x)
                 xor=xo;
-                yor=yo-out_params(5)*(xo-out_params(3));
+                y_tilt=out_params(5)*(xo-out_params(3));
+                yor=yo-y_tilt;
                 x1r=x1;
                 y1r=y1-out_params(5)*(x1-out_params(3));
-                yor_lowers=yo_lowers-out_params(5)*(xo-out_params(3));
-                yor_uppers=yo_uppers-out_params(5)*(xo-out_params(3));
-                yor_means=yo_uppers-out_params(5)*(xo-out_params(3));
+                yor_lowers=yo_lowers-y_tilt;
+                yor_uppers=yo_uppers-y_tilt;
+                yor_means=yo_uppers-y_tilt;
                 
                 title_str=sprintf('%5s %20s %20s %20s %20s %20s\n','fault', 'slip rate(mm/yr)','locking depth(km)','trace shift(km)','velocity shift','linear trend(deg)');
                 result_str=sprintf('%5d          %5.1f\\pm%-5.1f          %5.1f\\pm%-5.1f          %5.1f\\pm%-5.1f          %5.1f\\pm%-5.1f          %5.1f\\pm%-5.1f\n',1, out_params(1), out_sigs(1), out_params(2), out_sigs(2), out_params(3), out_sigs(3), out_params(4), out_sigs(4),  rad2deg(atan(out_params(5))), rad2deg(atan(out_sigs(5))));

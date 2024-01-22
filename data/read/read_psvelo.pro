@@ -10,9 +10,10 @@ PRO READ_psvelo, file,   $
   IF N_PARAMS() LT 1 THEN BEGIN
     file=FILEPATH('velh.cmm4.psvelo',root_dir=!igps_root,subdirectory=['tables'])
   ENDIF
-  
-  ;Site Long  Lat Vn  Sn  Ve  Se  Cne
-  ;H095  102.232 27.8745 -10.8 1.3 10.5  1.3 0.0064
+
+  ;  0     1   2  3   4  5     6   7
+  ; Long  Lat  Ve Vn  Se Sn   Cne Site
+  ;  102.232 27.8745 -10.8 1.3 10.5  1.3 0.0064 H095
   ;stop
   lines=read_txt(file)
   ;pos=WHERE(strmids(lines,0,1) EQ ' ')
@@ -22,7 +23,7 @@ PRO READ_psvelo, file,   $
   ;sites=strmids(lines1[7,*],0,4)
   sites=REFORM(lines1[7,*])
   lls=DOUBLE(lines1[0:1,*])
-  vels=DOUBLE(lines1[[0,1,3,5,2,4,6],*])
+  vels=DOUBLE(lines1[[0,1,2,4,3,5,6],*])
   ;stop
   nsit=N_ELEMENTS(sites)
   

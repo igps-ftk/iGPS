@@ -648,12 +648,12 @@ PRO SAR_SBAS_BLOCK_RATE3, path,  $
   ENDIF
   ;stop
   
-  STAT_MODEL_FOR_PLOT, $
-    ofile_stat, $ ; INPUT FILE, CREATED BY MODEL (WITH "Output Statistics" CHECKED).
-    ofile_stat+'_GMT', $  ;OUTPUT FILE, INPUT OF PSXY (GMT): LONGITUDE, LATITUDE, PHASE, AMPLITUDE
-    CFILE=ofile_net,  $
-    scale_factor=1d-3 ,$
-    neu='N'
+;  STAT_MODEL_FOR_PLOT, $
+;    ofile_stat, $ ; INPUT FILE, CREATED BY MODEL (WITH "Output Statistics" CHECKED).
+;    ofile_stat+'_GMT', $  ;OUTPUT FILE, INPUT OF PSXY (GMT): LONGITUDE, LATITUDE, PHASE, AMPLITUDE
+;    CFILE=ofile_net,  $
+;    scale_factor=1d-3 ,$
+;    neu='N'
     
   PRINT,'['+prog+']Normal end.'
 END

@@ -306,7 +306,7 @@ PRO PROFILE_LINES_AUTO, xys_fa,  $ ;fault trace; input; mondatory; double [2,npt
     ;stop
     SHP_POLYLINE,  $
       shp_file,   $ ;output shapefile name
-      attdat='profile_'+STRTRIM(INDGEN(np),2),  $
+      attdat='profile_'+STRTRIM(INDGEN(np)+1,2),  $
       field_name='p_name',$
       pxys=pxys  ;x/y-coordiantes of points
     FOR i=0,np-1 DO PTR_FREE,pxys[i]

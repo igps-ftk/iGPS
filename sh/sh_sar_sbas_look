@@ -22,34 +22,101 @@
 
 PROG=sh_sar_sbas_look
 
-files_prm=`ls ../../topo/*.PRM | sort`
-if [ $? -ne 0 ]; then
-    echo -e "[$PROG]\033[1;33;41mERROR\033[0m: error when searching PRM file!!"
-    exit 1
+timestamp=`date | sed -e "s/ /_/g" | sed -e "s/:/-/g"`
+
+path_old=`pwd`
+
+usage_of_it(){
+cat <<eob
+${PROG}
+  version 20231024
+|_ Description_of_this_program
+|+
+  -Dependencies_of_this_program
+|<
+  Inputs
+  [-h|-help|--help]
+|>
+  Outputs
+|e.g.,
+  ${PROG}
+(c)iGPS (https://github.com/igps-ftk/)
+eob
+}
+
+if [ $# -lt 2 ]; then
+  usage_of_it
+  #exit 1
 fi
-file_prm=`echo $files_prm | head -1 | awk '{print $1}'`
 
-
-fname=vel_ll
 fname=los_ll
+fname=vel_ll
+fname=vel_mask_ll
+fname=vel_mask_ll3
 
+file_prm=master.PRM
+file_dem=./dem.grd
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -f|-file|-fname)
+      fname=$2
+      ;;
+    -h|-help|--help)
+      usage_of_it
+      exit 1
+      ;;
+    *)
+      echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid option ($1)!!"
+      usage_of_it
+      exit 1
+      ;;
+  esac
+  shift 2
+done
+
+if [ ! -s ./dem.grd ]; then
+  if [ -s ../topo/dem.grd ]; then
+    file_dem=../topo/dem.grd
+  else
+    echo -e "[$PROG]\033[1;33;41mERROR\033[0m: dem file not exit (dem.grd)!!"
+    exit 1
+  fi
+fi
+
+if [ ! -s $file_prm ]; then
+  files_prm=`ls ../../topo/*.PRM | sort`
+  if [ $? -ne 0 ]; then
+      echo -e "[$PROG]\033[1;33;41mERROR\033[0m: error when searching PRM file!!"
+      exit 1
+  fi
+  file_prm=`echo $files_prm | head -1 | awk '{print $1}'`
+fi
+
+if [ ! -s ${fname}.grd ]; then
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: grid file not exit (${fname}.grd)!!"
+  exit 1
+fi
+
+ofname_look=`dirname $fname`/look`basename $fname | awk '{print substr($0,index($0,"_"))}'`
+ofname_incidence=`dirname $fname`/incidence`basename $fname | awk '{print substr($0,index($0,"_"))}'`
+echo ofname_look $ofname_look
+#exit
 echo "convert grd to xyz ..."
-grd2xyz ${fname}.grd -s > ${fname}.xyz
+gmt grd2xyz ${fname}.grd -s > ${fname}.xyz
 cat ${fname}.xyz | awk '{print $1,$2}' > _tmp_cal_sat_indicence.llde
 
-
-
-echo add_look.csh _tmp_cal_sat_indicence.llde $file_prm SAT ./dem.grd
-echo add_look.csh _tmp_cal_sat_indicence.llde $file_prm SAT ./dem.grd | sh
+echo add_look.csh _tmp_cal_sat_indicence.llde $file_prm SAT $file_dem
+echo add_look.csh _tmp_cal_sat_indicence.llde $file_prm SAT $file_dem | sh
 #exit
 
 cat _tmp_cal_sat_indicence.lltnde | awk '{print $4,$5,$6}' | sar_cal_sat_incidence | awk '{print 90-$1}' > _tmp_incidences
 cat _tmp_cal_sat_indicence.lltnde | awk '{print $4,$5,$6}' | sar_cal_sat_incidence | awk '{print $2}' > _tmp_azimuth
 
-echo "paste _tmp_cal_sat_indicence.lltnde _tmp_incidences _tmp_azimuth > look_ll.xyz"
-echo "paste _tmp_cal_sat_indicence.lltnde _tmp_incidences _tmp_azimuth > look_ll.xyz" | sh
+echo "paste _tmp_cal_sat_indicence.lltnde _tmp_incidences _tmp_azimuth > ${ofname_look}.xyz"
+echo "paste _tmp_cal_sat_indicence.lltnde _tmp_incidences _tmp_azimuth > ${ofname_look}.xyz" | sh
 
 echo "convert incidence xyz to grid ..."
-cat look_ll.xyz | awk '{print $1,$2,$7}' > incidence_ll.xyz
-echo "gmt xyz2grd incidence_ll.xyz `gmt grdinfo -I- ${fname}.grd` `gmt grdinfo -I ${fname}.grd` -Gincidence_ll.grd=cf -r"
-gmt xyz2grd incidence_ll.xyz `gmt grdinfo -I- ${fname}.grd` `gmt grdinfo -I ${fname}.grd` -Gincidence_ll.grd=cf -V -r
+cat ${ofname_look}.xyz | awk '{print $1,$2,$7}' > ${ofname_incidence}.xyz
+echo "gmt xyz2grd ${ofname_incidence}.xyz `gmt grdinfo -I- ${fname}.grd` `gmt grdinfo -I ${fname}.grd` -G${ofname_incidence}.grd=cf -r"
+gmt xyz2grd ${ofname_incidence}.xyz `gmt grdinfo -I- ${fname}.grd` `gmt grdinfo -I ${fname}.grd` -G${ofname_incidence}.grd=cf -V -r
