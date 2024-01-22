@@ -20,6 +20,9 @@ PRO READ_DEFO_VELOCITY, file,   $
   ;  Long.    Lat.      Ve       Vn     Se     Sn    Cne  Sta.      Source
   ; 74.336  39.842   0.170   13.790  0.560  0.503  0.000  I089  This_study
   ; 78.680  29.848  10.840   32.656  1.550  1.450 -0.002  LAN2  Kreemer et al. [2014] from Banerjee et al. [2008]
+  ;nputfmt=83 psvelo+up
+  ;lon lat Ve Vn Se Sn Cen Site Vu
+  ;         76.22383        43.75322     -4.62    -17.39      0.00      0.00   0.00 7gis_SAR      0.55
   ;nputfmt=101
   ;* Site   Longitude  Latitude   Ve   dVe    Vn   dVn   Cen      Vu  dVu  (mm/yr)
   ;1375_GPS  105.8150   33.3400  -0.47 0.80  -1.66 0.70 -0.043   0.00 9.00
@@ -54,6 +57,7 @@ PRO READ_DEFO_VELOCITY, file,   $
     file='D:\gsar\interseismic\100-a-m3-0114_0119_0124-karakul_lake\f123.1\sbas.3.0.0460.9999.20150925.20200326.116.0341.01.___\vel_mask_ll3.xyz'
     file='D:\gsar\gic3dv\kunlun\asc_des\gps_prd'
     file='D:\gsar\gic3dv\kunlun\asc_des\gic3dv.out'
+    file='D:\gsar\gic3dv\tianshan\asc_des\insar_los_2_3d.psvelou'
     
   ;inputfmt=121
   ENDIF
@@ -74,6 +78,9 @@ PRO READ_DEFO_VELOCITY, file,   $
       END
       'psvelo': BEGIN
         inputfmt=81
+      END
+      'psvelou': BEGIN
+        inputfmt=84
       END
       'gic': BEGIN
         ;* Site   Longitude  Latitude   Ve   dVe    Vn   dVn   Cen      Vu  dVu  (mm/yr)
@@ -236,6 +243,19 @@ PRO READ_DEFO_VELOCITY, file,   $
       data=DBLARR(13, nsit)
       data[[2,4,6,11],*]=!values.d_nan
       data[[0,1,2,3,4,5,8],*]=vels
+    END    
+  ;   0  1   2   3  4   5  6   7  8    9  10  11   12
+  ;[ lon lat Ve dVe Vn dVn Vu dVu Cen Ceu Cnu Los dLos ]
+    84: BEGIN  ;
+      ;read psvelo+up velocity field
+      ;lon lat Ve Vn Se Sn Cen Site Vu
+      READ_cols_ascii, file,   $
+        data=lines_p
+      NSIT=N_ELEMENTS(lines_p[0,*])
+        sites=reform(lines_p[7,*])        
+      data=DBLARR(13, nsit)
+      data[[2,4,6,11],*]=!values.d_nan
+      data[[0,1,2,3,4,5,6,8],*]=double(lines_p[[0,1,2,4,3,5,8,6],*])
     END
     102: BEGIN
       ;   long      lat       Ve      dVe       Vn      dVn       Vu      dVn    Tau_h   Tau_v
