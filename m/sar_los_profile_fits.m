@@ -89,40 +89,40 @@ nsimu=5000; %number of simulations
 % dmax=90;
 % tilt_correction=2;
 
-paths={'\\10.4.134.30\root\g6h\gsar\gic3dv\iys\asc_des\sbas.4.0.0001.9999.20150506.20231108.217.0639.01.___\p.fa_iys_insar3d'};
-paths={'D:\gsar\interseismic\121-d-m4-0486_0492_0497_0502-dingjie_gyaringco2\f123\sbas.4.0.0001.9999.20150506.20231108.217.0639.01.___\p.fa_iys'};
-ptn='167*';
-vi=14;
-% di=11;
-% vi=12;
-% ptn='*';
-dmin=-50;
-dmax=60;
-tilt_correction=2;
-
-%menyuan
-paths={'D:\gsar\interseismic\033-d-m4-0458_0463_0468_0473-qinghai_lake_haiyuan\f123\sbas.4.0.0367.9999.20141031.20210421.147.1280.01.___\p.fa_haiyuan'};
-% paths={'D:\gsar\interseismic\128-a-m3-0115_0120_0125-haiyuan\f123\sbas.4.9.0367.9999.20141014.20201006.136.1451.01.___\p.fa_haiyuan'};
-paths={'/g17b/gsar/D/gsar/interseismic/033-d-m4-0458_0463_0468_0473-qinghai_lake_haiyuan/f123/sbas.4.0.0367.9999.20141031.20210421.147.1280.01.___/p.fa_haiyuan'; ...
-    '/g17b/gsar/D/gsar/interseismic/128-a-m3-0115_0120_0125-haiyuan/f123/sbas.4.9.0367.9999.20141014.20201006.136.1451.01.___/p.fa_haiyuan'; ...
-    '/g17b/gsar/D/gsar/interseismic/026-a-m4-0117_0122_0127_0132-qilian/f123/sbas.4.0.0367.9999.20141019.20210208.140.1329.01.___/p.fa_haiyuan'};
-paths={'C:\tmp\gic3dv\hyf\asc_des\p.fa_haiyuan_insar3d2'};
-paths={'D:\gsar\interseismic\062-d-m6-0447_0452_0457_0462_0467_0472-haiyuan4M3\f123\sbas.4.0.0001.9999.20150206.20210517.053.0561.01.___\p.fa_haiyuan_insar3d_1920'};
-% paths={'D:\gsar\interseismic\055-a-m3-0112_0117_0122-haiyuan1M3\f123\sbas.4.0.0367.9999.20141021.20210423.122.1215.01.___\p.fa_haiyuan'};
-
-vi=7; %fault-parallel
-ptn='061*';
+% paths={'\\10.4.134.30\root\g6h\gsar\gic3dv\iys\asc_des\sbas.4.0.0001.9999.20150506.20231108.217.0639.01.___\p.fa_iys_insar3d'};
+% paths={'D:\gsar\interseismic\121-d-m4-0486_0492_0497_0502-dingjie_gyaringco2\f123\sbas.4.0.0001.9999.20150506.20231108.217.0639.01.___\p.fa_iys'};
+% ptn='167*';
 % vi=14;
-% di=11;
-% vi=12;
-% ptn='*';
-dmin=-200;
-dmax=200;
-% dmin=-100;
+% % di=11;
+% % vi=12;
+% % ptn='*';
+% dmin=-50;
+% dmax=60;
+% tilt_correction=2;
+% 
+% %menyuan
+% paths={'D:\gsar\interseismic\033-d-m4-0458_0463_0468_0473-qinghai_lake_haiyuan\f123\sbas.4.0.0367.9999.20141031.20210421.147.1280.01.___\p.fa_haiyuan'};
+% % paths={'D:\gsar\interseismic\128-a-m3-0115_0120_0125-haiyuan\f123\sbas.4.9.0367.9999.20141014.20201006.136.1451.01.___\p.fa_haiyuan'};
+% paths={'/g17b/gsar/D/gsar/interseismic/033-d-m4-0458_0463_0468_0473-qinghai_lake_haiyuan/f123/sbas.4.0.0367.9999.20141031.20210421.147.1280.01.___/p.fa_haiyuan'; ...
+%     '/g17b/gsar/D/gsar/interseismic/128-a-m3-0115_0120_0125-haiyuan/f123/sbas.4.9.0367.9999.20141014.20201006.136.1451.01.___/p.fa_haiyuan'; ...
+%     '/g17b/gsar/D/gsar/interseismic/026-a-m4-0117_0122_0127_0132-qilian/f123/sbas.4.0.0367.9999.20141019.20210208.140.1329.01.___/p.fa_haiyuan'};
+% paths={'C:\tmp\gic3dv\hyf\asc_des\p.fa_haiyuan_insar3d2'};
+% paths={'D:\gsar\interseismic\062-d-m6-0447_0452_0457_0462_0467_0472-haiyuan4M3\f123\sbas.4.0.0001.9999.20150206.20210517.053.0561.01.___\p.fa_haiyuan_insar3d_1920'};
+% % paths={'D:\gsar\interseismic\055-a-m3-0112_0117_0122-haiyuan1M3\f123\sbas.4.0.0367.9999.20141021.20210423.122.1215.01.___\p.fa_haiyuan'};
+% 
+% vi=7; %fault-parallel
+% ptn='061*';
+% % vi=14;
+% % di=11;
+% % vi=12;
+% % ptn='*';
+% dmin=-200;
 % dmax=200;
-
-d_exclude=[-120,20];
-tilt_correction=2;
+% % dmin=-100;
+% % dmax=200;
+% 
+% d_exclude=[-120,20];
+% tilt_correction=2;
 
 %
 % paths={'D:\gsar\interseismic\048-d-m5-0478_0483_0488_0493_0498-sewa3_wulan1_gyaringco3_ranwu2_iys\f123\sbas.4.0.0001.9999.20150113.20230131.065.0698.01.___\p.fa_bengco'};
@@ -144,6 +144,12 @@ tilt_correction=2;
 % dmax=300;
 
 % d_exclude=[-1,400];
+
+
+paths={'/g17c/gsar/gic3dv/tianshan/asc_des/figure/p.fa_maidan_shayilamu_3d'};
+ptn='018';
+dmin=-200;
+dmax=200;
 
 % cmt='farCreep'
 % cmt='klfCreep'

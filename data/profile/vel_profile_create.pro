@@ -141,17 +141,21 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
     ;    ffile='C:\GMT_pub\vector\profile\fa_dari.psxy'
     ;    opath='Z:\g11j\D\gsar\interseismic\070-a-m6-0100_0105_0110_0115_0120_0125-eastkunlun5M3\f123\sbas.4.0.0001.9999.20141022.20230225.056.0770.01.___\p.fa_dari_dec3d_byN_all_1km'
   
-    fa='fa_haiyuan'
-    ;     vfile='D:\gsar\interseismic\033-d-m2-0463_0468-menyuan\f123\sbas.4.0.0001.9999.20220110.20231219.058.0795.01.___\vel_mask_ll3.xyze'
-    cmt='3d_1920'
-    ; vfile='D:\gsar\interseismic\005-d-m3-0460_0466_0471-karakul_lake_south\f123.1\sbas.3.0.0720.9999.20141018.20200320.121.0340.01.___\vel_mask_ll3.xyz'
-    vfile='D:\gsar\gic3dv\hyf\asc_des\insar_los_2_3d_1920.psvelou'
+;    fa='fa_haiyuan'
+;    ;     vfile='D:\gsar\interseismic\033-d-m2-0463_0468-menyuan\f123\sbas.4.0.0001.9999.20220110.20231219.058.0795.01.___\vel_mask_ll3.xyze'
+;    cmt='3d_1920'
+;    ; vfile='D:\gsar\interseismic\005-d-m3-0460_0466_0471-karakul_lake_south\f123.1\sbas.3.0.0720.9999.20141018.20200320.121.0340.01.___\vel_mask_ll3.xyz'
+;    vfile='D:\gsar\gic3dv\hyf\asc_des\insar_los_2_3d_1920.psvelou'
     ;
     
     ;fa='fa_eklf'
     ;vfile='D:\gsar\gic3dv\kunlun\asc_des\gps_prd'
     ;vfile='D:\gsar\gic3dv\kunlun\asc_des\gic3dv.out'
     ;cmt='gicout'
+    
+    vfile='D:\gsar\gic3dv\tianshan\asc_des\insar_los_2_3d2.psvelou'
+    fa='fa_maidan_shayilamu'
+    cmt='3d'
     
     is_fault_trace_downsample=0
     auto_strike=2
@@ -360,8 +364,8 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
   ;loop for each profile
   PRINT,'['+prog+']INFO:loop for each profile ...'
   
-    FOR pi=0,np-1 DO BEGIN  ;loop for each profile
-;  FOR pi=61,61 DO BEGIN  ;test
+;    FOR pi=0,np-1 DO BEGIN  ;loop for each profile
+  FOR pi=31,31 DO BEGIN  ;test
   
     WINDOW,1,xsize=1500,ysize=900,title='Profile '+STRING(pi+1,format='(i03)'),/pixmap
     DEVICE,decomposed=1

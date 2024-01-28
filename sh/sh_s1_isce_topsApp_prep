@@ -1,0 +1,234 @@
+#!/bin/sh
+
+# Name:
+#   sh_s1_isce_topsApp_prep
+#   
+
+# Purpose:
+#   +
+
+# Input:
+#   +
+
+# Output:
+#   +
+
+# Example:
+#   +
+
+# Algorithm:
+#   +
+
+# Modifications:
+#   + Created on Sun Jan 28 07:49:08 CST 2024 by tianyf
+#   +
+
+# Dependency:
+#   +
+#
+
+
+PROG=sh_s1_isce_topsApp_prep
+
+timestamp=`date | sed -e "s/ /_/g" | sed -e "s/:/-/g"`
+
+path_old=`pwd`
+
+usage_of_it(){
+cat <<eob
+${PROG}
+  version 20240128
+|_ Prepare input xml file for ISCE2's topsApp.py
+|+
+  -sh_sar_datetime_snap
+  -sh_s1_link_orb_ftk
+|<
+  [-f|-file|-file_in INPUT_LST]
+    default: input.lst.ok
+  [-h|-help|--help]
+|>
+  Outputs
+|e.g.,
+  ${PROG} -f input.lst.piexl_offset
+(c)iGPS (https://github.com/igps-ftk/)
+
+FYI:
+Installation of ISCE2 (https://github.com/isce-framework/isce2)
+  1) install Anaconda
+  2) conda create -n isce2
+     conda activate isce2
+     conda install isce2
+     Set environment variables as described in ISCE2 webpage.
+     To test whether ISCE2 is working:
+       topsApp.py -h
+  3) prepare scenes list file (e.g., input.lst.ok) for processing.
+    e.g. merging two frames along orbit:
+  S1A_IW_SLC__1SSV_20141103T234503_20141103T234531_003124_003966_5F6E.manifest.safe           0.83371824 #date1_frame1
+  S1A_IW_SLC__1SSV_20141103T234529_20141103T234556_003124_003966_8DD6.manifest.safe           0.80586907 #date1_frame2
+  S1A_IW_SLC__1SSV_20141127T234502_20141127T234530_003474_00412A_C6E2.manifest.safe           0.83179724 #date2_frame1
+  S1A_IW_SLC__1SSV_20141127T234528_20141127T234555_003474_00412A_4019.manifest.safe           0.80586907 #date2_frame2
+  4) ${PROG} -f input.lst.ok  
+eob
+}
+
+#temporary files used by this script
+file_tmp_pair=`pwd`/_tmp_${PROG}_${timestamp}_pair
+file_tmp_tiff_safe=`pwd`/_tmp_${PROG}_${timestamp}_tiff_safe
+file_tmp_unzip=`pwd`/_tmp_${PROG}_${timestamp}_unzip
+file_roi=`pwd`/pins #temporary ROI file
+
+
+file_in=input.lst.ok
+is_init_topsApp=y
+is_run_topsApp=y
+is_plot_topsApp=y
+
+if [ $# -lt 2 ]; then
+  usage_of_it
+  #exit 1
+fi
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -f|-file|--file_in)
+      file_in=$2
+      ;;
+    -prep|-prepare)
+      is_init_topsApp=$2
+      ;;
+    -topsApp)
+      is_run_topsApp=$2
+      ;;
+    -plot)
+      is_plot_topsApp=$2
+      ;;
+    -h|-help|--help)
+      usage_of_it
+      exit 1
+      ;;
+    *)
+      echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid option ($1)!!"
+      usage_of_it
+      exit 1
+      ;;
+  esac
+  shift 2
+done
+
+if [ "$is_init_topsApp" = "y" ]; then
+  if [ ! -s $file_in ]; then
+    echo -e "[$PROG]\033[1;33;41mERROR\033[0m: input file not exist($file_in)!!"
+    exit 1
+  fi
+
+
+  #S1A_IW_SLC__1SDV_20170327T000151_20170327T000218_015870_01A273_941C.manifest.safe
+  master_date=`grep '^ ' $file_in | head -1 | awk -F_ '{print substr($6,1,8)}'`
+  echo "[$PROG]INFO: master date is $master_date"
+  sh_sar_datetime_snap -f $file_in -o $file_tmp_pair -u $file_tmp_unzip -m $master_date
+  #exit
+  
+  mkdir ./raw ./orb 
+  
+  
+  safes_master=`cat $file_tmp_pair | head -1`
+  nf_master=`echo $safes_master | awk '{print NF}'` 
+  echo "combining $nf_master frames for $safes_master ..."
+  out_dir_master=`echo $safes_master | awk -F_ '{print substr($6,1,8)}'`
+  safes_slaver=`cat $file_tmp_pair | head -2 | tail -1`
+  nf_slaver=`echo $safes_slaver | awk '{print NF}'` 
+  echo "combining $nf_slaver frames for $safes_slaver ..."
+  out_dir_slaver=`echo $safes_slaver | awk -F_ '{print substr($6,1,8)}'`
+  
+  files_raw_master=
+  for safe in $safes_master; do
+    files_raw_master="$files_raw_master ./raw/${safe}.zip"
+  done
+  files_raw_slaver=
+  for safe in $safes_slaver; do
+    files_raw_slaver="$files_raw_slaver ./raw/${safe}.zip"
+  done
+
+  #files_s1_zip=`grep '^ ' -h $file_in | awk -F. '{print $1".zip"}'`
+  files_s1_zip="$safes_master $safes_slaver"
+  echo files_s1_zip is $files_s1_zip
+  #exit
+  for file_s1_zip in $files_s1_zip; do
+    echo $file_s1_zip
+    file_s1_link=${esa_data}/s1/`basename $file_s1_zip`.zip
+    if [ ! -L $file_s1_link ]; then
+      echo -e "[$PROG]\033[1;33;41mERROR\033[0m: data file not exist($file_s1_link)!!"
+      exit 1
+    fi
+    ls -l $file_s1_link
+    file_s1_raw=`ls -l $file_s1_link | awk '{print $11}'`
+    echo "ln -s $file_s1_raw ./raw/"
+    echo "ln -s $file_s1_raw ./raw/" | sh
+  done
+  ls -l raw/
+
+  
+  cd orb
+  \rm -f tiff_EOF.list
+  for file_s1_zip in $files_s1_zip; do
+    file_tiff_fake=`basename $file_s1_zip | sed -e 's/__/_/g' | sed -e 's/_/-/g' | sed -e 's/.zip/.tiff/g' | awk '{print tolower($1)}'`
+    echo "sh_s1_link_orb_ftk -files $file_tiff_fake"
+    sh_s1_link_orb_ftk -files $file_tiff_fake >> tiff_EOF.list
+  done
+  
+  cd $path_old
+
+
+
+  ofile_xml=topsApp.xml
+  cat <<eob > $ofile_xml
+<topsApp>
+  <component name="topsinsar">
+    <property name="Sensor name">SENTINEL1</property>
+    <component name="reference">
+      <property name="orbit directory">./orb</property>
+      <property name="auxiliary data directory">./aux</property>
+      <property name="polarization">'vv'</property>
+      <property name="output directory">${out_dir_master}</property>
+      <property name="safe">${files_raw_master}</property>
+    </component>
+    <component name="secondary">
+      <property name="orbit directory">./orb</property>
+      <property name="auxiliary data directory">./aux</property>
+      <property name="output directory">${out_dir_slaver}</property>
+      <property name="polarization">'vv'</property>
+      <property name="safe">${files_raw_slaver}</property>
+    </component>
+      <property name="do unwrap">True</property>
+      <property name="unwrapper name">snaphu_mcf</property>
+      <!--# property name="do unwrap 2 stage">True</property-->
+      <!--# property name="unwrapper 2 stage name">snaphu</property-->
+      <property name="filter strength">0.4</property>
+      <!--# dense offsets-->
+    <property name="do dense offsets">True</property>
+    <property name="Ampcor window width">64</property>    <!-- EXAMPLE INPUT-->
+    <property name="Ampcor window height">64</property>   <!-- EXAMPLE INPUT-->
+    <property name="Filter window size">5</property>   <!-- EXAMPLE INPUT-->
+  </component>
+</topsApp>
+eob
+
+  \rm -f $file_tmp_pair $file_tmp_unzip
+fi  #end-of-init-topsApp
+
+if [ "$is_run_topsApp" = "y" ]; then
+  topsApp.py topsApp.xml
+fi
+
+
+if [ "$is_plot_topsApp" = "y" ]; then
+  cd merged
+  gdal_translate -a_nodata -10000 -b 2 -of netCDF filt_dense_offsets.bil.geo filt_dense_offsets.bil.range.grd
+  gmt makecpt -Cjet -T-.5/.5/.01 -Z -I > rng.cpt
+  sh_grd2kml filt_dense_offsets.bil.range.grd rng.cpt
+
+fi
+
+
+
+echo "[$PROG]INFO: done."

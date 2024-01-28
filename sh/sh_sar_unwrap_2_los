@@ -1,0 +1,98 @@
+#!/bin/sh
+
+# Name:
+#   sh_sar_unwrap_2_los
+#   
+
+# Purpose:
+#   +
+
+# Input:
+#   +
+
+# Output:
+#   +
+
+# Example:
+#   +
+
+# Algorithm:
+#   +
+
+# Modifications:
+#   + Created on Fri Jan 26 06:52:09 CST 2024 by tianyf
+#   +
+
+# Dependency:
+#   +
+#
+
+
+PROG=sh_sar_unwrap_2_los
+
+timestamp=`date | sed -e "s/ /_/g" | sed -e "s/:/-/g"`
+
+path_old=`pwd`
+
+usage_of_it(){
+cat <<eob
+${PROG}
+  version 20240126
+|_ Description_of_this_program
+|+
+  -Dependencies_of_this_program
+|<
+  Inputs
+  [-h|-help|--help]
+|>
+  Outputs
+|e.g.,
+  ${PROG}
+(c)iGPS (https://github.com/igps-ftk/)
+eob
+}
+
+if [ $# -lt 2 ]; then
+  usage_of_it
+  #exit 1
+fi
+
+ofile=los_ll.grd
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -h|-help|--help)
+      usage_of_it
+      exit 1
+      ;;
+    *)
+      echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid option ($1)!!"
+      usage_of_it
+      exit 1
+      ;;
+  esac
+  shift 2
+done
+
+if [ -s $ofile ]; then
+  echo "[$PROG]INFO: output file already exist ($ofile)."
+  exit
+fi
+
+if [ ! -s unwrap_mask_ll.grd ]; then
+  if [ ! -s unwrap_mask.grd ]; then
+    echo -e "[$PROG]\033[1;33;41mERROR\033[0m: no unwrap_mask.grd or unwrap_mask_ll.grd exist!!"
+    exit 1
+  else
+    echo "proj_ra2ll.csh trans.dat unwrap_mask.grd unwarp_mask_ll.grd"
+    proj_ra2ll.csh trans.dat unwrap_mask.grd unwarp_mask_ll.grd
+  fi
+fi
+
+
+gmt grdmath unwrap_mask_ll.grd $wavel MUL -79.58 MUL = los_ll.grd
+   gmt grdedit -D//"mm"/1///"$PWD:t LOS displacement"/"equals negative range" los_ll.grd
+   makecpt -Cjet -T-500/500/.1 -Z -I > los.cpt
+   sh_grd2kml los_ll.grd los.cpt
+   
+echo "[$PROG]INFO: done."
