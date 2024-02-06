@@ -58,9 +58,13 @@ if [ $# -lt 2 ]; then
 fi
 
 ofile=los_ll.grd
+file_master=master.PRM
 
 while [ "$1" != "" ]; do
   case $1 in
+    -m|-master|--PRM)
+      file_master=$2
+      ;;
     -h|-help|--help)
       usage_of_it
       exit 1
@@ -89,10 +93,20 @@ if [ ! -s unwrap_mask_ll.grd ]; then
   fi
 fi
 
+if [ ! -s $file_master ]; then #if no master.PRM then try supermaster.PRM
+  if [ -s supermaster.PRM ]; then
+    file_master=supermaster.PRM
+  else
+    echo -e "[$PROG]\033[1;33;41mERROR\033[0m: no PRM files for master ($file_master)!!"
+    exit 1
+  fi
+fi
+
+wavel=`grep wavelength $file_master | awk '{print($3)}' | head -1 `
 
 gmt grdmath unwrap_mask_ll.grd $wavel MUL -79.58 MUL = los_ll.grd
-   gmt grdedit -D//"mm"/1///"$PWD:t LOS displacement"/"equals negative range" los_ll.grd
-   makecpt -Cjet -T-500/500/.1 -Z -I > los.cpt
-   sh_grd2kml los_ll.grd los.cpt
+gmt grdedit -D//"mm"/1///"$PWD:t LOS displacement"/"equals negative range" los_ll.grd
+gmt makecpt -Cjet -T-500/500/.1 -Z -I > los.cpt
+sh_grd2kml los_ll.grd los.cpt
    
 echo "[$PROG]INFO: done."
