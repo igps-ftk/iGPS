@@ -3,6 +3,7 @@ PRO SAR_SBAS_BLOCK_RATE3, path,  $
     aoi=aoi,  $ ;area of interest
     sx=sx,  $
     sy=sy,  $
+    time_offset=time_offset,  $
     out_plot=out_plot
     
   PROG=(STRSPLIT(LAST(SCOPE_TRACEBACK()),/EXTRACT))[0]
@@ -399,6 +400,7 @@ PRO SAR_SBAS_BLOCK_RATE3, path,  $
       
       ;TS_MODEL,x,y,/annual,yfit=yfit,coef=coef,sigma=sig
       ;Ts_model,x,y,yfit=yfit,coef=coef,sigma=sig
+      ;stop
       cmdstr='CALL_TS_MODEL,X,Y,YFIT=YFIT,COEF=COEF,SIGMA=SIG,OFFSET=OFFSET,ANN_AMP=ANN_AMP,ANN_EAMP=ANN_EAMP,ANN_PHASE=ANN_PHASE,SUM_LINE=SUM_LINE,site=site_name'
       IF is_annual EQ 1 THEN cmdstr=cmdstr+',/IS_ANNUAL'
       IF is_semiannual EQ 1 THEN cmdstr=cmdstr+',/IS_SEMIANNUAL'
@@ -427,7 +429,7 @@ PRO SAR_SBAS_BLOCK_RATE3, path,  $
       ;
       jfile=opath+PATH_SEP()+site_name+'.jpg'
       IF out_plot EQ 1 THEN BEGIN
-        OPLOT,xs,ys,color='0000ff'x
+        ;OPLOT,xs,ys,color='0000ff'x ;only the liear trend (not considering offset, ...)
         OPLOT,x,yfit,color='0'x,psym=-6
         XYOUTS,MEAN(xs),30,site_name+STRING(oRatesXyz[2:3,ij],format='(1x,"rate=",f7.2,1x,"+/-",f7.2,1x,"mm/yr")'),/data,color='0'x,alignment=.5
         ;PRINT,jfile
@@ -517,6 +519,23 @@ PRO SAR_SBAS_BLOCK_RATE3, path,  $
     ENDFOR
   ENDIF
   FREE_LUN,fid
+  
+  
+  ;output coseismic offset (if present)
+  IF time_offset[0] NE -9999d0 THEN BEGIN
+    ofile=opath+PATH_SEP()+'co_disp.llde'
+    OPENW,fid,ofile,/get_lun
+    
+    IF count GT 0 THEN BEGIN
+      FOR i=0ull, count-1 DO BEGIN
+        ;if site_names[pos[i]] eq '00UW' then stop
+        IF oRatesXyz[2,pos[i]] EQ 0d0 THEN CONTINUE
+        PRINTF,fid,oRatesXyz[[1,0],pos[i]],oOffs[*,pos[i],*],format='(f12.6,1x,f12.6,2(1x,f9.5))'
+      ;printf,fid,oSumLines[pos[i]],format='(1x,a)'
+      ENDFOR
+    ENDIF
+    FREE_LUN,fid
+  ENDIF
   
   ofile_stat=opath+PATH_SEP()+'STAT.MODEL'
   OPENW,FID_STAT,ofile_stat,/get_lun

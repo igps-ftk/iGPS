@@ -40,6 +40,9 @@ Fi=
 roi_id=
 is_init=y
 
+date_start=20140101
+date_end=20990101
+
 while [ "$1" != "" ]; do
   case $1 in
     -r|-roi)
@@ -73,6 +76,12 @@ while [ "$1" != "" ]; do
       ;;
     -init)
       is_init=$2
+      ;;
+    -ds|-date_start|-start|-d1)
+      date_start=$2
+      ;;
+    -de|-date_end|-end|-d2)
+      date_end=$2
       ;;
     -h|--help)
       usage_of_it
@@ -119,12 +128,6 @@ if [ "$roi_id" == "" ]; then
   roi_id=`basename $file_roi | sed -e 's/.kml//g'`
 fi
 
-path_raw_new=$pathF/raw.${roi_id}
-if [ ! -d $path_raw_new ]; then
-  echo mkdir -p $path_raw_new
-  echo mkdir -p $path_raw_new | sh
-fi
-
 
 path_F_new=${pathF}.$roi_id
 if [ ! -d $path_F_new ]; then
@@ -146,17 +149,69 @@ pwd
 
 if [ "$is_init" == "y" ]; then
   echo "rsync -avP $pathF/topo $path_F_new"
-  echo "rsync -avP $pathF/topo $path_F_new" | sh
+  #echo "rsync -avP $pathF/topo $path_F_new" | sh
+  rsync -avP $pathF/topo/master.PRM $path_F_new/topo/
+  rsync -avP $pathF/topo/S1_*.LED $path_F_new/topo/
+  
+  #clip the dem.grd in according to the roi
+  if [ "$R" = "" ]; then
+    tmp=`gmt kml2gmt $file_roi | gmt gmtinfo -I.1 -C`
+    R_dem_x1=`echo $tmp | awk '{print $1-.2}'`
+    R_dem_x2=`echo $tmp | awk '{print $2+.2}'`
+    R_dem_y1=`echo $tmp | awk '{print $3-.2}'`
+    R_dem_y2=`echo $tmp | awk '{print $4+.2}'`
+    R_dem="-R${R_dem_x1}/${R_dem_x2}/${R_dem_y1}/${R_dem_y2}"
+  else
+    R_dem=$R
+  fi
+  echo gmt grdcut $R_dem ${pathF}/topo/dem.grd -G${path_F_new}/topo/dem.grd
+  gmt grdcut $R_dem ${pathF}/topo/dem.grd -G${path_F_new}/topo/dem.grd
+  #exit
+    
   echo "rsync -avP $pathF/da* $path_F_new"
-  echo "rsync -avP $pathF/da* $path_F_new" | sh
+  #echo "rsync -avP $pathF/da* $path_F_new" | sh
   echo "rsync -avP $pathF/ba* $path_F_new"
-  echo "rsync -avP $pathF/ba* $path_F_new" | sh
-  echo "rsync -avP $pathF/intf.in* $path_F_new"
-  echo "rsync -avP $pathF/intf.in* $path_F_new" | sh
-  echo "ln -s $path_raw_new $path_F_new/raw"
-  echo "ln -s $path_raw_new $path_F_new/raw" | sh
-
-  cat $path_F_new/batch_tops.config | sed -e 's/proc_stage = 2/proc_stage = 1/g' | sed -e 's/filter_wavelength = 200/filter_wavelength = 100/g' | sed -e 's/range_dec = 8/range_dec = 4/g' | sed -e 's/azimuth_dec = 2/azimuth_dec = 1/g' | sed -e 's/region_cut.*/region_cut =/g' | sed -e 's/dec_factor = 2/dec_factor = 1/g' > $path_F_new/_new_batch_tops.config
+  #echo "rsync -avP $pathF/ba* $path_F_new" | sh  
+  if [ ! -s $pathF/baseline_table.dat ]; then
+    echo -e "[$PROG]\033[1;33;41mERROR\033[0m: no $pathF/baseline_table.dat!!"
+    exit 1
+  fi
+  S1_list=
+  count=0
+  while read line; do
+    S1_name=`echo $line | awk '{print $1}'`
+    S1_date=`echo $S1_name | awk -F_ '{print $2}'`
+    if [ $count -eq 0 ]; then
+      S1_list=$S1_name
+      count=1      
+      echo "$line" > $path_F_new/baseline_table.dat
+      cat $pathF/data.in | grep $S1_date > $path_F_new/data.in
+      continue
+    fi
+    if [ $S1_date -lt $date_start -o $S1_date -gt $date_end ]; then
+      continue
+    fi
+    S1_list="$S1_list $S1_name"
+    echo "$line" >> $path_F_new/baseline_table.dat
+    cat $pathF/data.in | grep $S1_date >> $path_F_new/data.in
+    count=`expr $count + 1`    
+  done < $pathF/baseline_table.dat
+  echo S1_list $S1_list
+  echo count $count
+  
+  nb=`cat $pathF/baseline_table.dat | wc -l`
+  cd $path_F_new
+  if [ $nb -eq $count ]; then
+    echo "rsync -avP $pathF/intf.in* $path_F_new"
+    echo "rsync -avP $pathF/intf.in* $path_F_new" | sh
+  else
+    sh_s1_prep_proc_baseline -u n
+  fi
+  wc -l intf.in*
+  cd $path_old
+  #exit
+  
+  cat $path_F_new/batch_tops.config | sed -e 's/proc_stage = 2/proc_stage = 1/g' | sed -e 's/filter_wavelength = 200/filter_wavelength = 100/g' | sed -e 's/filter_wavelength = 400/filter_wavelength = 100/g' | sed -e 's/range_dec = 8/range_dec = 4/g' | sed -e 's/range_dec = 16/range_dec = 4/g' | sed -e 's/azimuth_dec = 2/azimuth_dec = 1/g' | sed -e 's/azimuth_dec = 4/azimuth_dec = 1/g' | sed -e 's/region_cut.*/region_cut =/g' | sed -e 's/dec_factor = 2/dec_factor = 1/g' | sed -e 's/threshold_snaphu = 0/threshold_snaphu = 0.01/g' > $path_F_new/_new_batch_tops.config
   \cp -fp $path_F_new/_new_batch_tops.config $path_F_new/batch_tops.config
 fi
 
@@ -167,12 +222,12 @@ pwd
 #exit
 if [ "$is_cut_slc" == "y" ]; then
   if [ "$R" != "" ]; then
-    echo sh_slc_cut -R $R -opath $path_raw_new
-    echo sh_slc_cut -R $R -opath $path_raw_new | sh
+    echo sh_slc_cut -R $R -opath $path_raw_new -d1 $date_start -d2 $date_end
+    echo sh_slc_cut -R $R -opath $path_raw_new -d1 $date_start -d2 $date_end | sh
   fi
   if [ "$file_roi" != "" ]; then
-    echo sh_slc_cut -file $file_roi -opath $path_raw_new
-    echo sh_slc_cut -file $file_roi -opath $path_raw_new | sh
+    echo sh_slc_cut -file $file_roi -opath $path_raw_new -d1 $date_start -d2 $date_end
+    echo sh_slc_cut -file $file_roi -opath $path_raw_new -d1 $date_start -d2 $date_end | sh
   fi
 fi
 

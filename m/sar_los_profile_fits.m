@@ -151,6 +151,14 @@ ptn='018';
 dmin=-200;
 dmax=200;
 
+paths={'D:\gsar\interseismic\026-a-m5-0112_0117_0122_0127_0132-qilian\f123\sbas.4.0.0001.9999.20141019.20231219.072.0605.01.___\p.fa_haiyuan'};
+ptn='014';
+dmin=-200;
+dmax=200;
+vi=14;
+
+
+
 % cmt='farCreep'
 % cmt='klfCreep'
 % cmt='farLock'
@@ -306,8 +314,8 @@ for ii=1:npath
             {'fts', 00, fts_min, fts_max}
             {'yshift', (ymin+ymax)/2, ymin,ymax}
             
-            {'rot', 0.001, -pi/3, pi/3}
-%                   {'rot', 0.000011, 0.000010, 0.000012}
+%             {'rot', 0.001, -pi/3, pi/3}
+                  {'rot', 0.000011, 0.000010, 0.000012}
             };
         npar=size(params,1);
         

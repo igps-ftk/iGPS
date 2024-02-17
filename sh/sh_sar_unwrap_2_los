@@ -88,8 +88,8 @@ if [ ! -s unwrap_mask_ll.grd ]; then
     echo -e "[$PROG]\033[1;33;41mERROR\033[0m: no unwrap_mask.grd or unwrap_mask_ll.grd exist!!"
     exit 1
   else
-    echo "proj_ra2ll.csh trans.dat unwrap_mask.grd unwarp_mask_ll.grd"
-    proj_ra2ll.csh trans.dat unwrap_mask.grd unwarp_mask_ll.grd
+    echo "proj_ra2ll.csh trans.dat unwrap_mask.grd unwrap_mask_ll.grd"
+    proj_ra2ll.csh trans.dat unwrap_mask.grd unwrap_mask_ll.grd
   fi
 fi
 
@@ -106,7 +106,11 @@ wavel=`grep wavelength $file_master | awk '{print($3)}' | head -1 `
 
 gmt grdmath unwrap_mask_ll.grd $wavel MUL -79.58 MUL = los_ll.grd
 gmt grdedit -D//"mm"/1///"$PWD:t LOS displacement"/"equals negative range" los_ll.grd
-gmt makecpt -Cjet -T-500/500/.1 -Z -I > los.cpt
+
+T=`gmt grdinfo -C los_ll.grd | awk '{print "-T"$6"/"$7"/.1"}'`
+echo T $T
+#exit
+gmt makecpt -Cjet $T -Z -I > los.cpt
 sh_grd2kml los_ll.grd los.cpt
    
 echo "[$PROG]INFO: done."

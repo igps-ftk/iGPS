@@ -30,10 +30,12 @@ $PROG
   -aligned SLC files (F?/raw/S1_*.*)
   -trans.dat (for converstion between WGS-84 and radar coordiante)
 |<
-  -r|-f|-file POLYGON_KML
+  -r|-roi|-f|-file POLYGON_KML
   [-R RADAR_RANGES_IN_GMT_-R_FORM]
   [-o|-opath OUTPUT_PATH]
   [-ow|-overwrite WHETHER_OR_NOT_OVERWRITE_EXISTING]
+  [-ds|-date_start|-start|-d1 STARTING_YYYYMMDD]
+  [-de|-date_end|-end|-d2 ENDING_YYYYMMDD]
 |>
   OUTPUT_PATH/S1_*.SLC
   OUTPUT_PATH/S1_*.LED
@@ -52,6 +54,9 @@ file_roi=
 region_cut= #e.g., 15000/21000/000/2000
 is_overwrite=n
 
+date_start=20140101
+date_end=20990101
+
 while [ "$1" != "" ]; do
   case $1 in
     -r|-f|-roi|-file)
@@ -67,6 +72,12 @@ while [ "$1" != "" ]; do
       ;;
     -ow|-overwrite)
       is_overwrite=$2
+      ;;
+    -ds|-date_start|-start|-d1)
+      date_start=$2
+      ;;
+    -de|-date_end|-end|-d2)
+      date_end=$2
       ;;
     -h|-help|--help)
       usage_of_it
@@ -95,10 +106,40 @@ echo opath $opath
 echo file_roi $file_roi
 echo region_cut $region_cut
 
-mkdir -p $opath
+if [ ! -d $opath ]; then
+  mkdir -p $opath
+fi
 cd $opath
 opath=`pwd`
 cd $path_old
+
+#get scene list from baseline_table.dat
+cd $path_old
+
+if [ ! -s baseline_table.dat ]; then
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: no baseline_table.dat file in `pwd`!!"
+  exit 1
+fi
+S1_list=
+count=0
+while read line; do
+  S1_name=`echo $line | awk '{print $1}'`
+  if [ $count -eq 0 ]; then
+    S1_list=$S1_name
+    count=1
+    continue
+  fi
+  S1_date=`echo $S1_name | awk -F_ '{print $2}'`
+  if [ $S1_date -lt $date_start -o $S1_date -gt $date_end ]; then
+    continue
+  fi
+  S1_list="$S1_list $S1_name"
+  count=`expr $count + 1`
+  
+done < baseline_table.dat
+
+echo S1_list $S1_list
+echo count $count
 
 
 if [ "$region_cut" == "" ]; then
@@ -108,9 +149,9 @@ if [ "$region_cut" == "" ]; then
   cat ${opath}/.roi.llh
   
   cd $opath
-  ln -s ../topo/trans.dat .
+  #ln -s ../topo/trans.dat .
   
-  proj_ll2ra_ascii.csh trans.dat .roi.llh .roi.xyz
+  proj_ll2ra_ascii.csh ${path}/../topo/trans.dat .roi.llh .roi.xyz
   cat .roi.xyz
   #cat .roi.xy | awk '{print $2,$1}' > .roi.xy2
   
@@ -134,8 +175,8 @@ echo "region_cut $region_cut"
 
 
 cd $path
-files=`ls S1*ALL*.PRM`
-for file in $files ; do
+for S1_name in $S1_list ; do
+  file=${S1_name}.PRM
   echo $file
   bname=`basename $file | sed -e 's/.PRM//g'`
   ofile="${opath}/${bname}"
@@ -145,6 +186,7 @@ for file in $files ; do
     continue
   fi
   echo cut_slc $file _tmp1 $region_cut
+  #continue
   echo cut_slc $file _tmp1 $region_cut | sh
 
   \mv -f _tmp1.PRM ${ofile}.PRM

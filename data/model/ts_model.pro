@@ -986,7 +986,7 @@ PRO TS_MODEL, $
       ENDFOR
       
     ENDIF ELSE BEGIN
-      HELP, KEYWORD_SET(yfit3)
+      ;HELP, KEYWORD_SET(yfit3)
     ENDELSE
     
     
