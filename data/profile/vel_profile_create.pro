@@ -358,14 +358,14 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
   
   
   
-  xmin_ov=MIN([reform(lls[0,*]), reform(xys_fvec[0,*]), reform(oxys[0,*]) ],max=xmax_ov)
-  ymin_ov=MIN([reform(lls[1,*]), reform(xys_fvec[1,*]), reform(oxys[1,*]) ],max=ymax_ov)
+  xmin_ov=MIN([reform(lls[0,*]), reform(xys_fvec[0,*]), reform(pxys[0,*]) ],max=xmax_ov)
+  ymin_ov=MIN([reform(lls[1,*]), reform(xys_fvec[1,*]), reform(pxys[1,*]) ],max=ymax_ov)
   ;stop
   ;loop for each profile
   PRINT,'['+prog+']INFO:loop for each profile ...'
   
-;    FOR pi=0,np-1 DO BEGIN  ;loop for each profile
-  FOR pi=31,31 DO BEGIN  ;test
+    FOR pi=0,np-1 DO BEGIN  ;loop for each profile
+;  FOR pi=31,31 DO BEGIN  ;test
   
     WINDOW,1,xsize=1500,ysize=900,title='Profile '+STRING(pi+1,format='(i03)'),/pixmap
     DEVICE,decomposed=1

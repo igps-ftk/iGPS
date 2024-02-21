@@ -277,8 +277,13 @@ while read line; do
     sbatch $file_t
     n_new=`expr $n_new + 1`
 
-    tmp1=`sinfo | grep intf | grep -i idle`
-    tmp2=`sinfo | grep intf | grep -i mix`
+    if [ "`hostname | awk '{print substr($1,1,4)}'`" = "node" ]; then #only for DIPP system at NINH, MEMC
+      tmp1=`sinfo | grep intf | grep -i idle`
+      tmp2=`sinfo | grep intf | grep -i mix`
+    else
+      tmp1=`sinfo | grep -i idle`
+      tmp2=`sinfo | grep -i mix`
+    fi
     tmp="${tmp1}${tmp2}"
     #echo "tmp1|$tmp1|"
     #echo "tmp2|$tmp2|"

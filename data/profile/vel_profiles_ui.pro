@@ -1,3 +1,92 @@
+PRO ON_IGPS_VEL_PROFILES_DP_IN_TYPE, EV
+  ;HELP, ev,/st
+  
+  CASE ev.INDEX OF
+    0: BEGIN
+      input_fmt=3
+      t=['3: XYZ (*.xyz)',  $
+        ' X          Y         Z',  $
+        ' 89.892319  30.813284  2.033756']
+    END
+    1: BEGIN
+      input_fmt=4
+      t=['4: XYZe (*.xyze)',  $
+        'X          Y         Z     Z_sig',  $
+        '89.892319  30.813284  2.033756      2.838231']
+    END
+    2: BEGIN
+      input_fmt=81
+      t=['81: GMT psvelo (*.psvelo)',  $
+        'lon lat Ve Vn Se Sn Cen Site',  $
+    'e.g.,',  $
+    '  81.71   28.66   6.7   32.4   0.53   0.53   -0.0108 BMCL',  $
+    '  85.31   28.21   8.4   29.0   0.52   0.52    0.0518 CHLM',  $
+    '  86.90   30.45  12.6   21.6   0.53   0.52    0.0427 CUOM',  $
+    '  ...']
+    END
+    3: BEGIN
+      input_fmt=82
+      t=['82: Variant of psvelo (*.psvelo2)',  $
+        'Site Long  Lat Vn  Sn  Ve  Se  Cne',  $
+        'H095  102.232 27.8745 -10.8 1.3 10.5  1.3 0.0064']
+    END
+    4: BEGIN
+      input_fmt=83
+      t=['83: GMT psvelo with multi-text (*.psvelo3)',  $
+        '  Long.    Lat.      Ve       Vn     Se     Sn    Cne  Sta.      Source',  $
+        ' 74.336  39.842   0.170   13.790  0.560  0.503  0.000  I089  This_study',  $
+        ' 78.680  29.848  10.840   32.656  1.550  1.450 -0.002  LAN2  Kreemer et al. [2014] ']
+    END
+    5: BEGIN
+      input_fmt=84
+      t=['84: GMT psvelo with Up (*.psveloU)',  $
+        'read psvelo+up velocity field',  $
+        'lon lat Ve Vn Se Sn Cen Site Vu']
+    END
+    6: BEGIN
+      input_fmt=101
+      t=['101',  $
+        '* Site   Longitude  Latitude   Ve   dVe    Vn   dVn   Cen      Vu  dVu  (mm/yr)',  $
+        '1375_GPS  105.8150   33.3400  -0.47 0.80  -1.66 0.70 -0.043   0.00 9.00      ']
+    END
+    7: BEGIN
+      input_fmt=102
+      t=['102: BEGIN',  $
+        '   long      lat       Ve      dVe       Vn      dVn       Vu      dVn    Tau_h   Tau_v',  $
+        '   86.000   26.000  10.5821   0.9956  22.6099   0.8203   0.0000   7.4123  54.0000  54.0000']
+    END
+    8: BEGIN
+      input_fmt=111
+      t=['111: BEGIN',  $
+        '   long      lat       Ve      dVe       Vn      dVn       Vu      dVn     Cen      Ceu      Cnu',  $
+        '   87.650   39.400  -9.3569   0.4007  -3.4889   0.4172   0.7089   3.8793  -0.0002   0.0328   0.0066']
+    END
+    9: BEGIN
+      input_fmt=112
+      t=['112: CMM4 Shen (*.cmm4)',  $
+        ' site lat lon Ve dVe Vn dVn Cen n_epoch time_span epoch_avg [other]',  $
+        'CHAF_GPS 34.3006 -119.3310 -29.13 0.36 28.23 0.32 0.020 5 8.6 1991.5 I034']
+    END
+    10: BEGIN
+      input_fmt=113
+      t=['113: *.cmm4u',  $
+        '0003_GPS  33.7504 -117.4563   2.36 7.49  0.022 -0.026    2  3.2 1994.1']
+    END
+    11: BEGIN
+      input_fmt=121
+      t=['121: *.qmap',  $
+        '*Station   Longitude   Latitude Ve_init Ve_incr    Ve     dVe   Vn_init Vn_incr    Vn     dVn   Cen',  $
+        ' ARTU_GPS   58.5583   56.4278     0.0     0.0    24.9     0.0     0.0     0.0     6.1     0.0   0.0000   ']
+    END
+  ENDCASE
+  
+  id=WIDGET_INFO(ev.TOP, find_by_uname='LBL_TXT_IN')
+  WIDGET_CONTROL, id, set_value=t
+  id=WIDGET_INFO(ev.TOP, find_by_uname='DP_IN_TYPE')
+  WIDGET_CONTROL, id, set_uvalue=input_fmt
+END
+
+
 
 PRO ON_IGPS_LBL_TXT_FA_TRACK, EV
   LBL_ID = WIDGET_INFO(EV.TOP, FIND_BY_UNAME='LBL_STATUS')
@@ -18,6 +107,11 @@ PRO ON_IGPS_PROFILES_INIT, WWIDGET
   
   ID = WIDGET_INFO(WWIDGET, FIND_BY_UNAME='CKB_OVERWRITE')
   WIDGET_CONTROL, ID, /SET_BUTTON
+  
+  ID = WIDGET_INFO(WWIDGET, FIND_BY_UNAME='DP_IN_TYPE')
+  WIDGET_CONTROL,id,SET_DROPLIST_SELECT=2
+  WIDGET_CONTROL,id,SET_uvalue=81
+;help,id
   
 END
 
@@ -44,6 +138,12 @@ PRO ON_VEL_PROFILES_UI_BTN_OK,ev
     MSGBOX,'No input file provided, or the file does not exist!!',/error
     RETURN
   ENDIF
+  
+  ID = WIDGET_INFO(ev.top, FIND_BY_UNAME='DP_IN_TYPE')
+  WIDGET_CONTROL,id,gET_uvalue=input_fmt
+  help, input_fmt
+  ;stop
+  
   
   ;FAULT LINE
   id=WIDGET_INFO(ev.TOP,find_by_uname='TXT_FA')
@@ -131,7 +231,7 @@ PRO ON_VEL_PROFILES_UI_BTN_OK,ev
     VEL_PROFILE_CREATE, file_gps, $
       opath, $
       ffile=file_fault,  $
-      inputfmt=1, $
+      inputfmt=input_fmt, $
       auto_strike=auto_strike,  $
       spacing_profile=txt_profile_width,  $
       length_profile=txt_profile_length,  $
@@ -145,7 +245,7 @@ PRO ON_VEL_PROFILES_UI_BTN_OK,ev
       pfile=file_profile,  $
       opath, $
       ffile=file_fault,  $
-      inputfmt=1 , $
+      inputfmt=input_fmt , $
       search_radius=txt_search_radius,  $
       LBl_ID=LBl_ID
       
@@ -224,11 +324,29 @@ PRO VEL_PROFILES_UI,group_leader=group_leader
   ;frame1
   BASE_1=WIDGET_BASE(BASE,FRAME=0,space=1,xpad=1,ypad=1,/column)
   
-  LBL=WIDGET_LABEL(base_1,VALUE='(1) Input GPS Velocity File:',/ALIGN_left ) ;,/SUNKEN_FRAME
+  ;LBL=WIDGET_LABEL(base_1,VALUE='(1) Input GPS Velocity File:',/ALIGN_left ) ;,/SUNKEN_FRAME
+  VALUE=['InSAR LOS (*.xyz)', $ ;3
+    'InSAR LOS+Uncertainty (*.xyze)', $  ;4
+    'GMT psvelo (*.psvelo)', $  ;81
+    '(*.psvelo2)', $  ;82
+    '(*.psvelo3)', $  ;83
+    'psvelo+u (*.psvelou)', $ ;84
+    'psvelo2+u (*.psvelo2u)', $ ;101
+    'llenu',  $ ;102
+    'llenuc', $ ;103
+    'CMM4 (*.cmm4)', $  ;112
+    'CMM4 Up (*.cmm4u)', $  ;113
+    'QOCA Map (*.qmap)' ]
+  DP_IN_TYPE = WIDGET_DROPLIST( base_1 ,  $
+    VALUE=VALUE,  $
+    UNAME='DP_IN_TYPE', TITLE='(1) Input Velocity File:', $
+    EVENT_PRO='ON_IGPS_VEL_PROFILES_DP_IN_TYPE')
+    
   TXT_IN = CW_DIRFILE(BASE_1, TITLE = '', UNAME='TXT_IN', $
     value=!igps_root+PATH_SEP()+'example'+PATH_SEP()+'profile'+PATH_SEP()+'wang.min.jgr2020.Table.S4.psvelo', $
     FILTER=[['*.psvelo','*.txt','*'],['GMT psvelo input format (*.psvelo)','Text Files (*.txt)', 'All files (*)']], $
     XSIZE=120,FRAME=0,/ALIGN_RIGHT,STYLE='FILE')
+    
     
   strs=['GPS velocity file in GMT psvelo input format :', $
     '  longitude   latitude   velocity_east   velocity_north   uncertainity_east   uncertainity_north   correlation_en   site_name ',  $
@@ -253,6 +371,7 @@ PRO VEL_PROFILES_UI,group_leader=group_leader
     VALUE=!igps_root+PATH_SEP()+'example'+PATH_SEP()+'profile'+PATH_SEP()+'fa_redriver.psxy',  $
     FILTER=[['*.psxy','*.txt','*'],['GMT psxy input format (*.psxy)','Text Files (*.txt)', 'All files (*)']], $
     STYLE='FILE', SENSITIVE=1,/ALIGN_RIGHT)
+    
     
   strs=['GMT psxy input format :', $
     '  longitude1   latitude1  ',  $
