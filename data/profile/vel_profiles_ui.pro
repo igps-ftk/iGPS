@@ -105,6 +105,9 @@ PRO ON_IGPS_PROFILES_INIT, WWIDGET
   ID = WIDGET_INFO(WWIDGET, FIND_BY_UNAME='RAD_PROFILE_SRC_PROGRAM_AUTO')
   WIDGET_CONTROL, ID, /SET_BUTTON
   
+  ID = WIDGET_INFO(WWIDGET, FIND_BY_UNAME='RAD_PROFILE_STRIKE_MEAN')
+  WIDGET_CONTROL, ID, /SET_BUTTON
+  
   ID = WIDGET_INFO(WWIDGET, FIND_BY_UNAME='CKB_OVERWRITE')
   WIDGET_CONTROL, ID, /SET_BUTTON
   
@@ -118,14 +121,14 @@ END
 PRO ON_IGPS_RAD_PROFILE_SRC_USER_INPUT, EV
   id=WIDGET_INFO(ev.TOP,find_by_uname='BASE_PROFILE_SRC_USER')
   WIDGET_CONTROL, id, sensitive=1
-  id=WIDGET_INFO(ev.TOP,find_by_uname='BASE_PROFILE_SRC_PROG')
+  id=WIDGET_INFO(ev.TOP,find_by_uname='BASE_3B')
   WIDGET_CONTROL, id, sensitive=0
 END
 
 PRO ON_IGPS_RAD_PROFILE_SRC_PROGRAM_AUTO, EV
   id=WIDGET_INFO(ev.TOP,find_by_uname='BASE_PROFILE_SRC_USER')
   WIDGET_CONTROL, id, sensitive=0
-  id=WIDGET_INFO(ev.TOP,find_by_uname='BASE_PROFILE_SRC_PROG')
+  id=WIDGET_INFO(ev.TOP,find_by_uname='BASE_3B')
   WIDGET_CONTROL, id, sensitive=1
 END
 
@@ -159,7 +162,7 @@ PRO ON_VEL_PROFILES_UI_BTN_OK,ev
   ;
   ID = WIDGET_INFO(ev.TOP, FIND_BY_UNAME='RAD_PROFILE_SRC_PROGRAM_AUTO')
   rad_profile_src_program_auto=WIDGET_INFO( ID, /BUTTON_set)
-  HELP, rad_profile_src_program_auto
+  ;HELP, rad_profile_src_program_auto
   
   IF rad_profile_src_program_auto EQ 1 THEN BEGIN
     id=WIDGET_INFO(ev.TOP,find_by_uname='txt_profile_length')
@@ -177,14 +180,23 @@ PRO ON_VEL_PROFILES_UI_BTN_OK,ev
       RETURN
     ENDIF
     
-    ID = WIDGET_INFO(ev.TOP, FIND_BY_UNAME='CKB_PROFILE_ROT')
-    is_PROFILE_ROT=WIDGET_INFO( ID, /BUTTON_set)
-    HELP, is_PROFILE_ROT
-    IF is_profile_rot EQ 1 THEN BEGIN
+    ID = WIDGET_INFO(ev.TOP, FIND_BY_UNAME='RAD_PROFILE_STRIKE_VARYING')
+    is_RAD_PROFILE_STRIKE_VARYING=WIDGET_INFO( ID, /BUTTON_set)
+    ID = WIDGET_INFO(ev.TOP, FIND_BY_UNAME='RAD_PROFILE_STRIKE_MEAN')
+    is_RAD_PROFILE_STRIKE_MEAN=WIDGET_INFO( ID, /BUTTON_set)
+    ID = WIDGET_INFO(ev.TOP, FIND_BY_UNAME='RAD_PROFILE_STRIKE_TWO')
+    is_RAD_PROFILE_STRIKE_TWO=WIDGET_INFO( ID, /BUTTON_set)
+    ;HELP, is_RAD_PROFILE_STRIKE_VARYING,is_RAD_PROFILE_STRIKE_MEAN,is_RAD_PROFILE_STRIKE_TWO
+    ;STOP
+    IF is_RAD_PROFILE_STRIKE_VARYING EQ 1 THEN BEGIN
       auto_strike=1
-    ENDIF ELSE BEGIN
+    ENDIF
+    IF is_RAD_PROFILE_STRIKE_MEAN EQ 1 THEN BEGIN
       auto_strike=2
-    ENDELSE
+    ENDIF
+    IF is_RAD_PROFILE_STRIKE_TWO EQ 1 THEN BEGIN
+      auto_strike=3
+    ENDIF
     
   ENDIF ELSE BEGIN
   
@@ -306,6 +318,20 @@ PRO VEL_PROFILES_UI_EVENT,ev
       ENDIF
     END
     
+    
+    WIDGET_INFO(WWIDGET, FIND_BY_UNAME='RAD_PROFILE_STRIKE_VARYING'): BEGIN
+      IF (TAG_NAMES(EV, /STRUCTURE_NAME) EQ 'WIDGET_BUTTON') THEN BEGIN
+        ;ON_IGPS_RAD_PROFILE_STRIKE_VARYING, EV
+      ENDIF
+    END
+    
+    WIDGET_INFO(WWIDGET, FIND_BY_UNAME='RAD_PROFILE_STRIKE_MEAN'): BEGIN
+      IF (TAG_NAMES(EV, /STRUCTURE_NAME) EQ 'WIDGET_BUTTON') THEN BEGIN
+        ;ON_IGPS_RAD_PROFILE_STRIKE_MEAN, EV
+      ENDIF
+    END
+    
+    
     ELSE:
   ENDCASE
   
@@ -388,7 +414,7 @@ PRO VEL_PROFILES_UI,group_leader=group_leader
     
     
   ;frame 3
-  BASE_3=WIDGET_BASE(BASE,FRAME=0,space=1,xpad=1,ypad=1,/column)
+  BASE_3=WIDGET_BASE(BASE,FRAME=0,space=1,xpad=1,ypad=1,/column,UNAME='BASE_3')
   lbl=WIDGET_LABEL(base_3,value='(3) Parameters for Profiles:',/align_left)
   
   BASE_RAD_PROFILE_SRC=WIDGET_BASE(base_3,/ROW,SPACE=0, $
@@ -397,8 +423,7 @@ PRO VEL_PROFILES_UI,group_leader=group_leader
     VALUE='User Input',/ALIGN_LEFT)
   RAD_PROFILE_SRC_PROGRAM_AUTO=WIDGET_BUTTON(BASE_RAD_PROFILE_SRC,UNAME='RAD_PROFILE_SRC_PROGRAM_AUTO', $
     VALUE='Generate Profiles Automatically',/ALIGN_LEFT)
-    
-    
+      
   BASE_PROFILE_SRC_USER=WIDGET_BASE(BASE_3,FRAME=0,space=1,xpad=1,ypad=1,/column,uname='BASE_PROFILE_SRC_USER',sensitive=0)
   TXT_PF=CW_DIRFILE(BASE_PROFILE_SRC_USER,TITLE='',XSIZE=120,$
     UNAME='TXT_PF', $
@@ -406,25 +431,33 @@ PRO VEL_PROFILES_UI,group_leader=group_leader
     FILTER=[['*.psxy','*.txt','*'],['GMT psxy input format (*.psxy)','Text Files (*.txt)', 'All files (*)']], $
     STYLE='FILE', SENSITIVE=1,/ALIGN_RIGHT)
     
-  BASE_PROFILE_SRC_PROG=WIDGET_BASE(BASE_3,FRAME=0,space=1,xpad=1,ypad=1,/column,uname='BASE_PROFILE_SRC_PROG',sensitive=1)
+    
+  BASE_3b=WIDGET_BASE(BASE_3,FRAME=0,space=1,xpad=1,ypad=1,/row,/align_center,UNAME='BASE_3B') 
+  BASE_PROFILE_SRC_PROG=WIDGET_BASE(BASE_3b,FRAME=0,space=1,xpad=1,ypad=1,/column,uname='BASE_PROFILE_SRC_PROG',sensitive=1)
   
-  base_profile_length=WIDGET_BASE(BASE_PROFILE_SRC_PROG,/row,frame=0,space=0,xpad=0,ypad=0,/ALIGN_center)
+  base_profile_length=WIDGET_BASE(BASE_PROFILE_SRC_PROG,/row,frame=0,space=0,xpad=0,ypad=0,/ALIGN_right)
   lbl=WIDGET_LABEL(base_profile_length,value='Length of Profiles (in km):',/align_left)
   txt_profile_length=WIDGET_TEXT(base_profile_length,uname='txt_profile_length',value='200',/editable,/ALL_EVENTS,/ALIGN_CENTER,xsize=5)
   
   
-  base_profile_width=WIDGET_BASE(BASE_PROFILE_SRC_PROG,/row,frame=0,space=0,xpad=0,ypad=0,/ALIGN_center)
-  lbl=WIDGET_LABEL(base_profile_width,value='  Width of Profiles (in km):',/align_left)
+  base_profile_width=WIDGET_BASE(BASE_PROFILE_SRC_PROG,/row,frame=0,space=0,xpad=0,ypad=0,/ALIGN_right)
+  lbl=WIDGET_LABEL(base_profile_width,value='Width of Profiles (in km):',/align_left)
   txt_profile_width=WIDGET_TEXT(base_profile_width,uname='txt_profile_width',value='50',/editable,/ALL_EVENTS,/ALIGN_CENTER,xsize=5)
-  
-  BASE_profile_rot=WIDGET_BASE(BASE_PROFILE_SRC_PROG,/NONEXCLUSIVE, $
-    UNAME='BASE_profile_rot',SPACE=0,XPAD=0,YPAD=0,/ROW,FRAME=0, /align_center)
-  CKB_PROFILE_ROT=WIDGET_BUTTON(BASE_profile_rot,VALUE='Rotate profiles along strikes of fault segments',TRACKING_EVENTS=1,UNAME='CKB_PROFILE_ROT')
-  
-  base_search_radius=WIDGET_BASE(BASE_3,/row,frame=0,space=0,xpad=0,ypad=0,/ALIGN_center)
-  lbl=WIDGET_LABEL(base_search_radius,value='Station Search Radius (in km):',/align_left)
+ 
+    base_search_radius=WIDGET_BASE(BASE_PROFILE_SRC_PROG,/row,frame=0,space=0,xpad=0,ypad=0,/ALIGN_right)
+  lbl=WIDGET_LABEL(base_search_radius,value='Search Radius (in km):',/align_left)
   txt_search_radius=WIDGET_TEXT(base_search_radius,uname='txt_search_radius',value='100',/editable,/ALL_EVENTS,/ALIGN_CENTER,xsize=5)
   
+  BASE_PROFILE_STRIKE=WIDGET_BASE(BASE_3b,FRAME=0,space=0,xpad=0,ypad=0,/column,uname='BASE_PROFILE_SRC_PROG',sensitive=1)
+  
+  BASE_profile_rot=WIDGET_BASE(BASE_PROFILE_STRIKE,/EXCLUSIVE, $
+    UNAME='BASE_profile_rot',SPACE=0,XPAD=0,YPAD=0,/column,FRAME=0, /align_center)
+  RAD_PROFILE_STRIKE_VARYING=WIDGET_BUTTON(BASE_profile_rot,VALUE='Rotate profiles along strikes of fault segments',TRACKING_EVENTS=1,UNAME='RAD_PROFILE_STRIKE_VARYING')
+  RAD_PROFILE_STRIKE_MEAN=WIDGET_BUTTON(BASE_profile_rot,VALUE='Mean strike of all fault segments',TRACKING_EVENTS=1,UNAME='RAD_PROFILE_STRIKE_MEAN')
+  RAD_PROFILE_STRIKE_TWO=WIDGET_BUTTON(BASE_profile_rot,VALUE='Line of First-Last Vertices',TRACKING_EVENTS=1,UNAME='RAD_PROFILE_STRIKE_TWO')
+  ;RAD_PROFILE_STRIKE_USER=WIDGET_BUTTON(BASE_profile_rot,VALUE='User Input',TRACKING_EVENTS=1,UNAME='RAD_PROFILE_STRIKE_USER')
+ 
+
   
   ;frame 4
   BASE_4=WIDGET_BASE(BASE,FRAME=0,space=1,xpad=1,ypad=1,/column)

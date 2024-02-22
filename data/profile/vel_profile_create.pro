@@ -141,25 +141,31 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
     ;    ffile='C:\GMT_pub\vector\profile\fa_dari.psxy'
     ;    opath='Z:\g11j\D\gsar\interseismic\070-a-m6-0100_0105_0110_0115_0120_0125-eastkunlun5M3\f123\sbas.4.0.0001.9999.20141022.20230225.056.0770.01.___\p.fa_dari_dec3d_byN_all_1km'
   
-;    fa='fa_haiyuan'
-;    ;     vfile='D:\gsar\interseismic\033-d-m2-0463_0468-menyuan\f123\sbas.4.0.0001.9999.20220110.20231219.058.0795.01.___\vel_mask_ll3.xyze'
-;    cmt='3d_1920'
-;    ; vfile='D:\gsar\interseismic\005-d-m3-0460_0466_0471-karakul_lake_south\f123.1\sbas.3.0.0720.9999.20141018.20200320.121.0340.01.___\vel_mask_ll3.xyz'
-;    vfile='D:\gsar\gic3dv\hyf\asc_des\insar_los_2_3d_1920.psvelou'
+    ;    fa='fa_haiyuan'
+    ;    ;     vfile='D:\gsar\interseismic\033-d-m2-0463_0468-menyuan\f123\sbas.4.0.0001.9999.20220110.20231219.058.0795.01.___\vel_mask_ll3.xyze'
+    ;    cmt='3d_1920'
+    ;    ; vfile='D:\gsar\interseismic\005-d-m3-0460_0466_0471-karakul_lake_south\f123.1\sbas.3.0.0720.9999.20141018.20200320.121.0340.01.___\vel_mask_ll3.xyz'
+    ;    vfile='D:\gsar\gic3dv\hyf\asc_des\insar_los_2_3d_1920.psvelou'
     ;
-    
+  
     ;fa='fa_eklf'
     ;vfile='D:\gsar\gic3dv\kunlun\asc_des\gps_prd'
     ;vfile='D:\gsar\gic3dv\kunlun\asc_des\gic3dv.out'
     ;cmt='gicout'
+  
+;    vfile='D:\gsar\gic3dv\tianshan\asc_des\insar_los_2_3d2.psvelou'
+;    fa='fa_maidan_shayilamu'
+;    cmt='3d'
     
-    vfile='D:\gsar\gic3dv\tianshan\asc_des\insar_los_2_3d2.psvelou'
-    fa='fa_maidan_shayilamu'
-    cmt='3d'
+    vfile='D:\gsar\gic3dv\jiali\asc_des\insar_3d.150000'
+    fa='fa_sangri_cuona_east_ext'
+    cmt='i3d'
+    opath='D:\gsar\interseismic\077-d-m7-0475_0480_0485_0490_0495_0500_0505-jiali\f123\asc_des\p.fa_sangri_cuona_east_ext_i3d'
+    inputfmt=81
     
     is_fault_trace_downsample=0
-    auto_strike=2
-    auto_strike_2nd=2
+    auto_strike=3
+    ;auto_strike_2nd=2
     length_profile=1200
     spacing_profile=10
   ;
@@ -206,7 +212,9 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
   ENDIF
   ;search_radius=100d0
   
-  PRINT,'['+prog+']INFO:reading velocity ('+vfile+')...'
+  lbl_str='['+prog+']INFO:reading velocity ('+vfile+')...'
+  PRINT,lbl_str  
+  IF N_ELEMENTS(lbl_id) NE 0 THEN WIDGET_CONTROL, lbl_id, set_value=lbl_str
   READ_DEFO_VELOCITY, vfile,   $
     data=data,  $
     sites=sites,  $
@@ -358,26 +366,27 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
   
   
   
-  xmin_ov=MIN([reform(lls[0,*]), reform(xys_fvec[0,*]), reform(pxys[0,*]) ],max=xmax_ov)
-  ymin_ov=MIN([reform(lls[1,*]), reform(xys_fvec[1,*]), reform(pxys[1,*]) ],max=ymax_ov)
+  xmin_ov=MIN([REFORM(lls[0,*]), REFORM(xys_fvec[0,*]), REFORM(pxys[0,*]) ],max=xmax_ov)
+  ymin_ov=MIN([REFORM(lls[1,*]), REFORM(xys_fvec[1,*]), REFORM(pxys[1,*]) ],max=ymax_ov)
   ;stop
   ;loop for each profile
   PRINT,'['+prog+']INFO:loop for each profile ...'
   
-    FOR pi=0,np-1 DO BEGIN  ;loop for each profile
-;  FOR pi=31,31 DO BEGIN  ;test
+  FOR pi=0,np-1 DO BEGIN  ;loop for each profile
+    ;  FOR pi=31,31 DO BEGIN  ;test
   
     WINDOW,1,xsize=1500,ysize=900,title='Profile '+STRING(pi+1,format='(i03)'),/pixmap
     DEVICE,decomposed=1
     
     !p.MULTI=[0,3,2,0,0]
-    !p.charsize=1.5
+    !p.CHARSIZE=1.5
     ;!p.MULTI=-1
     PLOT,lls[0,*],lls[1,*],psym=1,background='ffffff'x,color='0'x, $
       title='Overview Map', $
       xrange=[xmin_ov,xmax_ov], $
       yrange=[ymin_ov,ymax_ov], $
-      /ynozero;,/iso
+      /ynozero,/nodata;,/iso
+    OPLOT,lls[0,*],lls[1,*],psym=1,color='aaaaaa'x
     IF N_ELEMENTS(ffile) GT 0 && ffile NE '' THEN BEGIN
       OPLOT,xys_fvec[0,*],xys_fvec[1,*],psym='-4',color='0000ff'x
     ;stop
@@ -425,7 +434,7 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
     ;    IF alpha LT 0 THEN BEGIN
     ;      alpha=alpha+!dpi
     ;    ENDIF
-    lbl_str='Creating profile '+STRTRIM(pi+1,2)+' angle:'+STRTRIM(alpha*180d0/!dpi,2)
+    lbl_str='Creating profile '+STRTRIM(pi+1,2)+'/'+STRTRIM(np,2)+' angle: '+STRTRIM(alpha*180d0/!dpi,2)
     PRINT, lbl_str
     ;HELP,lbl_id
     IF N_ELEMENTS(lbl_id) NE 0 THEN WIDGET_CONTROL, lbl_id, set_value=lbl_str
@@ -629,15 +638,16 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
     WSET,1
     ;WINDOW,1,xsize=800,ysize=800,title='Map';,/pixmap
     ;DEVICE,decomposed=1
-;    lonmin=MIN([ a1[0],b1[0],REFORM(xys_fvec[0,*]) ],max=lonmax)
-;    latmin=MIN([ a1[1],b1[1],REFORM(xys_fvec[1,*]) ],max=latmax)
+    ;    lonmin=MIN([ a1[0],b1[0],REFORM(xys_fvec[0,*]) ],max=lonmax)
+    ;    latmin=MIN([ a1[1],b1[1],REFORM(xys_fvec[1,*]) ],max=latmax)
     lonmin=MIN([ a1[0],b1[0] ],max=lonmax)
     latmin=MIN([ a1[1],b1[1] ],max=latmax)
     PLOT,lls[0,*],lls[1,*],psym=1,background='ffffff'x,color='0'x, $
       title='Site Map for Profile '+STRING(pi+1,format='(i2)'), $
       xrange=[lonmin,lonmax], $
       yrange=[latmin,latmax], $
-      /ynozero,/iso
+      /ynozero,/iso,/nodata
+    OPLOT,lls[0,*],lls[1,*],psym=1,color='aaaaaa'x
     OPLOT,[a1[0],b1[0]], [a1[1],b1[1]], color='ff0000'x
     PLOTS,lls[0,pos],lls[1,pos],psym=1,color='ff0000'x
     PLOTS,[xy3[0]],[xy3[1]],psym=2,color='0000ff'x
@@ -868,7 +878,8 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
     PLOT,REFORM(dists_fault[pos[ind]]),vel_along_all[ind],background='ffffff'x,color='0'x, $
       title='Velocities Along (fault-normal) Profile '+STRING(pi+1,format='(i2)'), $
       ;yrange=[-50,50] ,  $
-      /ynozero,psym=2;,yrange=yrange
+      /ynozero,psym=2,/nodata;,yrange=yrange
+      oplot,REFORM(dists_fault[pos[ind]]),vel_along_all[ind],psym=2,color='ff0000'x
     ;OPLOT,[xy3[0],xy3[0]],[-1d3,1d3],linestyle=2,color='ff0000'x,thick=2
     OPLOT,[0,0],[-1d3,1d3],linestyle=2,color='ff0000'x,thick=2
     FOR j=0,N_ELEMENTS(ind)-1 DO BEGIN
@@ -877,11 +888,21 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
         color='0000ff'x,thick=2
     ENDFOR
     
+;1 Plus sign (+)  
+;2 Asterisk (*)  
+;3 Period (.)  
+;4 Diamond  
+;5 Triangle  
+;6 Square  
+;7 X 
+    
+    
     ;PLOT,lls_used[0,ind],vel_tang_all[ind],background='ffffff'x,color='0'x, $
     PLOT,dists_fault[pos[ind]],vel_tang_all[ind],background='ffffff'x,color='0'x, $
       title='Velocities Tangent (fault-parallel) to Profile '+STRING(pi+1,format='(i2)'), $
       ;yrange=[-50,50] ,  $
-      /ynozero,psym=5;,yrange=yrange
+      /ynozero,psym=4,/nodata;,yrange=yrange
+      oplot,dists_fault[pos[ind]],vel_tang_all[ind],psym=4,color='ff0000'x
     ;    OPLOT,lls_used[0,ind],vel_tang_all[ind],color='0000ff'x, $
     ;      psym=5
     ;OPLOT,[xy3[0],xy3[0]],[-1d3,1d3],linestyle=2,color='ff0000'x,thick=2
@@ -892,10 +913,11 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
         color='0000ff'x,thick=2
     ENDFOR
     
-     PLOT,dists_fault[pos[ind]],vel_up_all[ind],background='ffffff'x,color='0'x, $
+    PLOT,dists_fault[pos[ind]],vel_up_all[ind],background='ffffff'x,color='0'x, $
       title='Vertical (up) Velocities along Profile '+STRING(pi+1,format='(i2)'), $
       ;yrange=[-50,50] ,  $
-      /ynozero,psym=5;,yrange=yrange
+      /ynozero,psym=5,/nodata;,yrange=yrange
+      oplot,dists_fault[pos[ind]],vel_up_all[ind],psym=5,color='ff0000'x
     OPLOT,[0,0],[-1d3,1d3],linestyle=2,color='ff0000'x,thick=2
     FOR j=0,N_ELEMENTS(ind)-1 DO BEGIN
       OPLOT,[ dists_fault[pos[ind[j]]], dists_fault[pos[ind[j]]] ], $
@@ -904,10 +926,11 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
     ENDFOR
     
     
-     PLOT,dists_fault[pos[ind]],vel_los_all[ind],background='ffffff'x,color='0'x, $
+    PLOT,dists_fault[pos[ind]],vel_los_all[ind],background='ffffff'x,color='0'x, $
       title='InSAR LOS Velocities along Profile '+STRING(pi+1,format='(i2)'), $
       ;yrange=[-50,50] ,  $
-      /ynozero,psym=5;,yrange=yrange
+      /ynozero,psym=6,/nodata;,yrange=yrange
+      oplot,dists_fault[pos[ind]],vel_los_all[ind],psym=6,color='ff0000'x
     OPLOT,[0,0],[-1d3,1d3],linestyle=2,color='ff0000'x,thick=2
     FOR j=0,N_ELEMENTS(ind)-1 DO BEGIN
       OPLOT,[ dists_fault[pos[ind[j]]], dists_fault[pos[ind[j]]] ], $
@@ -915,7 +938,7 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
         color='0000ff'x,thick=2
     ENDFOR
     
-      
+    
     !p.MULTI=-1
     
     ofile=opath+PATH_SEP()+'profile_'+STRING(pi+1,format='(i03)')+'_vel.jpg'

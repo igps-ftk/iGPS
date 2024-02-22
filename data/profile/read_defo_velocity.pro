@@ -145,7 +145,7 @@ PRO READ_DEFO_VELOCITY, file,   $
   
   ;guess file type from content
   IF N_ELEMENTS(inputfmt) EQ 0 || inputfmt EQ -1 THEN BEGIN
-    STOP
+    ;STOP
     lines=read_txt(file,N=5)
     lines_p=str_lines2arr(lines)
     ncol=N_ELEMENTS(lines_p[*,0])
