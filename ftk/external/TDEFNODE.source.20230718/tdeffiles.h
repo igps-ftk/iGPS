@@ -5,7 +5,8 @@
 *************************************************************************************
 ** path to kml file header, needed if +kml flag set
       kmlhdr = 
-     .   '/home/mccafr/TDEFNODE/kml.header'
+     .'/home/tianyf/iGPS/ftk/external/'//
+     .'TDEFNODE.source.20230718/kml.header'
 
 ** path of Smithsonian volcanoes file, needed if +vtw flag is set
       volcfile = 

@@ -52,6 +52,11 @@ PRO LINE_INTERSECT_LINE, a1, b1, c2, rate2, d2
     b1=[85.5126849284d0, 29.4418913671d0]
     c2=[87.1,30]
     rate2=.5d0
+    
+    a1=[   77.898577d0,       40.191932]
+    b1=[   79.655042d0,       28.480390]
+    c2=[   78.800079d0,       34.336161]
+     rate2=[-0.00000000d0]
   ENDIF
   
   ;stop
@@ -140,6 +145,7 @@ PRO LINE_INTERSECT_LINE, a1, b1, c2, rate2, d2
     PRINT,b1
     PRINT,c2
     PRINT,d2
+    print,d2,format='(2(1x,f))'
     PRINT,FINITE(d2)
     PRINT,a1[1]-d2[1]
     WINDOW,1

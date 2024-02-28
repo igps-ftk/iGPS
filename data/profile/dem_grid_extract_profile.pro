@@ -79,6 +79,10 @@ PRO DEM_GRID_EXTRACT_PROFILE, demfile,  $  ;DEM file (ENVI raw image format; wit
          ffile='C:\GMT_pub\vector\profile\fa_nantinghe_east.psxy'
     pfile='D:\gsar\interseismic\099-a-m4-1245_1250_1255_1260-honghe\f123\sbas.4.0.0367.9999.20170318.20210707.127.1346.01.___\p.fa_nantinghe_east\profiles_auto.psxy'
     opath='D:\ICD\Eighth\2019\20190613.Hezong.Zone2\Final\report\figure\2.profiles.asc.xiaojiang\dem.fa_nantinghe_east'
+           
+           ffile='C:\GMT_pub\vector\profile\fa_bengco_jiali_ext2.psxy'
+    pfile='D:\gsar\interseismic\077-d-m7-0475_0480_0485_0490_0495_0500_0505-jiali\f123\asc_des\p.fa_bengco_jiali_ext2_i3d\profiles_auto.psxy'
+    opath='D:\ICD\projects\nsfc\2019\final\figure\profile.jiali\dem'
     
     
   ENDIF

@@ -153,10 +153,10 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
     ;vfile='D:\gsar\gic3dv\kunlun\asc_des\gic3dv.out'
     ;cmt='gicout'
   
-;    vfile='D:\gsar\gic3dv\tianshan\asc_des\insar_los_2_3d2.psvelou'
-;    fa='fa_maidan_shayilamu'
-;    cmt='3d'
-    
+    ;    vfile='D:\gsar\gic3dv\tianshan\asc_des\insar_los_2_3d2.psvelou'
+    ;    fa='fa_maidan_shayilamu'
+    ;    cmt='3d'
+  
     vfile='D:\gsar\gic3dv\jiali\asc_des\insar_3d.150000'
     fa='fa_sangri_cuona_east_ext'
     cmt='i3d'
@@ -213,7 +213,7 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
   ;search_radius=100d0
   
   lbl_str='['+prog+']INFO:reading velocity ('+vfile+')...'
-  PRINT,lbl_str  
+  PRINT,lbl_str
   IF N_ELEMENTS(lbl_id) NE 0 THEN WIDGET_CONTROL, lbl_id, set_value=lbl_str
   READ_DEFO_VELOCITY, vfile,   $
     data=data,  $
@@ -373,7 +373,7 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
   PRINT,'['+prog+']INFO:loop for each profile ...'
   
   FOR pi=0,np-1 DO BEGIN  ;loop for each profile
-    ;  FOR pi=31,31 DO BEGIN  ;test
+    ;      FOR pi=20,25 DO BEGIN  ;test
   
     WINDOW,1,xsize=1500,ysize=900,title='Profile '+STRING(pi+1,format='(i03)'),/pixmap
     DEVICE,decomposed=1
@@ -405,6 +405,7 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
     
     ;get the intersect point of fault lines (xys_fvec) and current profile (a1,b1)
     IF N_ELEMENTS(ffile) NE 0 && ffile NE '' THEN BEGIN
+      ;stop
       xy3=SEGMENT_INTERSECT_POLYLINE(xys_fvec,a1,b1)
     ;if no intersection between profile and fault line, it returns null result.
     ;stop
@@ -441,12 +442,13 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
     
     XYOUTS,(a1[0]+b1[0])*.5d0,(a1[1]+b1[1])*.5d0, $
       STRTRIM(alpha*180d0/!dpi,2),color='0000ff'x
-    ;stop
-      
+    ;STOP
+    
     ;Derive the rotation matrix for transforming velocities
     ;for rotating velocities into fault-parallel/normal coordinate system
     ;fault strike direction is profile direction minus 90 degrees
     strike_fa=alpha-!dpi/2
+    IF strike_fa LT -!dpi/2 THEN strike_fa=strike_fa+!dpi ;to make fault strike within [-pi/2, pi/2]
     ;PRINT,'fault strike:'+STRTRIM(strike_fa*180d0/!dpi,2)
     rmat=[[COS(strike_fa), -1d0*SIN(strike_fa)], $
       [SIN(strike_fa), COS(strike_fa)] ]
@@ -879,7 +881,7 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
       title='Velocities Along (fault-normal) Profile '+STRING(pi+1,format='(i2)'), $
       ;yrange=[-50,50] ,  $
       /ynozero,psym=2,/nodata;,yrange=yrange
-      oplot,REFORM(dists_fault[pos[ind]]),vel_along_all[ind],psym=2,color='ff0000'x
+    OPLOT,REFORM(dists_fault[pos[ind]]),vel_along_all[ind],psym=2,color='ff0000'x
     ;OPLOT,[xy3[0],xy3[0]],[-1d3,1d3],linestyle=2,color='ff0000'x,thick=2
     OPLOT,[0,0],[-1d3,1d3],linestyle=2,color='ff0000'x,thick=2
     FOR j=0,N_ELEMENTS(ind)-1 DO BEGIN
@@ -888,13 +890,13 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
         color='0000ff'x,thick=2
     ENDFOR
     
-;1 Plus sign (+)  
-;2 Asterisk (*)  
-;3 Period (.)  
-;4 Diamond  
-;5 Triangle  
-;6 Square  
-;7 X 
+    ;1 Plus sign (+)
+    ;2 Asterisk (*)
+    ;3 Period (.)
+    ;4 Diamond
+    ;5 Triangle
+    ;6 Square
+    ;7 X
     
     
     ;PLOT,lls_used[0,ind],vel_tang_all[ind],background='ffffff'x,color='0'x, $
@@ -902,7 +904,7 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
       title='Velocities Tangent (fault-parallel) to Profile '+STRING(pi+1,format='(i2)'), $
       ;yrange=[-50,50] ,  $
       /ynozero,psym=4,/nodata;,yrange=yrange
-      oplot,dists_fault[pos[ind]],vel_tang_all[ind],psym=4,color='ff0000'x
+    OPLOT,dists_fault[pos[ind]],vel_tang_all[ind],psym=4,color='ff0000'x
     ;    OPLOT,lls_used[0,ind],vel_tang_all[ind],color='0000ff'x, $
     ;      psym=5
     ;OPLOT,[xy3[0],xy3[0]],[-1d3,1d3],linestyle=2,color='ff0000'x,thick=2
@@ -917,7 +919,7 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
       title='Vertical (up) Velocities along Profile '+STRING(pi+1,format='(i2)'), $
       ;yrange=[-50,50] ,  $
       /ynozero,psym=5,/nodata;,yrange=yrange
-      oplot,dists_fault[pos[ind]],vel_up_all[ind],psym=5,color='ff0000'x
+    OPLOT,dists_fault[pos[ind]],vel_up_all[ind],psym=5,color='ff0000'x
     OPLOT,[0,0],[-1d3,1d3],linestyle=2,color='ff0000'x,thick=2
     FOR j=0,N_ELEMENTS(ind)-1 DO BEGIN
       OPLOT,[ dists_fault[pos[ind[j]]], dists_fault[pos[ind[j]]] ], $
@@ -930,7 +932,7 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
       title='InSAR LOS Velocities along Profile '+STRING(pi+1,format='(i2)'), $
       ;yrange=[-50,50] ,  $
       /ynozero,psym=6,/nodata;,yrange=yrange
-      oplot,dists_fault[pos[ind]],vel_los_all[ind],psym=6,color='ff0000'x
+    OPLOT,dists_fault[pos[ind]],vel_los_all[ind],psym=6,color='ff0000'x
     OPLOT,[0,0],[-1d3,1d3],linestyle=2,color='ff0000'x,thick=2
     FOR j=0,N_ELEMENTS(ind)-1 DO BEGIN
       OPLOT,[ dists_fault[pos[ind[j]]], dists_fault[pos[ind[j]]] ], $

@@ -145,19 +145,36 @@ nsimu=5000; %number of simulations
 
 % d_exclude=[-1,400];
 
+% 
+% paths={'/g17c/gsar/gic3dv/tianshan/asc_des/figure/p.fa_maidan_shayilamu_3d'};
+% ptn='018';
+% dmin=-200;
+% dmax=200;
+% 
+% paths={'D:\gsar\interseismic\026-a-m5-0112_0117_0122_0127_0132-qilian\f123\sbas.4.0.0001.9999.20141019.20231219.072.0605.01.___\p.fa_haiyuan'};
+% ptn='014';
+% dmin=-200;
+% dmax=200;
+% vi=14;
+% 
+% paths={'D:\gsar\interseismic\077-d-m7-0475_0480_0485_0490_0495_0500_0505-jiali\f123\asc_des\p.fa_jiali_i3d'};
+% paths={'D:\gsar\interseismic\077-d-m7-0475_0480_0485_0490_0495_0500_0505-jiali\f123\asc_des\p.fa_bengco_jiali_ext2_i3d'};
+% % paths={'D:\gsar\interseismic\077-d-m7-0475_0480_0485_0490_0495_0500_0505-jiali\f123\asc_des\p.fa_yadong_gulu_appro_i3d'};
+% % paths={'D:\gsar\interseismic\077-d-m7-0475_0480_0485_0490_0495_0500_0505-jiali\f123\asc_des\p.fa_sangri_cuona_east_ext_i3d'};
+% ptn='1*';
+% dmin=-200;
+% dmax=200;
+% vi=7;
 
-paths={'/g17c/gsar/gic3dv/tianshan/asc_des/figure/p.fa_maidan_shayilamu_3d'};
-ptn='018';
-dmin=-200;
-dmax=200;
+paths={'D:\gsar\gic3dv\g219\asc_des\profiles\p.fa_gozhaco'};
+% paths={'D:\gsar\gic3dv\g219\asc_des\profiles\p.fa_tianshen_daban\'};
+% paths={'D:\gsar\gic3dv\g219\asc_des\profiles\p.fa_longmuco_dulishihu'};
+ptn='0*';
+dmin=-100;
+dmax=100;
+vi=9;
 
-paths={'D:\gsar\interseismic\026-a-m5-0112_0117_0122_0127_0132-qilian\f123\sbas.4.0.0001.9999.20141019.20231219.072.0605.01.___\p.fa_haiyuan'};
-ptn='014';
-dmin=-200;
-dmax=200;
-vi=14;
-
-
+cmt='up';
 
 % cmt='farCreep'
 % cmt='klfCreep'
@@ -174,12 +191,12 @@ npath=size(paths,1);
 % fts_max=100;
 % fts_min=-55;
 % fts_max=55;
-fts_min=-35;
-fts_max=35;
-% fts_min=-15;
-% fts_max=15;
-fts_min=-3;
-fts_max=3;
+% fts_min=-35;
+% fts_max=35;
+fts_min=-15;
+fts_max=15;
+% fts_min=-3;
+% fts_max=3;
 is_show_fig='on';
 %is_show_fig='off';
 
@@ -302,12 +319,12 @@ for ii=1:npath
         
         params = {
             {'sr', 0, -20, 20}
-%             {'ld', 5, .1, 50}
+%             {'ld', 5, .1, 10}
             %       {'ld', 10, .1, 25}
-                  {'ld', 1, 0, 50}
+%                   {'ld', 1, 0, 50}
 %                   {'ld', 1, 0, 20}
             %       {'ld', 10, .1, 15}
-%                   {'ld', .1, .01, .2}
+                  {'ld', .1, .01, .2}
             %       {'ld', 9, 8.9, 9.1}
             %     {'fts', 0, -30, 30}
             %           {'fts', 0, -1, 1}

@@ -5,15 +5,7 @@ PRO BLOCK_GEOMETRY_FROM_KML, file,  $
   bcs=pc_xys
   
   IF N_ELEMENTS(file) EQ 0 THEN BEGIN
-    file='D:\gpse\eq.sc08\block\defnode\Xianshuihe\block_fault2.psxy'
-    file='D:\gpse\eq.sc08\block\defnode\kunlun\block_fault_kunlun.psxy'
-    file='D:\gpse\eq.sc08\block\defnode\Jiali_202201\block_fault_jiali.txt'
-    file='D:\gpse\eq.sc08\block\defnode\Jiali_202201\model2\block_fault_jiali.txt'
-    file='D:\gpse\eq.sc08\block\defnode\jiali_20230109\model3\block_fault_model.txt'
-    file='D:\gpse\eq.sc08\block\defnode\jiali_20230109\model4\block_fault_model.txt'
-    file='D:\Papers\jiali\vector\block_model\model6\bloack_model.txt'
-    file='D:\Papers\eq1950motuo\vector\block_model\mdla\block_model.txt'
-    file='D:\gpse\eq.sc08\block\defnode\mht\vector\block_fault_model.txt'
+    file='D:\gpse\eq.sc08\block\defnode\jiali20240223\vector2\block_fault_model.txt'
   ENDIF
   
   ext=getfilesuffix(file)
