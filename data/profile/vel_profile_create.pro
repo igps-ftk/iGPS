@@ -222,13 +222,28 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
     dummy=dummy
   lls=data[0:1,*]
   nsit=N_ELEMENTS(sites)
+  
+  lons=REFORM(lls[0,*])
+  lats=REFORM(lls[1,*])
+  QHULL, lons, lats, tris
+  FOR i=0,N_ELEMENTS(tris[0,*])-2 DO BEGIN
+    p1=tris[0,i]
+    p2=tris[1,i]
+    pos=WHERE(tris[0,*] EQ p2)
+    IF pos NE i+1 THEN BEGIN
+      tmp=tris[*,i+1]
+      tris[*,i+1]=tris[*,pos]
+      tris[*,pos]=tmp
+    ;stop
+    ENDIF
+    
+  ;plots,lons[[p1,p2]], lats[[p1,p2]],psym=-2, color='0000ff'x
+  ;stop
+  ENDFOR
+  PLOTS,lons[tris[0,*]],lats[tris[0,*]],psym=-4,color='ff0000'x
+  xys_vel_hull=[lons[tris[0,*]],lats[tris[0,*]]]
   ;stop
   
-  ;    ELSE: BEGIN
-  ;      PRINT,'['+prog+']ERROR: invalid input velocity format!!'
-  ;      RETURN
-  ;    END
-  ;  ENDCASE
   
   xmin=MIN(lls[0,*],max=xmax)
   ymin=MIN(lls[1,*],max=ymax)
@@ -366,14 +381,14 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
   
   
   
-  xmin_ov=MIN([REFORM(lls[0,*]), REFORM(xys_fvec[0,*]), REFORM(pxys[0,*]) ],max=xmax_ov)
-  ymin_ov=MIN([REFORM(lls[1,*]), REFORM(xys_fvec[1,*]), REFORM(pxys[1,*]) ],max=ymax_ov)
+  xmin_ov=MIN([REFORM(lls[0,*]), REFORM(xys_fvec[0,0,*]), REFORM(xys_fvec[0,1,*]),  REFORM(pxys[0,1,*]),  REFORM(pxys[0,1,*]) ],max=xmax_ov)
+  ymin_ov=MIN([REFORM(lls[1,*]), REFORM(xys_fvec[1,0,*]), REFORM(xys_fvec[1,1,*]),  REFORM(pxys[1,1,*]),  REFORM(pxys[1,1,*]) ],max=ymax_ov)
   ;stop
   ;loop for each profile
   PRINT,'['+prog+']INFO:loop for each profile ...'
   
-  FOR pi=0,np-1 DO BEGIN  ;loop for each profile
-    ;      FOR pi=20,25 DO BEGIN  ;test
+    FOR pi=0,np-1 DO BEGIN  ;loop for each profile
+;  FOR pi=70,70 DO BEGIN  ;test
   
     WINDOW,1,xsize=1500,ysize=900,title='Profile '+STRING(pi+1,format='(i03)'),/pixmap
     DEVICE,decomposed=1
@@ -398,9 +413,13 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
     
     a1=xy1  ;the starting and ending vertices of the profile
     b1=xy2
-    
     OPLOT,[a1[0],b1[0]], [a1[1],b1[1]], color='ff0000'x
     
+    c1=INTERSECT_BETWEEN_POLYLINE_AND_LINE( xys_vel_hull, a1,b1)
+    IF FINITE(c1[0]) NE 1 THEN BEGIN
+      PRINT,'['+prog+']WARNING: no data for profile '+STRTRIM(pi+1,2)+'!'
+      CONTINUE
+    ENDIF
     
     
     ;get the intersect point of fault lines (xys_fvec) and current profile (a1,b1)
@@ -443,7 +462,7 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
     XYOUTS,(a1[0]+b1[0])*.5d0,(a1[1]+b1[1])*.5d0, $
       STRTRIM(alpha*180d0/!dpi,2),color='0000ff'x
     ;STOP
-    
+      
     ;Derive the rotation matrix for transforming velocities
     ;for rotating velocities into fault-parallel/normal coordinate system
     ;fault strike direction is profile direction minus 90 degrees

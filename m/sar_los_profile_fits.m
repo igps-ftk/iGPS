@@ -169,12 +169,19 @@ nsimu=5000; %number of simulations
 paths={'D:\gsar\gic3dv\g219\asc_des\profiles\p.fa_gozhaco'};
 % paths={'D:\gsar\gic3dv\g219\asc_des\profiles\p.fa_tianshen_daban\'};
 % paths={'D:\gsar\gic3dv\g219\asc_des\profiles\p.fa_longmuco_dulishihu'};
-ptn='0*';
+% paths={'D:\gsar\gic3dv\pishan\asc_des\profiles\p.fa_gozhaco'};
+% paths={'D:\gsar\interseismic\056-a-m6-0099_0104_0109_0114_0119_0124-karakax\f123\sbas.4.0.0367.9999.20141114.20230413.074.0626.01.___\p.fa_gozhaco'};
+% paths={'D:\gsar\interseismic\063-d-m4-0467_0472_0478_0482-karakax\f123\sbas.4.0.0367.9999.20141010.20200124.088.1389.01.___\p.fa_longmuco_gozhaco'};
+% di=11;
+% vi=12;
+ptn='010*';
 dmin=-100;
-dmax=100;
-vi=9;
+dmax=200;
+% vi=7;
+nsimu=10000;
 
-cmt='up';
+cmt='parallel_farLock3';
+% cmt='up2';
 
 % cmt='farCreep'
 % cmt='klfCreep'
@@ -193,10 +200,10 @@ npath=size(paths,1);
 % fts_max=55;
 % fts_min=-35;
 % fts_max=35;
-fts_min=-15;
-fts_max=15;
-% fts_min=-3;
-% fts_max=3;
+% fts_min=-15;
+% fts_max=15;
+fts_min=-3;
+fts_max=3;
 is_show_fig='on';
 %is_show_fig='off';
 
@@ -323,16 +330,16 @@ for ii=1:npath
             %       {'ld', 10, .1, 25}
 %                   {'ld', 1, 0, 50}
 %                   {'ld', 1, 0, 20}
-            %       {'ld', 10, .1, 15}
-                  {'ld', .1, .01, .2}
+                  {'ld', 10, .1, 15}
+%                   {'ld', .1, .01, .2}
             %       {'ld', 9, 8.9, 9.1}
             %     {'fts', 0, -30, 30}
             %           {'fts', 0, -1, 1}
             {'fts', 00, fts_min, fts_max}
             {'yshift', (ymin+ymax)/2, ymin,ymax}
             
-%             {'rot', 0.001, -pi/3, pi/3}
-                  {'rot', 0.000011, 0.000010, 0.000012}
+            {'rot', 0.001, -pi/3, pi/3}
+%                   {'rot', 0.000011, 0.000010, 0.000012}
             };
         npar=size(params,1);
         
@@ -367,6 +374,12 @@ for ii=1:npath
         model.N0  = 4;                 % prior a        
         options.nsimu = nsimu;
         options.updatesigma = 1;
+%         options.method  = 'dram';
+% options.nsimu   = 10000;
+% options.qcov    = eye(npar)*1.5; % [initial] proposal covariaance
+
+%         options.qcov     = eye(npar)/npar*2.4^2.;
+% options.qcov     = eye(npar)*.001;
 %         options.qcov     = eye(npar)/npar*2.4^2.;
         options.verbosity = 1;
         options.waitbar = 1;

@@ -170,8 +170,8 @@ if [ "$is_init" == "y" ]; then
     
   echo "rsync -avP $pathF/da* $path_F_new"
   #echo "rsync -avP $pathF/da* $path_F_new" | sh
-  echo "rsync -avP $pathF/ba* $path_F_new"
-  #echo "rsync -avP $pathF/ba* $path_F_new" | sh  
+  echo "rsync -avP $pathF/baseline_table.dat* $path_F_new"
+  #echo "rsync -avP $pathF/baseline_table.dat* $path_F_new" | sh  
   if [ ! -s $pathF/baseline_table.dat ]; then
     echo -e "[$PROG]\033[1;33;41mERROR\033[0m: no $pathF/baseline_table.dat!!"
     exit 1
@@ -211,6 +211,8 @@ if [ "$is_init" == "y" ]; then
   cd $path_old
   #exit
   
+  echo "rsync -avP $pathF/batch_tops.config $path_F_new"
+  echo "rsync -avP $pathF/batch_tops.config $path_F_new" | sh  
   cat $path_F_new/batch_tops.config | sed -e 's/proc_stage = 2/proc_stage = 1/g' | sed -e 's/filter_wavelength = 200/filter_wavelength = 100/g' | sed -e 's/filter_wavelength = 400/filter_wavelength = 100/g' | sed -e 's/range_dec = 8/range_dec = 4/g' | sed -e 's/range_dec = 16/range_dec = 4/g' | sed -e 's/azimuth_dec = 2/azimuth_dec = 1/g' | sed -e 's/azimuth_dec = 4/azimuth_dec = 1/g' | sed -e 's/region_cut.*/region_cut =/g' | sed -e 's/dec_factor = 2/dec_factor = 1/g' | sed -e 's/threshold_snaphu = 0/threshold_snaphu = 0.01/g' > $path_F_new/_new_batch_tops.config
   \cp -fp $path_F_new/_new_batch_tops.config $path_F_new/batch_tops.config
 fi

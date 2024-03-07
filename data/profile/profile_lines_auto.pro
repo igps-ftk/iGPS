@@ -281,6 +281,10 @@ PRO PROFILE_LINES_AUTO, xys_fa,  $ ;fault trace; input; mondatory; double [2,npt
   ;xys_fp=[[xys_fp],[oxy]]
   ;STOP
   ENDFOR
+  IF N_ELEMENTS(xys_fp) LE 2 THEN BEGIN
+    PRINT,'['+PROG+']WARNING: no profiles created!'
+    RETURN
+  ENDIF
   xys_fp=xys_fp[*,1:*]
   oxys=oxys[*,*,1:*]
   strikes_pr=strikes_pr[1:*]

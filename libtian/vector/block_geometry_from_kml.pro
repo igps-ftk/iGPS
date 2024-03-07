@@ -6,7 +6,10 @@ PRO BLOCK_GEOMETRY_FROM_KML, file,  $
   
   IF N_ELEMENTS(file) EQ 0 THEN BEGIN
     file='D:\gpse\eq.sc08\block\defnode\jiali20240223\vector2\block_fault_model.txt'
+    file='D:\gpse\eq.sc08\block\defnode\g219\vector\blocks_western_tibet.psxy'
   ENDIF
+  
+  if n_elements(dist_max) eq 0 then dist_max=5d3
   
   ext=getfilesuffix(file)
   ofile=desuffix(file)+'_corrected.'+ext
@@ -27,23 +30,23 @@ PRO BLOCK_GEOMETRY_FROM_KML, file,  $
   FOR i=0,count-1 DO BEGIN
     name=names[i]
     poly_type=STRMID(name,3,2)
-    IF poly_type EQ 'bl' THEN CONTINUE ;in the 1st round, only move adjacent fault vertices (fa_)
+    ;IF poly_type EQ 'bl' THEN CONTINUE ;in the 1st round, only move adjacent fault vertices (fa_)
     PRINT,'testing '+name
     pxy1=(*opxys[i])[*,0]
     pxy2=(*opxys[i])[*,nps[i]-1]
     ;
     FOR j=0,count-1 DO BEGIN
       IF i EQ j THEN CONTINUE ;skip itself
-      IF STRMID(names[j],3,2) EQ 'bl' THEN CONTINUE
+      ;IF STRMID(names[j],3,2) EQ 'bl' THEN CONTINUE
       FOR k=0,nps[j]-1 DO BEGIN
         fxy1=(*opxys[j])[*,k]
         pf_dist=MAP_2POINTS(pxy1[0],pxy1[1],fxy1[0],fxy1[1],/meter)
-        IF pf_dist LE 10d3 THEN BEGIN
+        IF pf_dist LE dist_max THEN BEGIN
           (*opxys[i])[*,0]=fxy1
           PRINT,'starting point corrected:',i,j,k
         ENDIF
         pf_dist=MAP_2POINTS(pxy2[0],pxy2[1],fxy1[0],fxy1[1],/meter)
-        IF pf_dist LE 10d3 THEN BEGIN
+        IF pf_dist LE dist_max THEN BEGIN
           (*opxys[i])[*,nps[i]-1]=fxy1
           PRINT,'ending point corrected:',i,j,k
         ENDIF
@@ -72,12 +75,12 @@ PRO BLOCK_GEOMETRY_FROM_KML, file,  $
       FOR k=0,nps[j]-1 DO BEGIN
         fxy1=(*opxys[j])[*,k]
         pf_dist=MAP_2POINTS(pxy1[0],pxy1[1],fxy1[0],fxy1[1],/meter)
-        IF pf_dist LE 10d3 THEN BEGIN
+        IF pf_dist LE dist_max THEN BEGIN
           (*opxys[i])[*,0]=fxy1
           PRINT,'starting point corrected:',i,j,k
         ENDIF
         pf_dist=MAP_2POINTS(pxy2[0],pxy2[1],fxy1[0],fxy1[1],/meter)
-        IF pf_dist LE 10d3 THEN BEGIN
+        IF pf_dist LE dist_max THEN BEGIN
           (*opxys[i])[*,nps[i]-1]=fxy1
           PRINT,'ending point corrected:',i,j,k
         ENDIF

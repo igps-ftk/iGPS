@@ -7,82 +7,18 @@ PRO DEM_GRID_EXTRACT_PROFILE, demfile,  $  ;DEM file (ENVI raw image format; wit
   PROG=(STRSPLIT(LAST(SCOPE_TRACEBACK()),/EXTRACT))[0]
   
   IF N_PARAMS() LT 3 THEN BEGIN
-    demfile='C:\dem.gmt\envi.dem.min\envi.dem.min.raw'
-    demfile='C:\dem.gmt\ETOPO1_Bed_g_geotiff\ETOPO1_Bed_g_geotiff.tif'
     demfile='C:\GMT_pub\dem.gmt\ETOPO1_Bed_g_geotiff\ETOPO1_Bed_g_envi.img'
     
-    pfile='D:\ICD\projects\DirectorFund\Application.2012\InSAR\2016\from.ZhangQingyun\bengco\vector\profile_gulu.psxy'
-    opath='D:\ICD\projects\DirectorFund\Application.2012\InSAR\2016\lys\20161124\profiles.gl\'
-    ffile='D:\ICD\projects\DirectorFund\Application.2012\InSAR\2016\from.ZhangQingyun\bengco\vector\fault_gulu2.psxy'
     
-    ;    pfile='D:\ICD\projects\DirectorFund\Application.2012\InSAR\2016\from.ZhangQingyun\bengco\vector\profile_bengco.psxy'
-    ;    opath='D:\ICD\projects\DirectorFund\Application.2012\InSAR\2016\lys\20161124\profiles.bc'
-    ;    ffile='D:\ICD\projects\DirectorFund\Application.2012\InSAR\2016\from.ZhangQingyun\bengco\vector\fault_beng_co_east.psxy'
-    ;    ;ffile='D:\ICD\projects\DirectorFund\Application.2012\InSAR\2016\from.ZhangQingyun\bengco\vector\fault_beng_co_west.psxy'
+    fa='tianshen_daban'
+    fa='bns'
+    fa='karakoram'
+    fa='longmuco'
     
-    ;gulu profiles
-    ffile='D:\ICD\projects\DirectorFund\Application.2012\InSAR\2016\from.ZhangQingyun\bengco\vector\fault_gulu2.psxy'
-    ffile='D:\ICD\projects\DirectorFund\Application.2012\InSAR\2016\from.ZhangQingyun\bengco\vector\fault_ydgl.psxy'
-    pfile='D:\ICD\projects\DirectorFund\Application.2012\InSAR\2016\from.ZhangQingyun\bengco\vector\profile_gulu.psxy'
-    opath='D:\ICD\projects\DirectorFund\Application.2012\InSAR\2016\lys\20161129\176\profiles.gl'
-    
-    
-    pfile='D:\gsar\des\m_gulu1_dangxiong2\f123.1\SBAS7\p.b\profiles_auto.psxy'
-    opath='D:\gsar\des\m_gulu1_dangxiong2\f123.1\SBAS7\p.b\dem'
-    ffile='C:\GMT_pub\vector\profile\fa_bengco_jiali_ext.psxy'
-    
-    pfile='D:\gsar\des\m_jiali2_nujiang4\f123.1\SBAS4\p.b\profiles_auto.psxy'
-    opath='D:\gsar\des\m_jiali2_nujiang4\f123.1\SBAS4\p.b\dem'
-    
-    ffile='C:\GMT_pub\vector\profile\fault_altyntagh.psxy'
-    pfile='D:\gsar\asc\m_altyntagh11\f123.1\SBAS2\p\profiles_auto.psxy'
-    opath='D:\gsar\asc\m_altyntagh11\f123.1\SBAS2\p\'
-    
-    ffile='C:\GMT_pub\vector\profile\iys1.psxy'
-    pfile='\\10.4.134.31\root\g6e\gsar\m_yzs2_shenza-dingjie\f123.1\SBAS8\p\profiles_auto.psxy'
-    opath='\\10.4.134.31\root\g6e\gsar\m_yzs2_shenza-dingjie\f123.1\SBAS8\p'
-    
-    ffile='C:\GMT_pub\vector\profile\pf_longmenshan1.psxy'
-    pfile='C:\gsar\des\m_dayi2\f123.1\SBAS5\p\profiles_auto.psxy'
-    opath='C:\gsar\des\m_dayi2\f123.1\SBAS5\p\'
-    
-    ffile='C:\GMT_pub\vector\profile\fa_kunlun_ext.psxy'
-    pfile='D:\gsar\des\t106-f471-f481-d-m_eastkunlun2M3\f123.1\SBAS14.long\p\profiles_auto.psxy'
-    opath='D:\gsar\des\t106-f471-f481-d-m_eastkunlun2M3\f123.1\SBAS14.long\p\'
-    
-    ffile='C:\GMT_pub\vector\profile\fa_xiaoerkule1.psxy'
-    pfile='D:\gsar\interseismic\t158-f107-f117-a-m_gozhaco1M3\f123.1\SBAS13.b600-.with_gacos_add\p.fa_xiaoerkule1\profiles_auto.psxy'
-    opath='D:\gsar\interseismic\t158-f107-f117-a-m_gozhaco1M3\f123.1\SBAS13.b600-.with_gacos_add\p.fa_xiaoerkule1\dem'
-    
-    ffile='C:\GMT_pub\vector\profile\fa_atf.psxy'
-    pfile='D:\gsar\interseismic\012-a-m7-0088_0093_0098_0103_0108_0113_0118-tibet\f123\sbas.4.9.0001.9999.20150627.20220930.053.0393.01.___\p.fa_atf_9r\profiles_auto.psxy'
-    opath='D:\gsar\interseismic\012-a-m7-0088_0093_0098_0103_0108_0113_0118-tibet\f123\sbas.4.9.0001.9999.20150627.20220930.053.0393.01.___\p.fa_atf_9r\dem'
-    
-    
-    ffile='C:\GMT_pub\vector\profile\fa_Kunlun_Fault.psxy'
-    pfile='D:\gsar\interseismic\033-d-m7-0463_0468_0473_0478_0483_0487_0493-kunlun\f123\sbas.4.0.0001.9999.20141031.20210515.039.0231.01.___\p.fa_Kunlun_Fault\profiles_auto.psxy'
-    opath='D:\ICD\meeting\cugs2023\abstract\kunlun\figure\profiles\dem'
-    
-    ffile='C:\GMT_pub\vector\profile\fa_redriver.psxy'
-    pfile='D:\gsar\interseismic\164-d-m3-0510_0515_0520-honghe8M3\f123\sbas.4.0.0367.9999.20150625.20210524.136.1524.01.___\p.fa_redriver\profiles_auto.psxy'
-    opath='D:\ICD\Eighth\2019\20190613.Hezong.Zone2\Final\report\figure\1.profiles.des\dem'
-    
-    
-    ffile='C:\GMT_pub\vector\profile\fa_xiaojiang_ext.psxy'
-    pfile='D:\gsar\interseismic\099-a-m4-1245_1250_1255_1260-honghe\f123\sbas.4.0.0367.9999.20170318.20210707.127.1346.01.___\p.fa_xiaojiang_ext\profiles_auto.psxy'
-    opath='D:\ICD\Eighth\2019\20190613.Hezong.Zone2\Final\report\figure\2.profiles.asc.xiaojiang\dem.fa_xiaojiang_ext'
-    
-     ffile='C:\GMT_pub\vector\profile\fa_yuanjiang_puer_proposed.psxy'
-    pfile='D:\gsar\interseismic\099-a-m4-1245_1250_1255_1260-honghe\f123\sbas.4.0.0367.9999.20170318.20210707.127.1346.01.___\p.fa_yuanjiang_puer_proposed\profiles_auto.psxy'
-    opath='D:\ICD\Eighth\2019\20190613.Hezong.Zone2\Final\report\figure\2.profiles.asc.xiaojiang\dem.fa_yuanjiang_puer_proposed'
-    
-         ffile='C:\GMT_pub\vector\profile\fa_nantinghe_east.psxy'
-    pfile='D:\gsar\interseismic\099-a-m4-1245_1250_1255_1260-honghe\f123\sbas.4.0.0367.9999.20170318.20210707.127.1346.01.___\p.fa_nantinghe_east\profiles_auto.psxy'
-    opath='D:\ICD\Eighth\2019\20190613.Hezong.Zone2\Final\report\figure\2.profiles.asc.xiaojiang\dem.fa_nantinghe_east'
-           
-           ffile='C:\GMT_pub\vector\profile\fa_bengco_jiali_ext2.psxy'
-    pfile='D:\gsar\interseismic\077-d-m7-0475_0480_0485_0490_0495_0500_0505-jiali\f123\asc_des\p.fa_bengco_jiali_ext2_i3d\profiles_auto.psxy'
-    opath='D:\ICD\projects\nsfc\2019\final\figure\profile.jiali\dem'
+    ffile='C:\GMT_pub\vector\profile\fa_'+fa+'.psxy'
+    pfile='D:\gsar\interseismic\063-d-m5-0462_0467_0472_0478_0483-aksaichin2_karakoram\f123\sbas.4.0.0001.9999.20141010.20230707.109.0787.01.___\p.fa_'+fa+'\profiles_auto.psxy'
+    pfile='D:\gsar\gic3dv\g219\asc_des\profiles\p.fa_longmuco\profiles_auto.psxy'
+    opath='D:\ICD\Eighth\2023\20230508.G219\figure\profile.'+fa+'\dem'
     
     
   ENDIF
@@ -195,12 +131,12 @@ PRO DEM_GRID_EXTRACT_PROFILE, demfile,  $  ;DEM file (ENVI raw image format; wit
     
     odata=DBLARR(4,npt)
     FOR pxi=0, npt-1 DO BEGIN
-      xf=xfs[pxi] 
+      xf=xfs[pxi]
       yf=yfs[pxi]
-      if xf lt 0 || xf gt ns-1 || yf lt 0 || yf gt nl-1 then begin
+      IF xf LT 0 || xf GT ns-1 || yf LT 0 || yf GT nl-1 THEN BEGIN
         odata[2,pxi]=-9999d0
-        continue
-      endif
+        CONTINUE
+      ENDIF
       ENVI_CONVERT_FILE_COORDINATES, fid, xf, yf, xmap, ymap,/to_map
       odata[0:2,pxi]=[xmap,ymap,dem_grid[xf,yf]]
       tmp=MAP_2POINTS(xy3[0],xy3[1],xmap,ymap,/meter)*1d-3
@@ -208,7 +144,7 @@ PRO DEM_GRID_EXTRACT_PROFILE, demfile,  $  ;DEM file (ENVI raw image format; wit
     ;stop
     ENDFOR
     
-    pos=where(odata[2,*] ne -9999d0)
+    pos=WHERE(odata[2,*] NE -9999d0)
     
     WINDOW,2,ysize=700
     !p.MULTI=[0,1,2]
@@ -230,7 +166,7 @@ PRO DEM_GRID_EXTRACT_PROFILE, demfile,  $  ;DEM file (ENVI raw image format; wit
     OPENW,fido,ofile,/get_lun
     WRITE_SYS_INFO,fido,prog=prog,src=[demfile,pfile],user=user
     PRINTF,fido,'longitude','latitude','height','distance',format='("#",2(1x,a12),1x,a10,1x,a10)'
-    FOR pxi=0, n_elements(pos)-1 DO BEGIN
+    FOR pxi=0, N_ELEMENTS(pos)-1 DO BEGIN
       PRINTF,fido,odata[0:3,pos[pxi]],format='(1x,2(1x,f20.5),1x,f10.3,1x,f10.2)'
     ENDFOR
     FREE_LUN,fido
