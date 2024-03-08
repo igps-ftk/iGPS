@@ -106,6 +106,8 @@ if [ ! -s $file_gnss_los ]; then
   exit 1
 fi
 
+echo "[$PROG]INFO: trend model is $N"
+
 if [ "$ofile" == "" ]; then
   tmp1=`basename $file_vel`
   ofile="${tmp1%.*}_gnss.grd"

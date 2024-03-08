@@ -157,14 +157,15 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
     ;    fa='fa_maidan_shayilamu'
     ;    cmt='3d'
   
-    vfile='D:\gsar\gic3dv\jiali\asc_des\insar_3d.150000'
-    fa='fa_sangri_cuona_east_ext'
-    cmt='i3d'
-    opath='D:\gsar\interseismic\077-d-m7-0475_0480_0485_0490_0495_0500_0505-jiali\f123\asc_des\p.fa_sangri_cuona_east_ext_i3d'
-    inputfmt=81
+    vfile='D:\gsar\gic3dv\g219\asc_des\insar_3d.psvelo.15000'
+    fa='fa_karakax'
+    pfile='D:\gsar\interseismic\063-d-m5-0462_0467_0472_0478_0483-aksaichin2_karakoram\comb\p.fa_karakax\profiles_auto.psxy'
+;    cmt='i3d'
+    opath='D:\gsar\gic3dv\g219\asc_des\profiles\p.fa_karakax'
+    inputfmt=84
     
     is_fault_trace_downsample=0
-    auto_strike=3
+;    auto_strike=3
     ;auto_strike_2nd=2
     length_profile=1200
     spacing_profile=10
@@ -189,7 +190,7 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
   IF N_ELEMENTS(out_plot) EQ 0 THEN out_plot=0
   ;IF N_ELEMENTS(inputfmt) EQ 0 THEN inputfmt=0
   IF N_ELEMENTS(auto_strike) EQ 0 THEN auto_strike=2
-  IF N_ELEMENTS(spacing_profile) EQ 0 THEN spacing_profile=30  ;in km (distance between two neighboring profiles)
+  IF N_ELEMENTS(spacing_profile) EQ 0 THEN spacing_profile=10  ;in km (distance between two neighboring profiles)
   IF N_ELEMENTS(length_profile) EQ 0 THEN length_profile=600  ;in km (the total length of the profile generated automatically by iGPS)
   IF N_ELEMENTS(is_fault_trace_downsample) EQ 0 THEN is_fault_trace_downsample=0
   
@@ -226,7 +227,7 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
   lons=REFORM(lls[0,*])
   lats=REFORM(lls[1,*])
   QHULL, lons, lats, tris
-  FOR i=0,N_ELEMENTS(tris[0,*])-2 DO BEGIN
+  FOR i=0ull,N_ELEMENTS(tris[0,*])-2 DO BEGIN
     p1=tris[0,i]
     p2=tris[1,i]
     pos=WHERE(tris[0,*] EQ p2)
@@ -287,7 +288,7 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
     
     n_profiles_2nds=INTARR(n_2nd_fault)
     
-    FOR f2i=0, n_2nd_fault-1 DO BEGIN ;loop for each 2nd fault file
+    FOR f2i=0ull, n_2nd_fault-1 DO BEGIN ;loop for each 2nd fault file
       f2file=f2files[f2i]
       PRINT,'f2file:',f2file
       lines2_fvec=read_txt(f2file)
@@ -353,7 +354,7 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
       
     np=count
     pxys=DBLARR(2,2,count)
-    FOR i=0, count-1 DO BEGIN
+    FOR i=0ull, count-1 DO BEGIN
       pxys[*,*,i]=*(regions[i])
     ENDFOR
     
@@ -378,7 +379,9 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
   
   
   np=N_ELEMENTS(pxys[0,0,*])
-  
+  print,'searching radius (km):', search_radius
+  print,'profile length (km):', length_profile
+  print,'profile spacing (km):', spacing_profile
   
   
   xmin_ov=MIN([REFORM(lls[0,*]), REFORM(xys_fvec[0,0,*]), REFORM(xys_fvec[0,1,*]),  REFORM(pxys[0,1,*]),  REFORM(pxys[0,1,*]) ],max=xmax_ov)
@@ -387,9 +390,25 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
   ;loop for each profile
   PRINT,'['+prog+']INFO:loop for each profile ...'
   
-    FOR pi=0,np-1 DO BEGIN  ;loop for each profile
-;  FOR pi=70,70 DO BEGIN  ;test
+  FOR pi=0ull,np-1 DO BEGIN  ;loop for each profile
+;      FOR pi=36,37 DO BEGIN  ;test
   
+    xys=REFORM(pxys[*,*,pi])
+    xy1=xys[*,0]
+    xy2=xys[*,1]
+    
+    a1=xy1  ;the starting and ending vertices of the profile
+    b1=xy2
+    
+    c1=INTERSECT_BETWEEN_POLYLINE_AND_LINE( xys_vel_hull, a1,b1)
+    IF FINITE(c1[0]) NE 1 THEN BEGIN
+      lbl_str='['+prog+']WARNING: no data for profile '+STRTRIM(pi+1,2)+'!'
+      PRINT,lbl_str,format='(a)'
+      IF N_ELEMENTS(lbl_id) NE 0 THEN WIDGET_CONTROL, lbl_id, set_value=lbl_str
+      CONTINUE
+    ENDIF
+    
+    
     WINDOW,1,xsize=1500,ysize=900,title='Profile '+STRING(pi+1,format='(i03)'),/pixmap
     DEVICE,decomposed=1
     
@@ -407,19 +426,7 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
     ;stop
     ENDIF
     
-    xys=REFORM(pxys[*,*,pi])
-    xy1=xys[*,0]
-    xy2=xys[*,1]
-    
-    a1=xy1  ;the starting and ending vertices of the profile
-    b1=xy2
     OPLOT,[a1[0],b1[0]], [a1[1],b1[1]], color='ff0000'x
-    
-    c1=INTERSECT_BETWEEN_POLYLINE_AND_LINE( xys_vel_hull, a1,b1)
-    IF FINITE(c1[0]) NE 1 THEN BEGIN
-      PRINT,'['+prog+']WARNING: no data for profile '+STRTRIM(pi+1,2)+'!'
-      CONTINUE
-    ENDIF
     
     
     ;get the intersect point of fault lines (xys_fvec) and current profile (a1,b1)
@@ -454,7 +461,7 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
     ;    IF alpha LT 0 THEN BEGIN
     ;      alpha=alpha+!dpi
     ;    ENDIF
-    lbl_str='Creating profile '+STRTRIM(pi+1,2)+'/'+STRTRIM(np,2)+' angle: '+STRTRIM(alpha*180d0/!dpi,2)
+    lbl_str='Creating profile '+STRTRIM(pi+1,2)+'/'+STRTRIM(np,2)+' (angle: '+STRTRIM(alpha*180d0/!dpi,2)+') ...'
     PRINT, lbl_str
     ;HELP,lbl_id
     IF N_ELEMENTS(lbl_id) NE 0 THEN WIDGET_CONTROL, lbl_id, set_value=lbl_str
@@ -533,8 +540,8 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
       ENDIF
       
       tmp=MAP_2POINTS(c1[0],c1[1],i1[0],i1[1],/meters)
-      dists[si]=tmp*1d-3  ;in km
-      IF dists[si] GT search_radius THEN CONTINUE
+      dists[si]=tmp*1d-3 *( ABS(c1(0)-i1(0)) / (c1(0)-i1(0)) ) ;in km
+      IF abs(dists[si]) GT search_radius THEN CONTINUE
       p_lls[*,si]=i1
       
       ;distance from gps site to fault line
@@ -545,14 +552,14 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
       
       ;find distance to the 2nd fault
       IF N_ELEMENTS(f2files) NE 0 && f2files[0] NE '' THEN BEGIN
-        FOR f2i=0, n_2nd_fault-1 DO BEGIN ;loop for each 2nd fault file
+        FOR f2i=0ull, n_2nd_fault-1 DO BEGIN ;loop for each 2nd fault file
           ;HELP,xys_fvec_2nd,  oxys,oxys_2nd,  strikes_pr,strikes_pr_2nd, xys_fp_2nd
         
           ;for a given point c1
           ;calculate distances from c1 to profiles
           dists_c1_to_profiles=DBLARR(n_profiles_2nds[f2i])
           xys_c1_cross_profiles=DBLARR(2,n_profiles_2nds[f2i])
-          FOR pj=0, n_profiles_2nds[f2i]-1 DO BEGIN  ;loop for each profile
+          FOR pj=0ull, n_profiles_2nds[f2i]-1 DO BEGIN  ;loop for each profile
             ;get the point passing c1 perpendicular to the profile
             a2=REFORM((*p_oxys_2nds[f2i])[*,0,pj])
             b2=REFORM((*p_oxys_2nds[f2i])[*,1,pj])
@@ -648,8 +655,8 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
       
     ENDFOR
     
-    pos=WHERE(dists GT 0 AND dists LE search_radius)
-    ;help,pos
+    pos=WHERE(abs(dists) GT 0 AND abs(dists) LE search_radius)
+    help,pos
     ;stop
     IF pos[0] EQ -1 THEN BEGIN  ;no velocity
       PRINT,'no data'
@@ -676,10 +683,10 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
       OPLOT,xys_fvec[0,*],xys_fvec[1,*],psym='-4',color='0000ff'x
     ENDIF
     IF N_ELEMENTS(f2file) GT 0 && f2file NE '' THEN BEGIN
-      FOR f2i=0, n_2nd_fault-1 DO BEGIN
+      FOR f2i=0ull, n_2nd_fault-1 DO BEGIN
         ;OPLOT,xys_fvec_2nd[0,*],xys_fvec_2nd[1,*],psym='-3',color='00ff00'x
         OPLOT,xys_fvec_2nd[0,*],xys_fvec_2nd[1,*],psym='-3',color='00ff00'x
-        FOR j=0,n_profiles_2nds[f2i]-1 DO BEGIN
+        FOR j=0ull,n_profiles_2nds[f2i]-1 DO BEGIN
           OPLOT,oxys_2nd[0,*,j],oxys_2nd[1,*,j],psym='-5',color='00ff00'x
         ENDFOR
       ENDFOR
@@ -701,7 +708,7 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
     vel_up_all[*]=-999.99d0
     vel_los_all[*]=-999.99d0
     
-    FOR posi=0, N_ELEMENTS(pos)-1 DO BEGIN
+    FOR posi=0ull, N_ELEMENTS(pos)-1 DO BEGIN
       ;      IF sites[pos[posi]] EQ '2hom' THEN STOP ;test
       ;vel:
       ;   0     1  2   3   4   5   6
@@ -758,7 +765,7 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
         
         IF N_ELEMENTS(f2files) NE 0 && f2files[0] NE '' THEN BEGIN ;for the 2nd fault
           ;stop
-          FOR f2i=0, n_2nd_fault-1 DO BEGIN
+          FOR f2i=0ull, n_2nd_fault-1 DO BEGIN
             alpha_2nd=cross_angles_2nd[f2i,pos[posi]] ;profile direction
             strike_fa_2nd=alpha_2nd-!dpi/2
             ;phi_2nd=vel_azi-strike_fa_2nd
@@ -844,7 +851,7 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
     
     odata=DBLARR(21,N_ELEMENTS(ind))
     odata[[3,5,7,14,15],*]=-999.99d0
-    FOR j=0, N_ELEMENTS(ind)-1 DO BEGIN
+    FOR j=0ull, N_ELEMENTS(ind)-1 DO BEGIN
       odata[*,j]=[p_lls[*,pos[ind[j]]],dists[pos[ind[j]]],  $
         vel_along_all[ind[j]],vele_along_all[ind[j]],vel_tang_all[ind[j]],vele_tang_all[ind[j]], $
         vel_up_all[ind[j]],vele_up_all[ind[j]], lls[*,pos[ind[j]]], $
@@ -859,7 +866,7 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
       odata_2nd=DBLARR(2*n_2nd_fault,N_ELEMENTS(ind))
       odata_2nd[*]=!values.D_NAN
       
-      FOR f2i=0, n_2nd_fault-1 DO BEGIN ;loop for each 2nd fault file
+      FOR f2i=0ull, n_2nd_fault-1 DO BEGIN ;loop for each 2nd fault file
         odata_2nd[f2i*2,*]=dists_fault_2nd[f2i,pos[ind]]
         odata_2nd[f2i*2+1,*]=cross_angles_2nd[f2i,pos[ind]]*180/!dpi
       ;      odata_2nd[1,*]=velocity_Scale_Factors[pos[ind]]
@@ -903,7 +910,7 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
     OPLOT,REFORM(dists_fault[pos[ind]]),vel_along_all[ind],psym=2,color='ff0000'x
     ;OPLOT,[xy3[0],xy3[0]],[-1d3,1d3],linestyle=2,color='ff0000'x,thick=2
     OPLOT,[0,0],[-1d3,1d3],linestyle=2,color='ff0000'x,thick=2
-    FOR j=0,N_ELEMENTS(ind)-1 DO BEGIN
+    FOR j=0ull,N_ELEMENTS(ind)-1 DO BEGIN
       OPLOT,[dists_fault[pos[ind[j]]], dists_fault[pos[ind[j]]] ], $
         [vel_along_all[ind[j]]+ABS(vele_along_all[ind[j]]),vel_along_all[ind[j]]-ABS(vele_along_all[ind[j]]) ], $
         color='0000ff'x,thick=2
@@ -928,7 +935,7 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
     ;      psym=5
     ;OPLOT,[xy3[0],xy3[0]],[-1d3,1d3],linestyle=2,color='ff0000'x,thick=2
     OPLOT,[0,0],[-1d3,1d3],linestyle=2,color='ff0000'x,thick=2
-    FOR j=0,N_ELEMENTS(ind)-1 DO BEGIN
+    FOR j=0ull,N_ELEMENTS(ind)-1 DO BEGIN
       OPLOT,[ dists_fault[pos[ind[j]]], dists_fault[pos[ind[j]]] ], $
         [vel_tang_all[ind[j]]+ABS(vele_tang_all[ind[j]]),vel_tang_all[ind[j]]-ABS(vele_tang_all[ind[j]]) ], $
         color='0000ff'x,thick=2
@@ -940,7 +947,7 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
       /ynozero,psym=5,/nodata;,yrange=yrange
     OPLOT,dists_fault[pos[ind]],vel_up_all[ind],psym=5,color='ff0000'x
     OPLOT,[0,0],[-1d3,1d3],linestyle=2,color='ff0000'x,thick=2
-    FOR j=0,N_ELEMENTS(ind)-1 DO BEGIN
+    FOR j=0ull,N_ELEMENTS(ind)-1 DO BEGIN
       OPLOT,[ dists_fault[pos[ind[j]]], dists_fault[pos[ind[j]]] ], $
         [vel_up_all[ind[j]]+ABS(vele_up_all[ind[j]]),vel_up_all[ind[j]]-ABS(vele_up_all[ind[j]]) ], $
         color='0000ff'x,thick=2
@@ -953,7 +960,7 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
       /ynozero,psym=6,/nodata;,yrange=yrange
     OPLOT,dists_fault[pos[ind]],vel_los_all[ind],psym=6,color='ff0000'x
     OPLOT,[0,0],[-1d3,1d3],linestyle=2,color='ff0000'x,thick=2
-    FOR j=0,N_ELEMENTS(ind)-1 DO BEGIN
+    FOR j=0ull,N_ELEMENTS(ind)-1 DO BEGIN
       OPLOT,[ dists_fault[pos[ind[j]]], dists_fault[pos[ind[j]]] ], $
         [vel_los_all[ind[j]]+ABS(vele_los_all[ind[j]]),vel_los_all[ind[j]]-ABS(vele_los_all[ind[j]]) ], $
         color='0000ff'x,thick=2

@@ -258,7 +258,7 @@ PRO ON_VEL_PROFILES_UI_BTN_OK,ev
       opath, $
       ffile=file_fault,  $
       inputfmt=input_fmt , $
-      search_radius=txt_search_radius,  $
+      search_radius=5,  $
       LBl_ID=LBl_ID
       
       

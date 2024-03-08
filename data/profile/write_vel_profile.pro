@@ -91,13 +91,13 @@ PRO  WRITE_VEL_PROFILE, ofile $
     PRINTF,fid,fa_pf_xy,format='("# PSXY_FAULT_PROFILE_INTERSECT",2(1x,f20.8))'
   ENDIF
   IF fa_xys[0,0] NE -9999d0 THEN BEGIN
-    FOR j=0,N_ELEMENTS(fa_xys[0,*])-1 DO BEGIN
+    FOR j=0ull,N_ELEMENTS(fa_xys[0,*])-1 DO BEGIN
       PRINTF,fid,fa_xys[*,j],format='("# PSXY_FAULT_TRACE",2(1x,f20.8))'
     ENDFOR
   ENDIF
   PRINTF,fid,'*',format='(a)'
   ;output stations  help, labels
-  FOR i=0,N_ELEMENTS(labels_description[0,*])-1 DO BEGIN
+  FOR i=0ull,N_ELEMENTS(labels_description[0,*])-1 DO BEGIN
     PRINTF,fid,labels_description[*,i],format='("*",1x,a-16,1x,":",1x,a)'
   ENDFOR
   PRINTF,fid,'*',format='(a)'
@@ -106,7 +106,7 @@ PRO  WRITE_VEL_PROFILE, ofile $
     PRINTF,fid,labels_description[0,0:21],  $
       format='("*",a9,(1x,a8,1x,a7),1x,a7,3(1x,a8,1x,a7),(1x,a8,1x,a7),1x,a9, (1x,a8,1x,a7),2(1x,a8),4(1x,a7),1x,a6)'
     ;printf,fid,'*',format='(a)'
-    FOR j=0, N_ELEMENTS(odata[0,*])-1 DO BEGIN
+    FOR j=0ull, N_ELEMENTS(odata[0,*])-1 DO BEGIN
       PRINTF,fid,sites[j],odata[*,j],$
         format='(1x,a9, (1x,f8.3,1x,f7.3), 1x,f7.2, 3(1x,f8.2,1x,f7.2),(1x,f8.2,1x,f7.2), 1x,f9.3,(1x,f8.2,1x,f7.2),2(1x,f8.2),4(1x,f7.2),1x,f6.3)'
     ENDFOR
@@ -115,7 +115,7 @@ PRO  WRITE_VEL_PROFILE, ofile $
       format='("*",a9,(1x,a8,1x,a7),1x,a7,3(1x,a8,1x,a7),(1x,a8,1x,a7),1x,a9, (1x,a8,1x,a7),2(1x,a8),4(1x,a7),1x,a6,20(1x,a9))'
     ;printf,fid,'*',format='(a)'
     ;stop
-    FOR j=0, N_ELEMENTS(odata[0,*])-1 DO BEGIN
+    FOR j=0ull, N_ELEMENTS(odata[0,*])-1 DO BEGIN
       PRINTF,fid,sites[j],odata[*,j],odata_2nd[*,j],  $
         format='(1x,a9, (1x,f8.3,1x,f7.3), 1x,f7.2, 3(1x,f8.2,1x,f7.2),(1x,f8.2,1x,f7.2), 1x,f9.3,(1x,f8.2,1x,f7.2),2(1x,f8.2),4(1x,f7.2),1x,f6.3,20(1x,f9.3))'
     ENDFOR
