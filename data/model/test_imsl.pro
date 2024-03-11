@@ -16,7 +16,8 @@ FUNCTION TEST_IMSL
   z = FINDGEN(120)/20
   line = MAKE_ARRAY(120, VALUE = 0.0)
   ; Perform a simple linear regression.
-  Coefs = IMSL_MULTIREGRESS(x, y, PREDICT_INFO = predict_info)
+  ;Coefs = IMSL_MULTIREGRESS(x, y, PREDICT_INFO = predict_info)
+  Coefs = IMSL_MULTIREGRESS(x, y)
   RETURN,1
 END
 PRO TEST_IMSL

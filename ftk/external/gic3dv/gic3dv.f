@@ -9,7 +9,7 @@ c
 c   ***TYF**>>>
 c   Modified by tianyf on Thu Dec  7 14:41:59 CST 2023
 c     +increase the maximum values for a few parameters
-c        maximum number of GNSS sites from 2000 to 5000 (maxsit)
+c        maximum number of GNSS sites from 2000 to 15000 (maxsit)
 c        maximum number of InSAR files from 5 to 25 (maxsar)
 c        maximum number of pixels in each InSAR image from 12000 to 120000 (maxpxl)
 c        maximum number of creeping fault from 10 to 10 (maxc) ! error occurred when changing its value?
@@ -23,9 +23,9 @@ c   **TYF***<<<
 c ---------------------------------------------------------------------
       implicit real*8 (a-h,l,o-z)
 c      parameter (maxsit =2000,maxpxl=12000,maxc=10,maxsar=5)  
-      parameter (maxsit=5000,maxpxl=120000,maxc=10,maxsar=25)  
+      parameter (maxsit=15000,maxpxl=120000,maxc=10,maxsar=25)  
 
-      parameter (maxold=5000,maxdat=3*maxold+3*maxsar)
+      parameter (maxold=15000,maxdat=3*maxold+3*maxsar)
 c      parameter (maxold=20000,maxdat=3*maxold+3*maxsar)
 
       character*100 head
@@ -142,6 +142,7 @@ c        enddo
       i = 1
 30    read(4,'(a)',end=40) head
       if (head(1:1).eq.'*') goto 30
+      write(*,*) head
       read(head,35) stnlh(i),lonlh(i),latlh(i),                 ! read in horizontal gps velocity data
      .    uxlh(i),sxlh(i),uylh(i),sylh(i),cxyh(i),uzl0,szl0
       if (lonlh(i).gt.180.0d0 ) lonlh(i) = lonlh(i)-360.0d0
@@ -1107,7 +1108,7 @@ c      area_ith = cfa1*area_ith/is/2.0d0
      .   is_wght,id_wght,wt0,sigma0,indxx,iout,isl)
       implicit real*8 (a-h,l,o-z)
       integer*8 nstn,ncrp
-      parameter (maxsit=5000)
+      parameter (maxsit=15000)
       dimension lon(maxsit),lat(maxsit),uxl(maxsit),sxl(maxsit),
      .          uyl(maxsit),syl(maxsit),cxy(maxsit),area(maxsit),
      .          uzl(maxsit),szl(maxsit)
@@ -1424,7 +1425,7 @@ c
      .   is_wght,id_wght,wt0,sigma0,indxx,iout,isl)
       implicit real*8 (a-h,l,o-z)
       integer*8 nstn,ncrp
-      parameter (maxsit=5000)
+      parameter (maxsit=15000)
       dimension lon(maxsit),lat(maxsit),uxl(maxsit),sxl(maxsit),
      .          uyl(maxsit),syl(maxsit),cxy(maxsit),area(maxsit),
      .          uzl(maxsit),szl(maxsit)

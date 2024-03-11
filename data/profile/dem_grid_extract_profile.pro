@@ -14,16 +14,20 @@ PRO DEM_GRID_EXTRACT_PROFILE, demfile,  $  ;DEM file (ENVI raw image format; wit
     fa='bns'
     fa='karakoram'
     fa='longmuco'
+    fa='longmuco_to_atf
     
     ffile='C:\GMT_pub\vector\profile\fa_'+fa+'.psxy'
-    pfile='D:\gsar\interseismic\063-d-m5-0462_0467_0472_0478_0483-aksaichin2_karakoram\f123\sbas.4.0.0001.9999.20141010.20230707.109.0787.01.___\p.fa_'+fa+'\profiles_auto.psxy'
-    pfile='D:\gsar\gic3dv\g219\asc_des\profiles\p.fa_longmuco\profiles_auto.psxy'
+    ;pfile='D:\gsar\interseismic\063-d-m5-0462_0467_0472_0478_0483-aksaichin2_karakoram\f123\sbas.4.0.0001.9999.20141010.20230707.109.0787.01.___\p.fa_'+fa+'\profiles_auto.psxy'
+    pfile='D:\gsar\gic3dv\g219\asc_des\profiles\p.fa_'+fa+'\profiles_auto.psxy'
     opath='D:\ICD\Eighth\2023\20230508.G219\figure\profile.'+fa+'\dem'
     
     
   ENDIF
   
   IF N_ELEMENTS(ffile) EQ 0 THEN ffile=''
+  if file_test(opath,/directory) ne 1 then begin
+    file_mkdir, opath
+  endif
   
   ;read profiles
   READ_PSXY,   $

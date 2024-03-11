@@ -170,18 +170,23 @@ paths={'D:\gsar\gic3dv\g219\asc_des\profiles\p.fa_gozhaco'};
 % paths={'D:\gsar\gic3dv\g219\asc_des\profiles\p.fa_tianshen_daban\'};
 % paths={'D:\gsar\gic3dv\g219\asc_des\profiles\p.fa_longmuco_dulishihu'};
 % paths={'D:\gsar\gic3dv\pishan\asc_des\profiles\p.fa_gozhaco'};
-% paths={'D:\gsar\interseismic\056-a-m6-0099_0104_0109_0114_0119_0124-karakax\f123\sbas.4.0.0367.9999.20141114.20230413.074.0626.01.___\p.fa_gozhaco'};
-% paths={'D:\gsar\interseismic\063-d-m4-0467_0472_0478_0482-karakax\f123\sbas.4.0.0367.9999.20141010.20200124.088.1389.01.___\p.fa_longmuco_gozhaco'};
-% di=11;
-% vi=12;
-ptn='010*';
+paths={'/g17b/gsar/D/gsar/gic3dv/g219/asc_des/profiles/p.fa_xiaoerkule1'};
+paths={'/g17b/gsar/D/gsar/gic3dv/g219/asc_des/profiles/p.fa_jieze_caka'};
+paths={'/g17b/gsar/D/gsar/gic3dv/g219/asc_des/profiles/p.fa_longmuco_to_atf'};
+paths={'D:\gsar\gic3dv\mht\asc_des\profiles\p.fa_mbt'};
+paths={'D:\gsar\interseismic\041-a-m4-0109_0114_0119_0124-altyntagh_M3\f123\sbas.4.0.0367.9999.20141020.20210901.166.1299.01.___\p.fa_atf'};
+ptn='066';
 dmin=-100;
-dmax=200;
-% vi=7;
-nsimu=10000;
+dmax=150;
+vi=7;
+vi=14;
+nsimu=30000;
 
-cmt='parallel_farLock3';
-% cmt='up2';
+cmt='parallel_farLock';
+cmt='parallel_nearLock';
+% cmt='up';
+% cmt='normal';
+
 
 % cmt='farCreep'
 % cmt='klfCreep'
@@ -194,16 +199,18 @@ npath=size(paths,1);
 %
 % fts_min=-350;
 % fts_max=-250;
+% fts_min=180;
+% fts_max=220;
 % fts_min=-100;
 % fts_max=100;
 % fts_min=-55;
 % fts_max=55;
 % fts_min=-35;
 % fts_max=35;
-% fts_min=-15;
-% fts_max=15;
-fts_min=-3;
-fts_max=3;
+fts_min=-15;
+fts_max=15;
+% fts_min=-3;
+% fts_max=3;
 is_show_fig='on';
 %is_show_fig='off';
 
@@ -331,15 +338,15 @@ for ii=1:npath
 %                   {'ld', 1, 0, 50}
 %                   {'ld', 1, 0, 20}
                   {'ld', 10, .1, 15}
-%                   {'ld', .1, .01, .2}
+                  % {'ld', .1, .01, .2}
             %       {'ld', 9, 8.9, 9.1}
             %     {'fts', 0, -30, 30}
             %           {'fts', 0, -1, 1}
-            {'fts', 00, fts_min, fts_max}
+            {'fts', (fts_min+fts_max)/2, fts_min, fts_max}
             {'yshift', (ymin+ymax)/2, ymin,ymax}
             
             {'rot', 0.001, -pi/3, pi/3}
-%                   {'rot', 0.000011, 0.000010, 0.000012}
+                  % {'rot', 0.000011, 0.000010, 0.000012}
             };
         npar=size(params,1);
         
