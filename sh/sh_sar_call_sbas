@@ -131,6 +131,8 @@ is_exec_sbas=y
 file_intf_tab=intf.tab
 file_scene_tab=scene.tab
 
+sbas_smooth=1.0
+
 while [ "$1" != "" ]; do
   case $1 in
     -m|-multilook|-r) #code for resolution/ground pixel size
@@ -183,6 +185,9 @@ while [ "$1" != "" ]; do
       ;;
     -file_scene)
       file_scene_tab=$2
+      ;;
+    -s|-sm|-smooth)
+      sbas_smooth=$2
       ;;
     -h|--help|-help|-H)
       usage_of_it
@@ -253,6 +258,6 @@ echo OUT_SBAS_PATH $opath
 #<<<WARNING
 
 if [ "$is_exec_sbas" == "y" ]; then
-  echo sh_sar_sbas -opath $opath -ipath $ipath -sat $SAT -atm $n_atm -overwrite $overwrite -fix_incidence $fix_incidence -fix_range $fix_range -multilook $a_reso -prog $prog_sbas -file_intf $file_intf_tab -file_scene $file_scene_tab
-  echo sh_sar_sbas -opath $opath -ipath $ipath -sat $SAT -atm $n_atm -overwrite $overwrite -fix_incidence $fix_incidence -fix_range $fix_range -multilook $a_reso -prog $prog_sbas -file_intf $file_intf_tab -file_scene $file_scene_tab | sh
+  echo sh_sar_sbas -opath $opath -ipath $ipath -sat $SAT -atm $n_atm -overwrite $overwrite -fix_incidence $fix_incidence -fix_range $fix_range -multilook $a_reso -prog $prog_sbas -file_intf $file_intf_tab -file_scene $file_scene_tab -sm $sbas_smooth
+  echo sh_sar_sbas -opath $opath -ipath $ipath -sat $SAT -atm $n_atm -overwrite $overwrite -fix_incidence $fix_incidence -fix_range $fix_range -multilook $a_reso -prog $prog_sbas -file_intf $file_intf_tab -file_scene $file_scene_tab -sm $sbas_smooth | sh
 fi

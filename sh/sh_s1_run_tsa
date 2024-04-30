@@ -157,6 +157,9 @@ while [ "$1" != "" ]; do
               turkey)
                 dem_grid_file=${esa_data}/topo/srtm3/turkey/turkey.grd
                 ;;
+              whs)
+                dem_grid_file=${esa_data}/topo/srtm3/grid/whs.grd
+                ;;
               *)
                 echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid DEM Grid ($2)!!"
                 exit 1

@@ -162,7 +162,7 @@ if [ "$is_init" == "y" ]; then
     R_dem_y2=`echo $tmp | awk '{print $4+.2}'`
     R_dem="-R${R_dem_x1}/${R_dem_x2}/${R_dem_y1}/${R_dem_y2}"
   else
-    R_dem=$R
+    R_dem="-R$R"
   fi
   echo gmt grdcut $R_dem ${pathF}/topo/dem.grd -G${path_F_new}/topo/dem.grd
   gmt grdcut $R_dem ${pathF}/topo/dem.grd -G${path_F_new}/topo/dem.grd
@@ -233,4 +233,5 @@ if [ "$is_cut_slc" == "y" ]; then
   fi
 fi
 
+echo "[$PROG]INFO: done."
 

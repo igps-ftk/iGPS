@@ -1224,7 +1224,8 @@ eob
     fi
 
     if [ -s $file_gps ]; then
-      grep -h '^ ' $file_gps | sort | uniq | awk '{print $13,$14,$15}' | gmt psxy -R -J -O -K -Ss.3c -W.5p,red -Gyellow >> $ofile
+      echo data_index $data_index sigma_index $sigma_index
+      grep -h '^ ' $file_gps | sort | uniq | awk '{print $13,$di,$ei}'  di=$data_index ei=sigma_index | gmt psxy -R -J -O -K -Ss.3c -W.5p,red -Gyellow >> $ofile
     else
       echo "No GPS file ($file_gps)!"
     fi

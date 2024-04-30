@@ -51,6 +51,7 @@ c     --Local Parameters--
       real*8 dyra1,dyra2,dyrb1,dyrb2,jd,sec,jd1a,jd1b,jd2a,jd2b
       integer*4 i,j,di,nsiteday,sind
       integer*4 fid,ioerr
+      real*8 tgap
 
 
 c     <<VAR_DEC
@@ -62,6 +63,17 @@ c     <<VAR_DEC
 
 
 c      write(*,'(a)') '[i]Starting ...________________'
+
+c     1.5 hr
+      tgap=.0625d0
+c     1 hr
+      tgap=0.041666667d0
+c     45 min
+c      tgap=0.031250000d0
+c     30 min
+c      tgap=0.020833333d0
+c     15 min (seems too small somtimes)
+      tgap=0.010416667d0
       call getarg(1,tmpstr)
       tfname=tmpstr(1:nblen(tmpstr))
       call getfilename(tfname,tfile)
@@ -129,11 +141,11 @@ c     V20150106T225944
          sec=ss
          call ymdhms_to_jd(date,sec,jd)
          jd2a=jd
-c         write(*,*) year,mon,day,hh,mm,ss,jd2a
+c         write(*,*) 't1:',year,mon,day,hh,mm,ss,jd2a
 c         if (jd2a>jd1b) then
-         if (jd2a>jd1a-0.01) then
+         if (jd2a>jd1a-tgap) then
 c       earlier 15 minutes
-c            write(*,*) 'time out of range 1'
+c            write(*,*) 'time out of range 1',jd2a,jd1a
             goto 700
          endif
 c     ending time
@@ -146,10 +158,10 @@ c     ending time
          sec=ss
          call ymdhms_to_jd(date,sec,jd)
          jd2b=jd
-c         write(*,*) year,mon,day,hh,mm,ss,jd2b
+c         write(*,*) 't2:',year,mon,day,hh,mm,ss,jd2b
 c         if (jd2b<jd1a) then
 c       
-         if (jd2b<jd1b+.01) then
+         if (jd2b<jd1b+tgap) then
 c            write(*,*) 'time out of range 2'
             goto 700
          endif

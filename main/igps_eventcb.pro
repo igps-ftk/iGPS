@@ -1420,6 +1420,9 @@ PRO IGPS_RESET, EV
     'JPL SERIES': BEGIN
       DT_QUERYSTR='*.series'
     END
+    'Liu-Zeng 2020': BEGIN
+      DT_QUERYSTR='*'
+    END
     ELSE: BEGIN
       DT_QUERYSTR = ''
       MSGBOX,'Not supported data type.',TITLE='iGPS',DIALOG_PARENT=EV.TOP,/ERROR
@@ -3026,6 +3029,23 @@ PRO ON_IGPS_BTN_LOAD, EV, SITE=SITE,UPDATE=UPDATE, PATH=PATH, $
       TIME_AXES_VAL_MJD=PTR_NEW(MJDS)
     ;stop
     END
+    'Liu-Zeng 2020':  BEGIN
+      READ_liu_zeng_2020, FILE, DATA=DATA
+      IND_TIME = 0
+      NEUIS = [1,2,3]
+      NEUERRIS = NEUIS+3
+      TIME_AXES_TYPE='DYR'
+      DECYRS=REFORM(DATA[IND_TIME,*])
+      ;      MJDS=DBLARR(N_ELEMENTS(DECYRS))
+      ;      FOR I=0, N_ELEMENTS(DECYRS)-1 DO BEGIN
+      ;        DECYRS_TO_MJD, DECYRS[I], MJD=MJD
+      ;        MJDS[I]=MJD
+      ;      ENDFOR
+      DECYRS_TO_JDS, DECYRS+0d0, JDS
+      MJDS = JDS - 2400000.5D0
+      TIME_AXES_VAL_MJD=PTR_NEW(MJDS)
+    ;stop
+    end
     ELSE: BEGIN
       PRINT, '[ON_IGPS_BTN_LOAD]!!WARNING: unknown data type. Exiting..'
       RETURN
@@ -5361,6 +5381,24 @@ PRO ON_IGPS_PANEL_FORMAT_BTN_OK, EV
             ODATA[1,*]=FIX(ODATA[0,*])
           ;stop
           END
+          'Liu-Zeng 2020':  BEGIN
+            FMT='(1x,F10.5,1X,I4,1X,I3,3F20.8,3F10.6)'
+            ODATA=DBLARR(9,N_ELEMENTS((*ST.DATA)[0,*]))
+            ODATA[[0,3,4,5,6,7,8],*]=*ST.DATA
+            ODATA[3:8,*]=ODATA[3:8,*]*ST.SF*1D-3
+            ;            FOR I=0,N_ELEMENTS((*ST.DATA)[0,*])-1 DO BEGIN
+            ;              ;ODATA[1,I]=FIX(ODATA[0,I])
+            ;              DOY,STRTRIM(ODATA[0,I],2)+'Y',DAY_OF_YEAR=D
+            ;              ODATA[2,I]=D
+            ;            ENDFOR
+            DECYRS=REFORM(ODATA[0,*])
+            DECYRS_TO_JDS, DECYRS, JDS
+            JD_TO_YMDHMSS,JDS, DATES, SECTAGS
+            YMD_TO_DOYS,DATES, DAY_OF_YEARS
+            ODATA[2,*]=DAY_OF_YEARS
+            ODATA[1,*]=FIX(ODATA[0,*])
+          ;stop
+          end
           ELSE: BEGIN
             ;FMT='(F10.5,3F10.6,3F10.6)'
             FMT=ST.FMT

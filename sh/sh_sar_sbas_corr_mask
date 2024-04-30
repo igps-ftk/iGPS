@@ -43,28 +43,32 @@ overwrite=y # y for yes, n for no
 is_landmask=n
 resample_grid='.009'
 is_out_full=n
+num_corr=5
 
 while [ "$1" != "" ]; do
     case $1 in
-        -corr_min)
+        -c|-corr_min)
             corr_min=$2
             ;;
-        -corr_name)
+        -cn|-cname|-corr_name)
             corr_name=$2
             ;;
-        -direction)
+        -d|-direction)
             direction=$2
             ;;
-        -landmask)
+        -m|-mask|-landmask)
             is_landmask=$2
             ;;
-       -overwrite)
+        -n|-num|-n_corr|-num_corr)
+            num_corr=$2
+            ;;
+       -ow|-overwrite)
             overwrite=$2
             ;;
-       -resample)
+       -r|-resample)
             resample_grid=$2
             ;;
-       -full)
+       -f|-full)
             is_out_full=$2
             ;;
         -h|-help|--help)
@@ -179,38 +183,52 @@ if [ $is_sbas_path -eq 0 ] ;then
 fi
 
 
-#use the first five corr files
-#ls ./ia/20??*/${corr_name}.grd|${direction} -5 > corr.list
-##ls ../intf_all/20??*/${corr_name}.grd|${direction} -5 > corr.list
+####use the first five corr files
+####ls ./ia/20??*/${corr_name}.grd|${direction} -5 > corr.list
+#####ls ../intf_all/20??*/${corr_name}.grd|${direction} -5 > corr.list
+###
+###id=`ls ./ia/20??*/${corr_name}.grd|sort|head -1 |awk -F\/ '{print $3}' |  awk -F_ '{print $1}'`
+###if [ "$id" = "" ]; then
+###  if [ "$corr_name" = "corr_cut" ]; then
+###    id=`ls ./ia/20??*/corr.grd|sort|head -1 |awk -F\/ '{print $3}' |  awk -F_ '{print $1}'`
+###    corr_name=corr
+###  fi
+###fi
+###echo "[$PROG]INFO: using scene $id"
+###ls ./ia/20??*/${corr_name}.grd |sort|grep $id |${direction} -5 > corr.list
 
-id=`ls ./ia/20??*/${corr_name}.grd|sort|head -1 |awk -F\/ '{print $3}' |  awk -F_ '{print $1}'`
-if [ "$id" = "" ]; then
-  if [ "$corr_name" = "corr_cut" ]; then
-    id=`ls ./ia/20??*/corr.grd|sort|head -1 |awk -F\/ '{print $3}' |  awk -F_ '{print $1}'`
-    corr_name=corr
-  fi
-fi
-echo "[$PROG]INFO: using scene $id"
-ls ./ia/20??*/${corr_name}.grd |sort|grep $id |${direction} -5 > corr.list
-
-#use first 5 lines in intf.tab
-cat intf.tab | awk '{print $2}' | head -5 > corr.list
-
-echo "[$PROG]INFO: use the following corr files to create the mask"
-cat corr.list
-#exit
 
 echo overwrite $overwrite
 if [ -s mask_def.grd -a "$overwrite" == "n" ]; then
   echo "[$PROG]WARNING: mask already exist (mask_def.grd) and not overwritten!"
 else
+
+  #use first 5/num_corr lines in intf.tab
+  cat intf.tab | awk '{print $2}' | head -${num_corr} > corr.list
+  while read line; do
+    if [ ! -s "$line" ]; then
+      echo -e "[$PROG]\033[1;33;41mERROR\033[0m: corr file not exist($line)!!"
+	    exit 1
+    fi
+  done < corr.list
+  
+  echo "[$PROG]INFO: use the following corr files to create the mask"
+  cat corr.list
+  #exit
+
   stack.csh corr.list 1 corr_avg.grd corr_std.grd
 #  gmt grdmath corr_avg.grd $corr_min GE 0 NAN = mask_def.grd
-  gmt grdmath corr_avg.grd $corr_min GE 0 NAN = corr_1_0.grd
+#assign void to NaN
+#  gmt grdmath corr_avg.grd $corr_min GE 0 NAN = corr_1_0.grd
+#  #gmt grdmath corr_avg.grd .05 GE 0 NAN = corr_1_0.grd
+#  gmt grdmath vel.grd ISFINITE 0 NAN = vel_1_0.grd
+#  gmt grdmath corr_1_0.grd vel_1_0.grd MUL = mask_def.grd
 
-  #gmt grdmath corr_avg.grd .05 GE 0 NAN = corr_1_0.grd
-  gmt grdmath vel.grd ISFINITE 0 NAN = vel_1_0.grd
-  gmt grdmath corr_1_0.grd vel_1_0.grd MUL = mask_def.grd
+#or, instead, assign void to zero and then to NaN
+  gmt grdmath corr_avg.grd $corr_min GE = corr_1_0.grd
+  gmt grdmath vel.grd ISFINITE = vel_1_0.grd
+  gmt grdmath corr_1_0.grd vel_1_0.grd MUL = mask_1_0.grd
+  gmt grdmath mask_1_0.grd 0.000001 GE 0 NAN = mask_def.grd
 
   #gmt grd2xyz corr_1_0.grd -s > corr_1_0.grd.xyz2
   #gmt grd2xyz vel_1_0.grd -s > vel_1_0.grd.xyz2

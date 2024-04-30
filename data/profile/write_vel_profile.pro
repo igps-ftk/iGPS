@@ -4,6 +4,9 @@ PRO  WRITE_VEL_PROFILE, ofile $
     , fa_xys=fa_xys  $
     , pf_xys=pf_xys  $
     , fa_pf_xy=fa_pf_xy $
+    , p_xys_fvec_2nds=p_xys_fvec_2nds  $
+    , fa2nd_pf_xy=fa_pf_xy_2nd $
+    , dist_fp1_fp2nds=dist_fp1_fp2nds  $
     , odata_2nd=odata_2nd $
     , src=src $
     , headers=headers
@@ -36,6 +39,10 @@ PRO  WRITE_VEL_PROFILE, ofile $
   
   IF N_ELEMENTS(fa_pf_xy) EQ 0 THEN BEGIN
     fa_pf_xy=[-9999,-9999]
+  ENDIF
+  
+  IF N_ELEMENTS(fa_pf_xy_2nd) EQ 0 THEN BEGIN
+    fa_pf_xy_2nd=[-9999,-9999]
   ENDIF
   
   IF N_ELEMENTS(sites) EQ 0 THEN BEGIN
@@ -93,6 +100,16 @@ PRO  WRITE_VEL_PROFILE, ofile $
   IF fa_xys[0,0] NE -9999d0 THEN BEGIN
     FOR j=0ull,N_ELEMENTS(fa_xys[0,*])-1 DO BEGIN
       PRINTF,fid,fa_xys[*,j],format='("# PSXY_FAULT_TRACE",2(1x,f20.8))'
+    ENDFOR
+  ENDIF
+  IF fa_pf_xy_2nd[0,0] NE -9999d0 THEN BEGIN
+    FOR f2i=0,N_ELEMENTS(fa_pf_xy_2nd[0,*])-1 DO BEGIN
+      PRINTF,fid,STRTRIM(f2i+2,2),fa_pf_xy_2nd[*,f2i],format='("# PSXY_FAULT_PROFILE_INTERSECT_",a,2(1x,f20.8))'
+      PRINTF,fid,STRTRIM(f2i+2,2),dist_fp1_fp2nds[f2i],format='("# PSXY_FAULT_PROFILE_DISTANCE_",a,1(1x,f20.8))'
+      fa_xys_2nd=(*p_xys_fvec_2nds[f2i])
+      FOR j=0,N_ELEMENTS(fa_xys_2nd[0,*])-1 DO BEGIN
+        PRINTF,fid,STRTRIM(f2i+2,2),fa_xys_2nd[*,j],format='("# PSXY_FAULT_TRACE_",a,2(1x,f20.8))'
+      ENDFOR
     ENDFOR
   ENDIF
   PRINTF,fid,'*',format='(a)'

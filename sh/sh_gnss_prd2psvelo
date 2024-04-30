@@ -1,0 +1,86 @@
+#!/bin/sh
+
+# Name:
+#   sh_gnss_prd2psvelo
+#   
+
+# Purpose:
+#   +
+
+# Input:
+#   +
+
+# Output:
+#   +
+
+# Example:
+#   +
+
+# Algorithm:
+#   +
+
+# Modifications:
+#   + Created on Tue Mar 12 09:47:45 CST 2024 by tianyf
+#   +
+
+# Dependency:
+#   +
+#
+
+
+PROG=sh_gnss_prd2psvelo
+
+timestamp=`date | sed -e "s/ /_/g" | sed -e "s/:/-/g"`
+
+path_old=`pwd`
+
+usage_of_it(){
+cat <<eob
+${PROG}
+  version 20240312
+|_ Convert interpolated GPS velcoity field (gps_prd from gic3dv) to GMT psvelo format.
+|+
+  -gps_prd from gic3dv
+|<
+  Inputs
+  [-h|-help|--help]
+|>
+  Outputs
+|e.g.,
+  ${PROG}
+(c)iGPS (https://github.com/igps-ftk/)
+eob
+}
+
+if [ $# -lt 2 ]; then
+  usage_of_it
+  #exit 1
+fi
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -h|-help|--help)
+      usage_of_it
+      exit 1
+      ;;
+    *)
+      echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid option ($1)!!"
+      usage_of_it
+      exit 1
+      ;;
+  esac
+  shift 2
+done
+
+if [ ! -s gps_prd ]; then
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: gps_prd not exist!!"
+  usage_of_it
+  exit 1
+fi
+
+cat gps_prd |grep -v lon | awk '{printf("%8.3f %7.3f  %8.4f %8.4f  %8.4f %8.4f %6.3f %04d_GHI\n", $1,$2,$3,$5,$4,$6,.01,NR)}' > gps_prd.psvelo
+shuf gps_prd.psvelo | head -9999 | sort> gps_prd.psvelo.9999
+gmt gmt2kml gps_prd.psvelo.9999 -Fs -N > ps_prd.psvelo.9999.kml
+
+
+echo "[$PROG]INFO: done."

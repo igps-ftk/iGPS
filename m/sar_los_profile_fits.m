@@ -173,17 +173,21 @@ paths={'D:\gsar\gic3dv\g219\asc_des\profiles\p.fa_gozhaco'};
 paths={'/g17b/gsar/D/gsar/gic3dv/g219/asc_des/profiles/p.fa_xiaoerkule1'};
 paths={'/g17b/gsar/D/gsar/gic3dv/g219/asc_des/profiles/p.fa_jieze_caka'};
 paths={'/g17b/gsar/D/gsar/gic3dv/g219/asc_des/profiles/p.fa_longmuco_to_atf'};
-paths={'D:\gsar\gic3dv\mht\asc_des\profiles\p.fa_mbt'};
-paths={'D:\gsar\interseismic\041-a-m4-0109_0114_0119_0124-altyntagh_M3\f123\sbas.4.0.0367.9999.20141020.20210901.166.1299.01.___\p.fa_atf'};
-ptn='066';
-dmin=-100;
+paths={'/g17b/gsar/D/gsar/gic3dv/g219/asc_des/profiles/p.fa_karakax_new2'};
+% paths={'/g17b/gsar/D/gsar/gic3dv/g219/asc_des/profiles/p.fa_test'};
+%paths={'D:\gsar\gic3dv\mht\asc_des\profiles\p.fa_mbt'};
+%paths={'D:\gsar\interseismic\041-a-m4-0109_0114_0119_0124-altyntagh_M3\f123\sbas.4.0.0367.9999.20141020.20210901.166.1299.01.___\p.fa_atf'};
+paths={'Z:\g11j\D\gsar\gic3dv\g219\asc_des\profiles\p.fa_F12'};
+paths={'Z:\g11j\D\gsar\gic3dv\g219\asc_des\profiles\p.fa_F5_animaqin'};
+ptn='006*';
+dmin=-130;
 dmax=150;
 vi=7;
-vi=14;
-nsimu=30000;
+%vi=14;
+nsimu=10000;
 
 cmt='parallel_farLock';
-cmt='parallel_nearLock';
+% cmt='parallel_nearLock';
 % cmt='up';
 % cmt='normal';
 
@@ -207,10 +211,12 @@ npath=size(paths,1);
 % fts_max=55;
 % fts_min=-35;
 % fts_max=35;
-fts_min=-15;
-fts_max=15;
-% fts_min=-3;
-% fts_max=3;
+% fts_min=-15;
+% fts_max=15;
+% fts_min=-10;
+% fts_max=10;
+fts_min=-3;
+fts_max=3;
 is_show_fig='on';
 %is_show_fig='off';
 
@@ -335,9 +341,10 @@ for ii=1:npath
             {'sr', 0, -20, 20}
 %             {'ld', 5, .1, 10}
             %       {'ld', 10, .1, 25}
-%                   {'ld', 1, 0, 50}
+                  % {'ld', 1, 0, 50}
 %                   {'ld', 1, 0, 20}
-                  {'ld', 10, .1, 15}
+                  % {'ld', 10, .1, 15}
+                  {'ld', 10, .1, 10}
                   % {'ld', .1, .01, .2}
             %       {'ld', 9, 8.9, 9.1}
             %     {'fts', 0, -30, 30}
@@ -345,8 +352,8 @@ for ii=1:npath
             {'fts', (fts_min+fts_max)/2, fts_min, fts_max}
             {'yshift', (ymin+ymax)/2, ymin,ymax}
             
-            {'rot', 0.001, -pi/3, pi/3}
-                  % {'rot', 0.000011, 0.000010, 0.000012}
+%             {'rot', 0.001, -pi/3, pi/3}
+                  {'rot', 0.000011, 0.000010, 0.000012}
             };
         npar=size(params,1);
         
@@ -558,9 +565,9 @@ for ii=1:npath
 %         fprintf(fido,'* angle of axis rotation (rad): %f +/- %f\n', out_params(5), out_sigs(5));
         fprintf(fido,'%s', out_tilt_str);
         fprintf(fido,'*\n');
-        fprintf(fido,'*%15s %15s %15s %15s %15s\n',  'dist_to_fault',      'prediction',      'horiz_pred','pred_lower','pred_upper');
+        fprintf(fido,'*%15s %15s %15s %15s %15s %15s %15s\n',  'dist_to_fault',      'prediction',      'horiz_pred','pred_lower','pred_upper','residual','raw');
         for i=1:size(xo,1)
-            fprintf(fido,' %15.6f %15.6f %15.6f %15.6f %15.6f\n',xo(i),yo(i),0,yo_lowers(i),yo_uppers(i));
+            fprintf(fido,' %15.6f %15.6f %15.6f %15.6f %15.6f %15.6f %15.6f\n',xo(i),yo(i),0,yo_lowers(i),yo_uppers(i),yo(i)-y1(i),y1(i));
         end
         fclose(fido);
         

@@ -62,6 +62,8 @@ $PROG
   [-ow|-overwrite n|y]
   [-prog sbas/sbas_parallel]
       [-sat SAT|ENVI]
+  [-s|-sm|-smooth SMOOTH_VALUE]
+     default: 1
   [-file_ll_grd grd_ll_filename]
   [-h|-help|--help]
 e.g.,
@@ -102,6 +104,7 @@ file_intf_tab=intf.tab
 file_scene_tab=scene.tab
 file_prm=topo/master.PRM
 file_led=
+sbas_smooth=1.0
 
 
 while [ "$1" != "" ]; do
@@ -141,6 +144,9 @@ while [ "$1" != "" ]; do
       ;;
     -file_scene)
       file_scene_tab=$2
+      ;;
+    -s|-sm|-smooth)
+      sbas_smooth=$2
       ;;
     -h|-help|--help|?)
      usage_of_it
@@ -396,17 +402,17 @@ echo  "[$PROG]INFO:nintf $nintf nscen $nscen xdim $xdim ydim $ydim "
 
 echo  "[$PROG]INFO: running sbas program (may be time-consuming for large data set) ... :>"
 t1=`date`
-#sbas intf.tab scene.tab $nintf $nscen $xdim $ydim -smooth 1.0 -wavelength 0.0554658 -incidence 30 -range 800184.946186 -rms -dem
-echo time $prog_sbas intf.tab scene.tab $nintf $nscen $xdim $ydim -atm $n_atm -smooth 1.0 -wavelength ${wavelength} -incidence ${incidence} -range ${range} -rms -dem
+#sbas intf.tab scene.tab $nintf $nscen $xdim $ydim -smooth $sbas_smooth -wavelength 0.0554658 -incidence 30 -range 800184.946186 -rms -dem
+echo time $prog_sbas intf.tab scene.tab $nintf $nscen $xdim $ydim -atm $n_atm -smooth $sbas_smooth -wavelength ${wavelength} -incidence ${incidence} -range ${range} -rms -dem
 echo  "[$PROG]INFO: `pwd`"
 #exit
 echo OMP_NUM_THREADS  $OMP_NUM_THREADS 
 if [ $n_atm -eq 0 ]; then 
-    echo time $prog_sbas intf.tab scene.tab $nintf $nscen $xdim $ydim -smooth 1.0 -wavelength ${wavelength} -incidence ${incidence} -range ${range} -rms -dem 
-    time $prog_sbas intf.tab scene.tab $nintf $nscen $xdim $ydim -smooth 1.0 -wavelength ${wavelength} -incidence ${incidence} -range ${range} -rms -dem #2>&1 | tee $file_log
+    echo time $prog_sbas intf.tab scene.tab $nintf $nscen $xdim $ydim -smooth $sbas_smooth -wavelength ${wavelength} -incidence ${incidence} -range ${range} -rms -dem 
+    time $prog_sbas intf.tab scene.tab $nintf $nscen $xdim $ydim -smooth $sbas_smooth -wavelength ${wavelength} -incidence ${incidence} -range ${range} -rms -dem #2>&1 | tee $file_log
 else
-    echo time $prog_sbas intf.tab scene.tab $nintf $nscen $xdim $ydim -atm $n_atm -smooth 1.0 -wavelength ${wavelength} -incidence ${incidence} -range ${range} -rms -dem 
-    time $prog_sbas intf.tab scene.tab $nintf $nscen $xdim $ydim -atm $n_atm -smooth 1.0 -wavelength ${wavelength} -incidence ${incidence} -range ${range} -rms -dem #2>&1 | tee $file_log
+    echo time $prog_sbas intf.tab scene.tab $nintf $nscen $xdim $ydim -atm $n_atm -smooth $sbas_smooth -wavelength ${wavelength} -incidence ${incidence} -range ${range} -rms -dem 
+    time $prog_sbas intf.tab scene.tab $nintf $nscen $xdim $ydim -atm $n_atm -smooth $sbas_smooth -wavelength ${wavelength} -incidence ${incidence} -range ${range} -rms -dem #2>&1 | tee $file_log
 fi
 
 

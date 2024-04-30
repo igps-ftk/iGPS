@@ -82,6 +82,7 @@ dir=`echo $dirs | awk '{print $1}'`
 #echo $dir
 file_corr=${path}/${dir}/corr_cut.grd
 #file_corr=${path}/${dir}/corr.grd
+#file_corr=`find ${path}/${dir}/ -maxdepth 1 -type f -name "*.grd" | sort | head -1`
 
 xs=`gmt grdinfo -C $file_corr | awk '{print int($8*2+.5)}'`
 ys=`gmt grdinfo -C $file_corr | awk '{print int($9*2+.5)}'`

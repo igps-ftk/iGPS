@@ -113,7 +113,8 @@ FUNCTION CW_TSTYPE, PARENT, $
       'YICE', $
       'YICE2', $
       'ERCE', $
-      'Taiwan' $
+      'Taiwan', $
+      'Liu-Zeng 2020' $
       ]
   ENDIF
   ST = { ID:0, $
