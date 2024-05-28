@@ -70,13 +70,13 @@ ${PROG}
   https://scihub.copernicus.eu/gnss/#/home
   login account: gnssguest/gnssguest (public access)
 |<
-  [-d|-date DATE_OF_ORBIT]
+  [-y|-yr|-year YEAR]
+  [-m|-mon|-month MONTH]
   [-l|-load_bashrc y/...]
-  [-n|-ndays N_DAYS_BACKWARD]
   [-o|-orb|-orbit poe/res]
 |e.g.,
-  ${PROG} -d 2022-01-09 -orb res
-  ${PROG} -n 10 -orb poe
+  ${PROG} -y 2022 -m 10 -orb res
+  ${PROG} -y 2020 -orb poe
 (c)iGPS (https://github.com/igps-ftk/)
 eob
 }

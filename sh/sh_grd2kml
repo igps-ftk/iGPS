@@ -111,7 +111,7 @@ fi
 
 #if [ ! -s scalebar.png ]; then
   #make the scale bar for velocity
-  gmt psscale -Dx.15i/.17i/1.2c/.2c  -C$file_cpt -Bxaf+l"${scale_title}": -P  > ${file_grd2}_scalebar.ps
+  gmt psscale -Dx.15i/.17i/1.2c/.2c  -C$file_cpt -Bxaf+l"${scale_title}" -P  > ${file_grd2}_scalebar.ps
   gmt psconvert -A -Tj ${file_grd2}_scalebar.ps
 #fi
 

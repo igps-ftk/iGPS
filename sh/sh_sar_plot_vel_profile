@@ -391,7 +391,9 @@ profile_title_y="@%2%`echo $data_type | awk '{print substr($1,1,1)}'`@%%@-LOS@- 
     
 tmp=`dirname $profiles_path/test.txt`
 tmp2=`basename $tmp`
-fa_name=`echo $tmp2 | awk -F. '{print $2}'`
+#fa_name=`echo $tmp2 | awk -F. '{print $2}'`
+fa_name=`echo $tmp2 | awk '{print substr($0,3)}'`
+
 profiles_path_gps=${profiles_path}/../pg.${fa_name}
 echo profiles_path_gps $profiles_path_gps
 #exit
@@ -621,7 +623,7 @@ for n in $pis; do
       #grep "^ " $file_gnss | awk '{if($11<2&&$7<2){print $2,$3,$6,$10,$7,$11,$12,tolower(substr($1,1,4))}}' > .tmp.gps
   
       #file=${GMT_pub}/gps/Supp_Table_S1.psvelo
-      cat $file_gnss > .tmp.gps
+      cat $file_gnss | shuf | head -100 |sort > .tmp.gps
   
       #file=${GMT_pub}/gps/velo.psvelo
       #cat $file > .tmp.gps
@@ -1057,7 +1059,9 @@ fi
 #    fi
     
    if [ -s $file_gps ]; then
-      grep -h '^ ' $file_gps | sort | uniq | awk '{print $11,$12}' | gmt psxy -R -J -O -K -Ss.3c -W.5p,red -Gyellow >> $ofile
+      grep -h '^ ' $file_gps | sort | uniq | awk '{print $11,$12}' |  gmt psxy -R -J -O -K -Ss.3c -W.5p,red -Gyellow >> $ofile
+    else
+      echo "[]WARNING: GPS profile file not exist ($file_gps)!"
     fi
 
     lat_fp=0

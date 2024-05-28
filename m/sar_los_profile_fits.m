@@ -179,12 +179,16 @@ paths={'/g17b/gsar/D/gsar/gic3dv/g219/asc_des/profiles/p.fa_karakax_new2'};
 %paths={'D:\gsar\interseismic\041-a-m4-0109_0114_0119_0124-altyntagh_M3\f123\sbas.4.0.0367.9999.20141020.20210901.166.1299.01.___\p.fa_atf'};
 paths={'Z:\g11j\D\gsar\gic3dv\g219\asc_des\profiles\p.fa_F12'};
 paths={'Z:\g11j\D\gsar\gic3dv\g219\asc_des\profiles\p.fa_F5_animaqin'};
-ptn='006*';
-dmin=-130;
-dmax=150;
+paths={'Z:\g11j\D\gsar\gic3dv\yzs\asc_des\profiles_y15-19\p.fa_yzs'};
+ptn='161*';
+dmin=-50;
+dmax=130;
 vi=7;
 %vi=14;
-nsimu=10000;
+nsimu=50000;
+
+
+
 
 cmt='parallel_farLock';
 % cmt='parallel_nearLock';
@@ -211,12 +215,12 @@ npath=size(paths,1);
 % fts_max=55;
 % fts_min=-35;
 % fts_max=35;
-% fts_min=-15;
-% fts_max=15;
+fts_min=-15;
+fts_max=15;
 % fts_min=-10;
 % fts_max=10;
-fts_min=-3;
-fts_max=3;
+% fts_min=-3;
+% fts_max=3;
 is_show_fig='on';
 %is_show_fig='off';
 
@@ -341,11 +345,11 @@ for ii=1:npath
             {'sr', 0, -20, 20}
 %             {'ld', 5, .1, 10}
             %       {'ld', 10, .1, 25}
-                  % {'ld', 1, 0, 50}
+%                   {'ld', 1, 0, 50}
 %                   {'ld', 1, 0, 20}
-                  % {'ld', 10, .1, 15}
-                  {'ld', 10, .1, 10}
-                  % {'ld', .1, .01, .2}
+                  {'ld', 10, .1, 15}
+%                   {'ld', 10, .1, 10}
+%                   {'ld', .1, .01, .2}
             %       {'ld', 9, 8.9, 9.1}
             %     {'fts', 0, -30, 30}
             %           {'fts', 0, -1, 1}
@@ -398,8 +402,10 @@ for ii=1:npath
         options.verbosity = 1;
         options.waitbar = 1;
         %   options.MaxFunEvals = 10000;
-        
+        options.nsimu   = 1000;
         [res,chain,s2chain] = mcmcrun(model,data,params,options);
+        options.nsimu   = 5000;
+        [res,chain,s2chain] = mcmcrun(model,data,params,options, res);
         
         figure(2); clf
         mcmcplot(chain,[],res,'chainpanel');

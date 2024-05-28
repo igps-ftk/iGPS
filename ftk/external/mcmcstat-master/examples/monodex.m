@@ -115,7 +115,7 @@ model.N0  = 4;                 % prior accuracy for sigma2
 
 options.nsimu = 4000;
 options.updatesigma = 1;
-options.qcov = tcov; % covariance from the initial fit
+% options.qcov = tcov; % covariance from the initial fit
 
 
 %%
