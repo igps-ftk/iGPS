@@ -38,6 +38,7 @@ ${PROG}
     default: the first p.xxx directory (if present)
   [-o|-opath OUTPUT_PATH]
     default: pp.xxx/
+  [-c|-comment COMMENTS]
   [-n|-profile PROFILE_IDS]
     default: 0 (all)
   [-dt|-data_type Velocity|Dislacement]
@@ -189,6 +190,8 @@ mdl_type= #far-field/fault_name/near-field/...
 
 file_gnss=${iGPS}/tables/wang_shen_2019JB018774_Table.S4S5.psvelo
 
+input_fmt=psvelo #psvelo/psvelou/gps_prd
+
 opath_cmt=
 
 while [ "$1" != "" ]; do
@@ -214,6 +217,9 @@ while [ "$1" != "" ]; do
         #cd $path_old
         opath=$2
         ;;
+    -c|-comment)
+      opath_cmt="${opath_cmt}$2"
+      ;;
     -n|-profile)
         pis=`echo $2 | sed -e 's/,/ /g'`
         ;;
@@ -278,7 +284,9 @@ while [ "$1" != "" ]; do
     -g|-gnss|-gnss_file|-gnss_vel)
       file_gnss=$2
       ;;
-
+    -if|-input_fmt)
+      input_fmt=$2
+      ;;
     -h|-help|--help)
       usage_of_it
       exit 1
@@ -622,8 +630,20 @@ for n in $pis; do
       ##grep "^ " $file | awk '{print $2,$3,$6,$10,$7,$7,0.0,tolower(substr($1,1,4))}' > .tmp.gps
       #grep "^ " $file_gnss | awk '{if($11<2&&$7<2){print $2,$3,$6,$10,$7,$11,$12,tolower(substr($1,1,4))}}' > .tmp.gps
   
-      #file=${GMT_pub}/gps/Supp_Table_S1.psvelo
-      cat $file_gnss | shuf | head -100 |sort > .tmp.gps
+case $input_fmt in
+  psvelo|psvelou)
+    #file=${GMT_pub}/gps/Supp_Table_S1.psvelo
+    cat $file_gnss | shuf | head -500 |sort > .tmp.gps
+    ;;
+  gps_prd)
+    #   long      lat       Ve      dVe       Vn      dVn       Vu      dVn    Tau_h   Tau_v
+    #   88.000   25.500  10.9798   0.8712  23.4754   0.8247  -4.4014   8.8053  70.0000  95.0000
+    cat $file_gnss | grep -iv nan | shuf | head -500 |sort |awk '{printf("%8.3f %7.3f  %8.4f %8.4f  %8.4f %8.4f %6.3f %04d_GHI\n", $1,$2,$3,$5,$4,$6,.01,NR)}'  > .tmp.gps
+    ;;
+  *)
+    echo -e "[$PROG]\033[1;33;41mERROR\033[0m: wrong gnss velocity file format ($input_fmt)!!"
+    exit 1
+esac
   
       #file=${GMT_pub}/gps/velo.psvelo
       #cat $file > .tmp.gps
@@ -1068,7 +1088,7 @@ fi
     #echo "**lat of intersect of fault and profile: $lat_fp "
 
     echo "[$PROG]INFO: plot overview map"
-    gmtset MAP_FRAME_TYPE                  = plain
+    gmt gmtset MAP_FRAME_TYPE                  = plain
     gmt gmtset FONT_TITLE = 7p
     gmt gmtset FONT_LABEL         = 6p
     gmt gmtset FONT_ANNOT_PRIMARY = 6p
@@ -1081,13 +1101,13 @@ fi
     #Plot overview inset
     if [ -s $dem_file_overview ]; then
       #grdimage $Ro $Jo  -B10f5/10f5WSEN $dem_file_overview -Cmytopo2.cpt -A250 -K -V -O  >> $ofile
-      grdimage $dem_file_overview  -Cmytopo2.cpt $Ro -JQ${Jo}i    -B10f5:"":/10f5:""::."":EN -K -O >> ${ofile}
+      gmt grdimage $dem_file_overview  -Cmytopo2.cpt $Ro -JQ${Jo}i    -B10f5:"":/10f5:""::."":EN -K -O >> ${ofile}
     else
-      pscoast $Ro -JQ${Jo}i -B10f5:"":/10f5:""::."":EN -K -O -Wthin -I1 -Swhite >> $ofile
+      gmt pscoast $Ro -JQ${Jo}i -B10f5:"":/10f5:""::."":EN -K -O -Wthin -I1 -Swhite >> $ofile
     fi
     #pscoast $R $J -Wthin -I1 -B10f5/10f5WSEN -Glightgray -Wthinnest,lightgray -A250 -K -V -O >> $ofile
     #pscoast $R $J -Wthin -I1 -B10f5/10f5WSEN -Glightgray -Wthinnest,lightgray -A250 -K -V -O >> $ofile
-    psxy -R -J -O -K -L <<eob -Gblue@80 >> $ofile
+    gmt psxy -R -J -O -K -L <<eob -Gblue@80 >> $ofile
     $X_MIN $Y_MAX
     $X_MAX $Y_MAX
     $X_MAX $Y_MIN
@@ -1169,6 +1189,8 @@ eob
     grep "^ " $file | awk '{print $13,$di,$4,$ei}' di=$data_index ei=sigma_index >.tmp.los
     if [ -s $file_mdl ]; then
       grep "^ " $file_mdl | awk '{print $1,$2}' >.tmp.los.mdl
+    else
+      \rm -f .tmp.los.mdl
     fi
 
     if [ "$auto_axis" == "y" ]; then
@@ -1223,7 +1245,7 @@ eob
     echo Bx By $Bx $By
     echo Rp $Rp
     gmt psxy $Rp -JX${plot_size_ax}i/${plot_size_by}i -X${Xshift}i -Y${Yshift}i -Sc0.05c   -B${Bx}:"${profile_title_x}":/${By}:"${profile_title_y}"::."${profile_title}":/SWen -O -K   .tmp.los -Cdist.cpt >>$ofile
-    if [ -s .tmp.los.mdl ]; then
+    if [ -s $file_mdl -a -s .tmp.los.mdl ]; then
       gmt psxy -R -J -O -K .tmp.los.mdl -W1p,red >> $ofile
     fi
 

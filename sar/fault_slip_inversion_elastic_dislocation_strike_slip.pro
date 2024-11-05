@@ -54,6 +54,7 @@ FUNCTION FAULT_SLIP_INVERSION_ELASTIC_DISLOCATION_STRIKE_SLIP,  $
   ;print,'fss:',fss
   IF N_ELEMENTS(lds) EQ 0 THEN BEGIN
     lds=INDGEN(50)+1d0  ;locking-depth-s, [1, 50] with step of 1 km
+    lds=lds/2
   ENDIF
   ;distance thresholds
   IF N_ELEMENTS(distmax) EQ 0 THEN distmax=11500 ;maximum distance used, in km; specify a large value to use all points

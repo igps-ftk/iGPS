@@ -109,17 +109,24 @@ nsimu=5000; %number of simulations
 % paths={'C:\tmp\gic3dv\hyf\asc_des\p.fa_haiyuan_insar3d2'};
 % paths={'D:\gsar\interseismic\062-d-m6-0447_0452_0457_0462_0467_0472-haiyuan4M3\f123\sbas.4.0.0001.9999.20150206.20210517.053.0561.01.___\p.fa_haiyuan_insar3d_1920'};
 % % paths={'D:\gsar\interseismic\055-a-m3-0112_0117_0122-haiyuan1M3\f123\sbas.4.0.0367.9999.20141021.20210423.122.1215.01.___\p.fa_haiyuan'};
-% 
+% % 
+% paths={'Z:\g11j\D\gsar\gic3dv\hyf\asc_des\p.fa_haiyuan_insar3d2'};
+% paths={'Z:\g11j\D\gsar\gic3dv\hyf\asc_des\p.fa_haiyuan_menyuan22_pre'};
+% paths={'Z:\g8f\gsar\033-d-m2-0463_0468-menyuan\f123\sbas.4.0.0001.9999.20141031.20211229.173.1686.01.___\p.fa_haiyuan'};
+% % paths={'Z:\g16d\gsar\135-d-m4-0461_0467_0472_0477-haiyuan_gulang\f123\sbas.4.0.0001.9999.20141026.20240729.177.0193.01.___\p.fa_haiyuan'};
 % vi=7; %fault-parallel
-% ptn='061*';
-% % vi=14;
+% ptn='028'
+% % ptn='061*';
+% vi=14;
 % % di=11;
 % % vi=12;
 % % ptn='*';
-% dmin=-200;
-% dmax=200;
+% dmin=-1000;
+% dmax=80;
+% nsimu=10000;
 % % dmin=-100;
 % % dmax=200;
+% cmt='shallow'
 % 
 % d_exclude=[-120,20];
 % tilt_correction=2;
@@ -166,31 +173,129 @@ nsimu=5000; %number of simulations
 % dmax=200;
 % vi=7;
 
-paths={'D:\gsar\gic3dv\g219\asc_des\profiles\p.fa_gozhaco'};
-% paths={'D:\gsar\gic3dv\g219\asc_des\profiles\p.fa_tianshen_daban\'};
-% paths={'D:\gsar\gic3dv\g219\asc_des\profiles\p.fa_longmuco_dulishihu'};
-% paths={'D:\gsar\gic3dv\pishan\asc_des\profiles\p.fa_gozhaco'};
-paths={'/g17b/gsar/D/gsar/gic3dv/g219/asc_des/profiles/p.fa_xiaoerkule1'};
-paths={'/g17b/gsar/D/gsar/gic3dv/g219/asc_des/profiles/p.fa_jieze_caka'};
-paths={'/g17b/gsar/D/gsar/gic3dv/g219/asc_des/profiles/p.fa_longmuco_to_atf'};
-paths={'/g17b/gsar/D/gsar/gic3dv/g219/asc_des/profiles/p.fa_karakax_new2'};
-% paths={'/g17b/gsar/D/gsar/gic3dv/g219/asc_des/profiles/p.fa_test'};
-%paths={'D:\gsar\gic3dv\mht\asc_des\profiles\p.fa_mbt'};
-%paths={'D:\gsar\interseismic\041-a-m4-0109_0114_0119_0124-altyntagh_M3\f123\sbas.4.0.0367.9999.20141020.20210901.166.1299.01.___\p.fa_atf'};
-paths={'Z:\g11j\D\gsar\gic3dv\g219\asc_des\profiles\p.fa_F12'};
-paths={'Z:\g11j\D\gsar\gic3dv\g219\asc_des\profiles\p.fa_F5_animaqin'};
-paths={'Z:\g11j\D\gsar\gic3dv\yzs\asc_des\profiles_y15-19\p.fa_yzs'};
-ptn='161*';
-dmin=-50;
-dmax=130;
+% paths={'D:\gsar\gic3dv\g219\asc_des\profiles\p.fa_gozhaco'};
+% % paths={'D:\gsar\gic3dv\g219\asc_des\profiles\p.fa_tianshen_daban\'};
+% % paths={'D:\gsar\gic3dv\g219\asc_des\profiles\p.fa_longmuco_dulishihu'};
+% % paths={'D:\gsar\gic3dv\pishan\asc_des\profiles\p.fa_gozhaco'};
+% paths={'/g17b/gsar/D/gsar/gic3dv/g219/asc_des/profiles/p.fa_xiaoerkule1'};
+% paths={'/g17b/gsar/D/gsar/gic3dv/g219/asc_des/profiles/p.fa_jieze_caka'};
+% paths={'/g17b/gsar/D/gsar/gic3dv/g219/asc_des/profiles/p.fa_longmuco_to_atf'};
+% paths={'/g17b/gsar/D/gsar/gic3dv/g219/asc_des/profiles/p.fa_karakax_new2'};
+% % paths={'/g17b/gsar/D/gsar/gic3dv/g219/asc_des/profiles/p.fa_test'};
+% %paths={'D:\gsar\gic3dv\mht\asc_des\profiles\p.fa_mbt'};
+% %paths={'D:\gsar\interseismic\041-a-m4-0109_0114_0119_0124-altyntagh_M3\f123\sbas.4.0.0367.9999.20141020.20210901.166.1299.01.___\p.fa_atf'};
+% % paths={'Z:\g11j\D\gsar\gic3dv\g219\asc_des\profiles\p.fa_F12'};
+% % paths={'Z:\g11j\D\gsar\gic3dv\g219\asc_des\profiles\p.fa_F5_animaqin'};
+% paths={'Z:\g11j\D\gsar\gic3dv\yzs\asc_des\profiles_y15-19\p.fa_yzs'};
+% paths={'Z:\g11j\D\gsar\gic3dv\yzs\asc_des\profiles_y15-19.gacos\p.fa_yzs'};
+% %paths={'/g17b/gsar/D/gsar/interseismic/070-a-m6-0100_0105_0110_0115_0120_0125-eastkunlun5M3/f123/sbas.4.0.0001.9999.20141022.20230225.056.0770.01.___/p.fa_tazang1_ext_dec3d_byN_all_2km'};
+% ptn='1';
+% dmin=-200;
+% dmax=200;
+% dmin=-100;
+% dmax=100;
+% vi=7;
+% %vi=14;
+% nsimu=50000;
+% cmt='parallel_farLock';
+% 
+% paths={'Z:\g11j\D\gsar\gic3dv\atf.d019\asc_des\profiles\p.fa_kunlun_jss_revised2'};
+% ptn='001';
+% dmin=-500;
+% dmax=100;
+% d_exclude=[-90,-10];
+% vi=7;
+% %vi=14;
+% nsimu=30000;
+% cmt='atf_shifted';
+% 
+% fts_min=-150;
+% fts_max=-80;
+
+% % paths={'Z:\g11j\D\gsar\gic3dv\atf.d019\asc_des\profiles\p.fa_atf_ext'};
+% paths={'D:\gsar\gic3dv\hami\asc_des\profiles\p.fa_atf_ext_20241005'};
+% paths={'D:\gsar\gic3dv\hami\asc_des\profiles\p.fa_atf_hyf_20241006_qaidam'};
+% ptn='155';
+% dmin=-350;
+% dmax=350;
+% nsimu=30000;
+% cmt='parallel_farLock';
+% % % d_exclude=[-90,-10];
+% vi=7;
+% % %vi=14;
+% nsimu=30000;
+% cmt='far_noRot_oneFault_100km';
+
+% paths={'Z:\g11j\D\Papers\jiali\figure\profiles.gps.comb_ref_kunlun\pg.fa_jiali'};
+% paths={'D:\Papers\jiali\figure\profiles.gps.comb_ref_kunlun\pg.fa_jiali_200km'};
+% paths={'D:\Papers\jiali\figure\profiles.gps.comb20240906\pg.fa_jiali_200km'};
+% paths={'D:\gsar\gic3dv\jiali\asc_des.linzhi_voronoi\profiles\p.fa_jiali_20240919_no_U_linzhi'};
+% % paths={'D:\gsar\gic3dv\jiali\asc_des.linzhi_voronoi\profiles\p.fa_jiali_20240912b_linzhi'};
+paths={'D:\Papers\jiali\figure\profiles.gps.comb20241005\pg.fa_jiali_250km'};
+% paths={'Z:\g11j\D\gsar\gic3dv\jiali\asc_des.linzhi_voronoi\profiles\p.fa_bengco_jiali_ext2_20240919_no_U_linzhi'};
+ptn='066';
+% % paths={'D:\Papers\jiali\figure\profiles.gps.comb_ref_kunlun\pg.fa_bengco'};
+% % paths={'D:\gsar\gic3dv\hyf\asc_des\p.fa_haiyuan_lajishan_t33F1'};
+% % ptn='040';
+% % d_exclude=[-90,-10];
 vi=7;
-%vi=14;
-nsimu=50000;
-
-
-
-
+nsimu=30000;
+dmin=-200;
+dmax=200;
+% dmin=-100;
+% dmax=150;
+% % % % fts_min=-25;
+% % % % fts_max=-5;
 cmt='parallel_farLock';
+
+% dmin=-200;
+% dmax=200;
+% % % d_exclude=[-190,10];
+% % % d_exclude=[-150,100]; %p053
+% d_exclude=[-100,100]; %p040
+% cmt='parallel_farCreep';
+
+% dmin=-100;
+% dmax=100;
+% % % d_exclude=[-190,10];
+% % % d_exclude=[-150,100]; %p053
+% % d_exclude=[-100,100]; %p040
+% cmt='parallel_nearCreep';
+
+% % dmin=-50;
+% % dmax=50;
+% dmin=-100; %p040
+% dmax=100;
+% cmt='parallel_nearCreep';
+
+% d_exclude=[-90,40];
+% cmt='parallel_twoEndCreep';
+
+% dmin=-50;
+% dmax=100;
+% dmax=50; %p053
+% cmt='parallel_nearCreep';
+
+% fts_min=-29.2;
+% fts_max=-29.0;
+% cmt='parallel_farCreep';
+% cmt='parallel_farLock_shift';
+% vi=5;
+% % % dmin=-200;
+% % % dmax=200;
+% % % % % d_exclude=[-150,10]; %p066
+% % % % % d_exclude=[-150,100]; %p053
+% % % d_exclude=[-100,100]; %p040
+% % % cmt='normal_far';
+% % % % 
+% dmin=-100;
+% dmax=150;
+% % dmin=-50; %
+% % dmax=50;
+% cmt='normal_near';
+
+
+% cmt='parallel_farLock';
 % cmt='parallel_nearLock';
 % cmt='up';
 % cmt='normal';
@@ -205,20 +310,25 @@ npath=size(paths,1);
 % dmin=-120;
 % dmax=160;
 %
-% fts_min=-350;
-% fts_max=-250;
+% fts_min=10;
+% fts_max=100;
+% fts_max=150;
+
+% fts_min=-100;
+% fts_max=300;
 % fts_min=180;
 % fts_max=220;
-% fts_min=-100;
-% fts_max=100;
+fts_min=-100;
+fts_max=100;
+% fts_max=-10;
 % fts_min=-55;
 % fts_max=55;
 % fts_min=-35;
 % fts_max=35;
-fts_min=-15;
-fts_max=15;
-% fts_min=-10;
-% fts_max=10;
+% fts_min=-15;
+% fts_max=15;
+% % fts_min=-10;
+% % fts_max=10;
 % fts_min=-3;
 % fts_max=3;
 is_show_fig='on';
@@ -321,11 +431,14 @@ for ii=1:npath
             disp('[]WARNING: no data in the left side of fault.');
             continue
         end
-        ind2=find(x2>fts_max);
-        if isempty(ind2)
+        ind4=find(x2>fts_max);
+        if isempty(ind4)
             disp('[]WARNING: no data in the right side of fault.');
             continue
         end
+        
+        v_diff=mean(y2(ind4))-mean(y2(ind2))
+        
         
         
         % ir=random('Normal',0,1,1,390);
@@ -344,10 +457,10 @@ for ii=1:npath
         params = {
             {'sr', 0, -20, 20}
 %             {'ld', 5, .1, 10}
-            %       {'ld', 10, .1, 25}
-%                   {'ld', 1, 0, 50}
-%                   {'ld', 1, 0, 20}
-                  {'ld', 10, .1, 15}
+%                   {'ld', 10, .1, 25}
+%                   {'ld', 1, 0, 90}
+                  {'ld', 11, 10, 30}
+                  % {'ld', 10, .1, 15}
 %                   {'ld', 10, .1, 10}
 %                   {'ld', .1, .01, .2}
             %       {'ld', 9, 8.9, 9.1}
@@ -403,9 +516,10 @@ for ii=1:npath
         options.waitbar = 1;
         %   options.MaxFunEvals = 10000;
         options.nsimu   = 1000;
+        options.nsimu   = nsimu;
         [res,chain,s2chain] = mcmcrun(model,data,params,options);
-        options.nsimu   = 5000;
-        [res,chain,s2chain] = mcmcrun(model,data,params,options, res);
+        options.nsimu   = nsimu;
+%         [res,chain,s2chain] = mcmcrun(model,data,params,options, res);
         
         figure(2); clf
         mcmcplot(chain,[],res,'chainpanel');
@@ -428,10 +542,10 @@ for ii=1:npath
         
         out_params=mean(chain);
         out_stat=chainstats(chain,res);
-        out_sigs=out_stat(:,3);
+        out_sigs=out_stat(:,2);
         
-        %   xo = linspace(-300,300)';
-        xo=x1';
+          xo = linspace(-300,300)';
+%         xo=x1';
         switch tilt_correction
             case 1
                 yo=fun_2d_screw_dislocation(xo,mean(chain));
@@ -442,8 +556,10 @@ for ii=1:npath
                 np = nn-1;
                 nbatch = length(out.predlims);
                 plimi = out.predlims{1};
-                yo_lowers=plimi{1}(1,:)';
-                yo_uppers=plimi{1}(2*nn-1,:)';
+%                 yo_lowers=plimi{1}(1,:)';
+%                 yo_uppers=plimi{1}(2*nn-1,:)';
+                yo_lowers=plimi{1}(2,:)';
+                yo_uppers=plimi{1}(2*nn-2,:)';
                 yo_means=plimi{1}(nn,:)';                
                 
                 %rotate -theta (theta clockwisely)
@@ -468,8 +584,10 @@ for ii=1:npath
                 np = nn-1;
                 nbatch = length(out.predlims);
                 plimi = out.predlims{1};
-                yo_lowers=plimi{1}(1,:)';
-                yo_uppers=plimi{1}(2*nn-1,:)';
+%                 yo_lowers=plimi{1}(1,:)';
+%                 yo_uppers=plimi{1}(2*nn-1,:)';
+                yo_lowers=plimi{1}(2,:)';
+                yo_uppers=plimi{1}(2*nn-2,:)';
                 yo_means=plimi{1}(nn,:)';
                 
                 %remove linear trend (B*x)
@@ -571,9 +689,11 @@ for ii=1:npath
 %         fprintf(fido,'* angle of axis rotation (rad): %f +/- %f\n', out_params(5), out_sigs(5));
         fprintf(fido,'%s', out_tilt_str);
         fprintf(fido,'*\n');
+        fprintf(fido,'* velocity difference: %f \n', v_diff);
         fprintf(fido,'*%15s %15s %15s %15s %15s %15s %15s\n',  'dist_to_fault',      'prediction',      'horiz_pred','pred_lower','pred_upper','residual','raw');
         for i=1:size(xo,1)
-            fprintf(fido,' %15.6f %15.6f %15.6f %15.6f %15.6f %15.6f %15.6f\n',xo(i),yo(i),0,yo_lowers(i),yo_uppers(i),yo(i)-y1(i),y1(i));
+%             fprintf(fido,' %15.6f %15.6f %15.6f %15.6f %15.6f %15.6f %15.6f\n',xo(i),yo(i),0,yo_lowers(i),yo_uppers(i),yo(i)-y1(i),y1(i));
+            fprintf(fido,' %15.6f %15.6f %15.6f %15.6f %15.6f \n',xo(i),yo(i),0,yo_lowers(i),yo_uppers(i));
         end
         fclose(fido);
         
@@ -594,10 +714,11 @@ for ii=1:npath
 %         fprintf(fido,'* angle of axis rotation (rad): %f +/- %f\n', out_params(5), out_sigs(5));
         fprintf(fido,'%s', out_tilt_str);
         fprintf(fido,'*\n');
+        fprintf(fido,'* velocity difference: %f \n', v_diff);
         fprintf(fido,'*%15s %15s %15s %15s %15s\n',  'dist_to_fault',      'vLos_rotated',      'vLos_modeled','pred_lower','pred_upper');
-        for i=1:size(xor,1)
-            fprintf(fido,' %15.6f %15.6f %15.6f %15.6f %15.6f\n',xor(i),y1r(i),yor(i),yor_lowers(i),yor_uppers(i));
-        end
+%         for i=1:size(xor,1)
+%             fprintf(fido,' %15.6f %15.6f %15.6f %15.6f %15.6f\n',xor(i),y1r(i),yor(i),yor_lowers(i),yor_uppers(i));
+%         end
         fclose(fido);
         
         

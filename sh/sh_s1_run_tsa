@@ -131,6 +131,7 @@ dem_grid_file=${esa_data}/topo/srtm3/grid/china.grd
 
 nmax_intf=99999
 nmax_intf=800
+nmax_intf=1600
 
 
 if [ "$1" == "" ]; then
@@ -538,7 +539,7 @@ if [ "$proc_type" == "interseismic" ]; then
   \cp -fp intf.in intf.in.2
   shuf intf.in.2 > intf.in.2s
   #
-  sort intf.in.1 | grep $master_date | head -1 > intf.in.z
+  sort intf.in.0 | grep $master_date | head -1 > intf.in.z
   head -2000 intf.in.2s > intf.in.a
   cat intf.in.[1a] | shuf | grep -v "`head -1 intf.in.z`">> intf.in.z
   head -${nmax_intf} intf.in.z > intf.in

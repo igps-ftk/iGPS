@@ -44,39 +44,52 @@ PRO ON_IGPS_VEL_PROFILES_DP_IN_TYPE, EV
         'lon lat Ve Vn Se Sn Cen Site Vu']
     END
     6: BEGIN
+      input_fmt=85
+      t=['84: GMT psvelo with Up (*.psveloU)',  $
+        'read psvelo+up velocity field',  $
+        'lon lat Ve Vn Se Sn Cen Site Vu Su']
+    END
+    7: BEGIN
       input_fmt=101
       t=['101',  $
         '* Site   Longitude  Latitude   Ve   dVe    Vn   dVn   Cen      Vu  dVu  (mm/yr)',  $
         '1375_GPS  105.8150   33.3400  -0.47 0.80  -1.66 0.70 -0.043   0.00 9.00      ']
     END
-    7: BEGIN
+    8: BEGIN
       input_fmt=102
       t=['102: BEGIN',  $
         '   long      lat       Ve      dVe       Vn      dVn       Vu      dVn    Tau_h   Tau_v',  $
         '   86.000   26.000  10.5821   0.9956  22.6099   0.8203   0.0000   7.4123  54.0000  54.0000']
     END
-    8: BEGIN
+    9: BEGIN
       input_fmt=111
       t=['111: BEGIN',  $
         '   long      lat       Ve      dVe       Vn      dVn       Vu      dVn     Cen      Ceu      Cnu',  $
         '   87.650   39.400  -9.3569   0.4007  -3.4889   0.4172   0.7089   3.8793  -0.0002   0.0328   0.0066']
     END
-    9: BEGIN
+    10: BEGIN
       input_fmt=112
       t=['112: CMM4 Shen (*.cmm4)',  $
         ' site lat lon Ve dVe Vn dVn Cen n_epoch time_span epoch_avg [other]',  $
         'CHAF_GPS 34.3006 -119.3310 -29.13 0.36 28.23 0.32 0.020 5 8.6 1991.5 I034']
     END
-    10: BEGIN
+    11: BEGIN
       input_fmt=113
       t=['113: *.cmm4u',  $
         '0003_GPS  33.7504 -117.4563   2.36 7.49  0.022 -0.026    2  3.2 1994.1']
     END
-    11: BEGIN
+    12: BEGIN
       input_fmt=121
       t=['121: *.qmap',  $
         '*Station   Longitude   Latitude Ve_init Ve_incr    Ve     dVe   Vn_init Vn_incr    Vn     dVn   Cen',  $
         ' ARTU_GPS   58.5583   56.4278     0.0     0.0    24.9     0.0     0.0     0.0     6.1     0.0   0.0000   ']
+    END
+    13: BEGIN
+      input_fmt=131
+      t=['131: *.vel',  $
+        '*   Long.       Lat.         E & N Rate      E & N Adj.      E & N +-   RHO        H Rate   H adj.    +-  SITE',  $
+        '*  (deg)      (deg)           (mm/yr)       (mm/yr)       (mm/yr)                 (mm/yr)',  $
+        '   90.68400   27.18300     1.41   12.84    1.41   12.84    0.90    0.80 -0.120     -0.00   -0.00    3.00 ZHEM_GPS']
     END
   ENDCASE
   
@@ -121,15 +134,24 @@ END
 PRO ON_IGPS_RAD_PROFILE_SRC_USER_INPUT, EV
   id=WIDGET_INFO(ev.TOP,find_by_uname='BASE_PROFILE_SRC_USER')
   WIDGET_CONTROL, id, sensitive=1
-  id=WIDGET_INFO(ev.TOP,find_by_uname='BASE_3B')
-  WIDGET_CONTROL, id, sensitive=0
+  id=WIDGET_INFO(ev.TOP,find_by_uname='B_OPT_LENGTH')
+  WIDGET_CONTROL, id, sensitive=0 
+  id=WIDGET_INFO(ev.TOP,find_by_uname='B_OPT_WIDTH')
+  WIDGET_CONTROL, id, sensitive=0 
+  id=WIDGET_INFO(ev.TOP,find_by_uname='B_OPT_STRIKE')
+  WIDGET_CONTROL, id, sensitive=0 
+  help,id
 END
 
 PRO ON_IGPS_RAD_PROFILE_SRC_PROGRAM_AUTO, EV
   id=WIDGET_INFO(ev.TOP,find_by_uname='BASE_PROFILE_SRC_USER')
   WIDGET_CONTROL, id, sensitive=0
-  id=WIDGET_INFO(ev.TOP,find_by_uname='BASE_3B')
-  WIDGET_CONTROL, id, sensitive=1
+  id=WIDGET_INFO(ev.TOP,find_by_uname='B_OPT_LENGTH')
+  WIDGET_CONTROL, id, sensitive=1 
+  id=WIDGET_INFO(ev.TOP,find_by_uname='B_OPT_WIDTH')
+  WIDGET_CONTROL, id, sensitive=1 
+  id=WIDGET_INFO(ev.TOP,find_by_uname='B_OPT_STRIKE')
+  WIDGET_CONTROL, id, sensitive=1 
 END
 
 PRO ON_VEL_PROFILES_UI_BTN_OK,ev
@@ -258,7 +280,7 @@ PRO ON_VEL_PROFILES_UI_BTN_OK,ev
       opath, $
       ffile=file_fault,  $
       inputfmt=input_fmt , $
-      search_radius=5,  $
+      search_radius=txt_search_radius,  $
       LBl_ID=LBl_ID
       
       
@@ -357,12 +379,14 @@ PRO VEL_PROFILES_UI,group_leader=group_leader
     '(*.psvelo2)', $  ;82
     '(*.psvelo3)', $  ;83
     'psvelo+u (*.psvelou)', $ ;84
+    'psvelo+u+sig_u (*.psvelou)', $ ;85
     'psvelo2+u (*.psvelo2u)', $ ;101
     'llenu',  $ ;102
     'llenuc', $ ;103
     'CMM4 (*.cmm4)', $  ;112
     'CMM4 Up (*.cmm4u)', $  ;113
-    'QOCA Map (*.qmap)' ]
+    'QOCA Map (*.qmap)', $  ;121
+    'GAMIT/GLOBK Velocity (*.vel)' ] ;131 (13 columns)
   DP_IN_TYPE = WIDGET_DROPLIST( base_1 ,  $
     VALUE=VALUE,  $
     UNAME='DP_IN_TYPE', TITLE='(1) Input Velocity File:', $
@@ -435,20 +459,20 @@ PRO VEL_PROFILES_UI,group_leader=group_leader
   BASE_3b=WIDGET_BASE(BASE_3,FRAME=0,space=1,xpad=1,ypad=1,/row,/align_center,UNAME='BASE_3B') 
   BASE_PROFILE_SRC_PROG=WIDGET_BASE(BASE_3b,FRAME=0,space=1,xpad=1,ypad=1,/column,uname='BASE_PROFILE_SRC_PROG',sensitive=1)
   
-  base_profile_length=WIDGET_BASE(BASE_PROFILE_SRC_PROG,/row,frame=0,space=0,xpad=0,ypad=0,/ALIGN_right)
+  base_profile_length=WIDGET_BASE(uname='B_OPT_LENGTH',BASE_PROFILE_SRC_PROG,/row,frame=0,space=0,xpad=0,ypad=0,/ALIGN_right)
   lbl=WIDGET_LABEL(base_profile_length,value='Length of Profiles (in km):',/align_left)
   txt_profile_length=WIDGET_TEXT(base_profile_length,uname='txt_profile_length',value='200',/editable,/ALL_EVENTS,/ALIGN_CENTER,xsize=5)
   
   
-  base_profile_width=WIDGET_BASE(BASE_PROFILE_SRC_PROG,/row,frame=0,space=0,xpad=0,ypad=0,/ALIGN_right)
+  base_profile_width=WIDGET_BASE(uname='B_OPT_WIDTH',BASE_PROFILE_SRC_PROG,/row,frame=0,space=0,xpad=0,ypad=0,/ALIGN_right)
   lbl=WIDGET_LABEL(base_profile_width,value='Width of Profiles (in km):',/align_left)
   txt_profile_width=WIDGET_TEXT(base_profile_width,uname='txt_profile_width',value='50',/editable,/ALL_EVENTS,/ALIGN_CENTER,xsize=5)
  
-    base_search_radius=WIDGET_BASE(BASE_PROFILE_SRC_PROG,/row,frame=0,space=0,xpad=0,ypad=0,/ALIGN_right)
+    base_search_radius=WIDGET_BASE(uname='B_OPT_RADIUS',BASE_PROFILE_SRC_PROG,/row,frame=0,space=0,xpad=0,ypad=0,/ALIGN_right)
   lbl=WIDGET_LABEL(base_search_radius,value='Search Radius (in km):',/align_left)
   txt_search_radius=WIDGET_TEXT(base_search_radius,uname='txt_search_radius',value='100',/editable,/ALL_EVENTS,/ALIGN_CENTER,xsize=5)
   
-  BASE_PROFILE_STRIKE=WIDGET_BASE(BASE_3b,FRAME=0,space=0,xpad=0,ypad=0,/column,uname='BASE_PROFILE_SRC_PROG',sensitive=1)
+  BASE_PROFILE_STRIKE=WIDGET_BASE(uname='B_OPT_STRIKE',BASE_3b,FRAME=0,space=0,xpad=0,ypad=0,/column,sensitive=1)
   
   BASE_profile_rot=WIDGET_BASE(BASE_PROFILE_STRIKE,/EXCLUSIVE, $
     UNAME='BASE_profile_rot',SPACE=0,XPAD=0,YPAD=0,/column,FRAME=0, /align_center)

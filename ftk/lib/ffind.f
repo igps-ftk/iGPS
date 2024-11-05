@@ -15,13 +15,18 @@ c     temp file name
       integer*4 fidt,fid,ioerr
       character*512 bufcmd
 
+
+c      write(*,*) 'filter:',filter
+
       tfname='/tmp/tfile.tmp'  
       tfname='.tfile'
 
 c     list files to temp file
       if (incsub.eq.1) then
       bufcmd='find '//path(1:index(path,' '))
-     &     //' -name "'//filter(1:index(filter,' ')-1)
+c     &     //' -name "'//filter(1:index(filter,' ')-1)
+     &     //' -name "'//filter(1:nblen(filter))
+
      &     //'" |sort > '//tfname(1:index(tfname,' '))
       else
       bufcmd='find '//path(1:index(path,' '))
@@ -30,7 +35,7 @@ c     list files to temp file
      &     //'"  |sort> '//tfname(1:index(tfname,' '))
       endif
 
-c      write(*,'(A)') 'Output to temp file: ', bufcmd
+      write(*,'(A)') 'Output to temp file: ', bufcmd
       call system(bufcmd)
 
 c     read temp file

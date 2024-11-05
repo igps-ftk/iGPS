@@ -1,0 +1,74 @@
+#!/bin/bash
+
+# Name:
+#   sh_gnss_vel_2_gic3dv
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorithm:
+#   
+
+# Dependency:
+#   
+
+
+PROG=sh_gnss_vel_2_gic3dv
+
+file=resf.psvelo
+ofile=gnss_h.gic
+ofile2=gnss_v.gic
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -f|-file)
+      file=$2
+      ;;
+    -o|-ofile)
+      ofile=$2
+      ofile2="$2_u"
+      ;;
+    *)
+      echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid option ($1)!!"
+      echo "[$PROG]Usage: ${PROG} "
+      echo "[$PROG]Usage: e.g.,"
+      echo "[$PROG]Usage: ${PROG} "
+      exit 1
+      ;;
+  esac
+  shift 2  
+done
+
+
+if [ "$file" == "" ]; then
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: no input file!!"
+  exit 1
+fi
+
+#echo file $file
+#input format:
+#* SYSTEM 1 Velocities transformed to SYSTEM 2 
+#*   Long.       Lat.         E & N Rate      E & N Adj.      E & N +-   RHO        H Rate   H adj.    +-  SITE
+#*  (deg)      (deg)           (mm/yr)       (mm/yr)       (mm/yr)                 (mm/yr)
+#  174.07630   52.71460   -40.51    9.69  -40.51    9.69   53.25   40.85  0.154      0.17    0.17   49.40 AC60_GPS 
+#      1          3          3       4      5         6     7       8       9         10      11     12    13
+
+#35    format(a8,2f10.4,2(f7.2,f5.2),f7.3,f7.2,f5.2)
+
+if [ "$ofile" == "" ]; then
+  echo "* Site   Longitude  Latitude   Ve   dVe    Vn   dVn   Cen      Vu  dVu  (mm/yr)"
+  grep -h '^ ' $file | awk '{if($12<10){printf("%8s%10.4f%10.4f%7.2f%5.2f%7.2f%5.2f%7.3f%7.2f%5.2f\n",substr($13,1,8),$1,$2,$3,$7,$4,$8,$9,$10,$12)}else{printf("%8s%10.4f%10.4f%7.2f%5.2f%7.2f%5.2f%7.3f%7.2f%5.2f\n",substr($13,1,8),$1,$2,$3,$7,$4,$8,$9,0,9)}}'
+else
+  echo "* Site   Longitude  Latitude   Ve   dVe    Vn   dVn   Cen      Vu  dVu  (mm/yr)" > $ofile
+  grep -h '^ ' $file | awk '{if($12<10){printf("%8s%10.4f%10.4f%7.2f%5.2f%7.2f%5.2f%7.3f%7.2f%5.2f\n",substr($13,1,8),$1,$2,$3,$7,$4,$8,$9,$10,$12)}else{printf("%8s%10.4f%10.4f%7.2f%5.2f%7.2f%5.2f%7.3f%7.2f%5.2f\n",substr($13,1,8),$1,$2,$3,$7,$4,$8,$9,0,9)}}' >> $ofile
+fi
+
+\cp -fp $ofile $ofile2
+

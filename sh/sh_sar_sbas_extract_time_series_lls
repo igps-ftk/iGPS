@@ -127,4 +127,4 @@ while read sline; do
   
 done < $file
 
-#\rm -f _disp*_mask_ll.grd.lld*
+\rm -f _disp*_mask_ll.grd.lld*

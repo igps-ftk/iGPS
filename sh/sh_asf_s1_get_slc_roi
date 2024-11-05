@@ -152,12 +152,14 @@ if [ "$file_roi" == "" ]; then #DIPP defaults
       path=/g14i/esa.data/china_east/S1.3
       path=/g18h/gsar/tmp
       path=/g19b/gsar/tmp/
-      path=/g16f/gsar/tmp/
+      path=/g14g/gsar/tmp/
       ;;
     gpsac17)
       #orb_type='DESCENDING'
       file_roi=${esa_data}/vector/L0.roi_tibet.arv.kml
-      path=/g17b/gsar/asf_tibet/S1
+      file_roi=${esa_data}/vector/roi_china_20210216.kml
+      file_roi=${esa_data}/vector/L_.roi_china_east.psxy
+      path=/g17c/gsar/asf_tibet/S1
       #path=/g17b/gsar/asf_tibet/S1/
       ;;
     SNOW1)
@@ -168,7 +170,7 @@ if [ "$file_roi" == "" ]; then #DIPP defaults
       orb_type='DESCENDING'
       path=/g18h/gsar/tmp2/
       path=/g19b/gsar/tmp2/
-      path=/g16f/gsar/tmp2/
+      path=/g14g/gsar/tmp2/
       ;; 
     gpsac18)
       #orb_type='DESCENDING'
@@ -252,6 +254,6 @@ fi
 echo "sh_asf_s1_get_slc_py -file ${file_tmp_py} -path $path -ac $file_aria2_conf"
 echo "sh_asf_s1_get_slc_py -file ${file_tmp_py} -path $path -ac $file_aria2_conf" | sh
 
-\rm -f $file_lock
+\rm -f $file_lock $file_tmp_py
 
 echo "[$PROG]INFO: done."

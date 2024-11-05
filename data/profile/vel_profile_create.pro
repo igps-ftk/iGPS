@@ -165,13 +165,17 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
     ;    inputfmt=84
     ;    f2files=['C:\GMT_pub\vector\profile\fa_tianshen_daban.psxy','C:\GMT_pub\vector\profile\fa_longmuco_to_atf.psxy']
   
-;    vfile='D:\gsar\gic3dv\atf.d019\asc_des\insar_3d.psvelou.10w'
-;    fa='fa_kunlun_jss_revised'
+    vfile='D:\gsar\gic3dv\atf.d019\asc_des\insar_3d.psvelou.10w'
 ;    ;pfile='D:\gsar\gic3dv\g219\asc_des\profiles\p.fa_karakax_new2\profiles_auto.psxy'
 ;    ;    cmt='i3d'
+    inputfmt=84
+;    fa='fa_kunlun_jss_revised'
 ;    opath='D:\gsar\gic3dv\atf.d019\asc_des\profiles\p.fa_kunlun_jss_revised\'
-;    inputfmt=84
 ;    f2files=['C:\GMT_pub\vector\profile\fa_akms1.psxy','C:\GMT_pub\vector\profile\fa_atf.psxy']
+    fa='fa_kunlun_jss_revised3'
+    length_profile=900
+    opath='D:\gsar\gic3dv\atf.d019\asc_des\profiles\p.fa_kunlun_jss_revised3\'
+    f2files=['C:\GMT_pub\vector\profile\fa_heishibeihu_akms.psxy','C:\GMT_pub\vector\profile\fa_atf_ext_west.psxy']
     
     
 ;    vfile='D:\gsar\gic3dv\g219\asc_des\insar_3d.psvelo'
@@ -190,18 +194,18 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
 ;    opath='D:\gsar\gic3dv\g219\asc_des\profiles\p.fa_F12b\'
     
     
-    vfile='D:\gsar\gic3dv\yzs\asc_des\insar_los_2_3d_20240427.psvelo'
-    vfile='D:\gsar\gic3dv\yzs\asc_des\insar_los_2_3d_20240516_y2015-2019.psvelo'
-    ;pfile='D:\gsar\gic3dv\g219\asc_des\profiles\p.fa_karakax_new2\profiles_auto.psxy'
-    ;    cmt='i3d'
-    inputfmt=84
-    length_profile=600
-    fa='fa_yzs'
-;    length_profile=400
-;    fa='fa_pxr' 
-;    fa='fa_tyr'
-;    auto_strike=3
-    opath='D:\gsar\gic3dv\yzs\asc_des\profiles_y15-19\p.'+fa
+;    vfile='D:\gsar\gic3dv\yzs\asc_des\insar_los_2_3d_20240427.psvelo'
+;    vfile='D:\gsar\gic3dv\yzs\asc_des\insar_los_2_3d_20240516_y2015-2019.psvelo'
+;    ;pfile='D:\gsar\gic3dv\g219\asc_des\profiles\p.fa_karakax_new2\profiles_auto.psxy'
+;    ;    cmt='i3d'
+;    inputfmt=84
+;    length_profile=600
+;    fa='fa_yzs'
+;;    length_profile=400
+;;    fa='fa_pxr' 
+;;    fa='fa_tyr'
+;;    auto_strike=3
+;    opath='D:\gsar\gic3dv\yzs\asc_des\profiles_y15-19\p.'+fa
 
     is_fault_trace_downsample=0
     ;    auto_strike=3

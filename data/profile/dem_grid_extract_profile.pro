@@ -31,6 +31,10 @@ PRO DEM_GRID_EXTRACT_PROFILE, demfile,  $  ;DEM file (ENVI raw image format; wit
     pfile='D:\gsar\gic3dv\yzs\asc_des\profiles\p.fa_yzs\profiles_auto.psxy'
     opath='D:\gsar\gic3dv\yzs\asc_des\profiles\p.fa_yzs\dem'
     
+    ffile='C:\GMT_pub\vector\profile\fa_kunlun_jss_revised3.psxy'
+    pfile='D:\gsar\gic3dv\atf.d019\asc_des\profiles\p.fa_kunlun_jss_revised3\profiles_auto.psxy'
+    opath='D:\gsar\gic3dv\atf.d019\asc_des\profiles\p.fa_kunlun_jss_revised3\dem'
+    
     
   ENDIF
   

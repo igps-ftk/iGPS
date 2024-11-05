@@ -44,6 +44,8 @@ ${PROG}
     default: intf_all
   [-o|-opath OUTPUT_PATH]
     default: intf_all_roi
+  [-d|-dt|-detrend y|n]
+    default: y
   [-h|-help|--help]
 |e.g., in F1 (F2/F3)
   ${PROG} -file roi_lasa.kml -opath intf_all_lasa
@@ -65,7 +67,7 @@ types='corr_cut.grd unwrap_mask.grd'
 
 path=./intf_all/
 opath=./intf_all_roi/
-is_detrend=n
+is_detrend=y
 
 while [ "$1" != "" ]; do
   case $1 in
@@ -78,7 +80,7 @@ while [ "$1" != "" ]; do
     -o|-opath)
         opath=$2
         ;;
-    -d|-detrend)
+    -d|-dt|-detrend)
         is_detrend=$2
         ;;
     -h|-help|--help)
@@ -142,11 +144,19 @@ for file in $files; do
         echo gmt grdcut $file_in $pR -G${file_out}
         echo gmt grdcut $file_in $pR -G${file_out} | sh
       else
-        echo gmt grdcut $file_in $pR -G${file_tmp_grd}
-        echo gmt grdcut $file_in $pR -G${file_tmp_grd} | sh
-
-        echo gmt grdtrend ${file_tmp_grd} -N3r -D${file_out}
-        echo gmt grdtrend ${file_tmp_grd} -N3r -D${file_out} | sh
+        if [ "$type" = "unwrap_mask.grd" ]; then 
+        #if current file is unwarpped phase
+          #first, clip file
+          echo gmt grdcut $file_in $pR -G${file_tmp_grd}
+          echo gmt grdcut $file_in $pR -G${file_tmp_grd} | sh
+          #then, detrend it
+          echo gmt grdtrend ${file_tmp_grd} -N3r -D${file_out}
+          echo gmt grdtrend ${file_tmp_grd} -N3r -D${file_out} | sh
+        else
+          #if it is corrleation file, only clip it
+          echo gmt grdcut $file_in $pR -G${file_out}
+          echo gmt grdcut $file_in $pR -G${file_out} | sh
+        fi
 
         \rm -f ${file_tmp_grd}
       fi

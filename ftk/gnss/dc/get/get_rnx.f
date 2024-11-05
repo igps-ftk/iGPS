@@ -26,9 +26,9 @@ c     --Local Parameters--
       parameter(NMAX=5000)
       character*1023 dir,dir_cur,dir_remote,tmpstr,cmdstr,host,tmpstr2
       character*1023 gsac_dir,gsac_file,gsac_filez,url
-      character*1023 rstat_dir,rstat_file
+      character*1023 rstat_dir,rstat_file,rstat_file3
       character*10 archive
-      character*4 site,sites(NMAX),sitesref(NMAX),sitesarv(NMAX)
+      character*4 site,sites(NMAX),sitesref(NMAX),sitesarv(NMAX),siteU
       character*4 sitesGet(NMAX)
       integer*4 nsite,nsiteref,nsitearv,nsiteGet
       integer*4 ndaysofyr, yr,gpsw,gpsd
@@ -37,10 +37,12 @@ c     --Local Parameters--
 
       character*1023 files(NMAX),file,ptn,file_cmd,file_log,dir_log
       character*1023 file_remote,file_local,file_site,file_archive
-      character*1203 file2
+      character*1023 file2
+      character*1023 files_exi(10), filter_exi
+      integer*4 nf_exi
       integer*4 nf,fid,ioerr
 
-      logical exi,exi2
+      logical exi,exi2,exi3
       
       integer iargc
       integer*4 ndoyr,nblen
@@ -502,6 +504,7 @@ c     Get what sites in holding file?
 c     *********************************************************************
 c     if IGS YYDOY.status checking required, then
          rstat_file=''
+         rstat_file3=''
          if (rstat_dir.ne.'') then
 c     write(*,*) '#checking KASI/CDDIS YYDOY.status files ...'
             write(rstat_file,730) rstat_dir(1:nblen(rstat_dir)),
@@ -509,6 +512,11 @@ c     write(*,*) '#checking KASI/CDDIS YYDOY.status files ...'
      &           archive(1:nblen(archive)),year,yr,doy
  730        format(a,a1,a,"/",i4.4,"/",i2.2,i3.3,".status")
             write(*,*) 'rstat_file: ',rstat_file(1:nblen(rstat_file))
+            write(rstat_file3,732) rstat_dir(1:nblen(rstat_dir)),
+     &           path_sep(),
+     &           archive(1:nblen(archive)),year,yr,doy
+ 732        format(a,a1,a,"/",i4.4,"/",i2.2,i3.3,".status3")
+            write(*,*) 'rstat_file3: ',rstat_file3(1:nblen(rstat_file3))
          endif
             
 c     ///LOOP for SITE///
@@ -573,8 +581,19 @@ c            goto 800
             inquire(file=file, exist=exi)
             inquire(file=file2, exist=exi2)
 
+            siteU=site
+            call uppers(siteU)
+            write(filter_exi,733) siteU(1:4)
+ 733        format(a4,"*.crx.gz")
+            write(*,*) 'filter_exi:',filter_exi(1:nblen(filter_exi))
+            write(*,*) 'dir_cur:',dir_cur(1:nblen(dir_cur))
+
+            call ffind(dir_cur,files_exi,filter_exi,nf_exi,1) 
+            write(*,'(a,i10)') '#number of exising file:s',nf_exi
+c            stop
+
             write(*,*) 'EX:',exi,exi2
-            if (exi) then
+            if (exi.or.nf_exi.gt.0) then
                write(*,*) '#already exist: '//
      &              file(1:nblen(file))
                goto 801
@@ -606,15 +625,25 @@ c               write(*,*) 'gsac checked__'
             
 c     check for KASI/CDDIS YYDOY.status holding files
             if (nblen(rstat_file).gt.0) then
-               write(*,*) 'checking holding for ',year,doy
+               write(*,*) 'checking rinex v2 files for ',year,doy
                write(*,*) 'rstat_file:',rstat_file(1:nblen(rstat_file))
                call query_rnx_status(rstat_file,site,url)
                write(*,*) 'url:',url(1:nblen(url))
                if (url.eq.'') then
+c check rinex 3 files               
+               write(*,*) 'checking rinex v3 files for ',year,doy
+               write(*,*) 'rstat_file3:',
+     +               rstat_file3(1:nblen(rstat_file3))
+c               siteU=site
+c               call uppers(siteU)
+               call query_rnx_status(rstat_file3,siteU,url)
+               write(*,*) 'url:',url(1:nblen(url))
+                  if (url.eq.'') then
 c                  write(*,'(5a)') '#[]',site(1:nblen(site)),
 c     &                 ' not available on ',
 c     &                 archive(1:nblen(archive)),'.'
-                  goto 801
+                    goto 801
+                  endif
                endif
 c               write(*,*) 'gsac checked__'
             endif
@@ -739,6 +768,8 @@ c     stop
          if (ftp_prog(1:nblen(ftp_prog)).ne.'wget') then
             write(fid,*) 'quit'
             close(fid)
+         write(*,*) 'file_cmd:',file_cmd(1:nblen(file_cmd))
+c         stop
 
 c     download the file
             if (nf.ge.1) then

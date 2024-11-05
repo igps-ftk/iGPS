@@ -24,23 +24,7 @@ PRO LLHXYZ2NET, $
   IF N_PARAMS() LT 2 THEN BEGIN
     ;FILE=DIALOG_PICKFILE(TITLE='Input iGPS LLHXYZ *.llhxyz file?', $
     ;  FILTER=[['*.llhxyz','*'],['iGPS LLHXYZ File (*.llhxyz)','iGPS LLHXYZ File (*)']])
-    file='D:\phd\expt\gpsf\cgps\conf\cmonoc_reg.llhxyz'
-    file='Z:\home\tianyf\gpse\rerun.cmonoc\solut\gmf\xian\lfile.cmo3'
-    file='D:\phd\expt\gpsf\cgps\conf\sio.cmonoc.bjgps.llhxyz'
-    file='D:\phd\expt\gpsf\cgps\conf\cmonoc\cmonoc_jb.llhxyz'
-    file='E:\gpse\eq.NewZealand.20100904.Mw7.2\map\nzg.llhxyz'
-    file='E:\gpse\rerun.nepal\solut\gmf2.mht2\wuhn.llhxyz'
-    file='D:\phd\expt\gpsf\external\iGPS\tables\nzg.llhxyz'
-    file='E:\load\predicted\forGlobal\drv\gridp_2.5.llhxyz'
-    file='E:\Papers.data\Paper.SpatialFltering\pbo\gage_gps.igs08.llhxyz'
-    file='E:\Papers.data\Paper.SpatialFltering\pbo\pbo.final_igs08.llhxyz'
-    file='D:\tmp\lgn.llhxyz'
-    file='D:\tmp\lasa\pos2.llhxyz'
-    file='C:\mirror_ftp\everest.mit.edu\pub\TimeSeries\mit.llhxyz'
-    file='\\gpsac4\tianyf\gpse\rerun.lutai\comb\trnsLTCM2\gsoln\pos.llhxyz'
-    file='D:\tmp\tst1\icds\icd.llhxyz'  
-    file='C:\Downloads\pbo\pbo.llhxyz'  
-    file='D:\jiang\2018.10.21.gps.tibet.site\ICD.Continuous.GNSS.Tibet.2018..llhxyz'
+    file='D:\gpse\trns\comb\trns23\gsoln\ninh.llhxyz'
     
     IF FILE EQ '' THEN RETURN
     CD,GETPATHNAME(FILE)

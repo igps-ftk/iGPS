@@ -71,7 +71,7 @@ while [ "$1" != "" ]; do
        -f|-full)
             is_out_full=$2
             ;;
-        -h|-help|--help)
+       -h|-help|--help)
             usage_of_it
             exit 1
             ;;

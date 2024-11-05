@@ -99,6 +99,7 @@ for file_need in $files_need; do
   
   #echo scp $file  vmshare:/cloud1/ESA/S1/lys/
   #echo scp $file  vmshare:/cloud1/ESA/S1/lys/ | sh
-  echo ln -s $file ${opath}/
-  echo ln -s $file ${opath}/ | sh
+  echo ln -s $file_slc ${opath}/
+  echo ln -s $file_slc ${opath}/ | sh
+  #exit
 done

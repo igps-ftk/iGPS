@@ -1,7 +1,7 @@
 *  PROG: WRITE_VEL_PROFILE
 *RUN BY: tianyf @ T [Intel64 Family 6 Model 61 Stepping 4, GenuineIntel]
 *RUN AT: Microsoft Windows x86_64
-*RUN ON: Wed Jan 03 06:59:09 2024 [UTC]
+*RUN ON: Fri Aug 02 07:15:12 2024 [UTC]
 *   SRC: D:\iGPS\example\profile\wang.min.jgr2020.Table.S4.psvelo
 *   SRC: D:\iGPS\example\profile\fa_redriver.psxy
 *   SRC: D:\iGPS\example\profile\p_auto\profiles_auto.psxy
@@ -53,6 +53,6 @@
 * 24StrkDif        : angle of strikes of two faults (degree)
 *
 *   01site   02pLon  03pLat 04pDist   05VNor 06VeNor   07VPar 08VePar    09VUp  10VeUp    11lon   12lat  13distFa   14VLOS 15VeLOS     16VE     17VN   18VEe   19VNe   20CEN   21CEU  22CNU
-  HB11_GPS  104.430  22.152   63.80     1.56    0.46     6.48    0.44  -999.99    0.00   103.97   22.53     2.336  -999.99    0.00     6.00    -2.90    0.50    0.40    0.00    0.00  0.000
-  F081_GPS  104.955  22.793   93.69     2.73    0.56     6.17    0.55  -999.99    0.00   104.27   23.35    91.872  -999.99    0.00     6.50    -1.80    0.60    0.50    0.00    0.00  0.000
-  F361_GPS  104.980  22.823   21.39     2.70    0.56     6.45    0.54  -999.99    0.00   104.82   22.95    96.067  -999.99    0.00     6.70    -2.00    0.60    0.50    0.00    0.00  0.000
+  HB11_GPS  104.430  22.152  -63.80     1.56    0.46     6.48    0.44  -999.99    0.00   103.97   22.53     2.336  -999.99    0.00     6.00    -2.90    0.50    0.40   -0.01    0.00  0.000
+  F081_GPS  104.955  22.793  -93.69     2.73    0.56     6.17    0.55  -999.99    0.00   104.27   23.35    91.872  -999.99    0.00     6.50    -1.80    0.60    0.50    0.01    0.00  0.000
+  F361_GPS  104.980  22.823  -21.39     2.70    0.56     6.45    0.54  -999.99    0.00   104.82   22.95    96.067  -999.99    0.00     6.70    -2.00    0.60    0.50    0.01    0.00  0.000

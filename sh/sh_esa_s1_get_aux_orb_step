@@ -92,6 +92,8 @@ orb_typ=poe
 
 date_time=
 
+S1_SAT=S1A # A, or B
+
 
 while [ "$1" != "" ]; do
   case $1 in
@@ -106,6 +108,12 @@ while [ "$1" != "" ]; do
       ;;
     -o|-orb|-orbit)
       orb_typ=$2
+      ;;
+    -d|-date|-dt|-date_time|-t|-time)
+      date_time=$2
+      ;;
+    -S1)
+      S1_SAT=$2
       ;;
     -h|-help|--help)
       usage_of_it
@@ -154,16 +162,44 @@ date >> $file_lock
 
 ORB_TYP=`echo $orb_typ | awk '{print toupper($1)}'`
 
+
 #time1=`date -u +%FT%T -d last-month`
 time1=`date -u +%FT%T -d "today -${back_ndays} days"`
 time2=`date -u +%FT%T`
 
 if [ "$date_time" != "" ]; then
-  #convert YYYYMMDD to YYYY-MM-DD
-  date_time=`echo $date_time | awk '{if(length($1)==8){print substr($1,1,4)"-"substr($1,5,2)"-"substr($1,7,2)}else{print $1}}'`
-  time1=`date -u +%FT%T -d "${date_time}T00:00:00 +24"`
-  time2=`date -u +%FT%T -d "${date_time}T23:59:59 -24"`
+  len_date_time=`echo $date_time | awk '{print length($1)}'`
+  if [ $len_date_time -eq 8 ]; then #YYYYMMDD
+    #convert YYYYMMDD to YYYY-MM-DD
+    date_time=`echo $date_time | awk '{if(length($1)==8){print substr($1,1,4)"-"substr($1,5,2)"-"substr($1,7,2)}else{print $1}}'`
+    #time1=`date -u +%FT%T -d "${date_time}T00:00:00 +24"`
+    #time2=`date -u +%FT%T -d "${date_time}T23:59:59 -24"`
+  elif [ $len_date_time -eq 10 ]; then
+    #time1=`date -u +%FT%T -d "${date_time}T00:00:00 +24"`
+    time2=`date -u +%FT%T -d "${date_time}T23:59:59 -24"`
+  else
+    time1=`date -u +%FT%T -d "${date_time} +24"`
+    #time2=`date -u +%FT%T -d "${date_time} -24"`
+  fi
+  second_target=`date -d "${date_time}" -u +%s`
+  echo date_time $date_time
+  echo second_target $second_target
+  #echo time1 $time1
+  #echo time2 $time2
+  #exit
+  
+  month=`echo $date_time | awk -F\- '{print $2}'`
+  year=`echo $date_time | awk -F\- '{print $1}'`
 fi
+
+month=`echo $month | awk '{printf("%02d",$1)}'`
+month_previous=`echo $month | awk '{printf("%02d",$1-1)}'`
+year_previous=$year
+if [ $month_previous -le 0 ]; then
+  month_previous=12
+  year_previous=`expr $year - 1`
+fi
+
 
 ##create output directory
 #year1=`echo $time1 | awk '{print substr($1,1,4)}'`
@@ -192,18 +228,43 @@ fi
 \rm -f ${path}/index.list
   echo "[$PROG]INFO: updating ESA directory listing ..."
   echo "[$PROG]INFO:   https://step.esa.int/auxdata/orbits/Sentinel-1/"
-  curl https://step.esa.int/auxdata/orbits/Sentinel-1/${ORB_TYP}ORB/S1A/${year}/${month}/ > ${path}/index.html.txt
+  echo "[$PROG]INFO:  querying https://step.esa.int/auxdata/orbits/Sentinel-1/${ORB_TYP}ORB/${S1_SAT}/${year}/${month}/"
+  curl https://step.esa.int/auxdata/orbits/Sentinel-1/${ORB_TYP}ORB/${S1_SAT}/${year}/${month}/ > ${path}/index.html.txt
   cat ${path}/index.html.txt |grep EOF | awk -F\" '{print $2}' | grep '^S1'  >> ${path}/index.list
   curl https://step.esa.int/auxdata/orbits/Sentinel-1/${ORB_TYP}ORB/S1B/${year}/${month}/ > ${path}/index.html.txt
   cat ${path}/index.html.txt |grep EOF | awk -F\" '{print $2}' | grep '^S1'  >> ${path}/index.list
   
+  if [ "$orb_typ" = "poe" ]; then
+    echo "[$PROG]INFO:  querying https://step.esa.int/auxdata/orbits/Sentinel-1/${ORB_TYP}ORB/${S1_SAT}/${year_previous}/${month_previous}/"
+    curl https://step.esa.int/auxdata/orbits/Sentinel-1/${ORB_TYP}ORB/${S1_SAT}/${year_previous}/${month_previous}/ > ${path}/index.html.txt
+    cat ${path}/index.html.txt |grep EOF | awk -F\" '{print $2}' | grep '^S1'  >> ${path}/index.list
+    curl https://step.esa.int/auxdata/orbits/Sentinel-1/${ORB_TYP}ORB/S1B/${year_previous}/${month_previous}/ > ${path}/index.html.txt
+    cat ${path}/index.html.txt |grep EOF | awk -F\" '{print $2}' | grep '^S1'  >> ${path}/index.list
+  fi
+  
 while read file; do
   echo file $file
-  ofile=`echo $file | sed -e 's/.zip//g'`
+  ofile=`echo $file | sed -e 's/.zip$//g'`
   
-  #S1A_OPER_AUX_RESORB_OPOD_20230116T061712_V20230116T021424_20230116T053154.EOF
+  if [ "$date_time" != "" ]; then
+    str_t1=`echo $file | awk -F_ '{print substr($7,2,8),substr($7,11,2)":"substr($7,13,2)":"substr($7,15,2)}'`
+    str_t2=`echo $file | awk -F_ '{print substr($8,1,8),substr($8,10,2)":"substr($8,12,2)":"substr($8,14,2)}'`
+    echo str_t1 $str_t1 str_t2 $str_t2
+    second_t1=`date -d "$str_t1" -u +%s`
+    second_t2=`date -d "$str_t2" -u +%s`
+    echo second_t1 $second_t1 second_t2 $second_t2
+    is_in=`echo $second_t1 $second_target $second_t2 | awk '{if($1<=$2&&$2<=$3){print 1}else{print 0}}'`
+    echo is_in $is_in
+    if [ $is_in -ne 1 ]; then
+      continue
+    fi
+  fi
+  #exit
+  
+  #${S1_SAT}_OPER_AUX_RESORB_OPOD_20230116T061712_V20230116T021424_20230116T053154.EOF
   year1=`echo $file | awk -F_ '{print substr($7,2,4)}'`
   year2=`echo $file | awk -F_ '{print substr($8,1,4)}'`
+  month1=`echo $file | awk -F_ '{print substr($7,6,2)}'`
   
   opath1=$esa_data/aux_${orb_typ}orb/$year1
   opath2=$esa_data/aux_${orb_typ}orb/$year2
@@ -224,9 +285,12 @@ while read file; do
   cd $opath2
   pwd
   if [ ! -s $opath2/$ofile ]; then
-    echo "wget -c https://step.esa.int/auxdata/orbits/Sentinel-1/${ORB_TYP}ORB/S1A/${year}/${month}/${file}"
-    echo "wget -c https://step.esa.int/auxdata/orbits/Sentinel-1/${ORB_TYP}ORB/S1A/${year}/${month}/${file}" | sh
+    echo "wget -c https://step.esa.int/auxdata/orbits/Sentinel-1/${ORB_TYP}ORB/${S1_SAT}/${year1}/${month1}/${file}"
+    echo "wget -c https://step.esa.int/auxdata/orbits/Sentinel-1/${ORB_TYP}ORB/${S1_SAT}/${year1}/${month1}/${file}" | sh
     unzip -o $file
+    if [ -s $ofile ]; then
+      \rm -f $file
+    fi
   fi
   #exit
   if [ "$year1" != "$year2" ]; then

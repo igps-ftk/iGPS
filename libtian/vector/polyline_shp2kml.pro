@@ -6,6 +6,7 @@ PRO POLYLINE_SHP2KML, FILE, OFILE
   ;!!Note: make sure that the input file is using the correct projection (usually geographic: wgs84).
 ;  file='C:\Downloads\esa.data\vector\outline_ascending.shp'
 ;file='C:\Downloads\ZY02C_PMS_E98.7_N31.2_20181014_L1C0004133420\qqq.shp'
+;file='D:\tmp\Fiia.Nurminen.2022\SURE2.0_Ruptures\18720326_OwensValley_SURE2.0_ruptures.shp'
 ;  ofile=desuffix(file)+'.kml'
   
   IF N_ELEMENTS(FILE) EQ 0 THEN BEGIN
@@ -74,7 +75,7 @@ PRO POLYLINE_SHP2KML, FILE, OFILE
         ;PRINTF,lun,(*((*pents)[i].VERTICES))[*,(*((*pents)[i].parts))[j]:*],format='(f,",",f,",6000")'
         tmpstr=STRING((*((*pents)[i].VERTICES))[*,(*((*pents)[i].parts))[j]:*],format='(f20.13,",",f20.13)')
         tmpstr1=tmpstr
-        FOR tsi=0,N_ELEMENTS(tmpstr)-1 DO BEGIN
+        FOR tsi=0ull,N_ELEMENTS(tmpstr)-1 DO BEGIN
           tmpstr1i=STRJOIN(STRSPLIT(tmpstr[tsi],/extract))
           tmpstr1[tsi]=tmpstr1i
         ENDFOR
@@ -85,7 +86,7 @@ PRO POLYLINE_SHP2KML, FILE, OFILE
         ;PRINTF,lun,(*((*pents)[i].VERTICES))[*,(*((*pents)[i].parts))[j]:(*((*pents)[i].parts))[j+1]-1],format='(f,",",f)'
         tmpstr=STRING((*((*pents)[i].VERTICES))[*,(*((*pents)[i].parts))[j]:(*((*pents)[i].parts))[j+1]-1],format='(f,",",f)')
         tmpstr1=tmpstr
-        FOR tsi=0,N_ELEMENTS(tmpstr)-1 DO BEGIN
+        FOR tsi=0ull,N_ELEMENTS(tmpstr)-1 DO BEGIN
           tmpstr1i=STRJOIN(STRSPLIT(tmpstr[tsi],/extract))
           tmpstr1[tsi]=tmpstr1i
         ENDFOR

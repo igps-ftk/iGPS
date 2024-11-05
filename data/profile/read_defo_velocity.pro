@@ -41,7 +41,13 @@ PRO READ_DEFO_VELOCITY, file,   $
   ;inputfmt=121
   ;* Station Longitude  Latitude    Ve_init    Ve_incr         Ve        dVe    Vn_init    Vn_incr         Vn        dVn      Cen
   ; 1375_GPS  105.8150   33.3400      7.300      7.772     -0.472      0.800     -1.800     -0.142     -1.658      0.700  -0.0430
-    
+  ;inputfmt=131
+  ;*   Long.       Lat.         E & N Rate      E & N Adj.      E & N +-   RHO        H Rate   H adj.    +-  SITE
+  ;*  (deg)      (deg)           (mm/yr)       (mm/yr)       (mm/yr)                 (mm/yr)
+  ;   92.78000   26.61800     1.46   15.57    1.46   15.57    0.20    0.30  0.031      0.00    0.00    3.00 TZPR_GPS 
+  ;   90.68400   27.18300     1.41   12.84    1.41   12.84    0.90    0.80 -0.120     -0.00   -0.00    3.00 ZHEM_GPS 
+     
+  
   ;output data array (data)
   ;   0  1   2   3  4   5  6   7  8    9  10  11   12
   ;[ lon lat Ve dVe Vn dVn Vu dVu Cen Ceu Cnu Los dLos ]
@@ -58,6 +64,9 @@ PRO READ_DEFO_VELOCITY, file,   $
     file='D:\gsar\gic3dv\kunlun\asc_des\gps_prd'
     file='D:\gsar\gic3dv\kunlun\asc_des\gic3dv.out'
     file='D:\gsar\gic3dv\tianshan\asc_des\insar_los_2_3d.psvelou'
+    
+    file='D:\tmp\FICORO_GNSS-main\FICORO_GNSS-main\results\rotation_steps\wang_shen_2020\ninh_wang_zhangling.vel'
+    inputfmt=131
     
   ;inputfmt=121
   ENDIF
@@ -257,6 +266,17 @@ PRO READ_DEFO_VELOCITY, file,   $
       data[[2,4,6,11],*]=!values.d_nan
       data[[0,1,2,3,4,5,6,8],*]=double(lines_p[[0,1,2,4,3,5,8,6],*])
     END
+    85: BEGIN  ;
+      ;read psvelo+up velocity field
+      ;lon lat Ve Vn Se Sn Cen Site Vu Su
+      READ_cols_ascii, file,   $
+        data=lines_p
+      NSIT=N_ELEMENTS(lines_p[0,*])
+        sites=reform(lines_p[7,*])        
+      data=DBLARR(13, nsit)
+      data[[2,4,6,11],*]=!values.d_nan
+      data[[0,1,2,3,4,5,6,7,8],*]=double(lines_p[[0,1,2,4,3,5,8,9,6],*])
+    END
     102: BEGIN
       ;   long      lat       Ve      dVe       Vn      dVn       Vu      dVn    Tau_h   Tau_v
       ;   86.000   26.000  10.5821   0.9956  22.6099   0.8203   0.0000   7.4123  54.0000  54.0000
@@ -309,6 +329,21 @@ PRO READ_DEFO_VELOCITY, file,   $
       data=DBLARR(13, nsit)
       data[[2,4,6,11],*]=!values.d_nan
       data[[0,1,2,3,4,5,8],*]=vels
+    END
+    131: BEGIN  ;
+      ;read gamit/globk velocity field
+      ;*   Long.       Lat.         E & N Rate      E & N Adj.      E & N +-   RHO        H Rate   H adj.    +-  SITE
+      ;*  (deg)      (deg)           (mm/yr)       (mm/yr)       (mm/yr)                 (mm/yr)
+      ;   92.78000   26.61800     1.46   15.57    1.46   15.57    0.20    0.30  0.031      0.00    0.00    3.00 TZPR_GPS 
+        READ_GNSS_GAMIT_GLOBK_VEL, file,   $
+        sites=sites,  $
+        lls=lls,  $
+        vels=vels,  $
+        nsit=nsit
+      data=DBLARR(13, nsit)
+      data[[2,4,6,11],*]=!values.d_nan
+      data[0:1,*]=lls
+      data[2:8,*]=vels[0:6,*]
     END
     ELSE: BEGIN
       PRINT,'['+prog+']ERROR: invalid input velocity format!!'

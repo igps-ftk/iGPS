@@ -9,6 +9,7 @@ PRO VEL_PROFILE_FIT, pfile, ofile
       
     pfiles='D:\Papers\kunlun\figure\gps.profile\pg.klf.zhang.pz03\profile_002_vel.psxy'
     pfiles='D:\gsar\interseismic\070-a-m6-0100_0105_0110_0115_0120_0125-eastkunlun5M3\f123\asc_des\sbas.4.0.0367.9999.20150808.20210520.147.1355.01.___\p.fa_kunlun_Fault_gic3dv_out_horizontal\profile_025_vel.psxy'
+    pfiles='D:\Papers\jiali\figure\profiles.gps.comb_ref_kunlun\pg.fa_jiali\profile_055_vel.psxy'
     
     nf=N_ELEMENTS(pfiles)
     FOR fi=0, nf-1 DO BEGIN
@@ -37,7 +38,7 @@ PRO VEL_PROFILE_FIT, pfile, ofile
   
   
   distmax=200 ;in km
-  distmin=-170
+  distmin=-250
   ;distmin=-90
   
   
@@ -127,6 +128,7 @@ PRO VEL_PROFILE_FIT, pfile, ofile
     fts=0,  $ ;fault trace shifts
     ;fs=fss,  $  ;far-field fault slip rates
     ;ld=[-1d-6,1d-6], $ ;fault locking depths
+    ld=[0d0,1d-6], $
     xms_all=yms_all,  $
     ;
     ;outputs

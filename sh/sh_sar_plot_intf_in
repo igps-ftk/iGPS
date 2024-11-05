@@ -18,6 +18,9 @@
 
 # Dependency:
 #   
+
+PROG=sh_sar_plot_intf_in
+
 gmtset PS_MEDIA = a4
 gmtset FONT_TITLE = 12p
 gmtset FONT_LABEL         = 8p
@@ -40,18 +43,34 @@ fi
 #file intf.tab
 
 
-if [ "$1" = "-h" ]; then
-    echo "Usage: sh_envisat_link_raw [intf.in/align.in]"
-    exit 1
-fi
-
 file=intf.in
-if [ "$1" != "" ]; then
-    file=$1
-fi
-
-
 ofile=f-baseline-time.ps
+is_lbl=n
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -f|-in|-file)
+      file=$2
+      ;;
+    -h|help)
+      echo "Usage: $PROG  [ -out OUTPUT_FILE_BASE_NAME ] [-l|-label y/n] "
+      exit 1
+      ;;
+    -o|-out|-ofile)
+      ofile=$2
+      ;;
+    -l|-label)
+      is_lbl=$2
+      ;;
+    *)
+      echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid option ($1)!!"
+      exit 1
+      ;;
+  esac
+
+  shift 2
+done
+
 
 #read baseline_table.dat file
 ids=`cat baseline_table.dat | awk '{print $1}'`
@@ -103,17 +122,20 @@ psxy $R -JX5i/4i -Sc.1c -Gyellow -W.35p,red -B1f.5:"Time":/200f100:"Distance (m)
 psxy -R -J -W0.2p,purple,- -O -K .tmp_  >> $ofile
 
 
-rm -rf .tmp_2
-while read line; do
-  id=`echo $line | awk '{print $1}'`
-  year=`echo $line | awk '{print substr($2,1,4)}'`
-  doyr=`echo $line | awk '{print substr($2,5,3)}'`
-  blen=`echo $line | awk '{print $5}'`
-  dyr=`doy $year $doyr | tail -1 | awk '{print $3}'`
-  echo "$dyr $blen $id" >> .tmp_2
-done < baseline_table.dat
-#
-pstext -R -J -F+f5p+a0+j1 -O -K .tmp_2 >> $ofile
+#add text label to observations
+if [ "$is_lbl" == "y" ]; then
+  rm -rf .tmp_2
+  while read line; do
+    id=`echo $line | awk '{print $1}'`
+    year=`echo $line | awk '{print substr($2,1,4)}'`
+    doyr=`echo $line | awk '{print substr($2,5,3)}'`
+    blen=`echo $line | awk '{print $5}'`
+    dyr=`doy $year $doyr | tail -1 | awk '{print $3}'`
+    echo "$dyr $blen $id" >> .tmp_2
+  done < baseline_table.dat
+  #
+  gmt pstext -R -J -F+f5p+a0+j1 -O -K .tmp_2 >> $ofile
+fi
 
 psxy -R -J -O <<eof -W1p,red,- >> $ofile
 >
