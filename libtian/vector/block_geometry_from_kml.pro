@@ -5,15 +5,14 @@ PRO BLOCK_GEOMETRY_FROM_KML, file,  $
   bcs=pc_xys
   
   IF N_ELEMENTS(file) EQ 0 THEN BEGIN
-    file='D:\gpse\eq.sc08\block\defnode\jiali20240223\vector2\block_fault_model.txt'
-    file='D:\gpse\eq.sc08\block\defnode\g219\vector\blocks_western_tibet.psxy'
+    file='D:\gpse\eq.sc08\block\defnode\jiali_20241202\model\block_fault_model.txt
   ENDIF
   
   if n_elements(dist_max) eq 0 then dist_max=5d3
   
   ext=getfilesuffix(file)
   ofile=desuffix(file)+'_corrected.'+ext
-  ;ofile_bc=file+'.center'
+  ofile_bc=file+'.center'
   
   READ_PSXY,   $
     file,   $ ;input file
@@ -60,7 +59,7 @@ PRO BLOCK_GEOMETRY_FROM_KML, file,  $
   ;STOP
   
   ;secondly, connect boundary vertices to fault
-;  pc_xys=DBLARR(2,count)
+  pc_xys=DBLARR(2,count)
   FOR i=0,count-1 DO BEGIN
     name=names[i]
     poly_type=STRMID(name,3,2)
@@ -89,7 +88,7 @@ PRO BLOCK_GEOMETRY_FROM_KML, file,  $
     ENDFOR
     
     pi_xys=(*opxys[i])
-    ;pc_xys[*,i]=POLYGON_CENTER(pi_xys)
+    pc_xys[*,i]=POLYGON_CENTER(pi_xys)
     
   ;stop
   ENDFOR
@@ -104,15 +103,15 @@ PRO BLOCK_GEOMETRY_FROM_KML, file,  $
   ENDFOR
   FREE_LUN,fid
   
-;  OPENW,fid,ofile_bc,/get_lun
-;  FOR i=0, count-1 DO BEGIN
-;    name=names[i]
-;    poly_type=STRMID(name,3,2)
-;    IF poly_type EQ 'fa' THEN CONTINUE ;only move boundary vertices (ba_)
-;    PRINTF,fid,STRMID(names[i],6,4),format='("> -L",a)'
-;    PRINTF,fid,pc_xys[*,i],format='(2(1x,f))'
-;  ENDFOR
-;  FREE_LUN,fid
+  OPENW,fid,ofile_bc,/get_lun
+  FOR i=0, count-1 DO BEGIN
+    name=names[i]
+    poly_type=STRMID(name,3,2)
+    IF poly_type EQ 'fa' THEN CONTINUE ;only move boundary vertices (ba_)
+    PRINTF,fid,STRMID(names[i],6,4),format='("> -L",a)'
+    PRINTF,fid,pc_xys[*,i],format='(2(1x,f))'
+  ENDFOR
+  FREE_LUN,fid
   
   FOR i=0,count-1 DO PTR_FREE,regions[i]
   

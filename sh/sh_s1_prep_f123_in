@@ -98,6 +98,10 @@ echo "[$PROG]INFO: searching for interferograms, please wait ..."
 
 S1_ID=`head -1 baseline_table.dat | awk '{print substr($1,1,3)}'`
 echo " [$PROG]INFO: S1_ID $S1_ID" > $file_log
+
+master_date=`head -1 baseline_table.dat | awk '{print substr($2,1,7)}'`
+echo "[$PROG]INFO: master_date $master_date" 
+
 #exit
 
 ntot=`cat $file_intf_in | wc -l`
@@ -181,7 +185,13 @@ done < $file_intf_in
 echo 1 | awk '{printf("\n")}'
 
 if [ "$file_log" == "log1" ]; then
-  grep -v '^ ' -a $file_log > $ofile
+  tmp=`grep -v '^ ' -a $file_log | grep "intf_all\/${master_date}"`
+  echo "tmp $tmp"
+  if [ "$tmp" = "" ]; then
+    echo "[$PROG]WARNING: NO master interferogram found! Subswatch may be misalinged."
+ fi 
+  grep -v '^ ' -a $file_log | grep "intf_all\/$master_date" > $ofile
+  grep -v '^ ' -a $file_log | grep "intf_all\/$master_date" -v >> $ofile
 else
   grep -v '^ ' -a $file_log | shuf > $ofile
 fi

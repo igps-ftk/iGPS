@@ -873,9 +873,10 @@ eob
     #grep _FAULT_PROFILE_INTERSECT $file | awk '{print $3,$4}' > .tmp
     x_fa_pf=`grep ' PSXY_FAULT_PROFILE_INTERSECT' $file | awk '{print $3}' `
     y_fa_pf=`grep ' PSXY_FAULT_PROFILE_INTERSECT' $file | awk '{print $4}' `
-    gmt psxy -R -J -O <<eob -Sd.3c -W1p,white -Gred -K >> $ofile
-    $x_fa_pf $y_fa_pf
-eob
+    grep ' PSXY_FAULT_PROFILE_INTERSECT' $file | awk '{print $3,$4}' |gmt psxy -R -J -O  -Sd.3c -W1p,white -Gred -K >> $ofile
+#    gmt psxy -R -J -O <<eob -Sd.3c -W1p,white -Gred -K >> $ofile
+#    $x_fa_pf $y_fa_pf
+#eob
 
     #plot fault trace
     grep ' PSXY_FAULT_TRACE' $file | awk '{print $3,$4}' > .tmp

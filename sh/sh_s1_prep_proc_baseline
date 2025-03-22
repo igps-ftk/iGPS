@@ -93,10 +93,10 @@ if [ ! -s $file ]; then
 fi
 echo $file
 #exit
-ids=`cat $file | awk '{print $1}'`
-doyrs=`cat $file | awk '{print $3}'`
-dists=`cat $file | awk '{print $5}'`
-nday=`cat $file | wc -l`
+ids=`cat $file | sort | awk '{print $1}'`
+doyrs=`cat $file | sort | awk '{print $3}'`
+dists=`cat $file | sort | awk '{print $5}'`
+nday=`cat $file | sort | wc -l`
 
 #echo here
 

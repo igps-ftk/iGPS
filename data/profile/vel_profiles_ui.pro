@@ -381,7 +381,7 @@ PRO VEL_PROFILES_UI,group_leader=group_leader
     'psvelo+u (*.psvelou)', $ ;84
     'psvelo+u+sig_u (*.psvelou)', $ ;85
     'psvelo2+u (*.psvelo2u)', $ ;101
-    'llenu',  $ ;102
+    'llenu(gic3dv gps_prd)',  $ ;102
     'llenuc', $ ;103
     'CMM4 (*.cmm4)', $  ;112
     'CMM4 Up (*.cmm4u)', $  ;113

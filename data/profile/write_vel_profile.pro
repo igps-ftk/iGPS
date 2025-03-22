@@ -98,6 +98,7 @@ PRO  WRITE_VEL_PROFILE, ofile $
     PRINTF,fid,fa_pf_xy,format='("# PSXY_FAULT_PROFILE_INTERSECT",2(1x,f20.8))'
   ENDIF
   IF fa_xys[0,0] NE -9999d0 THEN BEGIN
+    printf,fid,strtrim(1,2),format='("# PSXY_FAULT_TRACE > -L",a)'
     FOR j=0ull,N_ELEMENTS(fa_xys[0,*])-1 DO BEGIN
       PRINTF,fid,fa_xys[*,j],format='("# PSXY_FAULT_TRACE",2(1x,f20.8))'
     ENDFOR
@@ -107,6 +108,7 @@ PRO  WRITE_VEL_PROFILE, ofile $
       PRINTF,fid,STRTRIM(f2i+2,2),fa_pf_xy_2nd[*,f2i],format='("# PSXY_FAULT_PROFILE_INTERSECT_",a,2(1x,f20.8))'
       PRINTF,fid,STRTRIM(f2i+2,2),dist_fp1_fp2nds[f2i],format='("# PSXY_FAULT_PROFILE_DISTANCE_",a,1(1x,f20.8))'
       fa_xys_2nd=(*p_xys_fvec_2nds[f2i])
+      printf,fid,STRTRIM(f2i+2,2),strtrim(f2i+2,2),format='("# PSXY_FAULT_TRACE_",a,1x," > -L",a)'
       FOR j=0,N_ELEMENTS(fa_xys_2nd[0,*])-1 DO BEGIN
         PRINTF,fid,STRTRIM(f2i+2,2),fa_xys_2nd[*,j],format='("# PSXY_FAULT_TRACE_",a,2(1x,f20.8))'
       ENDFOR
@@ -124,7 +126,7 @@ PRO  WRITE_VEL_PROFILE, ofile $
       format='("*",a9,(1x,a8,1x,a7),1x,a7,3(1x,a8,1x,a7),(1x,a8,1x,a7),1x,a9, (1x,a8,1x,a7),2(1x,a8),4(1x,a7),1x,a6)'
     ;printf,fid,'*',format='(a)'
     FOR j=0ull, N_ELEMENTS(odata[0,*])-1 DO BEGIN
-      PRINTF,fid,sites[j],odata[*,j],$
+      PRINTF,fid,strtrim(sites[j],2),odata[*,j],$
         format='(1x,a9, (1x,f8.3,1x,f7.3), 1x,f7.2, 3(1x,f8.2,1x,f7.2),(1x,f8.2,1x,f7.2), 1x,f9.3,(1x,f8.2,1x,f7.2),2(1x,f8.2),4(1x,f7.2),1x,f6.3)'
     ENDFOR
   ENDIF ELSE BEGIN ; if with 2nd fault
@@ -133,7 +135,7 @@ PRO  WRITE_VEL_PROFILE, ofile $
     ;printf,fid,'*',format='(a)'
     ;stop
     FOR j=0ull, N_ELEMENTS(odata[0,*])-1 DO BEGIN
-      PRINTF,fid,sites[j],odata[*,j],odata_2nd[*,j],  $
+      PRINTF,fid,strtrim(sites[j],2),odata[*,j],odata_2nd[*,j],  $
         format='(1x,a9, (1x,f8.3,1x,f7.3), 1x,f7.2, 3(1x,f8.2,1x,f7.2),(1x,f8.2,1x,f7.2), 1x,f9.3,(1x,f8.2,1x,f7.2),2(1x,f8.2),4(1x,f7.2),1x,f6.3,20(1x,f9.3))'
     ENDFOR
   ENDELSE

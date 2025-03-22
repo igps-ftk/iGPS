@@ -131,7 +131,7 @@ dem_grid_file=${esa_data}/topo/srtm3/grid/china.grd
 
 nmax_intf=99999
 nmax_intf=800
-nmax_intf=1600
+#nmax_intf=1200
 
 
 if [ "$1" == "" ]; then
@@ -523,7 +523,7 @@ if [ "$proc_type" == "landslide" ]; then
   sh_s1_prep_proc_baseline -file baseline_table.dat -min_interval 1 -max_interval 121 -update_config n
   \cp -fp intf.in intf.in.1
   ##cat intf.in.1|grep S1_2020 |sort > intf.in #for task-2020-07/08
-  sort intf.in.1 | grep $master_date | head -1 > intf.in
+  sort intf.in.1 | grep "^$1_${master_date}" | head -1 > intf.in
   cat intf.in.[1] | shuf | grep -v "`head -1 intf.in`">> intf.in
 fi
 
@@ -539,7 +539,7 @@ if [ "$proc_type" == "interseismic" ]; then
   \cp -fp intf.in intf.in.2
   shuf intf.in.2 > intf.in.2s
   #
-  sort intf.in.0 | grep $master_date | head -1 > intf.in.z
+  sort intf.in.0 | grep "^S1_${master_date}" | head -1 > intf.in.z
   head -2000 intf.in.2s > intf.in.a
   cat intf.in.[1a] | shuf | grep -v "`head -1 intf.in.z`">> intf.in.z
   head -${nmax_intf} intf.in.z > intf.in

@@ -13,6 +13,11 @@ disp(['[',PROG,'(',ver,')]INFO: run by ',user]);
 dmin=-200;  %200 km south/west of the fault
 dmax=200;   %200 km north/east of the fault
 
+%locking depth range (km)
+ld_init=1;
+ld_min=0;
+ld_max=20;
+
 % default fault trace shift range
 fts_min=-15;    %15 km south/west of the fault
 fts_max=15;     %15 km north/east of the fault
@@ -232,20 +237,32 @@ nsimu=5000; %number of simulations
 % paths={'D:\gsar\gic3dv\jiali\asc_des.linzhi_voronoi\profiles\p.fa_jiali_20240919_no_U_linzhi'};
 % % paths={'D:\gsar\gic3dv\jiali\asc_des.linzhi_voronoi\profiles\p.fa_jiali_20240912b_linzhi'};
 paths={'D:\Papers\jiali\figure\profiles.gps.comb20241005\pg.fa_jiali_250km'};
+paths={'D:\gsar\gic3dv\jiali\asc_des.linzhi_voronoi\profiles\p.fa_bengco_jiali_ext2_20241105_no_U_m5'};
 % paths={'Z:\g11j\D\gsar\gic3dv\jiali\asc_des.linzhi_voronoi\profiles\p.fa_bengco_jiali_ext2_20240919_no_U_linzhi'};
-ptn='066';
+paths={'D:\gsar\gic3dv\jiali\asc_des.linzhi_voronoi\profiles\p.fa_bengco_jiali_ext2_20241105_no_U_d150_a041_a077_a143_a070'};
+% paths={'D:\gsar\gic3dv\jiali\asc_des.linzhi_voronoi\profiles\p.fa_bengco_jiali_ext2_20241105_no_U_d077\d048_a114'};
+paths={'D:\gsar\gic3dv\jiali\asc_des.linzhi_voronoi\profiles\p.fa_d150_d077_overlap_east_edge_20241105_gulu_no_U'};
+paths={'D:\gsar\gic3dv\jiali\asc_des.linzhi_voronoi\profiles\p.fa_jiali_cses_beng_co_ext_north'};
+% paths={'D:\gsar\gic3dv\jiali\asc_des.linzhi_voronoi\profiles\p.fa_beng_co_ext_north'};
+ptn='085';
 % % paths={'D:\Papers\jiali\figure\profiles.gps.comb_ref_kunlun\pg.fa_bengco'};
 % % paths={'D:\gsar\gic3dv\hyf\asc_des\p.fa_haiyuan_lajishan_t33F1'};
 % % ptn='040';
 % % d_exclude=[-90,-10];
+
+paths={'D:\gsar\gic3dv\atf.d019\asc_des\profiles\p.fa_kunlun_jss_revised3\not.used'};
+ptn='001'
+d_exclude=[-90,-10];
+ld_max=60;
+
 vi=7;
-nsimu=30000;
-dmin=-200;
-dmax=200;
-% dmin=-100;
-% dmax=150;
-% % % % fts_min=-25;
-% % % % fts_max=-5;
+nsimu=50000;
+% dmin=-250;
+dmax=2000;
+dmin=-1500;
+% dmax=100;
+% fts_min=-25;
+% % % % % fts_max=-5;
 cmt='parallel_farLock';
 
 % dmin=-200;
@@ -281,17 +298,17 @@ cmt='parallel_farLock';
 % cmt='parallel_farCreep';
 % cmt='parallel_farLock_shift';
 % vi=5;
-% % % dmin=-200;
-% % % dmax=200;
-% % % % % d_exclude=[-150,10]; %p066
+% dmin=-350;
+% dmax=10;
+% % d_exclude=[-300,-10]; %p066
 % % % % % d_exclude=[-150,100]; %p053
 % % % d_exclude=[-100,100]; %p040
-% % % cmt='normal_far';
-% % % % 
+% cmt='normal_far';
+% % % 
 % dmin=-100;
 % dmax=150;
-% % dmin=-50; %
-% % dmax=50;
+% dmin=-50; %
+% dmax=50;
 % cmt='normal_near';
 
 
@@ -314,12 +331,14 @@ npath=size(paths,1);
 % fts_max=100;
 % fts_max=150;
 
-% fts_min=-100;
+% fts_min=-200;
 % fts_max=300;
 % fts_min=180;
 % fts_max=220;
-fts_min=-100;
-fts_max=100;
+fts_min=-150;
+% fts_min=-100;
+% fts_max=100;
+% fts_max=-50;
 % fts_max=-10;
 % fts_min=-55;
 % fts_max=55;
@@ -327,10 +346,10 @@ fts_max=100;
 % fts_max=35;
 % fts_min=-15;
 % fts_max=15;
-% % fts_min=-10;
+% fts_min=-10;
 % % fts_max=10;
 % fts_min=-3;
-% fts_max=3;
+fts_max=3;
 is_show_fig='on';
 %is_show_fig='off';
 
@@ -378,7 +397,10 @@ for ii=1:npath
         
         ofile=[opath,filesep,name,'_mdl.txt'];
         ofile_rot=[opath,filesep,name,'_rot.txt'] ;
+        ofile_chain=[opath,filesep,name,'_chain.txt'] ;
         jfile=[opath,filesep,name,'_mdl.jpg'];
+        jfile_sampling=[opath,filesep,name,'_mdl_sampling.jpg'];
+        jfile_denspanel=[opath,filesep,name,'_mdl_denspanel.jpg'];
         disp(['output to:',ofile]);
         % return
         
@@ -455,22 +477,28 @@ for ii=1:npath
         
         
         params = {
-            {'sr', 0, -20, 20}
-%             {'ld', 5, .1, 10}
-%                   {'ld', 10, .1, 25}
-%                   {'ld', 1, 0, 90}
-                  {'ld', 11, 10, 30}
-                  % {'ld', 10, .1, 15}
-%                   {'ld', 10, .1, 10}
-%                   {'ld', .1, .01, .2}
-            %       {'ld', 9, 8.9, 9.1}
-            %     {'fts', 0, -30, 30}
-            %           {'fts', 0, -1, 1}
-            {'fts', (fts_min+fts_max)/2, fts_min, fts_max}
-            {'yshift', (ymin+ymax)/2, ymin,ymax}
+
+            {'\itS', 4, -20, 20}
+                  {'\itD', ld_init, ld_min, ld_max}
+%             {'\itD', 5, .1, 10}
+            %       {'\itD', 10, .1, 25}
+%                   {'\itD', 1, 0, 120}
+%                   {'\itld', 1, 0, 90}
+%                   {'\itD', 1, 0, 60}
+%                   {'\itD', 1, 0, 50}
+%                   {'\itD', 1, 0, 30}
+%                   {'\itD', 1, 0, 20}
+%                   {'\itD', 10, .1, 15}
+%                   {'\itD', 10, .1, 10}
+%                   {'\itD', .1, .01, .2}
+            %       {'\itD', 9, 8.9, 9.1}
+            %     {'\it\gamma', 0, -30, 30}
+            %           {'\it\gamma', 0, -1, 1}
+            {'\it\gamma', (fts_min+fts_max)/2, fts_min, fts_max}
+            {'\it\mu', (ymin+ymax)/2, ymin,ymax}
             
-%             {'rot', 0.001, -pi/3, pi/3}
-                  {'rot', 0.000011, 0.000010, 0.000012}
+            {'rot', 0.001, -pi/3, pi/3}
+%                   {'rot', 0.000011, 0.000010, 0.000012}
             };
         npar=size(params,1);
         
@@ -516,18 +544,18 @@ for ii=1:npath
         options.waitbar = 1;
         %   options.MaxFunEvals = 10000;
         options.nsimu   = 1000;
-        options.nsimu   = nsimu;
+%         options.nsimu   = nsimu;
         [res,chain,s2chain] = mcmcrun(model,data,params,options);
         options.nsimu   = nsimu;
-%         [res,chain,s2chain] = mcmcrun(model,data,params,options, res);
+        [res,chain,s2chain] = mcmcrun(model,data,params,options, res);
         
-        figure(2); clf
+        h2=figure(2); clf
         mcmcplot(chain,[],res,'chainpanel');
         
-        figure(3); clf
+        h3=figure(3); clf
         mcmcplot(chain,[],res,'pairs');
         
-        figure(4); clf
+        h4=figure(4); clf
         mcmcplot(sqrt(s2chain),[],[],'hist')
         title('Error std posterior')        
         % add prior distribution to the plot, if it was informative
@@ -542,7 +570,16 @@ for ii=1:npath
         
         out_params=mean(chain);
         out_stat=chainstats(chain,res);
-        out_sigs=out_stat(:,2);
+                out_stds=out_stat(:,2);
+        alpha=0.05; % 95% confidence level
+        for pi=1:size(out_params,2)
+          lower_bounds(pi)=norminv(alpha/2,out_params(pi), out_stds(pi));
+          upper_bounds(pi)=norminv(1-alpha/2,out_params(pi), out_stds(pi));
+        end
+%         lower_bounds
+%         out_params
+%         upper_bounds
+        out_sigs=out_params-lower_bounds;
         
           xo = linspace(-300,300)';
 %         xo=x1';
@@ -728,6 +765,8 @@ for ii=1:npath
         %   im=frame2im(frame);
         %   imwrite(im,jfile,'jpg');
         saveas(h1,jfile);
+        saveas(h3,jfile_sampling);
+        saveas(h7,jfile_denspanel);
         
         % return
         

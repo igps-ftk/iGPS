@@ -165,7 +165,9 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
     ;    inputfmt=84
     ;    f2files=['C:\GMT_pub\vector\profile\fa_tianshen_daban.psxy','C:\GMT_pub\vector\profile\fa_longmuco_to_atf.psxy']
   
-    vfile='D:\gsar\gic3dv\atf.d019\asc_des\insar_3d.psvelou.10w'
+;    vfile='D:\gsar\gic3dv\atf.d019\asc_des\insar_3d.psvelou.10w'
+    vfile='D:\gsar\gic3dv\atf.d019\asc_des.3rd-order\insar_3d_20250306.psvelou' ;third-order gnss velocity correction
+    vfile='D:\gsar\gic3dv\atf.d019\validation.dataset\3d.deformation.field\insar_3d.psvelou'
 ;    ;pfile='D:\gsar\gic3dv\g219\asc_des\profiles\p.fa_karakax_new2\profiles_auto.psxy'
 ;    ;    cmt='i3d'
     inputfmt=84
@@ -174,8 +176,15 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
 ;    f2files=['C:\GMT_pub\vector\profile\fa_akms1.psxy','C:\GMT_pub\vector\profile\fa_atf.psxy']
     fa='fa_kunlun_jss_revised3'
     length_profile=900
-    opath='D:\gsar\gic3dv\atf.d019\asc_des\profiles\p.fa_kunlun_jss_revised3\'
+;    opath='D:\gsar\gic3dv\atf.d019\asc_des\profiles\p.fa_kunlun_jss_revised3\'
+;    opath='D:\gsar\gic3dv\atf.d019\asc_des.3rd-order\profiles\p.fa_kunlun_jss_revised3\'
+    opath='D:\gsar\gic3dv\atf.d019\validation.dataset\3d.profiles\p.fa_kunlun_jss_revised3'
     f2files=['C:\GMT_pub\vector\profile\fa_heishibeihu_akms.psxy','C:\GMT_pub\vector\profile\fa_atf_ext_west.psxy']
+    
+;    fa='fa_kunlun_jss_revised3'
+;    length_profile=900
+;    opath='D:\gsar\gic3dv\atf.d019\asc_des\profiles\p.fa_kunlun_jss_revised3_atf\'
+;    f2files=['C:\GMT_pub\vector\profile\fa_atf_ext_west.psxy']
     
     
 ;    vfile='D:\gsar\gic3dv\g219\asc_des\insar_3d.psvelo'
@@ -267,6 +276,7 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
     dummy=dummy
   lls=data[0:1,*]
   nsit=N_ELEMENTS(sites)
+  ;stop
   
   lons=REFORM(lls[0,*])
   lats=REFORM(lls[1,*])
@@ -1066,7 +1076,7 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
     
   ;PRINT,'a1:',a1
   ;PRINT,'b1:',b1
-  ;      BREAK
+        ;BREAK
   ENDFOR
   
   lbl_str='Ready'

@@ -18,6 +18,8 @@ PRO DEM_GRID_EXTRACT_PROFILE, demfile,  $  ;DEM file (ENVI raw image format; wit
     fa='kunlun_jss_revised'
     fa='F12'
     fa='yzs'    
+    fa='jiali_cses_beng_co_ext_north'
+    fa='tyr'
     ffile='C:\GMT_pub\vector\profile\fa_'+fa+'.psxy'
     
 ;    ffile='C:\GMT_pub\vector\profile\fa_'+fa+'.psxy'
@@ -35,6 +37,39 @@ PRO DEM_GRID_EXTRACT_PROFILE, demfile,  $  ;DEM file (ENVI raw image format; wit
     pfile='D:\gsar\gic3dv\atf.d019\asc_des\profiles\p.fa_kunlun_jss_revised3\profiles_auto.psxy'
     opath='D:\gsar\gic3dv\atf.d019\asc_des\profiles\p.fa_kunlun_jss_revised3\dem'
     
+    
+    ffile='C:\GMT_pub\vector\profile\fa_jiali_cses_beng_co_ext_north.psxy'
+    pfile='D:\gsar\gic3dv\jiali\asc_des.linzhi_voronoi\profiles\p.fa_jiali_cses_beng_co_ext_north\profiles_auto.psxy'
+    opath='D:\Papers\jiali.insar\figure\insar.thiswork.vs.fang2024\dem'
+    
+    
+    ffile='C:\GMT_pub\vector\profile\fa_qixiangco_likang.psxy'
+    pfile='D:\gsar\gic3dv\jiali\asc_des.linzhi_voronoi\profiles\p.fa_qixiangco_likang\profiles_auto.psxy'
+    opath='D:\Papers\jiali.insar\figure\profiles.qixiangco\dem'
+    
+    
+    ffile='C:\GMT_pub\vector\profile\fa_tyr.psxy'
+    pfile='D:\gsar\gic3dv\yzs\asc_des\profiles\p.fa_tyr\profiles_auto.psxy'
+    opath='D:\Papers\sse.yzs\figure\profiles_3d.tyr\dem'
+    
+    ffile='C:\GMT_pub\vector\profile\fa_gozhaco.psxy'
+    pfile='D:\gsar\envisat.alos\envisat.d.t248f2907.gozhaco\sbas.3.0.0001.9999.20080405.20100828.018.0088.01.___\p.fa_gozhaco\profiles_auto.psxy'
+    opath='D:\Papers\creep.gozhaco\figure\4.profiles_s1_vs_envisat\dem'
+    
+    ffile='C:\GMT_pub\vector\profile\fa_atf_ext.psxy'
+    pfile='D:\gsar\gic3dv\atf.d019\asc_des\profiles\p.fa_atf_ext\profiles_auto.psxy'
+    opath='D:\gsar\gic3dv\atf.d019\asc_des\profiles\p.fa_atf_ext\dem'
+    
+    
+    ffile='C:\GMT_pub\vector\profile\fa_jiali.psxy'
+    pfile='D:\Papers\jiali\figure\profiles.gps.comb_ref_kunlun\pg.fa_jiali_200km\profiles_auto.psxy'
+    opath='D:\Papers\jiali\figure\profiles.vertical.20250220\dem'
+    pfile='D:\Papers\jiali\figure\profiles.gps.comb20241005\pg.fa_jiali_250km\profiles_auto.psxy'
+    opath='D:\Papers\jiali\figure\profiles.gps.comb20241005\dem'
+    
+    ffile='C:\GMT_pub\vector\profile\fa_jiali.psxy'
+    pfile='D:\Papers\jiali\figure\profiles.gps.comb_ref_kunlun\pg.fa_jiali2\profiles_auto.psxy'
+    opath='D:\Papers\jiali\figure\profiles.gps.comb_ref_kunlun\pg.fa_jiali2\dem'
     
   ENDIF
   

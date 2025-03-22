@@ -61,6 +61,7 @@ for i=1:nbatch
     fillyy(time,plimi{j}(1,:),plimi{j}(2*nn-1,:),dimc);
     hold on
     for k=2:(nn-1)
+%     for k=(nn-1):(nn-1)
       fillyy(time,plimi{j}(k,:),plimi{j}(2*nn-k,:),dimc.*0.9.^(k-1));
     end
     plot(time,plimi{j}(nn,:),'-k');
