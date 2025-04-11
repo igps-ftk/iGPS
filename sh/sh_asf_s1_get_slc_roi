@@ -153,7 +153,7 @@ if [ "$file_roi" == "" ]; then #DIPP defaults
       path=/g14i/esa.data/china_east/S1.3
       path=/g18h/gsar/tmp
       path=/g19b/gsar/tmp/
-      path=/g14e/gsar/tmp/
+      path=/g11d/gsar/tmp/
       ;;
     gpsac17)
       #orb_type='DESCENDING'
@@ -171,7 +171,7 @@ if [ "$file_roi" == "" ]; then #DIPP defaults
       orb_type='DESCENDING'
       path=/g18h/gsar/tmp2/
       path=/g19b/gsar/tmp2/
-      path=/g14e/gsar/tmp2/
+      path=/g11d/gsar/tmp2/
       ;; 
     gpsac18)
       #orb_type='DESCENDING'

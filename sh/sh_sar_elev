@@ -1,0 +1,155 @@
+#!/bin/sh
+
+# Name:
+#   sh_sar_elev
+#   
+
+# Purpose:
+#   + Create elevation (local incidence angle) grid in Radar coordiante system.
+
+# Input:
+#   +
+
+# Output:
+#   +
+
+# Example:
+#   +
+
+# Algorithm:
+#   +
+
+# Modifications:
+#   + Created on Sun Mar 23 22:34:38 CST 2025 by tianyf
+#   +
+
+# Dependency:
+#   +
+#
+
+
+PROG=sh_sar_elev
+
+timestamp=`date | sed -e "s/ /_/g" | sed -e "s/:/-/g"`
+
+path_old=`pwd`
+
+usage_of_it(){
+cat <<eob
+${PROG}
+  version 20250323
+|_ Description_of_this_program
+|+
+  -Dependencies_of_this_program
+    SAT_look (GMTSAR)
+    add_look.csh (GMTSAR Forum)
+    sar_cal_sat_incidence (iGPS/ftk)
+    GMT
+    topo/dem.grd
+    topo/master.PRM
+    topo/*.LED
+    intf_all/*/unwarp_mask.grd
+|<
+  Inputs
+  [-h|-help|--help]
+|>
+  Outputs
+|e.g.,
+  ${PROG}
+(c)iGPS (https://github.com/igps-ftk/)
+eob
+}
+
+if [ $# -lt 2 ]; then
+  usage_of_it
+  #exit 1
+fi
+
+file_dem=dem.grd
+file_trans=trans.dat
+file_master=master.PRM
+path_intf=intf_all
+
+is_debug=n
+
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -d|-debug)
+      is_debug=$2
+      ;;
+    -h|-help|--help)
+      usage_of_it
+      exit 1
+      ;;
+    *)
+      echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid option ($1)!!"
+      usage_of_it
+      exit 1
+      ;;
+  esac
+  shift 2
+done
+
+tfile_unwrap_ll=_tmp_unwrap_ll
+
+if [ ! -s dem.grd ]; then
+  ln -s ./topo/dem.grd .
+fi
+if [ ! -s trans.dat ]; then
+  ln -s ./topo/trans.dat .
+fi
+if [ ! -s master.PRM ]; then
+  ln -s ./topo/master.PRM .
+fi
+ln -s ./topo/*.LED .
+
+#search unwrap file
+file_unwrap=`find $path_intf/ -maxdepth 2 -type f -name "unwrap_mask.grd" | head -1`
+echo file_unwrap $file_unwrap
+
+echo "convert unwrapped phase from radar coordiantes to geographic coordiantes"
+echo "proj_ra2ll.csh $file_trans $file_unwrap ${tfile_unwrap_ll}.grd 800"
+echo "proj_ra2ll.csh $file_trans $file_unwrap ${tfile_unwrap_ll}.grd 800" | sh
+#exit
+
+echo "convert grid to ascii ll (longitude, latitude)"
+gmt grd2xyz ${tfile_unwrap_ll}.grd | awk '{print $1,$2}' > ${tfile_unwrap_ll}.llde
+
+#calculate incidence angles
+echo add_look.csh ${tfile_unwrap_ll}.llde $file_master SAT $file_dem
+echo add_look.csh ${tfile_unwrap_ll}.llde $file_master SAT $file_dem | sh
+#exit
+
+echo "calcualte incidence"
+cat ${tfile_unwrap_ll}.lltnde | awk '{print $4,$5,$6}' | sar_cal_sat_incidence | awk '{print 90-$1}' > _tmp_incidences
+##cat ${tfile_unwrap_ll}.lltnde | awk '{print $4,$5,$6}' | sar_cal_sat_incidence | awk '{print $2}' > _tmp_azimuth
+
+echo "create elevation xyz file"
+paste ${tfile_unwrap_ll}.lltnde _tmp_incidences | awk '{print $1,$2,$7}' > _tmp_elev_ll.xyz
+
+echo "convert XYZ elevation to grid"
+echo "surface -R${tfile_unwrap_ll}.grd _tmp_elev_ll.xyz -G_tmp_elev_ll.grd"
+surface -R${tfile_unwrap_ll}.grd _tmp_elev_ll.xyz -G_tmp_elev_ll.grd
+
+echo "transform elevation grid from wgs-84 to local radar coordinates"
+echo "proj_ll2ra.csh $file_trans _tmp_elev_ll.grd _tmp_elev_ra.grd"
+echo "proj_ll2ra.csh $file_trans _tmp_elev_ll.grd _tmp_elev_ra.grd" | sh
+
+echo "cut elevation in radar coordinates to unwrapped phase"
+echo "grdsample -R${file_unwrap} _tmp_elev_ra.grd -Gelev_ra.grd"
+echo "grdsample -R${file_unwrap} _tmp_elev_ra.grd -Gelev_ra.grd" | sh
+
+grdinfo -C elev_ra.grd
+grdinfo -C $file_unwrap
+
+#gmt grdmath $file_unwrap elev_ra.grd SIND DIV = result.grd
+
+gmt makecpt -Cjet -T15/50/.1 -Z -I > elev.cpt
+sh_grd2jpg elev_ra.grd -c elev.cpt
+
+if [ "$is_debug" != "y" ]; then
+  \rm -f ${tfile_unwrap_ll}.grd ${tfile_unwrap_ll}.ll ${tfile_unwrap_ll}.llde ${tfile_unwrap_ll}.lltnde _tmp_incidences _tmp_elev_ll.xyz _tmp_elev_ll.grd _tmp_elev_ra.grd elev_ra.xyz temp.ll temp.llt temp.lltn ralt.grd raln.grd 
+fi
+
+echo "[$PROG]INFO: done."

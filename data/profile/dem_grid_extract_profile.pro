@@ -70,6 +70,11 @@ PRO DEM_GRID_EXTRACT_PROFILE, demfile,  $  ;DEM file (ENVI raw image format; wit
     ffile='C:\GMT_pub\vector\profile\fa_jiali.psxy'
     pfile='D:\Papers\jiali\figure\profiles.gps.comb_ref_kunlun\pg.fa_jiali2\profiles_auto.psxy'
     opath='D:\Papers\jiali\figure\profiles.gps.comb_ref_kunlun\pg.fa_jiali2\dem'
+   
+   
+    ffile='C:\GMT_pub\vector\profile\fa_haiyuan.psxy'
+    pfile='D:\gsar\envisat.alos\envisat.d.t333f2853.haiyuan\sbas.3.0.0001.9999.20031114.20100903.037.0483.01.___\p.fa_haiyuan\profiles_auto.psxy'
+   opath='D:\Papers\creep.gozhaco\figure\laohushan\dem'
     
   ENDIF
   

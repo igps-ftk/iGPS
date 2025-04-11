@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Name:
-#   sh_sar_apply_gacos_intf
+#   sh_sar_gacos_apply_intf_add
 #   
 
 # Purpose:
@@ -18,15 +18,99 @@
 
 # Dependency:
 #   
+
+PROG=sh_sar_gacos_apply_intf_add
+
+timestamp=`date | sed -e "s/ /_/g" | sed -e "s/:/-/g"`
+
 path_old=`pwd`
+
+usage_of_it(){
+cat <<eob
+${PROG}
+  version 20250323
+|_ Description_of_this_program
+|+
+  -Dependencies_of_this_program
+|<
+  Inputs
+  [-g|-gacos GACOS_ALL_PATH]
+    default: gacos_all
+  [-p|-path INPUT_PATH]
+    default: intf_all
+  [-o|-opath OUTPUT_PATH]
+    default: intf_all_gacos_add
+  [-h|-help|--help]
+|>
+  Outputs
+|e.g.,
+  ${PROG}
+(c)iGPS (https://github.com/igps-ftk/)
+eob
+}
+
+if [ $# -lt 2 ]; then
+  usage_of_it
+  #exit 1
+fi
 
 
 path_intf_all=intf_all_detrend
 path_intf_all=intf_all
 path_gacos_all=gacos_all
 opath=intf_all_gacos_add
+is_output_preview=n
+
+file_elev=`pwd`/elev_ra.grd
+
+operate_mode=add #add/minus
+
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -g|-gacos)
+      path_gacos_all=$2
+      ;;
+    -p|-path)
+      path_intf_all=$2
+      ;;
+    -o|-opath)
+      opath=$2
+      ;;
+    -m|-mode)
+      operate_mode=$2
+      ;;
+    -ip|-preview)
+      is_output_preview=$2
+      ;;
+    -h|-help|--help)
+      usage_of_it
+      exit 1
+      ;;
+    *)
+      echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid option ($1)!!"
+      usage_of_it
+      exit 1
+      ;;
+  esac
+  shift 2
+done
+
+echo path $path_intf_all
+echo gacos $path_gacos_all
+echo opath $opath
 
 mkdir -p $opath
+
+if [ ! -s $file_elev ]; then
+  sh_sar_elev
+fi
+if [ ! -s $file_elev ]; then
+   echo -e "[$PROG]\033[1;33;41mERROR\033[0m: no elevation file ($file_elev)!!"
+   exit 1
+fi
+echo file_elev $file_elev
+#exit
 
 intfs=`find $path_gacos_all/ -maxdepth 1 -type d -name "2*_2*"`
 for intf in $intfs; do
@@ -38,6 +122,10 @@ for intf in $intfs; do
     cd $opath_intf
     pwd
     file_gacos=../../${intf}/ztd_gacos_detrend.grd
+    if [ ! -s $file_gacos ]; then
+        echo -e "[$PROG]\033[1;33;41mERROR\033[0m: no gacos ztd file ($file_gacos)!!"
+        continue
+    fi
 
 
     file_corr=../../${path_intf_all}/${intf_name}/corr_cut.grd
@@ -51,18 +139,28 @@ for intf in $intfs; do
     #continue
 
     file_unwrap=../../${path_intf_all}/${intf_name}/unwrap_mask.grd
+    #pwd
     if [ -s $file_unwrap ]; then
-         if [ ! -s unwrap_mask.grd ]; then
-             echo gmt grdmath ${file_unwrap} ${file_gacos} ADD = unwrap_mask.grd
-             echo gmt grdmath ${file_unwrap} ${file_gacos} ADD = unwrap_mask.grd | sh
+        if [ ! -s unwrap_mask.grd ]; then
+          if [ "$operate_mode" = "add" ]; then
+            #echo gmt grdmath ${file_unwrap} ${file_gacos} ADD = unwrap_mask.grd
+            #echo gmt grdmath ${file_unwrap} ${file_gacos} ADD = unwrap_mask.grd | sh
+            echo gmt grdmath ${file_gacos} $file_elev SIND DIV ${file_unwrap} ADD = unwrap_mask.grd
+            echo gmt grdmath ${file_gacos} $file_elev SIND DIV ${file_unwrap} ADD = unwrap_mask.grd | sh
+          else
+            echo gmt grdmath ${file_gacos} $file_elev SIND DIV ${file_unwrap} SUB -1 MUL = unwrap_mask.grd
+            echo gmt grdmath ${file_gacos} $file_elev SIND DIV ${file_unwrap} SUB -1 MUL = unwrap_mask.grd | sh
+          fi
+        else
+            echo "[$PROG]INFO: already done"
         fi
     else
-        echo -e "[$PROG]\033[1;33;41mERROR\033[0m: no gacos ztd file ($file_unwrap)!!"
+        echo -e "[$PROG]\033[1;33;41mERROR\033[0m: no unwrapped phase file ($file_unwrap)!!"
         continue
     fi
 
 
-    if [  -s unwrap_mask.jpg ]; then
+    if [ ! -s unwrap_mask.jpg -a "$is_output_preview" = "y" ]; then
         zmin=`gmt grdinfo -C unwrap_mask.grd | awk '{print $6}'`
         zmax=`gmt grdinfo -C unwrap_mask.grd | awk '{print $7}'`
         echo $zmin $zmax

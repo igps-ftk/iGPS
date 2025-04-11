@@ -362,14 +362,14 @@ PRO INSAR_LOS_2_3D_BY_GPSN_XYZ, paths
     ;      'D:\gsar\interseismic\012-a-m6-0104_0109_0114_0119_0124_0129-altyntagh\f123\sbas.4.0.0367.9999.20141229.20230410.057.0557.01.roi_detrend']
     ;
   
-;    file_list='\\10.4.134.30\root\g11j\D\gsar\gic3dv\atf.d019\asc_des.3rd-order\sbas.list.txt'
-    file_list='D:\gsar\gic3dv\atf.d019\validation.dataset\3d.deformation.field\sbas.list.txt'
-    paths=read_txt(file_list,comment='~ ')
-    paths=STRTRIM(paths,2)
-    file_gnss='D:\gsar\gic3dv\atf.d019\validation.dataset\gnss_velocity_field\gps_prd'
-;    ofile='D:\gsar\gic3dv\atf.d019\asc_des.3rd-order\insar_3d_20250306.psvelou'
-    ofile='D:\gsar\gic3dv\atf.d019\validation.dataset\3d.deformation.field\insar_3d.psvelou'
-  
+;;    file_list='\\10.4.134.30\root\g11j\D\gsar\gic3dv\atf.d019\asc_des.3rd-order\sbas.list.txt'
+;    file_list='D:\gsar\gic3dv\atf.d019\validation.dataset\3d.deformation.field\sbas.list.txt'
+;    paths=read_txt(file_list,comment='~ ')
+;    paths=STRTRIM(paths,2)
+;    file_gnss='D:\gsar\gic3dv\atf.d019\validation.dataset\gnss_velocity_field\gps_prd'
+;;    ofile='D:\gsar\gic3dv\atf.d019\asc_des.3rd-order\insar_3d_20250306.psvelou'
+;    ofile='D:\gsar\gic3dv\atf.d019\validation.dataset\3d.deformation.field\insar_3d.psvelou'
+;  
     
     
   ;
