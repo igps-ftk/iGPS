@@ -4,7 +4,7 @@ PRO NET2KML, FILE, $ ;input, QOCA a priori sites coordiantes (Network file forma
   PROG=(STRSPLIT(LAST(SCOPE_TRACEBACK()),/EXTRACT))[0]
   
   IF N_ELEMENTS(file) EQ 0 THEN BEGIN
-    file='D:\gpse\trns\comb\trns23\gsoln\ninh.net'
+    file='D:\gpse\trns\comb\trns23\gsoln\pos25.net'
   ENDIF
   
   IF N_ELEMENTS(OFILE) EQ 0 THEN BEGIN

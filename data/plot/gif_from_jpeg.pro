@@ -44,10 +44,11 @@ PRO GIF_FROM_JPEG, $
     PTN='*.jpg'
     
     path='C:\Downloads\ice\Presentation1\2'
-    path='D:\ICD\Eighth\2023\20230223.xinjing\figure\prepost\2022y'
+    path='D:\ICD\Eighth\2025\20250523.lunwen.pingyi\yu.yang\2'
+    path='D:\gsar\gic3dv\gcf\profiles\pp.fa_bns_userAxis_parallel'
     
     
-    ofile=path+path_sep()+'ani.gif'
+    ofile=path+path_sep()+'pre-post-comparison2.gif'
     
     delay=200
     delay_long=200

@@ -417,17 +417,19 @@ xmin=`gmt grdinfo -C -I.5 $grdfile | awk '{print $2}'`
 xmax=`gmt grdinfo -C -I.5 $grdfile | awk '{print $3}'`
 ymin=`gmt grdinfo -C -I.5 $grdfile | awk '{print $4}'`
 ymax=`gmt grdinfo -C -I.5 $grdfile | awk '{print $5}'`
+echo range of insar map $xmin $xmax $ymin $ymax
 
 if [ "$is_update_rect_by_profile" == "y" ]; then
   gmt grdinfo -C -I.5 $grdfile | awk '{print $2,$4,"\n",$3,$5}' > _tmp_rect
   file_profile="${profiles_path}/profile_`echo $pis | awk '{printf("%03d",$1)}'`_vel.psxy"
-  grep ' PSXY_PROFILE' $file_profile | awk '{print $3,$4}' | awk '{if($1<0){print $1+360,$2}else{print $1,$2}}'>> _tmp_rect
+  grep '# PSXY_PROFILE ' $file_profile | awk '{print $3,$4}' | awk '{if($1<0){print $1+360,$2}else{print $1,$2}}'>> _tmp_rect
   cat _tmp_rect
   
   xmin=`gmt gmtinfo -C -I.5 _tmp_rect | awk '{print $1}'`
   xmax=`gmt gmtinfo -C -I.5 _tmp_rect | awk '{print $2}'`
   ymin=`gmt gmtinfo -C -I.5 _tmp_rect | awk '{print $3}'`
   ymax=`gmt gmtinfo -C -I.5 _tmp_rect | awk '{print $4}'`
+  echo update map range by profile $xmin $xmax $ymin $ymax
   #exit
 fi
 
@@ -833,10 +835,10 @@ eob
     #echo $file
     #
     #profile location
-    x_pf1=`grep ' PSXY_PROFILE' $file |head -1| awk '{print $3}'`
-    y_pf1=`grep ' PSXY_PROFILE' $file |head -1| awk '{print $4}'`
-    x_pf2=`grep ' PSXY_PROFILE' $file |tail -1| awk '{print $3}'`
-    y_pf2=`grep ' PSXY_PROFILE' $file |tail -1| awk '{print $4}'`
+    x_pf1=`grep ' PSXY_PROFILE ' $file |head -1| awk '{print $3}'`
+    y_pf1=`grep ' PSXY_PROFILE ' $file |head -1| awk '{print $4}'`
+    x_pf2=`grep ' PSXY_PROFILE ' $file |tail -1| awk '{print $3}'`
+    y_pf2=`grep ' PSXY_PROFILE ' $file |tail -1| awk '{print $4}'`
     rate_pf=`echo $x_pf1 $y_pf1 $x_pf2 $y_pf2 | awk '{print ($4-$2)/($3-$1)}'`
     rate_pf_angle=`echo $x_pf1 $y_pf1 $x_pf2 $y_pf2 | awk '{print atan2($4-$2,$3-$1)*180/3.1415926 }'`
     rate_pf_angle=`echo $rate_pf_angle | awk '{if($1<0) {print $1+180} else {print $1}}'`
@@ -860,8 +862,8 @@ eob
     fi
     #exit
     #
-    grep ' PSXY_PROFILE' $file | awk '{print $3,$4}'> .tmp
-    gmt psxy -R -J -O .tmp -W2p,yellow,- -K  >> $ofile
+    grep ' PSXY_PROFILE ' $file | awk '{print $3,$4}'> .tmp
+    gmt psxy -R -J -O .tmp -W2p,yellow,- -K -A  >> $ofile
     gmt psxy -R -J -O .tmp -St.3c -W1.5p,navy -Gwhite -K >> $ofile
     grep "^ " $file |awk '{print $9,$10,$4}' > .tmp
     \cp -f .tmp .tmp1

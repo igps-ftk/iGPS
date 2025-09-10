@@ -139,6 +139,8 @@ if [ "$file_roi" == "" ]; then #DIPP defaults
   file_roi=${esa_data}/vector/L0.roi_tibet_20210327.kml
   file_roi=${esa_data}/vector/L0.roi_tibet_20220325.kml
   file_roi=${esa_data}/vector/L0.roi_tibet_20241216.kml
+  file_roi=${esa_data}/vector/L0.roi_tibet_20250506.kml
+
   #file_roi=${esa_data}/vector/L0.roi_tibet.kml
   #file_roi=${esa_data}/vector/L0.roi_tibet.arv.kml
   #file_roi=${esa_data}/vector/L0.roi_tibet_20210327_chuandian.psxy
@@ -148,12 +150,12 @@ if [ "$file_roi" == "" ]; then #DIPP defaults
       #orb_type='ASCENDIGN'
       path=/g15a/gsar/china_east/S1.3
       ;;
-    gpsac12|gpsac14)
+    gpsac12)
       orb_type='ASCENDING'
       path=/g14i/esa.data/china_east/S1.3
       path=/g18h/gsar/tmp
       path=/g19b/gsar/tmp/
-      path=/g11d/gsar/tmp/
+      path=/g6f/gsar/tmp/
       ;;
     gpsac17)
       #orb_type='DESCENDING'
@@ -171,7 +173,7 @@ if [ "$file_roi" == "" ]; then #DIPP defaults
       orb_type='DESCENDING'
       path=/g18h/gsar/tmp2/
       path=/g19b/gsar/tmp2/
-      path=/g11d/gsar/tmp2/
+      path=/g6f/gsar/tmp2/
       ;; 
     gpsac18)
       #orb_type='DESCENDING'

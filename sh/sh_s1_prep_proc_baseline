@@ -46,6 +46,8 @@ ofile=intf.in
 
 is_verbose=n
 
+season_max_day=-31 #only output interferograms in the same season  (<=0 means not )
+
 while [ "$1" != "" ]; 
 do
   case $1 in
@@ -69,6 +71,9 @@ do
       ;;
     -u|-update_config)
       update_config=$2
+      ;;
+    -s|-season|-season_max_day)
+      season_max_day=$2
       ;;
     -v|-verbose)
       is_verbose=$2
@@ -103,42 +108,57 @@ nday=`cat $file | sort | wc -l`
 \rm -f $ofile
 i=1
 while [ $i -le $nday ]; do
-    j=`expr $i + 1`
-    while [ $j -le $nday ]; do
-  #Remove large perpendicular baseline pairs
-  dist=`echo $dists | awk '{print sqrt(($i-$j)*($i-$j)) }' i=$i j=$j`
-  isOK=`echo $dist $max_dist | awk '{if($1<=$2){print 1}else{print 0}}'`
-  if [ $isOK -ne 1 ]; then
+  j=`expr $i + 1`
+  while [ $j -le $nday ]; do
+    #Remove large perpendicular baseline pairs
+    dist=`echo $dists | awk '{print sqrt(($i-$j)*($i-$j)) }' i=$i j=$j`
+    isOK=`echo $dist $max_dist | awk '{if($1<=$2){print 1}else{print 0}}'`
+    if [ $isOK -ne 1 ]; then
       img1=`echo $ids | awk '{print $i}' i=$i`
       img2=`echo $ids | awk '{print $j}' j=$j`
-            if [ "$is_verbose" == "y" ]; then
-          echo "[$PROG]INFO:large distance ($dist meters) between $img1 and $img2. Skipped!"
-            fi
+      if [ "$is_verbose" == "y" ]; then
+        echo "[$PROG]INFO:large distance ($dist meters) between $img1 and $img2. Skipped!"
+      fi
       j=`expr $j + 1`
       continue
-  fi
-  #
-  #Remove long temporal interval
-  interval=`echo $doyrs | awk '{print sqrt(($i-$j)*($i-$j)) }' i=$i j=$j`
-  isOK=`echo $interval $min_interval $max_interval | awk '{if($1>=$2&&$1<=$3){print 1}else{print 0}}'`
-  if [ $isOK -ne 1 ]; then
+    fi
+    #
+    #Remove long temporal interval
+    interval=`echo $doyrs | awk '{print sqrt(($i-$j)*($i-$j)) }' i=$i j=$j`
+    isOK=`echo $interval $min_interval $max_interval | awk '{if($1>=$2&&$1<=$3){print 1}else{print 0}}'`
+    if [ $isOK -ne 1 ]; then
       img1=`echo $ids | awk '{print $i}' i=$i`
       img2=`echo $ids | awk '{print $j}' j=$j`
-            if [ "$is_verbose" == "y"  ]; then
+      if [ "$is_verbose" == "y"  ]; then
         echo "[$PROG]INFO:too short/long time interval ($interval days) between $img1 and $img2. Skipped!"
-            fi
+      fi
       j=`expr $j + 1`
       continue
-  fi
-  #
-  if [ $super_master_ind -eq 1 ]; then
+    fi
+    # 
+    #Remove different seasons
+    #echo interval $interval season_max_day $season_max_day
+    if [ $season_max_day -gt 0 ]; then
+      isOK=`echo $interval $season_max_day | awk '{if( ($1 % 365) <= $2 ){print 1}else{print 0}}'`
+      if [ $isOK -ne 1 ]; then
+        img1=`echo $ids | awk '{print $i}' i=$i`
+        img2=`echo $ids | awk '{print $j}' j=$j`
+        if [ "$is_verbose" == "y"  ]; then
+          echo "[$PROG]INFO: not in the same season (interval > $season_max_day days) between $img1 and $img2. Skipped!"
+        fi
+        j=`expr $j + 1`
+        continue
+      fi
+    fi
+    #
+    if [ $super_master_ind -eq 1 ]; then
       echo $ids | awk '{print $i":"$j}' i=$i j=$j >> $ofile
-  else
+    else
       echo $ids | awk '{print $i":"$j":"$smi}' i=$i j=$j smi=$super_master_ind >> $ofile
-  fi
-  j=`expr $j + 1`
-    done
-    i=`expr $i + 1`
+    fi
+    j=`expr $j + 1`
+  done
+  i=`expr $i + 1`
 done
 wc -l intf.in
 

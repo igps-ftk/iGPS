@@ -95,6 +95,7 @@ file_gnss=${iGPS}/tables/wang_shen_2019JB018774_Table.S4S5.psvelo
 ofile=
 is_verbose=n
 input_fmt=psvelo #psvelo/psvelou/gps_prd
+is_use_vertical_if_available=y
 
 while [ "$1" != "" ]; do
   case $1 in
@@ -118,6 +119,9 @@ while [ "$1" != "" ]; do
       ;;
     -o|-ofile)
       ofile=$2
+      ;;
+    -u|-uv|-uu|-use_vertical|-use_up)
+      is_use_vertical_if_available=$2
       ;;
     -V|-ver|-verbose)
       is_verbose=y
@@ -233,6 +237,7 @@ echo "[$PROG]INFO: file_gnss ($input_fmt) $file_gnss"
 
 #temporary files
 file_tmp_llh=_tmp_${PROG}_${timestamp}_llh
+file_tmp_gnssraw=_tmp_${PROG}_${timestamp}_gnssraw
 file_tmp_llh_all=_tmp_${PROG}_${timestamp}_llh_all
 file_tmp_llh_gnss=_tmp_${PROG}_${timestamp}_llh_gnss
 file_tmp_gnss=_tmp_${PROG}_${timestamp}_gnss
@@ -244,19 +249,33 @@ file_tmp_rrhll=_tmp_${PROG}_${timestamp}_rrhll
 #extract height for gnss sites
 #cat $file_gnss | awk '{print $1,$2}' | gmt grdtrack -G$file_dem -N > $file_tmp_llh
 cat $file_gnss | awk '{print $1,$2}' | gmt grdtrack -G$file_vel -N > $file_tmp_llh
-paste $file_tmp_llh $file_gnss > $file_tmp_llh_all
+
+#fix a bug for gps_prd file with header line by tianyf on Wed Jun  4 03:24:14 EDT 2025
+#remove the header line
+grep -iv Tau_h $file_gnss > $file_tmp_gnssraw 
+
+paste $file_tmp_llh $file_tmp_gnssraw > $file_tmp_llh_all
+
 cat $file_tmp_llh_all | grep -iv nan | awk '{print $1,$2}' | gmt grdtrack -G$file_dem -N > $file_tmp_llh
 case $input_fmt in
   psvelo)
-    cat $file_tmp_llh_all | grep -iv nan | awk '{print $4,$5,$6,$7,$8,$9,$10,$11,0}' > $file_tmp_gnss
+    cat $file_tmp_llh_all | grep -iv nan | awk '{print $4,$5,$6,$7,$8,$9,$10,$11,0}' > $file_tmp_gnss #no vertical rate
     ;;
   psvelou)
-    cat $file_tmp_llh_all | grep -iv nan | awk '{print $4,$5,$6,$7,$8,$9,$10,$11,$12}' > $file_tmp_gnss
+    if [ "$is_use_vertical_if_available" = "y" ]; then
+      cat $file_tmp_llh_all | grep -iv nan | awk '{print $4,$5,$6,$7,$8,$9,$10,$11,$12}' > $file_tmp_gnss
+    else
+      cat $file_tmp_llh_all | grep -iv nan | awk '{print $4,$5,$6,$7,$8,$9,$10,$11,0}' > $file_tmp_gnss
+    fi
     ;;
   gps_prd)
     #   long      lat       Ve      dVe       Vn      dVn       Vu      dVn    Tau_h   Tau_v
     #   88.000   25.500  10.9798   0.8712  23.4754   0.8247  -4.4014   8.8053  70.0000  95.0000
-    cat $file_tmp_llh_all | grep -iv nan | awk '{printf("%8.3f %7.3f  %8.4f %8.4f  %8.4f %8.4f %6.3f %04d_GHI %8.4f\n", $4,$5,$6,$8,$7,$9,.01,NR,$10)}'  > $file_tmp_gnss
+    if [ "$is_use_vertical_if_available" = "y" ]; then
+      cat $file_tmp_llh_all | grep -iv nan | awk '{printf("%8.3f %7.3f  %8.4f %8.4f  %8.4f %8.4f %6.3f %04d_GHI %8.4f\n", $4,$5,$6,$8,$7,$9,.01,NR,$10)}'  > $file_tmp_gnss
+    else
+      cat $file_tmp_llh_all | grep -iv nan | awk '{printf("%8.3f %7.3f  %8.4f %8.4f  %8.4f %8.4f %6.3f %04d_GHI %8.4f\n", $4,$5,$6,$8,$7,$9,.01,NR,0)}'  > $file_tmp_gnss
+    fi
     ;;
   *)
     echo -e "[$PROG]\033[1;33;41mERROR\033[0m: wrong gnss velocity file format ($input_fmt)!!"

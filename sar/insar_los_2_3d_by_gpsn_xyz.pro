@@ -181,16 +181,64 @@ PRO INSAR_LOS_2_3D_BY_GPSN_XYZ, paths
     ;      paths=read_txt(file_list,comment='~ ')
     ;      paths=STRTRIM(paths,2)
     ;
-    ;shuanghu
-    ;    file_gnss='D:\gsar\gic3dv\jiali\asc_des\gps_prd'
-    ;    ;file_gnss='D:\gsar\gic3dv\jiali\asc_des.linzhi_voronoi\asc_des.linzhi\gps_prd'
-    ;    file_list='D:\gsar\gic3dv\shuanghu\asc_des\sbas_list.txt'
-    ;    ofile='D:\gsar\gic3dv\shuanghu\asc_des\insar_los_2_3d-20241120.psvelo'
+    ;;    ; jiali with densified NINH network; no GPS vertical
+    ;    file_list='D:\gsar\gic3dv\jiali\interp\asc_des\sbas_list_20250604b.txt'
     ;    paths=read_txt(file_list,comment='~ ')
     ;    paths=STRTRIM(paths,2)
+    ;    file_gnss='D:\gsar\gic3dv\jiali\interp\asc_des\gps_prd'
+    ;    ofile='D:\gsar\gic3dv\jiali\interp\asc_des\insar_3d-20250604_noGPSup.psvelo'
+    ;    ofile='D:\gsar\gic3dv\jiali\interp\asc_des\insar_3d-20250604_withGPSup.psvelo'
+    ;    ofile='D:\gsar\gic3dv\jiali\interp\asc_des\insar_3d-20250604_withGPSupExt.psvelo'
   
+    ;    ;with LGN network (3D)
+    ;    file_list='D:\gsar\gic3dv\jiali\interp\asc_des2\sbas_list_20250604Ext.txt'
+    ;    paths=read_txt(file_list,comment='~ ')
+    ;    paths=STRTRIM(paths,2)
+    ;    file_gnss='D:\gsar\gic3dv\jiali\interp\asc_des2\gps_prd'
+    ;    ofile='D:\gsar\gic3dv\jiali\interp\asc_des2\insar_3d-20250628_withGPSupExt.psvelo'
   
+    ;    ; jiali East with densified NINH network; with GPS vertical
+    ;    file_list='D:\gsar\gic3dv\jiali\interp\asc_des\sbas_list_20250620_jialiEast.txt'
+    ;    paths=read_txt(file_list,comment='~ ')
+    ;    paths=STRTRIM(paths,2)
+    ;    file_gnss='D:\gsar\gic3dv\jiali\interp\asc_des\gps_prd'
+    ;    ofile='D:\gsar\gic3dv\jiali\interp\asc_des\insar_3d-20250620_jialiEast.psvelo'
   
+    ;        ; re-processsed 143+77 (validate the results: seems good)
+    ;        file_list='D:\gsar\gic3dv\jiali\interp\asc_des2\sbas_list_20250807.txt'
+    ;        paths=read_txt(file_list,comment='~ ')
+    ;        paths=STRTRIM(paths,2)
+    ;        file_gnss='D:\gsar\gic3dv\jiali\interp\asc_des2\gps_prd'
+    ;        ofile='D:\gsar\gic3dv\jiali\interp\asc_des2\insar_3d-20250807.psvelo'
+    ;
+    ;
+    file_list='D:\gsar\gic3dv\jiali\interp\asc_des\sbas_list_20250903.txt'
+    paths=read_txt(file_list,comment='~ ')
+    paths=STRTRIM(paths,2)
+    file_gnss='C:\GMT_pub\gps\wang.min.jgr2020\rotinv.eastern_lhasa_block\resf.psvelo'
+    fmt_gnss='psvelo'
+    ofile='D:\gsar\gic3dv\jiali\interp\asc_des\insar_3d-20250903.psvelo'
+    
+    ;
+    ;
+    ;shuanghu
+    ;;        file_gnss='D:\gsar\gic3dv\jiali\asc_des\gps_prd'
+    ;        ;file_gnss='D:\gsar\gic3dv\jiali\asc_des.linzhi_voronoi\asc_des.linzhi\gps_prd'
+    ;        file_gnss='C:\GMT_pub\gps\wang.min.jgr2020\rotinv.kunlun2\resf.psvelo'
+    ;        fmt_gnss='psvelo'
+    ;        file_list='D:\gsar\gic3dv\shuanghu\asc_des\sbas_list_20250601.txt'
+    ;        ofile='D:\gsar\gic3dv\shuanghu\asc_des\insar_los_2_3d-20250601.psvelo'
+    ;        paths=read_txt(file_list,comment='~ ')
+    ;        paths=STRTRIM(paths,2)
+    ;
+    
+    ;    ;jiali+bengco+gyaringco
+    ;    file_gnss='D:\gsar\gic3dv\jiali\asc_des.linzhi_voronoi\asc_des.linzhi\gps_prd'
+    ;    file_list='D:\gsar\gic3dv\jiali\asc_des.linzhi_voronoi\asc_des.linzhi\sbas_list_2025026.txt'
+    ;    paths=read_txt(file_list,comment='~ ')
+    ;    paths=STRTRIM(paths,2)
+    ;    ofile='D:\gsar\gic3dv\jiali\asc_des.linzhi_voronoi\asc_des.linzhi\insar_3d-20250526.psvelo'
+    ;
     ;
     ;    ;iys sse
     ;    paths=['D:\gsar\interseismic\012-a-m6-0078_0083_0088_0093_0098_0103-mht\f123\sbas.4.0.0367.9999.20150603.20230317.060.0597.01.___',  $
@@ -199,7 +247,7 @@ PRO INSAR_LOS_2_3D_BY_GPSN_XYZ, paths
     ;
     ;      file_gnss='C:\tmp\gic3dv\jiali\asc_des\gps_prd'
     ;      ofile='C:\tmp\gic3dv\iys\asc_des\insar_los_2_3d.psvelo'
-  
+    
     ;paths=['D:\gsar\interseismic\012-a-m4-0083_0088_0093_0098-iys\f123\sbas.4.0.0001.9999.20150603.20231112.220.1059.01.___', $
     ;'D:\gsar\interseismic\085-a-m3-0083_0088_0093-mht\f123\sbas.4.0.0367.9999.20150608.20210320.146.1700.01.___', $
     ;'D:\gsar\interseismic\121-d-m3-0491_0496_0501-dingjie_mht\f123\sbas.4.0.0367.9999.20150611.20181228.072.0261.01.___']
@@ -211,7 +259,7 @@ PRO INSAR_LOS_2_3D_BY_GPSN_XYZ, paths
     ;      'D:\gsar\interseismic\012-a-m4-0083_0088_0093_0098-iys\f123\sbas.4.0.0367.9999.20150603.20231112.220.0706.01.___']
     ;    file_gnss='D:\gsar\gic3dv\jiali\asc_des\gps_prd'
     ;    ofile='D:\gsar\gic3dv\yzs\asc_des\insar_los_2_3d_20240427.psvelo'
-  
+    
     ;      file_list='D:\gsar\gic3dv\yzs\asc_des\sbas.list.y15-19.txt'
     ;      paths=read_txt(file_list,comment='~ ')
     ;      paths=STRTRIM(paths,2)
@@ -219,7 +267,7 @@ PRO INSAR_LOS_2_3D_BY_GPSN_XYZ, paths
     ;      HELP, paths
     ;      file_gnss='D:\gsar\gic3dv\jiali\asc_des\gps_prd'
     ;      ofile='D:\gsar\gic3dv\yzs\asc_des\insar_los_2_3d_20240516_y2015-2019.psvelo'
-  
+    
     ;    file_list='D:\gsar\gic3dv\yzs\asc_des\sbas.list.y15-19-gacos.txt'
     ;    paths=read_txt(file_list,comment='~ ')
     ;    paths=STRTRIM(paths,2)
@@ -228,148 +276,193 @@ PRO INSAR_LOS_2_3D_BY_GPSN_XYZ, paths
     ;    file_gnss='D:\gsar\gic3dv\jiali\asc_des\gps_prd'
     ;    ofile='D:\gsar\gic3dv\yzs\asc_des\insar_los_2_3d_20240801_y2015-2019-gacos.psvelo'
     ;
-  
-    ;
-    ;
-    ;
-    ;      ;tianshan
-    ;          paths=[ $
-    ;          ;'D:\gsar\interseismic\056-a-m3-0128_0133_0138-tianshan\f123\sbas.4.0.0366.9999.20151004.20210129.078.1656.01.___',  $
-    ;          'D:\gsar\interseismic\056-a-m3-0123_0128_0133-tianshan1M3\f123.1\sbas.3.0.0400.9999.20141114.20191230.102.0329.01.___', $
-    ;          'D:\gsar\interseismic\034-d-m8-0448_0452_0456_0461_0466_0471_0476_0481-tianshan\f123\sbas.4.0.0367.9999.20151015.20221026.056.0435.01.___']
-    ;          ;'D:\gsar\interseismic\034-d-m3-0448_0452_0457-tianshan\f123\sbas.4.0.0366.9999.20141020.20200310.094.0792.01.___',  $
-    ;          ;'D:\gsar\interseismic\136-d-m5-0454_0459_0464_0471_0476-tarim\f123\sbas.4.0.0001.9999.20141027.20211219.050.0659.01.___']
-    ;          ;'D:\gsar\interseismic\136-d-m3-0449_0454_0459-tianshan4M3\f123.1\SBAS4.500-']
-  
-    ;          paths=['D:\gsar\interseismic\034-d-m4-0448_0452_0457_0462-tianshan\f123\sbas.4.0.0001.9999.20151015.20240125.139.0800.01.___',  $
-    ;          'D:\gsar\interseismic\136-d-m4-0449_0454_0459_0464-tianshan4M3\f123\sbas.4.0.0001.9999.20150928.20211219.132.0586.01.___', $
-    ;          'D:\gsar\interseismic\056-a-m4-0123_0128_0133_0138-tianshan\f123\sbas.4.0.0001.9999.20151004.20240126.223.0703.01.___', $
-    ;          'D:\gsar\interseismic\129-a-m3-0124_0129_0134-kashi\f123.1\sbas.3.0.0400.9999.20151009.20200409.113.0342.01.___']
-    ;
-    ;
-    ;          file_gnss='D:\gsar\gic3dv\tianshan\asc_des\gps_prd'
-    ;          ofile='D:\gsar\gic3dv\tianshan\asc_des\insar_3d_20240315b.psvelou'
-  
-    ;
-    ;      ;menyuan
-    ;      paths=[ $
-    ;      ;'D:\gsar\interseismic\033-d-m4-0458_0463_0468_0473-qinghai_lake_haiyuan\f123\sbas.4.0.0367.9999.20141031.20210421.147.1280.01.___',  $
-    ;      ;'D:\gsar\interseismic\004-d-m6-0461_0466_0471_0476_0481_0486-eastkunlun\f123\sbas.4.0.0367.9999.20141029.20210513.077.0653.01.___', $
-    ;;      'D:\gsar\interseismic\106-d-m7-0460_0465_0470_0475_0480_0485_0490-eastkunlun2M\f123\sbas.4.0.0001.9999.20150808.20210520.074.0396.01.___',  $
-    ;      'D:\gsar\interseismic\135-d-m7-0451_0456_0461_0467_0472_0477-0482-haiyuan_gulang\f123\sbas.4.0.0001.9999.20150130.20221020.049.0596.01.___',  $
-    ;      ;'D:\gsar\interseismic\062-d-m6-0447_0452_0457_0462_0467_0472-haiyuan4M3\f123\sbas.4.0.0001.9999.20150206.20210517.053.0561.01.___', $
-    ;      'D:\gsar\interseismic\062-d-m3-0462_0467_0472-haiyuan4M3\f123\sbas.4.0.0367.9999.20150206.20210423.144.1350.01.___',  $
-    ;      'D:\gsar\interseismic\055-a-m3-0112_0117_0122-haiyuan1M3\f123\sbas.4.0.0367.9999.20141021.20210423.122.1215.01.___', $
-    ;      'D:\gsar\interseismic\157-a-m4-1018_0113_0118_0123-haiyuan\f123\sbas.4.0.0367.9999.20141016.20210406.144.1437.01.___', $
-    ;;      'D:\gsar\interseismic\099-a-m4-0117_0122_0126_0131-atf\f123\sbas.4.0.0367.9999.20141012.20210402.152.1300.01.___', $
-    ;;      'D:\gsar\interseismic\026-a-m7-0092_0097_0102_0107_0112_0117_0122-eastkunlun1M3\f123\sbas.4.0.0001.9999.20141019.20210515.137.0650.01.___', $
-    ;      'D:\gsar\interseismic\128-a-m6-0100_0105_0110_0115_0120_0125-eastkunlun9M3\f123\sbas.4.0.0001.9999.20141014.20230406.060.0800.01.___', $
-    ;      'D:\gsar\interseismic\128-a-m3-0115_0120_0125-haiyuan\f123\sbas.4.9.0367.9999.20141014.20201006.136.1451.01.___']
-    ;;      'D:\gsar\interseismic\026-a-m4-0117_0122_0127_0132-qilian\f123\sbas.4.0.0367.9999.20141019.20210208.140.1329.01.___']
-    ;
-    ;    file_gnss='C:\tmp\gic3dv\kunlun\asc_des\gps_prd'
-    ;      ofile='C:\tmp\gic3dv\hyf\asc_des\insar_los_2_3d_1920.psvelo'
-  
-    ;    ;2022 menyuan EQ, preslip
-    ;    paths=[ $
-    ;      'D:\gsar\interseismic\033-d-m4-0458_0463_0468_0473-qinghai_lake_haiyuan\f123\sbas.4.0.0001.9999.20141031.20211229.167.0644.01.___',  $
-    ;      'D:\gsar\interseismic\106-d-m4-0460_0465_0470_0475-qinghai_lake4M3\f123\sbas.4.0.0001.9999.20141117.20210520.151.0800.01.___',  $
-    ;      ;'D:\gsar\interseismic\135-d-m4-0461_0467_0472_0477-haiyuan_gulang\f123\sbas.4.0.0001.9999.20141026.20211212.144.0277.01.___',  $
-    ;
-    ;      'D:\gsar\interseismic\128-a-m4-0110_0115_0120_0125-haiyuan\f123\sbas.4.0.0001.9999.20141014.20211224.174.0564.01.___', $
-    ;      'D:\gsar\interseismic\026-a-m4-0117_0122_0127_0132-qilian\f123\sbas.4.0.0367.9999.20141019.20210208.140.1329.01.___']
-    ;
-    ;    file_gnss='D:\gsar\gic3dv\kunlun\asc_des\gps_prd'
-    ;    ofile='D:\gsar\gic3dv\hyf\asc_des\insar_3d_20240812.psvelo'
-    ;
-    ;        ;lajishan
-    ;    paths=[ $
-    ;       'D:\gsar\interseismic\135-d-m4-0461_0467_0472_0477-haiyuan_gulang\f123\sbas.4.0.0001.9999.20141026.20220105.148.0451.01.___',  $
-    ;
-    ;      'D:\gsar\interseismic\128-a-m4-0110_0115_0120_0125-haiyuan\f123\sbas.4.0.0001.9999.20141014.20211224.174.0564.01.___']
-    ;
-    ;    file_gnss='D:\gsar\gic3dv\kunlun\asc_des\gps_prd'
-    ;    ofile='D:\gsar\gic3dv\hyf\asc_des\insar_3d_20240815_lajishan.psvelo'
-  
-    ;        ;lajishan
-    ;    paths=[ $
-    ;       'D:\gsar\interseismic\033-d-m4-0463_0468_0473_0478-lajishan\F1\sbas.4.0.0367.9999.20141031.20240803.220.0314.01.___',  $
-    ;
-    ;      'D:\gsar\interseismic\128-a-m4-0110_0115_0120_0125-haiyuan\f123\sbas.4.0.0001.9999.20141014.20211224.174.0564.01.___']
-    ;
-    ;    file_gnss='D:\gsar\gic3dv\kunlun\asc_des\gps_prd'
-    ;    ofile='D:\gsar\gic3dv\hyf\asc_des\insar_3d_20240820_lajishan.psvelo'
-    ;
-    ;
-    ;    ;      ;pishan
-    ;    paths=[ $
-    ;      'D:\gsar\interseismic\136-d-m5-0471_0476_0481_0486_0491-aksaichin\f123\sbas.4.0.0001.9999.20150928.20230829.115.0800.01.___',  $
-    ;      'D:\gsar\interseismic\034-d-m5-0461_0466_0471_0476_0481-tibet\f123\sbas.4.0.0001.9999.20151015.20221026.056.0800.01.___', $
-    ;      'D:\gsar\interseismic\063-d-m5-0462_0467_0472_0478_0483-aksaichin2_karakoram\f123\sbas.4.0.0001.9999.20141010.20230707.109.0787.01.___',  $
-    ;      'D:\gsar\interseismic\056-a-m5-0098_0103_0108_0113_0118-tibet\f123\sbas.4.0.0001.9999.20141114.20230811.082.0800.01.___',  $ ;contain coseismic
-    ;      ;'D:\gsar\interseismic\056-a-m3-0114_0119_0124-karakax\f123.1\sbas.3.0.0700.9999.20150724.20200615.116.0333.01.post', $
-    ;      'D:\gsar\interseismic\129-a-m3-0114_0119_0124-karakax\f123\sbas.4.0.0367.9999.20151009.20210404.143.1255.01.___',  $
-    ;      'D:\gsar\interseismic\055-a-m3-0112_0117_0122-haiyuan1M3\f123\sbas.4.0.0367.9999.20141021.20210423.122.1215.01.___']
-    ;
-    ;    file_gnss='D:\gsar\gic3dv\pishan\asc_des\gps_prd'
-    ;    ofile='D:\gsar\gic3dv\pishan\asc_des\insar_3d.psvelo'
-    ;
-    ;    ;      ;western Tibet
-    ;    file_list='D:\gsar\gic3dv\g219\asc_des\sbas.list.txt'
+    ;    file_list='D:\gsar\gic3dv\yzs\asc_des\sbas.list.20250505.txt'
     ;    paths=read_txt(file_list,comment='~ ')
     ;    paths=STRTRIM(paths,2)
     ;    ;paths=paths[0]
     ;    HELP, paths
-    ;    file_gnss='D:\gsar\gic3dv\g219\asc_des\gps_prd'
-    ;    ofile='D:\gsar\gic3dv\g219\asc_des\insar_3d.psvelo'
+    ;    file_gnss='C:\GMT_pub\gps\wang.min.jgr2020\rotinv.eastern_lhasa_block\resf.psvelo'
+    ;    fmt_gnss='psvelo'
+    ;    ofile='D:\gsar\gic3dv\yzs\asc_des\insar_3d_20250505.psvelo'
     ;
-    ;
-    ;
-  
-    ;;mht
-    ;paths=['D:\gsar\interseismic\012-a-m3-0078_0083_0088-mht\f123\sbas.4.0.0367.9999.20160105.20210219.133.1700.01.___',  $
-    ;'D:\gsar\interseismic\121-d-m3-0491_0496_0501-dingjie_mht\f123\sbas.4.0.0367.9999.20160313.20210323.133.1702.01.___', $
-    ;'D:\gsar\interseismic\048-d-m3-0494_0499_0504-mht\f123\sbas.4.0.0900.9999.20150606.20210210.124.0563.01.___']
-    ;
-    ;    file_gnss='C:\GMT_pub\gps\wang.min.jgr2020\rotinv.indian_plate\resf.psvelo'
-    ;    ofile='D:\gsar\gic3dv\mht\asc_des\insar_3d.psvelo'
-    ;
-    ;  ;Gyaring Co fault
-    ;  paths=[$
-    ;    '', $
-    ;    '', $
-    ;    '', $
-    ;    '']
-    ;
-    ;    file_gnss='C:\tmp\gic3dv\pishan\asc_des\gps_prd'
-    ;      ofile='C:\tmp\gic3dv\pishan\asc_des\insar_los_2_3d.psvelo'
-  
-    ;    ;atf D019 track
-    ;    paths=['D:\gsar\interseismic\114-a-m6-0100_0105_0110_0115_0120_0125-altyntagh2\f123\sbas.4.0.0001.9999.20141106.20231107.120.0546.01.___',  $
-    ;      'D:\gsar\interseismic\019-d-m4-0461_0466_0471_0476-altyntagh_M3\f123\sbas.4.0.0001.9999.20141031.20240229.155.0238.01.___', $
-    ;      'D:\gsar\interseismic\019-d-m5-0461_0466_0471_0476_0481-atf\f123\sbas.4.0.0001.9999.20141031.20230330.057.0323.01.___', $
-    ;      'D:\gsar\interseismic\121-d-m6-0462_0467_0472_0477_0482_0487-atf_kunlun\f123\sbas.4.0.0367.9999.20141026.20230325.048.0459.01.___', $
-    ;      'D:\gsar\interseismic\048-d-m4-0457_0462_0467_0472-qaidagasikule2__altyntagh\f123\sbas.4.0.0367.9999.20141101.20211112.160.1300.01.___',$
-    ;      'D:\gsar\interseismic\048-d-m6-0462_0467_0472_0477_0482-0487-kunlun\f123\sbas.4.0.0001.9999.20141101.20230401.054.0103.01.___',$
-    ;      'D:\gsar\interseismic\041-a-m6-0099_0104_0109_0114_0119_0124-altyntagh_kunlun\f123\sbas.4.0.0001.9999.20141020.20230223.060.0101.01.___', $
-    ;      'D:\gsar\interseismic\143-a-m4-0115_0120_0125_0130-altyntagh_M3\f123\sbas.4.0.0367.9999.20141015.20210417.155.1300.01.___', $
-    ;      'D:\gsar\interseismic\143-a-m4-0105_0110_0115_0120-kunlun5_wulan4_nujiang5\f123\sbas.4.0.0900.9999.20141015.20210228.154.0739.01.___',$
-    ;      'D:\gsar\interseismic\092-d-m5-0460_0465_0470_0475_0480-altyntagh_M3\f123\sbas.4.0.0001.9999.20141012.20221030.054.0800.01.___',  $
-    ;      'D:\gsar\interseismic\165-d-m6-0467_0472_0477_0482_0487_0492-woniuhu4M3\f123\sbas.4.0.0367.9999.20141029.20230208.063.0258.01.___',$
-    ;      ;'D:\gsar\interseismic\085-a-m6-0098_0104_0109_0114_0119_0124-atf\f123\sbas.4.0.0001.9999.20150515.20230415.057.0380.01.___',  $
-    ;      'D:\gsar\interseismic\085-a-m4-0088_0093_0098_0103-gaize_yzs5\f123\sbas.4.0.0367.9999.20150515.20211127.164.1300.01.___',$
-    ;      'D:\gsar\interseismic\085-a-m4-0104_0109_0114_0119-woniuhu1M3\f123\sbas.4.0.0367.9999.20141116.20220303.182.1300.01.___',$
-    ;      'D:\gsar\interseismic\012-a-m6-0104_0109_0114_0119_0124_0129-altyntagh\f123\sbas.4.0.0367.9999.20141229.20230410.057.0557.01.roi_detrend']
-    ;
-  
-;;    file_list='\\10.4.134.30\root\g11j\D\gsar\gic3dv\atf.d019\asc_des.3rd-order\sbas.list.txt'
-;    file_list='D:\gsar\gic3dv\atf.d019\validation.dataset\3d.deformation.field\sbas.list.txt'
+;    file_list='D:\gsar\gic3dv\yzs\asc_des\sbas.list.20250721.txt'
+;    file_list='D:\gsar\gic3dv\yzs\asc_des\sbas.list.20250808.txt'
+;    file_list='D:\gsar\gic3dv\yzs\asc_des\sbas.list.20250809.txt'
+;    ;    file_list='D:\gsar\gic3dv\yzs\asc_des\sbas.list.20250808pre.txt'
 ;    paths=read_txt(file_list,comment='~ ')
 ;    paths=STRTRIM(paths,2)
-;    file_gnss='D:\gsar\gic3dv\atf.d019\validation.dataset\gnss_velocity_field\gps_prd'
-;;    ofile='D:\gsar\gic3dv\atf.d019\asc_des.3rd-order\insar_3d_20250306.psvelou'
-;    ofile='D:\gsar\gic3dv\atf.d019\validation.dataset\3d.deformation.field\insar_3d.psvelou'
-;  
+;    ;paths=paths[0]
+;    HELP, paths
+;    file_gnss='C:\GMT_pub\gps\wang.min.jgr2020\rotinv.eastern_lhasa_block\resf.psvelo'
+;    fmt_gnss='psvelo'
+;    ofile='D:\gsar\gic3dv\yzs\asc_des\insar_3d_20250809.psvelo'
+;  ;    ofile='D:\gsar\gic3dv\yzs\asc_des\insar_3d_20250808pre.psvelo'
+;  ;    dlon=9d-3
+;  ;
+  ;
+  ;
+  ;      ;tianshan
+  ;          paths=[ $
+  ;          ;'D:\gsar\interseismic\056-a-m3-0128_0133_0138-tianshan\f123\sbas.4.0.0366.9999.20151004.20210129.078.1656.01.___',  $
+  ;          'D:\gsar\interseismic\056-a-m3-0123_0128_0133-tianshan1M3\f123.1\sbas.3.0.0400.9999.20141114.20191230.102.0329.01.___', $
+  ;          'D:\gsar\interseismic\034-d-m8-0448_0452_0456_0461_0466_0471_0476_0481-tianshan\f123\sbas.4.0.0367.9999.20151015.20221026.056.0435.01.___']
+  ;          ;'D:\gsar\interseismic\034-d-m3-0448_0452_0457-tianshan\f123\sbas.4.0.0366.9999.20141020.20200310.094.0792.01.___',  $
+  ;          ;'D:\gsar\interseismic\136-d-m5-0454_0459_0464_0471_0476-tarim\f123\sbas.4.0.0001.9999.20141027.20211219.050.0659.01.___']
+  ;          ;'D:\gsar\interseismic\136-d-m3-0449_0454_0459-tianshan4M3\f123.1\SBAS4.500-']
+    
+  ;          paths=['D:\gsar\interseismic\034-d-m4-0448_0452_0457_0462-tianshan\f123\sbas.4.0.0001.9999.20151015.20240125.139.0800.01.___',  $
+  ;          'D:\gsar\interseismic\136-d-m4-0449_0454_0459_0464-tianshan4M3\f123\sbas.4.0.0001.9999.20150928.20211219.132.0586.01.___', $
+  ;          'D:\gsar\interseismic\056-a-m4-0123_0128_0133_0138-tianshan\f123\sbas.4.0.0001.9999.20151004.20240126.223.0703.01.___', $
+  ;          'D:\gsar\interseismic\129-a-m3-0124_0129_0134-kashi\f123.1\sbas.3.0.0400.9999.20151009.20200409.113.0342.01.___']
+  ;
+  ;
+  ;          file_gnss='D:\gsar\gic3dv\tianshan\asc_des\gps_prd'
+  ;          ofile='D:\gsar\gic3dv\tianshan\asc_des\insar_3d_20240315b.psvelou'
+    
+  ;      file_list='D:\gsar\gic3dv\tianshan\asc_des\sbas.list.20250806.txt'
+  ;    paths=read_txt(file_list,comment='~ ')
+  ;    paths=STRTRIM(paths,2)
+  ;    ;paths=paths[0]
+  ;    HELP, paths
+  ;    ;file_gnss='C:\GMT_pub\gps\wang.min.jgr2020\rotinv.kunlun2\resf.psvelo'
+  ;    file_gnss='C:\GMT_pub\gps\wang.min.jgr2020\rotinv.tarim3\resf.psvelo'
+  ;;    file_gnss='C:\GMT_pub\gps\wang.min.jgr2020\rotinv.chuandian2\resf.psvelo'
+  ;;    file_gnss='C:\GMT_pub\gps\wang.min.jgr2020\rotinv.litang2\resf.psvelo'
+  ;;    file_gnss='C:\GMT_pub\gps\wang.min.jgr2020\rotinv.aba2\resf.psvelo'
+  ;    fmt_gnss='psvelo'
+  ;    ofile='D:\gsar\gic3dv\tianshan\asc_des\insar_3d_20250806.psvelo'
+  ;    dlon=9d-3
+    
+    
+  ;
+  ;      ;menyuan
+  ;      paths=[ $
+  ;      ;'D:\gsar\interseismic\033-d-m4-0458_0463_0468_0473-qinghai_lake_haiyuan\f123\sbas.4.0.0367.9999.20141031.20210421.147.1280.01.___',  $
+  ;      ;'D:\gsar\interseismic\004-d-m6-0461_0466_0471_0476_0481_0486-eastkunlun\f123\sbas.4.0.0367.9999.20141029.20210513.077.0653.01.___', $
+  ;;      'D:\gsar\interseismic\106-d-m7-0460_0465_0470_0475_0480_0485_0490-eastkunlun2M\f123\sbas.4.0.0001.9999.20150808.20210520.074.0396.01.___',  $
+  ;      'D:\gsar\interseismic\135-d-m7-0451_0456_0461_0467_0472_0477-0482-haiyuan_gulang\f123\sbas.4.0.0001.9999.20150130.20221020.049.0596.01.___',  $
+  ;      ;'D:\gsar\interseismic\062-d-m6-0447_0452_0457_0462_0467_0472-haiyuan4M3\f123\sbas.4.0.0001.9999.20150206.20210517.053.0561.01.___', $
+  ;      'D:\gsar\interseismic\062-d-m3-0462_0467_0472-haiyuan4M3\f123\sbas.4.0.0367.9999.20150206.20210423.144.1350.01.___',  $
+  ;      'D:\gsar\interseismic\055-a-m3-0112_0117_0122-haiyuan1M3\f123\sbas.4.0.0367.9999.20141021.20210423.122.1215.01.___', $
+  ;      'D:\gsar\interseismic\157-a-m4-1018_0113_0118_0123-haiyuan\f123\sbas.4.0.0367.9999.20141016.20210406.144.1437.01.___', $
+  ;;      'D:\gsar\interseismic\099-a-m4-0117_0122_0126_0131-atf\f123\sbas.4.0.0367.9999.20141012.20210402.152.1300.01.___', $
+  ;;      'D:\gsar\interseismic\026-a-m7-0092_0097_0102_0107_0112_0117_0122-eastkunlun1M3\f123\sbas.4.0.0001.9999.20141019.20210515.137.0650.01.___', $
+  ;      'D:\gsar\interseismic\128-a-m6-0100_0105_0110_0115_0120_0125-eastkunlun9M3\f123\sbas.4.0.0001.9999.20141014.20230406.060.0800.01.___', $
+  ;      'D:\gsar\interseismic\128-a-m3-0115_0120_0125-haiyuan\f123\sbas.4.9.0367.9999.20141014.20201006.136.1451.01.___']
+  ;;      'D:\gsar\interseismic\026-a-m4-0117_0122_0127_0132-qilian\f123\sbas.4.0.0367.9999.20141019.20210208.140.1329.01.___']
+  ;
+  ;    paths=['D:\gsar\interseismic\004-d-m4-0455_0461_0466_0471-atf\f123\sbas.4.0.0001.9999.20141029.20250317.112.0150.01.___', $
+  ;  ;    'D:\gsar\interseismic\099-a-m4-0117_0122_0126_0131-atf\f123\sbas.4.0.0367.9999.20141012.20210402.152.1300.01.___']
+  ;;      file_list='D:\gsar\gic3dv\hyf\asc_des\sbas_list_20250420.txt'
+  ;      file_list='D:\gsar\gic3dv\hyf\asc_des\sbas_list_20250420b.txt'
+  ;        paths=read_txt(file_list,comment='~ ')
+  ;        paths=STRTRIM(paths,2)
+  ;
+  ;          file_gnss='D:\gsar\gic3dv\kunlun\asc_des\gps_prd'
+  ;  ;          ofile='C:\tmp\gic3dv\hyf\asc_des\insar_los_2_3d_1920.psvelo'
+  ;;            ofile='D:\gsar\gic3dv\hyf\asc_des\insar_3d_20250425.psvelo'
+  ;            ofile='D:\gsar\gic3dv\hyf\asc_des\insar_3d_20250420b.psvelo'
+  ;
+  ;    ;2022 menyuan EQ, preslip
+  ;    paths=[ $
+  ;      'D:\gsar\interseismic\033-d-m4-0458_0463_0468_0473-qinghai_lake_haiyuan\f123\sbas.4.0.0001.9999.20141031.20211229.167.0644.01.___',  $
+  ;      'D:\gsar\interseismic\106-d-m4-0460_0465_0470_0475-qinghai_lake4M3\f123\sbas.4.0.0001.9999.20141117.20210520.151.0800.01.___',  $
+  ;      ;'D:\gsar\interseismic\135-d-m4-0461_0467_0472_0477-haiyuan_gulang\f123\sbas.4.0.0001.9999.20141026.20211212.144.0277.01.___',  $
+  ;
+  ;      'D:\gsar\interseismic\128-a-m4-0110_0115_0120_0125-haiyuan\f123\sbas.4.0.0001.9999.20141014.20211224.174.0564.01.___', $
+  ;      'D:\gsar\interseismic\026-a-m4-0117_0122_0127_0132-qilian\f123\sbas.4.0.0367.9999.20141019.20210208.140.1329.01.___']
+  ;
+  ;    file_gnss='D:\gsar\gic3dv\kunlun\asc_des\gps_prd'
+  ;    ofile='D:\gsar\gic3dv\hyf\asc_des\insar_3d_20240812.psvelo'
+  ;
+  ;        ;lajishan
+  ;    paths=[ $
+  ;       'D:\gsar\interseismic\135-d-m4-0461_0467_0472_0477-haiyuan_gulang\f123\sbas.4.0.0001.9999.20141026.20220105.148.0451.01.___',  $
+  ;
+  ;      'D:\gsar\interseismic\128-a-m4-0110_0115_0120_0125-haiyuan\f123\sbas.4.0.0001.9999.20141014.20211224.174.0564.01.___']
+  ;
+  ;    file_gnss='D:\gsar\gic3dv\kunlun\asc_des\gps_prd'
+  ;    ofile='D:\gsar\gic3dv\hyf\asc_des\insar_3d_20240815_lajishan.psvelo'
+    
+  ;        ;lajishan
+  ;    paths=[ $
+  ;       'D:\gsar\interseismic\033-d-m4-0463_0468_0473_0478-lajishan\F1\sbas.4.0.0367.9999.20141031.20240803.220.0314.01.___',  $
+  ;
+  ;      'D:\gsar\interseismic\128-a-m4-0110_0115_0120_0125-haiyuan\f123\sbas.4.0.0001.9999.20141014.20211224.174.0564.01.___']
+  ;
+  ;    file_gnss='D:\gsar\gic3dv\kunlun\asc_des\gps_prd'
+  ;    ofile='D:\gsar\gic3dv\hyf\asc_des\insar_3d_20240820_lajishan.psvelo'
+  ;
+  ;
+  ;    ;      ;pishan
+  ;    paths=[ $
+  ;      'D:\gsar\interseismic\136-d-m5-0471_0476_0481_0486_0491-aksaichin\f123\sbas.4.0.0001.9999.20150928.20230829.115.0800.01.___',  $
+  ;      'D:\gsar\interseismic\034-d-m5-0461_0466_0471_0476_0481-tibet\f123\sbas.4.0.0001.9999.20151015.20221026.056.0800.01.___', $
+  ;      'D:\gsar\interseismic\063-d-m5-0462_0467_0472_0478_0483-aksaichin2_karakoram\f123\sbas.4.0.0001.9999.20141010.20230707.109.0787.01.___',  $
+  ;      'D:\gsar\interseismic\056-a-m5-0098_0103_0108_0113_0118-tibet\f123\sbas.4.0.0001.9999.20141114.20230811.082.0800.01.___',  $ ;contain coseismic
+  ;      ;'D:\gsar\interseismic\056-a-m3-0114_0119_0124-karakax\f123.1\sbas.3.0.0700.9999.20150724.20200615.116.0333.01.post', $
+  ;      'D:\gsar\interseismic\129-a-m3-0114_0119_0124-karakax\f123\sbas.4.0.0367.9999.20151009.20210404.143.1255.01.___',  $
+  ;      'D:\gsar\interseismic\055-a-m3-0112_0117_0122-haiyuan1M3\f123\sbas.4.0.0367.9999.20141021.20210423.122.1215.01.___']
+  ;
+  ;    file_gnss='D:\gsar\gic3dv\pishan\asc_des\gps_prd'
+  ;    ofile='D:\gsar\gic3dv\pishan\asc_des\insar_3d.psvelo'
+  ;
+  ;    ;      ;western Tibet
+  ;    file_list='D:\gsar\gic3dv\g219\asc_des\sbas.list.txt'
+  ;    paths=read_txt(file_list,comment='~ ')
+  ;    paths=STRTRIM(paths,2)
+  ;    ;paths=paths[0]
+  ;    HELP, paths
+  ;    file_gnss='D:\gsar\gic3dv\g219\asc_des\gps_prd'
+  ;    ofile='D:\gsar\gic3dv\g219\asc_des\insar_3d.psvelo'
+  ;
+  ;
+  ;
+    
+  ;;mht
+  ;paths=['D:\gsar\interseismic\012-a-m3-0078_0083_0088-mht\f123\sbas.4.0.0367.9999.20160105.20210219.133.1700.01.___',  $
+  ;'D:\gsar\interseismic\121-d-m3-0491_0496_0501-dingjie_mht\f123\sbas.4.0.0367.9999.20160313.20210323.133.1702.01.___', $
+  ;'D:\gsar\interseismic\048-d-m3-0494_0499_0504-mht\f123\sbas.4.0.0900.9999.20150606.20210210.124.0563.01.___']
+  ;
+  ;    file_gnss='C:\GMT_pub\gps\wang.min.jgr2020\rotinv.indian_plate\resf.psvelo'
+  ;    ofile='D:\gsar\gic3dv\mht\asc_des\insar_3d.psvelo'
+  ;
+  ;  ;Gyaring Co fault
+  ;  paths=[$
+  ;    '', $
+  ;    '', $
+  ;    '', $
+  ;    '']
+  ;
+  ;    file_gnss='C:\tmp\gic3dv\pishan\asc_des\gps_prd'
+  ;      ofile='C:\tmp\gic3dv\pishan\asc_des\insar_los_2_3d.psvelo'
+    
+  ;    ;atf D019 track
+  ;    paths=['D:\gsar\interseismic\114-a-m6-0100_0105_0110_0115_0120_0125-altyntagh2\f123\sbas.4.0.0001.9999.20141106.20231107.120.0546.01.___',  $
+  ;      'D:\gsar\interseismic\019-d-m4-0461_0466_0471_0476-altyntagh_M3\f123\sbas.4.0.0001.9999.20141031.20240229.155.0238.01.___', $
+  ;      'D:\gsar\interseismic\019-d-m5-0461_0466_0471_0476_0481-atf\f123\sbas.4.0.0001.9999.20141031.20230330.057.0323.01.___', $
+  ;      'D:\gsar\interseismic\121-d-m6-0462_0467_0472_0477_0482_0487-atf_kunlun\f123\sbas.4.0.0367.9999.20141026.20230325.048.0459.01.___', $
+  ;      'D:\gsar\interseismic\048-d-m4-0457_0462_0467_0472-qaidagasikule2__altyntagh\f123\sbas.4.0.0367.9999.20141101.20211112.160.1300.01.___',$
+  ;      'D:\gsar\interseismic\048-d-m6-0462_0467_0472_0477_0482-0487-kunlun\f123\sbas.4.0.0001.9999.20141101.20230401.054.0103.01.___',$
+  ;      'D:\gsar\interseismic\041-a-m6-0099_0104_0109_0114_0119_0124-altyntagh_kunlun\f123\sbas.4.0.0001.9999.20141020.20230223.060.0101.01.___', $
+  ;      'D:\gsar\interseismic\143-a-m4-0115_0120_0125_0130-altyntagh_M3\f123\sbas.4.0.0367.9999.20141015.20210417.155.1300.01.___', $
+  ;      'D:\gsar\interseismic\143-a-m4-0105_0110_0115_0120-kunlun5_wulan4_nujiang5\f123\sbas.4.0.0900.9999.20141015.20210228.154.0739.01.___',$
+  ;      'D:\gsar\interseismic\092-d-m5-0460_0465_0470_0475_0480-altyntagh_M3\f123\sbas.4.0.0001.9999.20141012.20221030.054.0800.01.___',  $
+  ;      'D:\gsar\interseismic\165-d-m6-0467_0472_0477_0482_0487_0492-woniuhu4M3\f123\sbas.4.0.0367.9999.20141029.20230208.063.0258.01.___',$
+  ;      ;'D:\gsar\interseismic\085-a-m6-0098_0104_0109_0114_0119_0124-atf\f123\sbas.4.0.0001.9999.20150515.20230415.057.0380.01.___',  $
+  ;      'D:\gsar\interseismic\085-a-m4-0088_0093_0098_0103-gaize_yzs5\f123\sbas.4.0.0367.9999.20150515.20211127.164.1300.01.___',$
+  ;      'D:\gsar\interseismic\085-a-m4-0104_0109_0114_0119-woniuhu1M3\f123\sbas.4.0.0367.9999.20141116.20220303.182.1300.01.___',$
+  ;      'D:\gsar\interseismic\012-a-m6-0104_0109_0114_0119_0124_0129-altyntagh\f123\sbas.4.0.0367.9999.20141229.20230410.057.0557.01.roi_detrend']
+  ;
+    
+  ;;    file_list='\\10.4.134.30\root\g11j\D\gsar\gic3dv\atf.d019\asc_des.3rd-order\sbas.list.txt'
+  ;    file_list='D:\gsar\gic3dv\atf.d019\validation.dataset\3d.deformation.field\sbas.list.txt'
+  ;    paths=read_txt(file_list,comment='~ ')
+  ;    paths=STRTRIM(paths,2)
+  ;    file_gnss='D:\gsar\gic3dv\atf.d019\validation.dataset\gnss_velocity_field\gps_prd'
+  ;;    ofile='D:\gsar\gic3dv\atf.d019\asc_des.3rd-order\insar_3d_20250306.psvelou'
+  ;    ofile='D:\gsar\gic3dv\atf.d019\validation.dataset\3d.deformation.field\insar_3d.psvelou'
+  ;
     
     
   ;
@@ -475,25 +568,105 @@ PRO INSAR_LOS_2_3D_BY_GPSN_XYZ, paths
   ;
   ;  ;
   ;
-  ;    ;karakoram
-  ;    file_list='D:\gsar\gic3dv\karakoram\asc_des\sbas.list.txt'
+  ;  ;    ;karakoram
+  ;      file_list='D:\gsar\gic3dv\karakoram\asc_des\sbas.list.txt'
+  ;      file_list='D:\gsar\gic3dv\karakoram\asc_des\sbas.list.20250525.txt'
+  ;      file_list='D:\gsar\gic3dv\karakoram\asc_des\sbas.list.20250606.txt'
+  ;      paths=read_txt(file_list,comment='~ ')
+  ;      paths=STRTRIM(paths,2)
+  ;      ;        paths=['D:\gsar\interseismic\129-a-m5-0089_0094_0099_0104_109-mht\f123\sbas.4.0.0001.9999.20150530.20250407.135.0202.01.___' ,  $
+  ;      ;        'D:\gsar\interseismic\056-a-m4-0088_0093_0098_0103-karakoram1_mht\f123\sbas.4.0.0367.9999.20150501.20240219.218.0314.01.___', $
+  ;      ;        ;'D:\gsar\interseismic\165-d-m5-0478_0483_0488_0494_0499-mht\f123\sbas.4.0.0367.9999.20150509.20231018.127.0440.01.___', $
+  ;      ;        ;'D:\gsar\interseismic\063-d-m5-0478_0483_0487_0492_0497-mht\f123\sbas.4.0.0001.9999.20160917.20230917.091.0800.01.___', $
+  ;      ;        'D:\gsar\interseismic\063-d-m3-0483_0487_0492-mht\f123\sbas.4.0.0367.9999.20141022.20220206.149.1620.01.___', $
+  ;      ;        'D:\gsar\interseismic\136-d-m5-0476_0481_0486_0491_0496-mht\f123\sbas.4.0.0367.9999.20150928.20231016.116.0468.01.___' ]
+  ;      ;    ;    ;    file_gnss='D:\gsar\gic3dv\karakoram\asc_des\gps_prd'
+  ;      ;    ;;    ofile='D:\gsar\gic3dv\karakoram\asc_des\insar_3d_20250213.psvelou'
+  ;      ;    ;    file_gnss='C:\GMT_pub\gps\wang.min.jgr2020\rotinv.indian_plate\resf.psvelo'
+  ;      ;    ;    fmt_gnss='psvelo'
+  ;      ;    ;    ofile='D:\gsar\gic3dv\karakoram\asc_des.india\insar_3d_20250213.psvelou'
+  ;      ;    ;
+  ;      file_gnss='C:\GMT_pub\gps\wang.min.jgr2020\rotinv.western_tibet\resf.psvelo'
+  ;      fmt_gnss='psvelo'
+  ;      ofile='D:\gsar\gic3dv\karakoram\asc_des\insar_3d_20250606_western_tibet.psvelou'
+    
+    
+  ;    ; gcf with densified NINH network + interpolation; with GPS vertical
+  ;    file_list='D:\gsar\gic3dv\gcf\asc_des\sbas_list_20250613.txt'
   ;    paths=read_txt(file_list,comment='~ ')
   ;    paths=STRTRIM(paths,2)
-  ;    ;    file_gnss='D:\gsar\gic3dv\karakoram\asc_des\gps_prd'
-  ;;    ofile='D:\gsar\gic3dv\karakoram\asc_des\insar_3d_20250213.psvelou'
-  ;    file_gnss='C:\GMT_pub\gps\wang.min.jgr2020\rotinv.indian_plate\resf.psvelo'
+  ;    file_gnss='D:\gsar\gic3dv\jiali\interp\asc_des\gps_prd'
+  ;    ofile='D:\gsar\gic3dv\gcf\asc_des\insar_3d-20250613.psvelo'
+    
+    
+    
+    
+  ;    ;validation of GCF's motion at its eastern terminus
+  ;  ;    ;d048+a114
+  ;  ;    ;horizontal velocity field (psvelo) relative to eastern Lhasa Block
+  ;       file_list='D:\gsar\gic3dv\gcf\asc_des\sbas_list_20250617_bcf.txt'
+  ;       file_list='D:\gsar\gic3dv\gcf\asc_des\sbas_list_20250626_bcf.txt'
+  ;       file_list='D:\gsar\gic3dv\gcf\asc_des\sbas_list_20250629_bcf.txt'
+  ;       file_list='D:\gsar\gic3dv\gcf\asc_des\sbas_list_20250703_bcf.txt'
+  ;      paths=read_txt(file_list,comment='~ ')
+  ;      paths=STRTRIM(paths,2)
+  ;;      file_gnss='C:\GMT_pub\gps\wang.min.jgr2020\rotinv.eastern_lhasa_block\resf.psvelo'
+  ;;      file_gnss='C:\GMT_pub\gps\wang.min.jgr2020\rotinv.western_tibet\resf.psvelo'
+  ;      ;file_gnss='C:\GMT_pub\gps\wang.min.jgr2020\rotinv.indian_plate\resf.psvelo'
+  ;      file_gnss='C:\GMT_pub\gps\wang.min.jgr2020\rotinv.kunlun2\resf.psvelo'
+  ;      fmt_gnss='psvelo'
+  ;      ;file_gnss='D:\gsar\gic3dv\jiali\interp\asc_des2\gps_prd'
+  ;      ;file_gnss='D:\gsar\gic3dv\jiali\interp\asc_des2\gps_prd2'
+  ;      ofile='D:\gsar\gic3dv\gcf\asc_des\insar_3d-20250629_bcf.psvelo'
+  ;      ofile='D:\gsar\gic3dv\gcf\asc_des\insar_3d-20250630_bcf2.psvelo' ;no GPS up
+  ;      ofile='D:\gsar\gic3dv\gcf\asc_des\insar_3d-20250703_bcf.psvelo' ;no GPS up; relative to Indian plate
+  ;
+  ;    ;    ;d062+a128+...
+  ;    ;    longmenshan dayi gap
+  ;    file_list='D:\gsar\gic3dv\dayi\asc_des\sbas_list_20250707.txt'
+  ;    paths=read_txt(file_list,comment='~ ')
+  ;    paths=STRTRIM(paths,2)
+  ;    file_gnss='C:\GMT_pub\gps\wang.min.jgr2020\rotinv.kunlun2\resf.psvelo'
+  ;    file_gnss='C:\GMT_pub\gps\wang.min.jgr2020\rotinv.sichuan\resf.psvelo'
   ;    fmt_gnss='psvelo'
-  ;    ofile='D:\gsar\gic3dv\karakoram\asc_des.india\insar_3d_20250213.psvelou'
+  ;    ofile='D:\gsar\gic3dv\dayi\asc_des\insar_3d-20250707.psvelo'
+    
+  ;  ;woniuhu
+  ;    file_list='D:\gsar\gic3dv\woniuhu\asc_des\sbas.list.20250719.txt'
+  ;    paths=read_txt(file_list,comment='~ ')
+  ;    paths=STRTRIM(paths,2)
+  ;    ;paths=paths[0]
+  ;    HELP, paths
+  ;    file_gnss='C:\GMT_pub\gps\wang.min.jgr2020\rotinv.tarim3\resf.psvelo'
+  ;    fmt_gnss='psvelo'
+  ;    ofile='D:\gsar\gic3dv\woniuhu\asc_des\insar_3d_20250719.psvelo'
+  ;    dlon=9d-3
+    
+  ;     file_list='D:\gsar\gic3dv\xsh\asc_des\sbas.list.20250815.txt'
+  ;    paths=read_txt(file_list,comment='~ ')
+  ;    paths=STRTRIM(paths,2)
+  ;    ;paths=paths[0]
+  ;    HELP, paths
+  ;    ;file_gnss='C:\GMT_pub\gps\wang.min.jgr2020\rotinv.kunlun2\resf.psvelo'
+  ;    file_gnss='C:\GMT_pub\gps\wang.min.jgr2020\rotinv.sichuan\resf.psvelo'
+  ;;    file_gnss='C:\GMT_pub\gps\wang.min.jgr2020\rotinv.chuandian2\resf.psvelo'
+  ;;    file_gnss='C:\GMT_pub\gps\wang.min.jgr2020\rotinv.litang2\resf.psvelo'
+  ;;    file_gnss='C:\GMT_pub\gps\wang.min.jgr2020\rotinv.aba2\resf.psvelo'
+  ;    fmt_gnss='psvelo'
+  ;    ofile='D:\gsar\gic3dv\xsh\asc_des\insar_3d_20250815_Nzero.psvelo'
+  ;;    dlon=9d-3
     
   ENDIF
   
   IF N_ELEMENTS(fmt_gnss) EQ 0 THEN fmt_gnss='gps_prd'
   
-  dlon=.009d0
-  dlon=9d-3
-  ;    dlon=9d-2
-  ;    dlon=5d-2
-  dlon=2d-2
+  IF N_ELEMENTS(dlon) EQ 0 THEN BEGIN
+    dlon=.009d0
+    dlon=9d-3
+    ;    dlon=9d-2
+    ;    dlon=5d-2
+    dlon=2d-2
+  ENDIF
   dlat=dlon
   
   ;first, read in all data
@@ -574,8 +747,8 @@ PRO INSAR_LOS_2_3D_BY_GPSN_XYZ, paths
     missing = !values.D_NAN)
   ;
   ;zeroN, Zero North, no GNSS north constraint
-  ;    gnss_vel_n[*]=0d0
-    
+;  gnss_vel_n[*]=0d0
+  
   ;  window,1,ysize=1000
   ;  tvscl,gnss_vel_n
   ;
@@ -609,7 +782,7 @@ PRO INSAR_LOS_2_3D_BY_GPSN_XYZ, paths
   ;  NCDF_CLOSE, id ; Close the NetCDF file.
   ;  help, xs,ys,nx,ny,gnss_vel_n
   ;  return
-    
+  
   PRINT,'regridding insar data ...'
   insar_vel_all=DBLARR(nx,ny,ntrack)
   insar_vel_all[*]=!values.D_NAN

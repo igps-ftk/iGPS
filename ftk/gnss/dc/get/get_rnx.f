@@ -37,12 +37,12 @@ c     --Local Parameters--
 
       character*1023 files(NMAX),file,ptn,file_cmd,file_log,dir_log
       character*1023 file_remote,file_local,file_site,file_archive
-      character*1023 file2
+      character*1023 file2,file3,file4
       character*1023 files_exi(10), filter_exi
       integer*4 nf_exi
       integer*4 nf,fid,ioerr
 
-      logical exi,exi2,exi3
+      logical exi,exi2,exi3,exi4
       
       integer iargc
       integer*4 ndoyr,nblen
@@ -573,6 +573,13 @@ c 701        format(A,"/",a4,I3.3,"0.",I2.2,"d.Z")
             write(file2,731) dir_cur(1:nblen(dir_cur)),
      &           site,doy,yr
  731        format(A,"/",a4,I3.3,"0.",I2.2,"d.Z")
+            write(file3,735) dir_cur(1:nblen(dir_cur)),
+     &           site,doy,yr
+ 735        format(A,"/",a4,I3.3,"0.",I2.2,"o.Z")
+            write(file4,736) dir_cur(1:nblen(dir_cur)),
+     &           site,doy,yr
+ 736        format(A,"/",a4,I3.3,"0.",I2.2,"o.gz")
+
 
 c            write(*,*) file(1:nblen(file))
 c     ,orbType
@@ -580,6 +587,9 @@ c     , year,doy,gpsw,gpsd
 c            goto 800
             inquire(file=file, exist=exi)
             inquire(file=file2, exist=exi2)
+            inquire(file=file3, exist=exi3)
+            inquire(file=file4, exist=exi4)
+
 
             siteU=site
             call uppers(siteU)
@@ -592,7 +602,7 @@ c            goto 800
             write(*,'(a,i10)') '#number of exising file:s',nf_exi
 c            stop
 
-            write(*,*) 'EX:',exi,exi2
+            write(*,*) 'EX:',exi,exi2,exi3,exi4
             if (exi.or.nf_exi.gt.0) then
                write(*,*) '#already exist: '//
      &              file(1:nblen(file))
@@ -605,6 +615,17 @@ c     Here, checking the validation of existing files is not performed.
      &              file2(1:nblen(file2))
                goto 801
             endif
+            if (exi3) then
+               write(*,*) '#already exist: '//
+     &              file3(1:nblen(file3))
+               goto 801
+            endif
+            if (exi4) then
+               write(*,*) '#already exist: '//
+     &              file4(1:nblen(file4))
+               goto 801
+            endif
+
 
 
 

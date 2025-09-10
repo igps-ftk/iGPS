@@ -24,7 +24,7 @@ PRO LLHXYZ2NET, $
   IF N_PARAMS() LT 2 THEN BEGIN
     ;FILE=DIALOG_PICKFILE(TITLE='Input iGPS LLHXYZ *.llhxyz file?', $
     ;  FILTER=[['*.llhxyz','*'],['iGPS LLHXYZ File (*.llhxyz)','iGPS LLHXYZ File (*)']])
-    file='D:\gpse\trns\comb\trns23\gsoln\ninh.llhxyz'
+    file='D:\gpse\trns\comb\trns23\gsoln\pos25.llhxyz'
     
     IF FILE EQ '' THEN RETURN
     CD,GETPATHNAME(FILE)

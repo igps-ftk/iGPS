@@ -92,6 +92,8 @@ orb_typ=poe
 
 date_time=
 
+back_ndays=3
+
 S1_SAT=S1A # A, or B
 
 
@@ -254,6 +256,7 @@ while read file; do
     second_t2=`date -d "$str_t2" -u +%s`
     echo second_t1 $second_t1 second_t2 $second_t2
     is_in=`echo $second_t1 $second_target $second_t2 | awk '{if($1<=$2&&$2<=$3){print 1}else{print 0}}'`
+    is_in=1
     echo is_in $is_in
     if [ $is_in -ne 1 ]; then
       continue

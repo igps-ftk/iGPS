@@ -3078,10 +3078,11 @@ PRO ON_IGPS_BTN_LOAD, EV, SITE=SITE,UPDATE=UPDATE, PATH=PATH, $
   IF 1 THEN BEGIN
     ;by tianyf on Tue, Oct 25, 2016 11:06:39 AM
     ;handle the NaN data values
+    ;STOP
     pos=WHERE(neuis GE 0)
     ind_valid=LINDGEN(N_ELEMENTS(data[0,*]))
     FOR pi=0,N_ELEMENTS(pos)-1 DO BEGIN
-      pos_pi=WHERE(FINITE(data[neuis[pi],*]) EQ 1)
+      pos_pi=WHERE(FINITE(data[neuis[POS[pi]],*]) EQ 1)
       IF pos_pi[0] EQ -1 THEN RETURN
       tmp=set_intersect(ind_valid,pos_pi,ind0=ind0,ind1=ind1)
       IF ind0[0] EQ -1 THEN RETURN
@@ -3101,6 +3102,8 @@ PRO ON_IGPS_BTN_LOAD, EV, SITE=SITE,UPDATE=UPDATE, PATH=PATH, $
   ;observation interval
   MJDALL=REFORM(*TIME_AXES_VAL_MJD)
   IF N_ELEMENTS(MJDALL) GE 2 THEN BEGIN ; If there are two or more data points
+    HELP,N_ELEMENTS(MJDALL)
+    ;STOP
     MJDALL=MJDALL[SORT(MJDALL)]
     MJDALL=MJDALL[UNIQ(MJDALL)]
     MJDDIF=MJDALL-SHIFT(MJDALL,1)

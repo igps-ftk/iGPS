@@ -3,6 +3,7 @@ PRO  WRITE_VEL_PROFILE, ofile $
     , sites=sites $
     , fa_xys=fa_xys  $
     , pf_xys=pf_xys  $
+    , pf_alpha=pf_alpha $
     , fa_pf_xy=fa_pf_xy $
     , p_xys_fvec_2nds=p_xys_fvec_2nds  $
     , fa2nd_pf_xy=fa_pf_xy_2nd $
@@ -43,6 +44,10 @@ PRO  WRITE_VEL_PROFILE, ofile $
   
   IF N_ELEMENTS(fa_pf_xy_2nd) EQ 0 THEN BEGIN
     fa_pf_xy_2nd=[-9999,-9999]
+  ENDIF
+  
+  IF N_ELEMENTS(pf_alpha) EQ 0 THEN BEGIN
+    pf_alpha=-9999
   ENDIF
   
   IF N_ELEMENTS(sites) EQ 0 THEN BEGIN
@@ -93,6 +98,9 @@ PRO  WRITE_VEL_PROFILE, ofile $
   IF pf_xys[0,0] NE -9999d0 THEN BEGIN
     PRINTF,fid,pf_xys[*,0],format='("# PSXY_PROFILE",2(1x,f20.8))'
     PRINTF,fid,pf_xys[*,1],format='("# PSXY_PROFILE",2(1x,f20.8))'
+  ENDIF
+  IF pf_alpha[0,0] NE -9999d0 THEN BEGIN
+    PRINTF,fid,pf_alpha*180/!dpi,format='("# PSXY_DIRECTION_OF_PROFILE",1(1x,f20.8))'
   ENDIF
   IF fa_pf_xy[0,0] NE -9999d0 THEN BEGIN
     PRINTF,fid,fa_pf_xy,format='("# PSXY_FAULT_PROFILE_INTERSECT",2(1x,f20.8))'

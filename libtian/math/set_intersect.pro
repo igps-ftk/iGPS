@@ -45,6 +45,20 @@ FUNCTION SET_INTERSECT, $
   IND0=[-1]
   IND1=[-1]
 
+  ;Bug fixed by tianyf on Fri May 30 16:40:41 CST 2025 
+  ;  When both SET0 and SET1 are one-element arrays, the returned result contains
+  ;    multiple identical elements.
+  ;
+  IF N_ELEMENTS(SET0) EQ 1 AND N_ELEMENTS(SET1) EQ 1 THEN BEGIN
+    IF SET0 EQ SET1 THEN BEGIN
+      FOUND=1
+      IND0=[0]
+      IND1=[0]
+      RETURN,SET0
+    ENDIF ELSE BEGIN
+      RETURN, MAKE_ARRAY(1,TYPE=SIZE(SET0[0],/TYPE))  ;RETURN VOID
+    ENDELSE
+  ENDIF
 
   ;perform sort and uniq operations on  the input arrays first.
 ;  SET0A=SET0[SORT(SET0)]
@@ -69,6 +83,7 @@ FUNCTION SET_INTERSECT, $
   
   POS=WHERE( SET01_S EQ SHIFT(SET01_S, -1) )
   IF POS[0] EQ -1 THEN BEGIN  ;NO COMMON PARTS
+    ;STOP
     RETURN, MAKE_ARRAY(1,TYPE=SIZE(SET0[0],/TYPE))  ;RETURN VOID
   ENDIF
   SET01=SET01_S[POS]  ;RETURNED SET
@@ -156,11 +171,16 @@ PRO SET_INTERSECT
   
   PRINT,'['+PROG+']1. Integer example'
   ;integer arrays
+  SET0 = [3 ,3,5,7, 6]
+  ;SET0 = [3 ,5, 6,  7]
+  SET0 = [1, 0,3]
+  SET0 = [ 34,4 ]
+  
   SET1 = [1 ,2 ,3 ,65, 7, 8]
   SET1 = [1 ,2 , 8]
   SET1 = [1 ,9 ,3, 8]
-  ;SET0 = [3 ,3,5,7, 6]
-  SET0 = [3 ,5, 6,  7]
+  SET1 = [4,44]
+  ;
   
   
   PRINT,'['+PROG+']  1st:',SET0, FORMAT='(A, "[",'+STRTRIM(N_ELEMENTS(SET0),2)+'(1X,I,:,","),$)'

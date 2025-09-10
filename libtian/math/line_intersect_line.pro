@@ -57,6 +57,12 @@ PRO LINE_INTERSECT_LINE, a1, b1, c2, rate2, d2
     b1=[   79.655042d0,       28.480390]
     c2=[   78.800079d0,       34.336161]
      rate2=[-0.00000000d0]
+     
+      a1=[  16025  ,  3828]
+   b1=[ 16042 ,   3458]
+       c2=[ 16037.328d0   ,    3643.4429]
+    rate2=-0.017543860d0
+    
   ENDIF
   
   ;stop
@@ -110,7 +116,7 @@ PRO LINE_INTERSECT_LINE, a1, b1, c2, rate2, d2
     GOTO, end_prog
   ENDIF
   
-  rate1=(b1[1]-a1[1])/(b1[0]-a1[0])
+  rate1=(1d0*b1[1]-a1[1])/(b1[0]-a1[0])
   intercept1=a1[1]-rate1*a1[0]
   alpha1=ATAN(rate1)
   
@@ -141,16 +147,17 @@ PRO LINE_INTERSECT_LINE, a1, b1, c2, rate2, d2
   end_prog:
   ;stop
   IF N_PARAMS() LT 3 THEN BEGIN
-    PRINT,a1
-    PRINT,b1
-    PRINT,c2
-    PRINT,d2
+    PRINT,'a1:',a1
+    PRINT,'b1:',b1
+    PRINT,'c2:',c2
+    PRINT,'d2:',d2
     print,d2,format='(2(1x,f))'
     PRINT,FINITE(d2)
     PRINT,a1[1]-d2[1]
     WINDOW,1
     PLOT,[a1[0],b1[0]],[a1[1],b1[1]],color='0'x,background='ffffff'x,/ynozero, $
-      /iso;,yrange=[23,30],xrange=[98,110],thick=3
+      ;/iso;,yrange=[23,30],xrange=[98,110]
+      thick=3
     PLOTS,[a1[0],b1[0]],[a1[1],b1[1]],color='0'x,psym=5
     PLOTS,c2[0],c2[1],psym=2,color='0'x
     ;OPLOT,[c1[0],x1],[c1[1],y1],color='0'x,thick=3

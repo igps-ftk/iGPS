@@ -164,62 +164,70 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
     ;    opath='D:\gsar\gic3dv\g219\asc_des\profiles\p.fa_karakax_new2'
     ;    inputfmt=84
     ;    f2files=['C:\GMT_pub\vector\profile\fa_tianshen_daban.psxy','C:\GMT_pub\vector\profile\fa_longmuco_to_atf.psxy']
-  
-;    vfile='D:\gsar\gic3dv\atf.d019\asc_des\insar_3d.psvelou.10w'
-    vfile='D:\gsar\gic3dv\atf.d019\asc_des.3rd-order\insar_3d_20250306.psvelou' ;third-order gnss velocity correction
-;    vfile='D:\gsar\gic3dv\atf.d019\validation.dataset\3d.deformation.field\insar_3d.psvelou'
-;    ;pfile='D:\gsar\gic3dv\g219\asc_des\profiles\p.fa_karakax_new2\profiles_auto.psxy'
-;    ;    cmt='i3d'
-    inputfmt=84
-;    fa='fa_kunlun_jss_revised'
-;    opath='D:\gsar\gic3dv\atf.d019\asc_des\profiles\p.fa_kunlun_jss_revised\'
-;    f2files=['C:\GMT_pub\vector\profile\fa_akms1.psxy','C:\GMT_pub\vector\profile\fa_atf.psxy']
-    fa='fa_kunlun_jss_revised3'
-    length_profile=900
-;    opath='D:\gsar\gic3dv\atf.d019\asc_des\profiles\p.fa_kunlun_jss_revised3\'
-;    opath='D:\gsar\gic3dv\atf.d019\asc_des.3rd-order\profiles\p.fa_kunlun_jss_revised3\'
-    opath='D:\gsar\gic3dv\atf.d019\validation.dataset\3d.profiles\p.fa_kunlun_jss_revised3'
-    f2files=['C:\GMT_pub\vector\profile\fa_heishibeihu_akms.psxy','C:\GMT_pub\vector\profile\fa_atf_ext_west.psxy']
-    
-;    fa='fa_kunlun_jss_revised3'
-;    length_profile=900
-;    opath='D:\gsar\gic3dv\atf.d019\asc_des\profiles\p.fa_kunlun_jss_revised3_atf\'
-;    f2files=['C:\GMT_pub\vector\profile\fa_atf_ext_west.psxy']
-    
-    
-;    vfile='D:\gsar\gic3dv\g219\asc_des\insar_3d.psvelo'
-;    ;pfile='D:\gsar\gic3dv\g219\asc_des\profiles\p.fa_karakax_new2\profiles_auto.psxy'
-;    ;    cmt='i3d'
-;    inputfmt=84
-;    fa='fa_F5_animaqin'
-;    f2files=['C:\GMT_pub\vector\profile\fa_longmuco_to_atf.psxy']
-;    opath='D:\gsar\gic3dv\g219\asc_des\profiles\p.fa_F5_animaqin\'
     ;
-;    ;F12 & F14
-;    fa='fa_F12'
-;    ;f2files=['C:\GMT_pub\vector\profile\fa_F14.psxy','C:\GMT_pub\vector\profile\fa_karakoram.psxy']
-;    f2files=['C:\GMT_pub\vector\profile\fa_karakoram.psxy']
-;    opath='D:\gsar\gic3dv\g219\asc_des\profiles\p.fa_F12\'
-;    opath='D:\gsar\gic3dv\g219\asc_des\profiles\p.fa_F12b\'
+    ;;    vfile='D:\gsar\gic3dv\atf.d019\asc_des\insar_3d.psvelou.10w'
+    ;    vfile='D:\gsar\gic3dv\atf.d019\asc_des.3rd-order\insar_3d_20250306.psvelou' ;third-order gnss velocity correction
+    ;;    vfile='D:\gsar\gic3dv\atf.d019\validation.dataset\3d.deformation.field\insar_3d.psvelou'
+    ;;    ;pfile='D:\gsar\gic3dv\g219\asc_des\profiles\p.fa_karakax_new2\profiles_auto.psxy'
+    ;;    ;    cmt='i3d'
+    ;    inputfmt=84
+    ;;    fa='fa_kunlun_jss_revised'
+    ;;    opath='D:\gsar\gic3dv\atf.d019\asc_des\profiles\p.fa_kunlun_jss_revised\'
+    ;;    f2files=['C:\GMT_pub\vector\profile\fa_akms1.psxy','C:\GMT_pub\vector\profile\fa_atf.psxy']
+    ;    fa='fa_kunlun_jss_revised3'
+    ;    length_profile=900
+    ;;    opath='D:\gsar\gic3dv\atf.d019\asc_des\profiles\p.fa_kunlun_jss_revised3\'
+    ;;    opath='D:\gsar\gic3dv\atf.d019\asc_des.3rd-order\profiles\p.fa_kunlun_jss_revised3\'
+    ;    opath='D:\gsar\gic3dv\atf.d019\validation.dataset\3d.profiles\p.fa_kunlun_jss_revised3'
+    ;    f2files=['C:\GMT_pub\vector\profile\fa_heishibeihu_akms.psxy','C:\GMT_pub\vector\profile\fa_atf_ext_west.psxy']
+    ;
+    ;    fa='fa_kunlun_jss_revised3'
+    ;    length_profile=900
+    ;    opath='D:\gsar\gic3dv\atf.d019\asc_des\profiles\p.fa_kunlun_jss_revised3_atf\'
+    ;    f2files=['C:\GMT_pub\vector\profile\fa_atf_ext_west.psxy']
+  
+    ;haiyuan (hyf)
+    vfile='D:\gsar\gic3dv\hyf\asc_des\insar_3d_20250420.psvelo'
+    inputfmt=84
+    fa='fa_haiyuan'
+    length_profile=1200
+    opath='D:\gsar\gic3dv\hyf\asc_des\profiles\p.fa_haiyuan_20250420_multiple'
+    f2files=['C:\GMT_pub\vector\profile\fa_qinglinbeiyuan_ext.psxy','C:\GMT_pub\vector\profile\fa_longshoushan_ext.psxy']
     
     
-;    vfile='D:\gsar\gic3dv\yzs\asc_des\insar_los_2_3d_20240427.psvelo'
-;    vfile='D:\gsar\gic3dv\yzs\asc_des\insar_los_2_3d_20240516_y2015-2019.psvelo'
-;    ;pfile='D:\gsar\gic3dv\g219\asc_des\profiles\p.fa_karakax_new2\profiles_auto.psxy'
-;    ;    cmt='i3d'
-;    inputfmt=84
-;    length_profile=600
-;    fa='fa_yzs'
-;;    length_profile=400
-;;    fa='fa_pxr' 
-;;    fa='fa_tyr'
-;;    auto_strike=3
-;    opath='D:\gsar\gic3dv\yzs\asc_des\profiles_y15-19\p.'+fa
-
+    ;    vfile='D:\gsar\gic3dv\g219\asc_des\insar_3d.psvelo'
+    ;    ;pfile='D:\gsar\gic3dv\g219\asc_des\profiles\p.fa_karakax_new2\profiles_auto.psxy'
+    ;    ;    cmt='i3d'
+    ;    inputfmt=84
+    ;    fa='fa_F5_animaqin'
+    ;    f2files=['C:\GMT_pub\vector\profile\fa_longmuco_to_atf.psxy']
+    ;    opath='D:\gsar\gic3dv\g219\asc_des\profiles\p.fa_F5_animaqin\'
+    ;
+    ;    ;F12 & F14
+    ;    fa='fa_F12'
+    ;    ;f2files=['C:\GMT_pub\vector\profile\fa_F14.psxy','C:\GMT_pub\vector\profile\fa_karakoram.psxy']
+    ;    f2files=['C:\GMT_pub\vector\profile\fa_karakoram.psxy']
+    ;    opath='D:\gsar\gic3dv\g219\asc_des\profiles\p.fa_F12\'
+    ;    opath='D:\gsar\gic3dv\g219\asc_des\profiles\p.fa_F12b\'
+    
+    
+    ;    vfile='D:\gsar\gic3dv\yzs\asc_des\insar_los_2_3d_20240427.psvelo'
+    ;    vfile='D:\gsar\gic3dv\yzs\asc_des\insar_los_2_3d_20240516_y2015-2019.psvelo'
+    ;    ;pfile='D:\gsar\gic3dv\g219\asc_des\profiles\p.fa_karakax_new2\profiles_auto.psxy'
+    ;    ;    cmt='i3d'
+    ;    inputfmt=84
+    ;    length_profile=600
+    ;    fa='fa_yzs'
+    ;;    length_profile=400
+    ;;    fa='fa_pxr'
+    ;;    fa='fa_tyr'
+    ;;    auto_strike=3
+    ;    opath='D:\gsar\gic3dv\yzs\asc_des\profiles_y15-19\p.'+fa
+    
     is_fault_trace_downsample=0
     ;    auto_strike=3
     ;auto_strike_2nd=2
-;    length_profile=600
+    ;    length_profile=600
     spacing_profile=10
   ;
   ;    spacing_profile=200
@@ -410,6 +418,7 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
     np=count
     pxys=DBLARR(2,2,count)
     FOR i=0ull, count-1 DO BEGIN
+      ;      help,pxys[*,*,i],*(regions[i])
       pxys[*,*,i]=*(regions[i])
     ENDFOR
     
@@ -447,12 +456,22 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
   
   xmin_ov=MIN([REFORM(lls[0,*]), REFORM(xys_fvec[0,0,*]), REFORM(xys_fvec[0,1,*]),  REFORM(pxys[0,1,*]),  REFORM(pxys[0,1,*]) ],max=xmax_ov)
   ymin_ov=MIN([REFORM(lls[1,*]), REFORM(xys_fvec[1,0,*]), REFORM(xys_fvec[1,1,*]),  REFORM(pxys[1,1,*]),  REFORM(pxys[1,1,*]) ],max=ymax_ov)
-  ;stop
+  
+  xmid_ov=MEAN(xys_vel_hull[0,*])
+  ymid_ov=MEAN(xys_vel_hull[1,*])
+  buffer_deg=search_radius/MAP_2POINTS(xmid_ov,ymid_ov, xmid_ov+1,ymid_ov,/meters)*1d3
+  
+  
+  ;STOP
   ;loop for each profile
   PRINT,'['+prog+']INFO:loop for each profile ...'
   
-    FOR pi=0ull,np-1 DO BEGIN  ;loop for each profile
-;  FOR pi=16,16 DO BEGIN  ;test
+  pf_alphas=dblarr(np)
+  
+      FOR pi=0ull,np-1 DO BEGIN  ;loop for each profile
+  ;  FOR pi=16,16 DO BEGIN  ;test
+;  FOR pi=8,8 DO BEGIN  ;test
+    ;  FOR pi=86,np-1  DO BEGIN  ;test
   
     xys=REFORM(pxys[*,*,pi])
     xy1=xys[*,0]
@@ -463,10 +482,14 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
     
     c1=INTERSECT_BETWEEN_POLYLINE_AND_LINE( xys_vel_hull, a1,b1)
     IF FINITE(c1[0]) NE 1 THEN BEGIN
-      lbl_str='['+prog+']WARNING: no data for profile '+STRTRIM(pi+1,2)+'!'
-      PRINT,lbl_str,format='(a)'
-      IF N_ELEMENTS(lbl_id) NE 0 THEN WIDGET_CONTROL, lbl_id, set_value=lbl_str
-      CONTINUE
+      POINT_PERP_LINE, a1, b1, [xmid_ov,ymid_ov], t1
+      buffer_dist=MAP_2POINTS(xmid_ov,ymid_ov, t1[0],t1[1],/meters)*1d-3
+      IF buffer_dist GT search_radius*2 THEN BEGIN
+        lbl_str='['+prog+']WARNING: no data for profile '+STRTRIM(pi+1,2)+'!'
+        PRINT,lbl_str,format='(a)'
+        IF N_ELEMENTS(lbl_id) NE 0 THEN WIDGET_CONTROL, lbl_id, set_value=lbl_str
+        CONTINUE
+      ENDIF
     ENDIF
     
     
@@ -535,6 +558,7 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
     ;    IF alpha LT 0 THEN BEGIN
     ;      alpha=alpha+!dpi
     ;    ENDIF
+    pf_alphas[pi]=alpha
     lbl_str='Creating profile '+STRTRIM(pi+1,2)+'/'+STRTRIM(np,2)+' (angle: '+STRTRIM(alpha*180d0/!dpi,2)+') ...'
     PRINT, lbl_str
     ;HELP,lbl_id
@@ -957,6 +981,7 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
         , fa_xys=xys_fvec  $
         , p_xys_fvec_2nds=p_xys_fvec_2nds  $
         , pf_xys=[[a1],[b1]]  $
+        , pf_alpha=pf_alphas[pi] $
         , fa_pf_xy=xy3 $
         , fa2nd_pf_xy=xy3_2nds $
         , dist_fp1_fp2nds=dist_fp1_fp2nds[*,pi]  $
@@ -971,6 +996,7 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
         , sites=sites[pos[ind]] $
         , fa_xys=xys_fvec  $
         , pf_xys=[[a1],[b1]]  $
+        , pf_alpha=pf_alphas[pi] $
         , fa_pf_xy=xy3 $
         , odata_2nd=odata_2nd $
         , src=[vfile,ffile,pfile]
@@ -1076,7 +1102,7 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
     
   ;PRINT,'a1:',a1
   ;PRINT,'b1:',b1
-        ;BREAK
+;  BREAK
   ENDFOR
   
   lbl_str='Ready'
