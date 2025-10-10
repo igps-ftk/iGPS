@@ -1247,7 +1247,8 @@ eob
     echo $R $xmin $xmax
     echo Bx By $Bx $By
     echo Rp $Rp
-    gmt psxy $Rp -JX${plot_size_ax}i/${plot_size_by}i -X${Xshift}i -Y${Yshift}i -Sc0.05c   -B${Bx}:"${profile_title_x}":/${By}:"${profile_title_y}"::."${profile_title}":/SWen -O -K   .tmp.los -Cdist.cpt >>$ofile
+    gmt psxy $Rp -JX${plot_size_ax}i/${plot_size_by}i -X${Xshift}i -Y${Yshift}i -Sc0.05c   -Bxaf+l"${profile_title_x}" -Byaf+l"${profile_title_y}" -BSWen+t"${profile_title}" -O -K   .tmp.los -Cdist.cpt >>$ofile
+    #gmt psxy $Rp -JX${plot_size_ax}i/${plot_size_by}i -X${Xshift}i -Y${Yshift}i -Sc0.05c   -B${Bx}:"${profile_title_x}":/${By}:"${profile_title_y}"::."${profile_title}":/SWen -O -K   .tmp.los -Cdist.cpt >>$ofile
     if [ -s $file_mdl -a -s .tmp.los.mdl ]; then
       gmt psxy -R -J -O -K .tmp.los.mdl -W1p,red >> $ofile
     fi

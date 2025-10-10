@@ -277,11 +277,16 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
   lbl_str='['+prog+']INFO:reading velocity ('+vfile+')...'
   PRINT,lbl_str
   IF N_ELEMENTS(lbl_id) NE 0 THEN WIDGET_CONTROL, lbl_id, set_value=lbl_str
+  stop
   READ_DEFO_VELOCITY, vfile,   $
     data=data,  $
     sites=sites,  $
     fmt=inputfmt, $
     dummy=dummy
+  pos=where(data[0,*] lt 0)
+  if pos[0] ne -1 then begin
+    data[0,pos]=data[0,pos]+360d0
+  endif
   lls=data[0:1,*]
   nsit=N_ELEMENTS(sites)
   ;stop
@@ -328,6 +333,11 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
   ;OPLOT,xys_fvec[0,*],xys_fvec[1,*],psym='-4',color='0000ff'x
   ;stop
   ENDIF
+  
+  pos=where(xys_fvec[0,*] lt 0)
+  if pos[0] ne -1 then begin
+    xys_fvec[0,pos]=xys_fvec[0,pos]+360d0
+  endif
   
   IF is_fault_trace_downsample EQ 1 THEN BEGIN
     DOWNSAMPLE_POLYLINE, xys_fvec,   $
@@ -466,11 +476,11 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
   ;loop for each profile
   PRINT,'['+prog+']INFO:loop for each profile ...'
   
-  pf_alphas=dblarr(np)
+  pf_alphas=DBLARR(np)
   
-      FOR pi=0ull,np-1 DO BEGIN  ;loop for each profile
-  ;  FOR pi=16,16 DO BEGIN  ;test
-;  FOR pi=8,8 DO BEGIN  ;test
+  FOR pi=0ull,np-1 DO BEGIN  ;loop for each profile
+    ;  FOR pi=16,16 DO BEGIN  ;test
+    ;  FOR pi=8,8 DO BEGIN  ;test
     ;  FOR pi=86,np-1  DO BEGIN  ;test
   
     xys=REFORM(pxys[*,*,pi])
@@ -1102,7 +1112,7 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
     
   ;PRINT,'a1:',a1
   ;PRINT,'b1:',b1
-;  BREAK
+  ;  BREAK
   ENDFOR
   
   lbl_str='Ready'

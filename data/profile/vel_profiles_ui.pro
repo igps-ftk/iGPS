@@ -382,7 +382,7 @@ PRO VEL_PROFILES_UI,group_leader=group_leader
     'psvelo+u+sig_u (*.psvelou)', $ ;85
     'psvelo2+u (*.psvelo2u)', $ ;101
     'llenu(gic3dv gps_prd)',  $ ;102
-    'llenuc', $ ;103
+    'llenuc(gic3dv.out)', $ ;111
     'CMM4 (*.cmm4)', $  ;112
     'CMM4 Up (*.cmm4u)', $  ;113
     'QOCA Map (*.qmap)', $  ;121
@@ -465,11 +465,11 @@ PRO VEL_PROFILES_UI,group_leader=group_leader
   
   
   base_profile_width=WIDGET_BASE(uname='B_OPT_WIDTH',BASE_PROFILE_SRC_PROG,/row,frame=0,space=0,xpad=0,ypad=0,/ALIGN_right)
-  lbl=WIDGET_LABEL(base_profile_width,value='Width of Profiles (in km):',/align_left)
+  lbl=WIDGET_LABEL(base_profile_width,value='Spacing of Profiles (in km):',/align_left)
   txt_profile_width=WIDGET_TEXT(base_profile_width,uname='txt_profile_width',value='50',/editable,/ALL_EVENTS,/ALIGN_CENTER,xsize=5)
  
     base_search_radius=WIDGET_BASE(uname='B_OPT_RADIUS',BASE_PROFILE_SRC_PROG,/row,frame=0,space=0,xpad=0,ypad=0,/ALIGN_right)
-  lbl=WIDGET_LABEL(base_search_radius,value='Search Radius (in km):',/align_left)
+  lbl=WIDGET_LABEL(base_search_radius,value='Width of Profiles (in km):',/align_left)
   txt_search_radius=WIDGET_TEXT(base_search_radius,uname='txt_search_radius',value='100',/editable,/ALL_EVENTS,/ALIGN_CENTER,xsize=5)
   
   BASE_PROFILE_STRIKE=WIDGET_BASE(uname='B_OPT_STRIKE',BASE_3b,FRAME=0,space=0,xpad=0,ypad=0,/column,sensitive=1)

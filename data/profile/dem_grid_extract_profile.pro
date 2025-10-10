@@ -11,6 +11,7 @@ PRO DEM_GRID_EXTRACT_PROFILE, demfile,  $  ;DEM file (ENVI raw image format; wit
   
   IF N_PARAMS() LT 3 THEN BEGIN
     demfile='C:\GMT_pub\dem.gmt\ETOPO1_Bed_g_geotiff\ETOPO1_Bed_g_envi.img'
+    demfile='D:\Papers\xsh\vector\dem\1s\dem.tif'
     
     
     fa='tianshen_daban'
@@ -36,6 +37,10 @@ PRO DEM_GRID_EXTRACT_PROFILE, demfile,  $  ;DEM file (ENVI raw image format; wit
     ffile='C:\GMT_pub\vector\profile\fa_yzs.psxy'
     pfile='D:\gsar\gic3dv\yzs\asc_des\profiles\p.fa_yzs\profiles_auto.psxy'
     opath='D:\Papers\sse.yzs\figure\3.profiles_3d_y15-19.yzs.gacos\dem'
+    
+    ffile='C:\GMT_pub\vector\profile\fa_xsh_b.psxy'
+    pfile='D:\gsar\gic3dv\xsh\profiles\pg.fa_xsh_b\profiles_auto.psxy'
+    opath='D:\Papers\xsh\figure\graphical_abstract\dem'
     
   ;    ffile='C:\GMT_pub\vector\profile\fa_kunlun_jss_revised3.psxy'
   ;    pfile='D:\gsar\gic3dv\atf.d019\asc_des\profiles\p.fa_kunlun_jss_revised3\profiles_auto.psxy'

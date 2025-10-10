@@ -210,14 +210,14 @@ PRO INSAR_LOS_2_3D_BY_GPSN_XYZ, paths
     ;        paths=STRTRIM(paths,2)
     ;        file_gnss='D:\gsar\gic3dv\jiali\interp\asc_des2\gps_prd'
     ;        ofile='D:\gsar\gic3dv\jiali\interp\asc_des2\insar_3d-20250807.psvelo'
-    ;
-    ;
-    file_list='D:\gsar\gic3dv\jiali\interp\asc_des\sbas_list_20250903.txt'
-    paths=read_txt(file_list,comment='~ ')
-    paths=STRTRIM(paths,2)
-    file_gnss='C:\GMT_pub\gps\wang.min.jgr2020\rotinv.eastern_lhasa_block\resf.psvelo'
-    fmt_gnss='psvelo'
-    ofile='D:\gsar\gic3dv\jiali\interp\asc_des\insar_3d-20250903.psvelo'
+;    ;
+;    ;
+;    file_list='D:\gsar\gic3dv\jiali\interp\asc_des\sbas_list_20250903.txt'
+;    paths=read_txt(file_list,comment='~ ')
+;    paths=STRTRIM(paths,2)
+;    file_gnss='C:\GMT_pub\gps\wang.min.jgr2020\rotinv.eastern_lhasa_block\resf.psvelo'
+;    fmt_gnss='psvelo'
+;    ofile='D:\gsar\gic3dv\jiali\interp\asc_des\insar_3d-20250903.psvelo'
     
     ;
     ;
@@ -655,6 +655,23 @@ PRO INSAR_LOS_2_3D_BY_GPSN_XYZ, paths
   ;    fmt_gnss='psvelo'
   ;    ofile='D:\gsar\gic3dv\xsh\asc_des\insar_3d_20250815_Nzero.psvelo'
   ;;    dlon=9d-3
+  
+;  ;2021 maduo postseismic  
+;    ;
+;    file_list='D:\gsar\gic3dv\maduo\asc_des\sbas_list_20250929.txt'
+;    paths=read_txt(file_list,comment='~ ')
+;    paths=STRTRIM(paths,2)
+;    file_gnss='C:\GMT_pub\gps\wang.min.jgr2020\rotinv.kunlun2\resf.psvelo'
+;    fmt_gnss='psvelo'
+;    ofile='D:\gsar\gic3dv\maduo\asc_des\insar3d_20251004.psvelou'
+;    
+  ;2022 menyuan postseismic  
+    file_list='D:\gsar\gic3dv\menyuan\asc_des\sbas_list_20251010.txt'
+    paths=read_txt(file_list,comment='~ ')
+    paths=STRTRIM(paths,2)
+    file_gnss='C:\GMT_pub\gps\wang.min.jgr2020\rotinv.kunlun2\resf.psvelo'
+    fmt_gnss='psvelo'
+    ofile='D:\gsar\gic3dv\menyuan\asc_des\insar3d_20251010.psvelou'
     
   ENDIF
   

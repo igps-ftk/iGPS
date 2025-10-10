@@ -68,6 +68,9 @@ PRO READ_DEFO_VELOCITY, file,   $
     file='D:\tmp\FICORO_GNSS-main\FICORO_GNSS-main\results\rotation_steps\wang_shen_2020\ninh_wang_zhangling.vel'
     inputfmt=131
     
+    file='\\10.4.134.30\root\g9n\gsar\gic3dv\saf\2019ea001036_dataverse_files\v_gps_h.dat'
+    inputfmt=101
+    
   ;inputfmt=121
   ENDIF
   
@@ -252,7 +255,8 @@ PRO READ_DEFO_VELOCITY, file,   $
       data=DBLARR(13, nsit)
       data[[2,4,6,11],*]=!values.d_nan
       data[[0,1,2,3,4,5,8],*]=vels
-    END    
+    END 
+  ;output data array (data)
   ;   0  1   2   3  4   5  6   7  8    9  10  11   12
   ;[ lon lat Ve dVe Vn dVn Vu dVu Cen Ceu Cnu Los dLos ]
     84: BEGIN  ;
@@ -277,6 +281,19 @@ PRO READ_DEFO_VELOCITY, file,   $
       data[[2,4,6,11],*]=!values.d_nan
       data[[0,1,2,3,4,5,6,7,8],*]=double(lines_p[[0,1,2,4,3,5,8,9,6],*])
     END
+    101: BEGIN
+      ;* Site   Longitude  Latitude   Ve   dVe    Vn   dVn   Cen      Vu  dVu  (mm/yr)
+      ;P544_CGP -119.7380   35.7313 -10.63 0.10  11.31 0.10  0.000  -4.70 0.20
+      READ_COLS_ascii, file, data=lines_p, skip=1
+      NSIT=N_ELEMENTS(lines_p[0,*])
+        sites=reform(lines_p[0,*])    
+      data=DBLARR(13, nsit)
+      data[[2,4,6,11],*]=!values.d_nan
+      data[[0,1,2,3,4,5,6,7,8],*]=DOUBLE(lines_p[[1,2,3,4,5,6,8,9,7],*])
+    END
+  ;output data array (data)
+  ;   0  1   2   3  4   5  6   7  8    9  10  11   12
+  ;[ lon lat Ve dVe Vn dVn Vu dVu Cen Ceu Cnu Los dLos ]
     102: BEGIN
       ;   long      lat       Ve      dVe       Vn      dVn       Vu      dVn    Tau_h   Tau_v
       ;   86.000   26.000  10.5821   0.9956  22.6099   0.8203   0.0000   7.4123  54.0000  54.0000
@@ -307,6 +324,9 @@ PRO READ_DEFO_VELOCITY, file,   $
       data[[2,4,6,11],*]=!values.d_nan
       data[[0,1,2,3,4,5,8],*]=vels
     END
+  ;output data array (data)
+  ;   0  1   2   3  4   5  6   7  8    9  10  11   12
+  ;[ lon lat Ve dVe Vn dVn Vu dVu Cen Ceu Cnu Los dLos ]
     113: BEGIN
       READ_GNSS_VELU_CMM4, file, $
         sites=sites,  $
@@ -345,6 +365,9 @@ PRO READ_DEFO_VELOCITY, file,   $
       data[0:1,*]=lls
       data[2:8,*]=vels[0:6,*]
     END
+  ;output data array (data)
+  ;   0  1   2   3  4   5  6   7  8    9  10  11   12
+  ;[ lon lat Ve dVe Vn dVn Vu dVu Cen Ceu Cnu Los dLos ]
     ELSE: BEGIN
       PRINT,'['+prog+']ERROR: invalid input velocity format!!'
       RETURN
