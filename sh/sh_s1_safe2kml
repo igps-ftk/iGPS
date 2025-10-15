@@ -77,8 +77,12 @@ for file in $files; do
   #exit
 done
 
-gmt gmt2kml $path/${ofname_a}.psxy -Fp > $path/${ofname_a}.kml
-gmt gmt2kml $path/${ofname_d}.psxy -Fp > $path/${ofname_d}.kml
+if [ -s $path/${ofname_a}.psxy ]; then
+  gmt gmt2kml $path/${ofname_a}.psxy -Fp > $path/${ofname_a}.kml
+fi
+if [ -s $path/${ofname_d}.psxy ]; then
+  gmt gmt2kml $path/${ofname_d}.psxy -Fp > $path/${ofname_d}.kml
+fi
 
 
 echo "[$PROG]INFO: done."

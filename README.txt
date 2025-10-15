@@ -14,6 +14,7 @@ The copyright of the following programs/data belongs to the original authors.
   + ftk/external/nr            (spectral analysis functions; from Numerical Recipe; http://numerical.recipes/)
   + ftk/external/HimaTibetMap  (from https://github.com/HimaTibetMap/HimaTibetMap)
   + ftk/external/gic3dv        (Zheng©\Kang Shen and Zhen Liu; https://doi.org/10.1029/2019EA001036)
+                               (also ported from FORTRAN to Matlab; iGPS/m/gic3dv/)
   + ftk/external/visr          (Zheng©\Kang Shen et al.; http://scec.ess.ucla.edu/~zshen/visr/visr.html)
   + ftk/external/mcmcstat-master            (Haario H. et al., MCMC toolbox for Matlab; https://mjlaine.github.io/mcmcstat/)
   + ftk/external/TDEFNODE.source.20230718   (McCaffrey, R.; https://robmccaffrey.github.io/TDEFNODE/TDEFNODE.html)
@@ -178,6 +179,12 @@ knowledge to resolve these. I will try to fix these issues when possible.
 
 Major Update History
 ----------------------
+2025OCT15
+  + Ported Zheng-Kang Shen's gic3dv program to Matlab (iGPS/m/gic3dv/).
+    Transform accomplished by Deepseek.
+    Add the option to use east/north/up components at the end of thd driver file.
+    The compuation of Voronoi cell area is done by Matlab's function.
+  
 2023DEC09
   + Changed FTK's installation method.
     From GAMIT/GLOBK's style to classic Makefile style.

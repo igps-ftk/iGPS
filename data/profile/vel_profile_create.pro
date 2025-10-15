@@ -277,7 +277,7 @@ PRO VEL_PROFILE_CREATE, vfile, $  ;velocity file (in varied formats)
   lbl_str='['+prog+']INFO:reading velocity ('+vfile+')...'
   PRINT,lbl_str
   IF N_ELEMENTS(lbl_id) NE 0 THEN WIDGET_CONTROL, lbl_id, set_value=lbl_str
-  stop
+  ;stop
   READ_DEFO_VELOCITY, vfile,   $
     data=data,  $
     sites=sites,  $
