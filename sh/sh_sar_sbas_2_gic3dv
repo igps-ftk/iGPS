@@ -1,0 +1,61 @@
+#!/bin/bash
+
+# Name:
+#   sh_sar_sbas_2_gic3dv
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorithm:
+#   
+
+# Dependency:
+#   
+
+
+PROG=sh_sar_sbas_2_gic3dv
+
+ofile=
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -o|-ofile)
+      ofile=$2
+      ;;
+    *)
+      echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid option ($1)!!"
+      echo "[$PROG]Usage: ${PROG} "
+      echo "[$PROG]Usage: e.g.,"
+      echo "[$PROG]Usage: ${PROG} "
+      exit 1
+      ;;
+  esac
+  shift 2  
+done
+
+#nl1=`wc -l vel_mask_ll_gnss3.xyz`
+#nl1=`wc -l vel_mask_ll_gnss3.xyze`
+
+if [ -s vel_mask_ll_gnss3.xyze ]; then
+  #98.8440209689 41.8492371585 -5.13790035248 1.95742940903	98.844021 41.849237 -800.925153 -0.619071 -0.109492 0.777665  	38.9527	79.970106726604342
+  #paste vel_mask_ll_gnss3.xyze look_mask_ll3.xyz > _tmp_vel_rms_look_mask_ll3.xyz
+  if [ "$ofile" = "" ]; then
+    paste vel_mask_ll_gnss3.xyze look_mask_ll3.xyz  | awk '{print $1,$2,$12,$11,$3*.1,$4*.1}' 
+  else
+    paste vel_mask_ll_gnss3.xyze look_mask_ll3.xyz  | awk '{print $1,$2,$12,$11,$3*.1,$4*.1}' > $ofile
+  fi
+else
+  #paste vel_mask_ll_gnss3.xyz rms_mask_ll3.xyz look_mask_ll3.xyz > _tmp_vel_rms_look_mask_ll3.xyz
+  #
+  ##101.679298246	20.9477080836	0.182784050703	101.679298246	20.9477080836	0.524286746979	101.679298 20.947708 984.795852 0.622280 -0.117923 0.773862  	39.298	-79.269602982221045
+  #cat _vel_rms_look_mask_ll3.xyz | awk '{print $1,$2,$14,$13,$3*.1,$6*.1}' 
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: file not exist (vel_mask_ll_gnss3.xyze)!!"
+fi
+

@@ -1,0 +1,69 @@
+#!/bin/bash
+
+# Name:
+#   sh_gnss_psvelo_2_gic3dv
+#   
+
+# Purpose:
+#   
+
+# Example:
+#   
+
+# Modifications:
+#   
+
+# Algorithm:
+#   
+
+# Dependency:
+#   
+
+
+PROG=sh_gnss_psvelo_2_gic3dv
+
+file=resf.psvelo
+ofile=gnss_h.gic
+ofile2=gnss_v.gic
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -f|-file)
+      file=$2
+      ;;
+    -o|-ofile)
+      ofile=$2
+      ofile2="$2_u"
+      ;;
+    *)
+      echo -e "[$PROG]\033[1;33;41mERROR\033[0m: invalid option ($1)!!"
+      echo "[$PROG]Usage: ${PROG} "
+      echo "[$PROG]Usage: e.g.,"
+      echo "[$PROG]Usage: ${PROG} "
+      exit 1
+      ;;
+  esac
+  shift 2  
+done
+
+
+if [ "$file" == "" ]; then
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: no input file!!"
+  exit 1
+fi
+
+#echo file $file
+
+#35    format(a8,2f10.4,2(f7.2,f5.2),f7.3,f7.2,f5.2)
+
+if [ "$ofile" == "" ]; then
+  echo "* Site   Longitude  Latitude   Ve   dVe    Vn   dVn   Cen      Vu  dVu  (mm/yr)"
+  cat $file | awk '{if(NF<9){printf("%8s%10.4f%10.4f%7.2f%5.2f%7.2f%5.2f%7.3f%7.2f%5.2f\n",$8,$1,$2,$3,$5,$4,$6,$7,0,9)}else{printf("%8s%10.4f%10.4f%7.2f%5.2f%7.2f%5.2f%7.3f%7.2f%5.2f\n",$8,$1,$2,$3,$5,$4,$6,$7,$9,$10)}}'
+else
+  echo "* Site   Longitude  Latitude   Ve   dVe    Vn   dVn   Cen      Vu  dVu  (mm/yr)" > $ofile
+  #cat $file | awk '{printf("%8s%10.4f%10.4f%7.2f%5.2f%7.2f%5.2f%7.3f%7.2f%5.2f\n",$8,$1,$2,$3,$5,$4,$6,$7,0,9)}' >> $ofile
+  cat $file | awk '{if(NF<9){printf("%8s%10.4f%10.4f%7.2f%5.2f%7.2f%5.2f%7.3f%7.2f%5.2f\n",$8,$1,$2,$3,$5,$4,$6,$7,0,9)}else{printf("%8s%10.4f%10.4f%7.2f%5.2f%7.2f%5.2f%7.3f%7.2f%5.2f\n",$8,$1,$2,$3,$5,$4,$6,$7,$9,$10)}}' >> $ofile
+fi
+
+\cp -fp $ofile $ofile2
+
