@@ -50,6 +50,7 @@ eob
 file=
 path=$path_old
 opath=neu
+is_r4=n
 
 while [ "$1" != "" ]; do
   case $1 in
@@ -62,6 +63,9 @@ while [ "$1" != "" ]; do
     -o|-opath)
       opath=$2
       ;; 
+    -r4|-is_r4)
+      is_r4=$2
+      ;;
     -h|-help|--help)
       usage_of_it
       exit 1
@@ -86,9 +90,17 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-disp_files=`find $path -maxdepth 1 -type f -name "disp_20?????_mask_ll.grd" | sort`
-#disp_files=`find $path -maxdepth 1 -type f -name "disp_20?????_mask_ll_r4.nc" | sort`
-
+if [ "$is_r4" = "y" ]; then
+  echo here
+  disp_files=`find $path -maxdepth 1 -type f -name "disp_20?????_mask_ll_r4.nc" | sort`
+else
+  disp_files=`find $path -maxdepth 1 -type f -name "disp_20?????_mask_ll.grd" | sort`
+fi
+echo is_r4 $is_r4
+if [ "$disp_files" == "" ]; then
+  echo -e "[$PROG]\033[1;33;41mERROR\033[0m: no displacement files in input path ($path)!!"
+  exit 1
+fi
 echo disp_files $disp_files
 
 
@@ -122,9 +134,14 @@ while read sline; do
   ofile=${opath}/${site}.neu
   #\rm -f $ofile
   
-  grep -h " $site$" _*.lldts | sort -k1 | awk '{print $1,$2,$3,$4,$5,$6}'> $ofile
+  grep -h " $site$" _*.lldts | sort -k1 | grep -iv NaN | awk '{print $1,$2,$3,$4,$5,$6}'> $ofile
   #exit
+
+  if [ ! -s $ofile ]; then
+    echo "remove zero output file!"
+    \rm -rf $ofile
+  fi
   
 done < $file
 
-\rm -f _disp*_mask_ll.grd.lld*
+\rm -f  _disp_???????_mask_ll.grd.lld*  _disp_???????_mask_ll_r4.nc.lld*

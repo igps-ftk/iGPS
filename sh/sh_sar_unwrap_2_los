@@ -104,6 +104,8 @@ fi
 
 wavel=`grep wavelength $file_master | awk '{print($3)}' | head -1 `
 
+#los = unw * wavel£¨m£© /-4pai , -79.58 =-1000/4pai £¬The wavelength is from m to mm, which is multiplied by 1000 (https://github.com/gmtsar/gmtsar/issues/803)
+
 gmt grdmath unwrap_mask_ll.grd $wavel MUL -79.58 MUL = los_ll.grd
 gmt grdedit -D//"mm"/1///"$PWD:t LOS displacement"/"equals negative range" los_ll.grd
 

@@ -31,14 +31,17 @@ function gic3dv(file_drv)
 % GIC3DV GPS and InSAR combination for 3D velocity field
 % Main program - variable declarations and initialization
 
+% clear;
 
 if nargin < 1
   file_drv='./gic3dv.drv';
 end
 
 
+global veldath veldatv crpdat ainv_vh ainv_vv prmtr maxsit
+
 % constants
-maxsit = 2000;
+maxsit = 3500
 maxpxl = 12000;
 maxc = 10;
 maxsar = 5;
@@ -128,7 +131,6 @@ tmp = zeros(1, maxsit+1);
 % whether use GPS components as constraints
 use_gps_enu=[1, 1, 1]  %default use all components (e, n, u)
 
-global veldath veldatv crpdat ainv_vh ainv_vv prmtr maxsit
 
 % common variables for interpolation of horizontal gps velocity
 veldath.nstnh = 0;
@@ -405,7 +407,7 @@ while true
   if head(1) == '*'
     continue;
   end
-  
+ 
   % read in horizontal gps velocity data
   tmps = sscanf(head, '%s %f %f %f %f %f %f %f %f %f');
   stnlh{i} = char(tmps(1:8))';

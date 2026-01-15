@@ -568,28 +568,29 @@ PRO INSAR_LOS_2_3D_BY_GPSN_XYZ, paths
   ;
   ;  ;
   ;
-  ;  ;    ;karakoram
-  ;      file_list='D:\gsar\gic3dv\karakoram\asc_des\sbas.list.txt'
-  ;      file_list='D:\gsar\gic3dv\karakoram\asc_des\sbas.list.20250525.txt'
-  ;      file_list='D:\gsar\gic3dv\karakoram\asc_des\sbas.list.20250606.txt'
-  ;      paths=read_txt(file_list,comment='~ ')
-  ;      paths=STRTRIM(paths,2)
-  ;      ;        paths=['D:\gsar\interseismic\129-a-m5-0089_0094_0099_0104_109-mht\f123\sbas.4.0.0001.9999.20150530.20250407.135.0202.01.___' ,  $
-  ;      ;        'D:\gsar\interseismic\056-a-m4-0088_0093_0098_0103-karakoram1_mht\f123\sbas.4.0.0367.9999.20150501.20240219.218.0314.01.___', $
-  ;      ;        ;'D:\gsar\interseismic\165-d-m5-0478_0483_0488_0494_0499-mht\f123\sbas.4.0.0367.9999.20150509.20231018.127.0440.01.___', $
-  ;      ;        ;'D:\gsar\interseismic\063-d-m5-0478_0483_0487_0492_0497-mht\f123\sbas.4.0.0001.9999.20160917.20230917.091.0800.01.___', $
-  ;      ;        'D:\gsar\interseismic\063-d-m3-0483_0487_0492-mht\f123\sbas.4.0.0367.9999.20141022.20220206.149.1620.01.___', $
-  ;      ;        'D:\gsar\interseismic\136-d-m5-0476_0481_0486_0491_0496-mht\f123\sbas.4.0.0367.9999.20150928.20231016.116.0468.01.___' ]
-  ;      ;    ;    ;    file_gnss='D:\gsar\gic3dv\karakoram\asc_des\gps_prd'
-  ;      ;    ;;    ofile='D:\gsar\gic3dv\karakoram\asc_des\insar_3d_20250213.psvelou'
-  ;      ;    ;    file_gnss='C:\GMT_pub\gps\wang.min.jgr2020\rotinv.indian_plate\resf.psvelo'
-  ;      ;    ;    fmt_gnss='psvelo'
-  ;      ;    ;    ofile='D:\gsar\gic3dv\karakoram\asc_des.india\insar_3d_20250213.psvelou'
-  ;      ;    ;
-  ;      file_gnss='C:\GMT_pub\gps\wang.min.jgr2020\rotinv.western_tibet\resf.psvelo'
-  ;      fmt_gnss='psvelo'
-  ;      ofile='D:\gsar\gic3dv\karakoram\asc_des\insar_3d_20250606_western_tibet.psvelou'
-    
+;    ;    ;karakoram
+;        file_list='D:\gsar\gic3dv\karakoram\asc_des\sbas.list.txt'
+;        file_list='D:\gsar\gic3dv\karakoram\asc_des\sbas.list.20250525.txt'
+;        file_list='D:\gsar\gic3dv\karakoram\asc_des\sbas.list.20250606.txt'
+;        file_list='D:\gsar\gic3dv\karakorum\asc_des\sbas.list.20251114.txt'
+;        paths=read_txt(file_list,comment='~ ')
+;        paths=STRTRIM(paths,2)
+;        ;        paths=['D:\gsar\interseismic\129-a-m5-0089_0094_0099_0104_109-mht\f123\sbas.4.0.0001.9999.20150530.20250407.135.0202.01.___' ,  $
+;        ;        'D:\gsar\interseismic\056-a-m4-0088_0093_0098_0103-karakoram1_mht\f123\sbas.4.0.0367.9999.20150501.20240219.218.0314.01.___', $
+;        ;        ;'D:\gsar\interseismic\165-d-m5-0478_0483_0488_0494_0499-mht\f123\sbas.4.0.0367.9999.20150509.20231018.127.0440.01.___', $
+;        ;        ;'D:\gsar\interseismic\063-d-m5-0478_0483_0487_0492_0497-mht\f123\sbas.4.0.0001.9999.20160917.20230917.091.0800.01.___', $
+;        ;        'D:\gsar\interseismic\063-d-m3-0483_0487_0492-mht\f123\sbas.4.0.0367.9999.20141022.20220206.149.1620.01.___', $
+;        ;        'D:\gsar\interseismic\136-d-m5-0476_0481_0486_0491_0496-mht\f123\sbas.4.0.0367.9999.20150928.20231016.116.0468.01.___' ]
+;        ;    ;    ;    file_gnss='D:\gsar\gic3dv\karakoram\asc_des\gps_prd'
+;        ;    ;;    ofile='D:\gsar\gic3dv\karakoram\asc_des\insar_3d_20250213.psvelou'
+;        ;    ;    file_gnss='C:\GMT_pub\gps\wang.min.jgr2020\rotinv.indian_plate\resf.psvelo'
+;        ;    ;    fmt_gnss='psvelo'
+;        ;    ;    ofile='D:\gsar\gic3dv\karakoram\asc_des.india\insar_3d_20250213.psvelou'
+;        ;    ;
+;        file_gnss='C:\GMT_pub\gps\wang.min.jgr2020\rotinv.western_tibet\resf.psvelo'
+;        fmt_gnss='psvelo'
+;        ofile='D:\gsar\gic3dv\karakorum\asc_des\insar_3d_20251114_western_tibet.psvelou'
+;    
     
   ;    ; gcf with densified NINH network + interpolation; with GPS vertical
   ;    file_list='D:\gsar\gic3dv\gcf\asc_des\sbas_list_20250613.txt'
@@ -642,19 +643,26 @@ PRO INSAR_LOS_2_3D_BY_GPSN_XYZ, paths
   ;    ofile='D:\gsar\gic3dv\woniuhu\asc_des\insar_3d_20250719.psvelo'
   ;    dlon=9d-3
     
-  ;     file_list='D:\gsar\gic3dv\xsh\asc_des\sbas.list.20250815.txt'
-  ;    paths=read_txt(file_list,comment='~ ')
-  ;    paths=STRTRIM(paths,2)
-  ;    ;paths=paths[0]
-  ;    HELP, paths
-  ;    ;file_gnss='C:\GMT_pub\gps\wang.min.jgr2020\rotinv.kunlun2\resf.psvelo'
-  ;    file_gnss='C:\GMT_pub\gps\wang.min.jgr2020\rotinv.sichuan\resf.psvelo'
-  ;;    file_gnss='C:\GMT_pub\gps\wang.min.jgr2020\rotinv.chuandian2\resf.psvelo'
-  ;;    file_gnss='C:\GMT_pub\gps\wang.min.jgr2020\rotinv.litang2\resf.psvelo'
-  ;;    file_gnss='C:\GMT_pub\gps\wang.min.jgr2020\rotinv.aba2\resf.psvelo'
-  ;    fmt_gnss='psvelo'
-  ;    ofile='D:\gsar\gic3dv\xsh\asc_des\insar_3d_20250815_Nzero.psvelo'
-  ;;    dlon=9d-3
+       file_list='D:\gsar\gic3dv\xsh\asc_des\sbas.list.20250815.txt'
+       file_list='D:\gsar\gic3dv\xsh\asc_des.diao_wang_crp\sbas.list.20250721.txt'
+      paths=read_txt(file_list,comment='~ ')
+      paths=STRTRIM(paths,2)
+      ;paths=paths[0]
+      HELP, paths
+      ;file_gnss='C:\GMT_pub\gps\wang.min.jgr2020\rotinv.kunlun2\resf.psvelo'
+;      file_gnss='C:\GMT_pub\gps\wang.min.jgr2020\rotinv.sichuan\resf.psvelo'
+  ;    file_gnss='C:\GMT_pub\gps\wang.min.jgr2020\rotinv.chuandian2\resf.psvelo'
+  ;    file_gnss='C:\GMT_pub\gps\wang.min.jgr2020\rotinv.litang2\resf.psvelo'
+  ;    file_gnss='C:\GMT_pub\gps\wang.min.jgr2020\rotinv.aba2\resf.psvelo'
+  file_gnss='D:\gsar\gic3dv\xsh\asc_des.diao_wang_crp\rotinv.sichuan.xsh\resf.psvelo'
+  file_gnss='D:\gsar\gic3dv\xsh\asc_des.diao_wang_crp\rotinv.aba\resf.psvelo'
+  file_gnss='D:\gsar\gic3dv\xsh\asc_des.diao_wang_crp\rotinv.longriba\resf.psvelo'
+      fmt_gnss='psvelo'
+      ofile='D:\gsar\gic3dv\xsh\asc_des\insar_3d_20250815_Nzero.psvelo'
+      ofile='D:\gsar\gic3dv\xsh\asc_des.diao_wang_crp\insar_3d_20251128_planarTrend.psvelo'
+      ofile='D:\gsar\gic3dv\xsh\asc_des.diao_wang_crp\insar_3d_20251128_aba.psvelo'
+      ofile='D:\gsar\gic3dv\xsh\asc_des.diao_wang_crp\insar_3d_20251202_longriba.psvelo'
+      dlon=9d-3
   
 ;  ;2021 maduo postseismic  
 ;    ;
@@ -665,13 +673,22 @@ PRO INSAR_LOS_2_3D_BY_GPSN_XYZ, paths
 ;    fmt_gnss='psvelo'
 ;    ofile='D:\gsar\gic3dv\maduo\asc_des\insar3d_20251004.psvelou'
 ;    
-  ;2022 menyuan postseismic  
-    file_list='D:\gsar\gic3dv\menyuan\asc_des\sbas_list_20251010.txt'
-    paths=read_txt(file_list,comment='~ ')
-    paths=STRTRIM(paths,2)
-    file_gnss='C:\GMT_pub\gps\wang.min.jgr2020\rotinv.kunlun2\resf.psvelo'
-    fmt_gnss='psvelo'
-    ofile='D:\gsar\gic3dv\menyuan\asc_des\insar3d_20251010.psvelou'
+;  ;2022 menyuan postseismic  
+;    file_list='D:\gsar\gic3dv\menyuan\asc_des\sbas_list_20251010.txt'
+;    paths=read_txt(file_list,comment='~ ')
+;    paths=STRTRIM(paths,2)
+;    file_gnss='C:\GMT_pub\gps\wang.min.jgr2020\rotinv.kunlun2\resf.psvelo'
+;    fmt_gnss='psvelo'
+;    ofile='D:\gsar\gic3dv\menyuan\asc_des\insar3d_20251010.psvelou'
+    
+;  ;2019 Ridgecrest earthquake postseismic  
+;    file_list='D:\gsar\gic3dv\ridgecrest\asc_des\sbas_list_20251017.txt'
+;    file_list='D:\gsar\gic3dv\ridgecrest\asc_des\sbas_list_20251017_interseismic.txt'
+;    paths=read_txt(file_list,comment='~ ')
+;    paths=STRTRIM(paths,2)
+;    file_gnss='C:\GMT_pub\gps\unavco\pbo.final_igs14.vel.psvelo'
+;    fmt_gnss='psvelo'
+;    ofile='D:\gsar\gic3dv\ridgecrest\asc_des\insar3d_20251017_interseismic.psvelou'
     
   ENDIF
   
@@ -741,16 +758,21 @@ PRO INSAR_LOS_2_3D_BY_GPSN_XYZ, paths
       z=REFORM(gnss_vel[4,*]) ;gic3dv gps_prd format
     END
     'psvelo': BEGIN
-      READ_COLS, file_gnss, data=gnss_vel
-      x=REFORM(gnss_vel[0,*])
-      y=REFORM(gnss_vel[1,*])
-      z=REFORM(gnss_vel[3,*]) ;psvelo format
+      ;READ_COLS, file_gnss, data=gnss_vel
+      READ_COLS_ascii, file_gnss, data=gnss_vel
+      x=double(REFORM(gnss_vel[0,*]))
+      y=double(REFORM(gnss_vel[1,*]))
+      z=double(REFORM(gnss_vel[3,*])) ;psvelo format
     END
     ELSE: BEGIN
       PRINT,'['+prog+']ERROR: invalid GNSS format ('+fmt_gnss+')!!'
       RETURN
     END
   ENDCASE
+  pos=where(x<0)
+  if pos[0] ne -1 then begin
+    x[pos]=x[pos]+360
+  endif
   
   GRID_INPUT, x, y, z, x1,y1,z1, /degree,  epsilon = 0.5
   QHULL, x1, y1, tri, /delaunay;, /sphere
@@ -769,7 +791,7 @@ PRO INSAR_LOS_2_3D_BY_GPSN_XYZ, paths
   ;  window,1,ysize=1000
   ;  tvscl,gnss_vel_n
   ;
-  ;  ;stop
+    ;stop
   ;
   ;  ;Output NetCDF file
   ;  ofile_grd_n=desuffix(ofile)+'_north_interp.grd'

@@ -107,7 +107,7 @@ for file in $files; do
   echo file_cpt $file_cpt
   
   
-  gmt grdimage -R$file -JX5i -C$file_cpt -BWSen+t${file} -Bpxafg+lX  -Bpyafg+lY $file -P -K -Y2i > $ofile 
+  gmt grdimage -R$file -JX5i -C$file_cpt -BWSen+t${file} -Bpxafg+lX  -Bpyafg+lY $file -P -K -Y2i -Q${QZ} > $ofile 
   
   echo "FILE_GRD2JPG_LBL $FILE_GRD2JPG_LBL"
   if [ "$FILE_GRD2JPG_LBL" != "" ]; then

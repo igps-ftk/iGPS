@@ -5,8 +5,7 @@ PRO TDFN_BLOCK_GEOMETRY_SNAP_VERTEX, file,  $
     bcs=pc_xys
     
   IF N_ELEMENTS(file) EQ 0 THEN BEGIN
-    file='D:\gpse\eq.sc08\block\defnode\jiali_20241202\model\block_fault_model.txt
-    file='D:\gpse\eq.sc08\block\defnode\jiali_20250705\model\jiali_20250705e.psxy'
+    file='D:\gpse\eq.sc08\block\defnode\xsh_20251101\model\xsh_interseismic_20251102.psxy
   ENDIF
   
   IF N_ELEMENTS(dist_max) EQ 0 THEN dist_max=10d3

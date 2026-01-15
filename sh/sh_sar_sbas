@@ -106,6 +106,8 @@ file_prm=topo/master.PRM
 file_led=
 sbas_smooth=1.0
 
+ts_method=sbas #sbas/stacking
+
 
 while [ "$1" != "" ]; do
   case $1 in
@@ -147,6 +149,9 @@ while [ "$1" != "" ]; do
       ;;
     -s|-sm|-smooth)
       sbas_smooth=$2
+      ;;
+    -ts|-tsm|-tsmethod|-ts_method|-method)
+      ts_method=$2
       ;;
     -h|-help|--help|?)
      usage_of_it
@@ -454,12 +459,14 @@ sh_mail -prog $PROG -text "$text"
 #grd2kml.csh rms_ll rms_ll.cpt
 #grd2xyz rms_ll.grd | grep -v NaN | awk '{print "",$0}' > rms_ll.xyz
 
-#mask displacement files; project to longitude/latitude coordinate system; resize files.
-sh_sar_sbas_disp_mask_ll_resample
-
-tar zcf r4.tar.gz r4
-#sh_grd2nc 'disp_???????'
-#sh_grd2nc 'disp_???'
+if [ "$prog_sbas" != "stacking" ]; then
+  #mask displacement files; project to longitude/latitude coordinate system; resize files.
+  sh_sar_sbas_disp_mask_ll_resample
+  
+  tar zcf r4.tar.gz r4
+  #sh_grd2nc 'disp_???????'
+  #sh_grd2nc 'disp_???'
+fi
 
 cd $path_old
 echo "`pwd`/${out_path}"

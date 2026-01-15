@@ -55,12 +55,7 @@
 #fi
 
 PROG=sh_esa_s1_get_aux_orb_step
-
-
-
-
 timestamp=`date | sed -e "s/ /_/g" | sed -e "s/:/-/g"`
-
 path_old=`pwd`
 
 usage_of_it(){
@@ -94,11 +89,14 @@ date_time=
 
 back_ndays=3
 
-S1_SAT=S1A # A, or B
+S1_SAT=S1A # A, or B, C, D
 
 
 while [ "$1" != "" ]; do
   case $1 in
+    -b|-back|-back_days|-back_ndays)
+      back_ndays=$2
+      ;;
     -y|-yr|-year)
       year=$2
       ;;

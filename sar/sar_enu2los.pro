@@ -46,6 +46,7 @@ PRO SAR_ENU2LOS
   enu_u=[0,0,1d0]
   enu_n=[0,1,0d0]
   enu_e=[1,0,0d0]
+  
 ;  
 ;  ;dlos2=sar_enu2los(enu)
 ;  ;PRINT,enu,dlos2
@@ -137,8 +138,9 @@ PRO SAR_ENU2LOS
 ;  
 ;;
 ;  enu=[ 20.0,0,0]
-;  dlos=sar_enu2los(enu)
-;  PRINT,enu,dlos
+  enu=[0.006954d0,-0.002111 , -0.035434]
+  dlos=sar_enu2los(enu,theta=38*!dpi/180d0, alpha=(193d0)*!dpi/180d0)
+  PRINT,enu,dlos
 
 
 ;vn=enu[1]

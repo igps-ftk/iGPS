@@ -133,34 +133,43 @@ file_scene_tab=scene.tab
 
 sbas_smooth=1.0
 
+
+prog_sbas=sbas #sbas/sbas_parallel/stacking
+
 while [ "$1" != "" ]; do
   case $1 in
-    -m|-multilook|-r) #code for resolution/ground pixel size
-      a_reso=$2
-      ;;
     -a)
       b_atm=$2
       ;;
     -atm)
       n_atm=$2
       ;;
-    -t1)
-      c_t1=$2
-      ;;
-    -t2)
-      d_t2=$2
-      ;;
     -c|-cmt|-comment)
       z_cmt=$2
       ;;
-    -sat)
-      SAT=$2
+    -exec)
+      is_exec_sbas=$2
       ;;
     -file_ll_grd)
       file_ll_grd=$2
       ;;
+    -fix_incidence)
+      fix_incidence=$2
+      ;;
+    -fix_range)
+      fix_range=$2
+      ;;
+    -file_intf)
+      file_intf_tab=$2
+      ;;
+    -file_scene)
+      file_scene_tab=$2
+      ;;
     -i|-ipath)
       ipath=$2
+      ;;
+    -m|-multilook|-r) #code for resolution/ground pixel size
+      a_reso=$2
       ;;
     -o|-opath)
       out_path=`dirname "$2/test.txt"`
@@ -171,23 +180,20 @@ while [ "$1" != "" ]; do
     -p|-parallel)
       is_parallel=$2
       ;;
-    -fix_incidence)
-      fix_incidence=$2
-      ;;
-    -fix_range)
-      fix_range=$2
-      ;;
-    -exec)
-      is_exec_sbas=$2
-      ;;
-    -file_intf)
-      file_intf_tab=$2
-      ;;
-    -file_scene)
-      file_scene_tab=$2
+    -prog)
+      prog_sbas=$2
       ;;
     -s|-sm|-smooth)
       sbas_smooth=$2
+      ;;
+    -sat)
+      SAT=$2
+      ;;
+    -t1)
+      c_t1=$2
+      ;;
+    -t2)
+      d_t2=$2
       ;;
     -h|--help|-help|-H)
       usage_of_it
@@ -202,7 +208,6 @@ while [ "$1" != "" ]; do
   shift 2
 done
 
-prog_sbas=sbas
 echo is_parallel $is_parallel
 if [ "$is_parallel" == "y" ]; then
   if [ "$OMP_NUM_THREADS" == "" ]; then
